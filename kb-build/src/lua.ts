@@ -18,7 +18,7 @@ class LuaParseError extends Error {
   }
 }
 
-const PUNCTUATION = new Set(['{', '}', '[', ']', '=', ',', ';']);
+const PUNCTUATION = new Set(['{', '}', '[', ']', '=', ',', ';', '/']);
 
 function tokenize(text: string): Token[] {
   const tokens: Token[] = [];
@@ -150,9 +150,21 @@ class Parser {
       case 'string':
         this.next();
         return token.value;
-      case 'number':
+      case 'number': {
         this.next();
+        // ponytail: only a single a/b numeric division is supported (the one real
+        // case is `quantity = 1/140` in Module:Skill calc/Smithing); a general
+        // arithmetic expression evaluator would be needed for anything richer.
+        if (this.isPunct(this.peek(), '/')) {
+          this.next();
+          const divisor = this.next();
+          if (divisor.type !== 'number') {
+            throw new LuaParseError('Expected a number after /', divisor.line, divisor.column);
+          }
+          return token.value / divisor.value;
+        }
         return token.value;
+      }
       case 'ident':
         this.next();
         if (token.value === 'true') return true;
