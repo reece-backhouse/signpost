@@ -31,6 +31,7 @@ class SnapshotTest
 		assertTrue(snapshot.getDiaryTiers().isEmpty());
 		assertTrue(snapshot.getDiaryVarps().isEmpty());
 		assertTrue(snapshot.getKaramjaVarbits().isEmpty());
+		assertTrue(snapshot.getDiaryCountVarbits().isEmpty());
 		assertTrue(snapshot.getCombatAchievementTiers().isEmpty());
 		assertFalse(snapshot.isBankKnown());
 		assertNull(snapshot.getBankAsOf());

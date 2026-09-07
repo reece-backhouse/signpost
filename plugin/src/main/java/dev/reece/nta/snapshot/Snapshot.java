@@ -28,6 +28,7 @@ public class Snapshot
 	Map<DiaryTier, Boolean> diaryTiers;
 	Map<Integer, Integer> diaryVarps;
 	Map<Integer, Integer> karamjaVarbits;
+	Map<Integer, Integer> diaryCountVarbits;
 	Map<Integer, Boolean> combatAchievementTiers;
 	boolean bankKnown;
 	Instant bankAsOf;
@@ -45,6 +46,7 @@ public class Snapshot
 		Map<DiaryTier, Boolean> diaryTiers,
 		Map<Integer, Integer> diaryVarps,
 		Map<Integer, Integer> karamjaVarbits,
+		Map<Integer, Integer> diaryCountVarbits,
 		Map<Integer, Boolean> combatAchievementTiers,
 		boolean bankKnown,
 		Instant bankAsOf)
@@ -60,6 +62,7 @@ public class Snapshot
 		this.diaryTiers = copyOf(diaryTiers);
 		this.diaryVarps = copyOf(diaryVarps);
 		this.karamjaVarbits = copyOf(karamjaVarbits);
+		this.diaryCountVarbits = copyOf(diaryCountVarbits);
 		this.combatAchievementTiers = copyOf(combatAchievementTiers);
 		this.bankKnown = bankKnown;
 		this.bankAsOf = bankAsOf;
