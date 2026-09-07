@@ -87,10 +87,50 @@ describe('buildQuests', () => {
       wikiTitle: 'Mini Quest',
       skills: [],
       prereqs: [],
+      prereqsStarted: [],
+      prereqNotes: [],
       items: [],
       questPoints: null,
       source: 'none',
     });
+  });
+
+  it('splits a "Started:" prefixed prereq into prereqsStarted, not prereqs', () => {
+    const questreq = new Map([
+      ['Prereq Quest', { skills: [], prereqs: [] }],
+      ['Main Quest', { skills: [], prereqs: ['Started:Prereq Quest'] }],
+    ]);
+
+    const result = buildQuests({
+      runeliteQuests: [
+        { id: 1, name: 'Prereq Quest' },
+        { id: 2, name: 'Main Quest' },
+      ],
+      aliases: {},
+      questreq,
+      pages: new Map(),
+    });
+
+    const main = result.find((q) => q.name === 'Main Quest');
+    expect(main?.prereqs).toEqual([]);
+    expect(main?.prereqsStarted).toEqual(['Prereq Quest']);
+    expect(main?.prereqNotes).toEqual([]);
+  });
+
+  it('moves a prereq name that is not a RuneLite quest to prereqNotes instead of dropping it', () => {
+    const questreq = new Map([['Main Quest', { skills: [], prereqs: ['Not A Real Quest', 'Started:Also Not Real'] }]]);
+
+    const result = buildQuests({
+      runeliteQuests: [{ id: 2, name: 'Main Quest' }],
+      aliases: {},
+      questreq,
+      pages: new Map(),
+    });
+
+    const main = result.find((q) => q.name === 'Main Quest');
+    expect(main?.prereqs).toEqual([]);
+    expect(main?.prereqsStarted).toEqual([]);
+    expect(main?.prereqNotes).toEqual(['Not A Real Quest', 'Started:Also Not Real']);
   });
 
   it('sorts entries by id', () => {
