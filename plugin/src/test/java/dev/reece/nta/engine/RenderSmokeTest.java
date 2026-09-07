@@ -67,7 +67,10 @@ class RenderSmokeTest
 		SkillLevelGap skillGap = new SkillLevelGap(Skill.WOODCUTTING, 60, 75, 500_000L, false, null, false);
 		GoalRef parent = new GoalRef("quest:song-of-the-elves", "Song of the Elves", 75);
 		Route bankRoute = new Route(List.of(), 0L, 1_000_000L, Map.of());
-		GoalStatus skillStatus = new GoalStatus(skillGoal, List.of(skillGap), false, false, List.of(), List.of(), List.of(parent), bankRoute);
+		// main added GoalStatus.parentScore (b4e8915); 0 is correct here since this fixture is
+		// bank-covered, not an uncovered target, and the hand-built picked list below bypasses
+		// Ranker/pick3 entirely, so no code path reads this value.
+		GoalStatus skillStatus = new GoalStatus(skillGoal, List.of(skillGap), false, false, List.of(), List.of(), List.of(parent), bankRoute, 0);
 		RankedGoal skillRanked = new RankedGoal(skillStatus, 10.0, false, false);
 
 		// picked is replaced (not merged) with just the skill target, so it's deterministically the
