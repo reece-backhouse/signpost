@@ -1,11 +1,11 @@
 package dev.reece.nta.engine;
 
-import dev.reece.nta.engine.model.ItemSource;
+import dev.reece.nta.engine.model.PlanOffer;
 import dev.reece.nta.engine.model.Route;
 import dev.reece.nta.engine.model.Shortfall;
 import dev.reece.nta.engine.model.ShortfallItem;
 import dev.reece.nta.kb.KnowledgeBase;
-import dev.reece.nta.snapshot.AccountType;
+import dev.reece.nta.snapshot.Snapshot;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,10 +13,11 @@ import net.runelite.api.Skill;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-/** Task 35: {@link ShortfallResolver}, ticket C7. */
+/** Task 35: {@link ShortfallResolver}, ticket C7. Task 52a: {@code plans}, spec ruling 28. */
 class ShortfallResolverTest
 {
 	private static final int TOADFLAX_UNF = 100;
@@ -30,7 +31,7 @@ class ShortfallResolverTest
 		KnowledgeBase kb = new KbBuilder().build();
 		Route route = new Route(List.of(), 0, 1000, Map.of());
 
-		Shortfall shortfall = ShortfallResolver.resolve(Skill.HERBLORE, route, kb, AccountType.NORMAL);
+		Shortfall shortfall = ShortfallResolver.resolve(Skill.HERBLORE, route, kb, new SnapshotBuilder().build());
 
 		assertNull(shortfall.getMethod());
 		assertTrue(shortfall.getItems().isEmpty());
@@ -68,7 +69,7 @@ class ShortfallResolverTest
 		simulatedBank.put(VIAL_OF_WATER, 1200);
 		Route route = new Route(List.of(), 540, 0, simulatedBank);
 
-		Shortfall shortfall = ShortfallResolver.resolve(Skill.HERBLORE, route, kb, AccountType.NORMAL);
+		Shortfall shortfall = ShortfallResolver.resolve(Skill.HERBLORE, route, kb, new SnapshotBuilder().build());
 
 		assertEquals("Saradomin brew(3)", shortfall.getMethod().getName());
 		assertEquals(2, shortfall.getItems().size());
@@ -107,7 +108,7 @@ class ShortfallResolverTest
 		Map<Integer, Integer> simulatedBank = Map.of(1, 1000);
 		Route route = new Route(List.of(), 10, 0, simulatedBank);
 
-		Shortfall shortfall = ShortfallResolver.resolve(Skill.HERBLORE, route, kb, AccountType.NORMAL);
+		Shortfall shortfall = ShortfallResolver.resolve(Skill.HERBLORE, route, kb, new SnapshotBuilder().build());
 
 		ShortfallItem item = shortfall.getItems().get(0);
 		assertEquals("https://oldschool.runescape.wiki/w/" + item.getItem().getName().replace(' ', '_'), item.getWikiUrl());
@@ -129,12 +130,89 @@ class ShortfallResolverTest
 		Map<Integer, Integer> simulatedBank = Map.of();
 		Route route = new Route(List.of(), 10, 0, simulatedBank);
 
-		Shortfall normal = ShortfallResolver.resolve(Skill.HERBLORE, route, kb, AccountType.NORMAL);
-		Shortfall iron = ShortfallResolver.resolve(Skill.HERBLORE, route, kb, AccountType.IRONMAN);
+		Shortfall normal = ShortfallResolver.resolve(Skill.HERBLORE, route, kb, new SnapshotBuilder().build());
+		Shortfall iron = ShortfallResolver.resolve(Skill.HERBLORE, route, kb, new SnapshotBuilder().iron().build());
 
 		assertEquals(2, normal.getItems().get(0).getSources().size());
 		assertEquals(1, iron.getItems().get(0).getSources().size());
 		assertEquals("drop", iron.getItems().get(0).getSources().get(0).getType());
+	}
+
+	@Test
+	void shortfallItemCarriesItsCuratedGatheringPlan()
+	{
+		final int SNAPE_GRASS = 200;
+		KnowledgeBase kb = new KbBuilder()
+			.method(Skill.HERBLORE, "Prayer potion(3)", 1, 87.5)
+			.material(SNAPE_GRASS, 1)
+			.material("Snape grass", SNAPE_GRASS)
+			.source("GE", "Grand Exchange")
+			.gatheringPlan("Snape grass", SNAPE_GRASS)
+			.build();
+		Route route = new Route(List.of(), 10, 0, Map.of());
+
+		Shortfall shortfall = ShortfallResolver.resolve(Skill.HERBLORE, route, kb, new SnapshotBuilder().build());
+
+		ShortfallItem item = shortfall.getItems().get(0);
+		assertEquals(1, item.getPlans().size());
+		PlanOffer offer = item.getPlans().get(0);
+		assertEquals("Snape grass", offer.getPlan().getItem());
+		assertTrue(offer.isMeetsRequirements());
+		assertTrue(offer.getMissing().isEmpty());
+	}
+
+	@Test
+	void aShortfallReachedOnlyThroughTheCraftChainStillCarriesTheIngredientsPlan()
+	{
+		final int DUST = 300;
+		final int SCALES = 301;
+		KnowledgeBase kb = new KbBuilder()
+			.method(Skill.HERBLORE, "Antifire potion(3)", 1, 100)
+			.material(DUST, 1)
+			.method(Skill.HERBLORE, "Grind blue dragon scales", 1, 0)
+			.material(SCALES, 1)
+			.output(DUST, 1)
+			.intermediate()
+			.material("Dragon scale dust", DUST)
+			.source("craft", "Grind blue dragon scales")
+			.material("Blue dragon scales", SCALES)
+			.source("spawn", "Taverley Dungeon")
+			.gatheringPlan("Blue dragon scales", SCALES)
+			.build();
+		Route route = new Route(List.of(), 10, 0, Map.of());
+
+		Shortfall shortfall = ShortfallResolver.resolve(Skill.HERBLORE, route, kb, new SnapshotBuilder().build());
+
+		ShortfallItem dust = shortfall.getItems().get(0);
+		// Dragon scale dust has no plan of its own in this fixture - it carries the scales plan only
+		// via the craftFrom union.
+		assertEquals(1, dust.getPlans().size());
+		assertEquals("Blue dragon scales", dust.getPlans().get(0).getPlan().getItem());
+
+		ShortfallItem scales = itemNamed(dust.getCraftFrom(), "Blue dragon scales");
+		assertEquals(1, scales.getPlans().size());
+		assertEquals("Blue dragon scales", scales.getPlans().get(0).getPlan().getItem());
+	}
+
+	@Test
+	void aPlanNeedingAHigherSkillThanTheSnapshotIsFlaggedWithWhatsMissing()
+	{
+		final int SCALES = 400;
+		KnowledgeBase kb = new KbBuilder()
+			.method(Skill.HERBLORE, "Only method", 1, 10)
+			.material(SCALES, 1)
+			.material("Blue dragon scales", SCALES)
+			.gatheringPlan("Blue dragon scales", SCALES)
+			.requiresSkill(Skill.AGILITY, 70)
+			.build();
+		Route route = new Route(List.of(), 10, 0, Map.of());
+		Snapshot snapshot = new SnapshotBuilder().skill(Skill.AGILITY, 60).build();
+
+		Shortfall shortfall = ShortfallResolver.resolve(Skill.HERBLORE, route, kb, snapshot);
+
+		PlanOffer offer = shortfall.getItems().get(0).getPlans().get(0);
+		assertFalse(offer.isMeetsRequirements());
+		assertEquals(List.of("Agility 70 (have 60)"), offer.getMissing());
 	}
 
 	private static ShortfallItem itemNamed(List<ShortfallItem> items, String name)

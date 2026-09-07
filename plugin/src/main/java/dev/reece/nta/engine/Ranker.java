@@ -24,6 +24,8 @@ public final class Ranker
 
 	private static final Comparator<RankedGoal> BY_SCORE_THEN_PRIORITY_THEN_NAME = Comparator
 		.comparingDouble(RankedGoal::getScore).reversed()
+		// Fix round 1: an uncovered skill target scores exactly as its parent - the parent goes first.
+		.thenComparing((RankedGoal r) -> r.getStatus().isUncoveredTarget() ? 1 : 0)
 		.thenComparing((RankedGoal r) -> r.getStatus().getGoal().getPriority(), Comparator.reverseOrder())
 		.thenComparing(r -> r.getStatus().getGoal().getName());
 
@@ -118,6 +120,11 @@ public final class Ranker
 		if (status.isBankCovered())
 		{
 			return status.getGoal().getPriority();
+		}
+		if (status.isUncoveredTarget())
+		{
+			// Fix round 1: never above the goal it serves.
+			return status.getParentScore();
 		}
 		int unmet = GoalMetrics.unmetCount(status.getGaps());
 		long xpDelta = GoalMetrics.xpDeltaSum(status.getGaps());

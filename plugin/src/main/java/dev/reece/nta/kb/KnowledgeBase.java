@@ -35,8 +35,10 @@ public final class KnowledgeBase
 	private static final String PRIORITIES_RESOURCE = "/kb/priorities.json";
 	private static final String METHODS_RESOURCE = "/kb/methods.json";
 	private static final String MATERIALS_RESOURCE = "/kb/materials.json";
+	private static final String GATHERING_RESOURCE = "/kb/gathering.json";
 	private static final String EMPTY_METHODS_JSON = "{\"version\":1,\"generatedAt\":\"x\",\"methods\":[]}";
 	private static final String EMPTY_MATERIALS_JSON = "{\"version\":1,\"generatedAt\":\"x\",\"materials\":[]}";
+	private static final String EMPTY_GATHERING_JSON = "{\"version\":1,\"plans\":[]}";
 
 	private static final String QUEST_POINT_SKILL = "Quest point";
 	private static final String KUDOS_SKILL = "Kudos";
@@ -53,6 +55,7 @@ public final class KnowledgeBase
 	private final List<MilestoneEntry> milestones;
 	private final List<MethodEntry> methods;
 	private final List<MaterialEntry> materials;
+	private final List<GatheringPlan> gatheringPlans;
 	private final Map<Integer, QuestEntry> questsById;
 	private final Map<String, QuestEntry> questsByName;
 	private final Map<DiaryTier, DiaryEntry> diariesByTier;
@@ -60,6 +63,8 @@ public final class KnowledgeBase
 	private final Map<Skill, List<MethodEntry>> methodsBySkill;
 	private final Map<String, MaterialEntry> materialsByName;
 	private final Map<Integer, MaterialEntry> materialsById;
+	private final Map<Integer, List<GatheringPlan>> gatheringByItemId;
+	private final Map<String, List<GatheringPlan>> gatheringByItemName;
 	private final Map<String, Integer> priorityOverrides;
 	private final Set<Integer> diaryVarps;
 	private final Set<Integer> diaryVarbits;
@@ -69,7 +74,7 @@ public final class KnowledgeBase
 		int diariesVersion, String diariesGeneratedAt,
 		List<QuestEntry> quests, List<DiaryEntry> diaries,
 		List<MilestoneEntry> milestones, Map<String, Integer> priorityOverrides,
-		List<MethodEntry> methods, List<MaterialEntry> materials)
+		List<MethodEntry> methods, List<MaterialEntry> materials, List<GatheringPlan> gatheringPlans)
 	{
 		this.questsVersion = questsVersion;
 		this.questsGeneratedAt = questsGeneratedAt;
@@ -80,6 +85,7 @@ public final class KnowledgeBase
 		this.milestones = List.copyOf(milestones);
 		this.methods = List.copyOf(methods);
 		this.materials = List.copyOf(materials);
+		this.gatheringPlans = List.copyOf(gatheringPlans);
 		this.priorityOverrides = Map.copyOf(priorityOverrides);
 
 		Map<Integer, QuestEntry> byId = new LinkedHashMap<>();
@@ -146,6 +152,26 @@ public final class KnowledgeBase
 		}
 		this.materialsByName = Map.copyOf(byMaterialName);
 		this.materialsById = Map.copyOf(byMaterialId);
+
+		Map<Integer, List<GatheringPlan>> byGatheringItemId = new LinkedHashMap<>();
+		Map<String, List<GatheringPlan>> byGatheringItemName = new LinkedHashMap<>();
+		for (GatheringPlan plan : this.gatheringPlans)
+		{
+			byGatheringItemId.computeIfAbsent(plan.getId(), id -> new ArrayList<>()).add(plan);
+			byGatheringItemName.computeIfAbsent(plan.getItem(), name -> new ArrayList<>()).add(plan);
+		}
+		Map<Integer, List<GatheringPlan>> immutableByGatheringItemId = new LinkedHashMap<>();
+		for (Map.Entry<Integer, List<GatheringPlan>> e : byGatheringItemId.entrySet())
+		{
+			immutableByGatheringItemId.put(e.getKey(), List.copyOf(e.getValue()));
+		}
+		Map<String, List<GatheringPlan>> immutableByGatheringItemName = new LinkedHashMap<>();
+		for (Map.Entry<String, List<GatheringPlan>> e : byGatheringItemName.entrySet())
+		{
+			immutableByGatheringItemName.put(e.getKey(), List.copyOf(e.getValue()));
+		}
+		this.gatheringByItemId = Map.copyOf(immutableByGatheringItemId);
+		this.gatheringByItemName = Map.copyOf(immutableByGatheringItemName);
 	}
 
 	/**
@@ -170,8 +196,20 @@ public final class KnowledgeBase
 		List<MilestoneEntry> milestones, Map<String, Integer> priorityOverrides,
 		List<MethodEntry> methods, List<MaterialEntry> materials)
 	{
+		return of(questsVersion, questsGeneratedAt, diariesVersion, diariesGeneratedAt, quests, diaries, milestones, priorityOverrides,
+			methods, materials, List.of());
+	}
+
+	/** As {@link #of(int, String, int, String, List, List, List, Map, List, List)}, also seeding {@code gatheringPlans}. */
+	public static KnowledgeBase of(
+		int questsVersion, String questsGeneratedAt,
+		int diariesVersion, String diariesGeneratedAt,
+		List<QuestEntry> quests, List<DiaryEntry> diaries,
+		List<MilestoneEntry> milestones, Map<String, Integer> priorityOverrides,
+		List<MethodEntry> methods, List<MaterialEntry> materials, List<GatheringPlan> gatheringPlans)
+	{
 		return new KnowledgeBase(questsVersion, questsGeneratedAt, diariesVersion, diariesGeneratedAt, quests, diaries, milestones,
-			priorityOverrides, methods, materials);
+			priorityOverrides, methods, materials, gatheringPlans);
 	}
 
 	public static KnowledgeBase load(Gson gson)
@@ -182,7 +220,8 @@ public final class KnowledgeBase
 		PrioritiesFile prioritiesFile = readResource(gson, PRIORITIES_RESOURCE, PrioritiesFile.class);
 		MethodsFile methodsFile = readResource(gson, METHODS_RESOURCE, MethodsFile.class);
 		MaterialsFile materialsFile = readResource(gson, MATERIALS_RESOURCE, MaterialsFile.class);
-		return build(questsFile, diariesFile, milestonesFile, prioritiesFile, methodsFile, materialsFile);
+		GatheringFile gatheringFile = readResource(gson, GATHERING_RESOURCE, GatheringFile.class);
+		return build(questsFile, diariesFile, milestonesFile, prioritiesFile, methodsFile, materialsFile, gatheringFile);
 	}
 
 	/**
@@ -198,17 +237,25 @@ public final class KnowledgeBase
 	static KnowledgeBase fromJson(Gson gson, String questsJson, String diariesJson, String milestonesJson, String prioritiesJson,
 		String methodsJson, String materialsJson)
 	{
+		return fromJson(gson, questsJson, diariesJson, milestonesJson, prioritiesJson, methodsJson, materialsJson, EMPTY_GATHERING_JSON);
+	}
+
+	/** As above, also mapping {@code gatheringJson}. */
+	static KnowledgeBase fromJson(Gson gson, String questsJson, String diariesJson, String milestonesJson, String prioritiesJson,
+		String methodsJson, String materialsJson, String gatheringJson)
+	{
 		return build(
 			gson.fromJson(questsJson, QuestsFile.class),
 			gson.fromJson(diariesJson, DiariesFile.class),
 			gson.fromJson(milestonesJson, MilestonesFile.class),
 			gson.fromJson(prioritiesJson, PrioritiesFile.class),
 			gson.fromJson(methodsJson, MethodsFile.class),
-			gson.fromJson(materialsJson, MaterialsFile.class));
+			gson.fromJson(materialsJson, MaterialsFile.class),
+			gson.fromJson(gatheringJson, GatheringFile.class));
 	}
 
 	private static KnowledgeBase build(QuestsFile questsFile, DiariesFile diariesFile, MilestonesFile milestonesFile,
-		PrioritiesFile prioritiesFile, MethodsFile methodsFile, MaterialsFile materialsFile)
+		PrioritiesFile prioritiesFile, MethodsFile methodsFile, MaterialsFile materialsFile, GatheringFile gatheringFile)
 	{
 		requireField(questsFile.quests, QUESTS_RESOURCE, "quests");
 		requireField(diariesFile.diaries, DIARIES_RESOURCE, "diaries");
@@ -216,6 +263,7 @@ public final class KnowledgeBase
 		requireField(prioritiesFile.overrides, PRIORITIES_RESOURCE, "overrides");
 		requireField(methodsFile.methods, METHODS_RESOURCE, "methods");
 		requireField(materialsFile.materials, MATERIALS_RESOURCE, "materials");
+		requireField(gatheringFile.plans, GATHERING_RESOURCE, "plans");
 
 		List<QuestEntry> quests = questsFile.quests.stream().map(KnowledgeBase::toQuestEntry).collect(Collectors.toList());
 		List<DiaryEntry> diaries = diariesFile.diaries.stream().map(KnowledgeBase::toDiaryEntry).collect(Collectors.toList());
@@ -242,11 +290,12 @@ public final class KnowledgeBase
 			materialIdsByName.put(material.getName(), material.getId());
 		}
 		List<MethodEntry> methods = methodsFile.methods.stream().map(dto -> toMethodEntry(dto, materialIdsByName)).collect(Collectors.toList());
+		List<GatheringPlan> gatheringPlans = gatheringFile.plans.stream().map(KnowledgeBase::toGatheringPlan).collect(Collectors.toList());
 
 		return new KnowledgeBase(
 			questsFile.version, questsFile.generatedAt,
 			diariesFile.version, diariesFile.generatedAt,
-			quests, diaries, milestones, prioritiesFile.overrides, methods, materials);
+			quests, diaries, milestones, prioritiesFile.overrides, methods, materials, gatheringPlans);
 	}
 
 	/** Fails loudly (rather than a bare NPE downstream) when a required JSON field is missing or explicitly null. */
@@ -600,6 +649,66 @@ public final class KnowledgeBase
 		return new ItemQuantity(dto.name, id, dto.quantity);
 	}
 
+	private static GatheringPlan toGatheringPlan(GatheringPlanDto dto)
+	{
+		requireField(dto.item, "gathering.json entry", "item");
+		String context = "gathering plan \"" + dto.item + "\"";
+		requireField(dto.id, context, "id");
+		requireField(dto.title, context, "title");
+		requireField(dto.requires, context, "requires");
+		requireField(dto.steps, context, "steps");
+		requireField(dto.alternatives, context, "alternatives");
+		requireField(dto.wikiUrl, context, "wikiUrl");
+		validateStepCount(dto.steps, context);
+
+		GatheringRequires requires = toGatheringRequires(dto.requires, context);
+		List<GatheringAlternative> alternatives = dto.alternatives.stream()
+			.map(a -> toGatheringAlternative(a, context)).collect(Collectors.toList());
+
+		return new GatheringPlan(dto.item, dto.id, dto.title, requires, dto.ratePerHour, List.copyOf(dto.steps), List.copyOf(alternatives),
+			dto.wikiUrl);
+	}
+
+	private static GatheringAlternative toGatheringAlternative(GatheringAlternativeDto dto, String context)
+	{
+		requireField(dto.title, context, "alternatives[].title");
+		requireField(dto.steps, context, "alternatives[].steps");
+		requireField(dto.requires, context, "alternatives[].requires");
+		validateStepCount(dto.steps, context);
+		return new GatheringAlternative(dto.title, List.copyOf(dto.steps), toGatheringRequires(dto.requires, context));
+	}
+
+	private static GatheringRequires toGatheringRequires(GatheringRequiresDto dto, String context)
+	{
+		requireField(dto.skills, context, "requires.skills");
+		requireField(dto.quests, context, "requires.quests");
+		requireField(dto.items, context, "requires.items");
+
+		List<SkillReq> skills = new ArrayList<>();
+		Integer combatLevel = null;
+		for (SkillDto s : dto.skills)
+		{
+			if (s.skill.equals(COMBAT_SKILL))
+			{
+				combatLevel = s.level;
+			}
+			else
+			{
+				skills.add(new SkillReq(resolveSkill(s.skill, context), s.level, false, false));
+			}
+		}
+		return new GatheringRequires(skills, combatLevel, List.copyOf(dto.quests), List.copyOf(dto.items), dto.notes);
+	}
+
+	/** Fails loudly, naming the plan/alternative, when {@code steps} is empty or implausibly long (gathering-notes.md: curated plans run 2-8). */
+	private static void validateStepCount(List<String> steps, String context)
+	{
+		if (steps.isEmpty() || steps.size() > 10)
+		{
+			throw new IllegalStateException("Malformed knowledge base data: " + context + " has " + steps.size() + " steps outside 1..10");
+		}
+	}
+
 	private static MilestoneCategory resolveMilestoneCategory(String raw, String context)
 	{
 		switch (raw)
@@ -714,6 +823,23 @@ public final class KnowledgeBase
 	public MaterialEntry materialById(int id)
 	{
 		return materialsById.get(id);
+	}
+
+	public List<GatheringPlan> getGatheringPlans()
+	{
+		return gatheringPlans;
+	}
+
+	/** Curated gathering plans (spec ruling 28) targeting {@code itemId}, or empty if none. */
+	public List<GatheringPlan> gatheringFor(int itemId)
+	{
+		return gatheringByItemId.getOrDefault(itemId, List.of());
+	}
+
+	/** As {@link #gatheringFor(int)}, matched by item name instead - the fallback when an {@code id} isn't known. */
+	public List<GatheringPlan> gatheringForName(String name)
+	{
+		return gatheringByItemName.getOrDefault(name, List.of());
 	}
 
 	public Map<String, Integer> getPriorityOverrides()
@@ -925,5 +1051,38 @@ public final class KnowledgeBase
 		String where;
 		String detail;
 		List<String> accountTypes;
+	}
+
+	private static final class GatheringFile
+	{
+		int version;
+		List<GatheringPlanDto> plans = new ArrayList<>();
+	}
+
+	private static final class GatheringPlanDto
+	{
+		String item;
+		Integer id;
+		String title;
+		GatheringRequiresDto requires;
+		Integer ratePerHour;
+		List<String> steps = new ArrayList<>();
+		List<GatheringAlternativeDto> alternatives = new ArrayList<>();
+		String wikiUrl;
+	}
+
+	private static final class GatheringAlternativeDto
+	{
+		String title;
+		List<String> steps = new ArrayList<>();
+		GatheringRequiresDto requires;
+	}
+
+	private static final class GatheringRequiresDto
+	{
+		List<SkillDto> skills = new ArrayList<>();
+		List<String> quests = new ArrayList<>();
+		List<String> items = new ArrayList<>();
+		String notes;
 	}
 }

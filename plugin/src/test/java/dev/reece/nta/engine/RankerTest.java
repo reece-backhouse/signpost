@@ -291,13 +291,29 @@ class RankerTest
 	// --- Task 51: skill targets (spec ruling 28). ---
 
 	@Test
+	void uncoveredSkillTargetScoresAsItsParentAndSortsDirectlyBelowIt()
+	{
+		SkillLevelGap gap = new SkillLevelGap(Skill.HERBLORE, 61, 70, 500_000, false, null, false);
+		GoalStatus parent = status("quest:1", GoalCategory.QUEST, 9, List.of(gap, new CombatLevelGap(1, 2, false)));
+		Route shortRoute = new Route(List.of(), 400_000, Experience.getXpForLevel(61), Map.of());
+		GoalStatus target = new GoalStatus(new Goal("skill:HERBLORE:70", GoalCategory.SKILL_TARGET, "70 Herblore", "https://x", 9, 1),
+			List.of(gap), false, false, List.of(), List.of(), List.of(new GoalRef("quest:1", "quest:1", 70)), shortRoute, Ranker.score(parent));
+		GoalStatus between = status("quest:2", GoalCategory.QUEST, 9, List.of(gap)); // one gap: scores above the parent
+
+		List<RankedGoal> ranked = ranker.rank(List.of(target, between, parent), Set.of(), List.of());
+
+		assertEquals(List.of("quest:2", "quest:1", "skill:HERBLORE:70"), ids(ranked));
+		assertEquals(ranked.get(1).getScore(), ranked.get(2).getScore(), 1e-9, "uncovered target scores exactly as its parent");
+	}
+
+	@Test
 	void bankCoveredSkillTargetScoresAsIfReadyAndOutranksAGoalWithTheSameGapButNoRoute()
 	{
 		SkillLevelGap gap = new SkillLevelGap(Skill.HERBLORE, 61, 70, 500_000, false, null, false);
 		Goal targetGoal = new Goal("skill:HERBLORE:70", GoalCategory.SKILL_TARGET, "70 Herblore", "https://x", 9, 3);
 		Route coveredRoute = new Route(List.of(), 0, Experience.getXpForLevel(70), Map.of());
 		GoalStatus covered = new GoalStatus(targetGoal, List.of(gap), false, false, List.of(), List.of(),
-			List.of(new GoalRef("quest:1", "Parent", 70)), coveredRoute);
+			List.of(new GoalRef("quest:1", "Parent", 70)), coveredRoute, 4.5);
 		GoalStatus plain = status("quest:1", GoalCategory.QUEST, 9, List.of(gap));
 
 		// Account stage 2: the stage-3 target is one stage ahead, but a bank-covered target counts as

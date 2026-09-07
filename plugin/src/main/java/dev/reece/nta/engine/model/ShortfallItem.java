@@ -11,7 +11,10 @@ import lombok.Value;
  * recursively) when {@code item} is short and one of {@code sources} is a {@code craft} source: the
  * ingredients of the intermediate method that produces it, each with its own have/need/sources but
  * an always-empty {@code craftFrom} of their own. {@code wikiUrl} is the material's wiki page (ticket
- * F3), {@code null} when the knowledge base has no entry for it.
+ * F3), {@code null} when the knowledge base has no entry for it. {@code plans} (spec ruling 28) is
+ * this item's own curated {@link dev.reece.nta.kb.GatheringPlan}s plus, for each {@code craftFrom}
+ * ingredient, that ingredient's own plans - so a shortfall reached only through the craft chain
+ * (e.g. Dragon scale dust ground from Blue dragon scales) still surfaces the upstream plan.
  */
 @Value
 public class ShortfallItem
@@ -22,13 +25,20 @@ public class ShortfallItem
 	List<ItemSource> sources;
 	List<ShortfallItem> craftFrom;
 	String wikiUrl;
+	List<PlanOffer> plans;
 
 	public ShortfallItem(ItemQuantity item, int have, int need, List<ItemSource> sources, List<ShortfallItem> craftFrom)
 	{
-		this(item, have, need, sources, craftFrom, null);
+		this(item, have, need, sources, craftFrom, null, List.of());
 	}
 
 	public ShortfallItem(ItemQuantity item, int have, int need, List<ItemSource> sources, List<ShortfallItem> craftFrom, String wikiUrl)
+	{
+		this(item, have, need, sources, craftFrom, wikiUrl, List.of());
+	}
+
+	public ShortfallItem(ItemQuantity item, int have, int need, List<ItemSource> sources, List<ShortfallItem> craftFrom, String wikiUrl,
+		List<PlanOffer> plans)
 	{
 		this.item = item;
 		this.have = have;
@@ -36,5 +46,6 @@ public class ShortfallItem
 		this.sources = sources;
 		this.craftFrom = craftFrom;
 		this.wikiUrl = wikiUrl;
+		this.plans = plans;
 	}
 }

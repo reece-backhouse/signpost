@@ -27,7 +27,7 @@ import net.runelite.api.Skill;
  * goal requires (top-level {@link SkillLevelGap}s, those inside a {@link DiaryTaskGap}, and
  * recommended-profile skill gaps alike) becomes one {@code skill:<SKILL>:<level>} goal of
  * {@link GoalCategory#SKILL_TARGET}, carrying every parent with a gap in that skill (lowest level
- * first), the max priority and min stage among the parents needing exactly that level, and the {@link RoutePlanner} route from the current bank (computed once here; the same
+ * first), the priority, stage and score of the best-scoring parent needing exactly that level, and the {@link RoutePlanner} route from the current bank (computed once here; the same
  * object is reused when the target is focused). A hidden parent, or one more than one stage above
  * the account (the same "later" rule {@link Ranker} applies), never contributes. Pure: no
  * {@link net.runelite.api.Client}, no I/O.
@@ -49,7 +49,7 @@ final class SkillTargetSynthesiser
 			{
 				continue;
 			}
-			collect(status.getGaps(), goal, needs);
+			collect(status.getGaps(), status, needs);
 		}
 
 		Map<Integer, Integer> bankAll = NextStepPicker.bankAll(snapshot);
@@ -60,11 +60,15 @@ final class SkillTargetSynthesiser
 			List<Need> parents = new ArrayList<>(entry.getValue().values());
 			parents.sort(Comparator.comparingInt((Need n) -> n.level).thenComparing(n -> -n.goal.getPriority()).thenComparing(n -> n.goal.getName()));
 			int level = parents.get(0).level;
-			// Priority and stage come from the parents this level actually unlocks - a goal needing a
-			// higher level is listed as a parent but must not lend its priority to a lower target
-			// (otherwise "52 Prayer" for two hard diaries would rank with Vorkath's priority).
-			int priority = parents.stream().filter(n -> n.level == level).mapToInt(n -> n.goal.getPriority()).max().orElseThrow();
-			int stage = parents.stream().filter(n -> n.level == level).mapToInt(n -> n.goal.getStage()).min().orElseThrow();
+			// Priority, stage and score cap come from the best-scoring parent this level actually
+			// unlocks (fix round 1) - a goal needing a higher level is listed as a parent but lends
+			// nothing (otherwise "52 Prayer" for two hard diaries would rank with Vorkath's priority).
+			Need best = parents.stream().filter(n -> n.level == level)
+				.max(Comparator.comparingDouble((Need n) -> Ranker.score(n.status)).thenComparing(n -> n.goal.getPriority())
+					.thenComparing(n -> n.goal.getName(), Comparator.reverseOrder()))
+				.orElseThrow();
+			int priority = best.goal.getPriority();
+			int stage = best.goal.getStage();
 
 			SkillState state = snapshot.getSkills().get(skill);
 			int have = state == null ? 1 : state.getLevel();
@@ -80,12 +84,12 @@ final class SkillTargetSynthesiser
 			{
 				refs.add(new GoalRef(need.goal.getId(), need.goal.getName(), need.level));
 			}
-			targets.add(new GoalStatus(goal, List.of(gap), false, false, List.of(), List.of(), List.copyOf(refs), route));
+			targets.add(new GoalStatus(goal, List.of(gap), false, false, List.of(), List.of(), List.copyOf(refs), route, Ranker.score(best.status)));
 		}
 		return targets;
 	}
 
-	private static void collect(List<Gap> gaps, Goal parent, Map<Skill, Map<String, Need>> needs)
+	private static void collect(List<Gap> gaps, GoalStatus parent, Map<Skill, Map<String, Need>> needs)
 	{
 		for (Gap gap : gaps)
 		{
@@ -93,7 +97,7 @@ final class SkillTargetSynthesiser
 			{
 				SkillLevelGap g = (SkillLevelGap) gap;
 				needs.computeIfAbsent(g.getSkill(), k -> new LinkedHashMap<>())
-					.merge(parent.getId(), new Need(parent, g.getNeed()), (a, b) -> a.level <= b.level ? a : b);
+					.merge(parent.getGoal().getId(), new Need(parent, g.getNeed()), (a, b) -> a.level <= b.level ? a : b);
 			}
 			else if (gap instanceof DiaryTaskGap)
 			{
@@ -104,12 +108,14 @@ final class SkillTargetSynthesiser
 
 	private static final class Need
 	{
+		final GoalStatus status;
 		final Goal goal;
 		final int level;
 
-		Need(Goal goal, int level)
+		Need(GoalStatus status, int level)
 		{
-			this.goal = goal;
+			this.status = status;
+			this.goal = status.getGoal();
 			this.level = level;
 		}
 	}

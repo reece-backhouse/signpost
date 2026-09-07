@@ -29,8 +29,8 @@ class SkillTargetSynthesiserTest
 	void lowestUnmetLevelWinsWithPriorityAndStageFromTheParentsNeedingThatLevelAndEveryParentListed()
 	{
 		// quest:0 priority 9 (stage 3) needs Herblore 78; quest:9 priority 7 (stage 2) and quest:14
-		// priority 3 (stage 1) need Herblore 70. Only the two 70-parents lend priority (max 7) and
-		// stage (min 1); quest:0 is still listed as a parent.
+		// priority 3 (stage 1) need Herblore 70. The best-scoring 70-parent (quest:9) lends its
+		// priority, stage and score; quest:0 is still listed as a parent.
 		KnowledgeBase kb = new KbBuilder()
 			.quest(0, "Animal Magnetism").skill(Skill.HERBLORE, 78)
 			.quest(9, "Biohazard").skill(Skill.HERBLORE, 70)
@@ -49,8 +49,10 @@ class SkillTargetSynthesiserTest
 		assertEquals("70 Herblore", target.getGoal().getName());
 		assertEquals(GoalCategory.SKILL_TARGET, target.getGoal().getCategory());
 		assertEquals("https://oldschool.runescape.wiki/w/Herblore_training", target.getGoal().getWikiUrl());
-		assertEquals(7, target.getGoal().getPriority(), "max priority among parents needing level 70");
-		assertEquals(1, target.getGoal().getStage(), "min stage among parents needing level 70");
+		assertEquals(7, target.getGoal().getPriority(), "priority of the best parent needing level 70");
+		assertEquals(2, target.getGoal().getStage(), "stage of the best parent needing level 70");
+		GoalStatus biohazard = gapEngine.evaluate(snapshot, kb).stream().filter(s -> s.getGoal().getId().equals("quest:9")).findFirst().orElseThrow();
+		assertEquals(Ranker.score(biohazard), target.getParentScore(), 1e-9, "score cap = the best parent's score");
 		assertFalse(target.isReady(), "training is never ready now");
 		assertEquals(List.of(new GoalRef("quest:9", "Biohazard", 70), new GoalRef("quest:14", "Clock Tower", 70),
 			new GoalRef("quest:0", "Animal Magnetism", 78)), target.getParents());

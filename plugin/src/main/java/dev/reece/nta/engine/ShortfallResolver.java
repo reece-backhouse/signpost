@@ -1,30 +1,37 @@
 package dev.reece.nta.engine;
 
 import dev.reece.nta.engine.model.ItemSource;
+import dev.reece.nta.engine.model.PlanOffer;
 import dev.reece.nta.engine.model.Route;
 import dev.reece.nta.engine.model.Shortfall;
 import dev.reece.nta.engine.model.ShortfallItem;
+import dev.reece.nta.kb.GatheringPlan;
 import dev.reece.nta.kb.ItemQuantity;
 import dev.reece.nta.kb.KnowledgeBase;
 import dev.reece.nta.kb.MaterialEntry;
 import dev.reece.nta.kb.MethodEntry;
+import dev.reece.nta.kb.SkillReq;
 import dev.reece.nta.snapshot.AccountType;
+import dev.reece.nta.snapshot.SkillState;
+import dev.reece.nta.snapshot.Snapshot;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import net.runelite.api.Skill;
 
 /**
- * Pure function {@code (skill, route, kb, account) -> Shortfall}: explains a {@link Route}'s
+ * Pure function {@code (skill, route, kb, snapshot) -> Shortfall}: explains a {@link Route}'s
  * {@code uncoveredXp}, per ticket C7. No {@link net.runelite.api.Client}, no I/O.
  */
 public final class ShortfallResolver
 {
+	private static final SkillState UNKNOWN_SKILL = new SkillState(0, 0);
+
 	private ShortfallResolver()
 	{
 	}
 
-	public static Shortfall resolve(Skill skill, Route route, KnowledgeBase kb, AccountType account)
+	public static Shortfall resolve(Skill skill, Route route, KnowledgeBase kb, Snapshot snapshot)
 	{
 		if (route.getUncoveredXp() <= 0)
 		{
@@ -45,14 +52,15 @@ public final class ShortfallResolver
 		List<ShortfallItem> items = new ArrayList<>();
 		for (ItemQuantity material : method.getMaterials())
 		{
-			items.add(shortfallItem(material, actionsNeeded, skill, simulatedBank, kb, account));
+			items.add(shortfallItem(material, actionsNeeded, skill, simulatedBank, kb, snapshot));
 		}
 		return new Shortfall(method, List.copyOf(items));
 	}
 
 	private static ShortfallItem shortfallItem(ItemQuantity material, long actionsNeeded, Skill skill, Map<Integer, Integer> simulatedBank,
-		KnowledgeBase kb, AccountType account)
+		KnowledgeBase kb, Snapshot snapshot)
 	{
+		AccountType account = snapshot.getAccountType();
 		int need = (int) Math.ceil(actionsNeeded * material.getQuantity());
 		int have = simulatedBank.getOrDefault(material.getId(), 0);
 		int shortfall = Math.max(0, need - have);
@@ -62,9 +70,19 @@ public final class ShortfallResolver
 		boolean hasCraftSource = sources.stream().anyMatch(s -> "craft".equals(s.getType()));
 		List<ShortfallItem> craftFrom = shortfall <= 0 || !hasCraftSource
 			? List.of()
-			: craftFrom(material.getId(), shortfall, skill, simulatedBank, kb, account);
+			: craftFrom(material.getId(), shortfall, skill, simulatedBank, kb, snapshot);
 
-		return new ShortfallItem(material, have, need, sources, craftFrom, materialEntry == null ? null : materialEntry.getWikiUrl());
+		// Spec ruling 28: this item's own curated plans, plus (unioned, not recursed into further)
+		// each craftFrom ingredient's own plans - so a dust shortfall reached only via the craft
+		// chain still surfaces the upstream material's plan.
+		List<PlanOffer> plans = new ArrayList<>(plansFor(material.getName(), material.getId(), kb, snapshot));
+		for (ShortfallItem ingredient : craftFrom)
+		{
+			plans.addAll(ingredient.getPlans());
+		}
+
+		return new ShortfallItem(material, have, need, sources, craftFrom, materialEntry == null ? null : materialEntry.getWikiUrl(),
+			List.copyOf(plans));
 	}
 
 	/**
@@ -72,8 +90,9 @@ public final class ShortfallResolver
 	 * decomposed into its own materials' have/need/sources - never recursed into further.
 	 */
 	private static List<ShortfallItem> craftFrom(int itemId, int parentShortfall, Skill skill, Map<Integer, Integer> simulatedBank,
-		KnowledgeBase kb, AccountType account)
+		KnowledgeBase kb, Snapshot snapshot)
 	{
+		AccountType account = snapshot.getAccountType();
 		MethodEntry intermediate = findIntermediateProducing(itemId, skill, kb);
 		if (intermediate == null)
 		{
@@ -89,9 +108,42 @@ public final class ShortfallResolver
 			int have = simulatedBank.getOrDefault(ingredient.getId(), 0);
 			MaterialEntry materialEntry = kb.materialById(ingredient.getId());
 			List<ItemSource> ingredientSources = materialEntry == null ? List.of() : GapEngine.sourcesFor(materialEntry.getSources(), account);
-			result.add(new ShortfallItem(ingredient, have, need, ingredientSources, List.of(), materialEntry == null ? null : materialEntry.getWikiUrl()));
+			List<PlanOffer> ingredientPlans = plansFor(ingredient.getName(), ingredient.getId(), kb, snapshot);
+			result.add(new ShortfallItem(ingredient, have, need, ingredientSources, List.of(),
+				materialEntry == null ? null : materialEntry.getWikiUrl(), ingredientPlans));
 		}
 		return result;
+	}
+
+	/** {@code id}-based lookup first, falling back to a name match when {@code id} isn't known or has no plan. */
+	private static List<PlanOffer> plansFor(String name, Integer id, KnowledgeBase kb, Snapshot snapshot)
+	{
+		List<GatheringPlan> plans = id != null ? kb.gatheringFor(id) : List.of();
+		if (plans.isEmpty())
+		{
+			plans = kb.gatheringForName(name);
+		}
+		List<PlanOffer> offers = new ArrayList<>();
+		for (GatheringPlan plan : plans)
+		{
+			offers.add(toPlanOffer(plan, snapshot));
+		}
+		return offers;
+	}
+
+	/** Flags a plan {@code meetsRequirements = false} (naming each shortfall) when any {@code requires.skills} level exceeds the snapshot. */
+	private static PlanOffer toPlanOffer(GatheringPlan plan, Snapshot snapshot)
+	{
+		List<String> missing = new ArrayList<>();
+		for (SkillReq req : plan.getRequires().getSkills())
+		{
+			int have = snapshot.getSkills().getOrDefault(req.getSkill(), UNKNOWN_SKILL).getLevel();
+			if (have < req.getLevel())
+			{
+				missing.add(req.getSkill().getName() + " " + req.getLevel() + " (have " + have + ")");
+			}
+		}
+		return new PlanOffer(plan, missing.isEmpty(), List.copyOf(missing));
 	}
 
 	private static MethodEntry findIntermediateProducing(int itemId, Skill skill, KnowledgeBase kb)

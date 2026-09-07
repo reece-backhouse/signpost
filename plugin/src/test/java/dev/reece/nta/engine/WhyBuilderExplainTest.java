@@ -171,13 +171,13 @@ class WhyBuilderExplainTest
 	{
 		Goal goal = new Goal("skill:HERBLORE:70", GoalCategory.SKILL_TARGET, "70 Herblore", "https://x", 9, stage);
 		SkillLevelGap gap = new SkillLevelGap(Skill.HERBLORE, 61, 70, Experience.getXpForLevel(70) - Experience.getXpForLevel(61), false, null, false);
-		return new GoalStatus(goal, List.of(gap), false, false, List.of(), List.of(), parents, route);
+		return new GoalStatus(goal, List.of(gap), false, false, List.of(), List.of(), parents, route, 1.0);
 	}
 
 	private static GoalStatus status(String id, GoalCategory category, int stage, List<Gap> gaps, List<Met> met, boolean ready)
 	{
 		Goal goal = new Goal(id, category, id, "https://x", 5, stage);
-		return new GoalStatus(goal, gaps, ready, false, List.of(), met, List.of(), null);
+		return new GoalStatus(goal, gaps, ready, false, List.of(), met, List.of(), null, 0);
 	}
 
 	private static RankedGoal rank(GoalStatus status)
