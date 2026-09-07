@@ -26,7 +26,7 @@ final class KbBuilder
 		for (int ordinal = 1; ordinal <= taskCount; ordinal++)
 		{
 			TaskCompletion completion = new TaskCompletion(varp, ordinal - 1, null, null);
-			tasks.add(new DiaryTask(ordinal, "task " + ordinal, List.of(), List.of(), List.of(), List.of(), completion));
+			tasks.add(new DiaryTask(ordinal, "task " + ordinal, List.of(), List.of(), List.of(), List.of(), completion, null));
 		}
 		diaries.add(new DiaryEntry(tier, 0, tasks));
 		return this;

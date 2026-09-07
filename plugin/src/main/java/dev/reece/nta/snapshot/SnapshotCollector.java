@@ -12,7 +12,9 @@ import net.runelite.api.ItemContainer;
 import net.runelite.api.Quest;
 import net.runelite.api.QuestState;
 import net.runelite.api.Skill;
+import net.runelite.api.VarPlayer;
 import net.runelite.api.Varbits;
+import net.runelite.api.gameval.VarbitID;
 import net.runelite.client.game.ItemManager;
 
 /**
@@ -111,6 +113,8 @@ public final class SnapshotCollector
 			.combatAchievementTiers(combatAchievementTiers)
 			.bankKnown(bank.isKnown())
 			.bankAsOf(bank.getAsOf())
+			.questPoints(client.getVarpValue(VarPlayer.QUEST_POINTS))
+			.kudos(client.getVarbitValue(VarbitID.VM_KUDOS))
 			.build();
 	}
 

@@ -6,6 +6,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import lombok.Builder;
 import lombok.Value;
+import net.runelite.api.Experience;
 import net.runelite.api.Quest;
 import net.runelite.api.QuestState;
 import net.runelite.api.Skill;
@@ -32,6 +33,8 @@ public class Snapshot
 	Map<Integer, Boolean> combatAchievementTiers;
 	boolean bankKnown;
 	Instant bankAsOf;
+	int questPoints;
+	int kudos;
 
 	@Builder(toBuilder = true)
 	private Snapshot(
@@ -49,7 +52,9 @@ public class Snapshot
 		Map<Integer, Integer> diaryCountVarbits,
 		Map<Integer, Boolean> combatAchievementTiers,
 		boolean bankKnown,
-		Instant bankAsOf)
+		Instant bankAsOf,
+		int questPoints,
+		int kudos)
 	{
 		this.accountHash = accountHash;
 		this.accountType = accountType;
@@ -66,6 +71,8 @@ public class Snapshot
 		this.combatAchievementTiers = copyOf(combatAchievementTiers);
 		this.bankKnown = bankKnown;
 		this.bankAsOf = bankAsOf;
+		this.questPoints = questPoints;
+		this.kudos = kudos;
 	}
 
 	private static <K, V> Map<K, V> copyOf(Map<K, V> map)
@@ -83,5 +90,22 @@ public class Snapshot
 			.bankKnown(cachedBank.isKnown())
 			.bankAsOf(cachedBank.getAsOf())
 			.build();
+	}
+
+	/**
+	 * Combat level derived from {@link #skills}, via {@link Experience#getCombatLevel}. A skill
+	 * missing from the map (e.g. an empty test snapshot) is treated as level 1.
+	 */
+	public int combatLevel()
+	{
+		return Experience.getCombatLevel(
+			levelOf(Skill.ATTACK), levelOf(Skill.STRENGTH), levelOf(Skill.DEFENCE), levelOf(Skill.HITPOINTS),
+			levelOf(Skill.MAGIC), levelOf(Skill.RANGED), levelOf(Skill.PRAYER));
+	}
+
+	private int levelOf(Skill skill)
+	{
+		SkillState state = skills.get(skill);
+		return state == null ? 1 : state.getLevel();
 	}
 }

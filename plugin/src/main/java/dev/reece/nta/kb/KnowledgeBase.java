@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
+import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.Skill;
 
 /**
@@ -23,13 +24,17 @@ import net.runelite.api.Skill;
  * {@code /kb/quests.json} and {@code /kb/diaries.json}. Pure data: no {@link net.runelite.api.Client},
  * no I/O beyond the initial classpath read in {@link #load(Gson)}.
  */
+@Slf4j
 public final class KnowledgeBase
 {
 	private static final String QUESTS_RESOURCE = "/kb/quests.json";
 	private static final String DIARIES_RESOURCE = "/kb/diaries.json";
 
-	/** Skill names the data source uses that have no {@link Skill} constant. */
-	private static final Set<String> PSEUDO_SKILLS = Set.of("Quest point", "Quest", "Kudos", "Combat");
+	private static final String QUEST_POINT_SKILL = "Quest point";
+	private static final String KUDOS_SKILL = "Kudos";
+	private static final String COMBAT_SKILL = "Combat";
+	/** kb-build parser artefact (see VARROCK MEDIUM task 2): a mislabelled quest-point requirement. */
+	private static final String QUEST_ARTEFACT_SKILL = "Quest";
 
 	private final int questsVersion;
 	private final String questsGeneratedAt;
@@ -142,29 +147,72 @@ public final class KnowledgeBase
 
 	private static QuestEntry toQuestEntry(QuestDto dto)
 	{
-		List<SkillReq> skills = dto.skills.stream().map(KnowledgeBase::toSkillReq).collect(Collectors.toList());
+		List<SkillReq> skills = new ArrayList<>();
+		Integer questPointsRequired = null;
+		Integer kudosRequired = null;
+		Integer combatLevelRequired = null;
+		for (SkillDto s : dto.skills)
+		{
+			if (s.skill.equals(QUEST_POINT_SKILL))
+			{
+				questPointsRequired = s.level;
+			}
+			else if (s.skill.equals(KUDOS_SKILL))
+			{
+				kudosRequired = s.level;
+			}
+			else if (s.skill.equals(COMBAT_SKILL))
+			{
+				combatLevelRequired = s.level;
+			}
+			else
+			{
+				skills.add(toSkillReq(s));
+			}
+		}
+
 		List<ItemReq> items = dto.items.stream().map(i -> new ItemReq(i.name, i.quantity)).collect(Collectors.toList());
-		return new QuestEntry(dto.id, dto.name, dto.wikiTitle, skills, List.copyOf(dto.prereqs), items, dto.questPoints, dto.source);
+		return new QuestEntry(dto.id, dto.name, dto.wikiTitle, skills, List.copyOf(dto.prereqs), items, dto.questPoints, dto.source,
+			questPointsRequired, kudosRequired, combatLevelRequired);
 	}
 
 	private static DiaryEntry toDiaryEntry(DiaryDto dto)
 	{
 		DiaryTier tier = DiaryTier.valueOf(dto.area + "_" + dto.tier);
-		List<DiaryTask> tasks = dto.tasks.stream().map(KnowledgeBase::toDiaryTask).collect(Collectors.toList());
+		List<DiaryTask> tasks = dto.tasks.stream().map(t -> toDiaryTask(t, dto.area, dto.tier)).collect(Collectors.toList());
 		return new DiaryEntry(tier, dto.tierVarbit, tasks);
 	}
 
-	private static DiaryTask toDiaryTask(TaskDto dto)
+	private static DiaryTask toDiaryTask(TaskDto dto, String area, String tier)
 	{
-		List<SkillReq> skills = dto.skills.stream().map(KnowledgeBase::toSkillReq).collect(Collectors.toList());
+		List<SkillReq> skills = new ArrayList<>();
+		Integer combatLevelRequired = null;
+		List<String> notes = new ArrayList<>(dto.notes);
+		for (SkillDto s : dto.skills)
+		{
+			if (s.skill.equals(COMBAT_SKILL))
+			{
+				combatLevelRequired = s.level;
+			}
+			else if (s.skill.equals(QUEST_ARTEFACT_SKILL))
+			{
+				notes.add("Quest requirement (see wiki)");
+				log.warn("kb-build parser artefact: dropping non-skill 'Quest' requirement from {} {} task {}", area, tier, dto.ordinal);
+			}
+			else
+			{
+				skills.add(toSkillReq(s));
+			}
+		}
+
 		TaskCompletion completion = new TaskCompletion(dto.completion.varp, dto.completion.bit, dto.completion.varbit, dto.completion.doneMin);
-		return new DiaryTask(dto.ordinal, dto.text, skills, List.copyOf(dto.quests), List.copyOf(dto.items), List.copyOf(dto.notes), completion);
+		return new DiaryTask(dto.ordinal, dto.text, skills, List.copyOf(dto.quests), List.copyOf(dto.items), List.copyOf(notes), completion,
+			combatLevelRequired);
 	}
 
 	private static SkillReq toSkillReq(SkillDto dto)
 	{
-		Skill skill = resolveSkill(dto.skill);
-		return new SkillReq(skill, dto.skill, dto.level, dto.boostable, dto.ironmanOnly);
+		return new SkillReq(resolveSkill(dto.skill), dto.level, dto.boostable, dto.ironmanOnly);
 	}
 
 	private static Skill resolveSkill(String name)
@@ -175,10 +223,6 @@ public final class KnowledgeBase
 			{
 				return skill;
 			}
-		}
-		if (PSEUDO_SKILLS.contains(name))
-		{
-			return null;
 		}
 		throw new IllegalStateException("Unknown skill name in knowledge base: " + name);
 	}

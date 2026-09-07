@@ -4,15 +4,14 @@ import lombok.Value;
 import net.runelite.api.Skill;
 
 /**
- * One skill requirement for a quest or diary task. {@code skill} is {@code null} when
- * {@code skillName} is a pseudo-skill the data source uses that has no {@link Skill} constant
- * (e.g. "Quest point", "Kudos", "Combat") - callers needing those should read {@link #skillName}.
+ * One real skill requirement for a quest or diary task. The data source's non-skill pseudo
+ * requirements ("Quest point"/"Kudos" on quests, "Combat" on diary tasks) are normalised into
+ * dedicated fields on {@link QuestEntry}/{@link DiaryTask} instead of appearing here.
  */
 @Value
 public class SkillReq
 {
 	Skill skill;
-	String skillName;
 	int level;
 	boolean boostable;
 	boolean ironmanOnly;
