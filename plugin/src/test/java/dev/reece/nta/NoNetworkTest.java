@@ -28,7 +28,7 @@ class NoNetworkTest
 		"java.net.Socket"
 	);
 
-	private static final Pattern IMPORT_LINE = Pattern.compile("^\\s*import\\s+(?:static\\s+)?([\\w.]+)");
+	private static final Pattern IMPORT_LINE = Pattern.compile("^\\s*import\\s+(?:static\\s+)?([^;\\s]+)");
 
 	@Test
 	void mainSourceHasNoNetworkImports() throws IOException
@@ -73,6 +73,13 @@ class NoNetworkTest
 			return false;
 		}
 		String imported = matcher.group(1);
-		return FORBIDDEN_IMPORTS.stream().anyMatch(imported::startsWith);
+		boolean wildcard = imported.endsWith(".*");
+		if (wildcard)
+		{
+			imported = imported.substring(0, imported.length() - 2);
+		}
+		String target = imported;
+		return FORBIDDEN_IMPORTS.stream().anyMatch(f ->
+			f.equals(target) || target.startsWith(f + ".") || (wildcard && f.startsWith(target + ".")));
 	}
 }
