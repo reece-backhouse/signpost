@@ -35,11 +35,7 @@ class EngineTest
 		assertNotNull(advice.getComputedAt());
 
 		GapEngine gapEngine = new GapEngine(new BoostTable());
-		assertEquals(gapEngine.evaluate(snapshot, kb).size(), advice.getStatuses().size());
-
-		var expectedDiary = DiaryProgress.compute(snapshot, kb);
-		assertEquals(expectedDiary.keySet(), advice.getDiaryProgress().keySet());
-		assertEquals(expectedDiary.get(DiaryTier.VARROCK_EASY).getCompleted(),
-			advice.getDiaryProgress().get(DiaryTier.VARROCK_EASY).getCompleted());
+		assertEquals(gapEngine.evaluate(snapshot, kb), advice.getStatuses());
+		assertEquals(DiaryProgress.compute(snapshot, kb), advice.getDiaryProgress());
 	}
 }
