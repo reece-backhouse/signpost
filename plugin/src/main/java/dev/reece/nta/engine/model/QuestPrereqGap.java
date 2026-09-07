@@ -8,7 +8,10 @@ import net.runelite.api.QuestState;
 /**
  * An unfinished prerequisite quest, resolved transitively (a prerequisite's own unfinished
  * prerequisites appear as their own {@link QuestPrereqGap}s). {@code startHere} is true only on
- * the deepest unfinished quest(s): those with no unfinished prerequisite of their own.
+ * the deepest unfinished quest(s): those with no unfinished prerequisite of their own - always true
+ * for a {@code startOnly} gap, since those are never recursed into. {@code startOnly} is true when
+ * this is a "must have started" prerequisite (the wiki's {@code Started:} prefix): satisfied by
+ * {@code QuestState.IN_PROGRESS}, not just {@code FINISHED}.
  */
 @Value
 @EqualsAndHashCode(callSuper = false)
@@ -17,4 +20,5 @@ public class QuestPrereqGap extends Gap
 	Quest quest;
 	QuestState state;
 	boolean startHere;
+	boolean startOnly;
 }

@@ -63,6 +63,51 @@ class KnowledgeBaseTest
 	}
 
 	@Test
+	void unresolvedQuestPrereqFailsLoudlyNamingTheQuestAndThePrereq()
+	{
+		String questsJson = "{\"version\":1,\"generatedAt\":\"x\",\"quests\":[{\"id\":0,\"name\":\"Test Quest\","
+			+ "\"wikiTitle\":\"Test Quest\",\"skills\":[],\"prereqs\":[\"Not A Real Quest\"],\"items\":[],\"questPoints\":1,\"source\":\"test\"}]}";
+
+		IllegalStateException e = assertThrows(IllegalStateException.class,
+			() -> KnowledgeBase.fromJson(new Gson(), questsJson, EMPTY_DIARIES_JSON, EMPTY_MILESTONES_JSON, EMPTY_PRIORITIES_JSON));
+
+		assertTrue(e.getMessage().contains("Test Quest"), e.getMessage());
+		assertTrue(e.getMessage().contains("Not A Real Quest"), e.getMessage());
+	}
+
+	@Test
+	void unresolvedStartedQuestPrereqFailsLoudlyNamingTheQuestAndThePrereq()
+	{
+		String questsJson = "{\"version\":1,\"generatedAt\":\"x\",\"quests\":[{\"id\":0,\"name\":\"Test Quest\","
+			+ "\"wikiTitle\":\"Test Quest\",\"skills\":[],\"prereqs\":[],\"prereqsStarted\":[\"Not A Real Quest\"],\"items\":[],"
+			+ "\"questPoints\":1,\"source\":\"test\"}]}";
+
+		IllegalStateException e = assertThrows(IllegalStateException.class,
+			() -> KnowledgeBase.fromJson(new Gson(), questsJson, EMPTY_DIARIES_JSON, EMPTY_MILESTONES_JSON, EMPTY_PRIORITIES_JSON));
+
+		assertTrue(e.getMessage().contains("Test Quest"), e.getMessage());
+		assertTrue(e.getMessage().contains("Not A Real Quest"), e.getMessage());
+	}
+
+	@Test
+	void everyBundledQuestPrereqAndStartedPrereqResolvesToAKnownQuest()
+	{
+		KnowledgeBase kb = KnowledgeBase.load(new Gson());
+
+		for (QuestEntry quest : kb.getQuests())
+		{
+			for (String prereq : quest.getPrereqs())
+			{
+				assertNotNull(kb.questByName(prereq), quest.getName() + " has unresolved prereq \"" + prereq + "\"");
+			}
+			for (String prereq : quest.getPrereqsStarted())
+			{
+				assertNotNull(kb.questByName(prereq), quest.getName() + " has unresolved started prereq \"" + prereq + "\"");
+			}
+		}
+	}
+
+	@Test
 	void bundledMilestonesJsonLoadsFiftyFiveEntriesAndPassesValidation()
 	{
 		KnowledgeBase kb = KnowledgeBase.load(new Gson());

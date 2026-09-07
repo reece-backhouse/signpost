@@ -166,6 +166,20 @@ final class KbBuilder
 		return this;
 	}
 
+	/** Adds a "must have started" prerequisite quest name to the currently open quest. */
+	KbBuilder prereqStarted(String name)
+	{
+		currentQuest.prereqsStarted.add(name);
+		return this;
+	}
+
+	/** Adds a display-only prereq note (an unresolved prereq name) to the currently open quest. */
+	KbBuilder prereqNote(String note)
+	{
+		currentQuest.prereqNotes.add(note);
+		return this;
+	}
+
 	/** Adds an item requirement to the currently open quest. */
 	KbBuilder item(String name, int quantity)
 	{
@@ -232,8 +246,8 @@ final class KbBuilder
 		List<QuestEntry> quests = new ArrayList<>();
 		for (QuestSpec s : questSpecs)
 		{
-			quests.add(new QuestEntry(s.id, s.name, s.name, List.copyOf(s.skills), List.copyOf(s.prereqs), List.copyOf(s.items),
-				1, "test", s.questPointsRequired, s.kudosRequired, s.combatLevelRequired));
+			quests.add(new QuestEntry(s.id, s.name, s.name, List.copyOf(s.skills), List.copyOf(s.prereqs), List.copyOf(s.prereqsStarted),
+				List.copyOf(s.prereqNotes), List.copyOf(s.items), 1, "test", s.questPointsRequired, s.kudosRequired, s.combatLevelRequired));
 		}
 
 		List<DiaryEntry> diaries = new ArrayList<>(legacyDiaries);
@@ -271,6 +285,8 @@ final class KbBuilder
 		final String name;
 		final List<SkillReq> skills = new ArrayList<>();
 		final List<String> prereqs = new ArrayList<>();
+		final List<String> prereqsStarted = new ArrayList<>();
+		final List<String> prereqNotes = new ArrayList<>();
 		final List<ItemReq> items = new ArrayList<>();
 		Integer questPointsRequired;
 		Integer kudosRequired;

@@ -158,6 +158,8 @@ public final class KnowledgeBase
 		List<DiaryEntry> diaries = diariesFile.diaries.stream().map(KnowledgeBase::toDiaryEntry).collect(Collectors.toList());
 
 		Set<String> questNames = quests.stream().map(QuestEntry::getName).collect(Collectors.toSet());
+		validatePrereqsResolve(quests, questNames);
+
 		Set<String> milestoneIds = new HashSet<>();
 		List<MilestoneEntry> milestones = milestonesFile.milestones.stream()
 			.map(dto -> toMilestoneEntry(dto, questNames, milestoneIds))
@@ -215,6 +217,8 @@ public final class KnowledgeBase
 		String context = "quest \"" + dto.name + "\"";
 		requireField(dto.skills, context, "skills");
 		requireField(dto.prereqs, context, "prereqs");
+		requireField(dto.prereqsStarted, context, "prereqsStarted");
+		requireField(dto.prereqNotes, context, "prereqNotes");
 		requireField(dto.items, context, "items");
 
 		List<SkillReq> skills = new ArrayList<>();
@@ -242,8 +246,32 @@ public final class KnowledgeBase
 		}
 
 		List<ItemReq> items = dto.items.stream().map(i -> new ItemReq(i.name, i.quantity)).collect(Collectors.toList());
-		return new QuestEntry(dto.id, dto.name, dto.wikiTitle, skills, List.copyOf(dto.prereqs), items, dto.questPoints, dto.source,
-			questPointsRequired, kudosRequired, combatLevelRequired);
+		return new QuestEntry(dto.id, dto.name, dto.wikiTitle, skills, List.copyOf(dto.prereqs), List.copyOf(dto.prereqsStarted),
+			List.copyOf(dto.prereqNotes), items, dto.questPoints, dto.source, questPointsRequired, kudosRequired, combatLevelRequired);
+	}
+
+	/** Fails loudly, naming the quest and the unresolved prereq, if any {@code prereqs}/{@code prereqsStarted} name isn't another known quest. */
+	private static void validatePrereqsResolve(List<QuestEntry> quests, Set<String> questNames)
+	{
+		for (QuestEntry quest : quests)
+		{
+			for (String prereq : quest.getPrereqs())
+			{
+				if (!questNames.contains(prereq))
+				{
+					throw new IllegalStateException(
+						"Malformed knowledge base data: quest \"" + quest.getName() + "\" has unknown prereq \"" + prereq + "\"");
+				}
+			}
+			for (String prereq : quest.getPrereqsStarted())
+			{
+				if (!questNames.contains(prereq))
+				{
+					throw new IllegalStateException(
+						"Malformed knowledge base data: quest \"" + quest.getName() + "\" has unknown started prereq \"" + prereq + "\"");
+				}
+			}
+		}
 	}
 
 	private static DiaryEntry toDiaryEntry(DiaryDto dto)
@@ -522,6 +550,8 @@ public final class KnowledgeBase
 		String wikiTitle;
 		List<SkillDto> skills = new ArrayList<>();
 		List<String> prereqs = new ArrayList<>();
+		List<String> prereqsStarted = new ArrayList<>();
+		List<String> prereqNotes = new ArrayList<>();
 		List<ItemDto> items = new ArrayList<>();
 		int questPoints;
 		String source;

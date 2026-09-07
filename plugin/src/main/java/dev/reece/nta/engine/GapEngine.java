@@ -144,6 +144,7 @@ public final class GapEngine
 		Set<String> path = new LinkedHashSet<>();
 		path.add(entry.getName());
 		resolvePrereqs(entry.getPrereqs(), snapshot, kb, entry.getName(), true, prereqGaps, new ArrayList<>(), path);
+		resolveStartedPrereqs(entry.getPrereqsStarted(), snapshot, entry.getName(), prereqGaps);
 		gaps.addAll(prereqGaps.values());
 
 		for (ItemReq req : entry.getItems())
@@ -166,7 +167,7 @@ public final class GapEngine
 
 		Goal goal = new Goal("quest:" + entry.getId(), GoalCategory.QUEST, entry.getName(), WIKI_BASE + spacesToUnderscores(entry.getWikiTitle()),
 			QUEST_PRIORITY);
-		return toGoalStatus(goal, gaps);
+		return toGoalStatus(goal, gaps, entry.getPrereqNotes());
 	}
 
 	private GoalStatus diaryGoalStatus(DiaryTier tier, DiaryEntry entry, Snapshot snapshot, KnowledgeBase kb)
@@ -298,7 +299,7 @@ public final class GapEngine
 		Goal goal = new Goal(entry.getId(), mapMilestoneCategory(entry.getCategory()), entry.getName(),
 			WIKI_BASE + spacesToUnderscores(entry.getWikiTitle()), priority);
 		boolean bankUnknown = anyBankUnknown(gaps) || ownedState == OwnedState.UNKNOWN;
-		return Optional.of(new GoalStatus(goal, List.copyOf(gaps), gaps.isEmpty(), bankUnknown));
+		return Optional.of(new GoalStatus(goal, List.copyOf(gaps), gaps.isEmpty(), bankUnknown, List.of()));
 	}
 
 	private static void addMilestoneItemGapIfShort(List<Gap> gaps, Snapshot snapshot, ItemReq req)
@@ -455,10 +456,40 @@ public final class GapEngine
 				continue;
 			}
 			boolean hasUnfinishedPrereq = resolvePrereqs(entry.getPrereqs(), snapshot, kb, name, throwOnUnknown, gapsByName, extraNotes, path);
+			resolveStartedPrereqs(entry.getPrereqsStarted(), snapshot, name, gapsByName);
 			path.remove(name);
-			gapsByName.put(name, new QuestPrereqGap(quest, state, !hasUnfinishedPrereq));
+			gapsByName.put(name, new QuestPrereqGap(quest, state, !hasUnfinishedPrereq, false));
 		}
 		return anyUnfinished;
+	}
+
+	/**
+	 * Resolves "must have started" prerequisite quest names (the wiki's {@code Started:} prefix)
+	 * into {@link QuestPrereqGap}s, satisfied by any state other than {@code NOT_STARTED}. Never
+	 * recurses into the started quest's own prerequisites - starting it is the whole requirement -
+	 * so every gap produced here is unconditionally {@code startHere}. Every name has already been
+	 * validated at {@link KnowledgeBase} load time to be a known quest name.
+	 */
+	private static void resolveStartedPrereqs(List<String> names, Snapshot snapshot, String forName, Map<String, QuestPrereqGap> gapsByName)
+	{
+		for (String name : names)
+		{
+			Quest quest = QUESTS_BY_NAME.get(name);
+			if (quest == null)
+			{
+				throw new IllegalStateException("Unknown started prerequisite quest \"" + name + "\" for quest \"" + forName + "\"");
+			}
+			if (gapsByName.containsKey(name))
+			{
+				continue;
+			}
+			QuestState state = snapshot.getQuests().getOrDefault(quest, QuestState.NOT_STARTED);
+			if (state != QuestState.NOT_STARTED)
+			{
+				continue;
+			}
+			gapsByName.put(name, new QuestPrereqGap(quest, state, true, true));
+		}
 	}
 
 	private static Integer sumHave(Snapshot snapshot, String itemName)
@@ -488,7 +519,12 @@ public final class GapEngine
 
 	private static GoalStatus toGoalStatus(Goal goal, List<Gap> gaps)
 	{
-		return new GoalStatus(goal, List.copyOf(gaps), gaps.isEmpty(), anyBankUnknown(gaps));
+		return toGoalStatus(goal, gaps, List.of());
+	}
+
+	private static GoalStatus toGoalStatus(Goal goal, List<Gap> gaps, List<String> notes)
+	{
+		return new GoalStatus(goal, List.copyOf(gaps), gaps.isEmpty(), anyBankUnknown(gaps), List.copyOf(notes));
 	}
 
 	private static boolean anyBankUnknown(List<Gap> gaps)
