@@ -8,6 +8,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -41,7 +44,7 @@ public class AccountStore
 		{
 			String json = Files.readString(file);
 			AccountData data = gson.fromJson(json, AccountData.class);
-			return data == null ? AccountData.empty() : data;
+			return data == null ? AccountData.empty() : withDefaults(data);
 		}
 		catch (IOException | JsonParseException e)
 		{
@@ -64,6 +67,28 @@ public class AccountStore
 		{
 			throw new UncheckedIOException("Failed to save account data to " + file, e);
 		}
+	}
+
+	/** Gson leaves a collection field null when the JSON omits it (hand-edited or truncated file); {@link AccountData#copy()} and every mutation assume non-null. */
+	private static AccountData withDefaults(AccountData data)
+	{
+		if (data.getBank() == null)
+		{
+			data.setBank(new HashMap<>());
+		}
+		if (data.getSnoozes() == null)
+		{
+			data.setSnoozes(new HashMap<>());
+		}
+		if (data.getIgnores() == null)
+		{
+			data.setIgnores(new HashSet<>());
+		}
+		if (data.getPins() == null)
+		{
+			data.setPins(new ArrayList<>());
+		}
+		return data;
 	}
 
 	private Path fileFor(long accountHash)

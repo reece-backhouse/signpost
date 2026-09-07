@@ -36,8 +36,11 @@ public final class PrefsResolver
 			String goalId = entry.getKey();
 			Snooze snooze = entry.getValue();
 			GoalStatus status = byId.get(goalId);
-			boolean fingerprintMatches = status != null && snooze.getGapFingerprint().equals(GapFingerprint.of(status));
-			boolean timeActive = now.isBefore(snooze.getUntil());
+			// A null fingerprint means "not known when snoozed" (no Advice yet): the snooze is
+			// time-only rather than silently lost. A null until (hand-edited file) is expired.
+			boolean fingerprintMatches = snooze.getGapFingerprint() == null
+				|| (status != null && snooze.getGapFingerprint().equals(GapFingerprint.of(status)));
+			boolean timeActive = snooze.getUntil() != null && now.isBefore(snooze.getUntil());
 			if (timeActive && fingerprintMatches)
 			{
 				snoozedActive.add(goalId);

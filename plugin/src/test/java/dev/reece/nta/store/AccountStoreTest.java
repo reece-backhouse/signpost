@@ -26,6 +26,23 @@ class AccountStoreTest
 		store = new AccountStore(dir, new Gson());
 	}
 
+	/** Final-review ledger 50: Gson leaves omitted collections null; load must hand back something copy() and every mutation can use. */
+	@Test
+	void fileOmittingCollectionFieldsLoadsWithEmptyCollections() throws Exception
+	{
+		Files.createDirectories(dir);
+		Files.writeString(dir.resolve("42.json"), "{\"focusGoalId\":\"quest:1\"}");
+
+		AccountData data = store.load(42L);
+
+		assertEquals("quest:1", data.getFocusGoalId());
+		assertEquals(Map.of(), data.getBank());
+		assertEquals(Map.of(), data.getSnoozes());
+		assertEquals(Set.of(), data.getIgnores());
+		assertEquals(List.of(), data.getPins());
+		assertEquals(data, data.copy());
+	}
+
 	@Test
 	void savedDataRoundTripsThroughLoad()
 	{
