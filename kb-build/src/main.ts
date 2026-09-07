@@ -1,12 +1,28 @@
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { buildDiaries, DIARY_PAGE_TITLES, type DiaryEntry, type DiaryVarsFile } from './diaries.js';
 import { writeKb } from './emit.js';
+import { buildMaterials, collectReferencedItems, resolveItemIds, type DropslineRow, type ItemIdRow, type LoclineRow, type Material, type StorelineRow } from './materials.js';
+import { mergeRecipes, parseRecipeRow, parseSkillCalc, type Method, type RecipeRow } from './methods.js';
 import { buildQuests, type QuestEntry } from './quests.js';
 import { parseQuestreq } from './questreq.js';
-import { fetchRevisions } from './wiki.js';
+import { bucket, fetchPriceMapping, fetchRevisions } from './wiki.js';
 
 const dataDir = join(import.meta.dirname, '..', 'data');
+const kbDir = join(import.meta.dirname, '..', '..', 'plugin', 'src', 'main', 'resources', 'kb');
+
+// Ruling 6: the nine planned skills with a `Module:Skill calc/<Skill>` wiki module.
+const METHOD_SKILLS = [
+  'Herblore',
+  'Prayer',
+  'Crafting',
+  'Smithing',
+  'Cooking',
+  'Fletching',
+  'Construction',
+  'Magic',
+  'Firemaking',
+];
 
 async function buildQuestsCommand(): Promise<void> {
   const runeliteQuests: { id: number; name: string }[] = JSON.parse(
@@ -74,12 +90,140 @@ function logDiarySummary(diaries: DiaryEntry[]): void {
   }
 }
 
+async function buildMethodsCommand(): Promise<void> {
+  const calcTitles = METHOD_SKILLS.map((skill) => `Module:Skill calc/${skill}`);
+  const pages = await fetchRevisions(calcTitles);
+
+  const allMethods: Method[] = [];
+  for (const skill of METHOD_SKILLS) {
+    const title = `Module:Skill calc/${skill}`;
+    const page = pages.get(title);
+    if (!page) {
+      throw new Error(`Wiki page missing from response: ${title}`);
+    }
+
+    const baseMethods = parseSkillCalc(page.content, skill);
+
+    const rawRecipes = await bucket<{ page_name: string; production_json: string }>(
+      `bucket('recipe').select('page_name','production_json','uses_skill').where('uses_skill','${skill}')`,
+    );
+    const recipes = rawRecipes
+      .map((row) => parseRecipeRow(row.production_json))
+      .filter((row): row is RecipeRow => row !== null);
+
+    allMethods.push(...mergeRecipes(baseMethods, recipes));
+  }
+
+  allMethods.sort((a, b) => a.skill.localeCompare(b.skill) || a.levelReq - b.levelReq || a.name.localeCompare(b.name));
+
+  // Ruling 21: generatedAt is the max wiki revision timestamp fetched.
+  const generatedAt = [...pages.values()].map((p) => p.timestamp).sort().at(-1)!;
+
+  writeKb('methods', { methods: allMethods }, generatedAt);
+  logMethodsSummary(allMethods);
+}
+
+function logMethodsSummary(methods: Method[]): void {
+  const bySkill = new Map<string, { total: number; intermediate: number }>();
+  for (const method of methods) {
+    const entry = bySkill.get(method.skill) ?? { total: 0, intermediate: 0 };
+    entry.total++;
+    if (method.intermediate) entry.intermediate++;
+    bySkill.set(method.skill, entry);
+  }
+
+  console.log(`Built ${methods.length} methods:`);
+  for (const [skill, { total, intermediate }] of bySkill) {
+    console.log(`  ${skill}: ${total} (${intermediate} intermediate)`);
+  }
+}
+
+/** Reads plugin/src/main/resources/kb/<name>.json, already-built by this pipeline. */
+function readKb<T>(name: string): T & { generatedAt: string } {
+  const path = join(kbDir, `${name}.json`);
+  if (!existsSync(path)) {
+    throw new Error(`${path} does not exist; run 'npm run build-kb -- ${name}' first`);
+  }
+  return JSON.parse(readFileSync(path, 'utf8')) as T & { generatedAt: string };
+}
+
+const MILESTONES_DRAFT_PATH =
+  '/Users/reece/projects/runelite/.superpowers/sdd/LOCAL-next-target-advisor/milestones-draft.json';
+
+/** milestones.json doesn't exist in this worktree yet (S4 lands it on main); falls back to the hand-curated draft. */
+function readMilestones(): { milestones: { requirements: { items: { name: string }[] }; ownedIf: { name: string }[] }[] } {
+  const committedPath = join(kbDir, 'milestones.json');
+  const path = existsSync(committedPath) ? committedPath : MILESTONES_DRAFT_PATH;
+  return JSON.parse(readFileSync(path, 'utf8'));
+}
+
+async function buildMaterialsCommand(): Promise<void> {
+  const methodsFile = readKb<{ methods: Method[] }>('methods');
+  const quests = readKb<{ quests: QuestEntry[] }>('quests');
+  const diaries = readKb<{ diaries: DiaryEntry[] }>('diaries');
+  const milestones = readMilestones();
+
+  const names = collectReferencedItems({
+    methods: methodsFile.methods,
+    quests: quests.quests,
+    diaries: diaries.diaries,
+    milestones: milestones.milestones,
+  });
+
+  const mapping = await fetchPriceMapping();
+
+  const rawItemIdRows = await bucket<{ page_name: string; id: string[] }>("bucket('item_id').select('page_name','id')");
+  const itemIdRows: ItemIdRow[] = rawItemIdRows.map((row) => ({ page_name: row.page_name, id: row.id.map(Number) }));
+
+  const resolved = resolveItemIds(names, mapping, itemIdRows);
+  const unresolved = names.filter((name) => resolved.get(name)?.id === null);
+
+  const storelineRows = await bucket<StorelineRow>("bucket('storeline').select('sold_item','sold_by','store_buy_price','store_stock')");
+  const droplineRows = await bucket<DropslineRow>("bucket('dropsline').select('item_name','page_name','drop_json')");
+  const loclineRows = await bucket<LoclineRow>("bucket('locline').select('page_name','coordinates')");
+
+  console.log(
+    `Fetched Bucket rows: item_id=${itemIdRows.length}, storeline=${storelineRows.length}, dropsline=${droplineRows.length}, locline=${loclineRows.length}, mapping=${mapping.length}`,
+  );
+
+  const materials = buildMaterials({ names, resolved, mapping, storelineRows, droplineRows, loclineRows, methods: methodsFile.methods });
+
+  // generatedAt: mapping/Bucket fetch time is not deterministic, so reuse the max
+  // wiki revision timestamp already carried by methods/quests/diaries (ruling 21).
+  const generatedAt = [methodsFile.generatedAt, quests.generatedAt, diaries.generatedAt].sort().at(-1)!;
+
+  writeKb('materials', { materials }, generatedAt);
+  logMaterialsSummary(materials, unresolved);
+}
+
+function logMaterialsSummary(materials: Material[], unresolved: string[]): void {
+  const generic = materials.filter((m) => m.generic).length;
+  const sourceCounts = new Map<string, number>();
+  for (const material of materials) {
+    for (const source of material.sources) {
+      sourceCounts.set(source.type, (sourceCounts.get(source.type) ?? 0) + 1);
+    }
+  }
+
+  console.log(`Built ${materials.length} materials (${generic} generic/unresolved):`);
+  for (const [type, count] of sourceCounts) {
+    console.log(`  ${type} sources: ${count}`);
+  }
+  if (unresolved.length > 0) {
+    console.log(`Unresolved item names (${unresolved.length}): ${unresolved.join(', ')}`);
+  }
+}
+
 const command = process.argv[2];
 if (command === 'quests') {
   await buildQuestsCommand();
 } else if (command === 'diaries') {
   await buildDiariesCommand();
+} else if (command === 'methods') {
+  await buildMethodsCommand();
+} else if (command === 'materials') {
+  await buildMaterialsCommand();
 } else {
-  console.error(`Unknown command: ${String(command)}. Usage: npm run build-kb -- quests|diaries`);
+  console.error(`Unknown command: ${String(command)}. Usage: npm run build-kb -- quests|diaries|methods|materials`);
   process.exit(1);
 }

@@ -1,12 +1,7 @@
 import type { Method } from './methods.js';
+import type { PriceMappingEntry } from './wiki.js';
 
-export interface PriceMappingEntry {
-  id: number;
-  name: string;
-  members: boolean;
-  value: number;
-  limit?: number;
-}
+export type { PriceMappingEntry } from './wiki.js';
 
 export interface ItemIdRow {
   page_name: string;

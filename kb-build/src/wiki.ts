@@ -97,6 +97,25 @@ interface BucketApiResponse<T> {
   bucket?: T[];
 }
 
+const MAPPING_URL = 'https://prices.runescape.wiki/api/v1/osrs/mapping';
+
+export interface PriceMappingEntry {
+  id: number;
+  name: string;
+  members: boolean;
+  value: number;
+  limit?: number;
+}
+
+/** Fetches the OSRS Wiki prices API's item mapping (tradeable items only). */
+export async function fetchPriceMapping(f: FetchLike = fetch): Promise<PriceMappingEntry[]> {
+  const response = await f(MAPPING_URL, { headers: { 'User-Agent': USER_AGENT } });
+  if (!response.ok) {
+    throw new Error(`Price mapping request failed: HTTP ${response.status} ${response.statusText}`);
+  }
+  return (await response.json()) as PriceMappingEntry[];
+}
+
 export async function bucket<T>(query: string, f: FetchLike = fetch): Promise<T[]> {
   const rows: T[] = [];
 
