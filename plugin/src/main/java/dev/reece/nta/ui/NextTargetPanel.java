@@ -1,5 +1,7 @@
 package dev.reece.nta.ui;
 
+import dev.reece.nta.engine.model.Advice;
+import dev.reece.nta.engine.model.GoalStatus;
 import dev.reece.nta.snapshot.Snapshot;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
@@ -30,6 +32,7 @@ public class NextTargetPanel extends PluginPanel
 	private final JLabel questsLabel = new JLabel();
 	private final JLabel totalLevelLabel = new JLabel();
 	private final JLabel bankLabel = new JLabel();
+	private final JLabel goalsLabel = new JLabel();
 	private final JLabel kbFooterLabel = new JLabel("KB: not loaded");
 
 	public NextTargetPanel(Runnable onRefresh)
@@ -42,6 +45,7 @@ public class NextTargetPanel extends PluginPanel
 		header.add(questsLabel);
 		header.add(totalLevelLabel);
 		header.add(bankLabel);
+		header.add(goalsLabel);
 		header.add(Box.createVerticalStrut(8));
 
 		JButton refreshButton = new JButton("Refresh");
@@ -78,15 +82,17 @@ public class NextTargetPanel extends PluginPanel
 	}
 
 	/**
-	 * Renders {@code snapshot}. Must be called on the EDT; the caller (the plugin) is responsible
+	 * Renders {@code advice}. Must be called on the EDT; the caller (the plugin) is responsible
 	 * for dispatching via {@link SwingUtilities#invokeLater}.
 	 */
-	public void render(Snapshot snapshot)
+	public void render(Advice advice)
 	{
 		if (!SwingUtilities.isEventDispatchThread())
 		{
 			throw new IllegalStateException("NextTargetPanel.render must run on the EDT");
 		}
+
+		Snapshot snapshot = advice.getSnapshot();
 
 		accountTypeLabel.setText("Account type: " + snapshot.getAccountType());
 
@@ -105,5 +111,9 @@ public class NextTargetPanel extends PluginPanel
 			String time = BANK_TIME_FORMAT.withZone(ZoneId.systemDefault()).format(snapshot.getBankAsOf());
 			bankLabel.setText("Bank as of " + time);
 		}
+
+		long ready = advice.getStatuses().stream().filter(GoalStatus::isReady).count();
+		long withGaps = advice.getStatuses().stream().filter(s -> !s.getGaps().isEmpty()).count();
+		goalsLabel.setText("Goals: " + ready + " ready, " + withGaps + " with gaps");
 	}
 }
