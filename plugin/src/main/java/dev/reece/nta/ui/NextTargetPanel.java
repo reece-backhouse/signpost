@@ -37,6 +37,7 @@ public class NextTargetPanel extends PluginPanel
 	private final JLabel kbFooterLabel = new JLabel("KB: not loaded");
 	private final SuggestPanel suggestPanel;
 	private final GoalDetailPanel goalDetailPanel;
+	private final GoalSearchField goalSearchField;
 	private final JPanel body = new JPanel(new CardLayout());
 
 	private static final String SUGGEST_CARD = "suggest";
@@ -46,6 +47,7 @@ public class NextTargetPanel extends PluginPanel
 	{
 		suggestPanel = new SuggestPanel(actions);
 		goalDetailPanel = new GoalDetailPanel(detailActions);
+		goalSearchField = new GoalSearchField(detailActions.getFocus());
 		body.add(suggestPanel, SUGGEST_CARD);
 		body.add(goalDetailPanel, DETAIL_CARD);
 
@@ -69,7 +71,12 @@ public class NextTargetPanel extends PluginPanel
 		footer.setBorder(BorderFactory.createEmptyBorder(8, 0, 0, 0));
 		footer.add(kbFooterLabel);
 
-		add(header, BorderLayout.NORTH);
+		JPanel north = new JPanel();
+		north.setLayout(new BoxLayout(north, BoxLayout.Y_AXIS));
+		north.add(header);
+		north.add(goalSearchField);
+
+		add(north, BorderLayout.NORTH);
 		add(body, BorderLayout.CENTER);
 		add(footer, BorderLayout.SOUTH);
 	}
@@ -128,6 +135,8 @@ public class NextTargetPanel extends PluginPanel
 		long ready = advice.getStatuses().stream().filter(GoalStatus::isReady).count();
 		long withGaps = advice.getStatuses().stream().filter(s -> !s.getGaps().isEmpty()).count();
 		goalsLabel.setText("Goals: " + ready + " ready, " + withGaps + " with gaps");
+
+		goalSearchField.render(advice);
 
 		CardLayout cardLayout = (CardLayout) body.getLayout();
 		if (advice.getFocus() != null)

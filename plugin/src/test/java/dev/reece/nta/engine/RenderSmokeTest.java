@@ -6,7 +6,10 @@ import dev.reece.nta.kb.MilestoneCategory;
 import dev.reece.nta.snapshot.Snapshot;
 import dev.reece.nta.store.AccountData;
 import dev.reece.nta.ui.GoalDetailPanel;
+import dev.reece.nta.ui.GoalSearchField;
 import dev.reece.nta.ui.SuggestPanel;
+import java.awt.Component;
+import java.awt.Container;
 import java.awt.HeadlessException;
 import java.lang.reflect.InvocationTargetException;
 import java.time.Instant;
@@ -14,12 +17,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.function.Consumer;
+import javax.swing.JButton;
+import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import net.runelite.api.Skill;
 import org.junit.jupiter.api.Assumptions;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Task 30: not a behaviour test (the Swing panel isn't unit-tested per the plan) - just a smoke
@@ -104,5 +110,82 @@ class RenderSmokeTest
 			}
 			throw e;
 		}
+	}
+
+	/**
+	 * Task 47: {@link GoalSearchField} - hand-built {@link Advice} carrying an unowned "Barrows
+	 * gloves" milestone, typing a substring of its name into the field, and checking the results
+	 * list surfaces a "Barrows gloves" result button.
+	 */
+	@Test
+	void goalSearchFieldFindsAMatchingGoalWithoutThrowing() throws Exception
+	{
+		KnowledgeBase kb = new KbBuilder()
+			.milestone("m:barrows-gloves", MilestoneCategory.GEAR, "Barrows gloves", 8)
+			.ownedIf("Barrows gloves", 7462)
+			.skill(Skill.DEFENCE, 40)
+			.build();
+		Snapshot snapshot = new SnapshotBuilder().build();
+		Advice advice = new Engine(new BoostTable()).run(snapshot, kb, AccountData.empty(), Instant.now());
+
+		try
+		{
+			SwingUtilities.invokeAndWait(() ->
+			{
+				GoalSearchField field = new GoalSearchField(id -> { });
+				field.render(advice);
+
+				JTextField textField = findTextField(field);
+				assertNotNull(textField, "GoalSearchField must contain a JTextField to type a query into");
+				textField.setText("barrows");
+
+				assertTrue(containsButtonWithText(field, "Barrows gloves"),
+					"search results should list a goal whose name contains the typed substring");
+			});
+		}
+		catch (InvocationTargetException e)
+		{
+			if (e.getCause() instanceof HeadlessException)
+			{
+				Assumptions.abort("Headless environment cannot construct Swing components: " + e.getCause().getMessage());
+			}
+			throw e;
+		}
+	}
+
+	private static JTextField findTextField(Container container)
+	{
+		for (Component child : container.getComponents())
+		{
+			if (child instanceof JTextField)
+			{
+				return (JTextField) child;
+			}
+			if (child instanceof Container)
+			{
+				JTextField found = findTextField((Container) child);
+				if (found != null)
+				{
+					return found;
+				}
+			}
+		}
+		return null;
+	}
+
+	private static boolean containsButtonWithText(Container container, String text)
+	{
+		for (Component child : container.getComponents())
+		{
+			if (child instanceof JButton && text.equals(((JButton) child).getText()))
+			{
+				return true;
+			}
+			if (child instanceof Container && containsButtonWithText((Container) child, text))
+			{
+				return true;
+			}
+		}
+		return false;
 	}
 }

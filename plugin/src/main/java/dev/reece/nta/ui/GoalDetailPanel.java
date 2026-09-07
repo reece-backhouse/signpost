@@ -15,7 +15,6 @@ import dev.reece.nta.engine.model.KudosGap;
 import dev.reece.nta.engine.model.NextStep;
 import dev.reece.nta.engine.model.QuestPointsGap;
 import dev.reece.nta.engine.model.QuestPrereqGap;
-import dev.reece.nta.engine.model.RankedGoal;
 import dev.reece.nta.engine.model.Route;
 import dev.reece.nta.engine.model.RouteStep;
 import dev.reece.nta.engine.model.Shortfall;
@@ -29,10 +28,8 @@ import java.awt.Component;
 import java.awt.Font;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import javax.swing.BorderFactory;
@@ -40,10 +37,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 import lombok.Value;
 import net.runelite.api.QuestState;
 import net.runelite.client.ui.FontManager;
@@ -52,14 +46,13 @@ import net.runelite.client.util.LinkBrowser;
 /**
  * Goal detail view (task 39, spec ruling 26): shown by {@link NextTargetPanel} instead of
  * {@link SuggestPanel} whenever {@link Advice#getFocus()} is non-null - the drill-down from a
- * Suggest card's "Do this", or from the search box below. Renders {@link Advice} only; every
- * button calls back into a plugin action ({@link Actions}), except the "Wiki" buttons which open
- * the system browser directly via {@link LinkBrowser} (a pure UI action, not a mutation).
+ * Suggest card's "Do this", or from the persistent search box {@link NextTargetPanel} hosts above
+ * both modes (task 47, see {@link GoalSearchField}). Renders {@link Advice} only; every button
+ * calls back into a plugin action ({@link Actions}), except the "Wiki" buttons which open the
+ * system browser directly via {@link LinkBrowser} (a pure UI action, not a mutation).
  */
 public class GoalDetailPanel extends JPanel
 {
-	private static final int MAX_SEARCH_RESULTS = 8;
-
 	private final Actions actions;
 
 	private final JLabel titleLabel = new JLabel();
@@ -71,8 +64,6 @@ public class GoalDetailPanel extends JPanel
 	private final JPanel nextPanel = new JPanel();
 	private final JPanel shortSection = new JPanel();
 	private final JPanel shortPanel = new JPanel();
-	private final JTextField searchField = new JTextField();
-	private final JPanel searchResultsPanel = new JPanel();
 
 	private Advice currentAdvice;
 	private String currentWikiUrl;
@@ -129,34 +120,6 @@ public class GoalDetailPanel extends JPanel
 		shortPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
 		shortSection.add(shortPanel);
 		add(shortSection);
-
-		add(SuggestPanel.sectionLabel("Search"));
-		searchField.setAlignmentX(Component.LEFT_ALIGNMENT);
-		searchField.setMaximumSize(new java.awt.Dimension(Integer.MAX_VALUE, searchField.getPreferredSize().height));
-		searchField.getDocument().addDocumentListener(new DocumentListener()
-		{
-			@Override
-			public void insertUpdate(DocumentEvent e)
-			{
-				updateSearchResults();
-			}
-
-			@Override
-			public void removeUpdate(DocumentEvent e)
-			{
-				updateSearchResults();
-			}
-
-			@Override
-			public void changedUpdate(DocumentEvent e)
-			{
-				updateSearchResults();
-			}
-		});
-		add(searchField);
-		searchResultsPanel.setLayout(new BoxLayout(searchResultsPanel, BoxLayout.Y_AXIS));
-		searchResultsPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
-		add(searchResultsPanel);
 	}
 
 	/** Renders {@code advice}. Must be called on the EDT. Requires {@code advice.getFocus() != null}. */
@@ -204,9 +167,6 @@ public class GoalDetailPanel extends JPanel
 		{
 			shortPanel.add(shortfallContent(focus.getShortfall()));
 		}
-
-		searchField.setText("");
-		searchResultsPanel.removeAll();
 
 		revalidate();
 		repaint();
@@ -449,60 +409,6 @@ public class GoalDetailPanel extends JPanel
 		return container;
 	}
 
-	// --- Search (ticket E1) ---
-
-	private void updateSearchResults()
-	{
-		Advice advice = currentAdvice;
-		searchResultsPanel.removeAll();
-		if (advice == null)
-		{
-			searchResultsPanel.revalidate();
-			searchResultsPanel.repaint();
-			return;
-		}
-
-		String query = searchField.getText().trim().toLowerCase();
-		if (!query.isEmpty())
-		{
-			Set<String> seen = new LinkedHashSet<>();
-			List<RankedGoal> pool = new ArrayList<>();
-			for (RankedGoal r : advice.getRanked())
-			{
-				if (seen.add(r.getStatus().getGoal().getId()))
-				{
-					pool.add(r);
-				}
-			}
-			for (RankedGoal r : advice.getLater())
-			{
-				if (seen.add(r.getStatus().getGoal().getId()))
-				{
-					pool.add(r);
-				}
-			}
-
-			int shown = 0;
-			for (RankedGoal r : pool)
-			{
-				if (shown >= MAX_SEARCH_RESULTS)
-				{
-					break;
-				}
-				Goal goal = r.getStatus().getGoal();
-				if (goal.getName().toLowerCase().contains(query))
-				{
-					String goalId = goal.getId();
-					searchResultsPanel.add(SuggestPanel.button(goal.getName(), () -> actions.getFocus().accept(goalId)));
-					shown++;
-				}
-			}
-		}
-
-		searchResultsPanel.revalidate();
-		searchResultsPanel.repaint();
-	}
-
 	private static JLabel row(String text, int indent)
 	{
 		JLabel label = new JLabel(SuggestPanel.wrap(text));
@@ -512,7 +418,12 @@ public class GoalDetailPanel extends JPanel
 		return label;
 	}
 
-	/** The plugin action methods a button here calls into: {@code focus} for a search result, {@code clearFocus} for "Back". */
+	/**
+	 * The plugin action methods a button here calls into: {@code clearFocus} for "Back". {@code focus}
+	 * is unused by this panel directly - {@link NextTargetPanel} reuses it to wire up the persistent
+	 * {@link GoalSearchField} it hosts above both modes (task 47) - but stays part of this shape since
+	 * the plugin constructs both from the same pair of methods.
+	 */
 	@Value
 	public static class Actions
 	{
