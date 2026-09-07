@@ -1,9 +1,14 @@
 package dev.reece.nta.engine;
 
 import dev.reece.nta.engine.model.Advice;
+import dev.reece.nta.engine.model.FocusDetail;
 import dev.reece.nta.engine.model.GoalStatus;
+import dev.reece.nta.engine.model.NextStep;
+import dev.reece.nta.engine.model.NextStepType;
 import dev.reece.nta.engine.model.PrefsView;
 import dev.reece.nta.engine.model.RankedGoal;
+import dev.reece.nta.engine.model.Route;
+import dev.reece.nta.engine.model.Shortfall;
 import dev.reece.nta.kb.KnowledgeBase;
 import dev.reece.nta.kb.MilestoneEntry;
 import dev.reece.nta.snapshot.DiaryTier;
@@ -32,6 +37,7 @@ public class Engine
 	Ranker ranker;
 	SuggestSelector suggestSelector;
 	WhyBuilder whyBuilder;
+	NextStepPicker nextStepPicker;
 
 	public Engine(BoostTable boostTable)
 	{
@@ -41,6 +47,7 @@ public class Engine
 		this.ranker = new Ranker();
 		this.suggestSelector = new SuggestSelector();
 		this.whyBuilder = new WhyBuilder();
+		this.nextStepPicker = new NextStepPicker();
 	}
 
 	public Advice run(Snapshot snapshot, KnowledgeBase kb, AccountData data, Instant now)
@@ -69,12 +76,55 @@ public class Engine
 			}
 		}
 
-		return new Advice(snapshot, statuses, diaryProgress, now, ranked, picked, rest, accountStage, later, whys, reasons, prefs);
+		FocusDetail focus = computeFocus(prefs, statuses, snapshot, kb);
+
+		return new Advice(snapshot, statuses, diaryProgress, now, ranked, picked, rest, accountStage, later, whys, reasons, prefs, focus);
 	}
 
 	/** Thin overload for callers with no account data (e.g. existing tests): behaves as {@link #run} with an empty {@link AccountData} and the current time. */
 	public Advice run(Snapshot snapshot, KnowledgeBase kb)
 	{
 		return run(snapshot, kb, AccountData.empty(), Instant.now());
+	}
+
+	/**
+	 * Ticket E: computes the focus goal's full drill-down when {@code prefs.focusGoalId} matches a
+	 * goal in {@code statuses} (ready or not - not filtered by hidden/snoozed/ignored, so a focused
+	 * goal stays visible in Focus mode even if hidden from Suggest mode); {@code null} when no goal
+	 * is focused or the focused goal is no longer present (e.g. completed, so
+	 * {@link GapEngine#evaluate} no longer emits it). Reuses the same {@link NextStep}/{@link Route}/
+	 * {@link Shortfall} objects {@link NextStepPicker} and {@link ShortfallResolver} compute - never
+	 * a second computation.
+	 */
+	private FocusDetail computeFocus(PrefsView prefs, List<GoalStatus> statuses, Snapshot snapshot, KnowledgeBase kb)
+	{
+		String focusGoalId = prefs.getFocusGoalId();
+		if (focusGoalId == null)
+		{
+			return null;
+		}
+
+		GoalStatus status = null;
+		for (GoalStatus candidate : statuses)
+		{
+			if (candidate.getGoal().getId().equals(focusGoalId))
+			{
+				status = candidate;
+				break;
+			}
+		}
+		if (status == null)
+		{
+			return null;
+		}
+
+		NextStep next = nextStepPicker.next(status, snapshot, kb);
+		Route route = next.getType() == NextStepType.SKILL ? next.getRoute() : null;
+		Shortfall shortfall = route != null && route.getUncoveredXp() > 0
+			? ShortfallResolver.resolve(next.getSkillGap().getSkill(), route, kb, snapshot.getAccountType())
+			: null;
+		int fromLevel = next.getType() == NextStepType.SKILL ? next.getSkillGap().getHave() : 0;
+		int toLevel = next.getType() == NextStepType.SKILL ? next.getSkillGap().getNeed() : 0;
+		return new FocusDetail(status, next, route, shortfall, fromLevel, toLevel);
 	}
 }

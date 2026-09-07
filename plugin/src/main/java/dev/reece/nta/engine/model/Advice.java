@@ -33,6 +33,8 @@ public class Advice
 	/** A milestone/slayer-target/boss goal's curated KB {@code reason} text, keyed by goal id. Absent for goals with none (quests, diaries, or a milestone with no reason text) - the panel must never read the {@link dev.reece.nta.kb.KnowledgeBase} itself. */
 	Map<String, String> reasons;
 	PrefsView prefs;
+	/** The player's active focus goal drill-down (ticket E, spec ruling 26), or {@code null} when no goal is focused or the focused goal is no longer present (e.g. completed) among {@code statuses}. */
+	FocusDetail focus;
 
 	public Advice(
 		Snapshot snapshot,
@@ -46,7 +48,8 @@ public class Advice
 		List<RankedGoal> later,
 		Map<String, String> whys,
 		Map<String, String> reasons,
-		PrefsView prefs)
+		PrefsView prefs,
+		FocusDetail focus)
 	{
 		this.snapshot = snapshot;
 		this.statuses = List.copyOf(statuses);
@@ -60,5 +63,6 @@ public class Advice
 		this.whys = Map.copyOf(whys);
 		this.reasons = Map.copyOf(reasons);
 		this.prefs = prefs;
+		this.focus = focus;
 	}
 }

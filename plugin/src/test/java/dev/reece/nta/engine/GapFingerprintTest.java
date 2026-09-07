@@ -94,7 +94,7 @@ class GapFingerprintTest
 	{
 		GoalStatus status = status(List.of(
 			skillGap(Skill.MINING, 20, 30),
-			new QuestPrereqGap(Quest.COOKS_ASSISTANT, QuestState.NOT_STARTED, true, false),
+			new QuestPrereqGap(Quest.COOKS_ASSISTANT, QuestState.NOT_STARTED, true, false, "https://example.test/w/Cook's_Assistant"),
 			new ItemGap("Egg", 0, 1, List.of(), false),
 			new QuestPointsGap(5, 10),
 			new KudosGap(0, 5),

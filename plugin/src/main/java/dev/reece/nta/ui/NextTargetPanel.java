@@ -4,6 +4,7 @@ import dev.reece.nta.engine.model.Advice;
 import dev.reece.nta.engine.model.GoalStatus;
 import dev.reece.nta.snapshot.Snapshot;
 import java.awt.BorderLayout;
+import java.awt.CardLayout;
 import java.awt.GridLayout;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
@@ -35,10 +36,18 @@ public class NextTargetPanel extends PluginPanel
 	private final JLabel goalsLabel = new JLabel();
 	private final JLabel kbFooterLabel = new JLabel("KB: not loaded");
 	private final SuggestPanel suggestPanel;
+	private final GoalDetailPanel goalDetailPanel;
+	private final JPanel body = new JPanel(new CardLayout());
 
-	public NextTargetPanel(Runnable onRefresh, SuggestPanel.Actions actions)
+	private static final String SUGGEST_CARD = "suggest";
+	private static final String DETAIL_CARD = "detail";
+
+	public NextTargetPanel(Runnable onRefresh, SuggestPanel.Actions actions, GoalDetailPanel.Actions detailActions)
 	{
 		suggestPanel = new SuggestPanel(actions);
+		goalDetailPanel = new GoalDetailPanel(detailActions);
+		body.add(suggestPanel, SUGGEST_CARD);
+		body.add(goalDetailPanel, DETAIL_CARD);
 
 		setLayout(new BorderLayout());
 
@@ -61,7 +70,7 @@ public class NextTargetPanel extends PluginPanel
 		footer.add(kbFooterLabel);
 
 		add(header, BorderLayout.NORTH);
-		add(suggestPanel, BorderLayout.CENTER);
+		add(body, BorderLayout.CENTER);
 		add(footer, BorderLayout.SOUTH);
 	}
 
@@ -120,6 +129,16 @@ public class NextTargetPanel extends PluginPanel
 		long withGaps = advice.getStatuses().stream().filter(s -> !s.getGaps().isEmpty()).count();
 		goalsLabel.setText("Goals: " + ready + " ready, " + withGaps + " with gaps");
 
-		suggestPanel.render(advice);
+		CardLayout cardLayout = (CardLayout) body.getLayout();
+		if (advice.getFocus() != null)
+		{
+			goalDetailPanel.render(advice);
+			cardLayout.show(body, DETAIL_CARD);
+		}
+		else
+		{
+			suggestPanel.render(advice);
+			cardLayout.show(body, SUGGEST_CARD);
+		}
 	}
 }

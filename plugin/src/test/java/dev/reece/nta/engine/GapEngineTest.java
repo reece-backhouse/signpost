@@ -76,6 +76,22 @@ class GapEngineTest
 		assertTrue(gap.isStartHere());
 	}
 
+	/** Fix round 1: {@code wikiUrl} must come from the kb's {@code wikiTitle}, not {@code Quest.getName()} - a subquest like a Recipe for Disaster one has a wiki title the RuneLite quest name doesn't (e.g. a "Recipe for Disaster/" prefix), so building it from the name 404s. */
+	@Test
+	void c1QuestPrereqGapWikiUrlUsesTheKbWikiTitleNotTheQuestName()
+	{
+		KnowledgeBase kb = new KbBuilder()
+			.quest(CLOCK_TOWER_ID, "Clock Tower").prereq("Biohazard")
+			.quest(BIOHAZARD_ID, "Biohazard").wikiTitle("Recipe for Disaster/Freeing the Mountain Dwarf")
+			.build();
+		Snapshot snapshot = new SnapshotBuilder().quest(Quest.BIOHAZARD, QuestState.NOT_STARTED).build();
+
+		GoalStatus status = goalFor(engine.evaluate(snapshot, kb), "quest:" + CLOCK_TOWER_ID);
+		QuestPrereqGap gap = (QuestPrereqGap) onlyGap(status);
+
+		assertEquals("https://oldschool.runescape.wiki/w/Recipe_for_Disaster/Freeing_the_Mountain_Dwarf", gap.getWikiUrl());
+	}
+
 	@Test
 	void c1ItemGapProducedWhenBankShort()
 	{
@@ -242,7 +258,10 @@ class GapEngineTest
 	@Test
 	void startedPrereqNotSatisfiedWhenQuestNotStarted()
 	{
-		KnowledgeBase kb = new KbBuilder().quest(CLOCK_TOWER_ID, "Clock Tower").prereqStarted("Biohazard").build();
+		KnowledgeBase kb = new KbBuilder()
+			.quest(CLOCK_TOWER_ID, "Clock Tower").prereqStarted("Biohazard")
+			.quest(BIOHAZARD_ID, "Biohazard")
+			.build();
 		Snapshot snapshot = new SnapshotBuilder().build();
 
 		GoalStatus status = goalFor(engine.evaluate(snapshot, kb), "quest:" + CLOCK_TOWER_ID);
