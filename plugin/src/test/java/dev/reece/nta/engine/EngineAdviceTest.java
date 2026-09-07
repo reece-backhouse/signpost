@@ -1,5 +1,8 @@
 package dev.reece.nta.engine;
 
+import dev.reece.nta.engine.model.GoalCategory;
+import dev.reece.nta.snapshot.AccountType;
+import dev.reece.nta.engine.model.GoalStatus;
 import com.google.gson.Gson;
 import dev.reece.nta.engine.model.Advice;
 import dev.reece.nta.engine.model.RankedGoal;
@@ -171,38 +174,7 @@ class EngineAdviceTest
 	void midGameAccountDoesNotSeeEndgameBossesAsReadyOrPicked()
 	{
 		KnowledgeBase kb = KnowledgeBase.load(new Gson());
-		SnapshotBuilder builder = new SnapshotBuilder()
-			.skill(Skill.ATTACK, 92)
-			.skill(Skill.STRENGTH, 92)
-			.skill(Skill.DEFENCE, 78)
-			.skill(Skill.HITPOINTS, 88)
-			.skill(Skill.RANGED, 72)
-			.skill(Skill.MAGIC, 77)
-			.skill(Skill.PRAYER, 45)
-			.skill(Skill.COOKING, 69).skill(Skill.WOODCUTTING, 69).skill(Skill.FLETCHING, 69).skill(Skill.FISHING, 69)
-			.skill(Skill.FIREMAKING, 69).skill(Skill.CRAFTING, 69).skill(Skill.SMITHING, 69).skill(Skill.MINING, 69)
-			.skill(Skill.HERBLORE, 69).skill(Skill.AGILITY, 69).skill(Skill.THIEVING, 69)
-			.skill(Skill.SLAYER, 68).skill(Skill.FARMING, 68).skill(Skill.RUNECRAFT, 68).skill(Skill.HUNTER, 68).skill(Skill.CONSTRUCTION, 68)
-			.quest(Quest.PERILOUS_MOONS, QuestState.FINISHED)
-			.quest(Quest.PRIEST_IN_PERIL, QuestState.FINISHED)
-			.inventoryItem(7462, "Barrows gloves", 1)   // in GWD/Bandos's recommended.gearOwnedAny (2 of 7 owned - short of the min 4).
-			.inventoryItem(9185, "Rune crossbow", 1)    // ditto.
-			.inventoryItem(27008, "Dragon defender (t)", 1) // a Dragon defender variant; not in GWD/Bandos/Moons's gear lists.
-			// Common early/mid-game gear a combat-105 account has long since picked up - owned so these
-			// zero/low-requirement milestones don't crowd out the GWD-vs-Moons comparison under test.
-			.inventoryItem(6570, "Fire cape", 1)
-			.inventoryItem(11865, "Slayer helmet (i)", 1)
-			.inventoryItem(10551, "Fighter torso", 1);
-		Quest[] quests = Quest.values();
-		// 186 of 211 bundled quests finished (plus Perilous Moons and Priest in Peril explicitly
-		// above): short of the questsFinished >= 190 stage-3 threshold, but high enough that the
-		// remaining unfinished quests don't flood the ranked list with unrelated "ready" candidates
-		// that would otherwise obscure the GWD-vs-Moons comparison this test is actually about.
-		for (int i = 0; i < 186; i++)
-		{
-			builder.quest(quests[i], QuestState.FINISHED);
-		}
-		Snapshot snapshot = builder.build();
+		Snapshot snapshot = midGameAccount().build();
 
 		Advice advice = engine.run(snapshot, kb, AccountData.empty(), now);
 
@@ -249,6 +221,82 @@ class EngineAdviceTest
 		assertFalse(advice.getRanked().isEmpty());
 		assertFalse(advice.getPicked().isEmpty());
 		assertEquals(advice.getRanked().size(), advice.getPicked().size() + advice.getRest().size());
+	}
+
+	/**
+	 * Task 51 (spec ruling 28): the same mid-game account, one Herblore level short of Song of the
+	 * Elves (priority 9) with a bank of Ranarr weed, Vials of water and Snape grass, gets a
+	 * "70 Herblore" skill target whose parent is Song of the Elves, whose route the bank covers,
+	 * and which is ranked above God Wars Dungeon (stage 3, like SotE, but not ready).
+	 */
+	@Test
+	void midGameAccountWithRanarrInTheBankGetsABankCoveredSeventyHerbloreTargetForSongOfTheElves()
+	{
+		KnowledgeBase kb = KnowledgeBase.load(new Gson());
+		Snapshot snapshot = midGameAccount()
+			.accountType(AccountType.GROUP)
+			.quest(Quest.SONG_OF_THE_ELVES, QuestState.NOT_STARTED) // among the first 186 Quest constants the fixture marks finished.
+			.bankItem(257, "Ranarr weed", 1000)
+			.bankItem(227, "Vial of water", 1000)
+			.bankItem(231, "Snape grass", 1000)
+			.build();
+
+		Advice advice = engine.run(snapshot, kb, AccountData.empty(), now);
+
+		GoalStatus target = advice.getStatuses().stream()
+			.filter(s -> s.getGoal().getId().equals("skill:HERBLORE:70"))
+			.findFirst().orElseThrow(() -> new AssertionError("no 70 Herblore target among " + advice.getStatuses().size() + " statuses"));
+		assertTrue(target.getParents().stream().anyMatch(p -> p.getId().equals("quest:" + Quest.SONG_OF_THE_ELVES.getId())), target.getParents().toString());
+		assertTrue(target.isBankCovered(), "1000 ranarr/vials/snape grass cover 69->70: " + target.getBankRoute());
+
+		List<String> rankedIds = new ArrayList<>(ids(advice.getRanked()));
+		int herblore = rankedIds.indexOf("skill:HERBLORE:70");
+		int gwd = rankedIds.indexOf("boss:god-wars-dungeon");
+		int moons = rankedIds.indexOf("boss:moons-of-peril");
+		assertTrue(herblore >= 0 && gwd >= 0 && moons >= 0, rankedIds.toString());
+		assertTrue(herblore < gwd, "70 Herblore (" + herblore + ") must rank above GWD (" + gwd + ")");
+		assertTrue(herblore < moons, "70 Herblore (" + herblore + ", bank covered, priority 9) must rank above Moons (" + moons + ")");
+		assertTrue(ids(advice.getPicked()).contains("skill:HERBLORE:70"), "top of the rest tier, and a non-quest category for slot three: " + ids(advice.getPicked()));
+		System.out.println("mid-game account top three (task 51): " + advice.getPicked().stream()
+			.map(r -> r.getStatus().getGoal().getId() + " \"" + r.getStatus().getGoal().getName() + "\"")
+			.collect(Collectors.toList()));
+	}
+
+	/** The mid-game group ironman account described on {@link #midGameAccountDoesNotSeeEndgameBossesAsReadyOrPicked}. */
+	private static SnapshotBuilder midGameAccount()
+	{
+		SnapshotBuilder builder = new SnapshotBuilder()
+			.skill(Skill.ATTACK, 92)
+			.skill(Skill.STRENGTH, 92)
+			.skill(Skill.DEFENCE, 78)
+			.skill(Skill.HITPOINTS, 88)
+			.skill(Skill.RANGED, 72)
+			.skill(Skill.MAGIC, 77)
+			.skill(Skill.PRAYER, 45)
+			.skill(Skill.COOKING, 69).skill(Skill.WOODCUTTING, 69).skill(Skill.FLETCHING, 69).skill(Skill.FISHING, 69)
+			.skill(Skill.FIREMAKING, 69).skill(Skill.CRAFTING, 69).skill(Skill.SMITHING, 69).skill(Skill.MINING, 69)
+			.skill(Skill.HERBLORE, 69).skill(Skill.AGILITY, 69).skill(Skill.THIEVING, 69)
+			.skill(Skill.SLAYER, 68).skill(Skill.FARMING, 68).skill(Skill.RUNECRAFT, 68).skill(Skill.HUNTER, 68).skill(Skill.CONSTRUCTION, 68)
+			.quest(Quest.PERILOUS_MOONS, QuestState.FINISHED)
+			.quest(Quest.PRIEST_IN_PERIL, QuestState.FINISHED)
+			.inventoryItem(7462, "Barrows gloves", 1)   // in GWD/Bandos's recommended.gearOwnedAny (2 of 7 owned - short of the min 4).
+			.inventoryItem(9185, "Rune crossbow", 1)    // ditto.
+			.inventoryItem(27008, "Dragon defender (t)", 1) // a Dragon defender variant; not in GWD/Bandos/Moons's gear lists.
+			// Common early/mid-game gear a combat-105 account has long since picked up - owned so these
+			// zero/low-requirement milestones don't crowd out the GWD-vs-Moons comparison under test.
+			.inventoryItem(6570, "Fire cape", 1)
+			.inventoryItem(11865, "Slayer helmet (i)", 1)
+			.inventoryItem(10551, "Fighter torso", 1);
+		Quest[] quests = Quest.values();
+		// 186 of 211 bundled quests finished (plus Perilous Moons and Priest in Peril explicitly
+		// above): short of the questsFinished >= 190 stage-3 threshold, but high enough that the
+		// remaining unfinished quests don't flood the ranked list with unrelated "ready" candidates
+		// that would otherwise obscure the GWD-vs-Moons comparison this test is actually about.
+		for (int i = 0; i < 186; i++)
+		{
+			builder.quest(quests[i], QuestState.FINISHED);
+		}
+		return builder;
 	}
 
 	/** Five unfinished quests so ranking/pick3/rest have more than three candidates to split across. Real ids/names so each resolves to a real {@link net.runelite.api.Quest} constant. */

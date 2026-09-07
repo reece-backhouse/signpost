@@ -105,7 +105,8 @@ public final class NextStepPicker
 		return state == null ? 0 : state.getXp();
 	}
 
-	private static Map<Integer, Integer> bankAll(Snapshot snapshot)
+	/** Bank &cup; inventory &cup; equipment by item id - the materials a {@link RoutePlanner} route may draw on. Shared with {@link SkillTargetSynthesiser}. */
+	static Map<Integer, Integer> bankAll(Snapshot snapshot)
 	{
 		Map<Integer, Integer> result = new LinkedHashMap<>();
 		mergeInto(result, snapshot.getBank());

@@ -84,9 +84,11 @@ public final class Ranker
 		// Task 46: within ready/rest (never later, which stays score-only), a stage-appropriate goal
 		// (stage <= accountStage) sorts before one exactly one stage ahead - so a same-stage boss with
 		// a lower score/priority still outranks a next-stage boss the account merely happens to meet
-		// gear-wise (e.g. Moons of Peril over a next-stage God Wars Dungeon).
+		// gear-wise (e.g. Moons of Peril over a next-stage God Wars Dungeon). A skill target whose
+		// route the bank covers counts as stage-appropriate (spec ruling 28: "ready when the bank
+		// covers the route") - the training is doable now whatever stage its parent is.
 		Comparator<RankedGoal> byStageThenScore = Comparator
-			.<RankedGoal>comparingInt(r -> r.getStatus().getGoal().getStage() <= accountStage ? 0 : 1)
+			.<RankedGoal>comparingInt(r -> r.getStatus().getGoal().getStage() <= accountStage || r.getStatus().isBankCovered() ? 0 : 1)
 			.thenComparing(BY_SCORE_THEN_PRIORITY_THEN_NAME);
 		ready.sort(byStageThenScore);
 		rest.sort(byStageThenScore);
@@ -106,9 +108,17 @@ public final class Ranker
 		return status.isReady() && !status.isBankUnknown();
 	}
 
-	/** {@code score = priority × closeness}, {@code closeness = 1 / (1 + unmet + xpDelta / 250000)} (ruling 14). */
+	/**
+	 * {@code score = priority × closeness}, {@code closeness = 1 / (1 + unmet + xpDelta / 250000)}
+	 * (ruling 14). A skill target whose route the bank covers (spec ruling 28) has closeness 1.0 -
+	 * the materials are in hand, so it is as close as a ready goal.
+	 */
 	static double score(GoalStatus status)
 	{
+		if (status.isBankCovered())
+		{
+			return status.getGoal().getPriority();
+		}
 		int unmet = GoalMetrics.unmetCount(status.getGaps());
 		long xpDelta = GoalMetrics.xpDeltaSum(status.getGaps());
 		double closeness = 1.0 / (1 + unmet + xpDelta / XP_SCALE);

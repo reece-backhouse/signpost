@@ -9,12 +9,14 @@ import dev.reece.nta.engine.model.PrefsView;
 import dev.reece.nta.engine.model.RankedGoal;
 import dev.reece.nta.engine.model.Route;
 import dev.reece.nta.engine.model.Shortfall;
+import dev.reece.nta.engine.model.SkillLevelGap;
 import dev.reece.nta.kb.KnowledgeBase;
 import dev.reece.nta.kb.MilestoneEntry;
 import dev.reece.nta.snapshot.DiaryTier;
 import dev.reece.nta.snapshot.Snapshot;
 import dev.reece.nta.store.AccountData;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,7 +25,7 @@ import lombok.Value;
 
 /**
  * Pure entry point wiring {@link GapEngine}, {@link DiaryProgress}, {@link PrefsResolver},
- * {@link Ranker}, {@link SuggestSelector}, and {@link WhyBuilder} together: one {@link #run} call
+ * {@link SkillTargetSynthesiser}, {@link Ranker}, {@link SuggestSelector}, and {@link WhyBuilder} together: one {@link #run} call
  * turns a {@link Snapshot} + {@link KnowledgeBase} + {@link AccountData} into a complete
  * {@link Advice}. No {@link net.runelite.api.Client}, no I/O (global constraint: engine code is
  * pure).
@@ -53,9 +55,15 @@ public class Engine
 	public Advice run(Snapshot snapshot, KnowledgeBase kb, AccountData data, Instant now)
 	{
 		Map<DiaryTier, DiaryTierProgress> diaryProgress = DiaryProgress.compute(snapshot, kb);
-		List<GoalStatus> statuses = gapEngine.evaluate(snapshot, kb, diaryProgress);
-		PrefsView prefs = prefsResolver.resolve(data, statuses, now);
+		List<GoalStatus> base = gapEngine.evaluate(snapshot, kb, diaryProgress);
+		PrefsView basePrefs = prefsResolver.resolve(data, base, now);
 		int accountStage = StageEstimator.estimate(snapshot, kb);
+		// Spec ruling 28: skill targets come from the visible, stage-appropriate goals' skill gaps,
+		// then join the statuses so they rank, pin, snooze, and focus like any other goal.
+		List<GoalStatus> targets = SkillTargetSynthesiser.synthesise(base, basePrefs.getHidden(), accountStage, snapshot, kb);
+		List<GoalStatus> statuses = new ArrayList<>(base);
+		statuses.addAll(targets);
+		PrefsView prefs = targets.isEmpty() ? basePrefs : prefsResolver.resolve(data, statuses, now);
 		List<RankedGoal> ranked = ranker.rank(statuses, prefs.getHidden(), prefs.getPins(), accountStage);
 		List<RankedGoal> picked = suggestSelector.pick3(ranked, kb);
 		List<RankedGoal> restAll = suggestSelector.rest(ranked, picked);
@@ -118,7 +126,10 @@ public class Engine
 			return null;
 		}
 
-		NextStep next = nextStepPicker.next(status, snapshot, kb);
+		// A skill target's route was computed once by SkillTargetSynthesiser: reuse it (spec ruling 28).
+		NextStep next = status.getBankRoute() != null
+			? NextStep.skill((SkillLevelGap) status.getGaps().get(0), status.getBankRoute())
+			: nextStepPicker.next(status, snapshot, kb);
 		Route route = next.getType() == NextStepType.SKILL ? next.getRoute() : null;
 		Shortfall shortfall = route != null && route.getUncoveredXp() > 0
 			? ShortfallResolver.resolve(next.getSkillGap().getSkill(), route, kb, snapshot.getAccountType())
