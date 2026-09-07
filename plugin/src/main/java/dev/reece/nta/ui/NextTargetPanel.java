@@ -2,7 +2,6 @@ package dev.reece.nta.ui;
 
 import dev.reece.nta.snapshot.Snapshot;
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
@@ -56,7 +55,26 @@ public class NextTargetPanel extends PluginPanel
 
 		add(header, BorderLayout.NORTH);
 		add(footer, BorderLayout.SOUTH);
-		setPreferredSize(new Dimension(PANEL_WIDTH, 0));
+	}
+
+	/**
+	 * Shows the knowledge base's generation dates in the footer, once loaded. Must be called on
+	 * the EDT.
+	 */
+	public void showKbLoaded(String questsGeneratedAt, String diariesGeneratedAt)
+	{
+		if (!SwingUtilities.isEventDispatchThread())
+		{
+			throw new IllegalStateException("NextTargetPanel.showKbLoaded must run on the EDT");
+		}
+
+		kbFooterLabel.setText("KB: quests " + bareDate(questsGeneratedAt) + ", diaries " + bareDate(diariesGeneratedAt));
+	}
+
+	/** {@code generatedAt} is always ISO-8601 ("2026-09-07T07:29:49Z"); the footer shows just the date. */
+	private static String bareDate(String generatedAt)
+	{
+		return generatedAt.length() >= 10 ? generatedAt.substring(0, 10) : generatedAt;
 	}
 
 	/**

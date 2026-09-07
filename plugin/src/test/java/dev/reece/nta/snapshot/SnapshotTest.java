@@ -31,11 +31,54 @@ class SnapshotTest
 		assertTrue(snapshot.getDiaryTiers().isEmpty());
 		assertTrue(snapshot.getDiaryVarps().isEmpty());
 		assertTrue(snapshot.getKaramjaVarbits().isEmpty());
+		assertTrue(snapshot.getDiaryCountVarbits().isEmpty());
 		assertTrue(snapshot.getCombatAchievementTiers().isEmpty());
 		assertFalse(snapshot.isBankKnown());
 		assertNull(snapshot.getBankAsOf());
+		assertEquals(0, snapshot.getQuestPoints());
+		assertEquals(0, snapshot.getKudos());
 
 		assertThrows(UnsupportedOperationException.class, () -> snapshot.getSkills().put(Skill.ATTACK, new SkillState(1, 0)));
+	}
+
+	@Test
+	void combatLevelIsDerivedFromSkillLevels()
+	{
+		// Fresh-account stats (every combat skill at 1, Hitpoints at its floor of 10) give combat
+		// level 3 - matches net.runelite.api.Experience.getCombatLevel's own formula.
+		Snapshot snapshot = Snapshot.builder()
+			.accountHash(1L)
+			.accountType(AccountType.NORMAL)
+			.skills(Map.of(
+				Skill.ATTACK, new SkillState(1, 0),
+				Skill.STRENGTH, new SkillState(1, 0),
+				Skill.DEFENCE, new SkillState(1, 0),
+				Skill.HITPOINTS, new SkillState(10, 1154),
+				Skill.MAGIC, new SkillState(1, 0),
+				Skill.RANGED, new SkillState(1, 0),
+				Skill.PRAYER, new SkillState(1, 0)))
+			.build();
+
+		assertEquals(3, snapshot.combatLevel());
+	}
+
+	@Test
+	void combatLevelForAMidLevelMeleeBuild()
+	{
+		Snapshot snapshot = Snapshot.builder()
+			.accountHash(1L)
+			.accountType(AccountType.NORMAL)
+			.skills(Map.of(
+				Skill.ATTACK, new SkillState(60, 0),
+				Skill.STRENGTH, new SkillState(60, 0),
+				Skill.DEFENCE, new SkillState(60, 0),
+				Skill.HITPOINTS, new SkillState(60, 0),
+				Skill.MAGIC, new SkillState(1, 0),
+				Skill.RANGED, new SkillState(1, 0),
+				Skill.PRAYER, new SkillState(43, 0)))
+			.build();
+
+		assertEquals(74, snapshot.combatLevel());
 	}
 
 	@Test

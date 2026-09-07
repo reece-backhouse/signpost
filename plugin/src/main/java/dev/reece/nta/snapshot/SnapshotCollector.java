@@ -1,5 +1,7 @@
 package dev.reece.nta.snapshot;
 
+import dev.reece.nta.engine.DiaryProgress;
+import dev.reece.nta.kb.KnowledgeBase;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
@@ -10,7 +12,9 @@ import net.runelite.api.ItemContainer;
 import net.runelite.api.Quest;
 import net.runelite.api.QuestState;
 import net.runelite.api.Skill;
+import net.runelite.api.VarPlayer;
 import net.runelite.api.Varbits;
+import net.runelite.api.gameval.VarbitID;
 import net.runelite.client.game.ItemManager;
 
 /**
@@ -19,9 +23,6 @@ import net.runelite.client.game.ItemManager;
  */
 public final class SnapshotCollector
 {
-	private static final int DIARY_VARP_START = 1176;
-	private static final int DIARY_VARP_END = 1199;
-
 	private static final int[] COMBAT_ACHIEVEMENT_TIER_VARBITS = {
 		Varbits.COMBAT_ACHIEVEMENT_TIER_EASY,
 		Varbits.COMBAT_ACHIEVEMENT_TIER_MEDIUM,
@@ -35,7 +36,7 @@ public final class SnapshotCollector
 	{
 	}
 
-	public static Snapshot collect(Client client, ItemManager itemManager, CachedBank bank)
+	public static Snapshot collect(Client client, ItemManager itemManager, CachedBank bank, KnowledgeBase kb)
 	{
 		if (!client.isClientThread())
 		{
@@ -73,9 +74,21 @@ public final class SnapshotCollector
 		}
 
 		Map<Integer, Integer> diaryVarps = new HashMap<>();
-		for (int varp = DIARY_VARP_START; varp <= DIARY_VARP_END; varp++)
+		for (int varp : kb.diaryVarps())
 		{
 			diaryVarps.put(varp, client.getVarpValue(varp));
+		}
+
+		Map<Integer, Integer> karamjaVarbits = new HashMap<>();
+		for (int varbit : kb.diaryVarbits())
+		{
+			karamjaVarbits.put(varbit, client.getVarbitValue(varbit));
+		}
+
+		Map<Integer, Integer> diaryCountVarbits = new HashMap<>();
+		for (int varbit : DiaryProgress.COUNT_VARBITS.values())
+		{
+			diaryCountVarbits.put(varbit, client.getVarbitValue(varbit));
 		}
 
 		Map<Integer, Boolean> combatAchievementTiers = new HashMap<>();
@@ -95,10 +108,13 @@ public final class SnapshotCollector
 			.itemNames(itemNames)
 			.diaryTiers(diaryTiers)
 			.diaryVarps(diaryVarps)
-			.karamjaVarbits(Map.of())
+			.karamjaVarbits(karamjaVarbits)
+			.diaryCountVarbits(diaryCountVarbits)
 			.combatAchievementTiers(combatAchievementTiers)
 			.bankKnown(bank.isKnown())
 			.bankAsOf(bank.getAsOf())
+			.questPoints(client.getVarpValue(VarPlayer.QUEST_POINTS))
+			.kudos(client.getVarbitValue(VarbitID.VM_KUDOS))
 			.build();
 	}
 

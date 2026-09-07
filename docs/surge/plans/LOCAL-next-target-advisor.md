@@ -194,11 +194,13 @@ AC clause:
 - C5 boostable within `kb.maxBoost(skill)` → `boostableFrom`;
 - ruling 22 ironman-only req ignored for mains, applied for irons;
 - ruling 16 diary tier goal with `DiaryTask` gaps.
-### Task 22: `FocusPicker`
+### Task 22: Focus picker and tree panel — DEFERRED
 
-(E3 rule lands in S5; here only the tree): panel
-`FocusPanel` with searchable picker (JTextField filter over `kb.goals()`),
-requirement tree (met greyed), "Clear focus". Focus id persisted (F1).
+Ruling (user, 2026-09-07): a standalone picker plus requirement tree duplicates
+Quest Helper. No `FocusPanel` in S3. The goal drill-down (what is missing and
+the route to it) is built in S5 as the detail view opened from a Suggest card
+("Do this"), with a small search box to choose any goal. E1/E2/E7 move to S5.
+
 ### Task 23: Wiring
 
 `Advice { statuses, focus }`; `Prefs` from store; panel mode

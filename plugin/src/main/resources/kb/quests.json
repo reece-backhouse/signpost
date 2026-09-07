@@ -1,0 +1,6668 @@
+{
+  "generatedAt": "2026-09-07T07:29:49Z",
+  "quests": [
+    {
+      "id": 0,
+      "items": [
+        {
+          "name": "Mithril axe",
+          "quantity": 1
+        },
+        {
+          "name": "Ghostspeak amulet",
+          "quantity": 1
+        },
+        {
+          "name": "Hammer",
+          "quantity": 1
+        },
+        {
+          "name": "Hard leather",
+          "quantity": 1
+        },
+        {
+          "name": "Holy symbol",
+          "quantity": 1
+        },
+        {
+          "name": "Polished buttons",
+          "quantity": 1
+        }
+      ],
+      "name": "Animal Magnetism",
+      "prereqs": [
+        "Ernest the Chicken",
+        "Priest in Peril",
+        "The Restless Ghost"
+      ],
+      "questPoints": 1,
+      "skills": [
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 19,
+          "skill": "Crafting"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": true,
+          "level": 31,
+          "skill": "Prayer"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 30,
+          "skill": "Ranged"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 18,
+          "skill": "Slayer"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 35,
+          "skill": "Woodcutting"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "Animal Magnetism"
+    },
+    {
+      "id": 1,
+      "items": [
+        {
+          "name": "Trowel",
+          "quantity": 1
+        },
+        {
+          "name": "Specimen brush",
+          "quantity": 1
+        }
+      ],
+      "name": "Another Slice of H.A.M.",
+      "prereqs": [
+        "Death to the Dorgeshuun",
+        "The Dig Site",
+        "The Giant Dwarf"
+      ],
+      "questPoints": 1,
+      "skills": [
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 15,
+          "skill": "Attack"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 25,
+          "skill": "Prayer"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "Another Slice of H.A.M."
+    },
+    {
+      "id": 3,
+      "items": [],
+      "name": "The Ascent of Arceuus",
+      "prereqs": [
+        "Client of Kourend"
+      ],
+      "questPoints": 1,
+      "skills": [
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 12,
+          "skill": "Hunter"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "The Ascent of Arceuus"
+    },
+    {
+      "id": 4,
+      "items": [],
+      "name": "Alfred Grimhand's Barcrawl",
+      "prereqs": [],
+      "questPoints": null,
+      "skills": [],
+      "source": "questreq",
+      "wikiTitle": "Alfred Grimhand's Barcrawl"
+    },
+    {
+      "id": 5,
+      "items": [
+        {
+          "name": "Spade",
+          "quantity": 1
+        },
+        {
+          "name": "Dusty key",
+          "quantity": 1
+        }
+      ],
+      "name": "Bear Your Soul",
+      "prereqs": [],
+      "questPoints": null,
+      "skills": [],
+      "source": "questreq",
+      "wikiTitle": "Bear Your Soul"
+    },
+    {
+      "id": 6,
+      "items": [],
+      "name": "Below Ice Mountain",
+      "prereqs": [],
+      "questPoints": 1,
+      "skills": [
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 16,
+          "skill": "Quest point"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "Below Ice Mountain"
+    },
+    {
+      "id": 7,
+      "items": [],
+      "name": "Between a Rock...",
+      "prereqs": [
+        "Dwarf Cannon",
+        "Fishing Contest"
+      ],
+      "questPoints": 2,
+      "skills": [
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 30,
+          "skill": "Defence"
+        },
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 40,
+          "skill": "Mining"
+        },
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 50,
+          "skill": "Smithing"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "Between a Rock..."
+    },
+    {
+      "id": 8,
+      "items": [],
+      "name": "Big Chompy Bird Hunting",
+      "prereqs": [],
+      "questPoints": 2,
+      "skills": [
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 30,
+          "skill": "Cooking"
+        },
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 5,
+          "skill": "Fletching"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 30,
+          "skill": "Ranged"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "Big Chompy Bird Hunting"
+    },
+    {
+      "id": 9,
+      "items": [],
+      "name": "Biohazard",
+      "prereqs": [
+        "Plague City"
+      ],
+      "questPoints": 3,
+      "skills": [],
+      "source": "questreq",
+      "wikiTitle": "Biohazard"
+    },
+    {
+      "id": 10,
+      "items": [],
+      "name": "Black Knights' Fortress",
+      "prereqs": [],
+      "questPoints": 3,
+      "skills": [
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 12,
+          "skill": "Quest point"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "Black Knights' Fortress"
+    },
+    {
+      "id": 11,
+      "items": [
+        {
+          "name": "Marrentill potion (unf)",
+          "quantity": 1
+        }
+      ],
+      "name": "Bone Voyage",
+      "prereqs": [
+        "The Dig Site"
+      ],
+      "questPoints": null,
+      "skills": [
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 100,
+          "skill": "Kudos"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "Bone Voyage"
+    },
+    {
+      "id": 12,
+      "items": [],
+      "name": "Cabin Fever",
+      "prereqs": [
+        "Pirate's Treasure",
+        "Rum Deal"
+      ],
+      "questPoints": 2,
+      "skills": [
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 42,
+          "skill": "Agility"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 45,
+          "skill": "Crafting"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 50,
+          "skill": "Smithing"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 40,
+          "skill": "Ranged"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "Cabin Fever"
+    },
+    {
+      "id": 13,
+      "items": [],
+      "name": "Client of Kourend",
+      "prereqs": [
+        "X Marks the Spot"
+      ],
+      "questPoints": 1,
+      "skills": [],
+      "source": "questreq",
+      "wikiTitle": "Client of Kourend"
+    },
+    {
+      "id": 14,
+      "items": [],
+      "name": "Clock Tower",
+      "prereqs": [],
+      "questPoints": 1,
+      "skills": [],
+      "source": "questreq",
+      "wikiTitle": "Clock Tower"
+    },
+    {
+      "id": 15,
+      "items": [
+        {
+          "name": "Hammer",
+          "quantity": 1
+        },
+        {
+          "name": "Spade",
+          "quantity": 1
+        },
+        {
+          "name": "Clockwork",
+          "quantity": 1
+        },
+        {
+          "name": "Plank",
+          "quantity": 1
+        },
+        {
+          "name": "Silk",
+          "quantity": 1
+        },
+        {
+          "name": "Raw cod",
+          "quantity": 1
+        },
+        {
+          "name": "Swamp tar",
+          "quantity": 1
+        },
+        {
+          "name": "Mahogany plank",
+          "quantity": 1
+        },
+        {
+          "name": "Leather",
+          "quantity": 1
+        },
+        {
+          "name": "Cowbells",
+          "quantity": 1
+        }
+      ],
+      "name": "Cold War",
+      "prereqs": [],
+      "questPoints": 1,
+      "skills": [
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 30,
+          "skill": "Agility"
+        },
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 34,
+          "skill": "Construction"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 30,
+          "skill": "Crafting"
+        },
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 10,
+          "skill": "Hunter"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 15,
+          "skill": "Thieving"
+        },
+        {
+          "boostable": true,
+          "ironmanOnly": true,
+          "level": 50,
+          "skill": "Woodcutting"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "Cold War"
+    },
+    {
+      "id": 16,
+      "items": [],
+      "name": "Contact!",
+      "prereqs": [
+        "Prince Ali Rescue",
+        "Icthlarin's Little Helper"
+      ],
+      "questPoints": 1,
+      "skills": [],
+      "source": "questreq",
+      "wikiTitle": "Contact!"
+    },
+    {
+      "id": 17,
+      "items": [],
+      "name": "Cook's Assistant",
+      "prereqs": [],
+      "questPoints": 1,
+      "skills": [],
+      "source": "questreq",
+      "wikiTitle": "Cook's Assistant"
+    },
+    {
+      "id": 18,
+      "items": [],
+      "name": "The Corsair Curse",
+      "prereqs": [],
+      "questPoints": 2,
+      "skills": [],
+      "source": "questreq",
+      "wikiTitle": "The Corsair Curse"
+    },
+    {
+      "id": 19,
+      "items": [],
+      "name": "Creature of Fenkenstrain",
+      "prereqs": [
+        "Priest in Peril",
+        "The Restless Ghost"
+      ],
+      "questPoints": 2,
+      "skills": [
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 20,
+          "skill": "Crafting"
+        },
+        {
+          "boostable": true,
+          "ironmanOnly": true,
+          "level": 4,
+          "skill": "Smithing"
+        },
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 25,
+          "skill": "Thieving"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "Creature of Fenkenstrain"
+    },
+    {
+      "id": 20,
+      "items": [
+        {
+          "name": "Ring of visibility",
+          "quantity": 1
+        },
+        {
+          "name": "Ghostspeak amulet",
+          "quantity": 1
+        }
+      ],
+      "name": "Curse of the Empty Lord",
+      "prereqs": [
+        "Desert Treasure I",
+        "The Restless Ghost"
+      ],
+      "questPoints": null,
+      "skills": [
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 31,
+          "skill": "Prayer"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 53,
+          "skill": "Thieving"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "Curse of the Empty Lord"
+    },
+    {
+      "id": 21,
+      "items": [
+        {
+          "name": "Hammer",
+          "quantity": 1
+        },
+        {
+          "name": "Saw",
+          "quantity": 1
+        }
+      ],
+      "name": "Daddy's Home",
+      "prereqs": [],
+      "questPoints": null,
+      "skills": [],
+      "source": "questreq",
+      "wikiTitle": "Daddy's Home"
+    },
+    {
+      "id": 22,
+      "items": [
+        {
+          "name": "Hammer",
+          "quantity": 1
+        },
+        {
+          "name": "Knife",
+          "quantity": 1
+        }
+      ],
+      "name": "Darkness of Hallowvale",
+      "prereqs": [
+        "In Aid of the Myreque"
+      ],
+      "questPoints": 2,
+      "skills": [
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 26,
+          "skill": "Agility"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 5,
+          "skill": "Construction"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 32,
+          "skill": "Crafting"
+        },
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 33,
+          "skill": "Magic"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 20,
+          "skill": "Mining"
+        },
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 40,
+          "skill": "Strength"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 22,
+          "skill": "Thieving"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "Darkness of Hallowvale"
+    },
+    {
+      "id": 23,
+      "items": [
+        {
+          "name": "Iron bar",
+          "quantity": 1
+        },
+        {
+          "name": "Asgarnian ale",
+          "quantity": 1
+        }
+      ],
+      "name": "Death Plateau",
+      "prereqs": [],
+      "questPoints": 1,
+      "skills": [],
+      "source": "questreq",
+      "wikiTitle": "Death Plateau"
+    },
+    {
+      "id": 24,
+      "items": [
+        {
+          "name": "Pickaxe",
+          "quantity": 1
+        }
+      ],
+      "name": "Death to the Dorgeshuun",
+      "prereqs": [
+        "The Lost Tribe"
+      ],
+      "questPoints": 1,
+      "skills": [
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 23,
+          "skill": "Agility"
+        },
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 23,
+          "skill": "Thieving"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "Death to the Dorgeshuun"
+    },
+    {
+      "id": 25,
+      "items": [],
+      "name": "Demon Slayer",
+      "prereqs": [],
+      "questPoints": 3,
+      "skills": [],
+      "source": "questreq",
+      "wikiTitle": "Demon Slayer"
+    },
+    {
+      "id": 26,
+      "items": [],
+      "name": "The Depths of Despair",
+      "prereqs": [
+        "Client of Kourend"
+      ],
+      "questPoints": 1,
+      "skills": [
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 18,
+          "skill": "Agility"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "The Depths of Despair"
+    },
+    {
+      "id": 27,
+      "items": [],
+      "name": "Desert Treasure I",
+      "prereqs": [
+        "The Dig Site",
+        "Temple of Ikov",
+        "The Tourist Trap",
+        "Troll Stronghold",
+        "Priest in Peril",
+        "Waterfall Quest"
+      ],
+      "questPoints": null,
+      "skills": [
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 50,
+          "skill": "Firemaking"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 50,
+          "skill": "Magic"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 10,
+          "skill": "Slayer"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 53,
+          "skill": "Thieving"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "Desert Treasure I"
+    },
+    {
+      "id": 28,
+      "items": [],
+      "name": "Devious Minds",
+      "prereqs": [
+        "Doric's Quest",
+        "Enter the Abyss",
+        "Troll Stronghold",
+        "Wanted!"
+      ],
+      "questPoints": 1,
+      "skills": [
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 50,
+          "skill": "Fletching"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 50,
+          "skill": "Runecraft"
+        },
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 65,
+          "skill": "Smithing"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "Devious Minds"
+    },
+    {
+      "id": 29,
+      "items": [],
+      "name": "The Dig Site",
+      "prereqs": [
+        "Druidic Ritual"
+      ],
+      "questPoints": 2,
+      "skills": [
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 10,
+          "skill": "Agility"
+        },
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 10,
+          "skill": "Herblore"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 25,
+          "skill": "Thieving"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "The Dig Site"
+    },
+    {
+      "id": 30,
+      "items": [],
+      "name": "Doric's Quest",
+      "prereqs": [],
+      "questPoints": 1,
+      "skills": [
+        {
+          "boostable": true,
+          "ironmanOnly": true,
+          "level": 15,
+          "skill": "Mining"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "Doric's Quest"
+    },
+    {
+      "id": 31,
+      "items": [],
+      "name": "Dragon Slayer I",
+      "prereqs": [],
+      "questPoints": null,
+      "skills": [
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 32,
+          "skill": "Quest point"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": true,
+          "level": 8,
+          "skill": "Crafting"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "Dragon Slayer I"
+    },
+    {
+      "id": 32,
+      "items": [
+        {
+          "name": "Catspeak amulet",
+          "quantity": 1
+        },
+        {
+          "name": "Ghostspeak amulet",
+          "quantity": 1
+        },
+        {
+          "name": "Goutweed",
+          "quantity": 1
+        },
+        {
+          "name": "Glassblowing pipe",
+          "quantity": 1
+        },
+        {
+          "name": "Spade",
+          "quantity": 1
+        },
+        {
+          "name": "Astral rune",
+          "quantity": 1
+        },
+        {
+          "name": "Seal of passage",
+          "quantity": 1
+        },
+        {
+          "name": "Tinderbox",
+          "quantity": 1
+        },
+        {
+          "name": "Pestle and mortar",
+          "quantity": 1
+        }
+      ],
+      "name": "Dragon Slayer II",
+      "prereqs": [
+        "Animal Magnetism",
+        "Barbarian Firemaking",
+        "Bone Voyage",
+        "Client of Kourend",
+        "Dream Mentor",
+        "Ghosts Ahoy",
+        "Legends' Quest",
+        "A Tail of Two Cats"
+      ],
+      "questPoints": 5,
+      "skills": [
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 200,
+          "skill": "Quest point"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 60,
+          "skill": "Agility"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 50,
+          "skill": "Construction"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 62,
+          "skill": "Crafting"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 50,
+          "skill": "Hitpoints"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 75,
+          "skill": "Magic"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 68,
+          "skill": "Mining"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 70,
+          "skill": "Smithing"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 60,
+          "skill": "Thieving"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "Dragon Slayer II"
+    },
+    {
+      "id": 33,
+      "items": [
+        {
+          "name": "Goutweed",
+          "quantity": 1
+        }
+      ],
+      "name": "Dream Mentor",
+      "prereqs": [
+        "Eadgar's Ruse",
+        "Lunar Diplomacy"
+      ],
+      "questPoints": 2,
+      "skills": [
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 85,
+          "skill": "Combat"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "Dream Mentor"
+    },
+    {
+      "id": 34,
+      "items": [
+        {
+          "name": "Raw bear meat",
+          "quantity": 1
+        },
+        {
+          "name": "Raw rat meat",
+          "quantity": 1
+        },
+        {
+          "name": "Raw beef",
+          "quantity": 1
+        },
+        {
+          "name": "Raw chicken",
+          "quantity": 1
+        }
+      ],
+      "name": "Druidic Ritual",
+      "prereqs": [],
+      "questPoints": 4,
+      "skills": [],
+      "source": "questreq",
+      "wikiTitle": "Druidic Ritual"
+    },
+    {
+      "id": 35,
+      "items": [
+        {
+          "name": "Hammer",
+          "quantity": 1
+        }
+      ],
+      "name": "Dwarf Cannon",
+      "prereqs": [],
+      "questPoints": 1,
+      "skills": [],
+      "source": "questreq",
+      "wikiTitle": "Dwarf Cannon"
+    },
+    {
+      "id": 36,
+      "items": [],
+      "name": "Eadgar's Ruse",
+      "prereqs": [
+        "Druidic Ritual",
+        "Troll Stronghold"
+      ],
+      "questPoints": 1,
+      "skills": [
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 31,
+          "skill": "Herblore"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "Eadgar's Ruse"
+    },
+    {
+      "id": 37,
+      "items": [
+        {
+          "name": "Yellow dye",
+          "quantity": 1
+        },
+        {
+          "name": "Swamp tar",
+          "quantity": 1
+        }
+      ],
+      "name": "Eagles' Peak",
+      "prereqs": [],
+      "questPoints": 2,
+      "skills": [
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 27,
+          "skill": "Hunter"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "Eagles' Peak"
+    },
+    {
+      "id": 38,
+      "items": [],
+      "name": "Elemental Workshop I",
+      "prereqs": [],
+      "questPoints": 1,
+      "skills": [
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 20,
+          "skill": "Crafting"
+        },
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 20,
+          "skill": "Mining"
+        },
+        {
+          "boostable": true,
+          "ironmanOnly": true,
+          "level": 30,
+          "skill": "Mining"
+        },
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 20,
+          "skill": "Smithing"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "Elemental Workshop I"
+    },
+    {
+      "id": 39,
+      "items": [
+        {
+          "name": "Pickaxe",
+          "quantity": 1
+        },
+        {
+          "name": "Hammer",
+          "quantity": 1
+        }
+      ],
+      "name": "Elemental Workshop II",
+      "prereqs": [
+        "Elemental Workshop I"
+      ],
+      "questPoints": 1,
+      "skills": [
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 20,
+          "skill": "Magic"
+        },
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 30,
+          "skill": "Smithing"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "Elemental Workshop II"
+    },
+    {
+      "id": 40,
+      "items": [
+        {
+          "name": "Chisel",
+          "quantity": 1
+        },
+        {
+          "name": "Tinderbox",
+          "quantity": 1
+        },
+        {
+          "name": "Lit candle",
+          "quantity": 1
+        },
+        {
+          "name": "Logs",
+          "quantity": 1
+        },
+        {
+          "name": "Oak logs",
+          "quantity": 1
+        },
+        {
+          "name": "Willow logs",
+          "quantity": 1
+        },
+        {
+          "name": "Maple logs",
+          "quantity": 1
+        },
+        {
+          "name": "Pickaxe",
+          "quantity": 1
+        },
+        {
+          "name": "Soft clay",
+          "quantity": 1
+        },
+        {
+          "name": "Coal",
+          "quantity": 1
+        }
+      ],
+      "name": "Enakhra's Lament",
+      "prereqs": [],
+      "questPoints": 2,
+      "skills": [
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 50,
+          "skill": "Crafting"
+        },
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 45,
+          "skill": "Firemaking"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 39,
+          "skill": "Magic"
+        },
+        {
+          "boostable": true,
+          "ironmanOnly": true,
+          "level": 45,
+          "skill": "Mining"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 43,
+          "skill": "Prayer"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "Enakhra's Lament"
+    },
+    {
+      "id": 41,
+      "items": [
+        {
+          "name": "Enchanted key",
+          "quantity": 1
+        },
+        {
+          "name": "Spade",
+          "quantity": 1
+        }
+      ],
+      "name": "The Enchanted Key",
+      "prereqs": [
+        "Making History"
+      ],
+      "questPoints": null,
+      "skills": [],
+      "source": "questreq",
+      "wikiTitle": "The Enchanted Key"
+    },
+    {
+      "id": 42,
+      "items": [
+        {
+          "name": "Yellow dye",
+          "quantity": 1
+        },
+        {
+          "name": "Red dye",
+          "quantity": 1
+        },
+        {
+          "name": "Secateurs",
+          "quantity": 1
+        }
+      ],
+      "name": "Enlightened Journey",
+      "prereqs": [],
+      "questPoints": 1,
+      "skills": [
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 20,
+          "skill": "Quest point"
+        },
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 20,
+          "skill": "Firemaking"
+        },
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 30,
+          "skill": "Farming"
+        },
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 36,
+          "skill": "Crafting"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "Enlightened Journey"
+    },
+    {
+      "id": 43,
+      "items": [],
+      "name": "Enter the Abyss",
+      "prereqs": [
+        "Rune Mysteries"
+      ],
+      "questPoints": null,
+      "skills": [],
+      "source": "questreq",
+      "wikiTitle": "Enter the Abyss"
+    },
+    {
+      "id": 44,
+      "items": [],
+      "name": "Ernest the Chicken",
+      "prereqs": [],
+      "questPoints": 4,
+      "skills": [],
+      "source": "questreq",
+      "wikiTitle": "Ernest the Chicken"
+    },
+    {
+      "id": 45,
+      "items": [
+        {
+          "name": "Bucket of sap",
+          "quantity": 1
+        },
+        {
+          "name": "Mud rune",
+          "quantity": 1
+        },
+        {
+          "name": "Maple logs",
+          "quantity": 1
+        },
+        {
+          "name": "Oak logs",
+          "quantity": 1
+        },
+        {
+          "name": "Hammer",
+          "quantity": 1
+        },
+        {
+          "name": "Saw",
+          "quantity": 1
+        },
+        {
+          "name": "Pestle and mortar",
+          "quantity": 1
+        }
+      ],
+      "name": "The Eyes of Glouphrie",
+      "prereqs": [
+        "The Grand Tree"
+      ],
+      "questPoints": 2,
+      "skills": [
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 5,
+          "skill": "Construction"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 46,
+          "skill": "Magic"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": true,
+          "level": 13,
+          "skill": "Runecraft"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "The Eyes of Glouphrie"
+    },
+    {
+      "id": 46,
+      "items": [
+        {
+          "name": "Secateurs",
+          "quantity": 1
+        },
+        {
+          "name": "Spade",
+          "quantity": 1
+        },
+        {
+          "name": "Ghostspeak amulet",
+          "quantity": 1
+        },
+        {
+          "name": "Dramen staff",
+          "quantity": 1
+        },
+        {
+          "name": "Draynor skull",
+          "quantity": 1
+        }
+      ],
+      "name": "Fairytale I - Growing Pains",
+      "prereqs": [
+        "Lost City",
+        "Nature Spirit"
+      ],
+      "questPoints": 2,
+      "skills": [],
+      "source": "questreq",
+      "wikiTitle": "Fairytale I - Growing Pains"
+    },
+    {
+      "id": 47,
+      "items": [
+        {
+          "name": "Dramen staff",
+          "quantity": 1
+        },
+        {
+          "name": "Vial of water",
+          "quantity": 1
+        },
+        {
+          "name": "Pestle and mortar",
+          "quantity": 1
+        },
+        {
+          "name": "Nuff's certificate",
+          "quantity": 1
+        }
+      ],
+      "name": "Fairytale II - Cure a Queen",
+      "prereqs": [
+        "Druidic Ritual",
+        "Fairytale I - Growing Pains"
+      ],
+      "questPoints": 2,
+      "skills": [
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 49,
+          "skill": "Farming"
+        },
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 57,
+          "skill": "Herblore"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 40,
+          "skill": "Thieving"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "Fairytale II - Cure a Queen"
+    },
+    {
+      "id": 48,
+      "items": [],
+      "name": "Family Crest",
+      "prereqs": [],
+      "questPoints": 1,
+      "skills": [
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 40,
+          "skill": "Crafting"
+        },
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 59,
+          "skill": "Magic"
+        },
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 40,
+          "skill": "Mining"
+        },
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 40,
+          "skill": "Smithing"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "Family Crest"
+    },
+    {
+      "id": 49,
+      "items": [],
+      "name": "Family Pest",
+      "prereqs": [
+        "Family Crest"
+      ],
+      "questPoints": null,
+      "skills": [],
+      "source": "questreq",
+      "wikiTitle": "Family Pest"
+    },
+    {
+      "id": 50,
+      "items": [],
+      "name": "The Feud",
+      "prereqs": [],
+      "questPoints": 1,
+      "skills": [
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 30,
+          "skill": "Thieving"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "The Feud"
+    },
+    {
+      "id": 51,
+      "items": [],
+      "name": "Fight Arena",
+      "prereqs": [],
+      "questPoints": 2,
+      "skills": [],
+      "source": "questreq",
+      "wikiTitle": "Fight Arena"
+    },
+    {
+      "id": 52,
+      "items": [
+        {
+          "name": "Spade",
+          "quantity": 1
+        },
+        {
+          "name": "Garlic",
+          "quantity": 1
+        },
+        {
+          "name": "Fishing rod",
+          "quantity": 1
+        },
+        {
+          "name": "Red vine worm",
+          "quantity": 1
+        }
+      ],
+      "name": "Fishing Contest",
+      "prereqs": [],
+      "questPoints": 1,
+      "skills": [
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 10,
+          "skill": "Fishing"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "Fishing Contest"
+    },
+    {
+      "id": 53,
+      "items": [
+        {
+          "name": "Seed dibber",
+          "quantity": 1
+        },
+        {
+          "name": "Rake",
+          "quantity": 1
+        },
+        {
+          "name": "Ale yeast",
+          "quantity": 1
+        },
+        {
+          "name": "Kebab",
+          "quantity": 1
+        },
+        {
+          "name": "Beer glass",
+          "quantity": 1
+        }
+      ],
+      "name": "Forgettable Tale...",
+      "prereqs": [
+        "The Giant Dwarf",
+        "Fishing Contest"
+      ],
+      "questPoints": 2,
+      "skills": [
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 22,
+          "skill": "Cooking"
+        },
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 17,
+          "skill": "Farming"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "Forgettable Tale..."
+    },
+    {
+      "id": 54,
+      "items": [
+        {
+          "name": "Tinderbox",
+          "quantity": 1
+        }
+      ],
+      "name": "The Forsaken Tower",
+      "prereqs": [
+        "Client of Kourend"
+      ],
+      "questPoints": 1,
+      "skills": [],
+      "source": "questreq",
+      "wikiTitle": "The Forsaken Tower"
+    },
+    {
+      "id": 55,
+      "items": [
+        {
+          "name": "Combat equipment",
+          "quantity": 1
+        },
+        {
+          "name": "Mirror shield",
+          "quantity": 1
+        },
+        {
+          "name": "Pet rock",
+          "quantity": 1
+        },
+        {
+          "name": "Fishing rod",
+          "quantity": 1
+        },
+        {
+          "name": "Fremennik shield",
+          "quantity": 1
+        },
+        {
+          "name": "Ice gloves",
+          "quantity": 1
+        },
+        {
+          "name": "Hammer",
+          "quantity": 1
+        },
+        {
+          "name": "Glassblowing pipe",
+          "quantity": 1
+        },
+        {
+          "name": "Seal of Passage",
+          "quantity": 1
+        }
+      ],
+      "name": "The Fremennik Exiles",
+      "prereqs": [
+        "The Fremennik Isles",
+        "Lunar Diplomacy",
+        "Mountain Daughter",
+        "Heroes' Quest"
+      ],
+      "questPoints": null,
+      "skills": [
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 65,
+          "skill": "Crafting"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 60,
+          "skill": "Fishing"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 55,
+          "skill": "Runecraft"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 60,
+          "skill": "Slayer"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 60,
+          "skill": "Smithing"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "The Fremennik Exiles"
+    },
+    {
+      "id": 56,
+      "items": [
+        {
+          "name": "Yak-hide armour (top)",
+          "quantity": 1
+        },
+        {
+          "name": "Silly jester costume",
+          "quantity": 1
+        }
+      ],
+      "name": "The Fremennik Isles",
+      "prereqs": [
+        "The Fremennik Trials"
+      ],
+      "questPoints": 1,
+      "skills": [
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 20,
+          "skill": "Construction"
+        },
+        {
+          "boostable": true,
+          "ironmanOnly": true,
+          "level": 46,
+          "skill": "Crafting"
+        },
+        {
+          "boostable": true,
+          "ironmanOnly": true,
+          "level": 56,
+          "skill": "Woodcutting"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "The Fremennik Isles"
+    },
+    {
+      "id": 57,
+      "items": [],
+      "name": "The Fremennik Trials",
+      "prereqs": [],
+      "questPoints": null,
+      "skills": [],
+      "source": "questreq",
+      "wikiTitle": "The Fremennik Trials"
+    },
+    {
+      "id": 58,
+      "items": [
+        {
+          "name": "Ring of Charos",
+          "quantity": 1
+        },
+        {
+          "name": "Secateurs",
+          "quantity": 1
+        }
+      ],
+      "name": "Garden of Tranquillity",
+      "prereqs": [
+        "Creature of Fenkenstrain"
+      ],
+      "questPoints": 2,
+      "skills": [
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 25,
+          "skill": "Farming"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "Garden of Tranquillity"
+    },
+    {
+      "id": 59,
+      "items": [
+        {
+          "name": "Ghostspeak amulet",
+          "quantity": 1
+        }
+      ],
+      "name": "The General's Shadow",
+      "prereqs": [
+        "Curse of the Empty Lord",
+        "Fight Arena"
+      ],
+      "questPoints": null,
+      "skills": [],
+      "source": "questreq",
+      "wikiTitle": "The General's Shadow"
+    },
+    {
+      "id": 60,
+      "items": [],
+      "name": "Gertrude's Cat",
+      "prereqs": [],
+      "questPoints": 1,
+      "skills": [],
+      "source": "questreq",
+      "wikiTitle": "Gertrude's Cat"
+    },
+    {
+      "id": 61,
+      "items": [
+        {
+          "name": "Bear fur",
+          "quantity": 1
+        },
+        {
+          "name": "Soft clay",
+          "quantity": 1
+        },
+        {
+          "name": "Hammer",
+          "quantity": 1
+        },
+        {
+          "name": "Saw",
+          "quantity": 1
+        },
+        {
+          "name": "Knife",
+          "quantity": 1
+        },
+        {
+          "name": "Red dye",
+          "quantity": 1
+        },
+        {
+          "name": "Pot of flour",
+          "quantity": 1
+        },
+        {
+          "name": "Needle",
+          "quantity": 1
+        },
+        {
+          "name": "Thread",
+          "quantity": 1
+        }
+      ],
+      "name": "Getting Ahead",
+      "prereqs": [],
+      "questPoints": 1,
+      "skills": [
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 26,
+          "skill": "Construction"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 30,
+          "skill": "Crafting"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "Getting Ahead"
+    },
+    {
+      "id": 62,
+      "items": [
+        {
+          "name": "Spade",
+          "quantity": 1
+        },
+        {
+          "name": "Oak longbow",
+          "quantity": 1
+        },
+        {
+          "name": "Knife",
+          "quantity": 1
+        },
+        {
+          "name": "Needle",
+          "quantity": 1
+        },
+        {
+          "name": "Gloves",
+          "quantity": 1
+        },
+        {
+          "name": "Nettles",
+          "quantity": 1
+        },
+        {
+          "name": "Bowl of water",
+          "quantity": 1
+        }
+      ],
+      "name": "Ghosts Ahoy",
+      "prereqs": [
+        "Priest in Peril",
+        "The Restless Ghost"
+      ],
+      "questPoints": null,
+      "skills": [
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 25,
+          "skill": "Agility"
+        },
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 20,
+          "skill": "Cooking"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "Ghosts Ahoy"
+    },
+    {
+      "id": 63,
+      "items": [],
+      "name": "The Giant Dwarf",
+      "prereqs": [],
+      "questPoints": 2,
+      "skills": [
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 12,
+          "skill": "Crafting"
+        },
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 16,
+          "skill": "Firemaking"
+        },
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 33,
+          "skill": "Magic"
+        },
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 14,
+          "skill": "Thieving"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "The Giant Dwarf"
+    },
+    {
+      "id": 64,
+      "items": [],
+      "name": "Goblin Diplomacy",
+      "prereqs": [],
+      "questPoints": 5,
+      "skills": [],
+      "source": "questreq",
+      "wikiTitle": "Goblin Diplomacy"
+    },
+    {
+      "id": 65,
+      "items": [],
+      "name": "The Golem",
+      "prereqs": [],
+      "questPoints": 1,
+      "skills": [
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 20,
+          "skill": "Crafting"
+        },
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 25,
+          "skill": "Thieving"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "The Golem"
+    },
+    {
+      "id": 66,
+      "items": [],
+      "name": "The Grand Tree",
+      "prereqs": [],
+      "questPoints": 5,
+      "skills": [
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 25,
+          "skill": "Agility"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "The Grand Tree"
+    },
+    {
+      "id": 67,
+      "items": [
+        {
+          "name": "Holy symbol",
+          "quantity": 1
+        },
+        {
+          "name": "Ring of Charos",
+          "quantity": 1
+        }
+      ],
+      "name": "The Great Brain Robbery",
+      "prereqs": [
+        "Cabin Fever",
+        "Creature of Fenkenstrain",
+        "Recipe for Disaster - Pirate Pete"
+      ],
+      "questPoints": 2,
+      "skills": [
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 16,
+          "skill": "Crafting"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 30,
+          "skill": "Construction"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 50,
+          "skill": "Prayer"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "The Great Brain Robbery"
+    },
+    {
+      "id": 68,
+      "items": [
+        {
+          "name": "Seed dibber",
+          "quantity": 1
+        },
+        {
+          "name": "Watering can",
+          "quantity": 1
+        },
+        {
+          "name": "Leather gloves",
+          "quantity": 1
+        }
+      ],
+      "name": "Grim Tales",
+      "prereqs": [
+        "Druidic Ritual",
+        "Witch's House"
+      ],
+      "questPoints": 1,
+      "skills": [
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 59,
+          "skill": "Agility"
+        },
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 45,
+          "skill": "Farming"
+        },
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 52,
+          "skill": "Herblore"
+        },
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 58,
+          "skill": "Thieving"
+        },
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 71,
+          "skill": "Woodcutting"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "Grim Tales"
+    },
+    {
+      "id": 69,
+      "items": [
+        {
+          "name": "Beer",
+          "quantity": 1
+        },
+        {
+          "name": "Redberries",
+          "quantity": 1
+        },
+        {
+          "name": "White berries",
+          "quantity": 1
+        },
+        {
+          "name": "Lantern lens",
+          "quantity": 1
+        },
+        {
+          "name": "Bucket of sand",
+          "quantity": 1
+        }
+      ],
+      "name": "The Hand in the Sand",
+      "prereqs": [],
+      "questPoints": 1,
+      "skills": [
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 49,
+          "skill": "Crafting"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 17,
+          "skill": "Thieving"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "The Hand in the Sand"
+    },
+    {
+      "id": 70,
+      "items": [],
+      "name": "Haunted Mine",
+      "prereqs": [
+        "Priest in Peril"
+      ],
+      "questPoints": 2,
+      "skills": [
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 35,
+          "skill": "Crafting"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "Haunted Mine"
+    },
+    {
+      "id": 71,
+      "items": [],
+      "name": "Hazeel Cult",
+      "prereqs": [],
+      "questPoints": 1,
+      "skills": [],
+      "source": "questreq",
+      "wikiTitle": "Hazeel Cult"
+    },
+    {
+      "id": 72,
+      "items": [],
+      "name": "Heroes' Quest",
+      "prereqs": [
+        "Dragon Slayer I",
+        "Druidic Ritual",
+        "Lost City",
+        "Merlin's Crystal",
+        "Shield of Arrav"
+      ],
+      "questPoints": null,
+      "skills": [
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 55,
+          "skill": "Quest point"
+        },
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 53,
+          "skill": "Cooking"
+        },
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 53,
+          "skill": "Fishing"
+        },
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 25,
+          "skill": "Herblore"
+        },
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 50,
+          "skill": "Mining"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "Heroes' Quest"
+    },
+    {
+      "id": 73,
+      "items": [
+        {
+          "name": "Excalibur",
+          "quantity": 1
+        }
+      ],
+      "name": "Holy Grail",
+      "prereqs": [
+        "Merlin's Crystal"
+      ],
+      "questPoints": 2,
+      "skills": [
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 20,
+          "skill": "Attack"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "Holy Grail"
+    },
+    {
+      "id": 74,
+      "items": [
+        {
+          "name": "Fire rune",
+          "quantity": 1
+        },
+        {
+          "name": "Air rune",
+          "quantity": 1
+        },
+        {
+          "name": "Water rune",
+          "quantity": 1
+        },
+        {
+          "name": "Earth rune",
+          "quantity": 1
+        },
+        {
+          "name": "Molten glass",
+          "quantity": 1
+        },
+        {
+          "name": "Tinderbox",
+          "quantity": 1
+        },
+        {
+          "name": "Hammer",
+          "quantity": 1
+        },
+        {
+          "name": "Swamp tar",
+          "quantity": 1
+        }
+      ],
+      "name": "Horror from the Deep",
+      "prereqs": [
+        "Alfred Grimhand's Barcrawl"
+      ],
+      "questPoints": 2,
+      "skills": [
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 35,
+          "skill": "Agility"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "Horror from the Deep"
+    },
+    {
+      "id": 75,
+      "items": [],
+      "name": "Icthlarin's Little Helper",
+      "prereqs": [
+        "Gertrude's Cat"
+      ],
+      "questPoints": 2,
+      "skills": [],
+      "source": "questreq",
+      "wikiTitle": "Icthlarin's Little Helper"
+    },
+    {
+      "id": 76,
+      "items": [
+        {
+          "name": "Yellow bead",
+          "quantity": 1
+        },
+        {
+          "name": "Red bead",
+          "quantity": 1
+        },
+        {
+          "name": "White bead",
+          "quantity": 1
+        }
+      ],
+      "name": "Imp Catcher",
+      "prereqs": [],
+      "questPoints": 1,
+      "skills": [],
+      "source": "questreq",
+      "wikiTitle": "Imp Catcher"
+    },
+    {
+      "id": 77,
+      "items": [
+        {
+          "name": "Efaritay's aid",
+          "quantity": 1
+        },
+        {
+          "name": "Silver weaponry",
+          "quantity": 1
+        },
+        {
+          "name": "Wolfbane dagger",
+          "quantity": 1
+        },
+        {
+          "name": "Silverlight",
+          "quantity": 1
+        },
+        {
+          "name": "Swamp paste",
+          "quantity": 1
+        },
+        {
+          "name": "Coal",
+          "quantity": 1
+        },
+        {
+          "name": "Soft clay",
+          "quantity": 1
+        },
+        {
+          "name": "Rope",
+          "quantity": 1
+        },
+        {
+          "name": "Steel platelegs",
+          "quantity": 1
+        }
+      ],
+      "name": "In Aid of the Myreque",
+      "prereqs": [
+        "In Search of the Myreque"
+      ],
+      "questPoints": null,
+      "skills": [
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 25,
+          "skill": "Agility"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 25,
+          "skill": "Crafting"
+        },
+        {
+          "boostable": true,
+          "ironmanOnly": true,
+          "level": 16,
+          "skill": "Fishing"
+        },
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 7,
+          "skill": "Magic"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 15,
+          "skill": "Mining"
+        },
+        {
+          "boostable": true,
+          "ironmanOnly": true,
+          "level": 50,
+          "skill": "Smithing"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "In Aid of the Myreque"
+    },
+    {
+      "id": 78,
+      "items": [],
+      "name": "In Search of Knowledge",
+      "prereqs": [],
+      "questPoints": null,
+      "skills": [],
+      "source": "questreq",
+      "wikiTitle": "In Search of Knowledge"
+    },
+    {
+      "id": 79,
+      "items": [],
+      "name": "In Search of the Myreque",
+      "prereqs": [
+        "Nature Spirit"
+      ],
+      "questPoints": 2,
+      "skills": [
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 25,
+          "skill": "Agility"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "In Search of the Myreque"
+    },
+    {
+      "id": 80,
+      "items": [],
+      "name": "Jungle Potion",
+      "prereqs": [
+        "Druidic Ritual"
+      ],
+      "questPoints": 1,
+      "skills": [
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 3,
+          "skill": "Herblore"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "Jungle Potion"
+    },
+    {
+      "id": 81,
+      "items": [],
+      "name": "A Kingdom Divided",
+      "prereqs": [
+        "Architectural Alliance",
+        "The Ascent of Arceuus",
+        "The Depths of Despair",
+        "Druidic Ritual",
+        "The Forsaken Tower",
+        "The Queen of Thieves",
+        "Tale of the Righteous"
+      ],
+      "questPoints": 2,
+      "skills": [
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 54,
+          "skill": "Agility"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 38,
+          "skill": "Crafting"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 50,
+          "skill": "Herblore"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 35,
+          "skill": "Magic"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 42,
+          "skill": "Mining"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 52,
+          "skill": "Thieving"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 52,
+          "skill": "Woodcutting"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "A Kingdom Divided"
+    },
+    {
+      "id": 82,
+      "items": [
+        {
+          "name": "Granite",
+          "quantity": 1
+        },
+        {
+          "name": "Telekinetic Grab",
+          "quantity": 1
+        },
+        {
+          "name": "Animate rock scroll",
+          "quantity": 1
+        }
+      ],
+      "name": "King's Ransom",
+      "prereqs": [
+        "Black Knights' Fortress",
+        "Holy Grail",
+        "Murder Mystery",
+        "One Small Favour"
+      ],
+      "questPoints": 1,
+      "skills": [
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 65,
+          "skill": "Defence"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 45,
+          "skill": "Magic"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "King's Ransom"
+    },
+    {
+      "id": 83,
+      "items": [],
+      "name": "The Knight's Sword",
+      "prereqs": [],
+      "questPoints": 1,
+      "skills": [
+        {
+          "boostable": true,
+          "ironmanOnly": true,
+          "level": 10,
+          "skill": "Cooking"
+        },
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 10,
+          "skill": "Mining"
+        },
+        {
+          "boostable": true,
+          "ironmanOnly": true,
+          "level": 15,
+          "skill": "Mining"
+        },
+        {
+          "boostable": true,
+          "ironmanOnly": true,
+          "level": 15,
+          "skill": "Smithing"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "The Knight's Sword"
+    },
+    {
+      "id": 84,
+      "items": [],
+      "name": "Lair of Tarn Razorlor",
+      "prereqs": [
+        "Haunted Mine"
+      ],
+      "questPoints": null,
+      "skills": [
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 40,
+          "skill": "Slayer"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "Lair of Tarn Razorlor"
+    },
+    {
+      "id": 85,
+      "items": [],
+      "name": "Legends' Quest",
+      "prereqs": [
+        "Family Crest",
+        "Heroes' Quest",
+        "Shilo Village",
+        "Underground Pass",
+        "Waterfall Quest"
+      ],
+      "questPoints": 4,
+      "skills": [
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 107,
+          "skill": "Quest point"
+        },
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 50,
+          "skill": "Agility"
+        },
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 50,
+          "skill": "Crafting"
+        },
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 45,
+          "skill": "Herblore"
+        },
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 56,
+          "skill": "Magic"
+        },
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 52,
+          "skill": "Mining"
+        },
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 42,
+          "skill": "Prayer"
+        },
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 50,
+          "skill": "Smithing"
+        },
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 50,
+          "skill": "Strength"
+        },
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 50,
+          "skill": "Thieving"
+        },
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 50,
+          "skill": "Woodcutting"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "Legends' Quest"
+    },
+    {
+      "id": 86,
+      "items": [],
+      "name": "Lost City",
+      "prereqs": [],
+      "questPoints": 3,
+      "skills": [
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 31,
+          "skill": "Crafting"
+        },
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 36,
+          "skill": "Woodcutting"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "Lost City"
+    },
+    {
+      "id": 87,
+      "items": [],
+      "name": "The Lost Tribe",
+      "prereqs": [
+        "Goblin Diplomacy",
+        "Rune Mysteries"
+      ],
+      "questPoints": 1,
+      "skills": [
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 13,
+          "skill": "Agility"
+        },
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 17,
+          "skill": "Mining"
+        },
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 13,
+          "skill": "Thieving"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "The Lost Tribe"
+    },
+    {
+      "id": 88,
+      "items": [
+        {
+          "name": "Combat",
+          "quantity": 1
+        }
+      ],
+      "name": "Lunar Diplomacy",
+      "prereqs": [
+        "The Fremennik Trials",
+        "Lost City",
+        "Rune Mysteries",
+        "Shilo Village"
+      ],
+      "questPoints": 2,
+      "skills": [
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 61,
+          "skill": "Crafting"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 40,
+          "skill": "Defence"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 49,
+          "skill": "Firemaking"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 5,
+          "skill": "Herblore"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 65,
+          "skill": "Magic"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 60,
+          "skill": "Mining"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 55,
+          "skill": "Woodcutting"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "Lunar Diplomacy"
+    },
+    {
+      "id": 89,
+      "items": [],
+      "name": "Mage Arena I",
+      "prereqs": [],
+      "questPoints": null,
+      "skills": [
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 60,
+          "skill": "Magic"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "Mage Arena I"
+    },
+    {
+      "id": 90,
+      "items": [
+        {
+          "name": "God staves",
+          "quantity": 1
+        }
+      ],
+      "name": "Mage Arena II",
+      "prereqs": [
+        "Mage Arena I"
+      ],
+      "questPoints": null,
+      "skills": [
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 75,
+          "skill": "Magic"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "Mage Arena II"
+    },
+    {
+      "id": 91,
+      "items": [
+        {
+          "name": "Saw",
+          "quantity": 1
+        },
+        {
+          "name": "Bolt of cloth",
+          "quantity": 1
+        },
+        {
+          "name": "Cadava berries",
+          "quantity": 1
+        },
+        {
+          "name": "Bucket of water",
+          "quantity": 1
+        },
+        {
+          "name": "Rope",
+          "quantity": 1
+        },
+        {
+          "name": "Pickaxe",
+          "quantity": 1
+        },
+        {
+          "name": "Hammer",
+          "quantity": 1
+        },
+        {
+          "name": "Combat equipment",
+          "quantity": 1
+        },
+        {
+          "name": "Climbing boots",
+          "quantity": 1
+        }
+      ],
+      "name": "Making Friends with My Arm",
+      "prereqs": [
+        "Cold War",
+        "My Arm's Big Adventure",
+        "Romeo & Juliet",
+        "Swan Song"
+      ],
+      "questPoints": 2,
+      "skills": [
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 68,
+          "skill": "Agility"
+        },
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 35,
+          "skill": "Construction"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 66,
+          "skill": "Firemaking"
+        },
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 72,
+          "skill": "Mining"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "Making Friends with My Arm"
+    },
+    {
+      "id": 92,
+      "items": [
+        {
+          "name": "Spade",
+          "quantity": 1
+        },
+        {
+          "name": "Sapphire amulet",
+          "quantity": 1
+        },
+        {
+          "name": "Ghostspeak amulet",
+          "quantity": 1
+        }
+      ],
+      "name": "Making History",
+      "prereqs": [
+        "Priest in Peril",
+        "The Restless Ghost"
+      ],
+      "questPoints": 3,
+      "skills": [],
+      "source": "questreq",
+      "wikiTitle": "Making History"
+    },
+    {
+      "id": 93,
+      "items": [
+        {
+          "name": "Bread",
+          "quantity": 1
+        },
+        {
+          "name": "Tinderbox",
+          "quantity": 1
+        },
+        {
+          "name": "Bucket of wax",
+          "quantity": 1
+        },
+        {
+          "name": "Bat bones",
+          "quantity": 1
+        }
+      ],
+      "name": "Merlin's Crystal",
+      "prereqs": [],
+      "questPoints": 6,
+      "skills": [],
+      "source": "questreq",
+      "wikiTitle": "Merlin's Crystal"
+    },
+    {
+      "id": 94,
+      "items": [
+        {
+          "name": "Tinderbox",
+          "quantity": 1
+        },
+        {
+          "name": "Knife",
+          "quantity": 1
+        }
+      ],
+      "name": "Misthalin Mystery",
+      "prereqs": [],
+      "questPoints": 1,
+      "skills": [],
+      "source": "questreq",
+      "wikiTitle": "Misthalin Mystery"
+    },
+    {
+      "id": 95,
+      "items": [],
+      "name": "Monkey Madness I",
+      "prereqs": [
+        "The Grand Tree",
+        "Tree Gnome Village"
+      ],
+      "questPoints": 3,
+      "skills": [],
+      "source": "questreq",
+      "wikiTitle": "Monkey Madness I"
+    },
+    {
+      "id": 96,
+      "items": [
+        {
+          "name": "Grapes",
+          "quantity": 1
+        },
+        {
+          "name": "Logs",
+          "quantity": 1
+        }
+      ],
+      "name": "Monkey Madness II",
+      "prereqs": [
+        "Enlightened Journey",
+        "The Eyes of Glouphrie",
+        "Recipe for Disaster - King Awowogei",
+        "Troll Stronghold",
+        "Watchtower"
+      ],
+      "questPoints": null,
+      "skills": [
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 55,
+          "skill": "Agility"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 70,
+          "skill": "Crafting"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 60,
+          "skill": "Firemaking"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 60,
+          "skill": "Hunter"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 69,
+          "skill": "Slayer"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 55,
+          "skill": "Thieving"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "Monkey Madness II"
+    },
+    {
+      "id": 97,
+      "items": [],
+      "name": "Monk's Friend",
+      "prereqs": [],
+      "questPoints": 1,
+      "skills": [],
+      "source": "questreq",
+      "wikiTitle": "Monk's Friend"
+    },
+    {
+      "id": 98,
+      "items": [],
+      "name": "Mountain Daughter",
+      "prereqs": [],
+      "questPoints": 2,
+      "skills": [
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 20,
+          "skill": "Agility"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "Mountain Daughter"
+    },
+    {
+      "id": 99,
+      "items": [
+        {
+          "name": "Bear fur",
+          "quantity": 1
+        },
+        {
+          "name": "Bucket of water",
+          "quantity": 1
+        },
+        {
+          "name": "Feather",
+          "quantity": 1
+        },
+        {
+          "name": "Rotten apple",
+          "quantity": 1
+        },
+        {
+          "name": "Toad crunchies",
+          "quantity": 1
+        },
+        {
+          "name": "Magic logs",
+          "quantity": 1
+        },
+        {
+          "name": "Leather",
+          "quantity": 1
+        },
+        {
+          "name": "Ogre bellows",
+          "quantity": 1
+        },
+        {
+          "name": "Barrel of naphtha",
+          "quantity": 1
+        }
+      ],
+      "name": "Mourning's End Part I",
+      "prereqs": [
+        "Big Chompy Bird Hunting",
+        "Roving Elves",
+        "Sheep Herder"
+      ],
+      "questPoints": 2,
+      "skills": [
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 60,
+          "skill": "Ranged"
+        },
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 50,
+          "skill": "Thieving"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "Mourning's End Part I"
+    },
+    {
+      "id": 100,
+      "items": [
+        {
+          "name": "Rope",
+          "quantity": 1
+        }
+      ],
+      "name": "Mourning's End Part II",
+      "prereqs": [
+        "Mourning's End Part I"
+      ],
+      "questPoints": 2,
+      "skills": [],
+      "source": "questreq",
+      "wikiTitle": "Mourning's End Part II"
+    },
+    {
+      "id": 101,
+      "items": [],
+      "name": "Murder Mystery",
+      "prereqs": [],
+      "questPoints": 3,
+      "skills": [],
+      "source": "questreq",
+      "wikiTitle": "Murder Mystery"
+    },
+    {
+      "id": 102,
+      "items": [
+        {
+          "name": "Bucket",
+          "quantity": 1
+        },
+        {
+          "name": "Red hot sauce",
+          "quantity": 1
+        },
+        {
+          "name": "Spade",
+          "quantity": 1
+        },
+        {
+          "name": "Spade",
+          "quantity": 1
+        },
+        {
+          "name": "Rake",
+          "quantity": 1
+        },
+        {
+          "name": "Seed dibber",
+          "quantity": 1
+        },
+        {
+          "name": "Plant cure",
+          "quantity": 1
+        },
+        {
+          "name": "Climbing boots",
+          "quantity": 1
+        }
+      ],
+      "name": "My Arm's Big Adventure",
+      "prereqs": [
+        "Eadgar's Ruse",
+        "The Feud",
+        "Jungle Potion"
+      ],
+      "questPoints": 1,
+      "skills": [
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 29,
+          "skill": "Farming"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 10,
+          "skill": "Woodcutting"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "My Arm's Big Adventure"
+    },
+    {
+      "id": 103,
+      "items": [],
+      "name": "Nature Spirit",
+      "prereqs": [
+        "Priest in Peril",
+        "The Restless Ghost"
+      ],
+      "questPoints": 2,
+      "skills": [
+        {
+          "boostable": true,
+          "ironmanOnly": true,
+          "level": 18,
+          "skill": "Crafting"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "Nature Spirit"
+    },
+    {
+      "id": 104,
+      "items": [
+        {
+          "name": "Ivandis flail",
+          "quantity": 1
+        },
+        {
+          "name": "Saw",
+          "quantity": 1
+        },
+        {
+          "name": "Ghostspeak amulet",
+          "quantity": 1
+        }
+      ],
+      "name": "A Night at the Theatre",
+      "prereqs": [
+        "A Taste of Hope"
+      ],
+      "questPoints": 2,
+      "skills": [],
+      "source": "questreq",
+      "wikiTitle": "A Night at the Theatre"
+    },
+    {
+      "id": 105,
+      "items": [],
+      "name": "Observatory Quest",
+      "prereqs": [],
+      "questPoints": 2,
+      "skills": [],
+      "source": "questreq",
+      "wikiTitle": "Observatory Quest"
+    },
+    {
+      "id": 106,
+      "items": [
+        {
+          "name": "Tinderbox",
+          "quantity": 1
+        },
+        {
+          "name": "Spade",
+          "quantity": 1
+        }
+      ],
+      "name": "Olaf's Quest",
+      "prereqs": [
+        "The Fremennik Trials"
+      ],
+      "questPoints": null,
+      "skills": [
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 40,
+          "skill": "Firemaking"
+        },
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 50,
+          "skill": "Woodcutting"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "Olaf's Quest"
+    },
+    {
+      "id": 107,
+      "items": [],
+      "name": "One Small Favour",
+      "prereqs": [
+        "Rune Mysteries",
+        "Shilo Village"
+      ],
+      "questPoints": 2,
+      "skills": [
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 36,
+          "skill": "Agility"
+        },
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 25,
+          "skill": "Crafting"
+        },
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 18,
+          "skill": "Herblore"
+        },
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 30,
+          "skill": "Smithing"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "One Small Favour"
+    },
+    {
+      "id": 108,
+      "items": [
+        {
+          "name": "Karamjan rum",
+          "quantity": 1
+        },
+        {
+          "name": "White apron",
+          "quantity": 1
+        },
+        {
+          "name": "Spade",
+          "quantity": 1
+        }
+      ],
+      "name": "Pirate's Treasure",
+      "prereqs": [],
+      "questPoints": 2,
+      "skills": [],
+      "source": "questreq",
+      "wikiTitle": "Pirate's Treasure"
+    },
+    {
+      "id": 109,
+      "items": [
+        {
+          "name": "Rope",
+          "quantity": 1
+        },
+        {
+          "name": "Spade",
+          "quantity": 1
+        },
+        {
+          "name": "Hangover cure",
+          "quantity": 1
+        },
+        {
+          "name": "Chocolate dust",
+          "quantity": 1
+        },
+        {
+          "name": "Chocolate bar",
+          "quantity": 1
+        },
+        {
+          "name": "Knife",
+          "quantity": 1
+        },
+        {
+          "name": "Bucket of milk",
+          "quantity": 1
+        },
+        {
+          "name": "Snape grass",
+          "quantity": 1
+        },
+        {
+          "name": "Picture",
+          "quantity": 1
+        }
+      ],
+      "name": "Plague City",
+      "prereqs": [],
+      "questPoints": 1,
+      "skills": [],
+      "source": "questreq",
+      "wikiTitle": "Plague City"
+    },
+    {
+      "id": 110,
+      "items": [],
+      "name": "A Porcine of Interest",
+      "prereqs": [],
+      "questPoints": 1,
+      "skills": [],
+      "source": "questreq",
+      "wikiTitle": "A Porcine of Interest"
+    },
+    {
+      "id": 111,
+      "items": [],
+      "name": "Priest in Peril",
+      "prereqs": [],
+      "questPoints": 1,
+      "skills": [],
+      "source": "questreq",
+      "wikiTitle": "Priest in Peril"
+    },
+    {
+      "id": 112,
+      "items": [
+        {
+          "name": "Soft clay",
+          "quantity": 1
+        },
+        {
+          "name": "Yellow dye",
+          "quantity": 1
+        },
+        {
+          "name": "Redberries",
+          "quantity": 1
+        },
+        {
+          "name": "Ashes",
+          "quantity": 1
+        },
+        {
+          "name": "Bucket of water",
+          "quantity": 1
+        },
+        {
+          "name": "Pot of flour",
+          "quantity": 1
+        },
+        {
+          "name": "Bronze bar",
+          "quantity": 1
+        },
+        {
+          "name": "Pink skirt",
+          "quantity": 1
+        },
+        {
+          "name": "Rope",
+          "quantity": 1
+        }
+      ],
+      "name": "Prince Ali Rescue",
+      "prereqs": [],
+      "questPoints": 3,
+      "skills": [],
+      "source": "questreq",
+      "wikiTitle": "Prince Ali Rescue"
+    },
+    {
+      "id": 113,
+      "items": [],
+      "name": "The Queen of Thieves",
+      "prereqs": [
+        "Client of Kourend"
+      ],
+      "questPoints": 1,
+      "skills": [
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 20,
+          "skill": "Thieving"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "The Queen of Thieves"
+    },
+    {
+      "id": 114,
+      "items": [
+        {
+          "name": "Tinderbox",
+          "quantity": 1
+        }
+      ],
+      "name": "Rag and Bone Man I",
+      "prereqs": [],
+      "questPoints": 1,
+      "skills": [],
+      "source": "questreq",
+      "wikiTitle": "Rag and Bone Man I"
+    },
+    {
+      "id": 115,
+      "items": [
+        {
+          "name": "Tinderbox",
+          "quantity": 1
+        },
+        {
+          "name": "Light source",
+          "quantity": 1
+        },
+        {
+          "name": "Dusty key",
+          "quantity": 1
+        },
+        {
+          "name": "Rope",
+          "quantity": 1
+        },
+        {
+          "name": "Ice cooler",
+          "quantity": 1
+        },
+        {
+          "name": "Fishing explosive",
+          "quantity": 1
+        },
+        {
+          "name": "Mirror shield",
+          "quantity": 1
+        }
+      ],
+      "name": "Rag and Bone Man II",
+      "prereqs": [
+        "The Fremennik Trials",
+        "Horror from the Deep",
+        "Rag and Bone Man I",
+        "Skippy and the Mogres",
+        "Started:Creature of Fenkenstrain",
+        "Started:Waterfall Quest",
+        "Started:Zogre Flesh Eaters"
+      ],
+      "questPoints": null,
+      "skills": [
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 20,
+          "skill": "Defence"
+        },
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 40,
+          "skill": "Slayer"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "Rag and Bone Man II"
+    },
+    {
+      "id": 116,
+      "items": [
+        {
+          "name": "Rat poison",
+          "quantity": 1
+        },
+        {
+          "name": "Vial",
+          "quantity": 1
+        },
+        {
+          "name": "Red spiders' eggs",
+          "quantity": 1
+        },
+        {
+          "name": "Unicorn horn dust",
+          "quantity": 1
+        },
+        {
+          "name": "Bucket of milk",
+          "quantity": 1
+        },
+        {
+          "name": "Catspeak amulet",
+          "quantity": 1
+        },
+        {
+          "name": "Pot of weeds",
+          "quantity": 1
+        },
+        {
+          "name": "Tinderbox",
+          "quantity": 1
+        },
+        {
+          "name": "Snake charm",
+          "quantity": 1
+        }
+      ],
+      "name": "Ratcatchers",
+      "prereqs": [
+        "Icthlarin's Little Helper",
+        "Started:The Giant Dwarf"
+      ],
+      "questPoints": 2,
+      "skills": [],
+      "source": "questreq",
+      "wikiTitle": "Ratcatchers"
+    },
+    {
+      "id": 117,
+      "items": [
+        {
+          "name": "Eye of newt",
+          "quantity": 1
+        },
+        {
+          "name": "Greenman's ale",
+          "quantity": 1
+        },
+        {
+          "name": "Rotten tomato",
+          "quantity": 1
+        },
+        {
+          "name": "Ashes",
+          "quantity": 1
+        },
+        {
+          "name": "Bowl of water",
+          "quantity": 1
+        },
+        {
+          "name": "Bucket of water",
+          "quantity": 1
+        },
+        {
+          "name": "Orange",
+          "quantity": 1
+        },
+        {
+          "name": "Banana",
+          "quantity": 1
+        },
+        {
+          "name": "Spice",
+          "quantity": 1
+        },
+        {
+          "name": "Gloves",
+          "quantity": 1
+        },
+        {
+          "name": "Charcoal",
+          "quantity": 1
+        },
+        {
+          "name": "Fishing bait",
+          "quantity": 1
+        },
+        {
+          "name": "Fishbowl",
+          "quantity": 1
+        },
+        {
+          "name": "Pestle and mortar",
+          "quantity": 1
+        },
+        {
+          "name": "Needle",
+          "quantity": 1
+        },
+        {
+          "name": "Cake tin",
+          "quantity": 1
+        },
+        {
+          "name": "Raw chompy",
+          "quantity": 1
+        },
+        {
+          "name": "Raw chicken",
+          "quantity": 1
+        },
+        {
+          "name": "Raw cod",
+          "quantity": 1
+        },
+        {
+          "name": "Iron spit",
+          "quantity": 1
+        },
+        {
+          "name": "Tinderbox",
+          "quantity": 1
+        },
+        {
+          "name": "Ball of wool",
+          "quantity": 1
+        },
+        {
+          "name": "Ogre bellows",
+          "quantity": 1
+        },
+        {
+          "name": "Ogre bow",
+          "quantity": 1
+        },
+        {
+          "name": "Pot of cornflour",
+          "quantity": 1
+        },
+        {
+          "name": "Pot of cream",
+          "quantity": 1
+        },
+        {
+          "name": "Knife",
+          "quantity": 1
+        },
+        {
+          "name": "Dramen staff",
+          "quantity": 1
+        },
+        {
+          "name": "M'speak amulet",
+          "quantity": 1
+        },
+        {
+          "name": "gorilla greegree",
+          "quantity": 1
+        },
+        {
+          "name": "Monkey nuts",
+          "quantity": 1
+        },
+        {
+          "name": "Rope",
+          "quantity": 1
+        }
+      ],
+      "name": "Recipe for Disaster",
+      "prereqs": [
+        "Recipe for Disaster - Culinaromancer"
+      ],
+      "questPoints": 10,
+      "skills": [],
+      "source": "questreq",
+      "wikiTitle": "Recipe for Disaster"
+    },
+    {
+      "id": 118,
+      "items": [],
+      "name": "Recruitment Drive",
+      "prereqs": [
+        "Black Knights' Fortress",
+        "Druidic Ritual"
+      ],
+      "questPoints": 1,
+      "skills": [],
+      "source": "questreq",
+      "wikiTitle": "Recruitment Drive"
+    },
+    {
+      "id": 119,
+      "items": [],
+      "name": "Regicide",
+      "prereqs": [
+        "Underground Pass"
+      ],
+      "questPoints": null,
+      "skills": [
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 56,
+          "skill": "Agility"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 10,
+          "skill": "Crafting"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "Regicide"
+    },
+    {
+      "id": 120,
+      "items": [],
+      "name": "The Restless Ghost",
+      "prereqs": [],
+      "questPoints": 1,
+      "skills": [],
+      "source": "questreq",
+      "wikiTitle": "The Restless Ghost"
+    },
+    {
+      "id": 121,
+      "items": [
+        {
+          "name": "Cadava berries",
+          "quantity": 1
+        }
+      ],
+      "name": "Romeo & Juliet",
+      "prereqs": [],
+      "questPoints": null,
+      "skills": [],
+      "source": "questreq",
+      "wikiTitle": "Romeo & Juliet"
+    },
+    {
+      "id": 122,
+      "items": [],
+      "name": "Roving Elves",
+      "prereqs": [
+        "Regicide",
+        "Waterfall Quest"
+      ],
+      "questPoints": 1,
+      "skills": [
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 56,
+          "skill": "Agility"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "Roving Elves"
+    },
+    {
+      "id": 123,
+      "items": [],
+      "name": "Royal Trouble",
+      "prereqs": [
+        "Throne of Miscellania"
+      ],
+      "questPoints": null,
+      "skills": [
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 40,
+          "skill": "Agility"
+        },
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 40,
+          "skill": "Slayer"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "Royal Trouble"
+    },
+    {
+      "id": 124,
+      "items": [
+        {
+          "name": "Rake",
+          "quantity": 1
+        },
+        {
+          "name": "Seed dibber",
+          "quantity": 1
+        },
+        {
+          "name": "Bucket",
+          "quantity": 1
+        }
+      ],
+      "name": "Rum Deal",
+      "prereqs": [
+        "Priest in Peril",
+        "Zogre Flesh Eaters"
+      ],
+      "questPoints": 2,
+      "skills": [
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 42,
+          "skill": "Crafting"
+        },
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 40,
+          "skill": "Farming"
+        },
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 50,
+          "skill": "Fishing"
+        },
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 47,
+          "skill": "Prayer"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 42,
+          "skill": "Slayer"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "Rum Deal"
+    },
+    {
+      "id": 125,
+      "items": [
+        {
+          "name": "Air talisman",
+          "quantity": 1
+        }
+      ],
+      "name": "Rune Mysteries",
+      "prereqs": [],
+      "questPoints": 1,
+      "skills": [],
+      "source": "questreq",
+      "wikiTitle": "Rune Mysteries"
+    },
+    {
+      "id": 126,
+      "items": [
+        {
+          "name": "Dusty key",
+          "quantity": 1
+        }
+      ],
+      "name": "Scorpion Catcher",
+      "prereqs": [
+        "Alfred Grimhand's Barcrawl"
+      ],
+      "questPoints": 1,
+      "skills": [
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 31,
+          "skill": "Prayer"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "Scorpion Catcher"
+    },
+    {
+      "id": 127,
+      "items": [],
+      "name": "Sea Slug",
+      "prereqs": [],
+      "questPoints": 1,
+      "skills": [
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 30,
+          "skill": "Firemaking"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "Sea Slug"
+    },
+    {
+      "id": 128,
+      "items": [
+        {
+          "name": "Tinderbox",
+          "quantity": 1
+        },
+        {
+          "name": "Logs",
+          "quantity": 1
+        }
+      ],
+      "name": "Shades of Mort'ton",
+      "prereqs": [
+        "Druidic Ritual",
+        "Priest in Peril"
+      ],
+      "questPoints": 3,
+      "skills": [
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 20,
+          "skill": "Crafting"
+        },
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 5,
+          "skill": "Firemaking"
+        },
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 15,
+          "skill": "Herblore"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "Shades of Mort'ton"
+    },
+    {
+      "id": 129,
+      "items": [
+        {
+          "name": "Silverlight",
+          "quantity": 1
+        },
+        {
+          "name": "Strange implement",
+          "quantity": 1
+        },
+        {
+          "name": "Black dye",
+          "quantity": 1
+        },
+        {
+          "name": "Silver bar",
+          "quantity": 1
+        }
+      ],
+      "name": "Shadow of the Storm",
+      "prereqs": [
+        "Demon Slayer",
+        "The Golem"
+      ],
+      "questPoints": 1,
+      "skills": [
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 30,
+          "skill": "Crafting"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "Shadow of the Storm"
+    },
+    {
+      "id": 130,
+      "items": [],
+      "name": "Sheep Herder",
+      "prereqs": [],
+      "questPoints": 4,
+      "skills": [],
+      "source": "questreq",
+      "wikiTitle": "Sheep Herder"
+    },
+    {
+      "id": 131,
+      "items": [
+        {
+          "name": "Shears",
+          "quantity": 1
+        }
+      ],
+      "name": "Sheep Shearer",
+      "prereqs": [],
+      "questPoints": 1,
+      "skills": [],
+      "source": "questreq",
+      "wikiTitle": "Sheep Shearer"
+    },
+    {
+      "id": 132,
+      "items": [],
+      "name": "Shield of Arrav",
+      "prereqs": [],
+      "questPoints": 1,
+      "skills": [],
+      "source": "questreq",
+      "wikiTitle": "Shield of Arrav"
+    },
+    {
+      "id": 133,
+      "items": [],
+      "name": "Shilo Village",
+      "prereqs": [
+        "Jungle Potion"
+      ],
+      "questPoints": 2,
+      "skills": [
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 32,
+          "skill": "Agility"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 20,
+          "skill": "Crafting"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": true,
+          "level": 4,
+          "skill": "Smithing"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "Shilo Village"
+    },
+    {
+      "id": 134,
+      "items": [
+        {
+          "name": "Vyrewatch outfit",
+          "quantity": 1
+        },
+        {
+          "name": "Ivandis flail",
+          "quantity": 1
+        },
+        {
+          "name": "Ruby",
+          "quantity": 1
+        },
+        {
+          "name": "Knife",
+          "quantity": 1
+        },
+        {
+          "name": "Chisel",
+          "quantity": 1
+        }
+      ],
+      "name": "Sins of the Father",
+      "prereqs": [
+        "A Taste of Hope",
+        "Vampyre Slayer"
+      ],
+      "questPoints": 2,
+      "skills": [
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 52,
+          "skill": "Agility"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 50,
+          "skill": "Attack"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 56,
+          "skill": "Crafting"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 60,
+          "skill": "Fletching"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 49,
+          "skill": "Magic"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 50,
+          "skill": "Slayer"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 62,
+          "skill": "Woodcutting"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "Sins of the Father"
+    },
+    {
+      "id": 135,
+      "items": [
+        {
+          "name": "Bucket of water",
+          "quantity": 1
+        },
+        {
+          "name": "Nettle tea",
+          "quantity": 1
+        },
+        {
+          "name": "Nettle-water",
+          "quantity": 1
+        },
+        {
+          "name": "Bowl of water",
+          "quantity": 1
+        },
+        {
+          "name": "Nettles",
+          "quantity": 1
+        },
+        {
+          "name": "Gloves",
+          "quantity": 1
+        },
+        {
+          "name": "Hangover cure",
+          "quantity": 1
+        },
+        {
+          "name": "Chocolate dust",
+          "quantity": 1
+        },
+        {
+          "name": "Chocolate bar",
+          "quantity": 1
+        },
+        {
+          "name": "Knife",
+          "quantity": 1
+        },
+        {
+          "name": "Bucket of milk",
+          "quantity": 1
+        },
+        {
+          "name": "Snape grass",
+          "quantity": 1
+        }
+      ],
+      "name": "Skippy and the Mogres",
+      "prereqs": [],
+      "questPoints": null,
+      "skills": [
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 20,
+          "skill": "Cooking"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "Skippy and the Mogres"
+    },
+    {
+      "id": 136,
+      "items": [
+        {
+          "name": "Commorb",
+          "quantity": 1
+        },
+        {
+          "name": "Swamp paste",
+          "quantity": 1
+        },
+        {
+          "name": "Dead sea slug",
+          "quantity": 1
+        },
+        {
+          "name": "Chisel",
+          "quantity": 1
+        },
+        {
+          "name": "Elemental talisman",
+          "quantity": 1
+        },
+        {
+          "name": "Mind talisman",
+          "quantity": 1
+        }
+      ],
+      "name": "The Slug Menace",
+      "prereqs": [
+        "Sea Slug",
+        "Wanted!"
+      ],
+      "questPoints": 1,
+      "skills": [
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 30,
+          "skill": "Crafting"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 30,
+          "skill": "Runecraft"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 30,
+          "skill": "Slayer"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 30,
+          "skill": "Thieving"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "The Slug Menace"
+    },
+    {
+      "id": 137,
+      "items": [
+        {
+          "name": "Steel full helm",
+          "quantity": 1
+        },
+        {
+          "name": "Steel platebody",
+          "quantity": 1
+        },
+        {
+          "name": "Steel platelegs",
+          "quantity": 1
+        },
+        {
+          "name": "Red dye",
+          "quantity": 1
+        },
+        {
+          "name": "Purple dye",
+          "quantity": 1
+        },
+        {
+          "name": "Mourner gear",
+          "quantity": 1
+        },
+        {
+          "name": "Silk",
+          "quantity": 1
+        },
+        {
+          "name": "Runite bar",
+          "quantity": 1
+        },
+        {
+          "name": "Limestone brick",
+          "quantity": 8
+        },
+        {
+          "name": "Tinderbox",
+          "quantity": 1
+        },
+        {
+          "name": "Rope",
+          "quantity": 1
+        },
+        {
+          "name": "Nature rune",
+          "quantity": 1
+        },
+        {
+          "name": "Flowers",
+          "quantity": 1
+        },
+        {
+          "name": "Adamant chainbody",
+          "quantity": 1
+        },
+        {
+          "name": "Wine of Zamorak",
+          "quantity": 1
+        },
+        {
+          "name": "Cabbage",
+          "quantity": 1
+        },
+        {
+          "name": "Black knife",
+          "quantity": 1
+        },
+        {
+          "name": "Cadantine seed",
+          "quantity": 1
+        },
+        {
+          "name": "Seed dibber",
+          "quantity": 1
+        },
+        {
+          "name": "Vial of water",
+          "quantity": 1
+        },
+        {
+          "name": "Pestle and mortar",
+          "quantity": 1
+        },
+        {
+          "name": "Hammer",
+          "quantity": 1
+        },
+        {
+          "name": "Saw",
+          "quantity": 1
+        },
+        {
+          "name": "Pickaxe",
+          "quantity": 1
+        },
+        {
+          "name": "Axe",
+          "quantity": 1
+        },
+        {
+          "name": "Spade",
+          "quantity": 1
+        }
+      ],
+      "name": "Song of the Elves",
+      "prereqs": [
+        "Druidic Ritual",
+        "Making History",
+        "Mourning's End Part II"
+      ],
+      "questPoints": 4,
+      "skills": [
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 70,
+          "skill": "Agility"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 70,
+          "skill": "Construction"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 70,
+          "skill": "Farming"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 70,
+          "skill": "Herblore"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 70,
+          "skill": "Hunter"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 70,
+          "skill": "Mining"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 70,
+          "skill": "Smithing"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 70,
+          "skill": "Woodcutting"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "Song of the Elves"
+    },
+    {
+      "id": 138,
+      "items": [
+        {
+          "name": "Rope",
+          "quantity": 1
+        }
+      ],
+      "name": "A Soul's Bane",
+      "prereqs": [],
+      "questPoints": 1,
+      "skills": [],
+      "source": "questreq",
+      "wikiTitle": "A Soul's Bane"
+    },
+    {
+      "id": 139,
+      "items": [
+        {
+          "name": "Needle",
+          "quantity": 1
+        },
+        {
+          "name": "Crush weapon",
+          "quantity": 1
+        },
+        {
+          "name": "Stab weapon",
+          "quantity": 1
+        },
+        {
+          "name": "Slash weapon",
+          "quantity": 1
+        },
+        {
+          "name": "Light source",
+          "quantity": 1
+        },
+        {
+          "name": "Knife",
+          "quantity": 1
+        },
+        {
+          "name": "Rope",
+          "quantity": 1
+        }
+      ],
+      "name": "Spirits of the Elid",
+      "prereqs": [],
+      "questPoints": null,
+      "skills": [
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 33,
+          "skill": "Magic"
+        },
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 37,
+          "skill": "Mining"
+        },
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 37,
+          "skill": "Ranged"
+        },
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 37,
+          "skill": "Thieving"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "Spirits of the Elid"
+    },
+    {
+      "id": 140,
+      "items": [
+        {
+          "name": "Soft clay",
+          "quantity": 1
+        }
+      ],
+      "name": "Swan Song",
+      "prereqs": [
+        "Garden of Tranquillity",
+        "One Small Favour"
+      ],
+      "questPoints": 2,
+      "skills": [
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 100,
+          "skill": "Quest point"
+        },
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 62,
+          "skill": "Cooking"
+        },
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 40,
+          "skill": "Crafting"
+        },
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 42,
+          "skill": "Firemaking"
+        },
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 62,
+          "skill": "Fishing"
+        },
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 66,
+          "skill": "Magic"
+        },
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 45,
+          "skill": "Smithing"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "Swan Song"
+    },
+    {
+      "id": 141,
+      "items": [],
+      "name": "Tai Bwo Wannai Trio",
+      "prereqs": [
+        "Jungle Potion"
+      ],
+      "questPoints": 2,
+      "skills": [
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 15,
+          "skill": "Agility"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 30,
+          "skill": "Cooking"
+        },
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 5,
+          "skill": "Fishing"
+        },
+        {
+          "boostable": true,
+          "ironmanOnly": true,
+          "level": 65,
+          "skill": "Fishing"
+        },
+        {
+          "boostable": true,
+          "ironmanOnly": true,
+          "level": 34,
+          "skill": "Herblore"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "Tai Bwo Wannai Trio"
+    },
+    {
+      "id": 142,
+      "items": [
+        {
+          "name": "Cat",
+          "quantity": 1
+        },
+        {
+          "name": "Catspeak amulet",
+          "quantity": 1
+        },
+        {
+          "name": "Chocolate cake",
+          "quantity": 1
+        },
+        {
+          "name": "Logs",
+          "quantity": 1
+        },
+        {
+          "name": "Tinderbox",
+          "quantity": 1
+        },
+        {
+          "name": "Bucket of milk",
+          "quantity": 1
+        },
+        {
+          "name": "Shears",
+          "quantity": 1
+        },
+        {
+          "name": "Rake",
+          "quantity": 1
+        },
+        {
+          "name": "Seed dibber",
+          "quantity": 1
+        },
+        {
+          "name": "Vial of water",
+          "quantity": 1
+        },
+        {
+          "name": "Desert shirt",
+          "quantity": 1
+        },
+        {
+          "name": "Desert robe",
+          "quantity": 1
+        }
+      ],
+      "name": "A Tail of Two Cats",
+      "prereqs": [
+        "Icthlarin's Little Helper"
+      ],
+      "questPoints": null,
+      "skills": [],
+      "source": "questreq",
+      "wikiTitle": "A Tail of Two Cats"
+    },
+    {
+      "id": 143,
+      "items": [
+        {
+          "name": "Rope",
+          "quantity": 1
+        }
+      ],
+      "name": "Tale of the Righteous",
+      "prereqs": [
+        "Client of Kourend"
+      ],
+      "questPoints": 1,
+      "skills": [
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 10,
+          "skill": "Mining"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 16,
+          "skill": "Strength"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "Tale of the Righteous"
+    },
+    {
+      "id": 144,
+      "items": [
+        {
+          "name": "Knife",
+          "quantity": 1
+        },
+        {
+          "name": "Emerald",
+          "quantity": 1
+        },
+        {
+          "name": "Chisel",
+          "quantity": 1
+        },
+        {
+          "name": "Rod of Ivandis",
+          "quantity": 1
+        },
+        {
+          "name": "Pestle and mortar",
+          "quantity": 1
+        },
+        {
+          "name": "Vial of water",
+          "quantity": 1
+        },
+        {
+          "name": "Weapons",
+          "quantity": 1
+        }
+      ],
+      "name": "A Taste of Hope",
+      "prereqs": [
+        "Darkness of Hallowvale",
+        "Druidic Ritual"
+      ],
+      "questPoints": 1,
+      "skills": [
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 45,
+          "skill": "Agility"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 40,
+          "skill": "Attack"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 48,
+          "skill": "Crafting"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 40,
+          "skill": "Herblore"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 38,
+          "skill": "Slayer"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "A Taste of Hope"
+    },
+    {
+      "id": 145,
+      "items": [],
+      "name": "Tears of Guthix",
+      "prereqs": [],
+      "questPoints": 1,
+      "skills": [
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 43,
+          "skill": "Quest point"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 20,
+          "skill": "Crafting"
+        },
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 49,
+          "skill": "Firemaking"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 20,
+          "skill": "Mining"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "Tears of Guthix"
+    },
+    {
+      "id": 146,
+      "items": [
+        {
+          "name": "Boots of lightness",
+          "quantity": 1
+        }
+      ],
+      "name": "Temple of Ikov",
+      "prereqs": [],
+      "questPoints": 1,
+      "skills": [
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 40,
+          "skill": "Ranged"
+        },
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 42,
+          "skill": "Thieving"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "Temple of Ikov"
+    },
+    {
+      "id": 147,
+      "items": [],
+      "name": "Throne of Miscellania",
+      "prereqs": [
+        "The Fremennik Trials",
+        "Heroes' Quest"
+      ],
+      "questPoints": 1,
+      "skills": [],
+      "source": "questreq",
+      "wikiTitle": "Throne of Miscellania"
+    },
+    {
+      "id": 148,
+      "items": [],
+      "name": "The Tourist Trap",
+      "prereqs": [],
+      "questPoints": 2,
+      "skills": [
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 10,
+          "skill": "Fletching"
+        },
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 20,
+          "skill": "Smithing"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "The Tourist Trap"
+    },
+    {
+      "id": 149,
+      "items": [
+        {
+          "name": "Hammer",
+          "quantity": 1
+        },
+        {
+          "name": "Saw",
+          "quantity": 1
+        },
+        {
+          "name": "Beer",
+          "quantity": 1
+        }
+      ],
+      "name": "Tower of Life",
+      "prereqs": [],
+      "questPoints": 2,
+      "skills": [
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 10,
+          "skill": "Construction"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "Tower of Life"
+    },
+    {
+      "id": 150,
+      "items": [],
+      "name": "Tree Gnome Village",
+      "prereqs": [],
+      "questPoints": 2,
+      "skills": [],
+      "source": "questreq",
+      "wikiTitle": "Tree Gnome Village"
+    },
+    {
+      "id": 151,
+      "items": [],
+      "name": "Tribal Totem",
+      "prereqs": [],
+      "questPoints": 1,
+      "skills": [
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 21,
+          "skill": "Thieving"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "Tribal Totem"
+    },
+    {
+      "id": 152,
+      "items": [],
+      "name": "Troll Romance",
+      "prereqs": [
+        "Troll Stronghold"
+      ],
+      "questPoints": null,
+      "skills": [
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 28,
+          "skill": "Agility"
+        },
+        {
+          "boostable": true,
+          "ironmanOnly": true,
+          "level": 45,
+          "skill": "Woodcutting"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "Troll Romance"
+    },
+    {
+      "id": 153,
+      "items": [],
+      "name": "Troll Stronghold",
+      "prereqs": [
+        "Death Plateau"
+      ],
+      "questPoints": 1,
+      "skills": [
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 15,
+          "skill": "Agility"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "Troll Stronghold"
+    },
+    {
+      "id": 154,
+      "items": [],
+      "name": "Underground Pass",
+      "prereqs": [
+        "Biohazard"
+      ],
+      "questPoints": 5,
+      "skills": [
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 25,
+          "skill": "Ranged"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "Underground Pass"
+    },
+    {
+      "id": 155,
+      "items": [
+        {
+          "name": "Hammer",
+          "quantity": 1
+        }
+      ],
+      "name": "Vampyre Slayer",
+      "prereqs": [],
+      "questPoints": 3,
+      "skills": [],
+      "source": "questreq",
+      "wikiTitle": "Vampyre Slayer"
+    },
+    {
+      "id": 156,
+      "items": [
+        {
+          "name": "File:Ultimate ironman chat badge.png",
+          "quantity": 1
+        }
+      ],
+      "name": "Wanted!",
+      "prereqs": [
+        "The Lost Tribe",
+        "Priest in Peril",
+        "Recruitment Drive",
+        "Started:Enter the Abyss"
+      ],
+      "questPoints": 1,
+      "skills": [
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 32,
+          "skill": "Quest point"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "Wanted!"
+    },
+    {
+      "id": 157,
+      "items": [
+        {
+          "name": "Guam leaf",
+          "quantity": 1
+        }
+      ],
+      "name": "Watchtower",
+      "prereqs": [
+        "Druidic Ritual"
+      ],
+      "questPoints": 4,
+      "skills": [
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 25,
+          "skill": "Agility"
+        },
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 14,
+          "skill": "Herblore"
+        },
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 15,
+          "skill": "Magic"
+        },
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 40,
+          "skill": "Mining"
+        },
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 15,
+          "skill": "Thieving"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "Watchtower"
+    },
+    {
+      "id": 158,
+      "items": [],
+      "name": "Waterfall Quest",
+      "prereqs": [],
+      "questPoints": 1,
+      "skills": [],
+      "source": "questreq",
+      "wikiTitle": "Waterfall Quest"
+    },
+    {
+      "id": 159,
+      "items": [
+        {
+          "name": "Empty bowl",
+          "quantity": 1
+        }
+      ],
+      "name": "What Lies Below",
+      "prereqs": [
+        "Rune Mysteries"
+      ],
+      "questPoints": 1,
+      "skills": [
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 35,
+          "skill": "Runecraft"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "What Lies Below"
+    },
+    {
+      "id": 160,
+      "items": [
+        {
+          "name": "Cheese",
+          "quantity": 1
+        },
+        {
+          "name": "Leather gloves",
+          "quantity": 1
+        }
+      ],
+      "name": "Witch's House",
+      "prereqs": [],
+      "questPoints": 4,
+      "skills": [],
+      "source": "questreq",
+      "wikiTitle": "Witch's House"
+    },
+    {
+      "id": 161,
+      "items": [
+        {
+          "name": "Burnt meat",
+          "quantity": 1
+        },
+        {
+          "name": "Eye of newt",
+          "quantity": 1
+        },
+        {
+          "name": "Onion",
+          "quantity": 1
+        },
+        {
+          "name": "Rat's tail",
+          "quantity": 1
+        }
+      ],
+      "name": "Witch's Potion",
+      "prereqs": [],
+      "questPoints": 1,
+      "skills": [],
+      "source": "questreq",
+      "wikiTitle": "Witch's Potion"
+    },
+    {
+      "id": 162,
+      "items": [],
+      "name": "X Marks the Spot",
+      "prereqs": [],
+      "questPoints": 1,
+      "skills": [],
+      "source": "questreq",
+      "wikiTitle": "X Marks the Spot"
+    },
+    {
+      "id": 163,
+      "items": [
+        {
+          "name": "Crumble Undead",
+          "quantity": 1
+        }
+      ],
+      "name": "Zogre Flesh Eaters",
+      "prereqs": [
+        "Big Chompy Bird Hunting",
+        "Jungle Potion"
+      ],
+      "questPoints": 1,
+      "skills": [
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 8,
+          "skill": "Herblore"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 30,
+          "skill": "Ranged"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 4,
+          "skill": "Smithing"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "Zogre Flesh Eaters"
+    },
+    {
+      "id": 164,
+      "items": [],
+      "name": "The Frozen Door",
+      "prereqs": [
+        "Desert Treasure I"
+      ],
+      "questPoints": null,
+      "skills": [
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 70,
+          "skill": "Agility"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 70,
+          "skill": "Hitpoints"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 70,
+          "skill": "Ranged"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 70,
+          "skill": "Strength"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "The Frozen Door"
+    },
+    {
+      "id": 165,
+      "items": [],
+      "name": "Land of the Goblins",
+      "prereqs": [
+        "Another Slice of H.A.M.",
+        "Fishing Contest"
+      ],
+      "questPoints": 2,
+      "skills": [
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 38,
+          "skill": "Agility"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 40,
+          "skill": "Fishing"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 45,
+          "skill": "Thieving"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 48,
+          "skill": "Herblore"
+        }
+      ],
+      "source": "page",
+      "wikiTitle": "Land of the Goblins"
+    },
+    {
+      "id": 166,
+      "items": [],
+      "name": "Hopespear's Will",
+      "prereqs": [
+        "Started:The Restless Ghost",
+        "Desert Treasure I",
+        "Fairytale II - Cure a Queen",
+        "Land of the Goblins"
+      ],
+      "questPoints": null,
+      "skills": [
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 50,
+          "skill": "Prayer"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "Hopespear's Will"
+    },
+    {
+      "id": 167,
+      "items": [],
+      "name": "Temple of the Eye",
+      "prereqs": [
+        "Enter the Abyss"
+      ],
+      "questPoints": 1,
+      "skills": [
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 10,
+          "skill": "Runecraft"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "Temple of the Eye"
+    },
+    {
+      "id": 168,
+      "items": [],
+      "name": "Beneath Cursed Sands",
+      "prereqs": [
+        "Contact!"
+      ],
+      "questPoints": 2,
+      "skills": [
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 62,
+          "skill": "Agility"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 55,
+          "skill": "Crafting"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 55,
+          "skill": "Firemaking"
+        }
+      ],
+      "source": "page",
+      "wikiTitle": "Beneath Cursed Sands"
+    },
+    {
+      "id": 169,
+      "items": [],
+      "name": "Sleeping Giants",
+      "prereqs": [],
+      "questPoints": 1,
+      "skills": [
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 15,
+          "skill": "Smithing"
+        }
+      ],
+      "source": "page",
+      "wikiTitle": "Sleeping Giants"
+    },
+    {
+      "id": 180,
+      "items": [],
+      "name": "The Garden of Death",
+      "prereqs": [],
+      "questPoints": 1,
+      "skills": [
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 20,
+          "skill": "Farming"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "The Garden of Death"
+    },
+    {
+      "id": 2306,
+      "items": [],
+      "name": "Into the Tombs",
+      "prereqs": [
+        "Beneath Cursed Sands"
+      ],
+      "questPoints": null,
+      "skills": [],
+      "source": "questreq",
+      "wikiTitle": "Into the Tombs"
+    },
+    {
+      "id": 2307,
+      "items": [
+        {
+          "name": "Eye of newt",
+          "quantity": 1
+        },
+        {
+          "name": "Greenman's ale",
+          "quantity": 1
+        },
+        {
+          "name": "Rotten tomato",
+          "quantity": 1
+        },
+        {
+          "name": "Ashes",
+          "quantity": 1
+        }
+      ],
+      "name": "Recipe for Disaster - Another Cook's Quest",
+      "prereqs": [
+        "Cook's Assistant"
+      ],
+      "questPoints": 1,
+      "skills": [
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 10,
+          "skill": "Cooking"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "Recipe for Disaster/Another Cook's Quest"
+    },
+    {
+      "id": 2308,
+      "items": [
+        {
+          "name": "Bucket of milk",
+          "quantity": 1
+        },
+        {
+          "name": "Pot of flour",
+          "quantity": 1
+        },
+        {
+          "name": "Egg",
+          "quantity": 1
+        },
+        {
+          "name": "Bowl of water",
+          "quantity": 1
+        },
+        {
+          "name": "Gloves",
+          "quantity": 1
+        }
+      ],
+      "name": "Recipe for Disaster - Mountain Dwarf",
+      "prereqs": [
+        "Fishing Contest",
+        "Recipe for Disaster - Another Cook's Quest"
+      ],
+      "questPoints": 1,
+      "skills": [],
+      "source": "questreq",
+      "wikiTitle": "Recipe for Disaster/Freeing the Mountain Dwarf"
+    },
+    {
+      "id": 2309,
+      "items": [
+        {
+          "name": "Bread",
+          "quantity": 1
+        },
+        {
+          "name": "Orange slices",
+          "quantity": 1
+        },
+        {
+          "name": "Spice",
+          "quantity": 1
+        },
+        {
+          "name": "Fishing bait",
+          "quantity": 1
+        },
+        {
+          "name": "Bucket of water",
+          "quantity": 1
+        },
+        {
+          "name": "Charcoal",
+          "quantity": 1
+        }
+      ],
+      "name": "Recipe for Disaster - Wartface & Bentnoze",
+      "prereqs": [
+        "Goblin Diplomacy",
+        "Recipe for Disaster - Another Cook's Quest"
+      ],
+      "questPoints": 1,
+      "skills": [],
+      "source": "questreq",
+      "wikiTitle": "Recipe for Disaster/Freeing the Goblin generals"
+    },
+    {
+      "id": 2310,
+      "items": [
+        {
+          "name": "Bread",
+          "quantity": 1
+        }
+      ],
+      "name": "Recipe for Disaster - Pirate Pete",
+      "prereqs": [
+        "Recipe for Disaster - Another Cook's Quest"
+      ],
+      "questPoints": 1,
+      "skills": [
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 31,
+          "skill": "Cooking"
+        },
+        {
+          "boostable": true,
+          "ironmanOnly": true,
+          "level": 42,
+          "skill": "Crafting"
+        },
+        {
+          "boostable": true,
+          "ironmanOnly": true,
+          "level": 31,
+          "skill": "Smithing"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "Recipe for Disaster/Freeing Pirate Pete"
+    },
+    {
+      "id": 2311,
+      "items": [
+        {
+          "name": "Minigame Teleport",
+          "quantity": 1
+        },
+        {
+          "name": "Necklace of passage",
+          "quantity": 1
+        }
+      ],
+      "name": "Recipe for Disaster - Lumbridge Guide",
+      "prereqs": [
+        "Big Chompy Bird Hunting",
+        "Biohazard",
+        "Demon Slayer",
+        "Murder Mystery",
+        "Nature Spirit",
+        "Recipe for Disaster - Another Cook's Quest",
+        "Witch's House"
+      ],
+      "questPoints": 1,
+      "skills": [
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 40,
+          "skill": "Cooking"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "Recipe for Disaster/Freeing the Lumbridge Guide"
+    },
+    {
+      "id": 2312,
+      "items": [],
+      "name": "Recipe for Disaster - Evil Dave",
+      "prereqs": [
+        "Gertrude's Cat",
+        "Recipe for Disaster - Another Cook's Quest",
+        "Shadow of the Storm"
+      ],
+      "questPoints": 1,
+      "skills": [
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 25,
+          "skill": "Cooking"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "Recipe for Disaster/Freeing Evil Dave"
+    },
+    {
+      "id": 2313,
+      "items": [
+        {
+          "name": "Axe",
+          "quantity": 1
+        },
+        {
+          "name": "Raw chompy",
+          "quantity": 1
+        },
+        {
+          "name": "Iron spit",
+          "quantity": 1
+        },
+        {
+          "name": "Logs",
+          "quantity": 1
+        },
+        {
+          "name": "Tinderbox",
+          "quantity": 1
+        },
+        {
+          "name": "Pickaxe",
+          "quantity": 1
+        },
+        {
+          "name": "Ogre bellows",
+          "quantity": 1
+        },
+        {
+          "name": "Ball of wool",
+          "quantity": 1
+        },
+        {
+          "name": "Ogre bow",
+          "quantity": 1
+        },
+        {
+          "name": "Ogre arrows",
+          "quantity": 1
+        }
+      ],
+      "name": "Recipe for Disaster - Skrach Uglogwee",
+      "prereqs": [
+        "Big Chompy Bird Hunting",
+        "Recipe for Disaster - Another Cook's Quest"
+      ],
+      "questPoints": 1,
+      "skills": [
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 41,
+          "skill": "Cooking"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 20,
+          "skill": "Firemaking"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "Recipe for Disaster/Freeing Skrach Uglogwee"
+    },
+    {
+      "id": 2314,
+      "items": [
+        {
+          "name": "Bucket of milk",
+          "quantity": 1
+        },
+        {
+          "name": "Pot of cream",
+          "quantity": 1
+        },
+        {
+          "name": "Pot of cornflour",
+          "quantity": 1
+        },
+        {
+          "name": "Vanilla pod",
+          "quantity": 1
+        },
+        {
+          "name": "Dramen staff",
+          "quantity": 1
+        },
+        {
+          "name": "Dramen branch",
+          "quantity": 1
+        },
+        {
+          "name": "Pestle and mortar",
+          "quantity": 1
+        },
+        {
+          "name": "Ice gloves",
+          "quantity": 1
+        },
+        {
+          "name": "Raw chicken",
+          "quantity": 1
+        }
+      ],
+      "name": "Recipe for Disaster - Sir Amik Varze",
+      "prereqs": [
+        "Recipe for Disaster - Another Cook's Quest",
+        "Started:Legends' Quest"
+      ],
+      "questPoints": null,
+      "skills": [
+        {
+          "boostable": true,
+          "ironmanOnly": true,
+          "level": 20,
+          "skill": "Farming"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "Recipe for Disaster/Freeing Sir Amik Varze"
+    },
+    {
+      "id": 2315,
+      "items": [
+        {
+          "name": "M'speak amulet",
+          "quantity": 1
+        },
+        {
+          "name": "Karamjan monkey greegree",
+          "quantity": 1
+        },
+        {
+          "name": "Gorilla greegree",
+          "quantity": 1
+        },
+        {
+          "name": "Banana",
+          "quantity": 1
+        },
+        {
+          "name": "Monkey nuts",
+          "quantity": 1
+        },
+        {
+          "name": "Rope",
+          "quantity": 1
+        },
+        {
+          "name": "Knife",
+          "quantity": 1
+        },
+        {
+          "name": "Pestle and mortar",
+          "quantity": 1
+        }
+      ],
+      "name": "Recipe for Disaster - King Awowogei",
+      "prereqs": [
+        "Monkey Madness I",
+        "Recipe for Disaster - Another Cook's Quest"
+      ],
+      "questPoints": 1,
+      "skills": [
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 48,
+          "skill": "Agility"
+        },
+        {
+          "boostable": true,
+          "ironmanOnly": false,
+          "level": 70,
+          "skill": "Cooking"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "Recipe for Disaster/Freeing King Awowogei"
+    },
+    {
+      "id": 2316,
+      "items": [
+        {
+          "name": "Ice gloves",
+          "quantity": 1
+        },
+        {
+          "name": "Menaphite remedy",
+          "quantity": 1
+        }
+      ],
+      "name": "Recipe for Disaster - Culinaromancer",
+      "prereqs": [
+        "Desert Treasure I",
+        "Horror from the Deep",
+        "Recipe for Disaster - Mountain Dwarf",
+        "Recipe for Disaster - Wartface & Bentnoze",
+        "Recipe for Disaster - Pirate Pete",
+        "Recipe for Disaster - Lumbridge Guide",
+        "Recipe for Disaster - Evil Dave",
+        "Recipe for Disaster - Skrach Uglogwee",
+        "Recipe for Disaster - Sir Amik Varze",
+        "Recipe for Disaster - King Awowogei"
+      ],
+      "questPoints": 1,
+      "skills": [
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 175,
+          "skill": "Quest point"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "Recipe for Disaster/Defeating the Culinaromancer"
+    },
+    {
+      "id": 2338,
+      "items": [
+        {
+          "name": "Lockpick",
+          "quantity": 1
+        },
+        {
+          "name": "Tinderbox",
+          "quantity": 1
+        }
+      ],
+      "name": "Secrets of the North",
+      "prereqs": [
+        "Making Friends with My Arm",
+        "The General's Shadow",
+        "Devious Minds",
+        "Hazeel Cult"
+      ],
+      "questPoints": 2,
+      "skills": [
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 69,
+          "skill": "Agility"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 64,
+          "skill": "Thieving"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 56,
+          "skill": "Hunter"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "Secrets of the North"
+    },
+    {
+      "id": 2343,
+      "items": [],
+      "name": "Desert Treasure II - The Fallen Empire",
+      "prereqs": [
+        "Desert Treasure I",
+        "Secrets of the North",
+        "Enakhra's Lament",
+        "Temple of the Eye",
+        "The Garden of Death",
+        "Below Ice Mountain",
+        "His Faithful Servants"
+      ],
+      "questPoints": 5,
+      "skills": [
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 75,
+          "skill": "Firemaking"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 75,
+          "skill": "Magic"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 62,
+          "skill": "Herblore"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 70,
+          "skill": "Thieving"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 60,
+          "skill": "Runecraft"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 60,
+          "skill": "Construction"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "Desert Treasure II - The Fallen Empire"
+    },
+    {
+      "id": 3250,
+      "items": [],
+      "name": "His Faithful Servants",
+      "prereqs": [
+        "Priest in Peril"
+      ],
+      "questPoints": null,
+      "skills": [],
+      "source": "questreq",
+      "wikiTitle": "His Faithful Servants"
+    },
+    {
+      "id": 3425,
+      "items": [],
+      "name": "The Path of Glouphrie",
+      "prereqs": [
+        "The Eyes of Glouphrie",
+        "Waterfall Quest",
+        "Tree Gnome Village"
+      ],
+      "questPoints": 2,
+      "skills": [
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 60,
+          "skill": "Strength"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 56,
+          "skill": "Slayer"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 56,
+          "skill": "Thieving"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 47,
+          "skill": "Ranged"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 45,
+          "skill": "Agility"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "The Path of Glouphrie"
+    },
+    {
+      "id": 3450,
+      "items": [],
+      "name": "Children of the Sun",
+      "prereqs": [],
+      "questPoints": 1,
+      "skills": [],
+      "source": "questreq",
+      "wikiTitle": "Children of the Sun"
+    },
+    {
+      "id": 3451,
+      "items": [
+        {
+          "name": "Oak logs",
+          "quantity": 1
+        },
+        {
+          "name": "Hammer",
+          "quantity": 1
+        },
+        {
+          "name": "Roe",
+          "quantity": 1
+        }
+      ],
+      "name": "Barbarian Training",
+      "prereqs": [
+        "Barbarian Firemaking",
+        "Barbarian Fishing",
+        "Barbarian Herblore",
+        "Barbarian Smithing",
+        "Barbarian Farming"
+      ],
+      "questPoints": null,
+      "skills": [],
+      "source": "questreq",
+      "wikiTitle": "Barbarian Training"
+    },
+    {
+      "id": 3466,
+      "items": [
+        {
+          "name": "Barronite deposit",
+          "quantity": 1
+        }
+      ],
+      "name": "Defender of Varrock",
+      "prereqs": [
+        "Shield of Arrav",
+        "Temple of Ikov",
+        "Below Ice Mountain",
+        "Family Crest",
+        "Garden of Tranquillity",
+        "What Lies Below",
+        "Romeo & Juliet",
+        "Demon Slayer"
+      ],
+      "questPoints": 2,
+      "skills": [
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 55,
+          "skill": "Smithing"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 52,
+          "skill": "Hunter"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "Defender of Varrock"
+    },
+    {
+      "id": 3467,
+      "items": [],
+      "name": "While Guthix Sleeps",
+      "prereqs": [
+        "Defender of Varrock",
+        "The Path of Glouphrie",
+        "Fight Arena",
+        "Dream Mentor",
+        "The Hand in the Sand",
+        "Wanted!",
+        "Temple of the Eye",
+        "Tears of Guthix",
+        "Nature Spirit",
+        "A Tail of Two Cats"
+      ],
+      "questPoints": 5,
+      "skills": [
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 180,
+          "skill": "Quest point"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 72,
+          "skill": "Thieving"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 67,
+          "skill": "Magic"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 66,
+          "skill": "Agility"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 65,
+          "skill": "Farming"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 65,
+          "skill": "Herblore"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 62,
+          "skill": "Hunter"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "While Guthix Sleeps"
+    },
+    {
+      "id": 3512,
+      "items": [],
+      "name": "Twilight's Promise",
+      "prereqs": [
+        "Children of the Sun"
+      ],
+      "questPoints": 1,
+      "skills": [],
+      "source": "questreq",
+      "wikiTitle": "Twilight's Promise"
+    },
+    {
+      "id": 3513,
+      "items": [],
+      "name": "At First Light",
+      "prereqs": [
+        "Children of the Sun",
+        "Eagles' Peak"
+      ],
+      "questPoints": 1,
+      "skills": [
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 46,
+          "skill": "Hunter"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 30,
+          "skill": "Herblore"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 27,
+          "skill": "Construction"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "At First Light"
+    },
+    {
+      "id": 3514,
+      "items": [],
+      "name": "Perilous Moons",
+      "prereqs": [
+        "Twilight's Promise"
+      ],
+      "questPoints": 2,
+      "skills": [
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 48,
+          "skill": "Slayer"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 20,
+          "skill": "Hunter"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 20,
+          "skill": "Fishing"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 20,
+          "skill": "Runecraft"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 10,
+          "skill": "Construction"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "Perilous Moons"
+    },
+    {
+      "id": 3515,
+      "items": [],
+      "name": "The Ribbiting Tale of a Lily Pad Labour Dispute",
+      "prereqs": [
+        "Children of the Sun"
+      ],
+      "questPoints": 1,
+      "skills": [
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 15,
+          "skill": "Woodcutting"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "The Ribbiting Tale of a Lily Pad Labour Dispute"
+    },
+    {
+      "id": 3710,
+      "items": [],
+      "name": "The Heart of Darkness",
+      "prereqs": [
+        "Twilight's Promise"
+      ],
+      "questPoints": null,
+      "skills": [
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 55,
+          "skill": "Mining"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 48,
+          "skill": "Thieving"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 48,
+          "skill": "Slayer"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 46,
+          "skill": "Agility"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "The Heart of Darkness"
+    },
+    {
+      "id": 3711,
+      "items": [],
+      "name": "Death on the Isle",
+      "prereqs": [
+        "Children of the Sun"
+      ],
+      "questPoints": 2,
+      "skills": [
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 32,
+          "skill": "Agility"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 34,
+          "skill": "Thieving"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "Death on the Isle"
+    },
+    {
+      "id": 3712,
+      "items": [],
+      "name": "Meat and Greet",
+      "prereqs": [
+        "Children of the Sun"
+      ],
+      "questPoints": 1,
+      "skills": [],
+      "source": "questreq",
+      "wikiTitle": "Meat and Greet"
+    },
+    {
+      "id": 3713,
+      "items": [],
+      "name": "Ethically Acquired Antiquities",
+      "prereqs": [
+        "Children of the Sun",
+        "Shield of Arrav"
+      ],
+      "questPoints": 1,
+      "skills": [
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 25,
+          "skill": "Thieving"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "Ethically Acquired Antiquities"
+    },
+    {
+      "id": 3937,
+      "items": [
+        {
+          "name": "Ring of life",
+          "quantity": 1
+        },
+        {
+          "name": "Mith grapple",
+          "quantity": 1
+        },
+        {
+          "name": "Insulated boots",
+          "quantity": 1
+        }
+      ],
+      "name": "The Curse of Arrav",
+      "prereqs": [
+        "Defender of Varrock",
+        "Troll Romance"
+      ],
+      "questPoints": 2,
+      "skills": [
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 64,
+          "skill": "Mining"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 62,
+          "skill": "Ranged"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 62,
+          "skill": "Thieving"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 61,
+          "skill": "Agility"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 58,
+          "skill": "Strength"
+        },
+        {
+          "boostable": false,
+          "ironmanOnly": false,
+          "level": 37,
+          "skill": "Slayer"
+        }
+      ],
+      "source": "questreq",
+      "wikiTitle": "The Curse of Arrav"
+    },
+    {
+      "id": 5189,
+      "items": [],
+      "name": "The Final Dawn",
+      "prereqs": [],
+      "questPoints": 3,
+      "skills": [],
+      "source": "page",
+      "wikiTitle": "The Final Dawn"
+    },
+    {
+      "id": 5190,
+      "items": [
+        {
+          "name": "Fishing rod",
+          "quantity": 1
+        },
+        {
+          "name": "Hammer",
+          "quantity": 1
+        }
+      ],
+      "name": "Shadows of Custodia",
+      "prereqs": [],
+      "questPoints": 2,
+      "skills": [],
+      "source": "page",
+      "wikiTitle": "Shadows of Custodia"
+    },
+    {
+      "id": 5191,
+      "items": [],
+      "name": "Scrambled!",
+      "prereqs": [],
+      "questPoints": 1,
+      "skills": [],
+      "source": "page",
+      "wikiTitle": "Scrambled!"
+    },
+    {
+      "id": 5194,
+      "items": [],
+      "name": "Vale Totems",
+      "prereqs": [],
+      "questPoints": null,
+      "skills": [],
+      "source": "none",
+      "wikiTitle": "Vale Totems"
+    },
+    {
+      "id": 7103,
+      "items": [],
+      "name": "Pandemonium",
+      "prereqs": [],
+      "questPoints": null,
+      "skills": [],
+      "source": "none",
+      "wikiTitle": "Pandemonium"
+    },
+    {
+      "id": 7104,
+      "items": [],
+      "name": "Prying Times",
+      "prereqs": [],
+      "questPoints": 1,
+      "skills": [],
+      "source": "page",
+      "wikiTitle": "Prying Times"
+    },
+    {
+      "id": 7105,
+      "items": [],
+      "name": "Current Affairs",
+      "prereqs": [],
+      "questPoints": 1,
+      "skills": [],
+      "source": "page",
+      "wikiTitle": "Current Affairs"
+    },
+    {
+      "id": 7106,
+      "items": [],
+      "name": "Troubled Tortugans",
+      "prereqs": [],
+      "questPoints": 1,
+      "skills": [],
+      "source": "page",
+      "wikiTitle": "Troubled Tortugans"
+    },
+    {
+      "id": 7107,
+      "items": [],
+      "name": "The Red Reef",
+      "prereqs": [
+        "Troubled Tortugans"
+      ],
+      "questPoints": 2,
+      "skills": [],
+      "source": "page",
+      "wikiTitle": "The Red Reef"
+    },
+    {
+      "id": 7133,
+      "items": [],
+      "name": "Fallen From Grace",
+      "prereqs": [
+        "Pandemonium"
+      ],
+      "questPoints": 2,
+      "skills": [],
+      "source": "page",
+      "wikiTitle": "Fallen From Grace"
+    },
+    {
+      "id": 9643,
+      "items": [],
+      "name": "Learning the Ropes",
+      "prereqs": [],
+      "questPoints": 1,
+      "skills": [],
+      "source": "none",
+      "wikiTitle": "Learning the Ropes"
+    },
+    {
+      "id": 9645,
+      "items": [],
+      "name": "The Ides of Milk",
+      "prereqs": [],
+      "questPoints": 1,
+      "skills": [],
+      "source": "page",
+      "wikiTitle": "The Ides of Milk"
+    },
+    {
+      "id": 16414,
+      "items": [],
+      "name": "The Blood Moon Rises",
+      "prereqs": [
+        "A Night at the Theatre",
+        "Sins of the Father"
+      ],
+      "questPoints": 4,
+      "skills": [],
+      "source": "page",
+      "wikiTitle": "The Blood Moon Rises"
+    }
+  ],
+  "version": 1
+}
