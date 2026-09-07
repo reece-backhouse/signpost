@@ -124,6 +124,27 @@ final class KbBuilder
 		return this;
 	}
 
+	/** Adds unlock entries to the currently open milestone. */
+	KbBuilder unlocks(String... entries)
+	{
+		currentMilestone.unlocks.addAll(List.of(entries));
+		return this;
+	}
+
+	/** Sets the gear tier of the currently open milestone. */
+	KbBuilder gearTier(int tier)
+	{
+		currentMilestone.gearTier = tier;
+		return this;
+	}
+
+	/** Sets the subcategory of the currently open milestone. */
+	KbBuilder subcategory(String subcategory)
+	{
+		currentMilestone.subcategory = subcategory;
+		return this;
+	}
+
 	/** Sets a priority override for a goal id, applied instead of that goal's own priority. */
 	KbBuilder priorityOverride(String id, int priority)
 	{
@@ -271,9 +292,9 @@ final class KbBuilder
 			{
 				diaryRefs.add(new DiaryRef(tier));
 			}
-			milestones.add(new MilestoneEntry(m.id, m.category, null, m.name, m.name, m.priority, "test", List.of(),
+			milestones.add(new MilestoneEntry(m.id, m.category, m.subcategory, m.name, m.name, m.priority, "test", List.copyOf(m.unlocks),
 				List.copyOf(m.skills), List.copyOf(m.quests), diaryRefs, null, null, List.copyOf(m.items), List.copyOf(m.ownedIf),
-				null, List.of()));
+				m.gearTier, List.of()));
 		}
 
 		return KnowledgeBase.of(1, "test", 1, "test", quests, diaries, milestones, priorityOverrides);
@@ -321,6 +342,9 @@ final class KbBuilder
 		final List<DiaryTier> diaries = new ArrayList<>();
 		final List<ItemReq> items = new ArrayList<>();
 		final List<OwnedItem> ownedIf = new ArrayList<>();
+		final List<String> unlocks = new ArrayList<>();
+		String subcategory;
+		Integer gearTier;
 
 		MilestoneSpec(String id, MilestoneCategory category, String name, int priority)
 		{
