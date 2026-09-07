@@ -98,7 +98,7 @@ public class NextTargetPanel extends PluginPanel
 
 		Snapshot snapshot = advice.getSnapshot();
 
-		accountTypeLabel.setText("Account type: " + snapshot.getAccountType());
+		accountTypeLabel.setText("Account type: " + snapshot.getAccountType() + " — Stage: " + advice.getAccountStage());
 
 		long questsDone = snapshot.getQuests().values().stream().filter(state -> state == QuestState.FINISHED).count();
 		questsLabel.setText("Quests: " + questsDone + "/" + Quest.values().length);
