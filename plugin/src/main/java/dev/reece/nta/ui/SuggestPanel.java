@@ -14,6 +14,7 @@ import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -466,18 +467,27 @@ public class SuggestPanel extends JPanel
 			label.setFont(FontManager.getRunescapeSmallFont());
 			label.setForeground(ColorScheme.LIGHT_GRAY_COLOR);
 			label.setAlignmentX(Component.LEFT_ALIGNMENT);
+			label.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 			add(label);
 			add(Box.createVerticalStrut(2));
-			add(separator());
+			JSeparator sep = separator();
+			add(sep);
 
-			addMouseListener(new MouseAdapter()
+			// fix round 1: AWT dispatches a click to the deepest component under the cursor and
+			// does not bubble it to ancestors, so the label/separator - which visually cover the
+			// whole clickable header - each need their own copy of the same listener, not just
+			// the outer panel.
+			MouseAdapter toggle = new MouseAdapter()
 			{
 				@Override
 				public void mouseClicked(MouseEvent e)
 				{
 					onToggle.run();
 				}
-			});
+			};
+			addMouseListener(toggle);
+			label.addMouseListener(toggle);
+			sep.addMouseListener(toggle);
 		}
 
 		void update(int count, boolean expanded)
@@ -487,48 +497,52 @@ public class SuggestPanel extends JPanel
 	}
 
 	/**
-	 * Lays out {@code buttons} on a single {@link GridLayout}{@code (1, n, 4, 0)} row when their
-	 * measured preferred widths (plus the 4px gaps) fit within {@link #BUTTON_ROW_WIDTH}; otherwise
-	 * wraps to two rows so no label is ever squeezed or truncated. Three buttons split as "first
-	 * button alone on top, other two below"; four split evenly two-and-two.
+	 * Lays out {@code buttons} on a single {@link GridLayout}{@code (1, n, 4, 0)} row when they
+	 * fit, otherwise splits into two rows and recurses on each half - so a pair that still
+	 * doesn't fit degrades again instead of being assumed safe.
+	 *
+	 * <p>Fix round 1: {@link GridLayout} gives every cell the SAME width (the row's width divided
+	 * evenly), not each button its own preferred width - so "fits" has to compare the row's
+	 * available width against {@code n * the widest button}, never the sum of the buttons' widths.
+	 * A sum-based check let a wide button ("Not now") get paired with a narrower one ("Ignore")
+	 * and be squeezed below its own preferred width even though the pair's total fit.
 	 */
 	private static JPanel actionRow(JButton... buttons)
 	{
-		int total = (buttons.length - 1) * 4;
+		if (buttons.length == 1 || fitsOneRow(buttons))
+		{
+			return gridRow(buttons);
+		}
+
+		int splitAt = buttons.length == 3 ? 1 : buttons.length / 2;
+		JPanel stack = new JPanel();
+		stack.setLayout(new BoxLayout(stack, BoxLayout.Y_AXIS));
+		stack.setAlignmentX(Component.LEFT_ALIGNMENT);
+		stack.add(actionRow(Arrays.copyOfRange(buttons, 0, splitAt)));
+		stack.add(Box.createVerticalStrut(4));
+		stack.add(actionRow(Arrays.copyOfRange(buttons, splitAt, buttons.length)));
+		return stack;
+	}
+
+	private static boolean fitsOneRow(JButton[] buttons)
+	{
+		int maxWidth = 0;
 		for (JButton b : buttons)
 		{
-			total += b.getPreferredSize().width;
+			maxWidth = Math.max(maxWidth, b.getPreferredSize().width);
 		}
+		return buttons.length * maxWidth + (buttons.length - 1) * 4 <= BUTTON_ROW_WIDTH;
+	}
 
-		JPanel panel = new JPanel();
-		panel.setAlignmentX(Component.LEFT_ALIGNMENT);
-
-		if (total <= BUTTON_ROW_WIDTH)
+	private static JPanel gridRow(JButton[] buttons)
+	{
+		JPanel row = new JPanel(new GridLayout(1, buttons.length, 4, 0));
+		row.setAlignmentX(Component.LEFT_ALIGNMENT);
+		for (JButton b : buttons)
 		{
-			panel.setLayout(new GridLayout(1, buttons.length, 4, 0));
-			for (JButton b : buttons)
-			{
-				panel.add(b);
-			}
-			return panel;
+			row.add(b);
 		}
-
-		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-		int splitAt = buttons.length == 3 ? 1 : buttons.length / 2;
-
-		JPanel top = new JPanel(new GridLayout(1, splitAt, 4, 0));
-		top.setAlignmentX(Component.LEFT_ALIGNMENT);
-		JPanel bottom = new JPanel(new GridLayout(1, buttons.length - splitAt, 4, 0));
-		bottom.setAlignmentX(Component.LEFT_ALIGNMENT);
-		for (int i = 0; i < buttons.length; i++)
-		{
-			(i < splitAt ? top : bottom).add(buttons[i]);
-		}
-
-		panel.add(top);
-		panel.add(Box.createVerticalStrut(4));
-		panel.add(bottom);
-		return panel;
+		return row;
 	}
 
 	/** Every button's factory: full margin so text always has room, no focus paint that eats into it. */

@@ -11,6 +11,7 @@ import dev.reece.nta.ui.SuggestPanel;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.HeadlessException;
+import java.awt.event.MouseEvent;
 import java.lang.reflect.InvocationTargetException;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -18,9 +19,11 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.function.Consumer;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import net.runelite.api.Skill;
+import net.runelite.client.ui.PluginPanel;
 import org.junit.jupiter.api.Assumptions;
 import org.junit.jupiter.api.Test;
 
@@ -56,7 +59,8 @@ class RenderSmokeTest
 			{
 				SuggestPanel panel = new SuggestPanel(actions);
 				panel.render(advice);
-				assertNoTruncatedButtonText(panel);
+				layoutAtRealPanelWidth(panel);
+				assertNoButtonNarrowerThanItsPreferredWidth(panel);
 			});
 		}
 		catch (InvocationTargetException e)
@@ -69,20 +73,58 @@ class RenderSmokeTest
 		}
 	}
 
-	/** Task 49: no card/row/section button should ever fall back to an ellipsised label. */
-	private static void assertNoTruncatedButtonText(Container container)
+	/**
+	 * Fix round 1: {@code JButton#getText()} never contains "..." - Swing clips the paint, it
+	 * doesn't rewrite the string - so the original check could never fail. This lays the panel
+	 * out at the real (scrollbar-adjusted) sidebar width and asserts every button actually got at
+	 * least its own preferred width, i.e. a {@link java.awt.GridLayout} row never squeezed it
+	 * smaller than its text needs.
+	 */
+	/**
+	 * {@link Container#validate()} is a no-op on a component tree with no realized ancestor
+	 * (peer) - confirmed empirically: every descendant stayed at 0x0 bounds even though
+	 * {@code getPreferredSize()} was correct throughout. {@code doLayout()} only positions a
+	 * container's own direct children, so it has to be walked and called at every level by hand.
+	 */
+	private static void layoutAtRealPanelWidth(Container container)
+	{
+		int width = PluginPanel.PANEL_WIDTH - PluginPanel.SCROLLBAR_WIDTH;
+		container.setSize(width, container.getPreferredSize().height);
+		layoutRecursively(container);
+	}
+
+	private static void layoutRecursively(Container container)
+	{
+		container.doLayout();
+		for (Component child : container.getComponents())
+		{
+			if (child instanceof Container)
+			{
+				layoutRecursively((Container) child);
+			}
+		}
+	}
+
+	private static void assertNoButtonNarrowerThanItsPreferredWidth(Container container)
 	{
 		for (Component child : container.getComponents())
 		{
+			// an invisible component (e.g. the focus banner with no active focus) is skipped by
+			// its parent's layout manager and stays at width 0 - that's correct, not truncation.
+			if (!child.isVisible())
+			{
+				continue;
+			}
 			if (child instanceof JButton)
 			{
-				String text = ((JButton) child).getText();
-				assertTrue(text == null || (!text.contains("...") && !text.contains("…")),
-					"button text must never be truncated with an ellipsis, got: " + text);
+				JButton b = (JButton) child;
+				assertTrue(b.getWidth() >= b.getPreferredSize().width,
+					"button '" + b.getText() + "' was laid out " + b.getWidth()
+						+ "px wide, narrower than its preferred width " + b.getPreferredSize().width + "px");
 			}
 			if (child instanceof Container)
 			{
-				assertNoTruncatedButtonText((Container) child);
+				assertNoButtonNarrowerThanItsPreferredWidth((Container) child);
 			}
 		}
 	}
@@ -137,6 +179,74 @@ class RenderSmokeTest
 		assertEquals(rest, counts[1], "everything shown after Show more");
 		assertEquals(rest, counts[2], "same goal set: paging kept");
 		assertEquals(0, counts[3], "different goal set: paging reset (2 goals, both picked, nothing in Next)");
+	}
+
+	/**
+	 * Fix round 1: a collapsible section header (Later/Snoozed/Ignored) must toggle when the click
+	 * lands on the label the user actually sees ("LATER (0) ▶"), not just on the outer panel -
+	 * AWT delivers a click to the deepest component under the cursor and does not bubble it to
+	 * ancestors.
+	 */
+	@Test
+	void collapsibleHeaderTogglesWhenClickedOnItsLabel() throws Exception
+	{
+		KnowledgeBase kb = new KbBuilder()
+			.milestone("m:barrows-gloves", MilestoneCategory.GEAR, "Barrows gloves", 8)
+			.ownedIf("Barrows gloves", 7462)
+			.skill(Skill.DEFENCE, 40)
+			.build();
+		Snapshot snapshot = new SnapshotBuilder().build();
+		Advice advice = new Engine(new BoostTable()).run(snapshot, kb, AccountData.empty(), Instant.now());
+
+		Consumer<String> noop = id -> { };
+		SuggestPanel.Actions actions = new SuggestPanel.Actions(noop, noop, noop, noop, noop, noop, noop, () -> { });
+
+		try
+		{
+			SwingUtilities.invokeAndWait(() ->
+			{
+				SuggestPanel panel = new SuggestPanel(actions);
+				panel.render(advice);
+
+				JLabel laterLabel = findLabelStartingWith(panel, "LATER");
+				assertNotNull(laterLabel, "Later section header label must exist");
+				assertTrue(laterLabel.getText().endsWith("▶"), "collapsed by default, got: " + laterLabel.getText());
+
+				laterLabel.dispatchEvent(new MouseEvent(laterLabel, MouseEvent.MOUSE_CLICKED,
+					System.currentTimeMillis(), 0, 1, 1, 1, false));
+
+				assertTrue(laterLabel.getText().endsWith("▼"),
+					"clicking the header's own label must toggle expansion, got: " + laterLabel.getText());
+			});
+		}
+		catch (InvocationTargetException e)
+		{
+			if (e.getCause() instanceof HeadlessException)
+			{
+				Assumptions.abort("Headless environment cannot construct Swing components: " + e.getCause().getMessage());
+			}
+			throw e;
+		}
+	}
+
+	private static JLabel findLabelStartingWith(Container container, String prefix)
+	{
+		for (Component child : container.getComponents())
+		{
+			if (child instanceof JLabel && ((JLabel) child).getText().startsWith(prefix))
+			{
+				return (JLabel) child;
+			}
+			if (child instanceof Container)
+			{
+				JLabel found = findLabelStartingWith((Container) child, prefix);
+				if (found != null)
+				{
+					return found;
+				}
+			}
+		}
+		return null;
 	}
 
 	/**
