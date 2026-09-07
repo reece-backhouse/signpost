@@ -1,9 +1,11 @@
 package dev.reece.nta;
 
 import com.google.gson.Gson;
-import dev.reece.nta.engine.DiaryProgress;
+import dev.reece.nta.engine.BoostTable;
 import dev.reece.nta.engine.DiaryTierProgress;
+import dev.reece.nta.engine.Engine;
 import dev.reece.nta.engine.EngineRunner;
+import dev.reece.nta.engine.model.Advice;
 import dev.reece.nta.kb.KnowledgeBase;
 import dev.reece.nta.snapshot.CachedBank;
 import dev.reece.nta.snapshot.DiaryTier;
@@ -66,6 +68,7 @@ public class NextTargetPlugin extends Plugin
 	private final Map<Skill, Integer> lastLevel = new EnumMap<>(Skill.class);
 
 	private EngineRunner runner;
+	private Engine engine;
 	private AccountStore store;
 	private NextTargetPanel panel;
 	private NavigationButton navButton;
@@ -82,6 +85,7 @@ public class NextTargetPlugin extends Plugin
 	protected void startUp() throws Exception
 	{
 		runner = new EngineRunner();
+		engine = new Engine(new BoostTable());
 		store = new AccountStore(new File(RuneLite.RUNELITE_DIR, "next-target").toPath(), gson);
 		cachedBank = CachedBank.unknown();
 		kb = null;
@@ -115,6 +119,7 @@ public class NextTargetPlugin extends Plugin
 		firstTickPending = false;
 		snapshotRequested = false;
 		kb = null;
+		engine = null;
 		lastLevel.clear();
 	}
 
@@ -164,18 +169,28 @@ public class NextTargetPlugin extends Plugin
 		snapshotRequested = false;
 
 		Snapshot snapshot = SnapshotCollector.collect(client, itemManager, cachedBank, loadedKb);
-		logDiarySelfCheck(snapshot, loadedKb);
-		runner.submit(() -> snapshot, result -> SwingUtilities.invokeLater(() -> panel.render(result)));
+		Engine currentEngine = engine;
+		runner.submit(() ->
+		{
+			long start = System.nanoTime();
+			Advice advice = currentEngine.run(snapshot, loadedKb);
+			long ms = (System.nanoTime() - start) / 1_000_000;
+			log.info("engine: {} goals evaluated in {} ms", advice.getStatuses().size(), ms);
+			return advice;
+		}, advice ->
+		{
+			logDiarySelfCheck(advice.getDiaryProgress());
+			SwingUtilities.invokeLater(() -> panel.render(advice));
+		});
 	}
 
 	/**
-	 * Cross-checks {@link DiaryProgress}'s bit-derived per-tier task counts against the game's own
-	 * per-tier completed-task counter varbit, logging any tier where the bundled task->bit mapping
-	 * disagrees with the game.
+	 * Cross-checks {@link dev.reece.nta.engine.DiaryProgress}'s bit-derived per-tier task counts
+	 * against the game's own per-tier completed-task counter varbit, logging any tier where the
+	 * bundled task->bit mapping disagrees with the game.
 	 */
-	private void logDiarySelfCheck(Snapshot snapshot, KnowledgeBase loadedKb)
+	private void logDiarySelfCheck(Map<DiaryTier, DiaryTierProgress> progress)
 	{
-		Map<DiaryTier, DiaryTierProgress> progress = DiaryProgress.compute(snapshot, loadedKb);
 		int mismatches = 0;
 		for (Map.Entry<DiaryTier, DiaryTierProgress> entry : progress.entrySet())
 		{
