@@ -416,10 +416,24 @@ public final class GapEngine
 		List<OwnedItem> gearOwnedAny = recommended.getGearOwnedAny();
 		if (!gearOwnedAny.isEmpty())
 		{
-			OwnedState gearState = ownedState(gearOwnedAny, snapshot);
-			if (gearState != OwnedState.OWNED)
+			int required = recommended.effectiveGearOwnedMin();
+			int owned = 0;
+			int maybeOwned = 0;
+			for (OwnedItem item : gearOwnedAny)
 			{
-				gaps.add(new GearGap(gearOwnedAny, gearState == OwnedState.UNKNOWN));
+				if (anyIdHeld(item.getIds(), snapshot))
+				{
+					owned++;
+				}
+				else if (!snapshot.isBankKnown())
+				{
+					maybeOwned++;
+				}
+			}
+			if (owned < required)
+			{
+				boolean bankUnknown = owned + maybeOwned >= required;
+				gaps.add(new GearGap(gearOwnedAny, owned, required, bankUnknown));
 			}
 		}
 	}

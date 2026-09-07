@@ -68,8 +68,8 @@ class GapFingerprintTest
 	@Test
 	void gearGapContributesAKeyOrderIndependentOfAcceptableItemOrder()
 	{
-		GoalStatus a = status(List.of(new GearGap(List.of(new OwnedItem("A", 1), new OwnedItem("B", 2)), false)));
-		GoalStatus b = status(List.of(new GearGap(List.of(new OwnedItem("B", 2), new OwnedItem("A", 1)), false)));
+		GoalStatus a = status(List.of(new GearGap(List.of(new OwnedItem("A", 1), new OwnedItem("B", 2)), 0, 1, false)));
+		GoalStatus b = status(List.of(new GearGap(List.of(new OwnedItem("B", 2), new OwnedItem("A", 1)), 0, 1, false)));
 
 		assertEquals(GapFingerprint.of(a), GapFingerprint.of(b));
 	}
@@ -77,8 +77,8 @@ class GapFingerprintTest
 	@Test
 	void aChangedGearGapAcceptableSetProducesADifferentFingerprint()
 	{
-		GoalStatus before = status(List.of(new GearGap(List.of(new OwnedItem("A", 1)), false)));
-		GoalStatus after = status(List.of(new GearGap(List.of(new OwnedItem("A", 1), new OwnedItem("B", 2)), false)));
+		GoalStatus before = status(List.of(new GearGap(List.of(new OwnedItem("A", 1)), 0, 1, false)));
+		GoalStatus after = status(List.of(new GearGap(List.of(new OwnedItem("A", 1), new OwnedItem("B", 2)), 0, 1, false)));
 
 		assertNotEquals(GapFingerprint.of(before), GapFingerprint.of(after));
 	}
