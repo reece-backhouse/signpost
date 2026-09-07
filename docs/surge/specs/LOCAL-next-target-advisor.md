@@ -71,9 +71,9 @@ and a separate branch/PR; see Slicing):
 |---|---|---|
 | S1 Skeleton + snapshot | A1–A5, A7, A8, G1, G2 | Plugin builds, loads in dev client, panel shows account header; bank persisted per account; no-network gate |
 | S2 KB: quests + diaries | A6, B1–B3, B8 | `kb-build` produces quests.json, diaries.json (incl. diary bit map); loader + model in plugin; per-tier dev-client bit check |
-| S3 Gap engine + Focus tree | C1–C5, C9 (chains, iron filter, unknown bank, boostable), E1, E2, E7, F1, F3, F4 | Focus picker; requirement tree with met/unmet; refresh triggers |
+| S3 Gap engine (engine only) | C1–C5, C9 (chains, iron filter, unknown bank, boostable), F1, F4 | Pure engine; no new panel (user ruling: a tree alone duplicates Quest Helper) |
 | S4 Milestones + Suggest | B4, B5, D1–D9, F2 | Suggest mode: pick-one-of-three, why, snooze/ignore/pin |
-| S5 Routes + sourcing | B6, B7, C6–C8, C9 (route, shortfall recursion, boss gear), E3–E6, F5 | Skill routes from bank, shortfall + sources; timed perf test |
+| S5 Routes + sourcing + goal detail | B6, B7, C6–C8, C9 (route, shortfall recursion, boss gear), E1–E7, F3, F5 | Skill routes from bank with exact XP maths, shortfall + sources; goal detail view opened from Suggest, with a search box to pick any goal |
 | S6 AI narrative | H1–H5 | Bedrock toggle (deferred; separate spec) |
 
 ## Decisions (rulings)
@@ -119,6 +119,12 @@ option; cost-if-wrong noted.
 12. **Ruling: no boosts are read from the client (temporary boosted levels
     ignored); C5 "boostable from N" uses the KB's max-boost-per-skill table** —
     deterministic and testable — cost if wrong: none for correctness.
+
+26. **Ruling (user, 2026-09-07): no standalone Focus picker/tree screen** — it
+    duplicates Quest Helper; the product is Suggest (what next, why) and the
+    route (how, from your bank, with exact XP). S3 ships the engine only; the
+    goal detail view lands in S5 as the drill-down from a Suggest card, with a
+    search box for choosing any goal — cost: none.
 
 Rulings from the grill (docs/surge/reviews/LOCAL-next-target-advisor.md):
 
