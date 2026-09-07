@@ -78,6 +78,6 @@ class EngineFocusTest
 
 	private static AccountData focusOn(String goalId)
 	{
-		return new AccountData(new HashMap<>(), null, new HashMap<>(), new HashSet<>(), new ArrayList<>(), goalId);
+		return new AccountData(new HashMap<>(), null, new HashMap<>(), new HashSet<>(), new ArrayList<>(), goalId, new HashSet<>());
 	}
 }

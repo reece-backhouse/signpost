@@ -83,7 +83,7 @@ class AdviceDiagnosticsTest
 		explanations.put("boss:ready-pick", List.of("Stats met: Attack 70", "Ready now"));
 		explanations.put("boss:rest-pick", List.of("Missing: combat 75 (have 70)"));
 
-		PrefsView prefs = new PrefsView(Set.of(), List.of(), Set.of(), Set.of(), null);
-		return new Advice(new SnapshotBuilder().build(), statuses, Map.of(), NOW, ranked, picked, List.of(), accountStage, later, whys, explanations, Map.of(), prefs, null);
+		PrefsView prefs = new PrefsView(Set.of(), List.of(), Set.of(), Set.of(), null, Set.of());
+		return new Advice(new SnapshotBuilder().build(), statuses, Map.of(), NOW, ranked, picked, List.of(), accountStage, later, whys, explanations, Map.of(), Map.of(), prefs, null);
 	}
 }

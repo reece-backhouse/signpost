@@ -84,6 +84,28 @@ class AccountDataMutationsTest
 	}
 
 	@Test
+	void markOwnedAddsAnEntryWithoutMutatingTheInput()
+	{
+		AccountData original = AccountData.empty();
+
+		AccountData result = AccountDataMutations.markOwned(original, "milestone:barrows-gloves");
+
+		assertTrue(original.getOwnedManually().isEmpty(), "input must not be mutated");
+		assertTrue(result.getOwnedManually().contains("milestone:barrows-gloves"));
+	}
+
+	@Test
+	void unmarkOwnedRemovesTheEntryWithoutMutatingTheInput()
+	{
+		AccountData owned = AccountDataMutations.markOwned(AccountData.empty(), "milestone:barrows-gloves");
+
+		AccountData result = AccountDataMutations.unmarkOwned(owned, "milestone:barrows-gloves");
+
+		assertTrue(owned.getOwnedManually().contains("milestone:barrows-gloves"), "input must not be mutated");
+		assertFalse(result.getOwnedManually().contains("milestone:barrows-gloves"));
+	}
+
+	@Test
 	void bankReplacesItemsAndAsOfWithoutMutatingTheInput()
 	{
 		AccountData original = AccountData.empty();

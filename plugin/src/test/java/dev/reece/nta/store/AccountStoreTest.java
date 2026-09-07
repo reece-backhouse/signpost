@@ -40,6 +40,7 @@ class AccountStoreTest
 		assertEquals(Map.of(), data.getSnoozes());
 		assertEquals(Set.of(), data.getIgnores());
 		assertEquals(List.of(), data.getPins());
+		assertEquals(Set.of(), data.getOwnedManually());
 		assertEquals(data, data.copy());
 	}
 
@@ -52,7 +53,8 @@ class AccountStoreTest
 			Map.of("giant_mole", new Snooze(Instant.parse("2026-09-08T00:00:00Z"), "abc123")),
 			Set.of("callisto"),
 			List.of("barrows gloves", "fire cape"),
-			"quest-points");
+			"quest-points",
+			Set.of("milestone:barrows-gloves", "milestone:fire-cape"));
 
 		store.save(1234L, data);
 

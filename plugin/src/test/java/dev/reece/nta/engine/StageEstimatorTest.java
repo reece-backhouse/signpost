@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import dev.reece.nta.kb.KnowledgeBase;
 import dev.reece.nta.kb.MilestoneCategory;
 import dev.reece.nta.snapshot.Snapshot;
+import java.util.Set;
 import net.runelite.api.Quest;
 import net.runelite.api.QuestState;
 import net.runelite.api.Skill;
@@ -177,6 +178,19 @@ class StageEstimatorTest
 		Snapshot snapshot = new SnapshotBuilder().inventoryItem(101, "Item One", 1).inventoryItem(102, "Item Two", 1).build();
 
 		assertEquals(4, StageEstimator.estimate(snapshot, kb));
+	}
+
+	/** Ticket 55: a manually-marked-owned stage-4 gear milestone counts towards the stage-4 gear count, same as one held in a container. */
+	@Test
+	void manuallyOwnedStageFourGearMilestonesReachStageFour()
+	{
+		KnowledgeBase kb = new KbBuilder()
+			.milestone("g:1", MilestoneCategory.GEAR, "Gear One", 5).ownedIf("Item One", 101).stage(4)
+			.milestone("g:2", MilestoneCategory.GEAR, "Gear Two", 5).ownedIf("Item Two", 102).stage(4)
+			.build();
+		Snapshot snapshot = new SnapshotBuilder().build();
+
+		assertEquals(4, StageEstimator.estimate(snapshot, kb, Set.of("g:1", "g:2")));
 	}
 
 	@Test

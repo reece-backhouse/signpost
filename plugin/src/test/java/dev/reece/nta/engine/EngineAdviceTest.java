@@ -94,7 +94,7 @@ class EngineAdviceTest
 		KnowledgeBase kb = fiveQuestKb();
 		Snapshot snapshot = new SnapshotBuilder().build();
 
-		AccountData data = new AccountData(new HashMap<>(), null, new HashMap<>(), new HashSet<>(Set.of("quest:0")), new ArrayList<>(), null);
+		AccountData data = new AccountData(new HashMap<>(), null, new HashMap<>(), new HashSet<>(Set.of("quest:0")), new ArrayList<>(), null, new HashSet<>());
 
 		Advice advice = engine.run(snapshot, kb, data, now);
 
@@ -113,6 +113,52 @@ class EngineAdviceTest
 
 		PrefsResolver resolver = new PrefsResolver();
 		assertEquals(resolver.resolve(data, advice.getStatuses(), now), advice.getPrefs());
+	}
+
+	/** Ticket 55: a manually-owned milestone is done - absent from ranked/later - but its name still surfaces via ownedManuallyNames, since it's no longer in statuses at all to look the name up from. */
+	@Test
+	void manuallyOwnedMilestoneIsAbsentFromRankedAndLaterButPresentInOwnedManuallyNames()
+	{
+		KnowledgeBase kb = new KbBuilder()
+			.milestone("milestone:barrows-gloves", MilestoneCategory.GEAR, "Barrows gloves", 8)
+			.ownedIf("Barrows gloves", 7462)
+			.build();
+		Snapshot snapshot = new SnapshotBuilder().build();
+		AccountData data = new AccountData(new HashMap<>(), null, new HashMap<>(), new HashSet<>(), new ArrayList<>(), null,
+			new HashSet<>(Set.of("milestone:barrows-gloves")));
+
+		Advice advice = engine.run(snapshot, kb, data, now);
+
+		assertFalse(ids(advice.getRanked()).contains("milestone:barrows-gloves"), ids(advice.getRanked()).toString());
+		assertFalse(ids(advice.getLater()).contains("milestone:barrows-gloves"), ids(advice.getLater()).toString());
+		assertEquals("Barrows gloves", advice.getOwnedManuallyNames().get("milestone:barrows-gloves"));
+		assertEquals(Set.of("milestone:barrows-gloves"), advice.getPrefs().getOwnedManually());
+	}
+
+	/**
+	 * Ticket 55, the live user feedback this ticket comes from ("it's suggesting Barrows gloves
+	 * and Fire cape, I have those already"): real bundled KB, both goals pinned so they're
+	 * deterministically picked in the baseline, then marking them owned removes them from picked
+	 * entirely (GapEngine no longer emits them at all).
+	 */
+	@Test
+	void markingBarrowsGlovesAndFireCapeOwnedRemovesBothFromPicked()
+	{
+		KnowledgeBase kb = KnowledgeBase.load(new Gson());
+		Snapshot snapshot = new SnapshotBuilder().build();
+		List<String> pins = List.of("milestone:barrows-gloves", "milestone:fire-cape");
+		AccountData baseline = new AccountData(new HashMap<>(), null, new HashMap<>(), new HashSet<>(), new ArrayList<>(pins), null, new HashSet<>());
+
+		Advice before = engine.run(snapshot, kb, baseline, now);
+		assertTrue(ids(before.getPicked()).contains("milestone:barrows-gloves"), ids(before.getPicked()).toString());
+		assertTrue(ids(before.getPicked()).contains("milestone:fire-cape"), ids(before.getPicked()).toString());
+
+		AccountData owned = new AccountData(new HashMap<>(), null, new HashMap<>(), new HashSet<>(), new ArrayList<>(pins), null,
+			new HashSet<>(Set.of("milestone:barrows-gloves", "milestone:fire-cape")));
+
+		Advice after = engine.run(snapshot, kb, owned, now);
+		assertFalse(ids(after.getPicked()).contains("milestone:barrows-gloves"), ids(after.getPicked()).toString());
+		assertFalse(ids(after.getPicked()).contains("milestone:fire-cape"), ids(after.getPicked()).toString());
 	}
 
 	@Test

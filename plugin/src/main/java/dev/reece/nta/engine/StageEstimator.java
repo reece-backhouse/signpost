@@ -3,8 +3,8 @@ package dev.reece.nta.engine;
 import dev.reece.nta.kb.KnowledgeBase;
 import dev.reece.nta.kb.MilestoneCategory;
 import dev.reece.nta.kb.MilestoneEntry;
-import dev.reece.nta.kb.OwnedItem;
 import dev.reece.nta.snapshot.Snapshot;
+import java.util.Set;
 import net.runelite.api.QuestState;
 
 /**
@@ -23,7 +23,8 @@ import net.runelite.api.QuestState;
  * </ul>
  *
  * "Owns" a gear milestone means any of its {@code ownedIf} item ids is held in bank, inventory, or
- * equipment (bank checked only when {@link Snapshot#isBankKnown()}). Pure: no
+ * equipment (bank checked only when {@link Snapshot#isBankKnown()}), or the milestone id is in the
+ * player's manually-marked-owned set (ticket 55, {@link GapEngine#isOwned}). Pure: no
  * {@link net.runelite.api.Client}, no I/O.
  */
 public final class StageEstimator
@@ -34,19 +35,26 @@ public final class StageEstimator
 
 	public static int estimate(Snapshot snapshot, KnowledgeBase kb)
 	{
+		return estimate(snapshot, kb, Set.of());
+	}
+
+	/** As {@link #estimate(Snapshot, KnowledgeBase)}, but a manually-owned gear milestone (ticket 55) counts as owned too. */
+	public static int estimate(Snapshot snapshot, KnowledgeBase kb, Set<String> ownedManually)
+	{
 		int combat = snapshot.combatLevel();
 		int totalLevel = totalLevel(snapshot);
 		int questsFinished = questsFinished(snapshot);
 
-		if (ownedGearMilestoneCount(kb, snapshot, 4) >= 2 || (combat >= 120 && ownedGearMilestoneCount(kb, snapshot, 3) >= 2))
+		if (ownedGearMilestoneCount(kb, snapshot, 4, ownedManually) >= 2
+			|| (combat >= 120 && ownedGearMilestoneCount(kb, snapshot, 3, ownedManually) >= 2))
 		{
 			return 4;
 		}
-		if (ownedGearMilestoneCount(kb, snapshot, 3) >= 2 || (combat >= 110 && totalLevel >= 1900) || questsFinished >= 190)
+		if (ownedGearMilestoneCount(kb, snapshot, 3, ownedManually) >= 2 || (combat >= 110 && totalLevel >= 1900) || questsFinished >= 190)
 		{
 			return 3;
 		}
-		if (combat >= 85 || totalLevel >= 1400 || questsFinished >= 120 || ownedGearMilestoneCount(kb, snapshot, 2) >= 2)
+		if (combat >= 85 || totalLevel >= 1400 || questsFinished >= 120 || ownedGearMilestoneCount(kb, snapshot, 2, ownedManually) >= 2)
 		{
 			return 2;
 		}
@@ -63,28 +71,16 @@ public final class StageEstimator
 		return (int) snapshot.getQuests().values().stream().filter(state -> state == QuestState.FINISHED).count();
 	}
 
-	private static int ownedGearMilestoneCount(KnowledgeBase kb, Snapshot snapshot, int stage)
+	private static int ownedGearMilestoneCount(KnowledgeBase kb, Snapshot snapshot, int stage, Set<String> ownedManually)
 	{
 		int count = 0;
 		for (MilestoneEntry entry : kb.getMilestones())
 		{
-			if (entry.getCategory() == MilestoneCategory.GEAR && entry.getStage() == stage && anyOwned(entry.getOwnedIf(), snapshot))
+			if (entry.getCategory() == MilestoneCategory.GEAR && entry.getStage() == stage && GapEngine.isOwned(entry, snapshot, ownedManually))
 			{
 				count++;
 			}
 		}
 		return count;
-	}
-
-	private static boolean anyOwned(Iterable<OwnedItem> ownedIf, Snapshot snapshot)
-	{
-		for (OwnedItem owned : ownedIf)
-		{
-			if (GapEngine.anyIdHeld(owned.getIds(), snapshot))
-			{
-				return true;
-			}
-		}
-		return false;
 	}
 }
