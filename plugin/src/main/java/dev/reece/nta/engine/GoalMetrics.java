@@ -2,6 +2,7 @@ package dev.reece.nta.engine;
 
 import dev.reece.nta.engine.model.DiaryTaskGap;
 import dev.reece.nta.engine.model.Gap;
+import dev.reece.nta.engine.model.ItemGap;
 import dev.reece.nta.engine.model.SkillLevelGap;
 import java.util.List;
 
@@ -16,7 +17,11 @@ final class GoalMetrics
 	{
 	}
 
-	/** Every top-level gap counts 1, except a {@link DiaryTaskGap}, which counts its inner gaps (minimum 1). */
+	/**
+	 * Every top-level gap counts 1, except: an {@link ItemGap} with an unknown {@code have} (bank
+	 * not seen) counts 0 (ruling 14 - it's not a confirmed shortfall, just unknown); a
+	 * {@link DiaryTaskGap} counts its own {@link #unmetCount} over its inner gaps (minimum 1).
+	 */
 	static int unmetCount(List<Gap> gaps)
 	{
 		int count = 0;
@@ -24,7 +29,11 @@ final class GoalMetrics
 		{
 			if (gap instanceof DiaryTaskGap)
 			{
-				count += Math.max(1, ((DiaryTaskGap) gap).getGaps().size());
+				count += Math.max(1, unmetCount(((DiaryTaskGap) gap).getGaps()));
+			}
+			else if (gap instanceof ItemGap && ((ItemGap) gap).getHave() == null)
+			{
+				continue;
 			}
 			else
 			{

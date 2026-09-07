@@ -85,6 +85,19 @@ class RankerTest
 	}
 
 	@Test
+	void unknownHaveItemGapCountsAsZeroUnmetButStillBlocksReady()
+	{
+		// Ruling 14: an ItemGap with have == null (bank not seen) counts as 0 unmet in the score,
+		// but the goal is still never "Ready now" (that's bankUnknown's job, not the gap count's).
+		GoalStatus status = status("g1", GoalCategory.MILESTONE, 5, List.of(new ItemGap("Rune", null, 1, List.of(), false)));
+		assertEquals(5.0, Ranker.score(status), 1e-9, "unknown-have item gap should not count toward unmet");
+
+		GoalStatus bankUnknown = new GoalStatus(status.getGoal(), status.getGaps(), false, true, List.of());
+		List<RankedGoal> ranked = ranker.rank(List.of(bankUnknown, status("ready", GoalCategory.QUEST, 1, List.of())), Set.of(), List.of());
+		assertEquals("ready", ranked.get(0).getStatus().getGoal().getId(), "bank-unknown goal must not rank as ready: " + ranked);
+	}
+
+	@Test
 	void bankUnknownWithNoGapsIsNeverReady()
 	{
 		Goal goal = new Goal("bu", GoalCategory.MILESTONE, "Bank Unknown Goal", "https://x", 5);

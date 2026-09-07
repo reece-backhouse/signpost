@@ -50,9 +50,11 @@ class WhyBuilderTest
 	@Test
 	void bankUnknownClauseAppendedAndNeverLabelledReady()
 	{
+		// A lone unknown-have ItemGap counts as 0 unmet (ruling 14), so the away-clause reads "0"
+		// even though the goal is still barred from "Ready now" by bankUnknown.
 		GoalStatus status = status("g1", GoalCategory.QUEST, List.of(new ItemGap("Rune", null, 1, List.of(), false)), false, true);
 
-		assertEquals("1 requirement away; bank unknown", whyBuilder.why(rank(status), kb, snap));
+		assertEquals("0 requirements away; bank unknown", whyBuilder.why(rank(status), kb, snap));
 	}
 
 	@Test
