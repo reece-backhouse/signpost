@@ -18,6 +18,9 @@ public class MaterialEntry
 {
 	String name;
 	Integer id;
+	/** True when the name is a prose/category reference ("Pickaxe", "Combat gear") with no item id: never a bank-matchable {@link dev.reece.nta.engine.model.ItemGap}, always a note. */
 	boolean generic;
+	/** The item's wiki page (ticket F3), from kb-build or derived from the name. */
+	String wikiUrl;
 	List<ItemSource> sources;
 }

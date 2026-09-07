@@ -190,6 +190,11 @@ public class GoalDetailPanel extends JPanel
 			}
 			return;
 		}
+		if (gap instanceof ItemGap)
+		{
+			missingPanel.add(linkRow(gapText(gap), ((ItemGap) gap).getWikiUrl(), indent));
+			return;
+		}
 		missingPanel.add(row(gapText(gap), indent));
 	}
 
@@ -323,7 +328,7 @@ public class GoalDetailPanel extends JPanel
 			case ITEM:
 			{
 				ItemGap g = next.getItemGap();
-				panel.add(row("Get " + g.getName() + " ×" + g.getNeed(), 0));
+				panel.add(linkRow("Get " + g.getName() + " ×" + g.getNeed(), g.getWikiUrl(), 0));
 				for (ItemSource source : g.getSources())
 				{
 					panel.add(row(sourceText(source), 1));
@@ -342,12 +347,12 @@ public class GoalDetailPanel extends JPanel
 		JPanel container = new JPanel();
 		container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
 		container.setAlignmentX(Component.LEFT_ALIGNMENT);
-		container.add(row(step.getMethod().getName() + " ×" + step.getCount()
-			+ " (" + step.getFromLevel() + "→" + step.getToLevel() + ", +" + step.getXpGained() + " xp)", indent));
+		container.add(linkRow(step.getMethod().getName() + " ×" + step.getCount()
+			+ " (" + step.getFromLevel() + "→" + step.getToLevel() + ", +" + step.getXpGained() + " xp)", step.getMethod().wikiUrl(), indent));
 		for (RouteStep craft : step.getCrafts())
 		{
-			container.add(row("craft " + craft.getMethod().getName() + " ×" + craft.getCount() + " from " + materialsList(craft),
-				indent + 1));
+			container.add(linkRow("craft " + craft.getMethod().getName() + " ×" + craft.getCount() + " from " + materialsList(craft),
+				craft.getMethod().wikiUrl(), indent + 1));
 		}
 		return container;
 	}
@@ -397,7 +402,8 @@ public class GoalDetailPanel extends JPanel
 		container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
 		container.setAlignmentX(Component.LEFT_ALIGNMENT);
 		int shortQty = Math.max(0, item.getNeed() - item.getHave());
-		container.add(row(item.getItem().getName() + ": have " + item.getHave() + ", need " + item.getNeed() + ", short " + shortQty, indent));
+		container.add(linkRow(item.getItem().getName() + ": have " + item.getHave() + ", need " + item.getNeed() + ", short " + shortQty,
+			item.getWikiUrl(), indent));
 		for (ItemSource source : item.getSources())
 		{
 			container.add(row(sourceText(source), indent + 1));
@@ -407,6 +413,19 @@ public class GoalDetailPanel extends JPanel
 			container.add(shortfallItemRows(craftFrom, indent + 1));
 		}
 		return container;
+	}
+
+	/** A {@link #row} with a "Wiki" button on the right when {@code wikiUrl} is known (ticket F3: methods and materials link to the wiki). */
+	private static JPanel linkRow(String text, String wikiUrl, int indent)
+	{
+		JPanel row = new JPanel(new BorderLayout(4, 0));
+		row.setAlignmentX(Component.LEFT_ALIGNMENT);
+		row.add(row(text, indent), BorderLayout.CENTER);
+		if (wikiUrl != null)
+		{
+			row.add(SuggestPanel.button("Wiki", () -> LinkBrowser.browse(wikiUrl)), BorderLayout.EAST);
+		}
+		return row;
 	}
 
 	private static JLabel row(String text, int indent)

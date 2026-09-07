@@ -544,7 +544,8 @@ public final class KnowledgeBase
 		List<ItemSource> sources = dto.sources.stream()
 			.map(s -> new ItemSource(s.type, s.where, s.detail))
 			.collect(Collectors.toList());
-		return new MaterialEntry(dto.name, dto.id, dto.generic, List.copyOf(sources));
+		String wikiUrl = dto.wikiUrl != null ? dto.wikiUrl : WikiUrls.forTitle(dto.name);
+		return new MaterialEntry(dto.name, dto.id, dto.generic, wikiUrl, List.copyOf(sources));
 	}
 
 	private static MethodEntry toMethodEntry(MethodDto dto, Map<String, Integer> materialIdsByName)
@@ -914,6 +915,7 @@ public final class KnowledgeBase
 		String name;
 		Integer id;
 		boolean generic;
+		String wikiUrl;
 		List<SourceDto> sources = new ArrayList<>();
 	}
 

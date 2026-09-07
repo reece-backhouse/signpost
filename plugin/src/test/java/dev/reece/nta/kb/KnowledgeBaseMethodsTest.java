@@ -73,6 +73,16 @@ class KnowledgeBaseMethodsTest
 		assertNotNull(byName.getId());
 		assertEquals(byName, kb.materialById(byName.getId()));
 		assertFalse(byName.getSources().isEmpty());
+		assertEquals("https://oldschool.runescape.wiki/w/Ranarr_weed", byName.getWikiUrl());
+	}
+
+	@Test
+	void materialWithoutAWikiUrlInJsonDerivesOneFromItsName()
+	{
+		KnowledgeBase kb = KnowledgeBase.fromJson(new Gson(), EMPTY_QUESTS_JSON, EMPTY_DIARIES_JSON, EMPTY_MILESTONES_JSON,
+			EMPTY_PRIORITIES_JSON, "{\"version\":1,\"generatedAt\":\"x\",\"methods\":[]}", materialsJsonWithRanarrWeed());
+
+		assertEquals("https://oldschool.runescape.wiki/w/Ranarr_weed", kb.materialByName("Ranarr weed").getWikiUrl());
 	}
 
 	@Test

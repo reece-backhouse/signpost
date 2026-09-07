@@ -17,6 +17,7 @@ import dev.reece.nta.kb.MilestoneCategory;
 import dev.reece.nta.snapshot.AccountType;
 import dev.reece.nta.snapshot.DiaryTier;
 import dev.reece.nta.snapshot.Snapshot;
+import java.util.ArrayList;
 import java.util.List;
 import net.runelite.api.Quest;
 import net.runelite.api.QuestState;
@@ -104,6 +105,77 @@ class GapEngineTest
 		assertEquals("Bucket", gap.getName());
 		assertEquals(1, gap.getHave());
 		assertEquals(2, gap.getNeed());
+	}
+
+	/** Final-review I5: a generic requirement name ("Pickaxe") is not an in-game item; it must be a note, never a blocking gap. */
+	@Test
+	void genericQuestItemNameBecomesANoteNotAGap()
+	{
+		KnowledgeBase kb = new KbBuilder().quest(CLOCK_TOWER_ID, "Clock Tower").item("Pickaxe", 1).material("Pickaxe", null).build();
+		Snapshot snapshot = new SnapshotBuilder().build();
+
+		GoalStatus status = onlyGoal(engine.evaluate(snapshot, kb));
+
+		assertTrue(status.isReady(), "a generic item must not block readiness: " + status.getGaps());
+		assertEquals(List.of("Bring: Pickaxe (see wiki)"), status.getNotes());
+	}
+
+	@Test
+	void genericDiaryItemNameBecomesATaskNoteNotAGap()
+	{
+		KnowledgeBase kb = new KbBuilder().diary(DiaryTier.VARROCK_EASY).task(1, "Mine some tin").item("pickaxe").material("pickaxe", null).build();
+		Snapshot snapshot = new SnapshotBuilder().build();
+
+		DiaryTaskGap task = (DiaryTaskGap) onlyGap(onlyGoal(engine.evaluate(snapshot, kb)));
+
+		assertEquals(List.of(), task.getGaps());
+		assertTrue(task.getNotes().contains("Bring: pickaxe (see wiki)"), task.getNotes().toString());
+	}
+
+	@Test
+	void itemGapCarriesTheMaterialsWikiUrl()
+	{
+		KnowledgeBase kb = new KbBuilder().quest(CLOCK_TOWER_ID, "Clock Tower").item("Bucket", 2).material("Bucket", 1925).build();
+		Snapshot snapshot = new SnapshotBuilder().build();
+
+		ItemGap gap = (ItemGap) onlyGap(onlyGoal(engine.evaluate(snapshot, kb)));
+
+		assertEquals("https://oldschool.runescape.wiki/w/Bucket", gap.getWikiUrl());
+	}
+
+	/** Final-review I5 on the bundled data: no quest or diary item requirement anywhere resolves to a generic material as an ItemGap. */
+	@Test
+	void noBundledGoalHasAnItemGapForAGenericName()
+	{
+		KnowledgeBase kb = KnowledgeBase.load(new Gson());
+		Snapshot snapshot = new SnapshotBuilder().build();
+
+		List<String> offenders = new ArrayList<>();
+		for (GoalStatus status : engine.evaluate(snapshot, kb))
+		{
+			collectGenericItemGaps(status.getGoal().getName(), status.getGaps(), kb, offenders);
+		}
+
+		assertEquals(List.of(), offenders);
+	}
+
+	private static void collectGenericItemGaps(String goal, List<Gap> gaps, KnowledgeBase kb, List<String> offenders)
+	{
+		for (Gap gap : gaps)
+		{
+			if (gap instanceof DiaryTaskGap)
+			{
+				collectGenericItemGaps(goal, ((DiaryTaskGap) gap).getGaps(), kb, offenders);
+			}
+			else if (gap instanceof ItemGap)
+			{
+				dev.reece.nta.kb.MaterialEntry material = kb.materialByName(((ItemGap) gap).getName());
+				if (material == null || material.isGeneric())
+				{
+					offenders.add(goal + ": " + ((ItemGap) gap).getName() + (material == null ? " (no material entry)" : " (generic)"));
+				}
+			}
+		}
 	}
 
 	@Test
