@@ -1,6 +1,13 @@
 package dev.reece.nta.engine;
 
 import dev.reece.nta.engine.model.Advice;
+import dev.reece.nta.engine.model.Goal;
+import dev.reece.nta.engine.model.GoalCategory;
+import dev.reece.nta.engine.model.GoalRef;
+import dev.reece.nta.engine.model.GoalStatus;
+import dev.reece.nta.engine.model.RankedGoal;
+import dev.reece.nta.engine.model.Route;
+import dev.reece.nta.engine.model.SkillLevelGap;
 import dev.reece.nta.kb.KnowledgeBase;
 import dev.reece.nta.kb.MilestoneCategory;
 import dev.reece.nta.snapshot.Snapshot;
@@ -17,6 +24,8 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.function.Consumer;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -28,6 +37,7 @@ import org.junit.jupiter.api.Assumptions;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -48,7 +58,32 @@ class RenderSmokeTest
 			.skill(Skill.DEFENCE, 40)
 			.build();
 		Snapshot snapshot = new SnapshotBuilder().build();
-		Advice advice = new Engine(new BoostTable()).run(snapshot, kb, AccountData.empty(), Instant.now());
+		Advice base = new Engine(new BoostTable()).run(snapshot, kb, AccountData.empty(), Instant.now());
+
+		// task 52b: append a synthetic SKILL_TARGET goal (parents + a bank-covered route) to the
+		// hand-built advice, and an explanation for the existing milestone goal, to exercise the
+		// Why? toggle and the skill-target card rendering without needing SkillTargetSynthesiser.
+		Goal skillGoal = new Goal("skill:woodcutting:75", GoalCategory.SKILL_TARGET, "75 Woodcutting", null, 0, 1);
+		SkillLevelGap skillGap = new SkillLevelGap(Skill.WOODCUTTING, 60, 75, 500_000L, false, null, false);
+		GoalRef parent = new GoalRef("quest:song-of-the-elves", "Song of the Elves", 75);
+		Route bankRoute = new Route(List.of(), 0L, 1_000_000L, Map.of());
+		GoalStatus skillStatus = new GoalStatus(skillGoal, List.of(skillGap), false, false, List.of(), List.of(), List.of(parent), bankRoute);
+		RankedGoal skillRanked = new RankedGoal(skillStatus, 10.0, false, false);
+
+		// picked is replaced (not merged) with just the skill target, so it's deterministically the
+		// first (and only) "Pick one" card - the goal set the assertions below target.
+		List<GoalStatus> statuses = new ArrayList<>(base.getStatuses());
+		statuses.add(skillStatus);
+		List<RankedGoal> ranked = new ArrayList<>(base.getRanked());
+		ranked.add(skillRanked);
+		List<RankedGoal> picked = List.of(skillRanked);
+
+		Map<String, List<String>> explanations = new HashMap<>(base.getExplanations());
+		explanations.put(skillGoal.getId(), List.of("Needed for Song of the Elves (75 Woodcutting)", "Bank covers 60→75"));
+
+		Advice advice = new Advice(base.getSnapshot(), statuses, base.getDiaryProgress(), base.getComputedAt(),
+			ranked, picked, base.getRest(), base.getAccountStage(), base.getLater(), base.getWhys(), explanations,
+			base.getReasons(), base.getPrefs(), base.getFocus());
 
 		Consumer<String> noop = id -> { };
 		SuggestPanel.Actions actions = new SuggestPanel.Actions(noop, noop, noop, noop, noop, noop, noop, () -> { });
@@ -61,6 +96,29 @@ class RenderSmokeTest
 				panel.render(advice);
 				layoutAtRealPanelWidth(panel);
 				assertNoButtonNarrowerThanItsPreferredWidth(panel);
+
+				JLabel whyToggle = findLabelStartingWith(panel, "Why?");
+				assertNotNull(whyToggle, "a Why? toggle must exist on a card");
+				assertTrue(whyToggle.getText().endsWith("▶"), "collapsed by default, got: " + whyToggle.getText());
+				assertFalse(containsLabelContaining(panel, "Bank covers 60"),
+					"explanation line must not be present before the toggle is clicked");
+
+				whyToggle.dispatchEvent(new MouseEvent(whyToggle, MouseEvent.MOUSE_CLICKED,
+					System.currentTimeMillis(), 0, 1, 1, 1, false));
+
+				// the toggle click rebuilds the card from scratch (unlike the persistent Later/
+				// Snoozed/Ignored Header fields, which mutate their own label in place), so the
+				// post-click label must be re-found rather than re-read off the stale reference.
+				JLabel whyToggleAfterClick = findLabelStartingWith(panel, "Why?");
+				assertNotNull(whyToggleAfterClick, "a Why? toggle must still exist after the click");
+				assertTrue(whyToggleAfterClick.getText().endsWith("▼"),
+					"clicking the toggle must expand it, got: " + whyToggleAfterClick.getText());
+				assertTrue(containsLabelContaining(panel, "Bank covers 60"),
+					"explanation line must be present in the tree after expanding");
+
+				assertTrue(containsLabelContaining(panel, "Skill"), "SKILL_TARGET category label 'Skill' must render");
+				assertTrue(containsLabelContaining(panel, "for Song of the Elves"), "skill-target card must show its parent goal");
+				assertTrue(containsLabelContaining(panel, "materials in bank"), "bank-covered skill target must show the badge");
 			});
 		}
 		catch (InvocationTargetException e)
@@ -247,6 +305,23 @@ class RenderSmokeTest
 			}
 		}
 		return null;
+	}
+
+	/** Task 52b: as {@link #findLabelStartingWith}, but a substring match anywhere in the label's text (HTML-wrapped explanation/parent lines included). */
+	private static boolean containsLabelContaining(Container container, String substring)
+	{
+		for (Component child : container.getComponents())
+		{
+			if (child instanceof JLabel && ((JLabel) child).getText().contains(substring))
+			{
+				return true;
+			}
+			if (child instanceof Container && containsLabelContaining((Container) child, substring))
+			{
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**

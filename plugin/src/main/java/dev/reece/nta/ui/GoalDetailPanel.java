@@ -62,6 +62,7 @@ public class GoalDetailPanel extends JPanel
 	private final JButton wikiButton = new JButton("Wiki");
 	private final JLabel whyLabel = new JLabel();
 	private final JLabel reasonLabel = new JLabel();
+	private final JPanel explanationPanel = new JPanel();
 	private final JPanel missingPanel = new JPanel();
 	private final JPanel nextPanel = new JPanel();
 	private final JPanel shortSection = new JPanel();
@@ -109,6 +110,11 @@ public class GoalDetailPanel extends JPanel
 		reasonLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
 		add(reasonLabel);
 
+		explanationPanel.setLayout(new BoxLayout(explanationPanel, BoxLayout.Y_AXIS));
+		explanationPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+		explanationPanel.setBorder(BorderFactory.createEmptyBorder(4, 0, 0, 0));
+		add(explanationPanel);
+
 		add(SuggestPanel.sectionLabel("Missing"));
 		missingPanel.setLayout(new BoxLayout(missingPanel, BoxLayout.Y_AXIS));
 		missingPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -153,6 +159,12 @@ public class GoalDetailPanel extends JPanel
 		String reason = advice.getReasons().get(goal.getId());
 		reasonLabel.setVisible(reason != null && !reason.isEmpty());
 		reasonLabel.setText(reason == null ? "" : SuggestPanel.wrap(SuggestPanel.truncateReason(reason)));
+
+		explanationPanel.removeAll();
+		for (String line : advice.getExplanations().getOrDefault(goal.getId(), List.of()))
+		{
+			explanationPanel.add(row(line, 0));
+		}
 
 		missingPanel.removeAll();
 		for (Gap gap : status.getGaps())
