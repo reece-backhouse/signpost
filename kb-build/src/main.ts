@@ -147,21 +147,16 @@ function readKb<T>(name: string): T & { generatedAt: string } {
   return JSON.parse(readFileSync(path, 'utf8')) as T & { generatedAt: string };
 }
 
-const MILESTONES_DRAFT_PATH =
-  '/Users/reece/projects/runelite/.superpowers/sdd/LOCAL-next-target-advisor/milestones-draft.json';
-
-/** milestones.json doesn't exist in this worktree yet (S4 lands it on main); falls back to the hand-curated draft. */
-function readMilestones(): { milestones: { requirements: { items: { name: string }[] }; ownedIf: { name: string }[] }[] } {
-  const committedPath = join(kbDir, 'milestones.json');
-  const path = existsSync(committedPath) ? committedPath : MILESTONES_DRAFT_PATH;
-  return JSON.parse(readFileSync(path, 'utf8'));
+interface MilestoneEntry {
+  requirements: { items: { name: string }[] };
+  ownedIf: { name: string }[];
 }
 
 async function buildMaterialsCommand(): Promise<void> {
   const methodsFile = readKb<{ methods: Method[] }>('methods');
   const quests = readKb<{ quests: QuestEntry[] }>('quests');
   const diaries = readKb<{ diaries: DiaryEntry[] }>('diaries');
-  const milestones = readMilestones();
+  const milestones = readKb<{ milestones: MilestoneEntry[] }>('milestones');
 
   const names = collectReferencedItems({
     methods: methodsFile.methods,
