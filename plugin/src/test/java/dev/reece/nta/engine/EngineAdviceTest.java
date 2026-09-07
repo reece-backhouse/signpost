@@ -281,6 +281,13 @@ class EngineAdviceTest
 		{
 			System.out.println("  " + line);
 		}
+		List<RankedGoal> restHead = advice.getRest().subList(0, Math.min(10, advice.getRest().size()));
+		System.out.println("  rest 1-10: " + restHead.stream()
+			.map(r -> id(r) + String.format(" (%.2f)", r.getScore())).collect(Collectors.toList()));
+		long uncoveredTargetsInTopFive = restHead.stream().limit(5)
+			.filter(r -> r.getStatus().getGoal().getCategory() == GoalCategory.SKILL_TARGET && !r.getStatus().isBankCovered())
+			.count();
+		assertTrue(uncoveredTargetsInTopFive <= 1, "uncovered skill targets must not crowd the top of rest: " + restHead);
 	}
 
 	/** The mid-game group ironman account described on {@link #midGameAccountDoesNotSeeEndgameBossesAsReadyOrPicked}. */

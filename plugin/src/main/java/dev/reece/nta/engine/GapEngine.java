@@ -412,7 +412,7 @@ public final class GapEngine
 		Goal goal = new Goal(entry.getId(), mapMilestoneCategory(entry.getCategory()), entry.getName(),
 			WikiUrls.forTitle(entry.getWikiTitle()), priority, entry.getStage());
 		boolean bankUnknown = anyBankUnknown(gaps) || ownedState == OwnedState.UNKNOWN;
-		return Optional.of(new GoalStatus(goal, List.copyOf(gaps), gaps.isEmpty(), bankUnknown, List.of(), List.copyOf(met), List.of(), null));
+		return Optional.of(new GoalStatus(goal, List.copyOf(gaps), gaps.isEmpty(), bankUnknown, List.of(), List.copyOf(met), List.of(), null, 0));
 	}
 
 	/**
@@ -805,7 +805,7 @@ public final class GapEngine
 
 	private static GoalStatus toGoalStatus(Goal goal, List<Gap> gaps, List<String> notes, List<Met> met)
 	{
-		return new GoalStatus(goal, List.copyOf(gaps), gaps.isEmpty(), anyBankUnknown(gaps), List.copyOf(notes), List.copyOf(met), List.of(), null);
+		return new GoalStatus(goal, List.copyOf(gaps), gaps.isEmpty(), anyBankUnknown(gaps), List.copyOf(notes), List.copyOf(met), List.of(), null, 0);
 	}
 
 	private static boolean anyBankUnknown(List<Gap> gaps)

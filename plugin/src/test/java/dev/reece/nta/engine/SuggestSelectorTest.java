@@ -1,5 +1,9 @@
 package dev.reece.nta.engine;
 
+import net.runelite.api.Skill;
+import java.util.Map;
+import dev.reece.nta.engine.model.SkillLevelGap;
+import dev.reece.nta.engine.model.Route;
 import dev.reece.nta.engine.model.Goal;
 import dev.reece.nta.engine.model.GoalCategory;
 import dev.reece.nta.engine.model.GoalStatus;
@@ -242,6 +246,31 @@ class SuggestSelectorTest
 		List<RankedGoal> picked = selector.pick3(List.of(r1, r2, r3, r4));
 
 		assertEquals(List.of("r1", "r2", "skill:HERBLORE:70"), ids(picked), ids(picked).toString());
+	}
+
+	/** Fix round 1: an uncovered skill target is never picked, even as the only other category; a covered one still is. */
+	@Test
+	void uncoveredSkillTargetIsNeverPickedButACoveredOneIs()
+	{
+		RankedGoal r1 = ranked("r1", GoalCategory.QUEST, 10, false);
+		RankedGoal r2 = ranked("r2", GoalCategory.QUEST, 9, false);
+		RankedGoal uncovered = skillTarget("skill:PRAYER:52", 8, false);
+		RankedGoal r4 = ranked("r4", GoalCategory.QUEST, 7, false);
+
+		assertEquals(List.of("r1", "r2", "r4"), ids(selector.pick3(List.of(r1, r2, uncovered, r4))));
+		assertEquals(List.of("r1", "r2"), ids(selector.pick3(List.of(r1, r2, uncovered))), "nothing else eligible: two picks, not three");
+
+		RankedGoal covered = skillTarget("skill:HERBLORE:70", 8, true);
+		assertEquals(List.of("r1", "r2", "skill:HERBLORE:70"), ids(selector.pick3(List.of(r1, r2, covered, r4))));
+	}
+
+	private static RankedGoal skillTarget(String id, double score, boolean covered)
+	{
+		Goal goal = new Goal(id, GoalCategory.SKILL_TARGET, id, "https://x", 9, 1);
+		Route route = new Route(List.of(), covered ? 0 : 1000, 0, Map.of());
+		GoalStatus status = new GoalStatus(goal, List.of(new SkillLevelGap(Skill.PRAYER, 45, 52, 1000, false, null, false)),
+			false, false, List.of(), List.of(), List.of(), route, score);
+		return new RankedGoal(status, score, false, false);
 	}
 
 	private static RankedGoal ranked(String id, GoalCategory category, double score, boolean pinned)
