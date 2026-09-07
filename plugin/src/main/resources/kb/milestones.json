@@ -3300,7 +3300,7 @@
             "name": "Rune kiteshield"
           }
         ],
-        "gearOwnedMin": 2,
+        "gearOwnedMin": 1,
         "skills": [
           {
             "level": 70,
