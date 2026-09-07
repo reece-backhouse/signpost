@@ -1,5 +1,6 @@
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
+import { buildDiaries, DIARY_PAGE_TITLES, type DiaryEntry, type DiaryVarsFile } from './diaries.js';
 import { writeKb } from './emit.js';
 import { buildQuests, type QuestEntry } from './quests.js';
 import { parseQuestreq } from './questreq.js';
@@ -51,10 +52,34 @@ function logSummary(quests: QuestEntry[]): void {
   }
 }
 
+async function buildDiariesCommand(): Promise<void> {
+  const vars: DiaryVarsFile = JSON.parse(readFileSync(join(dataDir, 'diary-vars.json'), 'utf8'));
+
+  const titles = Object.values(DIARY_PAGE_TITLES);
+  const pages = await fetchRevisions(titles);
+
+  const diaries = buildDiaries({ pages, vars });
+
+  const generatedAt = [...pages.values()].map((p) => p.timestamp).sort().at(-1)!;
+
+  writeKb('diaries', { diaries }, generatedAt);
+
+  logDiarySummary(diaries);
+}
+
+function logDiarySummary(diaries: DiaryEntry[]): void {
+  console.log(`Built ${diaries.length} diary tiers:`);
+  for (const entry of diaries) {
+    console.log(`  ${entry.area} ${entry.tier}: ${entry.tasks.length} tasks`);
+  }
+}
+
 const command = process.argv[2];
 if (command === 'quests') {
   await buildQuestsCommand();
+} else if (command === 'diaries') {
+  await buildDiariesCommand();
 } else {
-  console.error(`Unknown command: ${String(command)}. Usage: npm run build-kb -- quests`);
+  console.error(`Unknown command: ${String(command)}. Usage: npm run build-kb -- quests|diaries`);
   process.exit(1);
 }
