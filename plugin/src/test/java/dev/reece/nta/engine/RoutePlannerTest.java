@@ -204,6 +204,37 @@ class RoutePlannerTest
 	}
 
 	@Test
+	void aNonZeroXpIntermediateCraftCreditsItsOwnXpToTheRoute()
+	{
+		KnowledgeBase kb = new KbBuilder()
+			.method(Skill.HERBLORE, "Potion", 1, 1)
+			.material(3, 1)
+			.output(4, 1)
+			.method(Skill.HERBLORE, "Make unf", 1, 2.5)
+			.material(1, 1)
+			.material(2, 1)
+			.output(3, 1)
+			.intermediate()
+			.build();
+		Map<Integer, Integer> bank = new HashMap<>();
+		bank.put(1, 1000);
+		bank.put(2, 1000);
+
+		Route route = RoutePlanner.route(Skill.HERBLORE, 0, 10, bank, kb);
+
+		assertEquals(1, route.getSteps().size());
+		RouteStep step = route.getSteps().get(0);
+		assertEquals(10, step.getCount());
+		assertEquals(1, step.getCrafts().size());
+		RouteStep craft = step.getCrafts().get(0);
+		assertEquals(10, craft.getCount());
+		assertEquals(25, craft.getXpGained());
+
+		assertEquals(0, route.getUncoveredXp());
+		assertEquals(35, route.getFinalXp(), "finalXp must include the 25 xp from the craft sub-step, not just the 10 from Potion itself");
+	}
+
+	@Test
 	void sameInputsProduceAnIdenticalRoute()
 	{
 		KnowledgeBase kb = new KbBuilder()

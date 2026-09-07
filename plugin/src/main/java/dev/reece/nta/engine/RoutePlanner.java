@@ -72,9 +72,10 @@ public final class RoutePlanner
 				if (haveDirect < need)
 				{
 					int shortfall = need - haveDirect;
-					RouteStep craft = craftShortfall(material.getId(), shortfall, skill, simBank, kb, simLevel);
+					RouteStep craft = craftShortfall(material.getId(), shortfall, skill, simBank, kb, simXp);
 					if (craft != null)
 					{
+						simXp += craft.getXpGained();
 						crafts.add(craft);
 					}
 				}
@@ -93,7 +94,9 @@ public final class RoutePlanner
 				simBank.merge(output.getId(), produced, Integer::sum);
 			}
 
-			int fromLevel = simLevel;
+			// fromLevel is taken AFTER crediting any craft sub-step xp above: crafting is a real
+			// action performed before the method's own action this iteration.
+			int fromLevel = capLevel(simXp);
 			simXp += count * best.getXpPerAction();
 			int toLevel = capLevel(simXp);
 			long xpGained = (long) Math.floor(count * best.getXpPerAction());
@@ -124,9 +127,13 @@ public final class RoutePlanner
 	 * much of {@code shortfall} units of {@code itemId} as {@link #maxCraftable} allows, consuming
 	 * the intermediate's materials and adding its output into {@code simBank}. Returns {@code null}
 	 * when no intermediate produces {@code itemId} (the outer material stays short; the caller
-	 * already excluded this method from candidates unless the direct bank covered it).
+	 * already excluded this method from candidates unless the direct bank covered it). Every
+	 * bundled intermediate is 0-xp today, but ruling 15 anticipates a non-zero one (e.g. herb
+	 * cleaning), so the craft's own xp is credited here too - {@code xpAtStart} is the running
+	 * {@code simXp} at the moment this craft runs, used only to report the craft's from/to level.
 	 */
-	private static RouteStep craftShortfall(int itemId, int shortfall, Skill skill, Map<Integer, Integer> simBank, KnowledgeBase kb, int level)
+	private static RouteStep craftShortfall(int itemId, int shortfall, Skill skill, Map<Integer, Integer> simBank, KnowledgeBase kb,
+		double xpAtStart)
 	{
 		MethodEntry intermediate = bestIntermediateFor(itemId, skill, simBank, kb);
 		if (intermediate == null)
@@ -147,7 +154,10 @@ public final class RoutePlanner
 		int produced = (int) Math.floor(craftCount * outputQty);
 		simBank.merge(itemId, produced, Integer::sum);
 
-		return new RouteStep(intermediate, craftCount, level, level, 0, Map.copyOf(materialsUsed), List.of());
+		long craftXpGained = (long) Math.floor(craftCount * intermediate.getXpPerAction());
+		int fromLevel = capLevel(xpAtStart);
+		int toLevel = capLevel(xpAtStart + craftXpGained);
+		return new RouteStep(intermediate, craftCount, fromLevel, toLevel, craftXpGained, Map.copyOf(materialsUsed), List.of());
 	}
 
 	/** Fail loud (never silently let a simulated bank entry go negative) rather than produce a route that spends items it doesn't have. */
