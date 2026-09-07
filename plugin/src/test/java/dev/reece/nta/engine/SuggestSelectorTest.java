@@ -35,6 +35,17 @@ class SuggestSelectorTest
 		assertEquals(List.of("r1", "r2", "r4"), ids(picked), "r3 (same category as r1/r2) should be skipped for r4: " + ids(picked));
 	}
 
+	/** Final-review I1: every ranked goal "later" (e.g. every in-range goal hidden) must give zero picks, not an exception. */
+	@Test
+	void allLaterGoalsGiveNoPicks()
+	{
+		RankedGoal l1 = ranked("l1", GoalCategory.QUEST, 10, false, true);
+		RankedGoal l2 = ranked("l2", GoalCategory.MILESTONE, 9, false, true);
+
+		assertEquals(List.of(), selector.pick3(List.of(l1, l2)));
+		assertEquals(List.of(), selector.pick3(List.of(l1, l2), null));
+	}
+
 	@Test
 	void pinsFillSlotsOneAndTwoFirstThenCategoryRuleDecidesSlotThree()
 	{
