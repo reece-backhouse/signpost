@@ -74,6 +74,11 @@ describe('parseLua', () => {
     expect(() => parseLua('return { a = }')).toThrow(/line \d+.*column \d+/is);
   });
 
+  it('evaluates a numeric division expression (Module:Skill calc/Smithing "quantity = 1/140")', () => {
+    const result = parseLua("return { quantity = 1/140 }") as LuaTable;
+    expect(result.quantity).toBeCloseTo(1 / 140);
+  });
+
   it('tolerates a leading local assignment followed by return', () => {
     const result = parseLua('local x = { a = 1 }\nreturn x') as LuaTable;
     expect(result.a).toBe(1);
