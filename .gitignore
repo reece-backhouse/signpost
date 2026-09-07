@@ -1,0 +1,7 @@
+plugin/build/
+plugin/.gradle/
+plugin/.idea/
+*.iml
+kb-build/node_modules/
+kb-build/dist/
+.DS_Store
