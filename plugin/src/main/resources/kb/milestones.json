@@ -72,7 +72,63 @@
       ],
       "priority": 9,
       "reason": "Iconic melee cape reward for defeating TzTok-Jad in the TzHaar Fight Cave, a landmark solo-combat challenge and the gateway to the Inferno.",
-      "recommended": null,
+      "recommended": {
+        "combatLevel": 90,
+        "gearOwnedAny": [
+          {
+            "id": 12926,
+            "ids": [
+              12924,
+              12926
+            ],
+            "name": "Toxic blowpipe"
+          },
+          {
+            "id": 9185,
+            "ids": [
+              9185
+            ],
+            "name": "Rune crossbow"
+          },
+          {
+            "id": 4736,
+            "ids": [
+              4736,
+              4940,
+              4941,
+              4942,
+              4943,
+              4944
+            ],
+            "name": "Karil's leathertop"
+          },
+          {
+            "id": 2503,
+            "ids": [
+              2503
+            ],
+            "name": "Black d'hide body"
+          }
+        ],
+        "skills": [
+          {
+            "level": 70,
+            "skill": "Ranged"
+          },
+          {
+            "level": 43,
+            "skill": "Prayer"
+          },
+          {
+            "level": 70,
+            "skill": "Defence"
+          },
+          {
+            "level": 70,
+            "skill": "Hitpoints"
+          }
+        ]
+      },
       "requirements": {
         "combatLevel": null,
         "diaries": [],
@@ -115,7 +171,11 @@
       ],
       "priority": 7,
       "reason": "Cheap, high-value melee torso from Barbarian Assault with no negative bonuses, filling the body slot until Bandos-tier upgrades.",
-      "recommended": null,
+      "recommended": {
+        "combatLevel": 60,
+        "gearOwnedAny": [],
+        "skills": []
+      },
       "requirements": {
         "combatLevel": null,
         "diaries": [],
@@ -162,7 +222,20 @@
       ],
       "priority": 6,
       "reason": "Second-strongest defender in the game, giving strong melee accuracy and strength while occupying the shield slot until the Avernic defender.",
-      "recommended": null,
+      "recommended": {
+        "combatLevel": null,
+        "gearOwnedAny": [],
+        "skills": [
+          {
+            "level": 70,
+            "skill": "Attack"
+          },
+          {
+            "level": 70,
+            "skill": "Strength"
+          }
+        ]
+      },
       "requirements": {
         "combatLevel": null,
         "diaries": [],
@@ -192,7 +265,7 @@
       "gearTier": 8,
       "id": "milestone:avas-assembler",
       "name": "Ava's assembler",
-      "obtainedFrom": null,
+      "obtainedFrom": "boss:vorkath",
       "ownedIf": [
         {
           "id": 22109,
@@ -206,7 +279,82 @@
       ],
       "priority": 8,
       "reason": "Best-in-slot ranged cape (stat-identical to the cosmetic Masori assembler), gated behind killing Vorkath after Dragon Slayer II.",
-      "recommended": null,
+      "recommended": {
+        "combatLevel": 100,
+        "gearOwnedAny": [
+          {
+            "id": 21012,
+            "ids": [
+              21012
+            ],
+            "name": "Dragon hunter crossbow"
+          },
+          {
+            "id": 9185,
+            "ids": [
+              9185
+            ],
+            "name": "Rune crossbow"
+          },
+          {
+            "id": 12926,
+            "ids": [
+              12924,
+              12926
+            ],
+            "name": "Toxic blowpipe"
+          },
+          {
+            "id": 4736,
+            "ids": [
+              4736,
+              4940,
+              4941,
+              4942,
+              4943,
+              4944
+            ],
+            "name": "Karil's leathertop"
+          },
+          {
+            "id": 13072,
+            "ids": [
+              13072,
+              20467,
+              24178,
+              33480,
+              33482
+            ],
+            "name": "Elite void top"
+          },
+          {
+            "id": 2503,
+            "ids": [
+              2503
+            ],
+            "name": "Black d'hide body"
+          }
+        ],
+        "gearOwnedMin": 2,
+        "skills": [
+          {
+            "level": 80,
+            "skill": "Ranged"
+          },
+          {
+            "level": 70,
+            "skill": "Defence"
+          },
+          {
+            "level": 80,
+            "skill": "Hitpoints"
+          },
+          {
+            "level": 70,
+            "skill": "Prayer"
+          }
+        ]
+      },
       "requirements": {
         "combatLevel": null,
         "diaries": [],
@@ -302,7 +450,11 @@
       ],
       "priority": 6,
       "reason": "Upgraded Void top and robe add extra ranged/magic damage on top of the base Void set effect, giving cheap tribrid armour that swaps roles via helm.",
-      "recommended": null,
+      "recommended": {
+        "combatLevel": 70,
+        "gearOwnedAny": [],
+        "skills": []
+      },
       "requirements": {
         "combatLevel": null,
         "diaries": [
@@ -400,7 +552,11 @@
       ],
       "priority": 9,
       "reason": "Best-in-slot helm on Slayer tasks across all three combat styles, combining melee, ranged, and magic accuracy/damage bonuses in one head slot item.",
-      "recommended": null,
+      "recommended": {
+        "combatLevel": 65,
+        "gearOwnedAny": [],
+        "skills": []
+      },
       "requirements": {
         "combatLevel": null,
         "diaries": [],
@@ -445,7 +601,11 @@
       "ownedIf": [],
       "priority": 10,
       "reason": "Best melee combat prayer, boosting Attack, Strength, and Defence simultaneously, and a defining unlock for any melee-focused account.",
-      "recommended": null,
+      "recommended": {
+        "combatLevel": 90,
+        "gearOwnedAny": [],
+        "skills": []
+      },
       "requirements": {
         "combatLevel": null,
         "diaries": [],
@@ -488,7 +648,16 @@
       "ownedIf": [],
       "priority": 8,
       "reason": "Best ranged combat prayer, boosting Ranged Attack, Ranged Strength, and Defence, unlocked via a Chambers of Xeric raid drop.",
-      "recommended": null,
+      "recommended": {
+        "combatLevel": null,
+        "gearOwnedAny": [],
+        "skills": [
+          {
+            "level": 70,
+            "skill": "Ranged"
+          }
+        ]
+      },
       "requirements": {
         "combatLevel": null,
         "diaries": [],
@@ -541,7 +710,16 @@
       "ownedIf": [],
       "priority": 7,
       "reason": "Best magic combat prayer, boosting Magic Attack, Magic Damage, and Defence, unlocked via a Chambers of Xeric raid drop.",
-      "recommended": null,
+      "recommended": {
+        "combatLevel": null,
+        "gearOwnedAny": [],
+        "skills": [
+          {
+            "level": 70,
+            "skill": "Magic"
+          }
+        ]
+      },
       "requirements": {
         "combatLevel": null,
         "diaries": [],
@@ -712,7 +890,16 @@
       ],
       "priority": 5,
       "reason": "The full graceful outfit reduces weight by 25kg and boosts run energy restoration by up to 30%, a lasting quality-of-life upgrade for Agility training, clue hunting, and general travel.",
-      "recommended": null,
+      "recommended": {
+        "combatLevel": null,
+        "gearOwnedAny": [],
+        "skills": [
+          {
+            "level": 40,
+            "skill": "Agility"
+          }
+        ]
+      },
       "requirements": {
         "combatLevel": null,
         "diaries": [],
@@ -2306,7 +2493,16 @@
       "ownedIf": [],
       "priority": 5,
       "reason": "Level 55 Slayer unlocks broad bolts and broad arrows, the only ranged ammunition able to damage Turoth and Kurask, letting Ranged-based accounts handle those tasks without switching to melee or magic.",
-      "recommended": null,
+      "recommended": {
+        "combatLevel": 60,
+        "gearOwnedAny": [],
+        "skills": [
+          {
+            "level": 50,
+            "skill": "Ranged"
+          }
+        ]
+      },
       "requirements": {
         "combatLevel": null,
         "diaries": [],
@@ -2344,7 +2540,16 @@
       "ownedIf": [],
       "priority": 5,
       "reason": "Level 58 Slayer unlocks Cave horror tasks, a reliable source of black mask drops and one of the better hard clue scroll rates among mid-level Slayer monsters.",
-      "recommended": null,
+      "recommended": {
+        "combatLevel": 65,
+        "gearOwnedAny": [],
+        "skills": [
+          {
+            "level": 43,
+            "skill": "Prayer"
+          }
+        ]
+      },
       "requirements": {
         "combatLevel": null,
         "diaries": [],
@@ -2383,7 +2588,20 @@
       "ownedIf": [],
       "priority": 5,
       "reason": "Level 65 Slayer unlocks Dust devil tasks, a fast, high-volume task commonly bursted or barraged in the Catacombs of Kourend or Smoke Dungeon while wearing a facemask or Slayer helmet.",
-      "recommended": null,
+      "recommended": {
+        "combatLevel": 70,
+        "gearOwnedAny": [],
+        "skills": [
+          {
+            "level": 43,
+            "skill": "Prayer"
+          },
+          {
+            "level": 50,
+            "skill": "Magic"
+          }
+        ]
+      },
       "requirements": {
         "combatLevel": null,
         "diaries": [],
@@ -2420,7 +2638,20 @@
       "ownedIf": [],
       "priority": 5,
       "reason": "Level 70 Slayer unlocks Kurask tasks; they're immune to standard weapons and must be fought with leaf-bladed weapons, broad ammunition, or Magic Dart, making broad ammo/leaf-bladed gear a natural companion unlock.",
-      "recommended": null,
+      "recommended": {
+        "combatLevel": 72,
+        "gearOwnedAny": [],
+        "skills": [
+          {
+            "level": 60,
+            "skill": "Ranged"
+          },
+          {
+            "level": 43,
+            "skill": "Prayer"
+          }
+        ]
+      },
       "requirements": {
         "combatLevel": null,
         "diaries": [],
@@ -2456,7 +2687,20 @@
       "ownedIf": [],
       "priority": 6,
       "reason": "Level 72 Slayer unlocks skeletal wyvern tasks, the only monster that drops granite legs, found at the end of the Asgarnian Ice Dungeon.",
-      "recommended": null,
+      "recommended": {
+        "combatLevel": 75,
+        "gearOwnedAny": [],
+        "skills": [
+          {
+            "level": 70,
+            "skill": "Defence"
+          },
+          {
+            "level": 43,
+            "skill": "Prayer"
+          }
+        ]
+      },
       "requirements": {
         "combatLevel": null,
         "diaries": [],
@@ -2493,7 +2737,16 @@
       "ownedIf": [],
       "priority": 6,
       "reason": "Level 75 Slayer unlocks Gargoyle tasks, popular for strong GP/hour from rune item drops and reasonable Slayer XP rates in the Slayer Tower.",
-      "recommended": null,
+      "recommended": {
+        "combatLevel": 76,
+        "gearOwnedAny": [],
+        "skills": [
+          {
+            "level": 43,
+            "skill": "Prayer"
+          }
+        ]
+      },
       "requirements": {
         "combatLevel": null,
         "diaries": [],
@@ -2529,7 +2782,20 @@
       "ownedIf": [],
       "priority": 6,
       "reason": "Level 80 Slayer unlocks Nechryael tasks, known for frequent rune boots and rune/seed drops, and a stepping stone toward Greater nechryael/Nechryarch.",
-      "recommended": null,
+      "recommended": {
+        "combatLevel": 80,
+        "gearOwnedAny": [],
+        "skills": [
+          {
+            "level": 50,
+            "skill": "Magic"
+          },
+          {
+            "level": 70,
+            "skill": "Prayer"
+          }
+        ]
+      },
       "requirements": {
         "combatLevel": null,
         "diaries": [],
@@ -2565,7 +2831,24 @@
       "ownedIf": [],
       "priority": 7,
       "reason": "Level 85 Slayer unlocks Abyssal demon tasks, the sole non-boss source of the abyssal whip and abyssal dagger, a long-standing goal for melee accounts.",
-      "recommended": null,
+      "recommended": {
+        "combatLevel": 82,
+        "gearOwnedAny": [
+          {
+            "id": 4151,
+            "ids": [
+              4151
+            ],
+            "name": "Abyssal whip"
+          }
+        ],
+        "skills": [
+          {
+            "level": 70,
+            "skill": "Prayer"
+          }
+        ]
+      },
       "requirements": {
         "combatLevel": null,
         "diaries": [],
@@ -2601,7 +2884,28 @@
       "ownedIf": [],
       "priority": 7,
       "reason": "Level 87 Slayer unlocks the Kraken boss, the only monster to drop the trident of the seas and Kraken tentacle, and a strong AFK-style magic-only Slayer task.",
-      "recommended": null,
+      "recommended": {
+        "combatLevel": 84,
+        "gearOwnedAny": [
+          {
+            "id": 11905,
+            "ids": [
+              11905
+            ],
+            "name": "Trident of the seas (full)"
+          }
+        ],
+        "skills": [
+          {
+            "level": 75,
+            "skill": "Magic"
+          },
+          {
+            "level": 70,
+            "skill": "Prayer"
+          }
+        ]
+      },
       "requirements": {
         "combatLevel": null,
         "diaries": [],
@@ -2644,7 +2948,20 @@
       "ownedIf": [],
       "priority": 8,
       "reason": "Level 91 Slayer unlocks Cerberus, a lucrative boss dropping the eternal, pegasian, and primordial crystals used to upgrade top-tier feet-slot gear, plus the Hellpuppy pet.",
-      "recommended": null,
+      "recommended": {
+        "combatLevel": 88,
+        "gearOwnedAny": [],
+        "skills": [
+          {
+            "level": 80,
+            "skill": "Ranged"
+          },
+          {
+            "level": 70,
+            "skill": "Prayer"
+          }
+        ]
+      },
       "requirements": {
         "combatLevel": null,
         "diaries": [],
@@ -2682,7 +2999,20 @@
       "ownedIf": [],
       "priority": 7,
       "reason": "Level 93 Slayer unlocks Smoke devil tasks (bursted/barraged in a multi-combat chamber) and, at the same 93 Slayer requirement, the Thermonuclear smoke devil boss, sole source of the smoke battlestaff.",
-      "recommended": null,
+      "recommended": {
+        "combatLevel": 87,
+        "gearOwnedAny": [],
+        "skills": [
+          {
+            "level": 75,
+            "skill": "Magic"
+          },
+          {
+            "level": 70,
+            "skill": "Prayer"
+          }
+        ]
+      },
       "requirements": {
         "combatLevel": null,
         "diaries": [],
@@ -2719,7 +3049,32 @@
       "ownedIf": [],
       "priority": 8,
       "reason": "Level 95 Slayer unlocks the Alchemical Hydra, a top-end Slayer boss whose hydra's claw and hydra leather feed into the dragon hunter lance and ferocious gloves.",
-      "recommended": null,
+      "recommended": {
+        "combatLevel": 90,
+        "gearOwnedAny": [
+          {
+            "id": 22978,
+            "ids": [
+              22978
+            ],
+            "name": "Dragon hunter lance"
+          }
+        ],
+        "skills": [
+          {
+            "level": 75,
+            "skill": "Defence"
+          },
+          {
+            "level": 80,
+            "skill": "Hitpoints"
+          },
+          {
+            "level": 74,
+            "skill": "Prayer"
+          }
+        ]
+      },
       "requirements": {
         "combatLevel": null,
         "diaries": [],
@@ -4435,7 +4790,16 @@
       "ownedIf": [],
       "priority": 5,
       "reason": "Cooperative Fishing skilling boss and a popular low-intensity Fishing training method. Rewards include the tackle box, fish barrel, tome of water, dragon harpoon, and the Tiny tempor pet.",
-      "recommended": null,
+      "recommended": {
+        "combatLevel": null,
+        "gearOwnedAny": [],
+        "skills": [
+          {
+            "level": 50,
+            "skill": "Fishing"
+          }
+        ]
+      },
       "requirements": {
         "combatLevel": null,
         "diaries": [],
