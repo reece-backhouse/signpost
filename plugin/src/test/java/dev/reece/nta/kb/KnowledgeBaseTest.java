@@ -253,7 +253,7 @@ class KnowledgeBaseTest
 	void milestoneWithStageAndRecommendedProfileLoadsBoth()
 	{
 		String recommended = ",\"stage\":3,\"recommended\":{\"skills\":[{\"skill\":\"Ranged\",\"level\":85}],"
-			+ "\"combatLevel\":100,\"gearOwnedAny\":[{\"name\":\"Bandos chestplate\",\"id\":11832}]}";
+			+ "\"combatLevel\":100,\"gearOwnedAny\":[{\"name\":\"Bandos chestplate\",\"id\":11832,\"ids\":[11832]}]}";
 		String milestonesJson = "{\"version\":1,\"milestones\":[" + String.format(MILESTONE_TEMPLATE, recommended) + "]}";
 
 		KnowledgeBase kb = KnowledgeBase.fromJson(new Gson(), EMPTY_QUESTS_JSON, EMPTY_DIARIES_JSON, milestonesJson, EMPTY_PRIORITIES_JSON);

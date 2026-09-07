@@ -134,6 +134,13 @@ final class KbBuilder
 		return this;
 	}
 
+	/** Adds an ownedIf entry with multiple wiki-variant item ids (id is primary) to the currently open milestone. */
+	KbBuilder ownedIf(String name, int id, int... variantIds)
+	{
+		currentMilestone.ownedIf.add(new OwnedItem(name, id, idsOf(id, variantIds)));
+		return this;
+	}
+
 	/** Adds unlock entries to the currently open milestone. */
 	KbBuilder unlocks(String... entries)
 	{
@@ -317,6 +324,25 @@ final class KbBuilder
 	{
 		currentMilestone.items.add(new ItemReq(name, id, quantity, List.of(sources)));
 		return this;
+	}
+
+	/** Adds an item requirement with multiple wiki-variant item ids (id is primary, no sources) to the currently open milestone. */
+	KbBuilder itemIds(String name, int id, int quantity, int... variantIds)
+	{
+		currentMilestone.items.add(new ItemReq(name, id, quantity, List.of(), idsOf(id, variantIds)));
+		return this;
+	}
+
+	/** {@code id} followed by every {@code variantIds} entry, as an immutable list. */
+	private static List<Integer> idsOf(int id, int... variantIds)
+	{
+		List<Integer> ids = new ArrayList<>();
+		ids.add(id);
+		for (int variantId : variantIds)
+		{
+			ids.add(variantId);
+		}
+		return List.copyOf(ids);
 	}
 
 	KbBuilder note(String note)

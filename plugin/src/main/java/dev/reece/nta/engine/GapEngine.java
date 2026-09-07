@@ -426,7 +426,7 @@ public final class GapEngine
 
 	private static void addMilestoneItemGapIfShort(List<Gap> gaps, Snapshot snapshot, ItemReq req)
 	{
-		Integer have = sumHaveById(snapshot, req.getId());
+		Integer have = sumHaveByIds(snapshot, req.getIds());
 		if (have != null && have >= req.getQuantity())
 		{
 			return;
@@ -439,15 +439,21 @@ public final class GapEngine
 		gaps.add(new ItemGap(req.getName(), have, req.getQuantity(), sources, mustObtain));
 	}
 
-	private static Integer sumHaveById(Snapshot snapshot, int itemId)
+	/** Sums bank + inventory + equipment across every id in {@code itemIds} (a requirement item's wiki-variant ids). */
+	private static Integer sumHaveByIds(Snapshot snapshot, List<Integer> itemIds)
 	{
 		if (!snapshot.isBankKnown())
 		{
 			return null;
 		}
-		return snapshot.getBank().getOrDefault(itemId, 0)
-			+ snapshot.getInventory().getOrDefault(itemId, 0)
-			+ snapshot.getEquipment().getOrDefault(itemId, 0);
+		int sum = 0;
+		for (int itemId : itemIds)
+		{
+			sum += snapshot.getBank().getOrDefault(itemId, 0)
+				+ snapshot.getInventory().getOrDefault(itemId, 0)
+				+ snapshot.getEquipment().getOrDefault(itemId, 0);
+		}
+		return sum;
 	}
 
 	private enum OwnedState
@@ -456,8 +462,9 @@ public final class GapEngine
 	}
 
 	/**
-	 * Whether any of {@code items}' ids is held (bank &cup; inventory &cup; equipment), shared by a
-	 * milestone's {@code ownedIf} (gear category completion) and a {@code recommended} profile's
+	 * Whether any of {@code items}' ids (each item's full variant {@code ids} list, not just its
+	 * primary {@code id}) is held (bank &cup; inventory &cup; equipment), shared by a milestone's
+	 * {@code ownedIf} (gear category completion) and a {@code recommended} profile's
 	 * {@code gearOwnedAny} (recommended-gear gap). Inventory and equipment are always known; the bank
 	 * is only checked when {@link Snapshot#isBankKnown()}, so an unseen bank with nothing found
 	 * elsewhere is {@link OwnedState#UNKNOWN} rather than {@link OwnedState#NOT_OWNED}.
@@ -466,17 +473,31 @@ public final class GapEngine
 	{
 		for (OwnedItem owned : items)
 		{
-			if (snapshot.getInventory().getOrDefault(owned.getId(), 0) > 0
-				|| snapshot.getEquipment().getOrDefault(owned.getId(), 0) > 0)
-			{
-				return OwnedState.OWNED;
-			}
-			if (snapshot.isBankKnown() && snapshot.getBank().getOrDefault(owned.getId(), 0) > 0)
+			if (anyIdHeld(owned.getIds(), snapshot))
 			{
 				return OwnedState.OWNED;
 			}
 		}
 		return snapshot.isBankKnown() ? OwnedState.NOT_OWNED : OwnedState.UNKNOWN;
+	}
+
+	/**
+	 * Whether any of {@code itemIds} is held (bank &cup; inventory &cup; equipment) in any quantity.
+	 * Shared with {@link dev.reece.nta.engine.StageEstimator}'s gear-milestone-owned check, since
+	 * both need the exact same "any variant id, any container" rule.
+	 */
+	static boolean anyIdHeld(List<Integer> itemIds, Snapshot snapshot)
+	{
+		for (int itemId : itemIds)
+		{
+			if (snapshot.getInventory().getOrDefault(itemId, 0) > 0
+				|| snapshot.getEquipment().getOrDefault(itemId, 0) > 0
+				|| (snapshot.isBankKnown() && snapshot.getBank().getOrDefault(itemId, 0) > 0))
+			{
+				return true;
+			}
+		}
+		return false;
 	}
 
 	private static boolean slayerLevelMet(MilestoneEntry entry, Snapshot snapshot)

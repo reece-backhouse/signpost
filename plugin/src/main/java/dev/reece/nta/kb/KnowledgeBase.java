@@ -509,14 +509,16 @@ public final class KnowledgeBase
 		requireField(dto.name, context, "requirements.items[].name");
 		requireField(dto.id, context, "requirements.items[].id");
 		List<String> sources = dto.sources == null ? List.of() : dto.sources;
-		return new ItemReq(dto.name, dto.id, dto.quantity, sources);
+		List<Integer> ids = dto.ids == null ? List.of(dto.id) : dto.ids;
+		return new ItemReq(dto.name, dto.id, dto.quantity, sources, ids);
 	}
 
 	private static OwnedItem toOwnedItem(OwnedIfDto dto, String context)
 	{
 		requireField(dto.name, context, "ownedIf[].name");
 		requireField(dto.id, context, "ownedIf[].id");
-		return new OwnedItem(dto.name, dto.id);
+		requireField(dto.ids, context, "ownedIf[].ids");
+		return new OwnedItem(dto.name, dto.id, dto.ids);
 	}
 
 	private static MaterialEntry toMaterialEntry(MaterialDto dto)
@@ -838,12 +840,14 @@ public final class KnowledgeBase
 		Integer id;
 		int quantity;
 		List<String> sources = new ArrayList<>();
+		List<Integer> ids;
 	}
 
 	private static final class OwnedIfDto
 	{
 		String name;
 		Integer id;
+		List<Integer> ids;
 	}
 
 	private static final class MethodsFile
