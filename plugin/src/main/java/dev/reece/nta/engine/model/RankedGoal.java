@@ -17,4 +17,29 @@ public class RankedGoal
 	double score;
 	boolean pinned;
 	boolean later;
+
+	/**
+	 * Task 50: the bucket {@link dev.reece.nta.engine.Ranker} placed this goal into, derived from
+	 * the fields above rather than stored separately - {@code pinned}/{@code later} directly, else
+	 * "ready" iff the underlying {@link GoalStatus} is ready with a known bank (mirrors
+	 * {@link dev.reece.nta.engine.Ranker}'s own {@code isReadyNow}), else "rest".
+	 */
+	public Tier getTier()
+	{
+		if (pinned)
+		{
+			return Tier.PINNED;
+		}
+		if (later)
+		{
+			return Tier.LATER;
+		}
+		return status.isReady() && !status.isBankUnknown() ? Tier.READY : Tier.REST;
+	}
+
+	/** The four buckets {@link dev.reece.nta.engine.Ranker} sorts a {@link RankedGoal} into. */
+	public enum Tier
+	{
+		PINNED, READY, REST, LATER
+	}
 }
