@@ -4,21 +4,23 @@ import { pathToFileURL } from 'node:url';
 
 // Generates data/diary-vars.json by regex-scanning Quest Helper's achievement-diary
 // helper sources (BSD-2-licensed, github.com/Zoinkwiz/quest-helper; reference only,
-// never shipped) for each tier's task-completion vars.
+// never shipped) for each tier's task-completion vars, and looks up every numeric id
+// it uses (varp/varbit ids, tier-completion varbit ids) in RuneLite's own constants
+// sources -- data/runelite-src/{VarPlayerID,VarbitID,Varbits}.java (committed
+// reference data, fetched from raw.githubusercontent.com/runelite/runelite/master at
+// commit ac79ed8bd8926bec7bf172aa291574b4d944b0e7, 2026-09-07) -- rather than a
+// hand-transcribed table, so every id is checked against source instead of trusted.
 //
-// Run once: npx tsx scripts/gen-diary-vars.ts <path-to-questhelper-diaries-dir>
-// (a directory containing one subdirectory per area, per AREA_DIRS below, each with
-// <FilePrefix>Easy.java / Medium.java / Hard.java / Elite.java files)
+// Run once: npx tsx scripts/gen-diary-vars.ts <path-to-questhelper-diaries-dir> <VarPlayerID.java> <VarbitID.java> <Varbits.java>
 //
 // Entries are emitted in the SAME ORDER the `new VarplayerRequirement(...)` /
-// `new VarbitRequirement(...)` calls appear in each tier's source file. A prior
-// version of this script sorted by (varp, bit) ascending instead, reasoning that
-// ArdougneElite.java (bits 6,7,9,8,10,11,12,13) and KourendMedium.java (bits
-// 25,13,14,15,21,...) look scrambled relative to ascending bit order. That
-// reasoning was wrong: checked against the real wiki (via the built diaries.json),
-// declaration order matches wiki task order exactly for both, and the numeric sort
-// actually swapped Ardougne Elite tasks 3/4 and misordered nearly all of Kourend
-// Medium's 13 tasks. Declaration order is trusted as-is.
+// `new VarbitRequirement(...)` calls appear in each tier's source file. An earlier
+// version of this script sorted by (varp, bit) ascending, reasoning that
+// declaration order looked scrambled for Ardougne Elite and Kourend Medium relative
+// to bit order. That reasoning was wrong: checked against the real wiki (via the
+// built diaries.json), declaration order matches wiki task order exactly for both,
+// and the numeric sort actually swapped Ardougne Elite tasks 3/4 and misordered
+// nearly all of Kourend Medium. Declaration order is trusted as-is.
 
 export type VarpEntry = { varp: number; bit: number };
 export type VarbitEntry = { varbit: number; doneMin: number };
@@ -41,126 +43,51 @@ const AREA_DIRS: Record<string, { dir: string; filePrefix: string }> = {
 
 const TIERS = ['Easy', 'Medium', 'Hard', 'Elite'] as const;
 
-// Achievement-diary tier-completion varbits, transcribed from RuneLite's
-// runelite-api/src/main/java/net/runelite/api/gameval/VarbitID.java (master branch,
-// fetched from raw.githubusercontent.com on 2026-09-07 -- no local fixture of this
-// file exists in this repo). Karamja has no per-tier "<AREA>_DIARY_<TIER>_COMPLETE"
-// varbit for its first three tiers the way every other area does (consistent with
-// its Easy/Medium/Hard tasks themselves being varbit-, not varp-, based, unlike any
-// other area); ATJUN_EASY_DONE/ATJUN_MED_DONE/ATJUN_HARD_DONE are the closest named
-// analogues. Karamja Elite does have the standard-shaped KARAMJA_DIARY_ELITE_COMPLETE.
-const TIER_VARBITS: Record<string, Record<string, number>> = {
-  ARDOUGNE: { Easy: 4458, Medium: 4459, Hard: 4460, Elite: 4461 },
-  FALADOR: { Easy: 4462, Medium: 4463, Hard: 4464, Elite: 4465 },
-  WILDERNESS: { Easy: 4466, Medium: 4467, Hard: 4468, Elite: 4469 },
-  WESTERN: { Easy: 4471, Medium: 4472, Hard: 4473, Elite: 4474 },
-  KANDARIN: { Easy: 4475, Medium: 4476, Hard: 4477, Elite: 4478 },
-  VARROCK: { Easy: 4479, Medium: 4480, Hard: 4481, Elite: 4482 },
-  DESERT: { Easy: 4483, Medium: 4484, Hard: 4485, Elite: 4486 },
-  MORYTANIA: { Easy: 4487, Medium: 4488, Hard: 4489, Elite: 4490 },
-  FREMENNIK: { Easy: 4491, Medium: 4492, Hard: 4493, Elite: 4494 },
-  LUMBRIDGE: { Easy: 4495, Medium: 4496, Hard: 4497, Elite: 4498 },
-  KARAMJA: { Easy: 3578, Medium: 3599, Hard: 3611, Elite: 4566 },
-  KOUREND: { Easy: 7925, Medium: 7926, Hard: 7927, Elite: 7928 },
-};
+const CONST_DECL = /public static final int ([A-Za-z0-9_]+) = (\d+);/g;
 
-// VarPlayerID.java constant -> numeric varp id (RuneLite master, fetched
-// 2026-09-07); only the achievement-diary varps these Quest Helper sources use.
-const VARP_IDS: Record<string, number> = {
-  VARROCK_ACHIEVEMENT_DIARY: 1176,
-  VARROCK_ACHIEVEMENT_DIARY2: 1177,
-  KANDARIN_ACHIEVEMENT_DIARY: 1178,
-  KANDARIN_ACHIEVEMENT_DIARY2: 1179,
-  MORYTANIA_ACHIEVEMENT_DIARY: 1180,
-  MORYTANIA_ACHIEVEMENT_DIARY2: 1181,
-  WESTERN_ACHIEVEMENT_DIARY: 1182,
-  WESTERN_ACHIEVEMENT_DIARY2: 1183,
-  FREMENNIK_ACHIEVEMENT_DIARY: 1184,
-  FREMENNIK_ACHIEVEMENT_DIARY2: 1185,
-  FALADOR_ACHIEVEMENT_DIARY: 1186,
-  FALADOR_ACHIEVEMENT_DIARY2: 1187,
-  WILDERNESS_ACHIEVEMENT_DIARY: 1192,
-  WILDERNESS_ACHIEVEMENT_DIARY2: 1193,
-  LUMB_DRAY_ACHIEVEMENT_DIARY: 1194,
-  LUMB_DRAY_ACHIEVEMENT_DIARY2: 1195,
-  ARDOUNGE_ACHIEVEMENT_DIARY: 1196, // sic: RuneLite spells Ardougne "ARDOUNGE"
-  ARDOUNGE_ACHIEVEMENT_DIARY2: 1197,
-  DESERT_ACHIEVEMENT_DIARY: 1198,
-  DESERT_ACHIEVEMENT_DIARY2: 1199,
-  ATJUN_TASKS_4: 1200, // Karamja Elite (its only varp-style tier)
-  KOUREND_ACHIEVEMENT_DIARY: 2085,
-  KOUREND_ACHIEVEMENT_DIARY2: 2086,
-};
+/** Parses `public static final int NAME = N;` declarations from a RuneLite constants source file into a name -> id map. */
+export function parseConstants(java: string): Record<string, number> {
+  const ids: Record<string, number> = {};
+  for (const match of java.matchAll(CONST_DECL)) {
+    ids[match[1]!] = Number(match[2]);
+  }
+  return ids;
+}
 
-// VarbitID.java constant -> numeric varbit id (RuneLite master, fetched 2026-09-07);
-// Karamja Easy/Medium/Hard's per-task varbits (its only varbit-style tiers).
-const VARBIT_IDS: Record<string, number> = {
-  ATJUN_EASY_BANANA: 3566,
-  ATJUN_EASY_SWING: 3567,
-  ATJUN_EASY_GOLD: 3568,
-  ATJUN_EASY_BOAT_SARIM: 3569,
-  ATJUN_EASY_BOAT_ARDY: 3570,
-  ATJUN_EASY_CAIRN: 3571,
-  ATJUN_EASY_FISHING: 3572,
-  ATJUN_EASY_SEAWEED: 3573,
-  ATJUN_EASY_TZHAAR: 3574,
-  ATJUN_EASY_JOGRE: 3575,
-  ATJUN_MED_AGILITY: 3579,
-  ATJUN_MED_VOLCANO: 3580,
-  ATJUN_MED_CRANDOR: 3581,
-  ATJUN_MED_CART: 3582,
-  ATJUN_MED_CLEANUP: 3583,
-  ATJUN_MED_SPIDER: 3584,
-  ATJUN_MED_TOPAZ: 3585,
-  ATJUN_MED_TEAK: 3586,
-  ATJUN_MED_MAHOGANY: 3587,
-  ATJUN_MED_KARAMBWAN: 3588,
-  ATJUN_MED_MACHETTE: 3589,
-  ATJUN_MED_GLIDER: 3590,
-  ATJUN_MED_FARMING: 3591,
-  ATJUN_MED_GRAAHK: 3592,
-  ATJUN_MED_SHILO_VINES: 3593,
-  ATJUN_MED_SHILO_LAVA: 3594,
-  ATJUN_MED_SHILO_STAIRS: 3595,
-  ATJUN_MED_KHAZARD: 3596,
-  ATJUN_MED_CHARTER: 3597,
-  ATJUN_HARD_FIGHTPITS: 3600,
-  ATJUN_HARD_FIGHTCAVE: 3601,
-  ATJUN_HARD_OOMLIE: 3602,
-  ATJUN_HARD_NATURE: 3603,
-  ATJUN_HARD_KARAMBWAN: 3604,
-  ATJUN_HARD_DEATHWING: 3605,
-  ATJUN_HARD_XBOW: 3606,
-  ATJUN_HARD_PALM: 3607,
-  ATJUN_HARD_DURADEL: 3608,
-  ATJUN_HARD_DRAGON: 3609,
-};
+function lookup(ids: Record<string, number>, name: string, source: string): number {
+  const id = ids[name];
+  if (id === undefined) {
+    throw new Error(`${name} not found in ${source}`);
+  }
+  return id;
+}
 
 const VARP_TASK = /VarplayerRequirement\(VarPlayerID\.([A-Z0-9_]+),\s*false,\s*(\d+)\)/g;
 const VARBIT_TASK = /VarbitRequirement\(VarbitID\.([A-Z0-9_]+),\s*(\d+)(?:,\s*Operation\.([A-Z_]+))?\)/g;
 
 /**
- * Extracts one tier's task-completion vars from its Quest Helper java source, in
- * source declaration order (see file header). Recognizes the achievement-diary varp
- * form (`VarplayerRequirement(VarPlayerID.<X>_ACHIEVEMENT_DIARY[2], false, bit)`)
- * and Karamja's varbit doneMin form (`VarbitRequirement(VarbitID.ATJUN_..., v[, Operation.LESS_EQUAL])`),
- * filtered against the known-id tables above so unrelated same-shaped calls
- * (memoir/zone/reward checks) are ignored.
+ * Extracts one tier's task-completion vars, in source declaration order (see file
+ * header). Recognizes the achievement-diary varp form
+ * (`VarplayerRequirement(VarPlayerID.<X>_ACHIEVEMENT_DIARY[2]|ATJUN_TASKS_4, false, bit)`)
+ * and Karamja's varbit doneMin form (`VarbitRequirement(VarbitID.ATJUN_..., v[, Operation.LESS_EQUAL])`).
+ * Unrelated same-shaped calls (memoir/zone/reward checks) are filtered out by name
+ * shape; every remaining name is looked up in `varPlayerIds`/`varbitIds` (parsed from
+ * RuneLite source via parseConstants) and THROWS if missing.
  */
-export function parseTierJava(java: string): Entry[] {
+export function parseTierJava(java: string, varPlayerIds: Record<string, number>, varbitIds: Record<string, number>): Entry[] {
   const varpEntries: VarpEntry[] = [...java.matchAll(VARP_TASK)]
-    .filter((m) => m[1]! in VARP_IDS)
-    .map((m) => ({ varp: VARP_IDS[m[1]!]!, bit: Number(m[2]) }));
+    .filter((m) => m[1]!.endsWith('_ACHIEVEMENT_DIARY') || m[1]!.endsWith('_ACHIEVEMENT_DIARY2') || m[1] === 'ATJUN_TASKS_4')
+    .map((m) => ({ varp: lookup(varPlayerIds, m[1]!, 'VarPlayerID.java'), bit: Number(m[2]) }));
 
   const varbitEntries: VarbitEntry[] = [...java.matchAll(VARBIT_TASK)]
-    .filter((m) => m[1]! in VARBIT_IDS)
+    .filter((m) => m[1]!.startsWith('ATJUN_'))
     .map((m) => {
       const threshold = Number(m[2]);
       const op = m[3];
       if (op !== undefined && op !== 'LESS_EQUAL') {
         throw new Error(`Unhandled VarbitRequirement Operation "${op}" for ${m[1]} (expected none or LESS_EQUAL)`);
       }
-      return { varbit: VARBIT_IDS[m[1]!]!, doneMin: threshold + 1 };
+      return { varbit: lookup(varbitIds, m[1]!, 'VarbitID.java'), doneMin: threshold + 1 };
     });
 
   if (varpEntries.length > 0 && varbitEntries.length > 0) {
@@ -178,19 +105,24 @@ interface AreaVars {
   [tier: string]: Entry[] | Record<string, number>;
 }
 
-function generate(questHelperDiariesDir: string): Record<string, AreaVars> {
+function generate(
+  questHelperDiariesDir: string,
+  varPlayerIds: Record<string, number>,
+  varbitIds: Record<string, number>,
+  legacyVarbitIds: Record<string, number>,
+): Record<string, AreaVars> {
   const result: Record<string, AreaVars> = {};
 
   for (const [area, { dir, filePrefix }] of Object.entries(AREA_DIRS)) {
     const tierVarbits: Record<string, number> = {};
-    for (const [tier, varbit] of Object.entries(TIER_VARBITS[area]!)) {
-      tierVarbits[tier.toUpperCase()] = varbit;
+    for (const tier of TIERS) {
+      tierVarbits[tier.toUpperCase()] = lookup(legacyVarbitIds, `DIARY_${area}_${tier.toUpperCase()}`, 'Varbits.java');
     }
     const areaVars: AreaVars = { tierVarbits };
     for (const tier of TIERS) {
       const path = join(questHelperDiariesDir, dir, `${filePrefix}${tier}.java`);
       const java = readFileSync(path, 'utf8');
-      areaVars[tier.toUpperCase()] = parseTierJava(java);
+      areaVars[tier.toUpperCase()] = parseTierJava(java, varPlayerIds, varbitIds);
     }
     result[area] = areaVars;
   }
@@ -200,11 +132,17 @@ function generate(questHelperDiariesDir: string): Record<string, AreaVars> {
 
 const isMain = process.argv[1] !== undefined && import.meta.url === pathToFileURL(process.argv[1]).href;
 if (isMain) {
-  const inputDir = process.argv[2];
-  if (!inputDir) {
-    throw new Error('Usage: gen-diary-vars.ts <path-to-questhelper-diaries-dir>');
+  const [inputDir, varPlayerIdPath, varbitIdPath, varbitsPath] = process.argv.slice(2);
+  if (!inputDir || !varPlayerIdPath || !varbitIdPath || !varbitsPath) {
+    throw new Error(
+      'Usage: gen-diary-vars.ts <path-to-questhelper-diaries-dir> <VarPlayerID.java> <VarbitID.java> <Varbits.java>',
+    );
   }
-  const data = generate(inputDir);
+  const varPlayerIds = parseConstants(readFileSync(varPlayerIdPath, 'utf8'));
+  const varbitIds = parseConstants(readFileSync(varbitIdPath, 'utf8'));
+  const legacyVarbitIds = parseConstants(readFileSync(varbitsPath, 'utf8'));
+
+  const data = generate(inputDir, varPlayerIds, varbitIds, legacyVarbitIds);
   const outPath = join(import.meta.dirname, '..', 'data', 'diary-vars.json');
   writeFileSync(outPath, JSON.stringify(data, null, 2) + '\n');
   const tierCount = Object.keys(data).length * TIERS.length;
