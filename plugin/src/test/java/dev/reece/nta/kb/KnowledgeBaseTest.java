@@ -375,8 +375,11 @@ class KnowledgeBaseTest
 	 * Every milestone must have at least one of: a curated {@code recommended} profile, a quest or
 	 * diary requirement, or a skill requirement of level 40+. Without one of these, the milestone
 	 * scores its full priority as "ready now" for any account, regardless of how stage-appropriate
-	 * it actually is (task 48's motivating finding: Fire cape, Fighter torso, and Slayer helmet (i)
-	 * had none, crowding out stage-appropriate goals like Moons of Peril on a mid-game profile).
+	 * it actually is (task 48's motivating finding, on the pre-task-48 data: Fire cape, Graceful
+	 * outfit, and Tempoross had none of the three, crowding out stage-appropriate goals like Moons
+	 * of Peril on a mid-game profile; Fighter torso and Slayer helmet (i) already had a 40+ skill
+	 * requirement and weren't offenders under this rule, but got a curated {@code recommended}
+	 * profile anyway since their existing hard requirement alone still under-gated them).
 	 */
 	@Test
 	void everyBundledMilestoneHasARecommendedProfileOrAQuestDiaryOrFortyPlusSkillRequirement()

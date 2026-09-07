@@ -280,19 +280,77 @@
       "priority": 8,
       "reason": "Best-in-slot ranged cape (stat-identical to the cosmetic Masori assembler), gated behind killing Vorkath after Dragon Slayer II.",
       "recommended": {
-        "combatLevel": 90,
-        "gearOwnedAny": [],
+        "combatLevel": 100,
+        "gearOwnedAny": [
+          {
+            "id": 21012,
+            "ids": [
+              21012
+            ],
+            "name": "Dragon hunter crossbow"
+          },
+          {
+            "id": 9185,
+            "ids": [
+              9185
+            ],
+            "name": "Rune crossbow"
+          },
+          {
+            "id": 12926,
+            "ids": [
+              12924,
+              12926
+            ],
+            "name": "Toxic blowpipe"
+          },
+          {
+            "id": 4736,
+            "ids": [
+              4736,
+              4940,
+              4941,
+              4942,
+              4943,
+              4944
+            ],
+            "name": "Karil's leathertop"
+          },
+          {
+            "id": 13072,
+            "ids": [
+              13072,
+              20467,
+              24178,
+              33480,
+              33482
+            ],
+            "name": "Elite void top"
+          },
+          {
+            "id": 2503,
+            "ids": [
+              2503
+            ],
+            "name": "Black d'hide body"
+          }
+        ],
+        "gearOwnedMin": 2,
         "skills": [
+          {
+            "level": 80,
+            "skill": "Ranged"
+          },
           {
             "level": 70,
             "skill": "Defence"
           },
           {
-            "level": 70,
+            "level": 80,
             "skill": "Hitpoints"
           },
           {
-            "level": 43,
+            "level": 70,
             "skill": "Prayer"
           }
         ]
