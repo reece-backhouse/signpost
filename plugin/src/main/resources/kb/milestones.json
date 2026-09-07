@@ -3300,6 +3300,7 @@
             "name": "Rune kiteshield"
           }
         ],
+        "gearOwnedMin": 2,
         "skills": [
           {
             "level": 70,
@@ -3665,6 +3666,7 @@
             "name": "Barrows gloves"
           }
         ],
+        "gearOwnedMin": 4,
         "skills": [
           {
             "level": 60,
