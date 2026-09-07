@@ -8,6 +8,7 @@ import dev.reece.nta.kb.ItemQuantity;
 import dev.reece.nta.kb.ItemReq;
 import dev.reece.nta.kb.KnowledgeBase;
 import dev.reece.nta.kb.MaterialEntry;
+import dev.reece.nta.kb.WikiUrls;
 import dev.reece.nta.kb.MethodEntry;
 import dev.reece.nta.kb.MilestoneCategory;
 import dev.reece.nta.kb.MilestoneEntry;
@@ -467,7 +468,8 @@ final class KbBuilder
 		List<MaterialEntry> materials = new ArrayList<>();
 		for (MaterialSpec s : materialSpecs)
 		{
-			materials.add(new MaterialEntry(s.name, s.id, false, List.copyOf(s.sources)));
+			// generic exactly when there is no id - the kb-build invariant materials.json is checked against.
+			materials.add(new MaterialEntry(s.name, s.id, s.id == null, WikiUrls.forTitle(s.name), List.copyOf(s.sources)));
 		}
 
 		return KnowledgeBase.of(1, "test", 1, "test", quests, diaries, milestones, priorityOverrides, methods, materials);

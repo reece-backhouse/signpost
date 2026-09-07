@@ -110,6 +110,7 @@ class ShortfallResolverTest
 		Shortfall shortfall = ShortfallResolver.resolve(Skill.HERBLORE, route, kb, AccountType.NORMAL);
 
 		ShortfallItem item = shortfall.getItems().get(0);
+		assertEquals("https://oldschool.runescape.wiki/w/" + item.getItem().getName().replace(' ', '_'), item.getWikiUrl());
 		assertEquals(1000, item.getHave());
 		assertEquals(1, item.getNeed());
 		assertTrue(item.getCraftFrom().isEmpty());

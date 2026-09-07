@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-07T07:29:49Z",
+  "generatedAt": "2026-09-07T15:57:10Z",
   "quests": [
     {
       "id": 0,
@@ -5461,12 +5461,7 @@
     },
     {
       "id": 156,
-      "items": [
-        {
-          "name": "File:Ultimate ironman chat badge.png",
-          "quantity": 1
-        }
-      ],
+      "items": [],
       "name": "Wanted!",
       "prereqNotes": [],
       "prereqs": [

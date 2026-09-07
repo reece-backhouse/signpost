@@ -64,7 +64,7 @@ public final class ShortfallResolver
 			? List.of()
 			: craftFrom(material.getId(), shortfall, skill, simulatedBank, kb, account);
 
-		return new ShortfallItem(material, have, need, sources, craftFrom);
+		return new ShortfallItem(material, have, need, sources, craftFrom, materialEntry == null ? null : materialEntry.getWikiUrl());
 	}
 
 	/**
@@ -89,7 +89,7 @@ public final class ShortfallResolver
 			int have = simulatedBank.getOrDefault(ingredient.getId(), 0);
 			MaterialEntry materialEntry = kb.materialById(ingredient.getId());
 			List<ItemSource> ingredientSources = materialEntry == null ? List.of() : GapEngine.sourcesFor(materialEntry.getSources(), account);
-			result.add(new ShortfallItem(ingredient, have, need, ingredientSources, List.of()));
+			result.add(new ShortfallItem(ingredient, have, need, ingredientSources, List.of(), materialEntry == null ? null : materialEntry.getWikiUrl()));
 		}
 		return result;
 	}

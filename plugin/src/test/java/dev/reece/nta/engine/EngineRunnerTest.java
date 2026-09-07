@@ -1,9 +1,12 @@
 package dev.reece.nta.engine;
 
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.stream.Collectors;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -75,6 +78,68 @@ class EngineRunnerTest
 		Thread.sleep(200);
 
 		assertNull(delivered.get(), "onResult must not be called after shutdown");
+	}
+
+	@Test
+	void aThrowingTaskIsReportedAndDoesNotStopTheNextSubmission() throws InterruptedException
+	{
+		List<Throwable> reported = new CopyOnWriteArrayList<>();
+		CountDownLatch twoReported = new CountDownLatch(2);
+		EngineRunner runner = new EngineRunner(e ->
+		{
+			reported.add(e);
+			twoReported.countDown();
+		});
+		CountDownLatch delivered = new CountDownLatch(1);
+		AtomicReference<String> result = new AtomicReference<>();
+
+		runner.submit(() ->
+		{
+			throw new IllegalStateException("work boom");
+		}, r -> result.set("must not be delivered"));
+		runner.submit(() -> "ok", r ->
+		{
+			throw new IllegalStateException("onResult boom");
+		});
+		// Wait for both failures before the next submit, which would otherwise supersede the
+		// second task's generation and legitimately skip its onResult.
+		assertTrue(twoReported.await(5, TimeUnit.SECONDS), "both failures must be reported");
+		runner.submit(() -> "second", r ->
+		{
+			result.set(r);
+			delivered.countDown();
+		});
+
+		assertTrue(delivered.await(5, TimeUnit.SECONDS), "the submission after a failure must still deliver");
+		assertEquals("second", result.get());
+		assertEquals(List.of("work boom", "onResult boom"), reported.stream().map(Throwable::getMessage).collect(Collectors.toList()));
+
+		runner.shutdown();
+	}
+
+	@Test
+	void executeRunsEvenWhenANewerSubmitLandsBeforeIt() throws InterruptedException
+	{
+		EngineRunner runner = new EngineRunner();
+		CountDownLatch firstStarted = new CountDownLatch(1);
+		CountDownLatch releaseFirst = new CountDownLatch(1);
+		CountDownLatch executed = new CountDownLatch(1);
+		AtomicInteger deliveries = new AtomicInteger();
+
+		runner.submit(() ->
+		{
+			firstStarted.countDown();
+			await(releaseFirst);
+			return "blocker";
+		}, r -> deliveries.incrementAndGet());
+		assertTrue(firstStarted.await(5, TimeUnit.SECONDS));
+
+		runner.execute(executed::countDown);
+		runner.submit(() -> "newer", r -> deliveries.incrementAndGet());
+		releaseFirst.countDown();
+
+		assertTrue(executed.await(5, TimeUnit.SECONDS), "execute must run regardless of the generation race");
+		runner.shutdown();
 	}
 
 	private static void await(CountDownLatch latch)

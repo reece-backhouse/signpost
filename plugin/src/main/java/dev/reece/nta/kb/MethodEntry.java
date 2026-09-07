@@ -33,4 +33,10 @@ public class MethodEntry
 	Integer ticks;
 	boolean intermediate;
 	boolean usable;
+
+	/** The method's wiki page (ticket F3): a skill-calc row is named after the item it makes or acts on. */
+	public String wikiUrl()
+	{
+		return WikiUrls.forTitle(name);
+	}
 }

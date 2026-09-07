@@ -109,11 +109,7 @@ public class GoalSearchField extends JPanel
 
 		this.currentAdvice = advice;
 
-		Set<String> goalIds = new LinkedHashSet<>();
-		for (RankedGoal r : pool(advice))
-		{
-			goalIds.add(r.getStatus().getGoal().getId());
-		}
+		Set<String> goalIds = goalIds(advice);
 		boolean goalSetChanged = lastGoalIds != null && !lastGoalIds.equals(goalIds);
 		lastGoalIds = goalIds;
 
@@ -153,6 +149,27 @@ public class GoalSearchField extends JPanel
 
 		resultsPanel.revalidate();
 		resultsPanel.repaint();
+	}
+
+	/** Drops the query and results (logged out). Must be called on the EDT. */
+	public void clear()
+	{
+		currentAdvice = null;
+		lastGoalIds = null;
+		searchField.setText("");
+		placeholderLabel.setVisible(true);
+		updateResults();
+	}
+
+	/** The ids of {@link #pool}: the "same goal set" key shared with {@link SuggestPanel}'s paging. */
+	static Set<String> goalIds(Advice advice)
+	{
+		Set<String> goalIds = new LinkedHashSet<>();
+		for (RankedGoal r : pool(advice))
+		{
+			goalIds.add(r.getStatus().getGoal().getId());
+		}
+		return goalIds;
 	}
 
 	/** {@link Advice#getRanked()} union {@link Advice#getLater()}, deduplicated by goal id, in that order. */

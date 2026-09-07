@@ -11,12 +11,7 @@
       ],
       "members": true,
       "name": "Bagged plant 1",
-      "outputs": [
-        {
-          "name": "Bagged plant 1",
-          "quantity": 1
-        }
-      ],
+      "outputs": [],
       "skill": "Construction",
       "title": "Bagged plant 1",
       "types": [
@@ -162,12 +157,7 @@
       ],
       "members": true,
       "name": "Plank",
-      "outputs": [
-        {
-          "name": "Plank",
-          "quantity": 1
-        }
-      ],
+      "outputs": [],
       "skill": "Construction",
       "title": "Plank",
       "types": [
@@ -299,12 +289,7 @@
       ],
       "members": true,
       "name": "Bolt of cloth",
-      "outputs": [
-        {
-          "name": "Bolt of cloth",
-          "quantity": 1
-        }
-      ],
+      "outputs": [],
       "skill": "Construction",
       "title": "Bolt of cloth",
       "types": [
@@ -322,12 +307,7 @@
       ],
       "members": true,
       "name": "Soft clay",
-      "outputs": [
-        {
-          "name": "Soft clay",
-          "quantity": 1
-        }
-      ],
+      "outputs": [],
       "skill": "Construction",
       "title": "Soft clay",
       "types": [
@@ -374,12 +354,7 @@
       ],
       "members": true,
       "name": "Iron bar",
-      "outputs": [
-        {
-          "name": "Iron bar",
-          "quantity": 1
-        }
-      ],
+      "outputs": [],
       "skill": "Construction",
       "title": "Iron bar",
       "types": [
@@ -397,12 +372,7 @@
       ],
       "members": true,
       "name": "Limestone brick",
-      "outputs": [
-        {
-          "name": "Limestone brick",
-          "quantity": 1
-        }
-      ],
+      "outputs": [],
       "skill": "Construction",
       "title": "Limestone brick",
       "types": [
@@ -420,12 +390,7 @@
       ],
       "members": true,
       "name": "Steel bar",
-      "outputs": [
-        {
-          "name": "Steel bar",
-          "quantity": 1
-        }
-      ],
+      "outputs": [],
       "skill": "Construction",
       "title": "Steel bar",
       "types": [
@@ -496,12 +461,7 @@
       ],
       "members": true,
       "name": "Oak plank",
-      "outputs": [
-        {
-          "name": "Oak plank",
-          "quantity": 1
-        }
-      ],
+      "outputs": [],
       "skill": "Construction",
       "title": "Oak plank",
       "types": [
@@ -3489,12 +3449,7 @@
       ],
       "members": true,
       "name": "Curved bone",
-      "outputs": [
-        {
-          "name": "Curved bone",
-          "quantity": 1
-        }
-      ],
+      "outputs": [],
       "skill": "Construction",
       "title": "Curved bone",
       "types": [
@@ -3512,12 +3467,7 @@
       ],
       "members": true,
       "name": "Long bone",
-      "outputs": [
-        {
-          "name": "Long bone",
-          "quantity": 1
-        }
-      ],
+      "outputs": [],
       "skill": "Construction",
       "title": "Long bone",
       "types": [
@@ -3676,12 +3626,7 @@
       ],
       "members": true,
       "name": "Teak plank",
-      "outputs": [
-        {
-          "name": "Teak plank",
-          "quantity": 1
-        }
-      ],
+      "outputs": [],
       "skill": "Construction",
       "title": "Teak plank",
       "types": [
@@ -3727,12 +3672,7 @@
       ],
       "members": true,
       "name": "Mahogany plank",
-      "outputs": [
-        {
-          "name": "Mahogany plank",
-          "quantity": 1
-        }
-      ],
+      "outputs": [],
       "skill": "Construction",
       "title": "Mahogany plank",
       "types": [
@@ -13119,12 +13059,7 @@
       ],
       "members": true,
       "name": "Sacred eel",
-      "outputs": [
-        {
-          "name": "Sacred eel",
-          "quantity": 1
-        }
-      ],
+      "outputs": [],
       "skill": "Cooking",
       "title": "Sacred eel",
       "types": [
@@ -17789,12 +17724,7 @@
       ],
       "members": true,
       "name": "Light orb",
-      "outputs": [
-        {
-          "name": "Light orb",
-          "quantity": 1
-        }
-      ],
+      "outputs": [],
       "skill": "Crafting",
       "ticks": 0,
       "title": "Installing light orbs",
@@ -20429,12 +20359,7 @@
       ],
       "members": true,
       "name": "Achey tree logs",
-      "outputs": [
-        {
-          "name": "Achey tree logs",
-          "quantity": 1
-        }
-      ],
+      "outputs": [],
       "skill": "Firemaking",
       "title": "Achey tree logs",
       "types": [
@@ -20535,12 +20460,7 @@
       ],
       "members": false,
       "name": "Logs",
-      "outputs": [
-        {
-          "name": "Logs",
-          "quantity": 1
-        }
-      ],
+      "outputs": [],
       "skill": "Firemaking",
       "title": "Logs",
       "types": [
@@ -20643,12 +20563,7 @@
       ],
       "members": false,
       "name": "Oak logs",
-      "outputs": [
-        {
-          "name": "Oak logs",
-          "quantity": 1
-        }
-      ],
+      "outputs": [],
       "skill": "Firemaking",
       "title": "Oak logs",
       "types": [
@@ -20863,12 +20778,7 @@
       ],
       "members": false,
       "name": "Willow logs",
-      "outputs": [
-        {
-          "name": "Willow logs",
-          "quantity": 1
-        }
-      ],
+      "outputs": [],
       "skill": "Firemaking",
       "title": "Willow logs",
       "types": [
@@ -20886,12 +20796,7 @@
       ],
       "members": true,
       "name": "Teak logs",
-      "outputs": [
-        {
-          "name": "Teak logs",
-          "quantity": 1
-        }
-      ],
+      "outputs": [],
       "skill": "Firemaking",
       "title": "Teak logs",
       "types": [
@@ -20967,12 +20872,7 @@
       ],
       "members": true,
       "name": "Arctic pine logs",
-      "outputs": [
-        {
-          "name": "Arctic pine logs",
-          "quantity": 1
-        }
-      ],
+      "outputs": [],
       "skill": "Firemaking",
       "title": "Arctic pine logs",
       "types": [
@@ -20990,12 +20890,7 @@
       ],
       "members": false,
       "name": "Maple logs",
-      "outputs": [
-        {
-          "name": "Maple logs",
-          "quantity": 1
-        }
-      ],
+      "outputs": [],
       "skill": "Firemaking",
       "title": "Maple logs",
       "types": [
@@ -21070,12 +20965,7 @@
       ],
       "members": true,
       "name": "Mahogany logs",
-      "outputs": [
-        {
-          "name": "Mahogany logs",
-          "quantity": 1
-        }
-      ],
+      "outputs": [],
       "skill": "Firemaking",
       "title": "Mahogany logs",
       "types": [
@@ -21122,12 +21012,7 @@
       ],
       "members": true,
       "name": "Light orb",
-      "outputs": [
-        {
-          "name": "Light orb",
-          "quantity": 1
-        }
-      ],
+      "outputs": [],
       "skill": "Firemaking",
       "title": "Light orb",
       "types": [
@@ -21145,12 +21030,7 @@
       ],
       "members": true,
       "name": "Light orb",
-      "outputs": [
-        {
-          "name": "Light orb",
-          "quantity": 1
-        }
-      ],
+      "outputs": [],
       "skill": "Firemaking",
       "title": "Light orb (with 50 streak)",
       "types": [
@@ -21197,12 +21077,7 @@
       ],
       "members": false,
       "name": "Yew logs",
-      "outputs": [
-        {
-          "name": "Yew logs",
-          "quantity": 1
-        }
-      ],
+      "outputs": [],
       "skill": "Firemaking",
       "title": "Yew logs",
       "types": [
@@ -21220,12 +21095,7 @@
       ],
       "members": true,
       "name": "Blisterwood logs",
-      "outputs": [
-        {
-          "name": "Blisterwood logs",
-          "quantity": 1
-        }
-      ],
+      "outputs": [],
       "skill": "Firemaking",
       "title": "Blisterwood logs",
       "types": [
@@ -21272,12 +21142,7 @@
       ],
       "members": true,
       "name": "Camphor logs",
-      "outputs": [
-        {
-          "name": "Camphor logs",
-          "quantity": 1
-        }
-      ],
+      "outputs": [],
       "skill": "Firemaking",
       "title": "Camphor logs",
       "types": [
@@ -21324,12 +21189,7 @@
       ],
       "members": true,
       "name": "Magic logs",
-      "outputs": [
-        {
-          "name": "Magic logs",
-          "quantity": 1
-        }
-      ],
+      "outputs": [],
       "skill": "Firemaking",
       "title": "Magic logs",
       "types": [
@@ -21347,12 +21207,7 @@
       ],
       "members": true,
       "name": "Ironwood logs",
-      "outputs": [
-        {
-          "name": "Ironwood logs",
-          "quantity": 1
-        }
-      ],
+      "outputs": [],
       "skill": "Firemaking",
       "title": "Ironwood logs",
       "types": [
@@ -21428,12 +21283,7 @@
       ],
       "members": true,
       "name": "Redwood logs",
-      "outputs": [
-        {
-          "name": "Redwood logs",
-          "quantity": 1
-        }
-      ],
+      "outputs": [],
       "skill": "Firemaking",
       "title": "Redwood logs",
       "types": [
@@ -21451,12 +21301,7 @@
       ],
       "members": true,
       "name": "Rosewood logs",
-      "outputs": [
-        {
-          "name": "Rosewood logs",
-          "quantity": 1
-        }
-      ],
+      "outputs": [],
       "skill": "Firemaking",
       "title": "Rosewood logs",
       "types": [
@@ -39233,12 +39078,7 @@
       ],
       "members": true,
       "name": "Abyssal ashes",
-      "outputs": [
-        {
-          "name": "Abyssal ashes",
-          "quantity": 1
-        }
-      ],
+      "outputs": [],
       "skill": "Prayer",
       "title": "Abyssal ashes",
       "types": [
@@ -39264,12 +39104,7 @@
       ],
       "members": true,
       "name": "Abyssal ashes",
-      "outputs": [
-        {
-          "name": "Abyssal ashes",
-          "quantity": 1
-        }
-      ],
+      "outputs": [],
       "skill": "Prayer",
       "title": "Abyssal ashes (Demonic Offering)",
       "types": [
@@ -39288,12 +39123,7 @@
       ],
       "members": true,
       "name": "Babydragon bones",
-      "outputs": [
-        {
-          "name": "Babydragon bones",
-          "quantity": 1
-        }
-      ],
+      "outputs": [],
       "skill": "Prayer",
       "title": "Babydragon bones",
       "types": [
@@ -39319,12 +39149,7 @@
       ],
       "members": true,
       "name": "Babydragon bones",
-      "outputs": [
-        {
-          "name": "Babydragon bones",
-          "quantity": 1
-        }
-      ],
+      "outputs": [],
       "skill": "Prayer",
       "title": "Babydragon bones (Sinister Offering)",
       "types": [
@@ -39342,12 +39167,7 @@
       ],
       "members": true,
       "name": "Bat bones",
-      "outputs": [
-        {
-          "name": "Bat bones",
-          "quantity": 1
-        }
-      ],
+      "outputs": [],
       "skill": "Prayer",
       "title": "Bat bones",
       "types": [
@@ -39373,12 +39193,7 @@
       ],
       "members": true,
       "name": "Bat bones",
-      "outputs": [
-        {
-          "name": "Bat bones",
-          "quantity": 1
-        }
-      ],
+      "outputs": [],
       "skill": "Prayer",
       "title": "Bat bones (Sinister Offering)",
       "types": [
@@ -39396,12 +39211,7 @@
       ],
       "members": false,
       "name": "Big bones",
-      "outputs": [
-        {
-          "name": "Big bones",
-          "quantity": 1
-        }
-      ],
+      "outputs": [],
       "skill": "Prayer",
       "title": "Big bones",
       "types": [
@@ -39427,12 +39237,7 @@
       ],
       "members": true,
       "name": "Big bones",
-      "outputs": [
-        {
-          "name": "Big bones",
-          "quantity": 1
-        }
-      ],
+      "outputs": [],
       "skill": "Prayer",
       "title": "Big bones (Sinister Offering)",
       "types": [
@@ -39450,12 +39255,7 @@
       ],
       "members": false,
       "name": "Bones",
-      "outputs": [
-        {
-          "name": "Bones",
-          "quantity": 1
-        }
-      ],
+      "outputs": [],
       "skill": "Prayer",
       "title": "Bones",
       "types": [
@@ -39481,12 +39281,7 @@
       ],
       "members": true,
       "name": "Bones",
-      "outputs": [
-        {
-          "name": "Bones",
-          "quantity": 1
-        }
-      ],
+      "outputs": [],
       "skill": "Prayer",
       "title": "Bones (Sinister Offering)",
       "types": [
@@ -39504,12 +39299,7 @@
       ],
       "members": true,
       "name": "Catfish",
-      "outputs": [
-        {
-          "name": "Catfish",
-          "quantity": 1
-        }
-      ],
+      "outputs": [],
       "skill": "Prayer",
       "title": "Catfish",
       "types": [
@@ -39527,12 +39317,7 @@
       ],
       "members": false,
       "name": "Cavefish",
-      "outputs": [
-        {
-          "name": "Cavefish",
-          "quantity": 1
-        }
-      ],
+      "outputs": [],
       "skill": "Prayer",
       "title": "Cavefish",
       "types": [
@@ -39550,12 +39335,7 @@
       ],
       "members": true,
       "name": "Dagannoth bones",
-      "outputs": [
-        {
-          "name": "Dagannoth bones",
-          "quantity": 1
-        }
-      ],
+      "outputs": [],
       "skill": "Prayer",
       "title": "Dagannoth bones",
       "types": [
@@ -39581,12 +39361,7 @@
       ],
       "members": true,
       "name": "Dagannoth bones",
-      "outputs": [
-        {
-          "name": "Dagannoth bones",
-          "quantity": 1
-        }
-      ],
+      "outputs": [],
       "skill": "Prayer",
       "title": "Dagannoth bones (Sinister Offering)",
       "types": [
@@ -39604,12 +39379,7 @@
       ],
       "members": true,
       "name": "Dragon bones",
-      "outputs": [
-        {
-          "name": "Dragon bones",
-          "quantity": 1
-        }
-      ],
+      "outputs": [],
       "skill": "Prayer",
       "title": "Dragon bones",
       "types": [
@@ -39635,12 +39405,7 @@
       ],
       "members": true,
       "name": "Dragon bones",
-      "outputs": [
-        {
-          "name": "Dragon bones",
-          "quantity": 1
-        }
-      ],
+      "outputs": [],
       "skill": "Prayer",
       "title": "Dragon bones (Sinister Offering)",
       "types": [
@@ -39658,12 +39423,7 @@
       ],
       "members": true,
       "name": "Drake bones",
-      "outputs": [
-        {
-          "name": "Drake bones",
-          "quantity": 1
-        }
-      ],
+      "outputs": [],
       "skill": "Prayer",
       "title": "Drake bones",
       "types": [
@@ -39689,12 +39449,7 @@
       ],
       "members": true,
       "name": "Drake bones",
-      "outputs": [
-        {
-          "name": "Drake bones",
-          "quantity": 1
-        }
-      ],
+      "outputs": [],
       "skill": "Prayer",
       "title": "Drake bones (Sinister Offering)",
       "types": [
@@ -39724,12 +39479,7 @@
       ],
       "members": true,
       "name": "Ensouled abyssal head",
-      "outputs": [
-        {
-          "name": "Ensouled abyssal head",
-          "quantity": 1
-        }
-      ],
+      "outputs": [],
       "skill": "Prayer",
       "title": "Ensouled abyssal head",
       "types": [
@@ -39759,12 +39509,7 @@
       ],
       "members": true,
       "name": "Ensouled aviansie head",
-      "outputs": [
-        {
-          "name": "Ensouled aviansie head",
-          "quantity": 1
-        }
-      ],
+      "outputs": [],
       "skill": "Prayer",
       "title": "Ensouled aviansie head",
       "types": [
@@ -39790,12 +39535,7 @@
       ],
       "members": true,
       "name": "Ensouled bear head",
-      "outputs": [
-        {
-          "name": "Ensouled bear head",
-          "quantity": 1
-        }
-      ],
+      "outputs": [],
       "skill": "Prayer",
       "title": "Ensouled bear head",
       "types": [
@@ -39825,12 +39565,7 @@
       ],
       "members": true,
       "name": "Ensouled bloodveld head",
-      "outputs": [
-        {
-          "name": "Ensouled bloodveld head",
-          "quantity": 1
-        }
-      ],
+      "outputs": [],
       "skill": "Prayer",
       "title": "Ensouled bloodveld head",
       "types": [
@@ -39860,12 +39595,7 @@
       ],
       "members": true,
       "name": "Ensouled chaos druid head",
-      "outputs": [
-        {
-          "name": "Ensouled chaos druid head",
-          "quantity": 1
-        }
-      ],
+      "outputs": [],
       "skill": "Prayer",
       "title": "Ensouled chaos druid head",
       "types": [
@@ -39895,12 +39625,7 @@
       ],
       "members": true,
       "name": "Ensouled dagannoth head",
-      "outputs": [
-        {
-          "name": "Ensouled dagannoth head",
-          "quantity": 1
-        }
-      ],
+      "outputs": [],
       "skill": "Prayer",
       "title": "Ensouled dagannoth head",
       "types": [
@@ -39930,12 +39655,7 @@
       ],
       "members": true,
       "name": "Ensouled demon head",
-      "outputs": [
-        {
-          "name": "Ensouled demon head",
-          "quantity": 1
-        }
-      ],
+      "outputs": [],
       "skill": "Prayer",
       "title": "Ensouled demon head",
       "types": [
@@ -39965,12 +39685,7 @@
       ],
       "members": true,
       "name": "Ensouled dog head",
-      "outputs": [
-        {
-          "name": "Ensouled dog head",
-          "quantity": 1
-        }
-      ],
+      "outputs": [],
       "skill": "Prayer",
       "title": "Ensouled dog head",
       "types": [
@@ -40000,12 +39715,7 @@
       ],
       "members": true,
       "name": "Ensouled dragon head",
-      "outputs": [
-        {
-          "name": "Ensouled dragon head",
-          "quantity": 1
-        }
-      ],
+      "outputs": [],
       "skill": "Prayer",
       "title": "Ensouled dragon head",
       "types": [
@@ -40035,12 +39745,7 @@
       ],
       "members": true,
       "name": "Ensouled elf head",
-      "outputs": [
-        {
-          "name": "Ensouled elf head",
-          "quantity": 1
-        }
-      ],
+      "outputs": [],
       "skill": "Prayer",
       "title": "Ensouled elf head",
       "types": [
@@ -40070,12 +39775,7 @@
       ],
       "members": true,
       "name": "Ensouled giant head",
-      "outputs": [
-        {
-          "name": "Ensouled giant head",
-          "quantity": 1
-        }
-      ],
+      "outputs": [],
       "skill": "Prayer",
       "title": "Ensouled giant head",
       "types": [
@@ -40101,12 +39801,7 @@
       ],
       "members": true,
       "name": "Ensouled goblin head",
-      "outputs": [
-        {
-          "name": "Ensouled goblin head",
-          "quantity": 1
-        }
-      ],
+      "outputs": [],
       "skill": "Prayer",
       "title": "Ensouled goblin head",
       "types": [
@@ -40136,12 +39831,7 @@
       ],
       "members": true,
       "name": "Ensouled hellhound head",
-      "outputs": [
-        {
-          "name": "Ensouled hellhound head",
-          "quantity": 1
-        }
-      ],
+      "outputs": [],
       "skill": "Prayer",
       "title": "Ensouled hellhound head",
       "types": [
@@ -40171,12 +39861,7 @@
       ],
       "members": true,
       "name": "Ensouled horror head",
-      "outputs": [
-        {
-          "name": "Ensouled horror head",
-          "quantity": 1
-        }
-      ],
+      "outputs": [],
       "skill": "Prayer",
       "title": "Ensouled horror head",
       "types": [
@@ -40202,12 +39887,7 @@
       ],
       "members": true,
       "name": "Ensouled imp head",
-      "outputs": [
-        {
-          "name": "Ensouled imp head",
-          "quantity": 1
-        }
-      ],
+      "outputs": [],
       "skill": "Prayer",
       "title": "Ensouled imp head",
       "types": [
@@ -40237,12 +39917,7 @@
       ],
       "members": true,
       "name": "Ensouled kalphite head",
-      "outputs": [
-        {
-          "name": "Ensouled kalphite head",
-          "quantity": 1
-        }
-      ],
+      "outputs": [],
       "skill": "Prayer",
       "title": "Ensouled kalphite head",
       "types": [
@@ -40268,12 +39943,7 @@
       ],
       "members": true,
       "name": "Ensouled minotaur head",
-      "outputs": [
-        {
-          "name": "Ensouled minotaur head",
-          "quantity": 1
-        }
-      ],
+      "outputs": [],
       "skill": "Prayer",
       "title": "Ensouled minotaur head",
       "types": [
@@ -40299,12 +39969,7 @@
       ],
       "members": true,
       "name": "Ensouled monkey head",
-      "outputs": [
-        {
-          "name": "Ensouled monkey head",
-          "quantity": 1
-        }
-      ],
+      "outputs": [],
       "skill": "Prayer",
       "title": "Ensouled monkey head",
       "types": [
@@ -40334,12 +39999,7 @@
       ],
       "members": true,
       "name": "Ensouled ogre head",
-      "outputs": [
-        {
-          "name": "Ensouled ogre head",
-          "quantity": 1
-        }
-      ],
+      "outputs": [],
       "skill": "Prayer",
       "title": "Ensouled ogre head",
       "types": [
@@ -40365,12 +40025,7 @@
       ],
       "members": true,
       "name": "Ensouled scorpion head",
-      "outputs": [
-        {
-          "name": "Ensouled scorpion head",
-          "quantity": 1
-        }
-      ],
+      "outputs": [],
       "skill": "Prayer",
       "title": "Ensouled scorpion head",
       "types": [
@@ -40400,12 +40055,7 @@
       ],
       "members": true,
       "name": "Ensouled troll head",
-      "outputs": [
-        {
-          "name": "Ensouled troll head",
-          "quantity": 1
-        }
-      ],
+      "outputs": [],
       "skill": "Prayer",
       "title": "Ensouled troll head",
       "types": [
@@ -40435,12 +40085,7 @@
       ],
       "members": true,
       "name": "Ensouled tzhaar head",
-      "outputs": [
-        {
-          "name": "Ensouled tzhaar head",
-          "quantity": 1
-        }
-      ],
+      "outputs": [],
       "skill": "Prayer",
       "title": "Ensouled tzhaar head",
       "types": [
@@ -40466,12 +40111,7 @@
       ],
       "members": true,
       "name": "Ensouled unicorn head",
-      "outputs": [
-        {
-          "name": "Ensouled unicorn head",
-          "quantity": 1
-        }
-      ],
+      "outputs": [],
       "skill": "Prayer",
       "title": "Ensouled unicorn head",
       "types": [
@@ -40489,12 +40129,7 @@
       ],
       "members": true,
       "name": "Fayrg bones",
-      "outputs": [
-        {
-          "name": "Fayrg bones",
-          "quantity": 1
-        }
-      ],
+      "outputs": [],
       "skill": "Prayer",
       "title": "Fayrg bones",
       "types": [
@@ -40520,12 +40155,7 @@
       ],
       "members": true,
       "name": "Fayrg bones",
-      "outputs": [
-        {
-          "name": "Fayrg bones",
-          "quantity": 1
-        }
-      ],
+      "outputs": [],
       "skill": "Prayer",
       "title": "Fayrg bones (Sinister Offering)",
       "types": [
@@ -40543,12 +40173,7 @@
       ],
       "members": false,
       "name": "Fiendish ashes",
-      "outputs": [
-        {
-          "name": "Fiendish ashes",
-          "quantity": 1
-        }
-      ],
+      "outputs": [],
       "skill": "Prayer",
       "title": "Fiendish ashes",
       "types": [
@@ -40574,12 +40199,7 @@
       ],
       "members": true,
       "name": "Fiendish ashes",
-      "outputs": [
-        {
-          "name": "Fiendish ashes",
-          "quantity": 1
-        }
-      ],
+      "outputs": [],
       "skill": "Prayer",
       "title": "Fiendish ashes (Demonic Offering)",
       "types": [
@@ -40598,12 +40218,7 @@
       ],
       "members": true,
       "name": "Frost dragon bones",
-      "outputs": [
-        {
-          "name": "Frost dragon bones",
-          "quantity": 1
-        }
-      ],
+      "outputs": [],
       "skill": "Prayer",
       "title": "Frost dragon bones",
       "types": [
@@ -40629,12 +40244,7 @@
       ],
       "members": true,
       "name": "Frost dragon bones",
-      "outputs": [
-        {
-          "name": "Frost dragon bones",
-          "quantity": 1
-        }
-      ],
+      "outputs": [],
       "skill": "Prayer",
       "title": "Frost dragon bones (Sinister Offering)",
       "types": [
@@ -40652,12 +40262,7 @@
       ],
       "members": false,
       "name": "Guppy",
-      "outputs": [
-        {
-          "name": "Guppy",
-          "quantity": 1
-        }
-      ],
+      "outputs": [],
       "skill": "Prayer",
       "title": "Guppy",
       "types": [
@@ -40675,12 +40280,7 @@
       ],
       "members": true,
       "name": "Hydra bones",
-      "outputs": [
-        {
-          "name": "Hydra bones",
-          "quantity": 1
-        }
-      ],
+      "outputs": [],
       "skill": "Prayer",
       "title": "Hydra bones",
       "types": [
@@ -40706,12 +40306,7 @@
       ],
       "members": true,
       "name": "Hydra bones",
-      "outputs": [
-        {
-          "name": "Hydra bones",
-          "quantity": 1
-        }
-      ],
+      "outputs": [],
       "skill": "Prayer",
       "title": "Hydra bones (Sinister Offering)",
       "types": [
@@ -40729,12 +40324,7 @@
       ],
       "members": true,
       "name": "Infernal ashes",
-      "outputs": [
-        {
-          "name": "Infernal ashes",
-          "quantity": 1
-        }
-      ],
+      "outputs": [],
       "skill": "Prayer",
       "title": "Infernal ashes",
       "types": [
@@ -40760,12 +40350,7 @@
       ],
       "members": true,
       "name": "Infernal ashes",
-      "outputs": [
-        {
-          "name": "Infernal ashes",
-          "quantity": 1
-        }
-      ],
+      "outputs": [],
       "skill": "Prayer",
       "title": "Infernal ashes (Demonic Offering)",
       "types": [
@@ -40784,12 +40369,7 @@
       ],
       "members": true,
       "name": "Jogre bones",
-      "outputs": [
-        {
-          "name": "Jogre bones",
-          "quantity": 1
-        }
-      ],
+      "outputs": [],
       "skill": "Prayer",
       "title": "Jogre bones",
       "types": [
@@ -40815,12 +40395,7 @@
       ],
       "members": true,
       "name": "Jogre bones",
-      "outputs": [
-        {
-          "name": "Jogre bones",
-          "quantity": 1
-        }
-      ],
+      "outputs": [],
       "skill": "Prayer",
       "title": "Jogre bones (Sinister Offering)",
       "types": [
@@ -40838,12 +40413,7 @@
       ],
       "members": true,
       "name": "Lava dragon bones",
-      "outputs": [
-        {
-          "name": "Lava dragon bones",
-          "quantity": 1
-        }
-      ],
+      "outputs": [],
       "skill": "Prayer",
       "title": "Lava dragon bones",
       "types": [
@@ -40869,12 +40439,7 @@
       ],
       "members": true,
       "name": "Lava dragon bones",
-      "outputs": [
-        {
-          "name": "Lava dragon bones",
-          "quantity": 1
-        }
-      ],
+      "outputs": [],
       "skill": "Prayer",
       "title": "Lava dragon bones (Sinister Offering)",
       "types": [
@@ -40892,12 +40457,7 @@
       ],
       "members": true,
       "name": "Malicious ashes",
-      "outputs": [
-        {
-          "name": "Malicious ashes",
-          "quantity": 1
-        }
-      ],
+      "outputs": [],
       "skill": "Prayer",
       "title": "Malicious ashes",
       "types": [
@@ -40923,12 +40483,7 @@
       ],
       "members": true,
       "name": "Malicious ashes",
-      "outputs": [
-        {
-          "name": "Malicious ashes",
-          "quantity": 1
-        }
-      ],
+      "outputs": [],
       "skill": "Prayer",
       "title": "Malicious ashes (Demonic Offering)",
       "types": [
@@ -40947,12 +40502,7 @@
       ],
       "members": false,
       "name": "Monkey bones",
-      "outputs": [
-        {
-          "name": "Monkey bones",
-          "quantity": 1
-        }
-      ],
+      "outputs": [],
       "skill": "Prayer",
       "title": "Monkey bones",
       "types": [
@@ -40978,12 +40528,7 @@
       ],
       "members": true,
       "name": "Monkey bones",
-      "outputs": [
-        {
-          "name": "Monkey bones",
-          "quantity": 1
-        }
-      ],
+      "outputs": [],
       "skill": "Prayer",
       "title": "Monkey bones (Sinister Offering)",
       "types": [
@@ -41001,12 +40546,7 @@
       ],
       "members": true,
       "name": "Ourg bones",
-      "outputs": [
-        {
-          "name": "Ourg bones",
-          "quantity": 1
-        }
-      ],
+      "outputs": [],
       "skill": "Prayer",
       "title": "Ourg bones",
       "types": [
@@ -41032,12 +40572,7 @@
       ],
       "members": true,
       "name": "Ourg bones",
-      "outputs": [
-        {
-          "name": "Ourg bones",
-          "quantity": 1
-        }
-      ],
+      "outputs": [],
       "skill": "Prayer",
       "title": "Ourg bones (Sinister Offering)",
       "types": [
@@ -41055,12 +40590,7 @@
       ],
       "members": true,
       "name": "Raurg bones",
-      "outputs": [
-        {
-          "name": "Raurg bones",
-          "quantity": 1
-        }
-      ],
+      "outputs": [],
       "skill": "Prayer",
       "title": "Raurg bones",
       "types": [
@@ -41086,12 +40616,7 @@
       ],
       "members": true,
       "name": "Raurg bones",
-      "outputs": [
-        {
-          "name": "Raurg bones",
-          "quantity": 1
-        }
-      ],
+      "outputs": [],
       "skill": "Prayer",
       "title": "Raurg bones (Sinister Offering)",
       "types": [
@@ -41109,12 +40634,7 @@
       ],
       "members": true,
       "name": "Shaikahan bones",
-      "outputs": [
-        {
-          "name": "Shaikahan bones",
-          "quantity": 1
-        }
-      ],
+      "outputs": [],
       "skill": "Prayer",
       "title": "Shaikahan bones",
       "types": [
@@ -41140,12 +40660,7 @@
       ],
       "members": true,
       "name": "Shaikahan bones",
-      "outputs": [
-        {
-          "name": "Shaikahan bones",
-          "quantity": 1
-        }
-      ],
+      "outputs": [],
       "skill": "Prayer",
       "title": "Shaikahan bones (Sinister Offering)",
       "types": [
@@ -41163,12 +40678,7 @@
       ],
       "members": true,
       "name": "Strykewyrm bones",
-      "outputs": [
-        {
-          "name": "Strykewyrm bones",
-          "quantity": 1
-        }
-      ],
+      "outputs": [],
       "skill": "Prayer",
       "title": "Strykewyrm bones",
       "types": [
@@ -41194,12 +40704,7 @@
       ],
       "members": true,
       "name": "Strykewyrm bones",
-      "outputs": [
-        {
-          "name": "Strykewyrm bones",
-          "quantity": 1
-        }
-      ],
+      "outputs": [],
       "skill": "Prayer",
       "title": "Strykewyrm bones (Sinister Offering)",
       "types": [
@@ -41217,12 +40722,7 @@
       ],
       "members": false,
       "name": "Tetra",
-      "outputs": [
-        {
-          "name": "Tetra",
-          "quantity": 1
-        }
-      ],
+      "outputs": [],
       "skill": "Prayer",
       "title": "Tetra",
       "types": [
@@ -41240,12 +40740,7 @@
       ],
       "members": false,
       "name": "Vile ashes",
-      "outputs": [
-        {
-          "name": "Vile ashes",
-          "quantity": 1
-        }
-      ],
+      "outputs": [],
       "skill": "Prayer",
       "title": "Vile ashes",
       "types": [
@@ -41271,12 +40766,7 @@
       ],
       "members": true,
       "name": "Vile ashes",
-      "outputs": [
-        {
-          "name": "Vile ashes",
-          "quantity": 1
-        }
-      ],
+      "outputs": [],
       "skill": "Prayer",
       "title": "Vile ashes (Demonic Offering)",
       "types": [
@@ -41295,12 +40785,7 @@
       ],
       "members": true,
       "name": "Wyrm bones",
-      "outputs": [
-        {
-          "name": "Wyrm bones",
-          "quantity": 1
-        }
-      ],
+      "outputs": [],
       "skill": "Prayer",
       "title": "Wyrm bones",
       "types": [
@@ -41326,12 +40811,7 @@
       ],
       "members": true,
       "name": "Wyrm bones",
-      "outputs": [
-        {
-          "name": "Wyrm bones",
-          "quantity": 1
-        }
-      ],
+      "outputs": [],
       "skill": "Prayer",
       "title": "Wyrm bones (Sinister Offering)",
       "types": [
@@ -41349,12 +40829,7 @@
       ],
       "members": true,
       "name": "Wyrmling bones",
-      "outputs": [
-        {
-          "name": "Wyrmling bones",
-          "quantity": 1
-        }
-      ],
+      "outputs": [],
       "skill": "Prayer",
       "title": "Wyrmling bones",
       "types": [
@@ -41380,12 +40855,7 @@
       ],
       "members": true,
       "name": "Wyrmling bones",
-      "outputs": [
-        {
-          "name": "Wyrmling bones",
-          "quantity": 1
-        }
-      ],
+      "outputs": [],
       "skill": "Prayer",
       "title": "Wyrmling bones (Sinister Offering)",
       "types": [
@@ -41403,12 +40873,7 @@
       ],
       "members": true,
       "name": "Wyvern bones",
-      "outputs": [
-        {
-          "name": "Wyvern bones",
-          "quantity": 1
-        }
-      ],
+      "outputs": [],
       "skill": "Prayer",
       "title": "Wyvern bones",
       "types": [
@@ -41434,12 +40899,7 @@
       ],
       "members": true,
       "name": "Wyvern bones",
-      "outputs": [
-        {
-          "name": "Wyvern bones",
-          "quantity": 1
-        }
-      ],
+      "outputs": [],
       "skill": "Prayer",
       "title": "Wyvern bones (Sinister Offering)",
       "types": [
@@ -41457,12 +40917,7 @@
       ],
       "members": true,
       "name": "Zogre bones",
-      "outputs": [
-        {
-          "name": "Zogre bones",
-          "quantity": 1
-        }
-      ],
+      "outputs": [],
       "skill": "Prayer",
       "title": "Zogre bones",
       "types": [
@@ -41488,12 +40943,7 @@
       ],
       "members": true,
       "name": "Zogre bones",
-      "outputs": [
-        {
-          "name": "Zogre bones",
-          "quantity": 1
-        }
-      ],
+      "outputs": [],
       "skill": "Prayer",
       "title": "Zogre bones (Sinister Offering)",
       "types": [
@@ -41516,12 +40966,7 @@
       ],
       "members": true,
       "name": "Blessed bone shards",
-      "outputs": [
-        {
-          "name": "Blessed bone shards",
-          "quantity": 1
-        }
-      ],
+      "outputs": [],
       "skill": "Prayer",
       "ticks": 0,
       "title": "Blessed bone shards",
@@ -41545,12 +40990,7 @@
       ],
       "members": true,
       "name": "Blessed bone shards",
-      "outputs": [
-        {
-          "name": "Blessed bone shards",
-          "quantity": 1
-        }
-      ],
+      "outputs": [],
       "skill": "Prayer",
       "ticks": 0,
       "title": "Blessed bone shards (Sunfire wine)",
@@ -42181,12 +41621,7 @@
       ],
       "members": true,
       "name": "Superior dragon bones",
-      "outputs": [
-        {
-          "name": "Superior dragon bones",
-          "quantity": 1
-        }
-      ],
+      "outputs": [],
       "skill": "Prayer",
       "title": "Superior dragon bones",
       "types": [
@@ -42212,12 +41647,7 @@
       ],
       "members": true,
       "name": "Superior dragon bones",
-      "outputs": [
-        {
-          "name": "Superior dragon bones",
-          "quantity": 1
-        }
-      ],
+      "outputs": [],
       "skill": "Prayer",
       "title": "Superior dragon bones (Sinister Offering)",
       "types": [

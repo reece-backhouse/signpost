@@ -126,6 +126,34 @@ class PrefsResolverTest
 		assertFalse(view.getHidden().contains("gone"));
 	}
 
+	/** Final-review ledger 188 / M9: a snooze taken before any Advice existed has no fingerprint; it must still hide the goal until its time is up. */
+	@Test
+	void snoozeWithNoFingerprintIsActiveByTimeAlone()
+	{
+		AccountData data = accountData();
+		data.getSnoozes().put("g", new Snooze(now.plusSeconds(60), null));
+		GoalStatus g = status("g", List.of(new CombatLevelGap(3, 50, false)));
+
+		PrefsView view = resolver.resolve(data, List.of(g), now);
+
+		assertTrue(view.getSnoozedActive().contains("g"));
+		assertTrue(view.getHidden().contains("g"));
+		assertTrue(resolver.resolve(data, List.of(g), now.plusSeconds(61)).getSnoozedExpired().contains("g"));
+	}
+
+	/** Final-review M4: a hand-edited file with no "until" must not NPE the whole run; the snooze is simply expired. */
+	@Test
+	void snoozeWithNoUntilIsExpiredNotAnError()
+	{
+		AccountData data = accountData();
+		data.getSnoozes().put("g", new Snooze(null, null));
+
+		PrefsView view = resolver.resolve(data, List.of(status("g", List.of())), now);
+
+		assertTrue(view.getSnoozedExpired().contains("g"));
+		assertFalse(view.getHidden().contains("g"));
+	}
+
 	private static AccountData accountData()
 	{
 		return new AccountData(new HashMap<>(), null, new HashMap<>(), new HashSet<>(), new ArrayList<>(), null);

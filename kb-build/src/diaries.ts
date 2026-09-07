@@ -1,4 +1,4 @@
-import { SCP_SKILL_TOKEN, WIKILINK, boostableFromText } from './questPages.js';
+import { SCP_SKILL_TOKEN, WIKILINK, boostableFromText, isImageLink } from './questPages.js';
 import type { SkillReq } from './questreq.js';
 
 export type DiaryArea =
@@ -200,6 +200,7 @@ function parseRequirementCell(cell: string): Omit<DiaryTask, 'ordinal' | 'text'>
     }
 
     const itemMatch = DIARY_ITEM_LINE.exec(line);
+    if (itemMatch && isImageLink(itemMatch[1]!)) continue;
     if (itemMatch) {
       items.push(itemMatch[1]!.trim());
       continue;

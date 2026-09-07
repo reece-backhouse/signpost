@@ -67,6 +67,13 @@ public final class SuggestSelector
 			}
 		}
 
+		if (picked.isEmpty())
+		{
+			// Every ranked goal is "later" (or paired away): nothing to suggest, and no slot-1
+			// category to compare against (final-review I1).
+			return List.of();
+		}
+
 		if (picked.size() < SLOTS)
 		{
 			GoalCategory first = category(picked.get(0));

@@ -10,7 +10,8 @@ import lombok.Value;
  * are totals over the whole shortfall. {@code craftFrom} is populated (one level only - never
  * recursively) when {@code item} is short and one of {@code sources} is a {@code craft} source: the
  * ingredients of the intermediate method that produces it, each with its own have/need/sources but
- * an always-empty {@code craftFrom} of their own.
+ * an always-empty {@code craftFrom} of their own. {@code wikiUrl} is the material's wiki page (ticket
+ * F3), {@code null} when the knowledge base has no entry for it.
  */
 @Value
 public class ShortfallItem
@@ -20,4 +21,20 @@ public class ShortfallItem
 	int need;
 	List<ItemSource> sources;
 	List<ShortfallItem> craftFrom;
+	String wikiUrl;
+
+	public ShortfallItem(ItemQuantity item, int have, int need, List<ItemSource> sources, List<ShortfallItem> craftFrom)
+	{
+		this(item, have, need, sources, craftFrom, null);
+	}
+
+	public ShortfallItem(ItemQuantity item, int have, int need, List<ItemSource> sources, List<ShortfallItem> craftFrom, String wikiUrl)
+	{
+		this.item = item;
+		this.have = have;
+		this.need = need;
+		this.sources = sources;
+		this.craftFrom = craftFrom;
+		this.wikiUrl = wikiUrl;
+	}
 }

@@ -73,6 +73,16 @@ class KnowledgeBaseMethodsTest
 		assertNotNull(byName.getId());
 		assertEquals(byName, kb.materialById(byName.getId()));
 		assertFalse(byName.getSources().isEmpty());
+		assertEquals("https://oldschool.runescape.wiki/w/Ranarr_weed", byName.getWikiUrl());
+	}
+
+	@Test
+	void materialWithoutAWikiUrlInJsonDerivesOneFromItsName()
+	{
+		KnowledgeBase kb = KnowledgeBase.fromJson(new Gson(), EMPTY_QUESTS_JSON, EMPTY_DIARIES_JSON, EMPTY_MILESTONES_JSON,
+			EMPTY_PRIORITIES_JSON, "{\"version\":1,\"generatedAt\":\"x\",\"methods\":[]}", materialsJsonWithRanarrWeed());
+
+		assertEquals("https://oldschool.runescape.wiki/w/Ranarr_weed", kb.materialByName("Ranarr weed").getWikiUrl());
 	}
 
 	@Test
@@ -105,6 +115,42 @@ class KnowledgeBaseMethodsTest
 		assertTrue(entry.isUsable(), "an unresolved output must not block usability");
 		assertNotNull(entry.getMaterials().get(0).getId());
 		assertEquals(null, entry.getOutputs().get(0).getId());
+	}
+
+	@Test
+	void outputNamedLikeOneOfTheMethodsOwnMaterialsIsDroppedAtLoad()
+	{
+		// A stale methods.json (pre C1 fix) listed "Dragon bones" as both material and output; a
+		// method must never refill the simulated bank with what it just consumed.
+		String methodsJson = "{\"version\":1,\"generatedAt\":\"x\",\"methods\":[{\"skill\":\"Herblore\",\"name\":\"Ranarr weed\","
+			+ "\"title\":\"Ranarr weed\",\"levelReq\":1,\"xpPerAction\":10,\"materials\":[{\"name\":\"Ranarr weed\",\"quantity\":1}],"
+			+ "\"outputs\":[{\"name\":\"Ranarr weed\",\"quantity\":1},{\"name\":\"Something else\",\"quantity\":1}],\"types\":[],\"members\":false}]}";
+
+		KnowledgeBase kb = KnowledgeBase.fromJson(new Gson(), EMPTY_QUESTS_JSON, EMPTY_DIARIES_JSON, EMPTY_MILESTONES_JSON,
+			EMPTY_PRIORITIES_JSON, methodsJson, materialsJsonWithRanarrWeed());
+
+		MethodEntry entry = kb.methodsFor(Skill.HERBLORE).get(0);
+		assertEquals(1, entry.getOutputs().size(), "the self-consuming output must be dropped, the other kept");
+		assertEquals("Something else", entry.getOutputs().get(0).getName());
+		assertTrue(entry.isUsable());
+	}
+
+	@Test
+	void noBundledMethodOutputsAnItemItConsumes()
+	{
+		KnowledgeBase kb = KnowledgeBase.load(new Gson());
+
+		for (MethodEntry method : kb.getMethods())
+		{
+			for (ItemQuantity output : method.getOutputs())
+			{
+				for (ItemQuantity material : method.getMaterials())
+				{
+					assertFalse(material.getName().equals(output.getName()),
+						method.getSkill() + " \"" + method.getTitle() + "\" outputs the \"" + output.getName() + "\" it consumes");
+				}
+			}
+		}
 	}
 
 	@Test

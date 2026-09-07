@@ -65,6 +65,18 @@ describe('resolveItemIds', () => {
     expect(resolved.get('Barrows gloves')).toEqual({ id: 7462, generic: false });
   });
 
+  it('unions every Bucket item_id row for a page and takes the lowest finite id, whatever the row order', () => {
+    // Bucket carries one row per id: Dragon defender is rows 20463, 12954, 24143 sharing a page.
+    const rows: ItemIdRow[] = [
+      { page_name: 'Dragon defender', id: [20463] },
+      { page_name: 'Dragon defender', id: [NaN] },
+      { page_name: 'Dragon defender', id: [12954] },
+      { page_name: 'Dragon defender', id: [24143] },
+    ];
+    const resolved = resolveItemIds(['Dragon defender'], [], rows);
+    expect(resolved.get('Dragon defender')).toEqual({ id: 12954, generic: false });
+  });
+
   it('marks a name unresolved by both sources as generic with a null id', () => {
     const resolved = resolveItemIds(['Any pickaxe'], mapping, itemIdRows);
     expect(resolved.get('Any pickaxe')).toEqual({ id: null, generic: true });
@@ -139,6 +151,12 @@ describe('buildMaterials', () => {
 
     const snape = materials.find((m) => m.name === 'Snape grass');
     expect(snape?.sources).toContainEqual(expect.objectContaining({ type: 'GE', accountTypes: ['main'] }));
+  });
+
+  it('carries a wiki url built from the material name, spaces as underscores', () => {
+    const resolved = resolveItemIds(['Snape grass'], mapping, []);
+    const materials = buildMaterials({ names: ['Snape grass'], resolved, mapping, storelineRows: [], droplineRows: [], loclineRows: [], methods: [] });
+    expect(materials[0]?.wikiUrl).toBe('https://oldschool.runescape.wiki/w/Snape_grass');
   });
 
   it('does not add a GE source for an item absent from the mapping', () => {

@@ -101,6 +101,26 @@ public class NextTargetPanel extends PluginPanel
 		return generatedAt.length() >= 10 ? generatedAt.substring(0, 10) : generatedAt;
 	}
 
+	/** Logged out: header back to its pre-login text, every goal card/row removed so nothing stale is clickable. Must be called on the EDT. */
+	public void showLoggedOut()
+	{
+		if (!SwingUtilities.isEventDispatchThread())
+		{
+			throw new IllegalStateException("NextTargetPanel.showLoggedOut must run on the EDT");
+		}
+
+		accountTypeLabel.setText("Log in to see your account");
+		questsLabel.setText("");
+		totalLevelLabel.setText("");
+		bankLabel.setText("");
+		goalsLabel.setText("");
+		goalSearchField.clear();
+		suggestPanel.clear();
+		((CardLayout) body.getLayout()).show(body, SUGGEST_CARD);
+		revalidate();
+		repaint();
+	}
+
 	/**
 	 * Renders {@code advice}. Must be called on the EDT; the caller (the plugin) is responsible
 	 * for dispatching via {@link SwingUtilities#invokeLater}.

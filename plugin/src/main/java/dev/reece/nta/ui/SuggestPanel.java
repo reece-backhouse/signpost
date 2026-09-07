@@ -52,6 +52,7 @@ public class SuggestPanel extends JPanel
 	private final JPanel ignoredContent = new JPanel();
 
 	private Advice currentAdvice;
+	private Set<String> lastGoalIds;
 	private int nextShown = PAGE_SIZE;
 	private boolean laterExpanded;
 	private boolean snoozedExpanded;
@@ -128,7 +129,9 @@ public class SuggestPanel extends JPanel
 
 	/**
 	 * Renders {@code advice}. Must be called on the EDT. Resets the "show more" paging back to the
-	 * first page, per spec (panel-local state, reset on new Advice).
+	 * first page only when the set of goals (ranked union later) changed since the previous render -
+	 * the same rule {@link GoalSearchField} uses to keep its query - so a re-run that merely
+	 * refreshed the same goals (bank close, level-up) does not collapse the list (final-review I4).
 	 */
 	public void render(Advice advice)
 	{
@@ -137,9 +140,42 @@ public class SuggestPanel extends JPanel
 			throw new IllegalStateException("SuggestPanel.render must run on the EDT");
 		}
 
+		Set<String> goalIds = GoalSearchField.goalIds(advice);
+		if (!goalIds.equals(lastGoalIds))
+		{
+			nextShown = PAGE_SIZE;
+		}
+		lastGoalIds = goalIds;
 		this.currentAdvice = advice;
-		this.nextShown = PAGE_SIZE;
 		rebuild();
+	}
+
+	/** Removes every card and row (logged out). Must be called on the EDT. */
+	public void clear()
+	{
+		currentAdvice = null;
+		lastGoalIds = null;
+		nextShown = PAGE_SIZE;
+		focusBannerPanel.setVisible(false);
+		for (JPanel content : List.of(pickOnePanel, nextListPanel, laterContent, snoozedContent, ignoredContent))
+		{
+			content.removeAll();
+		}
+		showMoreButton.setVisible(false);
+		revalidate();
+		repaint();
+	}
+
+	/** Test seam: how many "Next" rows are currently shown. */
+	public int shownNextCount()
+	{
+		return nextListPanel.getComponentCount();
+	}
+
+	/** Test seam: the "Show more" button's action. */
+	public void showMore()
+	{
+		showMoreButton.doClick();
 	}
 
 	private void rebuild()

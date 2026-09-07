@@ -19,6 +19,7 @@ import dev.reece.nta.kb.DiaryRef;
 import dev.reece.nta.kb.DiaryTask;
 import dev.reece.nta.kb.ItemReq;
 import dev.reece.nta.kb.KnowledgeBase;
+import dev.reece.nta.kb.MaterialEntry;
 import dev.reece.nta.kb.MilestoneCategory;
 import dev.reece.nta.kb.MilestoneEntry;
 import dev.reece.nta.kb.OwnedItem;
@@ -26,6 +27,7 @@ import dev.reece.nta.kb.QuestEntry;
 import dev.reece.nta.kb.RecommendedProfile;
 import dev.reece.nta.kb.RecommendedSkill;
 import dev.reece.nta.kb.SkillReq;
+import dev.reece.nta.kb.WikiUrls;
 import dev.reece.nta.snapshot.AccountType;
 import dev.reece.nta.snapshot.DiaryTier;
 import dev.reece.nta.snapshot.SkillState;
@@ -54,7 +56,6 @@ public final class GapEngine
 {
 	private static final int QUEST_PRIORITY = 5;
 	private static final int DIARY_PRIORITY = 4;
-	private static final String WIKI_BASE = "https://oldschool.runescape.wiki/w/";
 
 	/** Quest goal stage from its effective (post-override) priority: &ge;8 &rarr; 3, 5..7 &rarr; 2, else 1 (spec ruling 27). */
 	private static int questStage(int priority)
@@ -202,9 +203,10 @@ public final class GapEngine
 		resolveStartedPrereqs(entry.getPrereqsStarted(), snapshot, kb, entry.getName(), prereqGaps);
 		gaps.addAll(prereqGaps.values());
 
+		List<String> notes = new ArrayList<>(entry.getPrereqNotes());
 		for (ItemReq req : entry.getItems())
 		{
-			addItemGapIfShort(gaps, snapshot, req.getName(), req.getQuantity());
+			addItemGapIfShort(gaps, notes, snapshot, kb, req.getName(), req.getQuantity());
 		}
 
 		if (entry.getQuestPointsRequired() != null && entry.getQuestPointsRequired() > snapshot.getQuestPoints())
@@ -222,9 +224,9 @@ public final class GapEngine
 
 		String goalId = "quest:" + entry.getId();
 		int priority = kb.getPriorityOverrides().getOrDefault(goalId, QUEST_PRIORITY);
-		Goal goal = new Goal(goalId, GoalCategory.QUEST, entry.getName(), WIKI_BASE + spacesToUnderscores(entry.getWikiTitle()),
+		Goal goal = new Goal(goalId, GoalCategory.QUEST, entry.getName(), WikiUrls.forTitle(entry.getWikiTitle()),
 			priority, questStage(priority));
-		return toGoalStatus(goal, gaps, entry.getPrereqNotes());
+		return toGoalStatus(goal, gaps, notes);
 	}
 
 	/**
@@ -265,7 +267,7 @@ public final class GapEngine
 		String goalId = "diary:" + tier.name();
 		int priority = kb.getPriorityOverrides().getOrDefault(goalId, DIARY_PRIORITY);
 		Goal goal = new Goal(goalId, GoalCategory.DIARY, area + " " + tierName + " Diary",
-			WIKI_BASE + spacesToUnderscores(area) + "_Diary", priority, DIARY_STAGE.get(tier));
+			WikiUrls.forTitle(area + " Diary"), priority, DIARY_STAGE.get(tier));
 		return toGoalStatus(goal, gaps, notes);
 	}
 
@@ -290,7 +292,7 @@ public final class GapEngine
 
 		for (String itemName : task.getItems())
 		{
-			addItemGapIfShort(inner, snapshot, itemName, 1);
+			addItemGapIfShort(inner, extraNotes, snapshot, kb, itemName, 1);
 		}
 
 		if (task.getCombatLevelRequired() != null && task.getCombatLevelRequired() > snapshot.combatLevel())
@@ -347,7 +349,7 @@ public final class GapEngine
 
 		for (ItemReq req : entry.getItems())
 		{
-			addMilestoneItemGapIfShort(gaps, snapshot, req);
+			addMilestoneItemGapIfShort(gaps, snapshot, kb, req);
 		}
 
 		if (entry.getRecommended() != null)
@@ -382,7 +384,7 @@ public final class GapEngine
 
 		int priority = kb.getPriorityOverrides().getOrDefault(entry.getId(), entry.getPriority());
 		Goal goal = new Goal(entry.getId(), mapMilestoneCategory(entry.getCategory()), entry.getName(),
-			WIKI_BASE + spacesToUnderscores(entry.getWikiTitle()), priority, entry.getStage());
+			WikiUrls.forTitle(entry.getWikiTitle()), priority, entry.getStage());
 		boolean bankUnknown = anyBankUnknown(gaps) || ownedState == OwnedState.UNKNOWN;
 		return Optional.of(new GoalStatus(goal, List.copyOf(gaps), gaps.isEmpty(), bankUnknown, List.of()));
 	}
@@ -438,7 +440,7 @@ public final class GapEngine
 		}
 	}
 
-	private static void addMilestoneItemGapIfShort(List<Gap> gaps, Snapshot snapshot, ItemReq req)
+	private static void addMilestoneItemGapIfShort(List<Gap> gaps, Snapshot snapshot, KnowledgeBase kb, ItemReq req)
 	{
 		Integer have = sumHaveByIds(snapshot, req.getIds());
 		if (have != null && have >= req.getQuantity())
@@ -450,7 +452,7 @@ public final class GapEngine
 			.collect(Collectors.toList());
 		List<ItemSource> sources = sourcesFor(rawSources, snapshot.getAccountType());
 		boolean mustObtain = mustObtain(rawSources, snapshot.getAccountType());
-		gaps.add(new ItemGap(req.getName(), have, req.getQuantity(), sources, mustObtain));
+		gaps.add(new ItemGap(req.getName(), have, req.getQuantity(), sources, mustObtain, wikiUrlFor(kb, req.getName())));
 	}
 
 	/** Sums bank + inventory + equipment across every id in {@code itemIds} (a requirement item's wiki-variant ids). */
@@ -566,13 +568,32 @@ public final class GapEngine
 		gaps.add(new SkillLevelGap(req.getSkill(), have, req.getLevel(), xpDelta, req.isBoostable(), boostableFrom, false));
 	}
 
-	private static void addItemGapIfShort(List<Gap> gaps, Snapshot snapshot, String name, int need)
+	/**
+	 * A quest/diary item requirement by name. A name the knowledge base marks {@code generic}
+	 * ("Pickaxe", "Combat gear", "Light source": a category or prose reference, not an in-game item
+	 * name) can never be matched against the bank, so it becomes a note rather than an
+	 * {@link ItemGap} - it must not keep a goal from "Ready now" or become a "Get pickaxe" next
+	 * step (final-review I5). A name with no material entry at all is matched as before.
+	 */
+	private static void addItemGapIfShort(List<Gap> gaps, List<String> notes, Snapshot snapshot, KnowledgeBase kb, String name, int need)
 	{
+		MaterialEntry material = kb.materialByName(name);
+		if (material != null && material.isGeneric())
+		{
+			notes.add("Bring: " + name + (need > 1 ? " ×" + need : "") + " (see wiki)");
+			return;
+		}
 		Integer have = sumHave(snapshot, name);
 		if (have == null || have < need)
 		{
-			gaps.add(new ItemGap(name, have, need, List.of(), false));
+			gaps.add(new ItemGap(name, have, need, List.of(), false, material == null ? null : material.getWikiUrl()));
 		}
+	}
+
+	private static String wikiUrlFor(KnowledgeBase kb, String itemName)
+	{
+		MaterialEntry material = kb.materialByName(itemName);
+		return material == null ? WikiUrls.forTitle(itemName) : material.getWikiUrl();
 	}
 
 	/**
@@ -655,7 +676,7 @@ public final class GapEngine
 	/** Same construction {@link Goal#getWikiUrl()} uses (spaces to underscores, no other encoding) - never {@code Quest.getName()}, which 404s for a subquest whose wiki title differs (e.g. a Recipe for Disaster subquest). */
 	private static String wikiUrlFor(QuestEntry entry)
 	{
-		return WIKI_BASE + spacesToUnderscores(entry.getWikiTitle());
+		return WikiUrls.forTitle(entry.getWikiTitle());
 	}
 
 	private static Integer sumHave(Snapshot snapshot, String itemName)
@@ -726,11 +747,6 @@ public final class GapEngine
 	private static String titleCase(String s)
 	{
 		return s.isEmpty() ? s : Character.toUpperCase(s.charAt(0)) + s.substring(1).toLowerCase();
-	}
-
-	private static String spacesToUnderscores(String s)
-	{
-		return s.replace(' ', '_');
 	}
 
 	private static Map<Integer, Quest> buildQuestsById()

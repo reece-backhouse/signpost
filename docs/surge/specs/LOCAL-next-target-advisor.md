@@ -126,6 +126,18 @@ option; cost-if-wrong noted.
     goal detail view lands in S5 as the drill-down from a Suggest card, with a
     search box for choosing any goal — cost: none.
 
+27. **Ruling (user feedback, 2026-09-07 15:19): readiness needs a recommended
+    profile and an account stage.** Entry requirements alone made ToB/CoX
+    "Ready now" for a mid-game account. Slice S4.1: milestones carry `stage`
+    (1 early, 2 mid, 3 late, 4 endgame) and bosses/gear carry `recommended`
+    (skills, combat level, gear owned) treated as gaps; `StageEstimator`
+    derives the account stage from combat level, total level, quest count and
+    owned key milestones; goals more than one stage above the account never
+    enter the top three (score ×0.05, listed under "Later"); a boss is ready
+    only when entry and recommended are both met; quest priorities are
+    curated in priorities.json (hub quests 8–9, filler 3) — cost: curation
+    accuracy, all editable JSON.
+
 Rulings from the grill (docs/surge/reviews/LOCAL-next-target-advisor.md):
 
 13. **Ruling: quest name resolver in kb-build is three-step** — (a) committed
