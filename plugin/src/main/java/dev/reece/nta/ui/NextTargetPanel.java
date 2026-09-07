@@ -2,7 +2,6 @@ package dev.reece.nta.ui;
 
 import dev.reece.nta.engine.model.Advice;
 import dev.reece.nta.engine.model.GoalStatus;
-import dev.reece.nta.kb.KnowledgeBase;
 import dev.reece.nta.snapshot.Snapshot;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
@@ -78,17 +77,6 @@ public class NextTargetPanel extends PluginPanel
 		}
 
 		kbFooterLabel.setText("KB: quests " + bareDate(questsGeneratedAt) + ", diaries " + bareDate(diariesGeneratedAt));
-	}
-
-	/** Forwards the loaded knowledge base to {@link SuggestPanel} (used only for a milestone's curated reason text). Must be called on the EDT. */
-	public void setKnowledgeBase(KnowledgeBase kb)
-	{
-		if (!SwingUtilities.isEventDispatchThread())
-		{
-			throw new IllegalStateException("NextTargetPanel.setKnowledgeBase must run on the EDT");
-		}
-
-		suggestPanel.setKnowledgeBase(kb);
 	}
 
 	/** {@code generatedAt} is always ISO-8601 ("2026-09-07T07:29:49Z"); the footer shows just the date. */

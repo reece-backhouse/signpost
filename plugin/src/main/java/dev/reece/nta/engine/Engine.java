@@ -5,6 +5,7 @@ import dev.reece.nta.engine.model.GoalStatus;
 import dev.reece.nta.engine.model.PrefsView;
 import dev.reece.nta.engine.model.RankedGoal;
 import dev.reece.nta.kb.KnowledgeBase;
+import dev.reece.nta.kb.MilestoneEntry;
 import dev.reece.nta.snapshot.Snapshot;
 import dev.reece.nta.store.AccountData;
 import java.time.Instant;
@@ -49,12 +50,20 @@ public class Engine
 		List<RankedGoal> rest = suggestSelector.rest(ranked, picked);
 
 		Map<String, String> whys = new LinkedHashMap<>();
+		Map<String, String> reasons = new LinkedHashMap<>();
 		for (RankedGoal r : ranked)
 		{
-			whys.put(r.getStatus().getGoal().getId(), whyBuilder.why(r, kb, snapshot));
+			String goalId = r.getStatus().getGoal().getId();
+			whys.put(goalId, whyBuilder.why(r, kb, snapshot));
+
+			MilestoneEntry entry = kb.milestoneById(goalId);
+			if (entry != null && entry.getReason() != null && !entry.getReason().isEmpty())
+			{
+				reasons.put(goalId, entry.getReason());
+			}
 		}
 
-		return new Advice(snapshot, statuses, DiaryProgress.compute(snapshot, kb), now, ranked, picked, rest, whys, prefs);
+		return new Advice(snapshot, statuses, DiaryProgress.compute(snapshot, kb), now, ranked, picked, rest, whys, reasons, prefs);
 	}
 
 	/** Thin overload for callers with no account data (e.g. existing tests): behaves as {@link #run} with an empty {@link AccountData} and the current time. */

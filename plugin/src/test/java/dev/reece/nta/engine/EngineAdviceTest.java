@@ -3,6 +3,7 @@ package dev.reece.nta.engine;
 import dev.reece.nta.engine.model.Advice;
 import dev.reece.nta.engine.model.RankedGoal;
 import dev.reece.nta.kb.KnowledgeBase;
+import dev.reece.nta.kb.MilestoneCategory;
 import dev.reece.nta.snapshot.Snapshot;
 import dev.reece.nta.store.AccountData;
 import java.time.Instant;
@@ -89,6 +90,25 @@ class EngineAdviceTest
 
 		PrefsResolver resolver = new PrefsResolver();
 		assertEquals(resolver.resolve(data, advice.getStatuses(), now), advice.getPrefs());
+	}
+
+	@Test
+	void reasonsCarryTheMilestonesCuratedReasonTextAndExcludeQuestsAndDiaries()
+	{
+		// KbBuilder.milestone(...) always stamps reason "test" (see KbBuilder#build); quests carry no
+		// reason field at all, so a mixed kb lets us assert both the presence and the absence.
+		KnowledgeBase kb = new KbBuilder()
+			.quest(0, "Animal Magnetism").skill(Skill.WOODCUTTING, 10)
+			.milestone("m:barrows-gloves", MilestoneCategory.GEAR, "Barrows gloves", 8)
+			.ownedIf("Barrows gloves", 7462)
+			.skill(Skill.DEFENCE, 40)
+			.build();
+		Snapshot snapshot = new SnapshotBuilder().build();
+
+		Advice advice = engine.run(snapshot, kb, AccountData.empty(), now);
+
+		assertEquals("test", advice.getReasons().get("m:barrows-gloves"));
+		assertFalse(advice.getReasons().containsKey("quest:0"), "quests have no curated reason text");
 	}
 
 	@Test

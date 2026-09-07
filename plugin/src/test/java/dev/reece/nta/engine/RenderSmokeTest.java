@@ -42,7 +42,6 @@ class RenderSmokeTest
 			SwingUtilities.invokeAndWait(() ->
 			{
 				SuggestPanel panel = new SuggestPanel(actions);
-				panel.setKnowledgeBase(kb);
 				panel.render(advice);
 			});
 		}

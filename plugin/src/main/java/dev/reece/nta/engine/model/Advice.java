@@ -25,6 +25,8 @@ public class Advice
 	List<RankedGoal> picked;
 	List<RankedGoal> rest;
 	Map<String, String> whys;
+	/** A milestone/slayer-target/boss goal's curated KB {@code reason} text, keyed by goal id. Absent for goals with none (quests, diaries, or a milestone with no reason text) - the panel must never read the {@link dev.reece.nta.kb.KnowledgeBase} itself. */
+	Map<String, String> reasons;
 	PrefsView prefs;
 
 	public Advice(
@@ -36,6 +38,7 @@ public class Advice
 		List<RankedGoal> picked,
 		List<RankedGoal> rest,
 		Map<String, String> whys,
+		Map<String, String> reasons,
 		PrefsView prefs)
 	{
 		this.snapshot = snapshot;
@@ -46,6 +49,7 @@ public class Advice
 		this.picked = List.copyOf(picked);
 		this.rest = List.copyOf(rest);
 		this.whys = Map.copyOf(whys);
+		this.reasons = Map.copyOf(reasons);
 		this.prefs = prefs;
 	}
 }

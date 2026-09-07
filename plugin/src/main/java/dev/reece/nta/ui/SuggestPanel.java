@@ -6,8 +6,6 @@ import dev.reece.nta.engine.model.GoalCategory;
 import dev.reece.nta.engine.model.GoalStatus;
 import dev.reece.nta.engine.model.PrefsView;
 import dev.reece.nta.engine.model.RankedGoal;
-import dev.reece.nta.kb.KnowledgeBase;
-import dev.reece.nta.kb.MilestoneEntry;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Font;
@@ -51,7 +49,6 @@ public class SuggestPanel extends JPanel
 	private final JButton ignoredHeaderButton = new JButton("Ignored (0)");
 	private final JPanel ignoredContent = new JPanel();
 
-	private KnowledgeBase kb;
 	private Advice currentAdvice;
 	private int nextShown = PAGE_SIZE;
 	private boolean snoozedExpanded;
@@ -114,12 +111,6 @@ public class SuggestPanel extends JPanel
 		add(ignoredContent);
 	}
 
-	/** Set once the knowledge base finishes loading; used only to look up a milestone's curated {@code reason} text. Must be called on the EDT. */
-	public void setKnowledgeBase(KnowledgeBase kb)
-	{
-		this.kb = kb;
-	}
-
 	/**
 	 * Renders {@code advice}. Must be called on the EDT. Resets the "show more" paging back to the
 	 * first page, per spec (panel-local state, reset on new Advice).
@@ -159,7 +150,7 @@ public class SuggestPanel extends JPanel
 		pickOnePanel.removeAll();
 		for (RankedGoal r : advice.getPicked())
 		{
-			pickOnePanel.add(buildCard(r, advice.getWhys()));
+			pickOnePanel.add(buildCard(r, advice.getWhys(), advice.getReasons()));
 			pickOnePanel.add(Box.createVerticalStrut(6));
 		}
 
@@ -209,7 +200,7 @@ public class SuggestPanel extends JPanel
 		repaint();
 	}
 
-	private JPanel buildCard(RankedGoal r, Map<String, String> whys)
+	private JPanel buildCard(RankedGoal r, Map<String, String> whys, Map<String, String> reasons)
 	{
 		Goal goal = r.getStatus().getGoal();
 
@@ -234,10 +225,10 @@ public class SuggestPanel extends JPanel
 		whyLabel.setFont(FontManager.getRunescapeSmallFont());
 		card.add(whyLabel);
 
-		MilestoneEntry entry = kb == null ? null : kb.milestoneById(goal.getId());
-		if (entry != null && entry.getReason() != null && !entry.getReason().isEmpty())
+		String reason = reasons.get(goal.getId());
+		if (reason != null && !reason.isEmpty())
 		{
-			JLabel reasonLabel = new JLabel(wrap(entry.getReason()));
+			JLabel reasonLabel = new JLabel(wrap(reason));
 			reasonLabel.setFont(FontManager.getRunescapeSmallFont().deriveFont(Font.ITALIC));
 			card.add(reasonLabel);
 		}
