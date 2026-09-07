@@ -98,6 +98,33 @@ class RankerTest
 	}
 
 	@Test
+	void diaryTaskGapWithOnlyUnknownHaveItemGapsFloorsAtOneUnmetAndIsNotReady()
+	{
+		// Every inner gap is an unknown-have ItemGap (0 unmet each), but the DiaryTaskGap floor
+		// still counts the task itself as 1 unmet, not 0.
+		DiaryTaskGap taskGap = new DiaryTaskGap(1, "task", List.of(
+			new ItemGap("Rune", null, 1, List.of(), false),
+			new ItemGap("Feather", null, 5, List.of(), false)), List.of());
+		GoalStatus status = new GoalStatus(new Goal("g1", GoalCategory.DIARY, "g1", "https://x", 4), List.of(taskGap), false, true, List.of());
+
+		assertEquals(4.0 * 0.5, Ranker.score(status), 1e-9, "floor: an all-unknown diary task should still count as 1 unmet, not 0");
+
+		List<RankedGoal> ranked = ranker.rank(List.of(status, status("ready", GoalCategory.QUEST, 1, List.of())), Set.of(), List.of());
+		assertEquals("ready", ranked.get(0).getStatus().getGoal().getId(), "goal with only unknown-have gaps must not rank as ready: " + ranked);
+	}
+
+	@Test
+	void hiddenWinsOverPinned()
+	{
+		GoalStatus a = status("a", GoalCategory.QUEST, 5, List.of());
+		GoalStatus b = status("b", GoalCategory.QUEST, 5, List.of());
+
+		List<RankedGoal> ranked = ranker.rank(List.of(a, b), Set.of("a"), List.of("a", "b"));
+
+		assertEquals(List.of("b"), ids(ranked), "a pinned-and-hidden goal must be absent, not merely unpinned: " + ranked);
+	}
+
+	@Test
 	void bankUnknownWithNoGapsIsNeverReady()
 	{
 		Goal goal = new Goal("bu", GoalCategory.MILESTONE, "Bank Unknown Goal", "https://x", 5);
