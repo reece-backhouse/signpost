@@ -24,7 +24,8 @@ export interface DropslineRow {
 
 export interface LoclineRow {
   page_name: string;
-  coordinates: string[];
+  /** Absent (not `[]`) on the handful of Bucket rows with no recorded spawn coordinates. */
+  coordinates?: string[];
 }
 
 interface DropJson {
@@ -221,6 +222,9 @@ export function buildMaterials(input: BuildMaterialsInput): Material[] {
     }
 
     for (const row of spawnsByItem.get(key) ?? []) {
+      // A handful of live locline rows carry no `coordinates` field at all (Bucket
+      // omits empty array fields rather than returning `[]`); skip those.
+      if (!row.coordinates || row.coordinates.length === 0) continue;
       sources.push({ type: 'spawn', where: row.page_name, detail: `${row.coordinates.length} spawns`, accountTypes: ['all'] });
     }
 

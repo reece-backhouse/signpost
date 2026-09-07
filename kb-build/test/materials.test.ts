@@ -189,6 +189,22 @@ describe('buildMaterials', () => {
     expect(spawnSources.map((s) => s.detail).sort()).toEqual(['1 spawns', '2 spawns']);
   });
 
+  it('skips a locline row with no coordinates field (live Bucket data omits it rather than sending [])', () => {
+    const resolved = resolveItemIds(['Snape grass'], mapping, []);
+    const materials = buildMaterials({
+      names: ['Snape grass'],
+      resolved,
+      mapping: [],
+      storelineRows: [],
+      droplineRows: [],
+      loclineRows: [{ page_name: 'Snape grass' } as LoclineRow],
+      methods: [],
+    });
+
+    const snape = materials.find((m) => m.name === 'Snape grass')!;
+    expect(snape.sources.some((s) => s.type === 'spawn')).toBe(false);
+  });
+
   it('adds a craft source when a method outputs this item', () => {
     const resolved = resolveItemIds(['Prayer potion(3)'], [], []);
     const materials = buildMaterials({
