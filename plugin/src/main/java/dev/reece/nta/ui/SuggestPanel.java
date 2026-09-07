@@ -48,10 +48,14 @@ public class SuggestPanel extends JPanel
 {
 	private static final int PAGE_SIZE = 10;
 	private static final int WRAP_WIDTH = PluginPanel.PANEL_WIDTH - 30;
-	// ponytail: conservative estimate of the space actually free for a button row once card/row
-	// borders and padding are subtracted; erring low just means we pick two rows more often, which
-	// always fits, so this doesn't need to be exact.
-	private static final int BUTTON_ROW_WIDTH = PluginPanel.PANEL_WIDTH - 40;
+	private static final int CARD_BORDER_THICKNESS = 1;
+	private static final int CARD_PADDING = 6;
+	// the narrowest a button row is ever actually laid out in: a card's interior (the sidebar
+	// minus its scrollbar, minus the card's own border and padding on both sides). List rows have
+	// no card border, so they always get at least this much room - using the card's tighter figure
+	// for both callers is conservative, never wrong.
+	private static final int BUTTON_ROW_WIDTH = PluginPanel.PANEL_WIDTH - PluginPanel.SCROLLBAR_WIDTH
+		- 2 * (CARD_BORDER_THICKNESS + CARD_PADDING);
 	// ponytail: char-count heuristic for the milestone reason's 3-line cap; tune if a real font's
 	// wrapping at WRAP_WIDTH turns out to differ noticeably from this.
 	private static final int REASON_MAX_CHARS = 140;
@@ -286,8 +290,8 @@ public class SuggestPanel extends JPanel
 		card.setAlignmentX(Component.LEFT_ALIGNMENT);
 		card.setBackground(ColorScheme.DARKER_GRAY_COLOR);
 		card.setBorder(BorderFactory.createCompoundBorder(
-			BorderFactory.createLineBorder(ColorScheme.MEDIUM_GRAY_COLOR),
-			BorderFactory.createEmptyBorder(6, 6, 6, 6)));
+			BorderFactory.createLineBorder(ColorScheme.MEDIUM_GRAY_COLOR, CARD_BORDER_THICKNESS),
+			BorderFactory.createEmptyBorder(CARD_PADDING, CARD_PADDING, CARD_PADDING, CARD_PADDING)));
 
 		JLabel nameLabel = new JLabel(goal.getName() + (r.isPinned() ? " (pinned)" : ""));
 		nameLabel.setFont(FontManager.getRunescapeBoldFont());
