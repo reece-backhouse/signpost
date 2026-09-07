@@ -81,8 +81,15 @@ public final class Ranker
 			// the account's own stage range must always outrank a stage-inappropriate goal.
 			(isLater ? later : (isReadyNow(status) ? ready : rest)).add(ranked);
 		}
-		ready.sort(BY_SCORE_THEN_PRIORITY_THEN_NAME);
-		rest.sort(BY_SCORE_THEN_PRIORITY_THEN_NAME);
+		// Task 46: within ready/rest (never later, which stays score-only), a stage-appropriate goal
+		// (stage <= accountStage) sorts before one exactly one stage ahead - so a same-stage boss with
+		// a lower score/priority still outranks a next-stage boss the account merely happens to meet
+		// gear-wise (e.g. Moons of Peril over a next-stage God Wars Dungeon).
+		Comparator<RankedGoal> byStageThenScore = Comparator
+			.<RankedGoal>comparingInt(r -> r.getStatus().getGoal().getStage() <= accountStage ? 0 : 1)
+			.thenComparing(BY_SCORE_THEN_PRIORITY_THEN_NAME);
+		ready.sort(byStageThenScore);
+		rest.sort(byStageThenScore);
 		later.sort(BY_SCORE_THEN_PRIORITY_THEN_NAME);
 
 		List<RankedGoal> result = new ArrayList<>(pinned.size() + ready.size() + rest.size() + later.size());
