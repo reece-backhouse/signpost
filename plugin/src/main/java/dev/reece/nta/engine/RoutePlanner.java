@@ -236,7 +236,8 @@ public final class RoutePlanner
 		return candidates;
 	}
 
-	private static int capLevel(double xp)
+	/** Package-visible: also used by {@link ShortfallResolver} to find the level a route stopped at. */
+	static int capLevel(double xp)
 	{
 		return Math.min(Experience.MAX_REAL_LEVEL, Experience.getLevelForXp((int) xp));
 	}
