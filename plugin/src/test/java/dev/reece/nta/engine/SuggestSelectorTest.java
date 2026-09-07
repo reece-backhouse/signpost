@@ -230,6 +230,20 @@ class SuggestSelectorTest
 		assertEquals(List.of("boss:gwd", "milestone:bandos", "r3"), ids(picked), "a pin is an explicit user override: " + ids(picked));
 	}
 
+	/** Task 51: a skill target is its own category for the slot-three diversity rule (spec ruling 28). */
+	@Test
+	void skillTargetCountsAsItsOwnCategoryForSlotThree()
+	{
+		RankedGoal r1 = ranked("r1", GoalCategory.QUEST, 10, false);
+		RankedGoal r2 = ranked("r2", GoalCategory.QUEST, 9, false);
+		RankedGoal r3 = ranked("r3", GoalCategory.QUEST, 8, false);
+		RankedGoal r4 = ranked("skill:HERBLORE:70", GoalCategory.SKILL_TARGET, 7, false);
+
+		List<RankedGoal> picked = selector.pick3(List.of(r1, r2, r3, r4));
+
+		assertEquals(List.of("r1", "r2", "skill:HERBLORE:70"), ids(picked), ids(picked).toString());
+	}
+
 	private static RankedGoal ranked(String id, GoalCategory category, double score, boolean pinned)
 	{
 		return ranked(id, category, score, pinned, false);

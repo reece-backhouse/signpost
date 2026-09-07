@@ -30,6 +30,8 @@ public class Advice
 	/** Every ranked goal with {@link RankedGoal#isLater()} true, in ranked order - a rendering convenience for a collapsed "Later" section. */
 	List<RankedGoal> later;
 	Map<String, String> whys;
+	/** Spec ruling 29: the multi-line "Why?" behind every ranked (and later) goal, keyed by goal id - {@link dev.reece.nta.engine.WhyBuilder#explain}. */
+	Map<String, List<String>> explanations;
 	/** A milestone/slayer-target/boss goal's curated KB {@code reason} text, keyed by goal id. Absent for goals with none (quests, diaries, or a milestone with no reason text) - the panel must never read the {@link dev.reece.nta.kb.KnowledgeBase} itself. */
 	Map<String, String> reasons;
 	PrefsView prefs;
@@ -47,6 +49,7 @@ public class Advice
 		int accountStage,
 		List<RankedGoal> later,
 		Map<String, String> whys,
+		Map<String, List<String>> explanations,
 		Map<String, String> reasons,
 		PrefsView prefs,
 		FocusDetail focus)
@@ -61,6 +64,7 @@ public class Advice
 		this.accountStage = accountStage;
 		this.later = List.copyOf(later);
 		this.whys = Map.copyOf(whys);
+		this.explanations = Map.copyOf(explanations);
 		this.reasons = Map.copyOf(reasons);
 		this.prefs = prefs;
 		this.focus = focus;
