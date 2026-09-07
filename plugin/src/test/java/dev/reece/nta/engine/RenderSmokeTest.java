@@ -56,6 +56,7 @@ class RenderSmokeTest
 			{
 				SuggestPanel panel = new SuggestPanel(actions);
 				panel.render(advice);
+				assertNoTruncatedButtonText(panel);
 			});
 		}
 		catch (InvocationTargetException e)
@@ -65,6 +66,24 @@ class RenderSmokeTest
 				Assumptions.abort("Headless environment cannot construct Swing components: " + e.getCause().getMessage());
 			}
 			throw e;
+		}
+	}
+
+	/** Task 49: no card/row/section button should ever fall back to an ellipsised label. */
+	private static void assertNoTruncatedButtonText(Container container)
+	{
+		for (Component child : container.getComponents())
+		{
+			if (child instanceof JButton)
+			{
+				String text = ((JButton) child).getText();
+				assertTrue(text == null || (!text.contains("...") && !text.contains("…")),
+					"button text must never be truncated with an ellipsis, got: " + text);
+			}
+			if (child instanceof Container)
+			{
+				assertNoTruncatedButtonText((Container) child);
+			}
 		}
 	}
 

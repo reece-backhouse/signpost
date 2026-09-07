@@ -8,8 +8,12 @@ import dev.reece.nta.engine.model.PrefsView;
 import dev.reece.nta.engine.model.RankedGoal;
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Insets;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -21,6 +25,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JSeparator;
 import javax.swing.SwingUtilities;
 import lombok.Value;
 import net.runelite.client.ui.ColorScheme;
@@ -32,11 +37,23 @@ import net.runelite.client.ui.PluginPanel;
  * banner, the "Pick one" three cards, the "Next" ranked list (10 + show more), and collapsed
  * Snoozed/Ignored sections. Renders {@link Advice} only - every button here calls back into a
  * plugin action method (S4 ruling 19: panel computes nothing, mutations go through the plugin).
+ *
+ * <p>Task 49: no button label is ever truncated. Buttons are always full text ("Do this", "Not
+ * now", "Ignore", "Pin"/"Unpin") and {@link #actionRow} measures the buttons' own preferred widths
+ * to decide whether they fit one row or need to wrap to two - never relying on the look-and-feel
+ * to ellipsise.
  */
 public class SuggestPanel extends JPanel
 {
 	private static final int PAGE_SIZE = 10;
 	private static final int WRAP_WIDTH = PluginPanel.PANEL_WIDTH - 30;
+	// ponytail: conservative estimate of the space actually free for a button row once card/row
+	// borders and padding are subtracted; erring low just means we pick two rows more often, which
+	// always fits, so this doesn't need to be exact.
+	private static final int BUTTON_ROW_WIDTH = PluginPanel.PANEL_WIDTH - 40;
+	// ponytail: char-count heuristic for the milestone reason's 3-line cap; tune if a real font's
+	// wrapping at WRAP_WIDTH turns out to differ noticeably from this.
+	private static final int REASON_MAX_CHARS = 140;
 
 	private final Actions actions;
 	private final JPanel focusBannerPanel = new JPanel();
@@ -44,11 +61,11 @@ public class SuggestPanel extends JPanel
 	private final JPanel pickOnePanel = new JPanel();
 	private final JPanel nextListPanel = new JPanel();
 	private final JButton showMoreButton = new JButton("Show more");
-	private final JButton laterHeaderButton = new JButton("Later (0)");
+	private final Header laterHeader;
 	private final JPanel laterContent = new JPanel();
-	private final JButton snoozedHeaderButton = new JButton("Snoozed (0)");
+	private final Header snoozedHeader;
 	private final JPanel snoozedContent = new JPanel();
-	private final JButton ignoredHeaderButton = new JButton("Ignored (0)");
+	private final Header ignoredHeader;
 	private final JPanel ignoredContent = new JPanel();
 
 	private Advice currentAdvice;
@@ -90,37 +107,34 @@ public class SuggestPanel extends JPanel
 		});
 		add(showMoreButton);
 
-		laterHeaderButton.setAlignmentX(Component.LEFT_ALIGNMENT);
-		laterHeaderButton.addActionListener(e ->
+		laterHeader = new Header("Later", () ->
 		{
 			laterExpanded = !laterExpanded;
 			rebuild();
 		});
-		add(laterHeaderButton);
+		add(laterHeader);
 		laterContent.setLayout(new BoxLayout(laterContent, BoxLayout.Y_AXIS));
 		laterContent.setAlignmentX(Component.LEFT_ALIGNMENT);
 		laterContent.setVisible(false);
 		add(laterContent);
 
-		snoozedHeaderButton.setAlignmentX(Component.LEFT_ALIGNMENT);
-		snoozedHeaderButton.addActionListener(e ->
+		snoozedHeader = new Header("Snoozed", () ->
 		{
 			snoozedExpanded = !snoozedExpanded;
 			rebuild();
 		});
-		add(snoozedHeaderButton);
+		add(snoozedHeader);
 		snoozedContent.setLayout(new BoxLayout(snoozedContent, BoxLayout.Y_AXIS));
 		snoozedContent.setAlignmentX(Component.LEFT_ALIGNMENT);
 		snoozedContent.setVisible(false);
 		add(snoozedContent);
 
-		ignoredHeaderButton.setAlignmentX(Component.LEFT_ALIGNMENT);
-		ignoredHeaderButton.addActionListener(e ->
+		ignoredHeader = new Header("Ignored", () ->
 		{
 			ignoredExpanded = !ignoredExpanded;
 			rebuild();
 		});
-		add(ignoredHeaderButton);
+		add(ignoredHeader);
 		ignoredContent.setLayout(new BoxLayout(ignoredContent, BoxLayout.Y_AXIS));
 		ignoredContent.setAlignmentX(Component.LEFT_ALIGNMENT);
 		ignoredContent.setVisible(false);
@@ -207,7 +221,7 @@ public class SuggestPanel extends JPanel
 
 		rebuildNextSection();
 
-		laterHeaderButton.setText("Later (" + advice.getLater().size() + ")" + (laterExpanded ? " ▼" : " ▶"));
+		laterHeader.update(advice.getLater().size(), laterExpanded);
 		laterContent.removeAll();
 		laterContent.setVisible(laterExpanded);
 		if (laterExpanded)
@@ -221,7 +235,7 @@ public class SuggestPanel extends JPanel
 		Set<String> ignoredIds = new LinkedHashSet<>(prefs.getHidden());
 		ignoredIds.removeAll(prefs.getSnoozedActive());
 
-		snoozedHeaderButton.setText("Snoozed (" + prefs.getSnoozedActive().size() + ")" + (snoozedExpanded ? " ▼" : " ▶"));
+		snoozedHeader.update(prefs.getSnoozedActive().size(), snoozedExpanded);
 		snoozedContent.removeAll();
 		snoozedContent.setVisible(snoozedExpanded);
 		if (snoozedExpanded)
@@ -232,7 +246,7 @@ public class SuggestPanel extends JPanel
 			}
 		}
 
-		ignoredHeaderButton.setText("Ignored (" + ignoredIds.size() + ")" + (ignoredExpanded ? " ▼" : " ▶"));
+		ignoredHeader.update(ignoredIds.size(), ignoredExpanded);
 		ignoredContent.removeAll();
 		ignoredContent.setVisible(ignoredExpanded);
 		if (ignoredExpanded)
@@ -277,30 +291,37 @@ public class SuggestPanel extends JPanel
 		JLabel nameLabel = new JLabel(goal.getName() + (r.isPinned() ? " (pinned)" : ""));
 		nameLabel.setFont(FontManager.getRunescapeBoldFont());
 		nameLabel.setForeground(ColorScheme.TEXT_COLOR);
+		nameLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
 		card.add(nameLabel);
+		card.add(Box.createVerticalStrut(4));
 
-		JLabel categoryLabel = new JLabel(categoryLabel(goal.getCategory()));
+		JLabel categoryLabel = new JLabel(categoryLabel(goal.getCategory()) + " · stage " + goal.getStage());
 		categoryLabel.setFont(FontManager.getRunescapeSmallFont());
+		categoryLabel.setForeground(ColorScheme.LIGHT_GRAY_COLOR);
+		categoryLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
 		card.add(categoryLabel);
+		card.add(Box.createVerticalStrut(4));
 
 		JLabel whyLabel = new JLabel(wrap(whys.getOrDefault(goal.getId(), "")));
-		whyLabel.setFont(FontManager.getRunescapeSmallFont());
+		whyLabel.setFont(FontManager.getRunescapeFont());
+		whyLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
 		card.add(whyLabel);
 
 		String reason = reasons.get(goal.getId());
 		if (reason != null && !reason.isEmpty())
 		{
-			JLabel reasonLabel = new JLabel(wrap(reason));
+			card.add(Box.createVerticalStrut(4));
+			JLabel reasonLabel = new JLabel(wrap(truncateReason(reason)));
 			reasonLabel.setFont(FontManager.getRunescapeSmallFont().deriveFont(Font.ITALIC));
+			reasonLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
 			card.add(reasonLabel);
 		}
 
-		JPanel buttons = new JPanel(new GridLayout(1, 3, 4, 0));
-		buttons.setAlignmentX(Component.LEFT_ALIGNMENT);
-		buttons.add(button("Do this", () -> actions.getDoThis().accept(goal.getId())));
-		buttons.add(button("Not now", () -> actions.getNotNow().accept(goal.getId())));
-		buttons.add(button("Ignore", () -> actions.getIgnore().accept(goal.getId())));
-		card.add(buttons);
+		card.add(Box.createVerticalStrut(6));
+		JButton doThis = button("Do this", () -> actions.getDoThis().accept(goal.getId()));
+		JButton notNow = button("Not now", () -> actions.getNotNow().accept(goal.getId()));
+		JButton ignore = button("Ignore", () -> actions.getIgnore().accept(goal.getId()));
+		card.add(actionRow(doThis, notNow, ignore));
 
 		return card;
 	}
@@ -310,22 +331,24 @@ public class SuggestPanel extends JPanel
 		Goal goal = r.getStatus().getGoal();
 		String why = whys.getOrDefault(goal.getId(), "");
 
-		JPanel row = new JPanel(new BorderLayout(4, 2));
+		JPanel row = new JPanel();
+		row.setLayout(new BoxLayout(row, BoxLayout.Y_AXIS));
 		row.setAlignmentX(Component.LEFT_ALIGNMENT);
 		row.setBorder(BorderFactory.createEmptyBorder(4, 0, 4, 0));
 
 		JLabel label = new JLabel(wrap(goal.getName() + (r.isPinned() ? " (pinned)" : "") + " — " + why));
 		label.setFont(FontManager.getRunescapeSmallFont());
-		row.add(label, BorderLayout.CENTER);
+		label.setAlignmentX(Component.LEFT_ALIGNMENT);
+		row.add(label);
+		row.add(Box.createVerticalStrut(4));
 
-		JPanel buttons = new JPanel(new GridLayout(1, 4, 2, 0));
-		buttons.add(button("Do", () -> actions.getDoThis().accept(goal.getId())));
-		buttons.add(button("Not now", () -> actions.getNotNow().accept(goal.getId())));
-		buttons.add(button("Ignore", () -> actions.getIgnore().accept(goal.getId())));
-		buttons.add(r.isPinned()
+		JButton doThis = button("Do this", () -> actions.getDoThis().accept(goal.getId()));
+		JButton notNow = button("Not now", () -> actions.getNotNow().accept(goal.getId()));
+		JButton ignore = button("Ignore", () -> actions.getIgnore().accept(goal.getId()));
+		JButton pin = r.isPinned()
 			? button("Unpin", () -> actions.getUnpin().accept(goal.getId()))
-			: button("Pin", () -> actions.getPin().accept(goal.getId())));
-		row.add(buttons, BorderLayout.SOUTH);
+			: button("Pin", () -> actions.getPin().accept(goal.getId()));
+		row.add(actionRow(doThis, notNow, ignore, pin));
 
 		return row;
 	}
@@ -372,18 +395,148 @@ public class SuggestPanel extends JPanel
 		}
 	}
 
-	static JLabel sectionLabel(String text)
+	/**
+	 * Truncates a milestone {@code reason} to roughly 3 lines at {@link #WRAP_WIDTH}, preferring a
+	 * clean sentence boundary; only falls back to a hard word-boundary cut with a trailing "…"
+	 * (which never appears anywhere but this reason text - buttons are always full labels).
+	 */
+	static String truncateReason(String reason)
 	{
-		JLabel label = new JLabel(text);
-		label.setFont(FontManager.getRunescapeBoldFont());
-		label.setAlignmentX(Component.LEFT_ALIGNMENT);
-		label.setBorder(BorderFactory.createEmptyBorder(8, 0, 2, 0));
-		return label;
+		if (reason.length() <= REASON_MAX_CHARS)
+		{
+			return reason;
+		}
+		String truncated = reason.substring(0, REASON_MAX_CHARS);
+		int sentenceEnd = lastSentenceBoundary(truncated);
+		if (sentenceEnd > 0)
+		{
+			return truncated.substring(0, sentenceEnd).trim();
+		}
+		int lastSpace = truncated.lastIndexOf(' ');
+		String cut = lastSpace > 0 ? truncated.substring(0, lastSpace) : truncated;
+		return cut.trim() + "…";
 	}
 
+	private static int lastSentenceBoundary(String s)
+	{
+		int idx = Math.max(s.lastIndexOf('.'), Math.max(s.lastIndexOf('!'), s.lastIndexOf('?')));
+		return idx < 0 ? -1 : idx + 1;
+	}
+
+	/** A section header: a small caps-style label with a thin separator underneath, not collapsible. */
+	static JPanel sectionLabel(String text)
+	{
+		JPanel panel = new JPanel();
+		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+		panel.setAlignmentX(Component.LEFT_ALIGNMENT);
+		panel.setBorder(BorderFactory.createEmptyBorder(8, 0, 4, 0));
+
+		JLabel label = new JLabel(text.toUpperCase());
+		label.setFont(FontManager.getRunescapeSmallFont());
+		label.setForeground(ColorScheme.LIGHT_GRAY_COLOR);
+		label.setAlignmentX(Component.LEFT_ALIGNMENT);
+		panel.add(label);
+		panel.add(Box.createVerticalStrut(2));
+		panel.add(separator());
+		return panel;
+	}
+
+	private static JSeparator separator()
+	{
+		JSeparator sep = new JSeparator();
+		sep.setForeground(ColorScheme.MEDIUM_GRAY_COLOR);
+		sep.setAlignmentX(Component.LEFT_ALIGNMENT);
+		return sep;
+	}
+
+	/** A collapsible section header: small caps-style label plus count and expand/collapse arrow, thin separator below, the whole header clickable to toggle. */
+	private static final class Header extends JPanel
+	{
+		private final String title;
+		private final JLabel label = new JLabel();
+
+		Header(String title, Runnable onToggle)
+		{
+			this.title = title;
+			setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+			setAlignmentX(Component.LEFT_ALIGNMENT);
+			setBorder(BorderFactory.createEmptyBorder(8, 0, 4, 0));
+			setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+
+			label.setFont(FontManager.getRunescapeSmallFont());
+			label.setForeground(ColorScheme.LIGHT_GRAY_COLOR);
+			label.setAlignmentX(Component.LEFT_ALIGNMENT);
+			add(label);
+			add(Box.createVerticalStrut(2));
+			add(separator());
+
+			addMouseListener(new MouseAdapter()
+			{
+				@Override
+				public void mouseClicked(MouseEvent e)
+				{
+					onToggle.run();
+				}
+			});
+		}
+
+		void update(int count, boolean expanded)
+		{
+			label.setText(title.toUpperCase() + " (" + count + ")" + (expanded ? " ▼" : " ▶"));
+		}
+	}
+
+	/**
+	 * Lays out {@code buttons} on a single {@link GridLayout}{@code (1, n, 4, 0)} row when their
+	 * measured preferred widths (plus the 4px gaps) fit within {@link #BUTTON_ROW_WIDTH}; otherwise
+	 * wraps to two rows so no label is ever squeezed or truncated. Three buttons split as "first
+	 * button alone on top, other two below"; four split evenly two-and-two.
+	 */
+	private static JPanel actionRow(JButton... buttons)
+	{
+		int total = (buttons.length - 1) * 4;
+		for (JButton b : buttons)
+		{
+			total += b.getPreferredSize().width;
+		}
+
+		JPanel panel = new JPanel();
+		panel.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+		if (total <= BUTTON_ROW_WIDTH)
+		{
+			panel.setLayout(new GridLayout(1, buttons.length, 4, 0));
+			for (JButton b : buttons)
+			{
+				panel.add(b);
+			}
+			return panel;
+		}
+
+		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+		int splitAt = buttons.length == 3 ? 1 : buttons.length / 2;
+
+		JPanel top = new JPanel(new GridLayout(1, splitAt, 4, 0));
+		top.setAlignmentX(Component.LEFT_ALIGNMENT);
+		JPanel bottom = new JPanel(new GridLayout(1, buttons.length - splitAt, 4, 0));
+		bottom.setAlignmentX(Component.LEFT_ALIGNMENT);
+		for (int i = 0; i < buttons.length; i++)
+		{
+			(i < splitAt ? top : bottom).add(buttons[i]);
+		}
+
+		panel.add(top);
+		panel.add(Box.createVerticalStrut(4));
+		panel.add(bottom);
+		return panel;
+	}
+
+	/** Every button's factory: full margin so text always has room, no focus paint that eats into it. */
 	static JButton button(String text, Runnable onClick)
 	{
 		JButton b = new JButton(text);
+		b.setMargin(new Insets(2, 4, 2, 4));
+		b.setFocusPainted(false);
 		b.addActionListener(e -> onClick.run());
 		return b;
 	}

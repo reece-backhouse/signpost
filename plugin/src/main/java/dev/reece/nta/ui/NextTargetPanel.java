@@ -5,7 +5,10 @@ import dev.reece.nta.engine.model.GoalStatus;
 import dev.reece.nta.snapshot.Snapshot;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
+import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.Insets;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import javax.swing.BorderFactory;
@@ -63,6 +66,10 @@ public class NextTargetPanel extends PluginPanel
 		header.add(Box.createVerticalStrut(8));
 
 		JButton refreshButton = new JButton("Refresh");
+		refreshButton.setMargin(new Insets(2, 4, 2, 4));
+		refreshButton.setFocusPainted(false);
+		refreshButton.setAlignmentX(Component.LEFT_ALIGNMENT);
+		refreshButton.setMaximumSize(new Dimension(Integer.MAX_VALUE, refreshButton.getPreferredSize().height));
 		refreshButton.addActionListener(e -> onRefresh.run());
 		header.add(refreshButton);
 
