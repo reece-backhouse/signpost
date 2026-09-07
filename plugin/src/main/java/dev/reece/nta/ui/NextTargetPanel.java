@@ -2,6 +2,7 @@ package dev.reece.nta.ui;
 
 import dev.reece.nta.engine.model.Advice;
 import dev.reece.nta.engine.model.GoalStatus;
+import dev.reece.nta.kb.KnowledgeBase;
 import dev.reece.nta.snapshot.Snapshot;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
@@ -34,9 +35,12 @@ public class NextTargetPanel extends PluginPanel
 	private final JLabel bankLabel = new JLabel();
 	private final JLabel goalsLabel = new JLabel();
 	private final JLabel kbFooterLabel = new JLabel("KB: not loaded");
+	private final SuggestPanel suggestPanel;
 
-	public NextTargetPanel(Runnable onRefresh)
+	public NextTargetPanel(Runnable onRefresh, SuggestPanel.Actions actions)
 	{
+		suggestPanel = new SuggestPanel(actions);
+
 		setLayout(new BorderLayout());
 
 		JPanel header = new JPanel();
@@ -58,6 +62,7 @@ public class NextTargetPanel extends PluginPanel
 		footer.add(kbFooterLabel);
 
 		add(header, BorderLayout.NORTH);
+		add(suggestPanel, BorderLayout.CENTER);
 		add(footer, BorderLayout.SOUTH);
 	}
 
@@ -73,6 +78,17 @@ public class NextTargetPanel extends PluginPanel
 		}
 
 		kbFooterLabel.setText("KB: quests " + bareDate(questsGeneratedAt) + ", diaries " + bareDate(diariesGeneratedAt));
+	}
+
+	/** Forwards the loaded knowledge base to {@link SuggestPanel} (used only for a milestone's curated reason text). Must be called on the EDT. */
+	public void setKnowledgeBase(KnowledgeBase kb)
+	{
+		if (!SwingUtilities.isEventDispatchThread())
+		{
+			throw new IllegalStateException("NextTargetPanel.setKnowledgeBase must run on the EDT");
+		}
+
+		suggestPanel.setKnowledgeBase(kb);
 	}
 
 	/** {@code generatedAt} is always ISO-8601 ("2026-09-07T07:29:49Z"); the footer shows just the date. */
@@ -115,5 +131,7 @@ public class NextTargetPanel extends PluginPanel
 		long ready = advice.getStatuses().stream().filter(GoalStatus::isReady).count();
 		long withGaps = advice.getStatuses().stream().filter(s -> !s.getGaps().isEmpty()).count();
 		goalsLabel.setText("Goals: " + ready + " ready, " + withGaps + " with gaps");
+
+		suggestPanel.render(advice);
 	}
 }

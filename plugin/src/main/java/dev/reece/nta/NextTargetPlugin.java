@@ -1,11 +1,14 @@
 package dev.reece.nta;
 
 import com.google.gson.Gson;
+import com.google.inject.Provides;
 import dev.reece.nta.engine.BoostTable;
 import dev.reece.nta.engine.DiaryTierProgress;
 import dev.reece.nta.engine.Engine;
 import dev.reece.nta.engine.EngineRunner;
+import dev.reece.nta.engine.GapFingerprint;
 import dev.reece.nta.engine.model.Advice;
+import dev.reece.nta.engine.model.GoalStatus;
 import dev.reece.nta.kb.KnowledgeBase;
 import dev.reece.nta.snapshot.CachedBank;
 import dev.reece.nta.snapshot.DiaryTier;
@@ -13,13 +16,17 @@ import dev.reece.nta.snapshot.Snapshot;
 import dev.reece.nta.snapshot.SnapshotCollector;
 import dev.reece.nta.store.AccountData;
 import dev.reece.nta.store.AccountStore;
+import dev.reece.nta.store.Snooze;
 import dev.reece.nta.ui.NextTargetPanel;
+import dev.reece.nta.ui.SuggestPanel;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Consumer;
 import javax.inject.Inject;
 import javax.swing.SwingUtilities;
 import lombok.extern.slf4j.Slf4j;
@@ -37,6 +44,7 @@ import net.runelite.api.events.VarbitChanged;
 import net.runelite.api.events.WidgetClosed;
 import net.runelite.api.gameval.InterfaceID;
 import net.runelite.client.RuneLite;
+import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.game.ItemManager;
 import net.runelite.client.plugins.Plugin;
@@ -65,6 +73,9 @@ public class NextTargetPlugin extends Plugin
 	@Inject
 	private Gson gson;
 
+	@Inject
+	private NextTargetConfig config;
+
 	private final Map<Skill, Integer> lastLevel = new EnumMap<>(Skill.class);
 
 	private EngineRunner runner;
@@ -80,6 +91,14 @@ public class NextTargetPlugin extends Plugin
 	private volatile boolean firstTickPending;
 	private volatile boolean snapshotRequested;
 	private volatile KnowledgeBase kb;
+	private volatile Snapshot cachedSnapshot;
+	private volatile Advice cachedAdvice;
+
+	@Provides
+	NextTargetConfig provideConfig(ConfigManager configManager)
+	{
+		return configManager.getConfig(NextTargetConfig.class);
+	}
 
 	@Override
 	protected void startUp() throws Exception
@@ -89,9 +108,20 @@ public class NextTargetPlugin extends Plugin
 		store = new AccountStore(new File(RuneLite.RUNELITE_DIR, "next-target").toPath(), gson);
 		cachedBank = CachedBank.unknown();
 		kb = null;
+		cachedSnapshot = null;
+		cachedAdvice = null;
 		lastLevel.clear();
 
-		panel = new NextTargetPanel(this::requestSnapshot);
+		SuggestPanel.Actions actions = new SuggestPanel.Actions(
+			this::focus,
+			this::snooze,
+			this::ignore,
+			this::pin,
+			this::unpin,
+			this::unsnooze,
+			this::unignore,
+			this::clearFocus);
+		panel = new NextTargetPanel(this::requestSnapshot, actions);
 		BufferedImage icon = ImageUtil.loadImageResource(NextTargetPlugin.class, "icon.png");
 		navButton = NavigationButton.builder()
 			.tooltip("Next Target Advisor")
@@ -104,7 +134,11 @@ public class NextTargetPlugin extends Plugin
 		runner.submit(() -> KnowledgeBase.load(gson), loaded ->
 		{
 			kb = loaded;
-			SwingUtilities.invokeLater(() -> panel.showKbLoaded(loaded.getQuestsGeneratedAt(), loaded.getDiariesGeneratedAt()));
+			SwingUtilities.invokeLater(() ->
+			{
+				panel.showKbLoaded(loaded.getQuestsGeneratedAt(), loaded.getDiariesGeneratedAt());
+				panel.setKnowledgeBase(loaded);
+			});
 		});
 	}
 
@@ -120,6 +154,8 @@ public class NextTargetPlugin extends Plugin
 		snapshotRequested = false;
 		kb = null;
 		engine = null;
+		cachedSnapshot = null;
+		cachedAdvice = null;
 		lastLevel.clear();
 	}
 
@@ -153,6 +189,8 @@ public class NextTargetPlugin extends Plugin
 		{
 			accountLoaded = false;
 			firstTickPending = false;
+			cachedSnapshot = null;
+			cachedAdvice = null;
 		}
 	}
 
@@ -169,16 +207,20 @@ public class NextTargetPlugin extends Plugin
 		snapshotRequested = false;
 
 		Snapshot snapshot = SnapshotCollector.collect(client, itemManager, cachedBank, loadedKb);
+		cachedSnapshot = snapshot;
 		Engine currentEngine = engine;
+		AccountData data = accountData;
+		AccountData dataForEngine = data != null ? data.copy() : AccountData.empty();
 		runner.submit(() ->
 		{
 			long start = System.nanoTime();
-			Advice advice = currentEngine.run(snapshot, loadedKb);
+			Advice advice = currentEngine.run(snapshot, loadedKb, dataForEngine, Instant.now());
 			long ms = (System.nanoTime() - start) / 1_000_000;
 			log.info("engine: {} goals evaluated in {} ms", advice.getStatuses().size(), ms);
 			return advice;
 		}, advice ->
 		{
+			cachedAdvice = advice;
 			logDiarySelfCheck(advice.getDiaryProgress());
 			SwingUtilities.invokeLater(() -> panel.render(advice));
 		});
@@ -278,5 +320,121 @@ public class NextTargetPlugin extends Plugin
 		{
 			requestSnapshot();
 		}
+	}
+
+	// --- Panel actions (S4 ruling 5/19): invoked from the EDT by SuggestPanel's buttons. Each
+	// mutates a copy of accountData, saves it, and re-runs the engine against the CACHED snapshot
+	// (never re-collects from Client); if no snapshot has been taken yet, only the save happens. ---
+
+	/** D5: "Do this" - sets the goal as the active focus. */
+	public void focus(String goalId)
+	{
+		mutateAccountData(data -> data.setFocusGoalId(goalId));
+	}
+
+	/** E7: "Clear focus" - returns to Suggest mode. */
+	public void clearFocus()
+	{
+		mutateAccountData(data -> data.setFocusGoalId(null));
+	}
+
+	/** D6: "Not now" - snoozes the goal for {@link NextTargetConfig#snoozeDays()}, recording the goal's current gap fingerprint so a later change ends the snooze early. */
+	public void snooze(String goalId)
+	{
+		GoalStatus status = statusFor(goalId);
+		String fingerprint = status != null ? GapFingerprint.of(status) : "";
+		Instant until = Instant.now().plus(config.snoozeDays(), ChronoUnit.DAYS);
+		mutateAccountData(data -> data.getSnoozes().put(goalId, new Snooze(until, fingerprint)));
+	}
+
+	/** D6: "Bring back" - ends a snooze early. */
+	public void unsnooze(String goalId)
+	{
+		mutateAccountData(data -> data.getSnoozes().remove(goalId));
+	}
+
+	/** D7: "Ignore" - hides the goal permanently until restored. */
+	public void ignore(String goalId)
+	{
+		mutateAccountData(data -> data.getIgnores().add(goalId));
+	}
+
+	/** D7: "Restore" - un-hides a previously ignored goal. */
+	public void unignore(String goalId)
+	{
+		mutateAccountData(data -> data.getIgnores().remove(goalId));
+	}
+
+	/** D8: "Pin" - the goal stays at the top regardless of score. */
+	public void pin(String goalId)
+	{
+		mutateAccountData(data ->
+		{
+			if (!data.getPins().contains(goalId))
+			{
+				data.getPins().add(goalId);
+			}
+		});
+	}
+
+	/** D8: "Unpin". */
+	public void unpin(String goalId)
+	{
+		mutateAccountData(data -> data.getPins().remove(goalId));
+	}
+
+	private GoalStatus statusFor(String goalId)
+	{
+		Advice advice = cachedAdvice;
+		if (advice == null)
+		{
+			return null;
+		}
+		for (GoalStatus status : advice.getStatuses())
+		{
+			if (status.getGoal().getId().equals(goalId))
+			{
+				return status;
+			}
+		}
+		return null;
+	}
+
+	private void mutateAccountData(Consumer<AccountData> mutator)
+	{
+		AccountData data = accountData;
+		if (data == null)
+		{
+			return;
+		}
+
+		AccountData copy = data.copy();
+		mutator.accept(copy);
+		accountData = copy;
+
+		long hash = accountHash;
+		Snapshot snapshot = cachedSnapshot;
+		KnowledgeBase loadedKb = kb;
+		Engine currentEngine = engine;
+
+		if (snapshot == null || loadedKb == null)
+		{
+			runner.submit(() ->
+			{
+				store.save(hash, copy);
+				return null;
+			}, ignored -> { });
+			return;
+		}
+
+		runner.submit(() ->
+		{
+			store.save(hash, copy);
+			return currentEngine.run(snapshot, loadedKb, copy, Instant.now());
+		}, advice ->
+		{
+			cachedAdvice = advice;
+			SwingUtilities.invokeLater(() -> panel.render(advice));
+		});
 	}
 }
