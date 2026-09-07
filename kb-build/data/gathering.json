@@ -1,0 +1,1833 @@
+{
+  "version": 1,
+  "plans": [
+    {
+      "item": "Blue dragon scales",
+      "id": null,
+      "title": "Pick blue dragon scale spawns in Taverley Dungeon",
+      "requires": {
+        "skills": [
+          {
+            "skill": "Agility",
+            "level": 70
+          }
+        ],
+        "quests": [],
+        "items": [
+          "Anti-poison potions (if skipping the Agility shortcut)",
+          "Protect from Magic prayer or ranged/melee gear to tank breath while looting"
+        ],
+        "notes": "(estimated) 70 Agility unlocks the Taverley Dungeon pipe shortcut past the poison spiders; without it, walk through and drink anti-poison instead. Scales also drop from scaly blue dragonhide (cut with a knife for 50 scales) if you're already killing blue dragons for hides. This item has no confirmed materials.json entry (id is null); flag for addition. ratePerHour is not stated on the wiki; estimated from the 12 spawns and their respawn timer."
+      },
+      "ratePerHour": 450,
+      "steps": [
+        "Teleport to Falador (or Taverley).",
+        "Enter Taverley Dungeon; take the 70 Agility pipe shortcut (or walk past the poison spiders with anti-poison).",
+        "Pick up the scale spawns in the blue dragon room (12 spawns; they respawn roughly every 18-30 seconds); pray Protect from Magic or stand out of the dragons' breath range.",
+        "Teleport back to Falador and repeat."
+      ],
+      "alternatives": [
+        {
+          "title": "Kill blue dragons for hides instead of scale-picking",
+          "steps": [
+            "Teleport to Taverley Dungeon or the Myths' Guild basement and fight blue dragons with anti-dragon shield and Protect from Magic.",
+            "Collect the scaly blue dragonhide drops and cut each with a knife to get 50 blue dragon scales per hide.",
+            "Bank hides/scales and return to fighting."
+          ],
+          "requires": {
+            "skills": [
+              {
+                "skill": "Slayer",
+                "level": 1
+              }
+            ],
+            "quests": [],
+            "items": [
+              "Anti-dragon shield or Elysian/dragonfire ward",
+              "Knife"
+            ],
+            "notes": "Much slower per scale than picking spawns but yields other drops too; combat requirement varies by dragon variant."
+          }
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Blue_dragon_scale"
+    },
+    {
+      "item": "Snape grass",
+      "id": 231,
+      "title": "Waterbirth Island snape grass loop",
+      "requires": {
+        "skills": [
+          {
+            "skill": "Magic",
+            "level": 65
+          }
+        ],
+        "quests": [],
+        "items": [
+          "Law runes and Astral runes (for Waterbirth/Moonclan teleports)",
+          "Weight-reducing clothing",
+          "Reagent pouch (optional, needs 81 Herblore via Mastering Mixology)"
+        ],
+        "notes": "Completing The Fremennik Trials and Lunar Diplomacy unlocks the Lunar spellbook teleports used below; without them, use Jarvald's boat from Rellekka instead (slower, no requirements beyond Fremennik province access). 65 Magic is only needed for the Lunar teleport route."
+      },
+      "ratePerHour": 950,
+      "steps": [
+        "Cast Moonclan Teleport (or teleport/walk to Rellekka) to reach the Fremennik province.",
+        "Take Jarvald's boat, or cast Waterbirth Teleport, to reach Waterbirth Island.",
+        "Pick the snape grass spawns scattered around the island (27 spawns total; each respawns roughly every 16-18 seconds).",
+        "When your inventory is full, cast Moonclan Teleport to Lunar Isle and bank, or sail back to Rellekka and bank with Peer the Seer (requires easy Fremennik Diary).",
+        "Return to Waterbirth Island and repeat."
+      ],
+      "alternatives": [
+        {
+          "title": "Grow snape grass at farming patches",
+          "steps": [
+            "Buy snape grass seeds and plant them in allotment patches at level 61 Farming.",
+            "Wait for the crop to mature, then harvest multiple snape grass per patch.",
+            "Replant and move to the next patch on your farm run."
+          ],
+          "requires": {
+            "skills": [
+              {
+                "skill": "Farming",
+                "level": 61
+              }
+            ],
+            "quests": [],
+            "items": [
+              "Snape grass seeds",
+              "Seed dibber",
+              "Spade"
+            ],
+            "notes": "Passive and requires no combat or navigation, but yields far less per hour than the Waterbirth Island loop."
+          }
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Snape_grass"
+    },
+    {
+      "item": "Crushed nest",
+      "id": 6693,
+      "title": "Fossil Island birdhouse runs, then grind nests to crushed nest",
+      "requires": {
+        "skills": [
+          {
+            "skill": "Hunter",
+            "level": 5
+          },
+          {
+            "skill": "Crafting",
+            "level": 5
+          }
+        ],
+        "quests": [],
+        "items": [
+          "Logs (matching birdhouse tier)",
+          "Clockwork x4",
+          "Hammer",
+          "Chisel",
+          "Seeds (cheap allotment/hop seeds work fine)",
+          "Pestle and mortar"
+        ],
+        "notes": "(estimated) Bird house trapping happens on Fossil Island (Bone Voyage quest unlocks boat access; the Digsite pendant teleports you there directly). Ironmen need 25 Construction to build a crafting table 2 for assembling clockwork. Start with regular/oak birdhouses and upgrade the tier as Hunter and Crafting rise; higher tiers give more rolls on the nest table. Empty bird nests can also be crushed by Wesley in Nardah for 50gp each instead of grinding them yourself. ratePerHour is estimated from ~5 nest-table rolls per birdhouse across 4 houses per ~50-minute cycle; the wiki does not state a direct empty-nest rate."
+      },
+      "ratePerHour": 15,
+      "steps": [
+        "Craft four birdhouses from logs and clockwork using a hammer and chisel.",
+        "Use the Digsite pendant to teleport to Fossil Island, then place a birdhouse loaded with seeds at each of the four trapping spots (Verdant Valley x2, Mushroom Forest, Tar Swamp).",
+        "Leave and do other tasks for about 50 minutes while the birdhouses passively catch birds.",
+        "Return, empty each birdhouse for loot (up to 5 nest-table rolls per house), and reset a fresh birdhouse in its place.",
+        "Grind any empty bird nests with a pestle and mortar to make crushed nest.",
+        "Bank the crushed nest and repeat the run."
+      ],
+      "alternatives": [
+        {
+          "title": "Passive nests while training Woodcutting",
+          "steps": [
+            "Chop any trees for normal Woodcutting training.",
+            "Pick up any empty bird nests that fall to the ground as you cut.",
+            "Grind the collected nests into crushed nest with a pestle and mortar."
+          ],
+          "requires": {
+            "skills": [
+              {
+                "skill": "Woodcutting",
+                "level": 1
+              }
+            ],
+            "quests": [],
+            "items": [
+              "Pestle and mortar"
+            ],
+            "notes": "Nest fall chance is low and unaffected by tree type per log cut; treat this as a side benefit of Woodcutting training rather than a dedicated method."
+          }
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Crushed_nest"
+    },
+    {
+      "item": "Red spiders' eggs",
+      "id": 223,
+      "title": "Tower of Life spidine farm (self-sustaining)",
+      "requires": {
+        "skills": [
+          {
+            "skill": "Construction",
+            "level": 10
+          }
+        ],
+        "quests": [
+          "Tower of Life"
+        ],
+        "items": [
+          "Raw sardines",
+          "At least 1 Red spiders' egg to start the loop"
+        ],
+        "notes": "(estimated) Tower of Life requires 10 Construction to start (not boostable). Once you have a single starting egg, the loop is self-sustaining: each spidine kill drops 3-6 eggs and you only spend 1 per creation, for a net gain every kill. If you have no starting egg, pick one up from a cave bug/cave crawler in a low-level dungeon, or from the Arandar spawns in Tirannwn. ratePerHour is derived from the wiki's money-making guide assumption of 200 kills/hour (900 eggs looted minus 200 spent to create spidines)."
+      },
+      "ratePerHour": 700,
+      "steps": [
+        "Complete the Tower of Life quest, then use the fairy ring code DJP (or the Ardougne cloak teleport to Kandarin Monastery) to reach the tower just east of the Ardougne Monastery.",
+        "Go down to the Creature Creation basement and place a raw sardine and a red spiders' egg on the south-eastern altar.",
+        "Activate the altar to spawn a spidine, then kill it (it is low-levelled and dies quickly).",
+        "Loot the guaranteed bones and 3-6 red spiders' eggs it drops.",
+        "Repeat the creation-and-kill cycle, banking eggs via the fairy ring when your inventory fills."
+      ],
+      "alternatives": [
+        {
+          "title": "Pick up wild spawns (no quest required)",
+          "steps": [
+            "Travel to Arandar in Tirannwn.",
+            "Pick up the red spiders' egg spawns scattered around the area (6 spawns; slow respawn, about 60 seconds).",
+            "Bank and repeat."
+          ],
+          "requires": {
+            "skills": [],
+            "quests": [],
+            "items": [],
+            "notes": "(estimated) Much slower than the spidine farm, but useful before you've unlocked Tower of Life or as a way to get your first egg."
+          }
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Red_spiders'_eggs"
+    },
+    {
+      "item": "Unicorn horn dust",
+      "id": 235,
+      "title": "Kill Kourend unicorns and grind horns to dust",
+      "requires": {
+        "skills": [],
+        "quests": [],
+        "items": [
+          "Pestle and mortar",
+          "Any weapon (unicorns are combat level 15 and easy to kill)"
+        ],
+        "notes": "(estimated) Unicorns and black unicorns always drop 1 unicorn horn. Slow respawn (~53 seconds) means world-hopping between kills is worthwhile at the higher-density spots. The wiki does not state a kills-per-hour figure for this method, so ratePerHour is a rough estimate based on the 5-spawn cluster and world-hop cadence."
+      },
+      "ratePerHour": 180,
+      "steps": [
+        "Teleport to Great Kourend (Kourend Teleport or a Kourend favour teleport) and head to the area south of the Woodcutting Guild, which has 5 unicorn spawns close together.",
+        "Kill each unicorn as it spawns; they die in a hit or two and pose little threat.",
+        "World-hop when the local spawns are exhausted, since unicorns respawn slowly.",
+        "Grind the collected unicorn horns with a pestle and mortar to make unicorn horn dust.",
+        "Bank the dust and repeat."
+      ],
+      "alternatives": [
+        {
+          "title": "Barbarian Assault gamble rewards",
+          "steps": [
+            "Earn Barbarian Assault points by playing rounds of the minigame.",
+            "Spend points on Low/Medium/High gambles, which can award 10-50 noted unicorn horns per gamble.",
+            "Grind any unnoted horns into dust with a pestle and mortar."
+          ],
+          "requires": {
+            "skills": [],
+            "quests": [],
+            "items": [],
+            "notes": "(estimated) Only worthwhile if you're already training Barbarian Assault for other rewards; not an efficient dedicated method on its own."
+          }
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Unicorn_horn_dust"
+    },
+    {
+      "item": "White berries",
+      "id": 239,
+      "title": "Pick white berry spawns in Isafdar",
+      "requires": {
+        "skills": [
+          {
+            "skill": "Agility",
+            "level": 56
+          }
+        ],
+        "quests": [
+          "Regicide",
+          "Mourning's End Part I (started)"
+        ],
+        "items": [
+          "Teleport crystal (quest reward)",
+          "Antipoison",
+          "Food",
+          "Weight-reducing clothing"
+        ],
+        "notes": "56 Agility is recommended (higher is better) to safely cross the tripwires and traps guarding the berry area; you can still reach it lower level by eating through occasional trap damage."
+      },
+      "ratePerHour": 400,
+      "steps": [
+        "Use your teleport crystal (or walk) to Lletya in Isafdar.",
+        "Head north-west out of the city, cross the tripwire to the west, and loop south past the leaf trap and the Elf Tracker.",
+        "Continue north, then cross the second tripwire to the east to reach the isolated white berry spawn area.",
+        "Click the berry spawns as they appear; they respawn very quickly (about 4-5 seconds on a busy world).",
+        "Eat food or sip antipoison if you take trap damage crossing back and forth.",
+        "Once your inventory is full, use the teleport crystal to bank, then return and repeat."
+      ],
+      "alternatives": [
+        {
+          "title": "Grow white berries at a bush patch",
+          "steps": [
+            "Buy whiteberry seeds and plant them in a bush patch.",
+            "Wait for the bush to fruit, then harvest the berries.",
+            "Replant and move on to your next patch."
+          ],
+          "requires": {
+            "skills": [
+              {
+                "skill": "Farming",
+                "level": 22
+              }
+            ],
+            "quests": [],
+            "items": [
+              "Whiteberry seeds",
+              "Spade"
+            ],
+            "notes": "(estimated) Passive and quest-free, but far lower volume than the Isafdar spawn area."
+          }
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/White_berries"
+    },
+    {
+      "item": "Dragon scale dust",
+      "id": 241,
+      "title": "Pick Taverley Dungeon blue dragon scales, then grind to dust",
+      "requires": {
+        "skills": [
+          {
+            "skill": "Agility",
+            "level": 70
+          }
+        ],
+        "quests": [],
+        "items": [
+          "Pestle and mortar",
+          "Anti-poison potions (if skipping the Agility shortcut)"
+        ],
+        "notes": "(estimated) Dragon scale dust is simply ground blue dragon scale, so the gathering step is identical to blue dragon scales; grinding is instant (auto-processes the whole inventory in a few ticks). Wesley in Nardah will also grind unnoted or noted scales for 50gp each if you'd rather not carry a pestle and mortar. ratePerHour mirrors the blue dragon scale collection rate since grinding adds negligible time."
+      },
+      "ratePerHour": 450,
+      "steps": [
+        "Teleport to Falador (or Taverley).",
+        "Enter Taverley Dungeon; take the 70 Agility pipe shortcut (or walk past the poison spiders with anti-poison).",
+        "Pick up the scale spawns in the blue dragon room (12 spawns; they respawn roughly every 18-30 seconds); pray Protect from Magic or stand out of the dragons' breath range.",
+        "Grind the collected scales into dragon scale dust with a pestle and mortar.",
+        "Teleport back to Falador and repeat."
+      ],
+      "alternatives": [
+        {
+          "title": "Kill blue dragons for scaly hides",
+          "steps": [
+            "Fight blue dragons with an anti-dragon shield and Protect from Magic.",
+            "Cut any scaly blue dragonhide drops with a knife for 50 scales each.",
+            "Grind the scales into dragon scale dust with a pestle and mortar."
+          ],
+          "requires": {
+            "skills": [
+              {
+                "skill": "Slayer",
+                "level": 1
+              }
+            ],
+            "quests": [],
+            "items": [
+              "Anti-dragon shield",
+              "Knife",
+              "Pestle and mortar"
+            ],
+            "notes": "Slower per-dust than scale-picking but comes with combat drops on the side."
+          }
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Dragon_scale_dust"
+    },
+    {
+      "item": "Wine of Zamorak",
+      "id": 245,
+      "title": "Telegrab wine from the Asgarnia Chaos Temple",
+      "requires": {
+        "skills": [
+          {
+            "skill": "Magic",
+            "level": 33
+          }
+        ],
+        "quests": [],
+        "items": [
+          "Staff of air (or any staff granting unlimited air runes)",
+          "Law runes",
+          "Zamorak robes",
+          "Looting bag (recommended)",
+          "Cakes and a restore potion (or Ring of dueling + Ferox Enclave Pool of Refreshment)"
+        ],
+        "notes": "Climbing the ladder to the safe upstairs wine table requires wearing Zamorak robes with a total level of 500. Wearing Zamorak robes stops the Monks of Zamorak from attacking while you Telekinetic Grab wine from the upstairs table; grabbing from the downstairs table instead makes them hostile."
+      },
+      "ratePerHour": 204,
+      "steps": [
+        "Wield a staff of air and Zamorak robes, then walk north from Falador (or use a games necklace to Burthorpe plus the Falador Diary shortcut) to the Chaos Temple north-west of Goblin Village.",
+        "Climb the ladder and cast Telekinetic Grab on the wine on the upstairs table.",
+        "Climb back down and Telekinetic Grab the second wine spawn across the downstairs room, then immediately climb back up to safety.",
+        "Wait about 25 seconds for both wines to respawn, then repeat the grab cycle.",
+        "Fill a looting bag once your inventory is full to extend the trip, then bank via your closest teleport and return."
+      ],
+      "alternatives": [
+        {
+          "title": "Wilderness Chaos Temple (level 38 Wilderness)",
+          "steps": [
+            "Teleport into level 38 Wilderness near the Chaos Fanatic.",
+            "Enter the Chaos Temple south-west of the Chaos Fanatic and Telekinetic Grab or pick up the wine spawns on both floors.",
+            "Watch for PKers and bank via your closest Wilderness teleport when your inventory is full."
+          ],
+          "requires": {
+            "skills": [
+              {
+                "skill": "Magic",
+                "level": 33
+              }
+            ],
+            "quests": [],
+            "items": [
+              "Staff of air",
+              "Law runes"
+            ],
+            "notes": "No total-level or robe requirement here, but you're exposed to PKing in the Wilderness; the Deep Wilderness Dungeon version of this spawn respawns even faster and gives noted wine with the hard Wilderness Diary."
+          }
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Wine_of_Zamorak"
+    },
+    {
+      "item": "Eye of newt",
+      "id": 221,
+      "title": "Buy out eye of newt from Taverley/Port Sarim herblore shops",
+      "requires": {
+        "skills": [],
+        "quests": [],
+        "items": [
+          "Coins (a few thousand gp for a full buyout)"
+        ],
+        "notes": "No level requirement to buy. Jatix's Herblore Shop in Taverley holds the largest stock (800, restocks ~1 every 12s) at 3gp each. Betty's Magic Emporium in Port Sarim (300 stock, 6s restock, 3gp) is a solid second loop. World-hop between buyouts rather than waiting for natural restock."
+      },
+      "ratePerHour": 4000,
+      "steps": [
+        "Teleport to Falador (Falador Teleport spell, Explorer's ring, or POH) and run east into Taverley.",
+        "Enter Jatix's Herblore Shop and buy out its full stock of eye of newt (800 in stock at 3gp each).",
+        "Bank the eye of newt at the nearby bank chest inside Taverley Dungeon or the Falador east bank.",
+        "World-hop to a fresh world and repeat the buyout, since waiting on the ~12s per-item restock is far slower than hopping.",
+        "Repeat for as many worlds as needed until you have the quantity required."
+      ],
+      "alternatives": [
+        {
+          "title": "Betty's Magic Emporium loop (Port Sarim)",
+          "steps": [
+            "Teleport to Port Sarim (Ring of dueling, Port Sarim Teleport, or Amulet of glory to Draynor then walk).",
+            "Buy out Betty's Magic Emporium's stock of eye of newt (300 in stock at 3gp each).",
+            "Bank at Port Sarim bank, world-hop, and repeat."
+          ],
+          "requires": {
+            "skills": [],
+            "quests": [],
+            "items": [
+              "Coins"
+            ],
+            "notes": "Smaller stock than Jatix's but faster restock (6s) and closer to a bank."
+          }
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Eye_of_newt"
+    },
+    {
+      "item": "Jangerberries",
+      "id": 247,
+      "title": "Grow jangerberries across bush patches",
+      "requires": {
+        "skills": [
+          {
+            "skill": "Farming",
+            "level": 48
+          }
+        ],
+        "quests": [],
+        "items": [
+          "Jangerberry seed",
+          "Spade",
+          "Watermelon x6 per patch (optional protection payment)"
+        ],
+        "notes": "Jangerberry seeds are not sold in any shop; get them from Master Farmer pickpocketing (38 Thieving), monster drops, or seed packs. A grown jangerberry bush regrows and can be re-picked every few hours without replanting until it eventually dies, so this is a low-maintenance long-term source once established."
+      },
+      "ratePerHour": null,
+      "steps": [
+        "Teleport to Rimmington (Explorer's ring from the Falador Elite Diary, or Falador Teleport then run south-west) and plant a jangerberry seed in the bush patch with a spade.",
+        "Optionally pay the nearby farmer 6 watermelons to protect the bush from disease.",
+        "Teleport to the other bush patches (Etceteria, and Champions' Guild east of Falador) and plant jangerberry seeds there too.",
+        "Wait roughly 160 minutes (real time) for the bushes to fully grow.",
+        "Return to each patch and pick the jangerberries (4+ per bush, yield varies); the bush regrows on its own, so you don't need to replant next time.",
+        "Repeat the harvest loop every few hours as each bush regrows more berries."
+      ],
+      "alternatives": [
+        {
+          "title": "General store / Fruit Stall purchase",
+          "steps": [
+            "Check general stores and Fruit Stalls (e.g. in farming settlements) for jangerberries in stock.",
+            "Buy what's available and world-hop for more."
+          ],
+          "requires": {
+            "skills": [],
+            "quests": [],
+            "items": [
+              "Coins"
+            ],
+            "notes": "Unreliable for bulk since stock is low and shared with other produce; treat as a top-up, not a primary source."
+          }
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Jangerberries"
+    },
+    {
+      "item": "Chocolate dust",
+      "id": 1975,
+      "title": "Buy chocolate bars and grind them into chocolate dust",
+      "requires": {
+        "skills": [],
+        "quests": [],
+        "items": [
+          "Knife (or pestle and mortar)",
+          "Coins"
+        ],
+        "notes": "Free-to-play item, no level requirement. Grinding with a knife is instant and automatic across your whole inventory once started. Funch's Fine Groceries and Grand Tree Groceries also sell ready-made chocolate dust directly at the Grand Tree if you'd rather skip the grinding step."
+      },
+      "ratePerHour": 9000,
+      "steps": [
+        "Teleport to the Grand Tree via the free spirit tree network (no quest required).",
+        "Buy chocolate bars from Funch's Fine Groceries and Grand Tree Groceries (20 stock each, 5gp) until both are emptied.",
+        "Use a knife on the chocolate bars; the grinding continues automatically through the whole stack.",
+        "Bank the chocolate dust, world-hop, and repeat the shop buyout since both shops restock 1 bar per minute."
+      ],
+      "alternatives": [
+        {
+          "title": "Nardah - Rok's Chocs Box loop",
+          "steps": [
+            "Teleport to Nardah (Desert amulet 4 from the Contact! quest, or travel via camel/Pharaoh's sceptre).",
+            "Buy chocolate bars from Rok's Chocs Box (25 stock, restocks every 12s - much faster than the Grand Tree shops).",
+            "Use a knife on the bars to grind them into dust, then bank and repeat."
+          ],
+          "requires": {
+            "skills": [],
+            "quests": [
+              "Contact! (for Desert amulet 4, optional)"
+            ],
+            "items": [
+              "Knife",
+              "Coins"
+            ],
+            "notes": "Faster restock than Grand Tree shops, making this the better loop for large quantities."
+          }
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Chocolate_dust"
+    },
+    {
+      "item": "Mort myre fungus",
+      "id": 2970,
+      "title": "Cast Bloom on rotting logs in Mort Myre Swamp",
+      "requires": {
+        "skills": [],
+        "quests": [
+          "Priest in Peril",
+          "The Restless Ghost",
+          "Nature Spirit"
+        ],
+        "items": [
+          "Silver sickle (b) or Ivandis flail (or cast the Druidic spell), Ectophial"
+        ],
+        "notes": "Nature Spirit is the real gate: it grants the Ectophial (unlimited free teleports right into the swamp) and unlocks Bloom via the Druidic spell or a blessed silver sickle/Ivandis flail. Completing the Morytania Hard Diary doubles the fungus yield per cast. Fungi auto-deposit into an open reagent pouch since a 2024 update. Higher Agility helps navigate the swamp's shortcuts faster but isn't required."
+      },
+      "ratePerHour": 1400,
+      "steps": [
+        "Complete Priest in Peril, The Restless Ghost, and Nature Spirit to unlock the Ectophial and the ability to cast Bloom.",
+        "Use the Ectophial to teleport for free directly into the Ectofuntus building at the edge of Mort Myre Swamp.",
+        "Head into the swamp and cast Bloom on rotting logs to instantly receive mort myre fungus.",
+        "Avoid or quickly move past Ghasts, which can rot your food and drain stats.",
+        "Loop between nearby rotting logs, re-casting Bloom on each as it respawns, and bank via a swamp bank or the Ectophial's return trip."
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Mort_myre_fungus",
+      "alternatives": []
+    },
+    {
+      "item": "Potato cactus",
+      "id": 3138,
+      "title": "Grow potato cactus in the Al Kharid cactus patch",
+      "requires": {
+        "skills": [
+          {
+            "skill": "Farming",
+            "level": 64
+          }
+        ],
+        "quests": [],
+        "items": [
+          "Potato cactus seed",
+          "Spade",
+          "Snape grass x8 (optional protection payment)"
+        ],
+        "notes": "Potato cactus seeds aren't sold in any shop; get them from Master Farmer pickpocketing, monster drops, or seed packs. The patch takes ~70 minutes to first mature, then each fully grown cactus has 6 'lives' - each pick has a chance to use one up, after which you wait ~25 minutes for more to regrow on the same plant without replanting."
+      },
+      "ratePerHour": null,
+      "steps": [
+        "Get Farming level 64 and stock up on potato cactus seeds via Master Farmer pickpocketing or monster drops.",
+        "Teleport to Al Kharid (Fairy ring, Ring of dueling to the Duel Arena then walk, or Amulet of glory to Draynor then walk) and plant a potato cactus seed in the cactus patch with a spade.",
+        "Optionally pay the nearby farmer 8 snape grass to protect the cactus from disease.",
+        "Wait roughly 70 minutes (real time) for the cactus to fully grow.",
+        "Return and pick potato cacti repeatedly; when the plant's 6 'lives' run out, wait about 25 minutes for the next batch to regrow on the same plant."
+      ],
+      "alternatives": [
+        {
+          "title": "Farming Guild cactus patch",
+          "steps": [
+            "Enter the Farming Guild (requires 45 Farming) and use its cactus patch instead of, or in addition to, Al Kharid's.",
+            "Follow the same plant/pay/wait/harvest cycle as the Al Kharid patch."
+          ],
+          "requires": {
+            "skills": [
+              {
+                "skill": "Farming",
+                "level": 45
+              }
+            ],
+            "quests": [],
+            "items": [
+              "Potato cactus seed",
+              "Spade"
+            ],
+            "notes": "Convenient if you're already running a Farming Guild herb loop on the same trip."
+          }
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Potato_cactus"
+    },
+    {
+      "item": "Limpwurt root",
+      "id": 225,
+      "title": "Grow limpwurt root in flower patches",
+      "requires": {
+        "skills": [
+          {
+            "skill": "Farming",
+            "level": 26
+          }
+        ],
+        "quests": [],
+        "items": [
+          "Limpwurt seed",
+          "Spade",
+          "Compost (optional, disease reduction only)"
+        ],
+        "notes": "No gardener protection option exists for limpwurt (compost only lowers disease risk, it doesn't raise yield). Growth takes only ~20 minutes, but the patch does not regrow - replant a fresh seed every visit. The finished item itself is tradeable/F2P, but farming it requires a members world since patches are members content."
+      },
+      "ratePerHour": null,
+      "steps": [
+        "Get Farming level 26 and obtain limpwurt seeds via Master Farmer pickpocketing, monster drops, or seed packs.",
+        "Teleport to a flower patch location (Falador via Falador Teleport, Catherby via Camelot Teleport, or Ardougne via Ardougne Teleport) and treat the soil with compost.",
+        "Plant a limpwurt seed in the flower patch.",
+        "Repeat at the other flower patch locations in the same loop to plant multiple seeds per cycle.",
+        "Wait roughly 20 minutes (real time) for the plants to mature.",
+        "Return to each patch, harvest the limpwurt roots (3+ per patch, yield varies), and immediately replant a new seed since the patch does not regrow on its own."
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Limpwurt_root",
+      "alternatives": []
+    },
+    {
+      "item": "Ranarr weed",
+      "id": 257,
+      "title": "Run a multi-patch herb farm loop for ranarr weed",
+      "requires": {
+        "skills": [
+          {
+            "skill": "Farming",
+            "level": 32
+          }
+        ],
+        "quests": [
+          "Plague City (for the Ardougne Teleport spell)"
+        ],
+        "items": [
+          "Ranarr seed",
+          "Spade",
+          "Ultracompost or supercompost (disease protection)"
+        ],
+        "notes": "Ranarr seeds aren't sold in any shop; get them via Master Farmer pickpocketing (38 Thieving), monster drops, or seed packs. Herb patches accept a different herb per run, so this same 4-patch loop (Falador, Catherby, Ardougne, Farming Guild) can carry ranarr, toadflax, snapdragon, torstol, or any other herb simultaneously - just plant whichever herb you need in each patch on a given lap. Yield is ~3+ grimy herbs per patch per 80-minute cycle, not a steady hourly rate."
+      },
+      "ratePerHour": null,
+      "steps": [
+        "Get Farming level 32 and stock up on ranarr seeds and ultracompost.",
+        "Teleport to Falador (Falador Teleport spell) and plant a ranarr seed in the herb patch after treating the soil with ultracompost.",
+        "Teleport to Catherby (Camelot Teleport spell) and plant a ranarr seed in its herb patch after treating the soil.",
+        "Teleport to Ardougne (Ardougne Teleport spell) and plant a ranarr seed in its herb patch after treating the soil.",
+        "If you have 45 Farming, walk from Catherby to the Farming Guild and plant a fourth ranarr seed in its disease-free herb patch.",
+        "Wait roughly 80 minutes (real time) for all the herbs to fully grow.",
+        "Return to each patch via the same teleports, pick the grimy ranarr weed from every patch, and immediately replant fresh seeds for the next cycle.",
+        "Clean the grimy ranarr weed with the Herblore skill before banking or using it."
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Ranarr_weed",
+      "alternatives": []
+    },
+    {
+      "item": "Toadflax",
+      "id": 2998,
+      "title": "Run a multi-patch herb farm loop for toadflax",
+      "requires": {
+        "skills": [
+          {
+            "skill": "Farming",
+            "level": 38
+          }
+        ],
+        "quests": [
+          "Plague City (for the Ardougne Teleport spell)"
+        ],
+        "items": [
+          "Toadflax seed",
+          "Spade",
+          "Ultracompost or supercompost (disease protection)"
+        ],
+        "notes": "Toadflax seeds aren't sold in any shop; get them via Master Farmer pickpocketing (38 Thieving), monster drops, or seed packs. Herb patches accept a different herb per run, so this same 4-patch loop (Falador, Catherby, Ardougne, Farming Guild) can carry toadflax, ranarr, snapdragon, torstol, or any other herb simultaneously - just plant whichever herb you need in each patch on a given lap. Yield is ~3+ grimy herbs per patch per 80-minute cycle, not a steady hourly rate."
+      },
+      "ratePerHour": null,
+      "steps": [
+        "Get Farming level 38 and stock up on toadflax seeds and ultracompost.",
+        "Teleport to Falador (Falador Teleport spell) and plant a toadflax seed in the herb patch after treating the soil with ultracompost.",
+        "Teleport to Catherby (Camelot Teleport spell) and plant a toadflax seed in its herb patch after treating the soil.",
+        "Teleport to Ardougne (Ardougne Teleport spell) and plant a toadflax seed in its herb patch after treating the soil.",
+        "If you have 45 Farming, walk from Catherby to the Farming Guild and plant a fourth toadflax seed in its disease-free herb patch.",
+        "Wait roughly 80 minutes (real time) for all the herbs to fully grow.",
+        "Return to each patch via the same teleports, pick the grimy toadflax from every patch, and immediately replant fresh seeds for the next cycle.",
+        "Clean the grimy toadflax with the Herblore skill before banking or using it."
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Toadflax",
+      "alternatives": []
+    },
+    {
+      "item": "Snapdragon",
+      "id": 3000,
+      "title": "Run a multi-patch herb farm loop for snapdragon",
+      "requires": {
+        "skills": [
+          {
+            "skill": "Farming",
+            "level": 62
+          }
+        ],
+        "quests": [
+          "Plague City (for the Ardougne Teleport spell)"
+        ],
+        "items": [
+          "Snapdragon seed",
+          "Spade",
+          "Ultracompost or supercompost (disease protection - strongly recommended for this herb)"
+        ],
+        "notes": "Snapdragon seeds aren't sold in any shop; get them via Master Farmer pickpocketing (38 Thieving), monster drops, or seed packs. Herb patches accept a different herb per run, so this same 4-patch loop (Falador, Catherby, Ardougne, Farming Guild) can carry snapdragon, ranarr, toadflax, torstol, or any other herb simultaneously - just plant whichever herb you need in each patch on a given lap. Yield is ~3+ grimy herbs per patch per 80-minute cycle, not a steady hourly rate."
+      },
+      "ratePerHour": null,
+      "steps": [
+        "Get Farming level 62 and stock up on snapdragon seeds and ultracompost.",
+        "Teleport to Falador (Falador Teleport spell) and plant a snapdragon seed in the herb patch after treating the soil with ultracompost.",
+        "Teleport to Catherby (Camelot Teleport spell) and plant a snapdragon seed in its herb patch after treating the soil.",
+        "Teleport to Ardougne (Ardougne Teleport spell) and plant a snapdragon seed in its herb patch after treating the soil.",
+        "If you have 45 Farming, walk from Catherby to the Farming Guild and plant a fourth snapdragon seed in its disease-free herb patch.",
+        "Wait roughly 80 minutes (real time) for all the herbs to fully grow.",
+        "Return to each patch via the same teleports, pick the grimy snapdragon from every patch, and immediately replant fresh seeds for the next cycle.",
+        "Clean the grimy snapdragon with the Herblore skill before banking or using it."
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Snapdragon",
+      "alternatives": []
+    },
+    {
+      "item": "Torstol",
+      "id": 269,
+      "title": "Run a multi-patch herb farm loop for torstol",
+      "requires": {
+        "skills": [
+          {
+            "skill": "Farming",
+            "level": 85
+          }
+        ],
+        "quests": [
+          "Plague City (for the Ardougne Teleport spell)"
+        ],
+        "items": [
+          "Torstol seed",
+          "Spade",
+          "Ultracompost or supercompost (disease protection)"
+        ],
+        "notes": "Torstol is the highest-level herb and its seeds aren't sold in any shop; get them via Master Farmer pickpocketing (38 Thieving), monster drops, or seed packs. Herb patches accept a different herb per run, so this same 4-patch loop (Falador, Catherby, Ardougne, Farming Guild) can carry torstol, ranarr, toadflax, snapdragon, or any other herb simultaneously - just plant whichever herb you need in each patch on a given lap. Yield is ~3+ grimy herbs per patch per 80-minute cycle, not a steady hourly rate."
+      },
+      "ratePerHour": null,
+      "steps": [
+        "Get Farming level 85 and stock up on torstol seeds and ultracompost.",
+        "Teleport to Falador (Falador Teleport spell) and plant a torstol seed in the herb patch after treating the soil with ultracompost.",
+        "Teleport to Catherby (Camelot Teleport spell) and plant a torstol seed in its herb patch after treating the soil.",
+        "Teleport to Ardougne (Ardougne Teleport spell) and plant a torstol seed in its herb patch after treating the soil.",
+        "If you have 45 Farming, walk from Catherby to the Farming Guild and plant a fourth torstol seed in its disease-free herb patch.",
+        "Wait roughly 80 minutes (real time) for all the herbs to fully grow.",
+        "Return to each patch via the same teleports, pick the grimy torstol from every patch, and immediately replant fresh seeds for the next cycle.",
+        "Clean the grimy torstol with the Herblore skill before banking or using it."
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Torstol",
+      "alternatives": []
+    },
+    {
+      "item": "Cadantine",
+      "id": 265,
+      "title": "Herb run: grow cadantine at disease-free patches",
+      "requires": {
+        "skills": [
+          {
+            "skill": "Farming",
+            "level": 67
+          }
+        ],
+        "quests": [],
+        "items": [
+          "Cadantine seed",
+          "Seed dibber",
+          "Spade",
+          "Ultracompost (or supercompost)"
+        ],
+        "notes": "Buy cadantine seeds from Draynor Village Farming shop (Olivia) or Hosidius Farming shop; disease-free patches need My Arm's Big Adventure (Trollheim), Hard/Elite Kourend diary or Fire of Nourishment (Weiss), and 65 Farming for the Farming Guild patch."
+      },
+      "ratePerHour": 90,
+      "steps": [
+        "Buy cadantine seeds and ultracompost from a Farming supplies shop, e.g. Draynor Village.",
+        "Teleport to a disease-free herb patch such as the Farming Guild (skills necklace or farming cape), Trollheim (Trollheim Teleport), or Hosidius (Xeric's Talisman).",
+        "Rake the patch clear of weeds if needed, apply ultracompost, then plant a cadantine seed with a seed dibber.",
+        "Repeat planting at the other disease-free patches (Weiss, Farming Guild, Trollheim, Hosidius) to run several at once.",
+        "Wait roughly 80 minutes for the herbs to mature, doing other tasks in the meantime.",
+        "Return to each patch, harvest all grimy cadantine with a spade, and replant before leaving.",
+        "Bank the grimy herbs and repeat the cycle."
+      ],
+      "alternatives": [],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Cadantine"
+    },
+    {
+      "item": "Lantadyme",
+      "id": 2481,
+      "title": "Full 8-patch lantadyme herb run",
+      "requires": {
+        "skills": [
+          {
+            "skill": "Farming",
+            "level": 73
+          }
+        ],
+        "quests": [],
+        "items": [
+          "Lantadyme seed",
+          "Seed dibber",
+          "Spade",
+          "Ultracompost",
+          "Rake (or magic secateurs)"
+        ],
+        "notes": "A rake clears weeds before planting; magic secateurs (Hard Falador diary reward) boost yield by 10% and are worth carrying. Ectophial, Trollheim Teleport, Ardougne cloak, and Xeric's Talisman speed up the circuit."
+      },
+      "ratePerHour": 88,
+      "steps": [
+        "Buy lantadyme seeds and ultracompost from a Farming shop such as Hosidius or Catherby.",
+        "Camelot Teleport (or Catherby Teleport) to the Catherby herb patch, rake, compost, and plant a seed.",
+        "Ardougne Teleport or use the Ardougne cloak to reach the Ardougne North patch and plant there.",
+        "Empty an Ectophial to Port Phasmatys and plant at the herb patch west of the undead farm.",
+        "Trollheim Teleport and use the agility shortcut downhill (or roof shortcut at 73 Agility) to reach the Trollheim patch and plant.",
+        "Use Xeric's Talisman or a skills necklace to reach Hosidius, Weiss, and the Farming Guild patches and plant at each.",
+        "Wait about 80 minutes, then revisit every patch in the same order to harvest grimy lantadyme with a spade and replant.",
+        "Bank the grimy herbs and start the next cycle."
+      ],
+      "alternatives": [
+        {
+          "title": "Single closest patch only (low effort)",
+          "steps": [
+            "Teleport to the Farming Guild via skills necklace or farming cape.",
+            "Rake, apply ultracompost, and plant one lantadyme seed.",
+            "Wait 80 minutes, then return to harvest and replant.",
+            "Bank the grimy lantadyme and repeat."
+          ],
+          "requires": {
+            "skills": [
+              {
+                "skill": "Farming",
+                "level": 73
+              }
+            ],
+            "quests": [],
+            "items": [
+              "Lantadyme seed",
+              "Seed dibber",
+              "Spade",
+              "Ultracompost"
+            ],
+            "notes": "Farming Guild patch needs 65 Farming to enter and is disease-free, so no plant cure is needed."
+          }
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Lantadyme"
+    },
+    {
+      "item": "Dwarf weed",
+      "id": 267,
+      "title": "Full 8-patch dwarf weed herb run",
+      "requires": {
+        "skills": [
+          {
+            "skill": "Farming",
+            "level": 79
+          }
+        ],
+        "quests": [],
+        "items": [
+          "Dwarf weed seed",
+          "Seed dibber",
+          "Spade",
+          "Ultracompost",
+          "Rake (or magic secateurs)"
+        ],
+        "notes": "Same herb-run circuit as other high-level herbs; disease-free patches (Trollheim, Hosidius with diary, Weiss, Farming Guild) avoid needing plant cure."
+      },
+      "ratePerHour": 88,
+      "steps": [
+        "Buy dwarf weed seeds and ultracompost from a Farming supplies shop.",
+        "Camelot Teleport or Catherby Teleport to the Catherby patch, rake, compost, and plant a seed.",
+        "Cast Ardougne Teleport or use the Ardougne cloak to reach the Ardougne North patch and plant.",
+        "Empty an Ectophial to Port Phasmatys and plant at the patch west of the undead farm.",
+        "Trollheim Teleport and take the agility shortcut downhill to the Trollheim patch and plant.",
+        "Use a skills necklace or Xeric's Talisman to visit Hosidius, Weiss, and the Farming Guild patches and plant at each.",
+        "Wait about 80 minutes, then revisit every patch to harvest grimy dwarf weed with a spade and replant.",
+        "Bank the grimy herbs and repeat."
+      ],
+      "alternatives": [],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Dwarf_weed"
+    },
+    {
+      "item": "Vial of water",
+      "id": 227,
+      "title": "Buy vials of water in bulk from a fishing shop",
+      "requires": {
+        "skills": [],
+        "quests": [],
+        "items": [
+          "Coins"
+        ],
+        "notes": "No Farming or gathering skill needed; this is a shop purchase, which is fine for ironmen (not the Grand Exchange)."
+      },
+      "ratePerHour": 3000,
+      "steps": [
+        "Teleport to the Fishing Guild (skills necklace) or Port Sarim (amulet of glory to Falador then walk, or house teleport).",
+        "Enter the Fishing Guild Shop or Gerrant's Fishy Business and buy vials for 2 coins each until the shop restocks are exhausted.",
+        "Withdraw more coins from the bank if needed and buy the next restock batch.",
+        "Repeat over several trips, since shop stock regenerates over time, or fill empty vials directly at any water source (sink, fountain, well) as a free zero-cost alternative."
+      ],
+      "alternatives": [
+        {
+          "title": "Fill empty vials at a water source",
+          "steps": [
+            "Buy or obtain empty vials from a general store.",
+            "Stand next to any water source (kitchen sink, fountain, well, river) near a bank, such as the Falador kitchen sink.",
+            "Use each empty vial on the water source to fill it, one tick per vial.",
+            "Bank the filled vials and repeat."
+          ],
+          "requires": {
+            "skills": [],
+            "quests": [],
+            "items": [
+              "Empty vials"
+            ],
+            "notes": "Free but slower and more click-intensive than buying pre-filled vials."
+          }
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Vial_of_water"
+    },
+    {
+      "item": "Coconut milk",
+      "id": 5935,
+      "title": "Grow palm trees for coconuts, then craft coconut milk",
+      "requires": {
+        "skills": [
+          {
+            "skill": "Farming",
+            "level": 68
+          }
+        ],
+        "quests": [],
+        "items": [
+          "Palm sapling",
+          "Spade",
+          "Papaya fruit (x15, to pay gardener)",
+          "Hammer",
+          "Knife",
+          "Empty vials"
+        ],
+        "notes": "A fully grown palm tree yields one coconut every 40 minutes, up to 6 per tree, so plant at multiple fruit tree patches to keep a steady supply."
+      },
+      "ratePerHour": 40,
+      "steps": [
+        "Plant a palm sapling in a fruit tree patch (e.g. Catherby or Tree Gnome Stronghold) and pay the gardener 15 papaya fruit to protect it.",
+        "Wait for the tree to fully mature (several days of growth stages), checking back periodically.",
+        "Return every 40 minutes or so and pick up to 6 coconuts per tree, replanting once it dies.",
+        "Crack each coconut open with a hammer to make a half coconut, discarding or keeping the coconut shell.",
+        "Use the half coconut on an empty vial to produce a vial of coconut milk and a supercompostable coconut shell.",
+        "Bank the finished coconut milk and repeat with the next batch of coconuts."
+      ],
+      "alternatives": [],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Coconut_milk"
+    },
+    {
+      "item": "Papaya fruit",
+      "id": null,
+      "title": "Grow papaya trees at a fruit tree patch",
+      "requires": {
+        "skills": [
+          {
+            "skill": "Farming",
+            "level": 57
+          }
+        ],
+        "quests": [],
+        "items": [
+          "Papaya tree seed",
+          "Spade",
+          "Basket (x10 pineapples, to pay gardener)"
+        ],
+        "notes": "Papaya fruit does not currently exist as an item entry in materials.json, so no numeric id is available; verify against the live game/wiki if this changes."
+      },
+      "ratePerHour": null,
+      "steps": [
+        "Buy papaya tree seeds from a Farming shop and pay a gardener 10 pineapples to protect the tree while it grows.",
+        "Plant the seed at a fruit tree patch, e.g. Catherby (Catherby Teleport) or Tree Gnome Stronghold (spirit tree).",
+        "Wait for the tree to grow through its stages (roughly 16 hours total), checking in periodically.",
+        "Return once mature and pick papaya fruit from the tree with a spade, then bank it.",
+        "Replant a new seed immediately to keep the patch producing.",
+        "Repeat at additional fruit tree patches (Lletya, Farming Guild at 85 Farming) to run several trees in parallel."
+      ],
+      "alternatives": [
+        {
+          "title": "Kill Kurask for noted papayas",
+          "steps": [
+            "Travel to a Kurask spawn (e.g. Slayer Tower, requires Kurask Slayer task or no Slayer requirement to simply kill them).",
+            "Kill Kurask; they drop noted papaya fruit at roughly 1 per 3 kills.",
+            "Bank the noted papayas."
+          ],
+          "requires": {
+            "skills": [],
+            "quests": [],
+            "items": [
+              "Weapon capable of harming Kurask (leaf-bladed weapon or slash attack)"
+            ],
+            "notes": "Slow and combat-dependent; mainly useful as a side source while training combat/Slayer."
+          }
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Papaya_fruit"
+    },
+    {
+      "item": "Poison ivy berries",
+      "id": 6018,
+      "title": "Grow poison ivy at a bush patch",
+      "requires": {
+        "skills": [
+          {
+            "skill": "Farming",
+            "level": 70
+          }
+        ],
+        "quests": [],
+        "items": [
+          "Poison ivy seed",
+          "Spade"
+        ],
+        "notes": "Poison ivy is hardy and needs no gardener payment or protection; berries take about 80 minutes to regrow after picking."
+      },
+      "ratePerHour": 30,
+      "steps": [
+        "Buy poison ivy seeds from a Farming shop.",
+        "Teleport to a bush patch region such as Falador (via explorer's ring or Falador Teleport) or Draynor (amulet of glory).",
+        "Plant a poison ivy seed in the bush patch with a spade; no compost or gardener payment is required.",
+        "Wait roughly 160 minutes for the bush to fully mature.",
+        "Return and pick poison ivy berries from the bush with a spade; berries regrow roughly every 80 minutes after picking.",
+        "Plant seeds at additional bush patches (e.g. Fremennik or Kourend regions) to increase throughput.",
+        "Bank the berries and revisit patches periodically to keep harvesting regrowth."
+      ],
+      "alternatives": [],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Poison_ivy_berries"
+    },
+    {
+      "item": "Grapes",
+      "id": 1987,
+      "title": "Grow grapes at the Hosidius Vinery",
+      "requires": {
+        "skills": [
+          {
+            "skill": "Farming",
+            "level": 36
+          }
+        ],
+        "quests": [],
+        "items": [
+          "Grape seed",
+          "Saltpetre",
+          "Spade"
+        ],
+        "notes": "The Hosidius Vinery is the only vine patch in the game; Gallow watches the vines so they never catch disease. Vines die once all grapes are picked and cannot be revived."
+      },
+      "ratePerHour": 60,
+      "steps": [
+        "Buy grape seeds and saltpetre from the Hosidius Farming shop or general store.",
+        "Teleport to Hosidius using Xeric's Talisman, a spirit tree, or a Kourend teleport.",
+        "Treat the vine patch with saltpetre, then plant a grape seed in it.",
+        "Wait about 35 minutes for the vines to fully grow.",
+        "Pick all the grapes from the vine; each harvest yields at least 5 grapes but the vine dies once fully picked.",
+        "Replant a fresh grape seed with saltpetre to start the next batch, and bank the grapes."
+      ],
+      "alternatives": [
+        {
+          "title": "Pickpocket wine-laden market stalls",
+          "steps": [
+            "Find a market stall that stocks wine (Thieving, level 22).",
+            "Steal from the stall repeatedly, occasionally receiving grapes among the loot.",
+            "Bank the grapes obtained."
+          ],
+          "requires": {
+            "skills": [
+              {
+                "skill": "Thieving",
+                "level": 22
+              }
+            ],
+            "quests": [],
+            "items": [],
+            "notes": "Much slower and shared with other stall loot; only useful as a low-level fallback before 36 Farming."
+          }
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Grapes"
+    },
+    {
+      "item": "Soft clay",
+      "id": 1761,
+      "title": "Mine clay and soften it with water at a bank-adjacent site",
+      "requires": {
+        "skills": [
+          {
+            "skill": "Mining",
+            "level": 1
+          }
+        ],
+        "quests": [],
+        "items": [
+          "Pickaxe",
+          "Bucket (or jug/bowl/vial) of water",
+          "Bank nearby recommended"
+        ],
+        "notes": "Mining clay rocks yields regular clay, which must then have a water source used on it to become soft clay; Trahaearn mine in Prifddinas has dedicated soft clay rocks giving 2 per action with a bracelet of clay equipped, but requires Prifddinas access (Song of the Elves)."
+      },
+      "ratePerHour": 1000,
+      "steps": [
+        "Teleport near a clay rock site with water and a bank nearby, e.g. the Barbarian Village mine or the Al Kharid mine.",
+        "Mine clay rocks with a pickaxe until your inventory is full of clay.",
+        "Use a bucket of water (or jug/bowl/vial) on each clay to turn it into soft clay, or cast Humidify (68 Magic, Dream Mentor) to soften an entire inventory at once.",
+        "Bank the soft clay and return to mine more.",
+        "If Prifddinas is unlocked, mine the dedicated soft clay rocks in the Trahaearn mine instead, wearing a bracelet of clay for double yield per action."
+      ],
+      "alternatives": [
+        {
+          "title": "Buy soft clay packs with minigame currency",
+          "steps": [
+            "Play the Motherlode Mine to earn golden nuggets, then buy soft clay packs of 100 from Prospector Percy's Nugget Shop.",
+            "Alternatively, mine stardust from Mining Guild rocks and buy soft clay packs from Dusuri's Star Shop.",
+            "Bank the soft clay packs."
+          ],
+          "requires": {
+            "skills": [
+              {
+                "skill": "Mining",
+                "level": 30
+              }
+            ],
+            "quests": [],
+            "items": [
+              "Golden nuggets or stardust"
+            ],
+            "notes": "Faster per-trip than manual mining once the minigame currency is stockpiled, but requires playing the minigame first."
+          }
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Soft_clay"
+    },
+    {
+      "item": "Feather",
+      "id": 314,
+      "title": "Buy feathers from the Fishing Guild Shop",
+      "requires": {
+        "skills": [],
+        "quests": [],
+        "items": [
+          "Coins"
+        ],
+        "notes": "Fishing Guild access requires 68 Fishing, but the shop itself can be entered without fishing there; buy limit is per shop stock, not a global GE limit."
+      },
+      "ratePerHour": 1500,
+      "steps": [
+        "Teleport to the Fishing Guild using a skills necklace.",
+        "Enter the Fishing Guild Shop and buy feathers for 2 coins each until the stock (up to 1500) is depleted.",
+        "Bank the feathers and wait for the shop to restock, or visit another feather-selling shop such as Gerrant's Fishy Business in Port Sarim or the Fremennik Fish Monger in Rellekka.",
+        "Repeat across multiple shops and restock cycles to accumulate large quantities."
+      ],
+      "alternatives": [
+        {
+          "title": "Loot feathers from chickens",
+          "steps": [
+            "Find a chicken pen, such as the one south of Falador or at Lumbridge.",
+            "Kill chickens; they drop 5-15 feathers on a roughly 1/2 chance.",
+            "Bank the feathers and repeat, since chickens are low-level and respawn quickly."
+          ],
+          "requires": {
+            "skills": [],
+            "quests": [],
+            "items": [
+              "Any weapon"
+            ],
+            "notes": "Slower than shop buying but free and useful while also training early combat."
+          }
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Feather"
+    },
+    {
+      "item": "Raw shark",
+      "id": 383,
+      "title": "Harpoon sharks at Catherby (or Burgh de Rott)",
+      "requires": {
+        "skills": [
+          {
+            "skill": "Fishing",
+            "level": 76
+          }
+        ],
+        "quests": [],
+        "items": [
+          "Harpoon (dragon or crystal harpoon is faster)"
+        ],
+        "notes": "Shark lure increases catch rate but reduces Fishing XP per catch; skip it if XP matters more than volume. A 96 Fishing/76 Strength bare-handed method exists as an alternative below."
+      },
+      "ratePerHour": 90,
+      "steps": [
+        "Teleport to Catherby (house teleport, Camelot teleport tab plus a short walk, or fairy ring code DIQ).",
+        "Equip a harpoon and walk onto the fishing spot on the Catherby dock.",
+        "Fish the spot until your inventory is full, keeping any rare big shark catches.",
+        "Bank at the Catherby bank just south of the dock, then return to the spot and repeat."
+      ],
+      "alternatives": [
+        {
+          "title": "Bare-handed shark fishing at Burgh de Rott",
+          "steps": [
+            "Complete Priest in Peril for Burgh de Rott access, then teleport there with the Ectophial or a games necklace/boat route.",
+            "Start the second part of Barbarian Training with Otto Godblessed to unlock bare-handed fishing.",
+            "Fish sharks by hand at the riverside spot (requires 96 Fishing and 76 Strength) and bank at Burgh de Rott."
+          ],
+          "requires": {
+            "skills": [
+              {
+                "skill": "Fishing",
+                "level": 96
+              },
+              {
+                "skill": "Strength",
+                "level": 76
+              }
+            ],
+            "quests": [
+              "Priest in Peril",
+              "Barbarian Training (started)"
+            ],
+            "items": []
+          }
+        },
+        {
+          "title": "Minnow exchange at the Fishing Guild",
+          "steps": [
+            "Reach 82+ Fishing and teleport to the Fishing Guild (skills necklace).",
+            "Net minnows at Kylie Minnow's platform, which does not need a harpoon.",
+            "Trade 40 minnows to Kylie Minnow for 1 noted raw shark; this yields roughly 375-625 sharks/hour depending on level, far faster than direct fishing."
+          ],
+          "requires": {
+            "skills": [
+              {
+                "skill": "Fishing",
+                "level": 82
+              }
+            ],
+            "quests": [],
+            "items": [
+              "Small fishing net"
+            ]
+          }
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Raw_shark"
+    },
+    {
+      "item": "Raw karambwan",
+      "id": 3142,
+      "title": "Fish karambwan with a vessel at Karamja",
+      "requires": {
+        "skills": [
+          {
+            "skill": "Fishing",
+            "level": 65
+          }
+        ],
+        "quests": [
+          "Tai Bwo Wannai Trio (fishing portion)"
+        ],
+        "items": [
+          "Karambwan vessel",
+          "Raw karambwanji (bait)"
+        ],
+        "notes": "Raw karambwanji is untradeable and must be caught yourself (level 5 Fishing, small fishing net) at Holy Lake south of Tai Bwo Wannai before you can bait the vessel."
+      },
+      "ratePerHour": 500,
+      "steps": [
+        "Net a supply of raw karambwanji at Holy Lake, south of Tai Bwo Wannai, using a small fishing net.",
+        "Walk (or fairy-ring to code CKR then walk) to the karambwan fishing spots north of the Karamja Shipyard.",
+        "Load the vessel with karambwanji and use it on the fishing spot; the vessel auto-reloads from your inventory after each catch.",
+        "When your inventory fills, bank via fairy ring code DJR near the Shayzien bank chest (if fairy rings are unlocked) or walk back to the Brimhaven bank, then return and repeat."
+      ],
+      "alternatives": [
+        {
+          "title": "Fish karambwan at sea from a raft",
+          "steps": [
+            "Sail a raft out to the boat fishing spot for karambwan to benefit from the raft's cargo hold on longer trips.",
+            "Fish as normal with a baited vessel; return to shore to bank once the cargo hold is full."
+          ],
+          "requires": {
+            "skills": [
+              {
+                "skill": "Fishing",
+                "level": 65
+              }
+            ],
+            "quests": [
+              "Tai Bwo Wannai Trio (fishing portion)"
+            ],
+            "items": [
+              "Karambwan vessel",
+              "Raw karambwanji",
+              "Raft access"
+            ]
+          }
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Raw_karambwan"
+    },
+    {
+      "item": "Bones",
+      "id": 526,
+      "title": "Farm bulk bones from Lumbridge chickens",
+      "requires": {
+        "skills": [],
+        "quests": [],
+        "items": [
+          "Any weapon"
+        ],
+        "notes": "No Combat or Fishing level is needed; this is about the fastest low-effort bone drop rate next to a bank, not a specific wiki-cited spot."
+      },
+      "ratePerHour": 700,
+      "steps": [
+        "Teleport to Lumbridge (home teleport or Lumbridge teleport tab).",
+        "Walk to the chicken pens just north-west of Lumbridge Castle.",
+        "Kill chickens continuously; they die in 1-2 hits and always drop bones, feathers, and raw chicken, with a fast respawn.",
+        "Return to the Lumbridge Castle bank (top floor) to deposit bones once your inventory is full, then repeat."
+      ],
+      "alternatives": [
+        {
+          "title": "Al Kharid warriors",
+          "steps": [
+            "Teleport to Al Kharid (Duel Arena/Al Kharid teleport tab or the Ring of dueling).",
+            "Kill the level 8 Al Kharid warriors just outside the Al Kharid bank; they drop bones frequently and die quickly.",
+            "Bank at the Al Kharid bank between kills."
+          ],
+          "requires": {
+            "skills": [],
+            "quests": [],
+            "items": [
+              "Any weapon"
+            ]
+          }
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Bones"
+    },
+    {
+      "item": "Dragon bones",
+      "id": 536,
+      "title": "Kill blue dragons in Taverley Dungeon",
+      "requires": {
+        "skills": [
+          {
+            "skill": "Combat",
+            "level": 60
+          }
+        ],
+        "quests": [],
+        "items": [
+          "Anti-dragon shield or Protect from Magic prayer",
+          "Antipoison (if not using the Agility shortcut)"
+        ],
+        "notes": "Blue dragons breathe both magic-based dragonfire and poison; safespot or pray Protect from Magic and bring antipoison."
+      },
+      "ratePerHour": 150,
+      "steps": [
+        "Teleport to Falador (or Taverley).",
+        "Enter Taverley Dungeon; take the 70 Agility pipe shortcut to skip the poison spiders, or walk past them with antipoison.",
+        "Fight the blue dragons in the dragon room from a safespot or while praying Protect from Magic, killing them for their bone and scale drops.",
+        "Teleport back to Falador to bank and repeat."
+      ],
+      "alternatives": [
+        {
+          "title": "Ensouled dragon head reanimation (Prayer XP, not the Dragon bones item)",
+          "steps": [
+            "Collect Ensouled dragon heads as an occasional drop while killing chromatic dragons such as the blue dragons above.",
+            "Cast Master Reanimation from the Arceuus spellbook (requires 90 Magic and 4 Soul, 2 Blood, 4 Nature runes) on the head where it dropped, or take it to the Dark Altar in Arceuus if it has passed through a bank/trade screen.",
+            "Kill the reanimated dragon that spawns (it breathes fire, so use a safespot or dragonfire protection) for 1,560 Prayer experience per head."
+          ],
+          "requires": {
+            "skills": [
+              {
+                "skill": "Magic",
+                "level": 90
+              }
+            ],
+            "quests": [
+              "Arceuus spellbook unlocked"
+            ],
+            "items": [
+              "4x Soul rune",
+              "2x Blood rune",
+              "4x Nature rune per cast"
+            ],
+            "notes": "This grants Prayer XP directly and does not produce the Dragon bones item itself; use it only if the goal is Prayer training rather than restocking bones for other uses (e.g. gilded altar offerings elsewhere)."
+          }
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Dragon_bones"
+    },
+    {
+      "item": "Plank",
+      "id": 960,
+      "title": "Chop your own logs and convert them at a Sawmill",
+      "requires": {
+        "skills": [
+          {
+            "skill": "Woodcutting",
+            "level": 1
+          }
+        ],
+        "quests": [],
+        "items": [
+          "Axe",
+          "Coins (100gp per log)"
+        ],
+        "notes": "The Sawmill charges a flat gp fee per log, not a Grand Exchange trade, so it is fully iron-friendly."
+      },
+      "ratePerHour": 250,
+      "steps": [
+        "Chop a stack of regular logs from any nearby tree, e.g. the trees around Varrock or Barbarian Village.",
+        "Walk to the Sawmill (the Lumber Yard south-east of Barbarian Village, south of Varrock).",
+        "Use the sawmill operator's Buy-plank option (or the log hopper) to convert logs to planks for 100 coins each.",
+        "Deposit the planks at the Sawmill's bank chest, then repeat."
+      ],
+      "alternatives": [
+        {
+          "title": "Cast Plank Make from the bank",
+          "steps": [
+            "Complete Dream Mentor and reach 86 Magic to unlock the Plank Make spell on the Lunar spellbook.",
+            "Withdraw logs, 70gp per log, and the Nature/Astral/Earth runes needed at any bank.",
+            "Cast Plank Make repeatedly on your logs to convert them to planks without ever visiting a physical sawmill."
+          ],
+          "requires": {
+            "skills": [
+              {
+                "skill": "Magic",
+                "level": 86
+              }
+            ],
+            "quests": [
+              "Dream Mentor"
+            ],
+            "items": [
+              "Logs",
+              "Coins (70gp/log)",
+              "Nature rune",
+              "Astral rune x2",
+              "Earth rune x15"
+            ]
+          }
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Plank"
+    },
+    {
+      "item": "Teak logs",
+      "id": 6333,
+      "title": "Cut the teak tree south-west of Castle Wars",
+      "requires": {
+        "skills": [
+          {
+            "skill": "Woodcutting",
+            "level": 35
+          }
+        ],
+        "quests": [],
+        "items": [
+          "Axe"
+        ],
+        "notes": "This single tree is unrestricted (no diary/quest gate) and reachable purely with a Ring of dueling."
+      },
+      "ratePerHour": 300,
+      "steps": [
+        "Teleport to Castle Wars using a Ring of dueling.",
+        "Walk south-west to the teak tree in the woodland near the arena (or use fairy ring code BKP if unlocked, then walk west).",
+        "Chop the teak tree until your inventory is full.",
+        "Walk back to the Castle Wars bank (or the Shayzien Encampment bank via fairy ring DJR, which is closer) to deposit logs, then return and repeat."
+      ],
+      "alternatives": [
+        {
+          "title": "Grow teak trees on Fossil Island",
+          "steps": [
+            "Reach 35 Farming and unlock Fossil Island.",
+            "Plant up to three teak saplings in the hardwood farming patch there.",
+            "Return after they mature to chop them right next to the Fossil Island bank, avoiding travel time entirely."
+          ],
+          "requires": {
+            "skills": [
+              {
+                "skill": "Farming",
+                "level": 35
+              },
+              {
+                "skill": "Woodcutting",
+                "level": 35
+              }
+            ],
+            "quests": [],
+            "items": [
+              "Teak sapling"
+            ]
+          }
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Teak_logs"
+    },
+    {
+      "item": "Mahogany logs",
+      "id": 6332,
+      "title": "Cut mahogany trees north of the Farming Guild",
+      "requires": {
+        "skills": [
+          {
+            "skill": "Woodcutting",
+            "level": 50
+          }
+        ],
+        "quests": [],
+        "items": [
+          "Axe"
+        ],
+        "notes": "These trees are not inside the Woodcutting Guild (which has no teak/mahogany trees) \u2014 they are an outdoor cluster in Hosidius, north of the Farming Guild building."
+      },
+      "ratePerHour": 180,
+      "steps": [
+        "Teleport to Kourend Castle (Kourend teleport spell or a Kourend teleport tab), or take a spirit tree to the Farming Guild if that destination is unlocked.",
+        "Walk north to the mahogany tree cluster just north of the Farming Guild.",
+        "Chop the trees until your inventory is full.",
+        "Return to the nearest bank (Farming Guild bank if you have 45 Farming, otherwise Hosidius Kitchen bank chest) to deposit, then repeat."
+      ],
+      "alternatives": [
+        {
+          "title": "Grow mahogany trees on Fossil Island",
+          "steps": [
+            "Reach 55 Farming and unlock Fossil Island's hardwood patch.",
+            "Plant mahogany saplings and return once grown.",
+            "Chop the mature trees right beside the Fossil Island bank."
+          ],
+          "requires": {
+            "skills": [
+              {
+                "skill": "Farming",
+                "level": 55
+              },
+              {
+                "skill": "Woodcutting",
+                "level": 50
+              }
+            ],
+            "quests": [],
+            "items": [
+              "Mahogany sapling"
+            ]
+          }
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Mahogany_logs"
+    },
+    {
+      "item": "Bow string",
+      "id": 1777,
+      "title": "Pick and spin flax at Seers' Village",
+      "requires": {
+        "skills": [
+          {
+            "skill": "Crafting",
+            "level": 10
+          }
+        ],
+        "quests": [],
+        "items": [],
+        "notes": "Completing the medium Kandarin Diary spins flax 33% faster at this spinning wheel."
+      },
+      "ratePerHour": 650,
+      "steps": [
+        "Teleport to Camelot (Camelot teleport spell or a teleport tab) to arrive in Seers' Village.",
+        "Walk to the flax field just south of the bank and pick a full inventory of flax.",
+        "Walk into the spinning wheel building near the bank and spin the flax into bow strings.",
+        "Bank the bow strings and repeat; expect around 650 bow strings/hour combining picking and spinning."
+      ],
+      "alternatives": [
+        {
+          "title": "Temple Trekking (best for early/mid-game ironmen)",
+          "steps": [
+            "Start Temple Trekking at the Burgh de Rott swamp entrance with minimal supplies.",
+            "Pick the easiest route and follower to avoid combat encounters entirely.",
+            "Complete treks for bow string rewards, averaging about 3,000/hour (up to 5,000/hour using run-energy potions and a plank sack for bridges)."
+          ],
+          "requires": {
+            "skills": [],
+            "quests": [
+              "Priest in Peril"
+            ],
+            "items": []
+          }
+        },
+        {
+          "title": "Spin Flax spell with bales of flax",
+          "steps": [
+            "Complete Lunar Diplomacy and reach 76 Magic (61 Crafting) to unlock the Spin Flax spell.",
+            "Obtain Bales of flax and a Bow string spool from the Vale Totems minigame.",
+            "Open a bale, cast Spin Flax five times using a rune pouch for reagents, then open the next bale; this can reach roughly 6,000 bow strings/hour."
+          ],
+          "requires": {
+            "skills": [
+              {
+                "skill": "Magic",
+                "level": 76
+              },
+              {
+                "skill": "Crafting",
+                "level": 61
+              }
+            ],
+            "quests": [
+              "Lunar Diplomacy"
+            ],
+            "items": [
+              "Bale of flax",
+              "Bow string spool",
+              "Rune pouch",
+              "Nature rune x2, Astral rune, Air rune x5 per cast"
+            ]
+          }
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Bow_string"
+    },
+    {
+      "item": "Yew logs",
+      "id": 1515,
+      "title": "Cut yew trees at Varrock West Bank",
+      "requires": {
+        "skills": [
+          {
+            "skill": "Woodcutting",
+            "level": 60
+          }
+        ],
+        "quests": [],
+        "items": [
+          "Axe"
+        ],
+        "notes": "No quest points needed, unlike the Woodcutting Guild alternative below."
+      },
+      "ratePerHour": 150,
+      "steps": [
+        "Teleport to Varrock (Varrock teleport spell or a teleport tab).",
+        "Walk to the two yew trees directly next to the Varrock West Bank.",
+        "Chop the trees, switching between the two if one is depleted, until your inventory is full.",
+        "Bank immediately at Varrock West (a few steps away) and repeat."
+      ],
+      "alternatives": [
+        {
+          "title": "Woodcutting Guild",
+          "steps": [
+            "Reach 60 Woodcutting and 60 Quest Points, then enter the Woodcutting Guild west of Draynor Village.",
+            "Head to the cluster of 17 yew trees inside; the guild gives an invisible +7 Woodcutting boost that speeds up cutting.",
+            "Use the bank deposit box inside the guild shop, a short walk from the yew trees, to deposit logs without leaving."
+          ],
+          "requires": {
+            "skills": [
+              {
+                "skill": "Woodcutting",
+                "level": 60
+              }
+            ],
+            "quests": [
+              "60 Quest Points"
+            ],
+            "items": [
+              "Axe"
+            ]
+          }
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Yew_logs"
+    },
+    {
+      "item": "Gold ore",
+      "id": 444,
+      "title": "Mine gold ore at the Shilo Village mine",
+      "requires": {
+        "skills": [
+          {
+            "skill": "Mining",
+            "level": 40
+          }
+        ],
+        "quests": [
+          "Shilo Village (started, for mine access)"
+        ],
+        "items": [
+          "Pickaxe"
+        ],
+        "notes": "Mining gloves (from Karamja Diary rewards) let a single rock yield extra ore before depleting."
+      },
+      "ratePerHour": 150,
+      "steps": [
+        "Teleport to Shilo Village using Karamja gloves (Karamja Diary reward) if unlocked, or travel by boat from Brimhaven/Cairn Isle after starting the Shilo Village quest.",
+        "Head to the cluster of gold rocks in the south-east section of the Shilo Village mine.",
+        "Mine gold ore, hopping between the adjacent rocks so you are never waiting on the ~60 second respawn of a single rock.",
+        "Bank at the Shilo Village bank chest (if the quest is complete) or teleport out with a games necklace/glory and return.",
+        "Optionally, smelt the ore into gold bars at the Blast Furnace in Keldagrim for fast Smithing XP, or buy extra gold ore there from Ordan's shop for a flat 225gp each if more supply is needed \u2014 both are gp-based, not Grand Exchange."
+      ],
+      "alternatives": [
+        {
+          "title": "Mining Guild",
+          "steps": [
+            "Reach 60 Mining and teleport directly into the Mining Guild with a skills necklace.",
+            "Mine the guild's gold rocks; wearing the Prospector kit doubles ore yield per rock while inside the guild.",
+            "Bank at the deposit box/bank chest inside the guild."
+          ],
+          "requires": {
+            "skills": [
+              {
+                "skill": "Mining",
+                "level": 60
+              }
+            ],
+            "quests": [],
+            "items": [
+              "Pickaxe",
+              "Prospector kit (optional, for double yield)"
+            ]
+          }
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Gold_ore"
+    },
+    {
+      "item": "Steel cannonball",
+      "id": 2,
+      "title": "Smith steel cannonballs near Falador or Keldagrim",
+      "requires": {
+        "skills": [
+          {
+            "skill": "Smithing",
+            "level": 35
+          }
+        ],
+        "quests": [
+          "Dwarf Cannon (at least partial completion, for the Ammo mould)"
+        ],
+        "items": [
+          "Steel bar",
+          "Ammo mould"
+        ],
+        "notes": "Steel bars are best obtained via the Blast Furnace (pay the coffer's per-bar fee, gp not GE) rather than smelting each one individually at a normal furnace."
+      },
+      "ratePerHour": 2160,
+      "steps": [
+        "Get a supply of steel bars, ideally by smelting iron ore and coal at the Blast Furnace in Keldagrim as a prerequisite step.",
+        "Walk to a furnace near a bank, e.g. the furnace in west Falador near the east bank, or the regular furnace right beside the Keldagrim bank.",
+        "Use Smith-All on your steel bars with the Ammo mould equipped to produce 4 steel cannonballs per bar.",
+        "Bank the cannonballs and repeat; at optimal speed this reaches roughly 2,160 cannonballs (540 bars) per hour."
+      ],
+      "alternatives": [
+        {
+          "title": "Double ammo mould at Grimstone Dungeon",
+          "steps": [
+            "Earn Foundry Reputation at the Giants' Foundry minigame and purchase a double ammo mould.",
+            "Reach 87 Sailing and use the ancient furnace in the Grimstone Dungeon, which halves cannonball-making time.",
+            "Smith steel bars two at a time into 8 cannonballs per cast, up to roughly 4x the normal single-mould rate."
+          ],
+          "requires": {
+            "skills": [
+              {
+                "skill": "Smithing",
+                "level": 35
+              },
+              {
+                "skill": "Sailing",
+                "level": 87
+              }
+            ],
+            "quests": [
+              "Dwarf Cannon"
+            ],
+            "items": [
+              "Double ammo mould",
+              "Steel bar"
+            ]
+          }
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Cannonball"
+    }
+  ]
+}

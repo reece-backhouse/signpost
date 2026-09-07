@@ -11750,6 +11750,22 @@
     },
     {
       "generic": false,
+      "id": 243,
+      "name": "Blue dragon scales",
+      "sources": [
+        {
+          "accountTypes": [
+            "main"
+          ],
+          "detail": "",
+          "type": "GE",
+          "where": "Grand Exchange"
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Blue_dragon_scales"
+    },
+    {
+      "generic": false,
       "id": 7331,
       "name": "Blue firelighter",
       "sources": [
@@ -67128,6 +67144,22 @@
         }
       ],
       "wikiUrl": "https://oldschool.runescape.wiki/w/Paddewwa_Teleport"
+    },
+    {
+      "generic": false,
+      "id": 5972,
+      "name": "Papaya fruit",
+      "sources": [
+        {
+          "accountTypes": [
+            "main"
+          ],
+          "detail": "",
+          "type": "GE",
+          "where": "Grand Exchange"
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Papaya_fruit"
     },
     {
       "generic": false,

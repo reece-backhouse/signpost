@@ -4,6 +4,8 @@ import dev.reece.nta.engine.model.ItemSource;
 import dev.reece.nta.kb.DiaryEntry;
 import dev.reece.nta.kb.DiaryRef;
 import dev.reece.nta.kb.DiaryTask;
+import dev.reece.nta.kb.GatheringPlan;
+import dev.reece.nta.kb.GatheringRequires;
 import dev.reece.nta.kb.ItemQuantity;
 import dev.reece.nta.kb.ItemReq;
 import dev.reece.nta.kb.KnowledgeBase;
@@ -43,6 +45,7 @@ final class KbBuilder
 	private final List<MilestoneSpec> milestoneSpecs = new ArrayList<>();
 	private final List<MethodSpec> methodSpecs = new ArrayList<>();
 	private final List<MaterialSpec> materialSpecs = new ArrayList<>();
+	private final List<GatheringPlanSpec> gatheringPlanSpecs = new ArrayList<>();
 	private final Map<String, Integer> priorityOverrides = new LinkedHashMap<>();
 
 	private QuestSpec currentQuest;
@@ -51,6 +54,7 @@ final class KbBuilder
 	private MilestoneSpec currentMilestone;
 	private MethodSpec currentMethod;
 	private MaterialSpec currentMaterial;
+	private GatheringPlanSpec currentGatheringPlan;
 
 	/**
 	 * Adds a tier with {@code taskCount} tasks, each completed via bit {@code ordinal - 1} of
@@ -264,6 +268,23 @@ final class KbBuilder
 		return this;
 	}
 
+	/** Starts a {@code gathering.json}-style plan chain (task 52a engine tests). */
+	KbBuilder gatheringPlan(String item, int id)
+	{
+		currentGatheringPlan = new GatheringPlanSpec(item, id);
+		gatheringPlanSpecs.add(currentGatheringPlan);
+		currentMethod = null;
+		currentMaterial = null;
+		return this;
+	}
+
+	/** Adds a skill requirement to the currently open gathering plan. */
+	KbBuilder requiresSkill(Skill skill, int level)
+	{
+		currentGatheringPlan.skills.add(new SkillReq(skill, level, false, false));
+		return this;
+	}
+
 	/** Sets a priority override for a goal id, applied instead of that goal's own priority. */
 	KbBuilder priorityOverride(String id, int priority)
 	{
@@ -472,7 +493,15 @@ final class KbBuilder
 			materials.add(new MaterialEntry(s.name, s.id, s.id == null, WikiUrls.forTitle(s.name), List.copyOf(s.sources)));
 		}
 
-		return KnowledgeBase.of(1, "test", 1, "test", quests, diaries, milestones, priorityOverrides, methods, materials);
+		List<GatheringPlan> gatheringPlans = new ArrayList<>();
+		for (GatheringPlanSpec s : gatheringPlanSpecs)
+		{
+			GatheringRequires requires = new GatheringRequires(List.copyOf(s.skills), null, List.of(), List.of(), null);
+			gatheringPlans.add(new GatheringPlan(s.item, s.id, "Gather " + s.item, requires, null, List.of("Go gather " + s.item + "."),
+				List.of(), WikiUrls.forTitle(s.item)));
+		}
+
+		return KnowledgeBase.of(1, "test", 1, "test", quests, diaries, milestones, priorityOverrides, methods, materials, gatheringPlans);
 	}
 
 	private static List<ItemQuantity> toItemQuantities(List<ItemQtyRef> refs, Map<Integer, String> materialNames)
@@ -608,6 +637,19 @@ final class KbBuilder
 		MaterialSpec(String name, Integer id)
 		{
 			this.name = name;
+			this.id = id;
+		}
+	}
+
+	private static final class GatheringPlanSpec
+	{
+		final String item;
+		final int id;
+		final List<SkillReq> skills = new ArrayList<>();
+
+		GatheringPlanSpec(String item, int id)
+		{
+			this.item = item;
 			this.id = id;
 		}
 	}
