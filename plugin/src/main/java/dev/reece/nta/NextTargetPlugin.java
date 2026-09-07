@@ -15,8 +15,8 @@ import dev.reece.nta.snapshot.DiaryTier;
 import dev.reece.nta.snapshot.Snapshot;
 import dev.reece.nta.snapshot.SnapshotCollector;
 import dev.reece.nta.store.AccountData;
+import dev.reece.nta.store.AccountDataMutations;
 import dev.reece.nta.store.AccountStore;
-import dev.reece.nta.store.Snooze;
 import dev.reece.nta.ui.NextTargetPanel;
 import dev.reece.nta.ui.SuggestPanel;
 import java.awt.image.BufferedImage;
@@ -26,7 +26,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Consumer;
+import java.util.function.UnaryOperator;
 import javax.inject.Inject;
 import javax.swing.SwingUtilities;
 import lombok.extern.slf4j.Slf4j;
@@ -134,11 +134,7 @@ public class NextTargetPlugin extends Plugin
 		runner.submit(() -> KnowledgeBase.load(gson), loaded ->
 		{
 			kb = loaded;
-			SwingUtilities.invokeLater(() ->
-			{
-				panel.showKbLoaded(loaded.getQuestsGeneratedAt(), loaded.getDiariesGeneratedAt());
-				panel.setKnowledgeBase(loaded);
-			});
+			SwingUtilities.invokeLater(() -> panel.showKbLoaded(loaded.getQuestsGeneratedAt(), loaded.getDiariesGeneratedAt()));
 		});
 	}
 
@@ -273,22 +269,10 @@ public class NextTargetPlugin extends Plugin
 			return;
 		}
 
-		AccountData data = accountData;
 		CachedBank bank = cachedBank;
-		if (data != null)
-		{
-			data.setBank(new HashMap<>(bank.getItems()));
-			data.setBankAsOf(bank.getAsOf());
-			// Hand the engine thread its own copy: `data` keeps being mutated on the client
-			// thread (e.g. by the next bank close) while this save is queued.
-			AccountData toSave = data.copy();
-			long hash = accountHash;
-			runner.submit(() ->
-			{
-				store.save(hash, toSave);
-				return null;
-			}, ignored -> { });
-		}
+		Map<Integer, Integer> items = new HashMap<>(bank.getItems());
+		Instant asOf = bank.getAsOf();
+		mutateAccountData(data -> AccountDataMutations.bank(data, items, asOf));
 
 		requestSnapshot();
 	}
@@ -323,19 +307,21 @@ public class NextTargetPlugin extends Plugin
 	}
 
 	// --- Panel actions (S4 ruling 5/19): invoked from the EDT by SuggestPanel's buttons. Each
-	// mutates a copy of accountData, saves it, and re-runs the engine against the CACHED snapshot
-	// (never re-collects from Client); if no snapshot has been taken yet, only the save happens. ---
+	// queues its data transform onto the engine executor via mutateAccountData, which serialises
+	// every accountData read-mutate-write (including the bank-close write in onWidgetClosed) on
+	// that single thread, saves, and re-runs the engine against the CACHED snapshot (never
+	// re-collects from Client); if no snapshot has been taken yet, only the save happens. ---
 
 	/** D5: "Do this" - sets the goal as the active focus. */
 	public void focus(String goalId)
 	{
-		mutateAccountData(data -> data.setFocusGoalId(goalId));
+		mutateAccountData(data -> AccountDataMutations.focus(data, goalId));
 	}
 
 	/** E7: "Clear focus" - returns to Suggest mode. */
 	public void clearFocus()
 	{
-		mutateAccountData(data -> data.setFocusGoalId(null));
+		mutateAccountData(AccountDataMutations::clearFocus);
 	}
 
 	/** D6: "Not now" - snoozes the goal for {@link NextTargetConfig#snoozeDays()}, recording the goal's current gap fingerprint so a later change ends the snooze early. */
@@ -344,43 +330,37 @@ public class NextTargetPlugin extends Plugin
 		GoalStatus status = statusFor(goalId);
 		String fingerprint = status != null ? GapFingerprint.of(status) : "";
 		Instant until = Instant.now().plus(config.snoozeDays(), ChronoUnit.DAYS);
-		mutateAccountData(data -> data.getSnoozes().put(goalId, new Snooze(until, fingerprint)));
+		mutateAccountData(data -> AccountDataMutations.snooze(data, goalId, until, fingerprint));
 	}
 
 	/** D6: "Bring back" - ends a snooze early. */
 	public void unsnooze(String goalId)
 	{
-		mutateAccountData(data -> data.getSnoozes().remove(goalId));
+		mutateAccountData(data -> AccountDataMutations.unsnooze(data, goalId));
 	}
 
 	/** D7: "Ignore" - hides the goal permanently until restored. */
 	public void ignore(String goalId)
 	{
-		mutateAccountData(data -> data.getIgnores().add(goalId));
+		mutateAccountData(data -> AccountDataMutations.ignore(data, goalId));
 	}
 
 	/** D7: "Restore" - un-hides a previously ignored goal. */
 	public void unignore(String goalId)
 	{
-		mutateAccountData(data -> data.getIgnores().remove(goalId));
+		mutateAccountData(data -> AccountDataMutations.unignore(data, goalId));
 	}
 
 	/** D8: "Pin" - the goal stays at the top regardless of score. */
 	public void pin(String goalId)
 	{
-		mutateAccountData(data ->
-		{
-			if (!data.getPins().contains(goalId))
-			{
-				data.getPins().add(goalId);
-			}
-		});
+		mutateAccountData(data -> AccountDataMutations.pin(data, goalId));
 	}
 
 	/** D8: "Unpin". */
 	public void unpin(String goalId)
 	{
-		mutateAccountData(data -> data.getPins().remove(goalId));
+		mutateAccountData(data -> AccountDataMutations.unpin(data, goalId));
 	}
 
 	private GoalStatus statusFor(String goalId)
@@ -400,41 +380,34 @@ public class NextTargetPlugin extends Plugin
 		return null;
 	}
 
-	private void mutateAccountData(Consumer<AccountData> mutator)
+	/**
+	 * Queues {@code mutator} onto the engine executor: every call - from a panel action or from
+	 * {@link #onWidgetClosed} - runs its read-mutate-write of {@link #accountData} there, so they
+	 * serialise against each other and against the executor's other work instead of racing a
+	 * client-thread or EDT write. Never touches {@link Client}.
+	 */
+	private void mutateAccountData(UnaryOperator<AccountData> mutator)
 	{
-		AccountData data = accountData;
-		if (data == null)
-		{
-			return;
-		}
-
-		AccountData copy = data.copy();
-		mutator.accept(copy);
-		accountData = copy;
-
 		long hash = accountHash;
-		Snapshot snapshot = cachedSnapshot;
-		KnowledgeBase loadedKb = kb;
 		Engine currentEngine = engine;
-
-		if (snapshot == null || loadedKb == null)
-		{
-			runner.submit(() ->
-			{
-				store.save(hash, copy);
-				return null;
-			}, ignored -> { });
-			return;
-		}
 
 		runner.submit(() ->
 		{
-			store.save(hash, copy);
-			return currentEngine.run(snapshot, loadedKb, copy, Instant.now());
+			AccountData current = accountData;
+			AccountData updated = mutator.apply(current != null ? current : AccountData.empty());
+			accountData = updated;
+			store.save(hash, updated);
+
+			Snapshot snapshot = cachedSnapshot;
+			KnowledgeBase loadedKb = kb;
+			return snapshot != null && loadedKb != null ? currentEngine.run(snapshot, loadedKb, updated, Instant.now()) : null;
 		}, advice ->
 		{
-			cachedAdvice = advice;
-			SwingUtilities.invokeLater(() -> panel.render(advice));
+			if (advice != null)
+			{
+				cachedAdvice = advice;
+				SwingUtilities.invokeLater(() -> panel.render(advice));
+			}
 		});
 	}
 }
