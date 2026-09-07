@@ -1,0 +1,183 @@
+package dev.reece.nta.engine;
+
+import dev.reece.nta.engine.model.Route;
+import dev.reece.nta.engine.model.RouteStep;
+import dev.reece.nta.kb.KnowledgeBase;
+import java.util.HashMap;
+import java.util.Map;
+import net.runelite.api.Experience;
+import net.runelite.api.Skill;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+/** Task 35: {@link RoutePlanner}, per spec ruling 15. */
+class RoutePlannerTest
+{
+	@Test
+	void switchesToTheHigherXpMethodExactlyAtItsUnlockLevelAndConsumesTheSharedMaterialOnceAcrossBoth()
+	{
+		KnowledgeBase kb = new KbBuilder()
+			.method(Skill.HERBLORE, "Prayer potion(3)", 1, 5)
+			.material(10, 1)
+			.method(Skill.HERBLORE, "Saradomin brew(3)", 2, 100)
+			.material(10, 1)
+			.build();
+		Map<Integer, Integer> bank = new HashMap<>();
+		bank.put(10, 10_000);
+
+		long toXp = Experience.getXpForLevel(3);
+		Route route = RoutePlanner.route(Skill.HERBLORE, 0, toXp, bank, kb);
+
+		assertEquals(2, route.getSteps().size());
+
+		RouteStep first = route.getSteps().get(0);
+		assertEquals("Prayer potion(3)", first.getMethod().getName());
+		assertEquals(1, first.getFromLevel());
+		assertEquals(2, first.getToLevel());
+		assertEquals(17, first.getCount());
+		assertEquals(17, first.getMaterialsUsed().get(10));
+
+		RouteStep second = route.getSteps().get(1);
+		assertEquals("Saradomin brew(3)", second.getMethod().getName());
+		assertEquals(2, second.getFromLevel());
+		assertEquals(1, second.getCount());
+		assertEquals(1, second.getMaterialsUsed().get(10));
+
+		assertEquals(0, route.getUncoveredXp());
+		assertEquals(185, route.getFinalXp());
+		assertEquals(10_000 - 18, route.getSimulatedBank().get(10));
+	}
+
+	@Test
+	void whenXpPerActionIsTiedTheLowerLevelReqMethodWins()
+	{
+		KnowledgeBase kb = new KbBuilder()
+			.method(Skill.HERBLORE, "Zzz", 1, 10)
+			.material(20, 1)
+			.method(Skill.HERBLORE, "Aaa", 2, 10)
+			.material(21, 1)
+			.build();
+		Map<Integer, Integer> bank = new HashMap<>();
+		bank.put(20, 1000);
+		bank.put(21, 1000);
+
+		Route route = RoutePlanner.route(Skill.HERBLORE, Experience.getXpForLevel(2), Experience.getXpForLevel(2) + 20, bank, kb);
+
+		assertEquals(1, route.getSteps().size());
+		assertEquals("Zzz", route.getSteps().get(0).getMethod().getName());
+	}
+
+	@Test
+	void whenXpPerActionAndLevelReqAreBothTiedNameAscendingWins()
+	{
+		KnowledgeBase kb = new KbBuilder()
+			.method(Skill.HERBLORE, "Bbb", 1, 10)
+			.material(20, 1)
+			.method(Skill.HERBLORE, "Aaa", 1, 10)
+			.material(21, 1)
+			.build();
+		Map<Integer, Integer> bank = new HashMap<>();
+		bank.put(20, 1000);
+		bank.put(21, 1000);
+
+		Route route = RoutePlanner.route(Skill.HERBLORE, 0, 20, bank, kb);
+
+		assertEquals(1, route.getSteps().size());
+		assertEquals("Aaa", route.getSteps().get(0).getMethod().getName());
+	}
+
+	@Test
+	void intermediateZeroXpMethodIsCraftedOneLevelToAffordARealMethodAndTheCraftIsRecorded()
+	{
+		KnowledgeBase kb = new KbBuilder()
+			.method(Skill.HERBLORE, "Make unf", 1, 0)
+			.material(1, 1)
+			.material(2, 1)
+			.output(3, 1)
+			.intermediate()
+			.method(Skill.HERBLORE, "Make potion", 1, 50)
+			.material(3, 1)
+			.output(4, 1)
+			.build();
+		Map<Integer, Integer> bank = new HashMap<>();
+		bank.put(1, 100);
+		bank.put(2, 100);
+
+		Route route = RoutePlanner.route(Skill.HERBLORE, 0, 150, bank, kb);
+
+		assertEquals(1, route.getSteps().size());
+		RouteStep step = route.getSteps().get(0);
+		assertEquals("Make potion", step.getMethod().getName());
+		assertEquals(3, step.getCount());
+		assertEquals(3, (int) step.getMaterialsUsed().get(3));
+
+		assertEquals(2, step.getCrafts().size());
+		int totalCrafted = step.getCrafts().stream().mapToInt(RouteStep::getCount).sum();
+		assertEquals(3, totalCrafted);
+		for (RouteStep craft : step.getCrafts())
+		{
+			assertEquals("Make unf", craft.getMethod().getName());
+			assertTrue(craft.getMethod().isIntermediate());
+		}
+
+		assertEquals(97, route.getSimulatedBank().get(1));
+		assertEquals(97, route.getSimulatedBank().get(2));
+		assertEquals(0, route.getSimulatedBank().getOrDefault(3, 0));
+		assertEquals(3, route.getSimulatedBank().get(4));
+		assertEquals(0, route.getUncoveredXp());
+	}
+
+	@Test
+	void noAffordableMethodProducesAnEmptyRouteWithTheFullXpDeltaUncovered()
+	{
+		KnowledgeBase kb = new KbBuilder()
+			.method(Skill.HERBLORE, "Prayer potion(3)", 1, 87.5)
+			.material(10, 1)
+			.build();
+		Map<Integer, Integer> bank = new HashMap<>();
+
+		Route route = RoutePlanner.route(Skill.HERBLORE, 0, 1000, bank, kb);
+
+		assertTrue(route.getSteps().isEmpty());
+		assertEquals(1000, route.getUncoveredXp());
+		assertEquals(0, route.getFinalXp());
+	}
+
+	@Test
+	void barbarianMixTypedMethodsAreExcludedEvenWhenTheyHaveTheHighestXp()
+	{
+		KnowledgeBase kb = new KbBuilder()
+			.method(Skill.HERBLORE, "Barbarian mix", 1, 1000)
+			.material(10, 1)
+			.type("Barbarian Mix")
+			.method(Skill.HERBLORE, "Normal potion", 1, 10)
+			.material(11, 1)
+			.build();
+		Map<Integer, Integer> bank = new HashMap<>();
+		bank.put(10, 1000);
+		bank.put(11, 1000);
+
+		Route route = RoutePlanner.route(Skill.HERBLORE, 0, 20, bank, kb);
+
+		assertEquals(1, route.getSteps().size());
+		assertEquals("Normal potion", route.getSteps().get(0).getMethod().getName());
+	}
+
+	@Test
+	void sameInputsProduceAnIdenticalRoute()
+	{
+		KnowledgeBase kb = new KbBuilder()
+			.method(Skill.HERBLORE, "Prayer potion(3)", 1, 87.5)
+			.material(10, 1)
+			.build();
+		Map<Integer, Integer> bank = new HashMap<>();
+		bank.put(10, 1000);
+
+		Route route1 = RoutePlanner.route(Skill.HERBLORE, 0, 1000, bank, kb);
+		Route route2 = RoutePlanner.route(Skill.HERBLORE, 0, 1000, bank, kb);
+
+		assertEquals(route1, route2);
+	}
+}
