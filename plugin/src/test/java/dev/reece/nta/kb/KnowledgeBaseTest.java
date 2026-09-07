@@ -368,4 +368,29 @@ class KnowledgeBaseTest
 			}
 		}
 	}
+
+	// --- Task 48: every milestone has a readiness bar, so none is "ready now" for free. ---
+
+	/**
+	 * Every milestone must have at least one of: a curated {@code recommended} profile, a quest or
+	 * diary requirement, or a skill requirement of level 40+. Without one of these, the milestone
+	 * scores its full priority as "ready now" for any account, regardless of how stage-appropriate
+	 * it actually is (task 48's motivating finding: Fire cape, Fighter torso, and Slayer helmet (i)
+	 * had none, crowding out stage-appropriate goals like Moons of Peril on a mid-game profile).
+	 */
+	@Test
+	void everyBundledMilestoneHasARecommendedProfileOrAQuestDiaryOrFortyPlusSkillRequirement()
+	{
+		KnowledgeBase kb = KnowledgeBase.load(new Gson());
+
+		List<String> offenders = kb.getMilestones().stream()
+			.filter(entry -> entry.getRecommended() == null)
+			.filter(entry -> entry.getQuests().isEmpty())
+			.filter(entry -> entry.getDiaries().isEmpty())
+			.filter(entry -> entry.getSkills().stream().noneMatch(s -> s.getLevel() >= 40))
+			.map(MilestoneEntry::getId)
+			.collect(java.util.stream.Collectors.toList());
+
+		assertTrue(offenders.isEmpty(), "milestones with no readiness bar at all: " + offenders);
+	}
 }
