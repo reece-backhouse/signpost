@@ -46,6 +46,15 @@ function toArray(table: LuaTable): LuaValue[] {
 
 const BARBARIAN_TYPE = /barbarian/i;
 
+/**
+ * The product of an action, if any: a skill-calc row is named after the item it acts on (bury "Dragon bones",
+ * burn "Yew logs", build with "Plank"), so an output that is also one of the materials is not a product at all -
+ * it would make the route planner's simulated bank self-replenishing. Such a method has no reusable output.
+ */
+function productOutputs(name: string, quantity: number, materials: MethodItem[]): MethodItem[] {
+  return materials.some((m) => m.name === name) ? [] : [{ name, quantity }];
+}
+
 /** Parses a `Module:Skill calc/<Skill>` wiki module into training methods, dropping Barbarian-mix entries (ruling 15). */
 export function parseSkillCalc(lua: string, skill: string): Method[] {
   const root = asTable(parseLua(lua), 'Module:Skill calc root');
@@ -73,7 +82,7 @@ export function parseSkillCalc(lua: string, skill: string): Method[] {
       levelReq: Number(entry.level),
       xpPerAction: Number(entry.xp),
       materials,
-      outputs: [{ name, quantity: 1 }],
+      outputs: productOutputs(name, 1, materials),
       types,
       members: String(entry.members) === 'Yes',
     });
@@ -125,14 +134,15 @@ export function mergeRecipes(methods: Method[], recipes: RecipeRow[]): Method[] 
     }
 
     if (Number(skillUse.experience) === 0) {
+      const materials = recipe.materials.map((m) => ({ name: m.name, quantity: Number(m.quantity) }));
       const intermediate: Method = {
         skill: skill!,
         name: recipe.output.name,
         title: recipe.output.name,
         levelReq: Number(skillUse.level),
         xpPerAction: 0,
-        materials: recipe.materials.map((m) => ({ name: m.name, quantity: Number(m.quantity) })),
-        outputs: [{ name: recipe.output.name, quantity: Number(recipe.output.quantity) }],
+        materials,
+        outputs: productOutputs(recipe.output.name, Number(recipe.output.quantity), materials),
         types: [],
         members: recipe.members,
         boostable: isYes(skillUse.boostable),

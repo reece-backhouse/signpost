@@ -25,6 +25,13 @@ describe('parseDiaryPage', () => {
     expect(task3.items).toEqual(['pickaxe']);
   });
 
+  it('skips [[File:...]] image links in a requirement cell instead of recording them as items or notes', () => {
+    const withImage = loadFixture('varrock.txt').replace('*Any [[pickaxe]]', '*[[File:Ironman chat badge.png]]\n*Any [[pickaxe]]');
+    const task3 = parseDiaryPage(withImage, 'VARROCK')[0]!.tasks.find((t) => t.ordinal === 3)!;
+    expect(task3.items).toEqual(['pickaxe']);
+    expect(task3.notes.some((n) => /badge/i.test(n))).toBe(false);
+  });
+
   it('Easy task 2 has quest "Rune Mysteries" and a note from its italic continuation line', () => {
     const easy = tiers[0]!;
     const task2 = easy.tasks.find((t) => t.ordinal === 2)!;

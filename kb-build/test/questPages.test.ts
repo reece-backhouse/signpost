@@ -38,6 +38,11 @@ describe('parseQuestPage', () => {
     expect(page.questPoints).toBe(4);
   });
 
+  it('skips [[File:...]] image links in the items list (they are pictures, not items)', () => {
+    const wikitext = ['{{Quest details', '|items = *[[File:Ultimate ironman chat badge.png]]', '*[[Pickaxe]]', '}}'].join('\n');
+    expect(parseQuestPage(wikitext).items).toEqual([{ name: 'Pickaxe', quantity: 1 }]);
+  });
+
   it('parses items, including a plain link and an "x N" quantity', () => {
     expect(page.items).toContainEqual({ name: 'Steel full helm', quantity: 1 });
     expect(page.items).toContainEqual({ name: 'Limestone brick', quantity: 8 });

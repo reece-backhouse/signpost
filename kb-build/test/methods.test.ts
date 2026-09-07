@@ -28,6 +28,18 @@ describe('parseSkillCalc', () => {
     expect(methods.find((m) => m.name === 'Attack mix(2)')).toBeUndefined();
   });
 
+  it('drops the output of an entry that consumes the item it is named after (bury/burn/build rows have no product)', () => {
+    const lua = `return {
+      { name = 'Dragon bones', level = 1, xp = 72, materials = { { name = 'Dragon bones', quantity = 1 } }, members = 'Yes', type = 'Regular' },
+      { name = 'Dragon bones', title = 'Dragon bones (Sinister Offering)', level = 1, xp = 648, materials = { { name = 'Dragon bones', quantity = 3 }, { name = 'Blood rune', quantity = 1 } }, members = 'Yes', type = 'Sinister Offering' },
+      { name = 'Light orb', level = 87, xp = 104, materials = { { name = 'Empty light orb', quantity = 1 }, { name = 'Cave goblin wire', quantity = 1 } }, members = 'Yes', type = 'Other' },
+    }`;
+    const methods = parseSkillCalc(lua, 'Prayer');
+
+    expect(methods.map((m) => m.outputs)).toEqual([[], [], [{ name: 'Light orb', quantity: 1 }]]);
+    expect(methods[1]?.materials).toHaveLength(2);
+  });
+
   it('defaults title to name when the calc entry has no title', () => {
     const methods = parseSkillCalc(loadFixture('calc_herb.lua'), 'Herblore');
     const guam = methods.find((m) => m.name === 'Guam leaf');
@@ -135,6 +147,18 @@ describe('mergeRecipes', () => {
 
     expect(matches).toHaveLength(2);
     expect(matches.every((m) => m.boostable === true && m.ticks === 2)).toBe(true);
+  });
+
+  it('drops a self-consuming output on an imported intermediate recipe too', () => {
+    const methods = parseSkillCalc(loadFixture('calc_herb.lua'), 'Herblore');
+    const selfRecipe: RecipeRow = {
+      ...unfRecipe,
+      materials: [{ quantity: '1', name: 'Ranarr potion (unf)' }],
+    };
+
+    const merged = mergeRecipes(methods, [selfRecipe]);
+
+    expect(merged.find((m) => m.name === 'Ranarr potion (unf)')?.outputs).toEqual([]);
   });
 
   it('does not import an intermediate recipe for a skill other than the methods being merged', () => {

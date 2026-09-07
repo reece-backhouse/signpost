@@ -23,6 +23,11 @@ export function boostableFromText(text: string): boolean {
 }
 
 const ITEM_LINE = new RegExp(`^\\*+${WIKILINK.source}(?:\\s*x\\s*(\\d+))?`);
+
+/** True for a `[[File:...]]`/`[[Image:...]]` link target: an inline picture (e.g. the ironman chat badge), never an item. */
+export function isImageLink(target: string): boolean {
+  return /^(?:File|Image):/i.test(target.trim());
+}
 const SKILL_REQ_LINE = new RegExp(`^\\*(?!\\*)${SCP_SKILL_TOKEN.source}`);
 const DIRECT_PREREQ_LINE = /^\*\*(?!\*)\[\[([^\]|]+)/;
 
@@ -97,7 +102,7 @@ function parseItems(value: string): ItemReq[] {
   const items: ItemReq[] = [];
   for (const line of value.split('\n')) {
     const match = ITEM_LINE.exec(line.trim());
-    if (match) {
+    if (match && !isImageLink(match[1]!)) {
       items.push({ name: match[1]!.trim(), quantity: match[2] ? Number(match[2]) : 1 });
     }
   }

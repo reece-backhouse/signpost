@@ -48,7 +48,15 @@ export interface Material {
   name: string;
   id: number | null;
   generic: boolean;
+  wikiUrl: string;
   sources: MaterialSource[];
+}
+
+const WIKI_BASE = 'https://oldschool.runescape.wiki/w/';
+
+/** The wiki page for an item name: spaces become underscores (the plugin builds goal urls the same way). */
+export function wikiUrlFor(name: string): string {
+  return WIKI_BASE + name.trim().replace(/ /g, '_');
 }
 
 interface QuestLike {
@@ -103,14 +111,23 @@ export interface ResolvedItem {
 
 /**
  * Resolves each name to an item id: exact case-insensitive match against the prices mapping first, then the
- * Bucket `item_id` rows (first *finite* id — a few real rows, e.g. removed Easter event items, carry only
- * non-numeric historical ids like "hist30710", which `main.ts` turns into `NaN` via `Number(...)`). A name
- * resolved by neither is emitted `{ id: null, generic: true }` rather than dropped — expected for prose item
- * references like "Any pickaxe".
+ * Bucket `item_id` rows (the lowest *finite* id across every row for that page — Bucket carries one row per id,
+ * so a page with variants like Dragon defender appears as several rows, and a few real rows, e.g. removed Easter
+ * event items, carry only non-numeric historical ids like "hist30710", which `main.ts` turns into `NaN` via
+ * `Number(...)`). A name resolved by neither is emitted `{ id: null, generic: true }` rather than dropped —
+ * expected for prose item references like "Any pickaxe".
  */
 export function resolveItemIds(names: string[], mapping: PriceMappingEntry[], itemIdRows: ItemIdRow[]): Map<string, ResolvedItem> {
   const byMappingName = new Map(mapping.map((entry) => [entry.name.toLowerCase(), entry.id]));
-  const byPageName = new Map(itemIdRows.map((row) => [row.page_name.toLowerCase(), row.id.find((id) => Number.isFinite(id))]));
+  const byPageName = new Map<string, number>();
+  for (const row of itemIdRows) {
+    const key = row.page_name.toLowerCase();
+    for (const id of row.id) {
+      if (!Number.isFinite(id)) continue;
+      const existing = byPageName.get(key);
+      if (existing === undefined || id < existing) byPageName.set(key, id);
+    }
+  }
 
   const resolved = new Map<string, ResolvedItem>();
   for (const name of names) {
@@ -241,7 +258,7 @@ export function buildMaterials(input: BuildMaterialsInput): Material[] {
       });
     }
 
-    return { name, id: res.id, generic: res.generic, sources };
+    return { name, id: res.id, generic: res.generic, wikiUrl: wikiUrlFor(name), sources };
   });
 
   for (const material of materials) {
