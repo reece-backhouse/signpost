@@ -126,7 +126,7 @@ public final class SnapshotCollector
 	 * those (and any other non-positive id or quantity) so they never reach a Snapshot map or an
 	 * {@code ItemManager.getItemComposition} lookup.
 	 */
-	static boolean isRealItem(Item item)
+	public static boolean isRealItem(Item item)
 	{
 		return item.getId() > 0 && item.getQuantity() > 0;
 	}
