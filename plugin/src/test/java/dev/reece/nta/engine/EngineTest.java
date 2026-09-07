@@ -1,5 +1,8 @@
 package dev.reece.nta.engine;
 
+import java.util.stream.Collectors;
+import java.util.List;
+import dev.reece.nta.engine.model.GoalStatus;
 import dev.reece.nta.engine.model.Advice;
 import dev.reece.nta.kb.KnowledgeBase;
 import dev.reece.nta.snapshot.DiaryTier;
@@ -35,7 +38,11 @@ class EngineTest
 		assertNotNull(advice.getComputedAt());
 
 		GapEngine gapEngine = new GapEngine(new BoostTable());
-		assertEquals(gapEngine.evaluate(snapshot, kb), advice.getStatuses());
+		// Task 51: statuses are the gap engine's, followed by the synthesised skill targets (spec ruling 28).
+		List<GoalStatus> base = gapEngine.evaluate(snapshot, kb);
+		assertEquals(base, advice.getStatuses().subList(0, base.size()));
+		assertEquals(List.of("skill:MINING:20"), advice.getStatuses().subList(base.size(), advice.getStatuses().size()).stream()
+			.map(s -> s.getGoal().getId()).collect(Collectors.toList()));
 		assertEquals(DiaryProgress.compute(snapshot, kb), advice.getDiaryProgress());
 	}
 }

@@ -60,7 +60,7 @@ public final class SuggestSelector
 			{
 				break;
 			}
-			if (!r.isLater() && !used.contains(id(r)) && !pairsWithAlreadyPicked(r, kb, used))
+			if (eligible(r) && !used.contains(id(r)) && !pairsWithAlreadyPicked(r, kb, used))
 			{
 				picked.add(r);
 				used.add(id(r));
@@ -134,7 +134,7 @@ public final class SuggestSelector
 	{
 		for (RankedGoal r : ranked)
 		{
-			if (!r.isLater() && !used.contains(id(r)) && category(r) != exclude && !pairsWithAlreadyPicked(r, kb, used))
+			if (eligible(r) && !used.contains(id(r)) && category(r) != exclude && !pairsWithAlreadyPicked(r, kb, used))
 			{
 				return r;
 			}
@@ -146,12 +146,18 @@ public final class SuggestSelector
 	{
 		for (RankedGoal r : ranked)
 		{
-			if (!r.isLater() && !used.contains(id(r)) && !pairsWithAlreadyPicked(r, kb, used))
+			if (eligible(r) && !used.contains(id(r)) && !pairsWithAlreadyPicked(r, kb, used))
 			{
 				return r;
 			}
 		}
 		return null;
+	}
+
+	/** Never a later goal (spec ruling 27) nor an uncovered skill target (fix round 1: it stays in {@link #rest}, below its parent). */
+	private static boolean eligible(RankedGoal r)
+	{
+		return !r.isLater() && !r.getStatus().isUncoveredTarget();
 	}
 
 	private static GoalCategory category(RankedGoal r)

@@ -60,8 +60,8 @@ class AdviceDiagnosticsTest
 		List<String> lines = AdviceDiagnostics.lines(advice);
 
 		assertEquals(4, lines.size(), lines.toString());
-		assertEquals("pick 1: boss:ready-pick \"Ready Pick\" tier=ready score=8.00 stage=1/2 gaps=0 why=\"ready why\"", lines.get(0));
-		assertEquals("pick 2: boss:rest-pick \"Rest Pick\" tier=rest score=3.50 stage=1/2 gaps=1 why=\"rest why\"", lines.get(1));
+		assertEquals("pick 1: boss:ready-pick \"Ready Pick\" tier=ready score=8.00 stage=1/2 gaps=0 why=\"ready why\" explain=\"Stats met: Attack 70 | Ready now\"", lines.get(0));
+		assertEquals("pick 2: boss:rest-pick \"Rest Pick\" tier=rest score=3.50 stage=1/2 gaps=1 why=\"rest why\" explain=\"Missing: combat 75 (have 70)\"", lines.get(1));
 		assertEquals("watch boss:moons-of-peril: done", lines.get(2));
 		assertEquals("watch boss:god-wars-dungeon: tier=later score=0.10 ready=false gaps=[gear:2/4, Prayer 34/43]", lines.get(3));
 	}
@@ -79,7 +79,11 @@ class AdviceDiagnosticsTest
 		whys.put("boss:rest-pick", "rest why");
 		whys.put("boss:god-wars-dungeon", "later why");
 
+		Map<String, List<String>> explanations = new LinkedHashMap<>();
+		explanations.put("boss:ready-pick", List.of("Stats met: Attack 70", "Ready now"));
+		explanations.put("boss:rest-pick", List.of("Missing: combat 75 (have 70)"));
+
 		PrefsView prefs = new PrefsView(Set.of(), List.of(), Set.of(), Set.of(), null);
-		return new Advice(new SnapshotBuilder().build(), statuses, Map.of(), NOW, ranked, picked, List.of(), accountStage, later, whys, Map.of(), prefs, null);
+		return new Advice(new SnapshotBuilder().build(), statuses, Map.of(), NOW, ranked, picked, List.of(), accountStage, later, whys, explanations, Map.of(), prefs, null);
 	}
 }

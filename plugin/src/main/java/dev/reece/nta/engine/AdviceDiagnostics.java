@@ -20,7 +20,8 @@ import java.util.List;
 /**
  * Task 50: pure formatting of one {@link Engine#run} result into human-readable log lines, so the
  * ranking decision behind the Suggest panel's top three is visible in the client log without a
- * debugger attached. One line per top-three pick, plus one line for every id in {@link #WATCH}
+ * debugger attached. One line per top-three pick (task 51: with its "Why?" explanation lines
+ * joined by " | "), plus one line for every id in {@link #WATCH}
  * regardless of whether it was picked - {@link dev.reece.nta.NextTargetPlugin} logs each line at
  * INFO. Pure: no {@link net.runelite.api.Client}, no I/O (global constraint: engine code is pure).
  */
@@ -52,10 +53,11 @@ public final class AdviceDiagnostics
 	{
 		Goal goal = r.getStatus().getGoal();
 		return String.format(
-			"pick %d: %s \"%s\" tier=%s score=%.2f stage=%d/%d gaps=%d why=\"%s\"",
+			"pick %d: %s \"%s\" tier=%s score=%.2f stage=%d/%d gaps=%d why=\"%s\" explain=\"%s\"",
 			n, goal.getId(), goal.getName(), tierName(r), r.getScore(),
 			goal.getStage(), advice.getAccountStage(), r.getStatus().getGaps().size(),
-			advice.getWhys().getOrDefault(goal.getId(), ""));
+			advice.getWhys().getOrDefault(goal.getId(), ""),
+			String.join(" | ", advice.getExplanations().getOrDefault(goal.getId(), List.of())));
 	}
 
 	private static String watchLine(String id, Advice advice)

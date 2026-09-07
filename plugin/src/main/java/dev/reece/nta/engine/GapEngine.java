@@ -11,6 +11,7 @@ import dev.reece.nta.engine.model.GoalStatus;
 import dev.reece.nta.engine.model.ItemGap;
 import dev.reece.nta.engine.model.ItemSource;
 import dev.reece.nta.engine.model.KudosGap;
+import dev.reece.nta.engine.model.Met;
 import dev.reece.nta.engine.model.QuestPointsGap;
 import dev.reece.nta.engine.model.QuestPrereqGap;
 import dev.reece.nta.engine.model.SkillLevelGap;
@@ -49,8 +50,9 @@ import net.runelite.api.Skill;
 
 /**
  * Pure function of {@link Snapshot} and {@link KnowledgeBase}: for every unfinished quest and
- * incomplete diary tier, works out exactly what's missing. No {@link net.runelite.api.Client}, no
- * I/O (global constraint: engine code is pure).
+ * incomplete diary tier, works out exactly what's missing - and (spec ruling 29) what's already
+ * met, as {@link Met} entries in the same order the requirements are checked. No
+ * {@link net.runelite.api.Client}, no I/O (global constraint: engine code is pure).
  */
 public final class GapEngine
 {
@@ -183,6 +185,7 @@ public final class GapEngine
 	private GoalStatus questGoalStatus(Quest quest, QuestEntry entry, Snapshot snapshot, KnowledgeBase kb)
 	{
 		List<Gap> gaps = new ArrayList<>();
+		List<Met> met = new ArrayList<>();
 		boolean isIron = snapshot.getAccountType().isIron();
 
 		for (SkillReq req : entry.getSkills())
@@ -191,7 +194,7 @@ public final class GapEngine
 			{
 				continue;
 			}
-			addSkillGapIfShort(gaps, snapshot, req);
+			addSkillGapIfShort(gaps, met, snapshot, req);
 		}
 
 		Map<String, QuestPrereqGap> prereqGaps = new LinkedHashMap<>();
@@ -202,31 +205,40 @@ public final class GapEngine
 		resolvePrereqs(entry.getPrereqs(), snapshot, kb, entry.getName(), true, prereqGaps, new ArrayList<>(), path);
 		resolveStartedPrereqs(entry.getPrereqsStarted(), snapshot, kb, entry.getName(), prereqGaps);
 		gaps.addAll(prereqGaps.values());
+		addMetPrereqs(met, entry.getPrereqs(), snapshot, false);
+		addMetPrereqs(met, entry.getPrereqsStarted(), snapshot, true);
 
 		List<String> notes = new ArrayList<>(entry.getPrereqNotes());
 		for (ItemReq req : entry.getItems())
 		{
-			addItemGapIfShort(gaps, notes, snapshot, kb, req.getName(), req.getQuantity());
+			addItemGapIfShort(gaps, met, notes, snapshot, kb, req.getName(), req.getQuantity());
 		}
 
-		if (entry.getQuestPointsRequired() != null && entry.getQuestPointsRequired() > snapshot.getQuestPoints())
+		if (entry.getQuestPointsRequired() != null)
 		{
-			gaps.add(new QuestPointsGap(snapshot.getQuestPoints(), entry.getQuestPointsRequired()));
+			addQuestPointsGapIfShort(gaps, met, snapshot, entry.getQuestPointsRequired());
 		}
-		if (entry.getKudosRequired() != null && entry.getKudosRequired() > snapshot.getKudos())
+		if (entry.getKudosRequired() != null)
 		{
-			gaps.add(new KudosGap(snapshot.getKudos(), entry.getKudosRequired()));
+			if (entry.getKudosRequired() > snapshot.getKudos())
+			{
+				gaps.add(new KudosGap(snapshot.getKudos(), entry.getKudosRequired()));
+			}
+			else
+			{
+				met.add(new Met(Met.Kind.KUDOS, "Kudos " + entry.getKudosRequired() + " (have " + snapshot.getKudos() + ")"));
+			}
 		}
-		if (entry.getCombatLevelRequired() != null && entry.getCombatLevelRequired() > snapshot.combatLevel())
+		if (entry.getCombatLevelRequired() != null)
 		{
-			gaps.add(new CombatLevelGap(snapshot.combatLevel(), entry.getCombatLevelRequired(), false));
+			addCombatGapIfShort(gaps, met, snapshot, entry.getCombatLevelRequired(), false);
 		}
 
 		String goalId = "quest:" + entry.getId();
 		int priority = kb.getPriorityOverrides().getOrDefault(goalId, QUEST_PRIORITY);
 		Goal goal = new Goal(goalId, GoalCategory.QUEST, entry.getName(), WikiUrls.forTitle(entry.getWikiTitle()),
 			priority, questStage(priority));
-		return toGoalStatus(goal, gaps, notes);
+		return toGoalStatus(goal, gaps, notes, met);
 	}
 
 	/**
@@ -246,12 +258,14 @@ public final class GapEngine
 		Integer gameCount = progress == null ? null : progress.getGameCount();
 		int total = entry.getTasks().size();
 
+		int done = 0;
 		if (gameCount == null || gameCount != total)
 		{
 			for (DiaryTask task : entry.getTasks())
 			{
 				if (task.getCompletion().isComplete(snapshot))
 				{
+					done++;
 					continue;
 				}
 				gaps.add(diaryTaskGap(task, snapshot, kb));
@@ -261,6 +275,11 @@ public final class GapEngine
 				notes.add("game reports " + gameCount + "/" + total + " done; one of these tasks is already complete");
 			}
 		}
+		// The game's own count is trusted over the bit map whenever it's known (see above).
+		int tasksDone = gameCount != null ? gameCount : done;
+		List<Met> met = tasksDone == 0
+			? List.of()
+			: List.of(new Met(Met.Kind.DIARY, tasksDone + " of " + total + " tasks done", tasksDone, total));
 
 		String area = diaryArea(tier);
 		String tierName = diaryTierName(tier);
@@ -268,12 +287,13 @@ public final class GapEngine
 		int priority = kb.getPriorityOverrides().getOrDefault(goalId, DIARY_PRIORITY);
 		Goal goal = new Goal(goalId, GoalCategory.DIARY, area + " " + tierName + " Diary",
 			WikiUrls.forTitle(area + " Diary"), priority, DIARY_STAGE.get(tier));
-		return toGoalStatus(goal, gaps, notes);
+		return toGoalStatus(goal, gaps, notes, met);
 	}
 
 	private DiaryTaskGap diaryTaskGap(DiaryTask task, Snapshot snapshot, KnowledgeBase kb)
 	{
 		List<Gap> inner = new ArrayList<>();
+		List<Met> innerMet = new ArrayList<>(); // A task is a gap node (ruling 16): its own met requirements are not surfaced.
 		boolean isIron = snapshot.getAccountType().isIron();
 
 		for (SkillReq req : task.getSkills())
@@ -282,7 +302,7 @@ public final class GapEngine
 			{
 				continue;
 			}
-			addSkillGapIfShort(inner, snapshot, req);
+			addSkillGapIfShort(inner, innerMet, snapshot, req);
 		}
 
 		Map<String, QuestPrereqGap> questGaps = new LinkedHashMap<>();
@@ -292,12 +312,12 @@ public final class GapEngine
 
 		for (String itemName : task.getItems())
 		{
-			addItemGapIfShort(inner, extraNotes, snapshot, kb, itemName, 1);
+			addItemGapIfShort(inner, innerMet, extraNotes, snapshot, kb, itemName, 1);
 		}
 
-		if (task.getCombatLevelRequired() != null && task.getCombatLevelRequired() > snapshot.combatLevel())
+		if (task.getCombatLevelRequired() != null)
 		{
-			inner.add(new CombatLevelGap(snapshot.combatLevel(), task.getCombatLevelRequired(), false));
+			addCombatGapIfShort(inner, innerMet, snapshot, task.getCombatLevelRequired(), false);
 		}
 
 		List<String> notes = new ArrayList<>(task.getNotes());
@@ -315,6 +335,7 @@ public final class GapEngine
 	private Optional<GoalStatus> milestoneGoalStatus(MilestoneEntry entry, Snapshot snapshot, KnowledgeBase kb)
 	{
 		List<Gap> gaps = new ArrayList<>();
+		List<Met> met = new ArrayList<>();
 		boolean isIron = snapshot.getAccountType().isIron();
 
 		for (SkillReq req : entry.getSkills())
@@ -323,12 +344,13 @@ public final class GapEngine
 			{
 				continue;
 			}
-			addSkillGapIfShort(gaps, snapshot, req);
+			addSkillGapIfShort(gaps, met, snapshot, req);
 		}
 
 		Map<String, QuestPrereqGap> prereqGaps = new LinkedHashMap<>();
 		resolvePrereqs(entry.getQuests(), snapshot, kb, entry.getName(), true, prereqGaps, new ArrayList<>(), new LinkedHashSet<>());
 		gaps.addAll(prereqGaps.values());
+		addMetPrereqs(met, entry.getQuests(), snapshot, false);
 
 		for (DiaryRef diaryRef : entry.getDiaries())
 		{
@@ -336,25 +358,29 @@ public final class GapEngine
 			{
 				gaps.add(new DiaryTierGap(diaryRef.getTier()));
 			}
+			else
+			{
+				met.add(new Met(Met.Kind.DIARY, diaryArea(diaryRef.getTier()) + " " + diaryTierName(diaryRef.getTier()) + " Diary"));
+			}
 		}
 
-		if (entry.getCombatLevel() != null && entry.getCombatLevel() > snapshot.combatLevel())
+		if (entry.getCombatLevel() != null)
 		{
-			gaps.add(new CombatLevelGap(snapshot.combatLevel(), entry.getCombatLevel(), false));
+			addCombatGapIfShort(gaps, met, snapshot, entry.getCombatLevel(), false);
 		}
-		if (entry.getQuestPoints() != null && entry.getQuestPoints() > snapshot.getQuestPoints())
+		if (entry.getQuestPoints() != null)
 		{
-			gaps.add(new QuestPointsGap(snapshot.getQuestPoints(), entry.getQuestPoints()));
+			addQuestPointsGapIfShort(gaps, met, snapshot, entry.getQuestPoints());
 		}
 
 		for (ItemReq req : entry.getItems())
 		{
-			addMilestoneItemGapIfShort(gaps, snapshot, kb, req);
+			addMilestoneItemGapIfShort(gaps, met, snapshot, kb, req);
 		}
 
 		if (entry.getRecommended() != null)
 		{
-			addRecommendedGaps(gaps, entry.getRecommended(), snapshot);
+			addRecommendedGaps(gaps, met, entry.getRecommended(), snapshot);
 		}
 
 		OwnedState ownedState = entry.getCategory() == MilestoneCategory.GEAR
@@ -386,7 +412,7 @@ public final class GapEngine
 		Goal goal = new Goal(entry.getId(), mapMilestoneCategory(entry.getCategory()), entry.getName(),
 			WikiUrls.forTitle(entry.getWikiTitle()), priority, entry.getStage());
 		boolean bankUnknown = anyBankUnknown(gaps) || ownedState == OwnedState.UNKNOWN;
-		return Optional.of(new GoalStatus(goal, List.copyOf(gaps), gaps.isEmpty(), bankUnknown, List.of()));
+		return Optional.of(new GoalStatus(goal, List.copyOf(gaps), gaps.isEmpty(), bankUnknown, List.of(), List.copyOf(met), List.of(), null, 0));
 	}
 
 	/**
@@ -395,7 +421,7 @@ public final class GapEngine
 	 * any milestone) is only {@code ready} once these are met too, since they land in the same
 	 * {@code gaps} list as the hard requirements.
 	 */
-	private static void addRecommendedGaps(List<Gap> gaps, RecommendedProfile recommended, Snapshot snapshot)
+	private static void addRecommendedGaps(List<Gap> gaps, List<Met> met, RecommendedProfile recommended, Snapshot snapshot)
 	{
 		for (RecommendedSkill req : recommended.getSkills())
 		{
@@ -403,6 +429,7 @@ public final class GapEngine
 			int have = state == null ? 1 : state.getLevel();
 			if (have >= req.getLevel())
 			{
+				met.add(new Met(Met.Kind.RECOMMENDED_SKILL, skillLabel(req.getSkill(), req.getLevel(), have)));
 				continue;
 			}
 			long currentXp = state == null ? 0 : state.getXp();
@@ -410,27 +437,34 @@ public final class GapEngine
 			gaps.add(new SkillLevelGap(req.getSkill(), have, req.getLevel(), xpDelta, false, null, true));
 		}
 
-		if (recommended.getCombatLevel() != null && recommended.getCombatLevel() > snapshot.combatLevel())
+		if (recommended.getCombatLevel() != null)
 		{
-			gaps.add(new CombatLevelGap(snapshot.combatLevel(), recommended.getCombatLevel(), true));
+			addCombatGapIfShort(gaps, met, snapshot, recommended.getCombatLevel(), true);
 		}
 
 		List<OwnedItem> gearOwnedAny = recommended.getGearOwnedAny();
 		if (!gearOwnedAny.isEmpty())
 		{
 			int required = recommended.effectiveGearOwnedMin();
-			int owned = 0;
+			List<String> ownedNames = new ArrayList<>();
 			int maybeOwned = 0;
 			for (OwnedItem item : gearOwnedAny)
 			{
 				if (anyIdHeld(item.getIds(), snapshot))
 				{
-					owned++;
+					ownedNames.add(item.getName());
 				}
 				else if (!snapshot.isBankKnown())
 				{
 					maybeOwned++;
 				}
+			}
+			int owned = ownedNames.size();
+			// Owned names are recorded even below the minimum, so the explanation can say
+			// "Meets 2 of 4 recommended gear: ..." for a boss that is not yet ready (spec ruling 29).
+			for (String name : ownedNames)
+			{
+				met.add(new Met(Met.Kind.RECOMMENDED_GEAR, name, owned, required));
 			}
 			if (owned < required)
 			{
@@ -440,11 +474,66 @@ public final class GapEngine
 		}
 	}
 
-	private static void addMilestoneItemGapIfShort(List<Gap> gaps, Snapshot snapshot, KnowledgeBase kb, ItemReq req)
+	private static void addCombatGapIfShort(List<Gap> gaps, List<Met> met, Snapshot snapshot, int need, boolean recommended)
+	{
+		int have = snapshot.combatLevel();
+		if (need > have)
+		{
+			gaps.add(new CombatLevelGap(have, need, recommended));
+		}
+		else
+		{
+			met.add(new Met(Met.Kind.COMBAT, "Combat " + need + " (have " + have + ")"));
+		}
+	}
+
+	private static void addQuestPointsGapIfShort(List<Gap> gaps, List<Met> met, Snapshot snapshot, int need)
+	{
+		int have = snapshot.getQuestPoints();
+		if (need > have)
+		{
+			gaps.add(new QuestPointsGap(have, need));
+		}
+		else
+		{
+			met.add(new Met(Met.Kind.QUEST_POINTS, "Quest points " + need + " (have " + have + ")"));
+		}
+	}
+
+	/**
+	 * Records a {@link Met.Kind#QUEST} for each of {@code names} that is finished (or, when
+	 * {@code startedOnly}, merely started) - direct prerequisites only, never the transitive
+	 * closure {@link #resolvePrereqs} walks for gaps. A name absent from RuneLite's quest list is
+	 * skipped here; the gap side has already thrown or noted it.
+	 */
+	private static void addMetPrereqs(List<Met> met, List<String> names, Snapshot snapshot, boolean startedOnly)
+	{
+		for (String name : names)
+		{
+			Quest quest = QUESTS_BY_NAME.get(name);
+			if (quest == null)
+			{
+				continue;
+			}
+			QuestState state = snapshot.getQuests().getOrDefault(quest, QuestState.NOT_STARTED);
+			if (state == QuestState.FINISHED || (startedOnly && state != QuestState.NOT_STARTED))
+			{
+				met.add(new Met(Met.Kind.QUEST, name));
+			}
+		}
+	}
+
+	private static String skillLabel(Skill skill, int need, int have)
+	{
+		return skill.getName() + " " + need + " (have " + have + ")";
+	}
+
+	private static void addMilestoneItemGapIfShort(List<Gap> gaps, List<Met> met, Snapshot snapshot, KnowledgeBase kb, ItemReq req)
 	{
 		Integer have = sumHaveByIds(snapshot, req.getIds());
 		if (have != null && have >= req.getQuantity())
 		{
+			met.add(new Met(Met.Kind.ITEM, itemLabel(req.getName(), req.getQuantity())));
 			return;
 		}
 		List<ItemSource> rawSources = req.getSources().stream()
@@ -544,12 +633,13 @@ public final class GapEngine
 		}
 	}
 
-	private void addSkillGapIfShort(List<Gap> gaps, Snapshot snapshot, SkillReq req)
+	private void addSkillGapIfShort(List<Gap> gaps, List<Met> met, Snapshot snapshot, SkillReq req)
 	{
 		SkillState state = snapshot.getSkills().get(req.getSkill());
 		int have = state == null ? 1 : state.getLevel();
 		if (have >= req.getLevel())
 		{
+			met.add(new Met(Met.Kind.SKILL, skillLabel(req.getSkill(), req.getLevel(), have)));
 			return;
 		}
 
@@ -575,12 +665,12 @@ public final class GapEngine
 	 * {@link ItemGap} - it must not keep a goal from "Ready now" or become a "Get pickaxe" next
 	 * step (final-review I5). A name with no material entry at all is matched as before.
 	 */
-	private static void addItemGapIfShort(List<Gap> gaps, List<String> notes, Snapshot snapshot, KnowledgeBase kb, String name, int need)
+	private static void addItemGapIfShort(List<Gap> gaps, List<Met> met, List<String> notes, Snapshot snapshot, KnowledgeBase kb, String name, int need)
 	{
 		MaterialEntry material = kb.materialByName(name);
 		if (material != null && material.isGeneric())
 		{
-			notes.add("Bring: " + name + (need > 1 ? " ×" + need : "") + " (see wiki)");
+			notes.add("Bring: " + itemLabel(name, need) + " (see wiki)");
 			return;
 		}
 		Integer have = sumHave(snapshot, name);
@@ -588,6 +678,15 @@ public final class GapEngine
 		{
 			gaps.add(new ItemGap(name, have, need, List.of(), false, material == null ? null : material.getWikiUrl()));
 		}
+		else
+		{
+			met.add(new Met(Met.Kind.ITEM, itemLabel(name, need)));
+		}
+	}
+
+	private static String itemLabel(String name, int need)
+	{
+		return name + (need > 1 ? " ×" + need : "");
 	}
 
 	private static String wikiUrlFor(KnowledgeBase kb, String itemName)
@@ -704,14 +803,9 @@ public final class GapEngine
 		return sum;
 	}
 
-	private static GoalStatus toGoalStatus(Goal goal, List<Gap> gaps)
+	private static GoalStatus toGoalStatus(Goal goal, List<Gap> gaps, List<String> notes, List<Met> met)
 	{
-		return toGoalStatus(goal, gaps, List.of());
-	}
-
-	private static GoalStatus toGoalStatus(Goal goal, List<Gap> gaps, List<String> notes)
-	{
-		return new GoalStatus(goal, List.copyOf(gaps), gaps.isEmpty(), anyBankUnknown(gaps), List.copyOf(notes));
+		return new GoalStatus(goal, List.copyOf(gaps), gaps.isEmpty(), anyBankUnknown(gaps), List.copyOf(notes), List.copyOf(met), List.of(), null, 0);
 	}
 
 	private static boolean anyBankUnknown(List<Gap> gaps)
