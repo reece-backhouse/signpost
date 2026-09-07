@@ -2,6 +2,7 @@ package dev.reece.nta.engine;
 
 import dev.reece.nta.engine.model.CombatLevelGap;
 import dev.reece.nta.engine.model.DiaryTaskGap;
+import dev.reece.nta.engine.model.DiaryTierGap;
 import dev.reece.nta.engine.model.Gap;
 import dev.reece.nta.engine.model.Goal;
 import dev.reece.nta.engine.model.GoalCategory;
@@ -13,9 +14,13 @@ import dev.reece.nta.engine.model.QuestPointsGap;
 import dev.reece.nta.engine.model.QuestPrereqGap;
 import dev.reece.nta.engine.model.SkillLevelGap;
 import dev.reece.nta.kb.DiaryEntry;
+import dev.reece.nta.kb.DiaryRef;
 import dev.reece.nta.kb.DiaryTask;
 import dev.reece.nta.kb.ItemReq;
 import dev.reece.nta.kb.KnowledgeBase;
+import dev.reece.nta.kb.MilestoneCategory;
+import dev.reece.nta.kb.MilestoneEntry;
+import dev.reece.nta.kb.OwnedItem;
 import dev.reece.nta.kb.QuestEntry;
 import dev.reece.nta.kb.SkillReq;
 import dev.reece.nta.snapshot.AccountType;
@@ -28,11 +33,13 @@ import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 import net.runelite.api.Experience;
 import net.runelite.api.Quest;
 import net.runelite.api.QuestState;
+import net.runelite.api.Skill;
 
 /**
  * Pure function of {@link Snapshot} and {@link KnowledgeBase}: for every unfinished quest and
@@ -89,6 +96,11 @@ public final class GapEngine
 			result.add(diaryGoalStatus(tier, entry, snapshot, kb));
 		}
 
+		for (MilestoneEntry entry : kb.getMilestones())
+		{
+			milestoneGoalStatus(entry, snapshot, kb).ifPresent(result::add);
+		}
+
 		result.sort(Comparator.comparing(gs -> gs.getGoal().getId()));
 		return result;
 	}
@@ -132,6 +144,7 @@ public final class GapEngine
 		Set<String> path = new LinkedHashSet<>();
 		path.add(entry.getName());
 		resolvePrereqs(entry.getPrereqs(), snapshot, kb, entry.getName(), true, prereqGaps, new ArrayList<>(), path);
+		resolveStartedPrereqs(entry.getPrereqsStarted(), snapshot, entry.getName(), prereqGaps);
 		gaps.addAll(prereqGaps.values());
 
 		for (ItemReq req : entry.getItems())
@@ -154,7 +167,7 @@ public final class GapEngine
 
 		Goal goal = new Goal("quest:" + entry.getId(), GoalCategory.QUEST, entry.getName(), WIKI_BASE + spacesToUnderscores(entry.getWikiTitle()),
 			QUEST_PRIORITY);
-		return toGoalStatus(goal, gaps);
+		return toGoalStatus(goal, gaps, entry.getPrereqNotes());
 	}
 
 	private GoalStatus diaryGoalStatus(DiaryTier tier, DiaryEntry entry, Snapshot snapshot, KnowledgeBase kb)
@@ -208,6 +221,166 @@ public final class GapEngine
 		List<String> notes = new ArrayList<>(task.getNotes());
 		notes.addAll(extraNotes);
 		return new DiaryTaskGap(task.getOrdinal(), task.getText(), List.copyOf(inner), List.copyOf(notes));
+	}
+
+	/**
+	 * Builds the goal status for one milestone, or empty when the milestone is already done.
+	 * Completion is category-specific (ruling: see task-25 brief): {@code gear} - any
+	 * {@code ownedIf} id held (bank ∪ inventory ∪ equipment, by id); {@code slayer_target} - the
+	 * entry's Slayer skill requirement is met; {@code unlock}/{@code prayer}/{@code spellbook} -
+	 * every requirement is met (no gaps); {@code boss} - never done.
+	 */
+	private Optional<GoalStatus> milestoneGoalStatus(MilestoneEntry entry, Snapshot snapshot, KnowledgeBase kb)
+	{
+		List<Gap> gaps = new ArrayList<>();
+		boolean isIron = snapshot.getAccountType().isIron();
+
+		for (SkillReq req : entry.getSkills())
+		{
+			if (req.isIronmanOnly() && !isIron)
+			{
+				continue;
+			}
+			addSkillGapIfShort(gaps, snapshot, req);
+		}
+
+		Map<String, QuestPrereqGap> prereqGaps = new LinkedHashMap<>();
+		resolvePrereqs(entry.getQuests(), snapshot, kb, entry.getName(), true, prereqGaps, new ArrayList<>(), new LinkedHashSet<>());
+		gaps.addAll(prereqGaps.values());
+
+		for (DiaryRef diaryRef : entry.getDiaries())
+		{
+			if (!Boolean.TRUE.equals(snapshot.getDiaryTiers().get(diaryRef.getTier())))
+			{
+				gaps.add(new DiaryTierGap(diaryRef.getTier()));
+			}
+		}
+
+		if (entry.getCombatLevel() != null && entry.getCombatLevel() > snapshot.combatLevel())
+		{
+			gaps.add(new CombatLevelGap(snapshot.combatLevel(), entry.getCombatLevel()));
+		}
+		if (entry.getQuestPoints() != null && entry.getQuestPoints() > snapshot.getQuestPoints())
+		{
+			gaps.add(new QuestPointsGap(snapshot.getQuestPoints(), entry.getQuestPoints()));
+		}
+
+		for (ItemReq req : entry.getItems())
+		{
+			addMilestoneItemGapIfShort(gaps, snapshot, req);
+		}
+
+		OwnedState ownedState = entry.getCategory() == MilestoneCategory.GEAR
+			? gearOwnedState(entry, snapshot)
+			: null;
+
+		boolean done;
+		switch (entry.getCategory())
+		{
+			case GEAR:
+				done = ownedState == OwnedState.OWNED;
+				break;
+			case SLAYER_TARGET:
+				done = slayerLevelMet(entry, snapshot);
+				break;
+			case BOSS:
+				done = false;
+				break;
+			default: // UNLOCK, PRAYER, SPELLBOOK
+				done = gaps.isEmpty();
+				break;
+		}
+		if (done)
+		{
+			return Optional.empty();
+		}
+
+		int priority = kb.getPriorityOverrides().getOrDefault(entry.getId(), entry.getPriority());
+		Goal goal = new Goal(entry.getId(), mapMilestoneCategory(entry.getCategory()), entry.getName(),
+			WIKI_BASE + spacesToUnderscores(entry.getWikiTitle()), priority);
+		boolean bankUnknown = anyBankUnknown(gaps) || ownedState == OwnedState.UNKNOWN;
+		return Optional.of(new GoalStatus(goal, List.copyOf(gaps), gaps.isEmpty(), bankUnknown, List.of()));
+	}
+
+	private static void addMilestoneItemGapIfShort(List<Gap> gaps, Snapshot snapshot, ItemReq req)
+	{
+		Integer have = sumHaveById(snapshot, req.getId());
+		if (have != null && have >= req.getQuantity())
+		{
+			return;
+		}
+		List<ItemSource> rawSources = req.getSources().stream()
+			.map(s -> new ItemSource(s, "", ""))
+			.collect(Collectors.toList());
+		List<ItemSource> sources = sourcesFor(rawSources, snapshot.getAccountType());
+		boolean mustObtain = mustObtain(rawSources, snapshot.getAccountType());
+		gaps.add(new ItemGap(req.getName(), have, req.getQuantity(), sources, mustObtain));
+	}
+
+	private static Integer sumHaveById(Snapshot snapshot, int itemId)
+	{
+		if (!snapshot.isBankKnown())
+		{
+			return null;
+		}
+		return snapshot.getBank().getOrDefault(itemId, 0)
+			+ snapshot.getInventory().getOrDefault(itemId, 0)
+			+ snapshot.getEquipment().getOrDefault(itemId, 0);
+	}
+
+	private enum OwnedState
+	{
+		OWNED, NOT_OWNED, UNKNOWN
+	}
+
+	/**
+	 * Whether any of the milestone's {@code ownedIf} item ids is held. Inventory and equipment are
+	 * always known; the bank is only checked when {@link Snapshot#isBankKnown()}, so an unseen bank
+	 * with nothing found elsewhere is {@link OwnedState#UNKNOWN} rather than {@link OwnedState#NOT_OWNED}.
+	 */
+	private static OwnedState gearOwnedState(MilestoneEntry entry, Snapshot snapshot)
+	{
+		for (OwnedItem owned : entry.getOwnedIf())
+		{
+			if (snapshot.getInventory().getOrDefault(owned.getId(), 0) > 0
+				|| snapshot.getEquipment().getOrDefault(owned.getId(), 0) > 0)
+			{
+				return OwnedState.OWNED;
+			}
+			if (snapshot.isBankKnown() && snapshot.getBank().getOrDefault(owned.getId(), 0) > 0)
+			{
+				return OwnedState.OWNED;
+			}
+		}
+		return snapshot.isBankKnown() ? OwnedState.NOT_OWNED : OwnedState.UNKNOWN;
+	}
+
+	private static boolean slayerLevelMet(MilestoneEntry entry, Snapshot snapshot)
+	{
+		return entry.getSkills().stream()
+			.filter(s -> s.getSkill() == Skill.SLAYER)
+			.findFirst()
+			.map(s -> skillLevel(snapshot, Skill.SLAYER) >= s.getLevel())
+			.orElse(false);
+	}
+
+	private static int skillLevel(Snapshot snapshot, Skill skill)
+	{
+		SkillState state = snapshot.getSkills().get(skill);
+		return state == null ? 1 : state.getLevel();
+	}
+
+	private static GoalCategory mapMilestoneCategory(MilestoneCategory category)
+	{
+		switch (category)
+		{
+			case SLAYER_TARGET:
+				return GoalCategory.SLAYER_TARGET;
+			case BOSS:
+				return GoalCategory.BOSS;
+			default: // GEAR, UNLOCK, PRAYER, SPELLBOOK
+				return GoalCategory.MILESTONE;
+		}
 	}
 
 	private void addSkillGapIfShort(List<Gap> gaps, Snapshot snapshot, SkillReq req)
@@ -283,10 +456,40 @@ public final class GapEngine
 				continue;
 			}
 			boolean hasUnfinishedPrereq = resolvePrereqs(entry.getPrereqs(), snapshot, kb, name, throwOnUnknown, gapsByName, extraNotes, path);
+			resolveStartedPrereqs(entry.getPrereqsStarted(), snapshot, name, gapsByName);
 			path.remove(name);
-			gapsByName.put(name, new QuestPrereqGap(quest, state, !hasUnfinishedPrereq));
+			gapsByName.put(name, new QuestPrereqGap(quest, state, !hasUnfinishedPrereq, false));
 		}
 		return anyUnfinished;
+	}
+
+	/**
+	 * Resolves "must have started" prerequisite quest names (the wiki's {@code Started:} prefix)
+	 * into {@link QuestPrereqGap}s, satisfied by any state other than {@code NOT_STARTED}. Never
+	 * recurses into the started quest's own prerequisites - starting it is the whole requirement -
+	 * so every gap produced here is unconditionally {@code startHere}. Every name has already been
+	 * validated at {@link KnowledgeBase} load time to be a known quest name.
+	 */
+	private static void resolveStartedPrereqs(List<String> names, Snapshot snapshot, String forName, Map<String, QuestPrereqGap> gapsByName)
+	{
+		for (String name : names)
+		{
+			Quest quest = QUESTS_BY_NAME.get(name);
+			if (quest == null)
+			{
+				throw new IllegalStateException("Unknown started prerequisite quest \"" + name + "\" for quest \"" + forName + "\"");
+			}
+			if (gapsByName.containsKey(name))
+			{
+				continue;
+			}
+			QuestState state = snapshot.getQuests().getOrDefault(quest, QuestState.NOT_STARTED);
+			if (state != QuestState.NOT_STARTED)
+			{
+				continue;
+			}
+			gapsByName.put(name, new QuestPrereqGap(quest, state, true, true));
+		}
 	}
 
 	private static Integer sumHave(Snapshot snapshot, String itemName)
@@ -316,7 +519,12 @@ public final class GapEngine
 
 	private static GoalStatus toGoalStatus(Goal goal, List<Gap> gaps)
 	{
-		return new GoalStatus(goal, List.copyOf(gaps), gaps.isEmpty(), anyBankUnknown(gaps));
+		return toGoalStatus(goal, gaps, List.of());
+	}
+
+	private static GoalStatus toGoalStatus(Goal goal, List<Gap> gaps, List<String> notes)
+	{
+		return new GoalStatus(goal, List.copyOf(gaps), gaps.isEmpty(), anyBankUnknown(gaps), List.copyOf(notes));
 	}
 
 	private static boolean anyBankUnknown(List<Gap> gaps)

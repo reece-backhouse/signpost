@@ -1,9 +1,9 @@
 package dev.reece.nta.engine.model;
 
 /**
- * The kind of thing a {@link Goal} represents. Only {@link #QUEST} and {@link #DIARY} are
- * produced by the S3 {@link dev.reece.nta.engine.GapEngine}; the rest are reserved for later
- * slices (S4/S5).
+ * The kind of thing a {@link Goal} represents, as produced by {@link dev.reece.nta.engine.GapEngine}.
+ * {@link #MILESTONE} covers gear/unlock/prayer/spellbook milestones; {@link #SLAYER_TARGET} and
+ * {@link #BOSS} are their own categories.
  */
 public enum GoalCategory
 {

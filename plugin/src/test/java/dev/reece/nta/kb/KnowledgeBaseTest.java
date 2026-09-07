@@ -16,6 +16,8 @@ class KnowledgeBaseTest
 {
 	private static final String EMPTY_QUESTS_JSON = "{\"version\":1,\"generatedAt\":\"x\",\"quests\":[]}";
 	private static final String EMPTY_DIARIES_JSON = "{\"version\":1,\"generatedAt\":\"x\",\"diaries\":[]}";
+	private static final String EMPTY_MILESTONES_JSON = "{\"version\":1,\"milestones\":[]}";
+	private static final String EMPTY_PRIORITIES_JSON = "{\"version\":1,\"overrides\":{}}";
 
 	@Test
 	void nullSkillsListOnAQuestFailsLoudlyNamingTheQuestAndField()
@@ -24,7 +26,7 @@ class KnowledgeBaseTest
 			+ "\"wikiTitle\":\"Test Quest\",\"skills\":null,\"prereqs\":[],\"items\":[],\"questPoints\":1,\"source\":\"test\"}]}";
 
 		IllegalStateException e = assertThrows(IllegalStateException.class,
-			() -> KnowledgeBase.fromJson(new Gson(), questsJson, EMPTY_DIARIES_JSON));
+			() -> KnowledgeBase.fromJson(new Gson(), questsJson, EMPTY_DIARIES_JSON, EMPTY_MILESTONES_JSON, EMPTY_PRIORITIES_JSON));
 
 		assertTrue(e.getMessage().contains("Test Quest"), e.getMessage());
 		assertTrue(e.getMessage().contains("skills"), e.getMessage());
@@ -38,11 +40,83 @@ class KnowledgeBaseTest
 			+ "\"notes\":[],\"completion\":{}}]}]}";
 
 		IllegalStateException e = assertThrows(IllegalStateException.class,
-			() -> KnowledgeBase.fromJson(new Gson(), EMPTY_QUESTS_JSON, diariesJson));
+			() -> KnowledgeBase.fromJson(new Gson(), EMPTY_QUESTS_JSON, diariesJson, EMPTY_MILESTONES_JSON, EMPTY_PRIORITIES_JSON));
 
 		assertTrue(e.getMessage().contains("VARROCK"), e.getMessage());
 		assertTrue(e.getMessage().contains("EASY"), e.getMessage());
 		assertTrue(e.getMessage().contains("task 1"), e.getMessage());
+	}
+
+	@Test
+	void milestoneWithUnknownQuestNameFailsLoudlyNamingTheMilestoneId()
+	{
+		String milestonesJson = "{\"version\":1,\"milestones\":[{\"id\":\"milestone:test\",\"category\":\"unlock\","
+			+ "\"subcategory\":null,\"name\":\"Test\",\"wikiTitle\":\"Test\",\"priority\":5,\"reason\":\"r\",\"unlocks\":[],"
+			+ "\"requirements\":{\"skills\":[],\"quests\":[\"Not A Real Quest\"],\"diaries\":[],\"combatLevel\":null,"
+			+ "\"questPoints\":null,\"items\":[]},\"ownedIf\":[],\"gearTier\":null,\"sources\":[]}]}";
+
+		IllegalStateException e = assertThrows(IllegalStateException.class,
+			() -> KnowledgeBase.fromJson(new Gson(), EMPTY_QUESTS_JSON, EMPTY_DIARIES_JSON, milestonesJson, EMPTY_PRIORITIES_JSON));
+
+		assertTrue(e.getMessage().contains("milestone:test"), e.getMessage());
+		assertTrue(e.getMessage().contains("Not A Real Quest"), e.getMessage());
+	}
+
+	@Test
+	void unresolvedQuestPrereqFailsLoudlyNamingTheQuestAndThePrereq()
+	{
+		String questsJson = "{\"version\":1,\"generatedAt\":\"x\",\"quests\":[{\"id\":0,\"name\":\"Test Quest\","
+			+ "\"wikiTitle\":\"Test Quest\",\"skills\":[],\"prereqs\":[\"Not A Real Quest\"],\"items\":[],\"questPoints\":1,\"source\":\"test\"}]}";
+
+		IllegalStateException e = assertThrows(IllegalStateException.class,
+			() -> KnowledgeBase.fromJson(new Gson(), questsJson, EMPTY_DIARIES_JSON, EMPTY_MILESTONES_JSON, EMPTY_PRIORITIES_JSON));
+
+		assertTrue(e.getMessage().contains("Test Quest"), e.getMessage());
+		assertTrue(e.getMessage().contains("Not A Real Quest"), e.getMessage());
+	}
+
+	@Test
+	void unresolvedStartedQuestPrereqFailsLoudlyNamingTheQuestAndThePrereq()
+	{
+		String questsJson = "{\"version\":1,\"generatedAt\":\"x\",\"quests\":[{\"id\":0,\"name\":\"Test Quest\","
+			+ "\"wikiTitle\":\"Test Quest\",\"skills\":[],\"prereqs\":[],\"prereqsStarted\":[\"Not A Real Quest\"],\"items\":[],"
+			+ "\"questPoints\":1,\"source\":\"test\"}]}";
+
+		IllegalStateException e = assertThrows(IllegalStateException.class,
+			() -> KnowledgeBase.fromJson(new Gson(), questsJson, EMPTY_DIARIES_JSON, EMPTY_MILESTONES_JSON, EMPTY_PRIORITIES_JSON));
+
+		assertTrue(e.getMessage().contains("Test Quest"), e.getMessage());
+		assertTrue(e.getMessage().contains("Not A Real Quest"), e.getMessage());
+	}
+
+	@Test
+	void everyBundledQuestPrereqAndStartedPrereqResolvesToAKnownQuest()
+	{
+		KnowledgeBase kb = KnowledgeBase.load(new Gson());
+
+		for (QuestEntry quest : kb.getQuests())
+		{
+			for (String prereq : quest.getPrereqs())
+			{
+				assertNotNull(kb.questByName(prereq), quest.getName() + " has unresolved prereq \"" + prereq + "\"");
+			}
+			for (String prereq : quest.getPrereqsStarted())
+			{
+				assertNotNull(kb.questByName(prereq), quest.getName() + " has unresolved started prereq \"" + prereq + "\"");
+			}
+		}
+	}
+
+	@Test
+	void bundledMilestonesJsonLoadsFiftyFiveEntriesAndPassesValidation()
+	{
+		KnowledgeBase kb = KnowledgeBase.load(new Gson());
+
+		assertEquals(55, kb.getMilestones().size());
+		for (MilestoneEntry entry : kb.getMilestones())
+		{
+			assertNotNull(kb.milestoneById(entry.getId()), entry.getId());
+		}
 	}
 
 	@Test

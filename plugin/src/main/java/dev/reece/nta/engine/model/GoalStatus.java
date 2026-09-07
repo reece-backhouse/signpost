@@ -16,4 +16,6 @@ public class GoalStatus
 	boolean ready;
 	/** True when any {@link ItemGap} (including inside a {@link DiaryTaskGap}) has an unknown {@code have} because the bank hasn't been seen. */
 	boolean bankUnknown;
+	/** Display-only text, never evaluated. Currently only a quest goal's {@code prereqNotes}; empty for every other goal category. */
+	List<String> notes;
 }

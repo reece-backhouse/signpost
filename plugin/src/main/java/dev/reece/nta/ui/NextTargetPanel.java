@@ -34,9 +34,12 @@ public class NextTargetPanel extends PluginPanel
 	private final JLabel bankLabel = new JLabel();
 	private final JLabel goalsLabel = new JLabel();
 	private final JLabel kbFooterLabel = new JLabel("KB: not loaded");
+	private final SuggestPanel suggestPanel;
 
-	public NextTargetPanel(Runnable onRefresh)
+	public NextTargetPanel(Runnable onRefresh, SuggestPanel.Actions actions)
 	{
+		suggestPanel = new SuggestPanel(actions);
+
 		setLayout(new BorderLayout());
 
 		JPanel header = new JPanel();
@@ -58,6 +61,7 @@ public class NextTargetPanel extends PluginPanel
 		footer.add(kbFooterLabel);
 
 		add(header, BorderLayout.NORTH);
+		add(suggestPanel, BorderLayout.CENTER);
 		add(footer, BorderLayout.SOUTH);
 	}
 
@@ -115,5 +119,7 @@ public class NextTargetPanel extends PluginPanel
 		long ready = advice.getStatuses().stream().filter(GoalStatus::isReady).count();
 		long withGaps = advice.getStatuses().stream().filter(s -> !s.getGaps().isEmpty()).count();
 		goalsLabel.setText("Goals: " + ready + " ready, " + withGaps + " with gaps");
+
+		suggestPanel.render(advice);
 	}
 }

@@ -1,5 +1,6 @@
 package dev.reece.nta.engine;
 
+import com.google.gson.Gson;
 import dev.reece.nta.engine.model.CombatLevelGap;
 import dev.reece.nta.engine.model.DiaryTaskGap;
 import dev.reece.nta.engine.model.Gap;
@@ -209,6 +210,98 @@ class GapEngineTest
 
 		GoalStatus clockTower = goalFor(statuses, "quest:" + CLOCK_TOWER_ID);
 		assertEquals(1, clockTower.getGaps().size());
+	}
+
+	// --- Pre-review fix: "Started:" prereqs (wiki Module:Questreq/data) and unresolved prereq notes. ---
+
+	@Test
+	void startedPrereqSatisfiedWhenQuestInProgress()
+	{
+		KnowledgeBase kb = new KbBuilder().quest(CLOCK_TOWER_ID, "Clock Tower").prereqStarted("Biohazard").build();
+		Snapshot snapshot = new SnapshotBuilder().quest(Quest.BIOHAZARD, QuestState.IN_PROGRESS).build();
+
+		GoalStatus status = goalFor(engine.evaluate(snapshot, kb), "quest:" + CLOCK_TOWER_ID);
+
+		assertTrue(status.getGaps().isEmpty());
+		assertTrue(status.isReady());
+	}
+
+	@Test
+	void startedPrereqSatisfiedWhenQuestFinished()
+	{
+		KnowledgeBase kb = new KbBuilder().quest(CLOCK_TOWER_ID, "Clock Tower").prereqStarted("Biohazard").build();
+		Snapshot snapshot = new SnapshotBuilder().quest(Quest.BIOHAZARD, QuestState.FINISHED).build();
+
+		GoalStatus status = goalFor(engine.evaluate(snapshot, kb), "quest:" + CLOCK_TOWER_ID);
+
+		assertTrue(status.getGaps().isEmpty());
+	}
+
+	@Test
+	void startedPrereqNotSatisfiedWhenQuestNotStarted()
+	{
+		KnowledgeBase kb = new KbBuilder().quest(CLOCK_TOWER_ID, "Clock Tower").prereqStarted("Biohazard").build();
+		Snapshot snapshot = new SnapshotBuilder().build();
+
+		GoalStatus status = goalFor(engine.evaluate(snapshot, kb), "quest:" + CLOCK_TOWER_ID);
+		QuestPrereqGap gap = (QuestPrereqGap) onlyGap(status);
+
+		assertEquals(Quest.BIOHAZARD, gap.getQuest());
+		assertTrue(gap.isStartOnly());
+		assertTrue(gap.isStartHere());
+	}
+
+	@Test
+	void startedPrereqDoesNotRecurseIntoItsOwnPrereqs()
+	{
+		// Biohazard itself needs Cook's Assistant (a normal, finished-required prereq), but Clock
+		// Tower only needs Biohazard to have been STARTED - Cook's Assistant should not appear.
+		KnowledgeBase kb = new KbBuilder()
+			.quest(CLOCK_TOWER_ID, "Clock Tower").prereqStarted("Biohazard")
+			.quest(BIOHAZARD_ID, "Biohazard").prereq("Cook's Assistant")
+			.quest(COOKS_ASSISTANT_ID, "Cook's Assistant")
+			.build();
+		Snapshot snapshot = new SnapshotBuilder().quest(Quest.COOKS_ASSISTANT, QuestState.NOT_STARTED).build();
+
+		GoalStatus status = goalFor(engine.evaluate(snapshot, kb), "quest:" + CLOCK_TOWER_ID);
+
+		assertEquals(1, status.getGaps().size());
+		QuestPrereqGap gap = (QuestPrereqGap) onlyGap(status);
+		assertEquals(Quest.BIOHAZARD, gap.getQuest());
+		assertTrue(gap.isStartOnly());
+	}
+
+	@Test
+	void prereqNotesSurfaceOnGoalStatusNotes()
+	{
+		KnowledgeBase kb = new KbBuilder().quest(CLOCK_TOWER_ID, "Clock Tower").prereqNote("Barbarian Firemaking").build();
+		Snapshot snapshot = new SnapshotBuilder().build();
+
+		GoalStatus status = goalFor(engine.evaluate(snapshot, kb), "quest:" + CLOCK_TOWER_ID);
+
+		assertEquals(List.of("Barbarian Firemaking"), status.getNotes());
+	}
+
+	@Test
+	void diaryAndMilestoneGoalsHaveEmptyNotes()
+	{
+		KnowledgeBase kb = new KbBuilder().diary(DiaryTier.VARROCK_EASY).task(1, "Mine some tin").skill(Skill.MINING, 10).build();
+		Snapshot snapshot = new SnapshotBuilder().build();
+
+		GoalStatus status = goalFor(engine.evaluate(snapshot, kb), "diary:VARROCK_EASY");
+
+		assertTrue(status.getNotes().isEmpty());
+	}
+
+	@Test
+	void evaluatingTheRealBundledKbDoesNotThrowAndReturnsManyGoals()
+	{
+		KnowledgeBase kb = KnowledgeBase.load(new Gson());
+		Snapshot snapshot = new SnapshotBuilder().build();
+
+		List<GoalStatus> statuses = engine.evaluate(snapshot, kb);
+
+		assertTrue(statuses.size() > 200, "expected more than 200 goals, got " + statuses.size());
 	}
 
 	// --- C3: have sums bank + inventory + equipment across ids sharing the name; unknown bank. ---
