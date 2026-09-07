@@ -138,6 +138,20 @@ option; cost-if-wrong noted.
     curated in priorities.json (hub quests 8–9, filler 3) — cost: curation
     accuracy, all editable JSON.
 
+28. **Ruling (user request, 2026-09-07): skill targets are goals; gathering
+    plans for shortfalls.** The engine synthesises "<level> <Skill>" goals
+    from the lowest unmet level any stage-appropriate goal requires (priority
+    from the parent, ready when the bank covers the route); a curated
+    `gathering.json` gives step-by-step loops for common secondaries and
+    herbs, shown in the shortfall before the raw source list — cost: curation.
+
+29. **Ruling (user request, 2026-09-07): every suggestion carries a "Why?"
+    explanation** — the gap engine records met requirements as well as gaps;
+    the why builder emits a short list of lines (met gear/stats with names
+    and counts, what is missing with have/need, the parent goal a skill
+    target serves, whether the bank covers the route); cards show it
+    collapsed, the detail view in full — cost: none.
+
 Rulings from the grill (docs/surge/reviews/LOCAL-next-target-advisor.md):
 
 13. **Ruling: quest name resolver in kb-build is three-step** — (a) committed

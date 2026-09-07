@@ -2,6 +2,7 @@ package dev.reece.nta;
 
 import com.google.gson.Gson;
 import com.google.inject.Provides;
+import dev.reece.nta.engine.AdviceDiagnostics;
 import dev.reece.nta.engine.BoostTable;
 import dev.reece.nta.engine.DiaryTierProgress;
 import dev.reece.nta.engine.Engine;
@@ -257,6 +258,10 @@ public class NextTargetPlugin extends Plugin
 			Advice advice = currentEngine.run(snapshot, loadedKb, data != null ? data : AccountData.empty(), Instant.now());
 			long ms = (System.nanoTime() - start) / 1_000_000;
 			log.info("engine: {} goals evaluated in {} ms", advice.getStatuses().size(), ms);
+			for (String line : AdviceDiagnostics.lines(advice))
+			{
+				log.info(line);
+			}
 			return advice;
 		}, advice ->
 		{
