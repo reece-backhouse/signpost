@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { mergeRecipes, parseSkillCalc, type RecipeRow } from '../src/methods.js';
+import { mergeRecipes, parseSkillCalc, type Method, type RecipeRow } from '../src/methods.js';
 import { loadFixture } from './fixtures.js';
 
 describe('parseSkillCalc', () => {
@@ -100,6 +100,41 @@ describe('mergeRecipes', () => {
       ticks: 1,
       intermediate: true,
     });
+  });
+
+  it('attaches boostable and ticks to every method sharing a duplicate output name, not just one', () => {
+    // Two Herblore calc entries that legitimately share a name (analogous to Cooking's
+    // 4 "Redberry pie" entries) — both must receive the same recipe's boostable/ticks.
+    const duplicateNamed: Method[] = [
+      {
+        skill: 'Herblore',
+        name: 'Prayer potion(3)',
+        title: 'Prayer potion',
+        levelReq: 38,
+        xpPerAction: 87.5,
+        materials: [],
+        outputs: [{ name: 'Prayer potion(3)', quantity: 1 }],
+        types: ['Regular potions'],
+        members: true,
+      },
+      {
+        skill: 'Herblore',
+        name: 'Prayer potion(3)',
+        title: 'Prayer potion',
+        levelReq: 38,
+        xpPerAction: 87.5,
+        materials: [],
+        outputs: [{ name: 'Prayer potion(3)', quantity: 1 }],
+        types: ['Regular potions', 'Popular'],
+        members: true,
+      },
+    ];
+
+    const merged = mergeRecipes(duplicateNamed, [ppotRecipe]);
+    const matches = merged.filter((m) => m.name === 'Prayer potion(3)');
+
+    expect(matches).toHaveLength(2);
+    expect(matches.every((m) => m.boostable === true && m.ticks === 2)).toBe(true);
   });
 
   it('does not import an intermediate recipe for a skill other than the methods being merged', () => {

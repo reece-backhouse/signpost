@@ -96,26 +96,31 @@ function isYes(value: string): boolean {
 }
 
 /**
- * Attaches `boostable`/`ticks` from Bucket `recipe` rows to methods with a matching output name, and imports
- * 0-xp recipes (e.g. unfinished potions) not already present as `intermediate: true` methods so the route
- * planner can chain crafts (ruling 15, grill 3). Assumes every entry in `methods` shares one skill.
+ * Attaches `boostable`/`ticks` from Bucket `recipe` rows to every method with a matching output name (a skill
+ * calc can legitimately have several same-named methods, e.g. Cooking's "Redberry pie" has 4 — all of them get
+ * the recipe data, not an arbitrary one), and imports 0-xp recipes (e.g. unfinished potions) not already present
+ * as `intermediate: true` methods so the route planner can chain crafts (ruling 15, grill 3). Assumes every
+ * entry in `methods` shares one skill.
  */
 export function mergeRecipes(methods: Method[], recipes: RecipeRow[]): Method[] {
   const skill = methods[0]?.skill;
   const merged = methods.map((m) => ({ ...m }));
-  const indexByName = new Map(merged.map((m, i) => [m.name, i]));
+  const indicesByName = new Map<string, number[]>();
+  merged.forEach((m, i) => {
+    const indices = indicesByName.get(m.name);
+    if (indices) indices.push(i);
+    else indicesByName.set(m.name, [i]);
+  });
 
   for (const recipe of recipes) {
     const skillUse = recipe.skills.find((s) => s.name === skill);
     if (!skillUse) continue;
 
-    const existingIndex = indexByName.get(recipe.output.name);
-    if (existingIndex !== undefined) {
-      merged[existingIndex] = {
-        ...merged[existingIndex]!,
-        boostable: isYes(skillUse.boostable),
-        ticks: Number(recipe.ticks),
-      };
+    const existingIndices = indicesByName.get(recipe.output.name);
+    if (existingIndices) {
+      for (const index of existingIndices) {
+        merged[index] = { ...merged[index]!, boostable: isYes(skillUse.boostable), ticks: Number(recipe.ticks) };
+      }
       continue;
     }
 
@@ -135,7 +140,7 @@ export function mergeRecipes(methods: Method[], recipes: RecipeRow[]): Method[] 
         intermediate: true,
       };
       merged.push(intermediate);
-      indexByName.set(intermediate.name, merged.length - 1);
+      indicesByName.set(intermediate.name, [merged.length - 1]);
     }
   }
 
