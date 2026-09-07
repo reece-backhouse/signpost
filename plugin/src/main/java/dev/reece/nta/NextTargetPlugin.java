@@ -45,6 +45,7 @@ import net.runelite.api.events.VarbitChanged;
 import net.runelite.api.events.WidgetClosed;
 import net.runelite.api.gameval.InterfaceID;
 import net.runelite.client.RuneLite;
+import net.runelite.client.callback.ClientThread;
 import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.game.ItemManager;
@@ -64,6 +65,9 @@ public class NextTargetPlugin extends Plugin
 {
 	@Inject
 	private Client client;
+
+	@Inject
+	private ClientThread clientThread;
 
 	@Inject
 	private ItemManager itemManager;
@@ -91,6 +95,7 @@ public class NextTargetPlugin extends Plugin
 	private volatile boolean accountLoaded;
 	private volatile boolean firstTickPending;
 	private volatile boolean snapshotRequested;
+	private volatile boolean containersPending;
 	private volatile KnowledgeBase kb;
 	private volatile Snapshot cachedSnapshot;
 	private volatile Advice cachedAdvice;
@@ -133,11 +138,21 @@ public class NextTargetPlugin extends Plugin
 			.build();
 		clientToolbar.addNavigation(navButton);
 
-		runner.submit(() -> KnowledgeBase.load(gson), loaded ->
+		// Lifecycle loads go through execute (FIFO, never discarded by a newer submit) - final-review I6.
+		runner.execute(() ->
 		{
+			KnowledgeBase loaded = KnowledgeBase.load(gson);
 			kb = loaded;
 			SwingUtilities.invokeLater(() -> panel.showKbLoaded(loaded.getQuestsGeneratedAt(), loaded.getDiariesGeneratedAt()));
 		});
+
+		// Final-review I2: RuneLite does not replay GameStateChanged(LOGGED_IN) when a plugin is
+		// enabled mid-session, so run the same account-load path ourselves. getAccountHash must be
+		// read on the client thread; invoke runs it now if we are already there, else queues it.
+		if (client.getGameState() == GameState.LOGGED_IN)
+		{
+			clientThread.invoke(this::onLoggedIn);
+		}
 	}
 
 	@Override
@@ -150,6 +165,7 @@ public class NextTargetPlugin extends Plugin
 		accountLoaded = false;
 		firstTickPending = false;
 		snapshotRequested = false;
+		containersPending = false;
 		kb = null;
 		engine = null;
 		cachedSnapshot = null;
@@ -172,24 +188,42 @@ public class NextTargetPlugin extends Plugin
 		GameState state = event.getGameState();
 		if (state == GameState.LOGGED_IN)
 		{
-			long hash = client.getAccountHash();
-			accountHash = hash;
-			accountLoaded = false;
-			runner.submit(() -> store.load(hash), data ->
-			{
-				accountData = data;
-				cachedBank = data.toCachedBank();
-				accountLoaded = true;
-				firstTickPending = true;
-			});
+			onLoggedIn();
 		}
 		else if (state == GameState.LOGIN_SCREEN || state == GameState.HOPPING)
 		{
 			accountLoaded = false;
 			firstTickPending = false;
+			containersPending = false;
 			cachedSnapshot = null;
 			cachedAdvice = null;
+			// accountData/cachedBank are only ever written on the executor; clearing them there
+			// keeps FIFO order with the load queued by the next LOGGED_IN (final-review I6). The
+			// panel is emptied so no stale card button can fire against the next account.
+			runner.execute(() ->
+			{
+				accountData = null;
+				cachedBank = CachedBank.unknown();
+			});
+			SwingUtilities.invokeLater(panel::showLoggedOut);
 		}
+	}
+
+	/** Client thread. Loads this account's data on the executor; nothing queued after it can overtake it. */
+	private void onLoggedIn()
+	{
+		long hash = client.getAccountHash();
+		accountHash = hash;
+		accountLoaded = false;
+		containersPending = true;
+		runner.execute(() ->
+		{
+			AccountData data = store.load(hash);
+			accountData = data;
+			cachedBank = data.toCachedBank();
+			accountLoaded = true;
+			firstTickPending = true;
+		});
 	}
 
 	@Subscribe
@@ -206,13 +240,21 @@ public class NextTargetPlugin extends Plugin
 
 		Snapshot snapshot = SnapshotCollector.collect(client, itemManager, cachedBank, loadedKb);
 		cachedSnapshot = snapshot;
+		if (!snapshot.getInventory().isEmpty() || !snapshot.getEquipment().isEmpty())
+		{
+			// Containers have populated: the one-shot post-login re-snapshot is no longer needed (I4).
+			containersPending = false;
+		}
 		Engine currentEngine = engine;
-		AccountData data = accountData;
-		AccountData dataForEngine = data != null ? data.copy() : AccountData.empty();
 		runner.submit(() ->
 		{
+			// Read accountData here, on the executor, not on the client thread: every mutation
+			// queued before this run has already been applied, so this (newest-generation) Advice
+			// reflects a "Do this" clicked on the same tick (final-review I3). Mutations never
+			// modify an AccountData in place (AccountDataMutations copies), so no defensive copy.
+			AccountData data = accountData;
 			long start = System.nanoTime();
-			Advice advice = currentEngine.run(snapshot, loadedKb, dataForEngine, Instant.now());
+			Advice advice = currentEngine.run(snapshot, loadedKb, data != null ? data : AccountData.empty(), Instant.now());
 			long ms = (System.nanoTime() - start) / 1_000_000;
 			log.info("engine: {} goals evaluated in {} ms", advice.getStatuses().size(), ms);
 			return advice;
@@ -220,7 +262,7 @@ public class NextTargetPlugin extends Plugin
 		{
 			cachedAdvice = advice;
 			logDiarySelfCheck(advice.getDiaryProgress());
-			maybeClearGoneFocus(advice, dataForEngine.getFocusGoalId());
+			maybeClearGoneFocus(advice, advice.getPrefs().getFocusGoalId());
 			SwingUtilities.invokeLater(() -> panel.render(advice));
 		});
 	}
@@ -274,8 +316,13 @@ public class NextTargetPlugin extends Plugin
 		if (containerId == InventoryID.INVENTORY.getId() || containerId == InventoryID.EQUIPMENT.getId())
 		{
 			// The first post-login GameTick can fire before these containers are populated, so a
-			// login-time snapshot may wrongly see them empty; request a fresh one once they report.
-			requestSnapshot();
+			// login-time snapshot may wrongly see them empty; request a fresh one once they report -
+			// but only until a snapshot has seen them populated. Inventory churn while skilling is
+			// not a snapshot trigger (spec ruling 23, final-review I4).
+			if (containersPending)
+			{
+				requestSnapshot();
+			}
 			return;
 		}
 
@@ -358,13 +405,22 @@ public class NextTargetPlugin extends Plugin
 		mutateAccountData(AccountDataMutations::clearFocus);
 	}
 
-	/** D6: "Not now" - snoozes the goal for {@link NextTargetConfig#snoozeDays()}, recording the goal's current gap fingerprint so a later change ends the snooze early. */
+	/**
+	 * D6: "Not now" - snoozes the goal for {@link NextTargetConfig#snoozeDays()}, recording the goal's
+	 * current gap fingerprint so a later change ends the snooze early. The fingerprint is taken on
+	 * the executor from the latest completed Advice (not on the EDT at click time), and is
+	 * {@code null} - "not yet known", time-only snooze - when the goal has no status there; an
+	 * empty string would only ever match a gap-free goal and silently lost the snooze.
+	 */
 	public void snooze(String goalId)
 	{
-		GoalStatus status = statusFor(goalId);
-		String fingerprint = status != null ? GapFingerprint.of(status) : "";
 		Instant until = Instant.now().plus(config.snoozeDays(), ChronoUnit.DAYS);
-		mutateAccountData(data -> AccountDataMutations.snooze(data, goalId, until, fingerprint));
+		mutateAccountData(data ->
+		{
+			GoalStatus status = statusFor(goalId);
+			String fingerprint = status != null ? GapFingerprint.of(status) : null;
+			return AccountDataMutations.snooze(data, goalId, until, fingerprint);
+		});
 	}
 
 	/** D6: "Bring back" - ends a snooze early. */
@@ -428,7 +484,14 @@ public class NextTargetPlugin extends Plugin
 		runner.submit(() ->
 		{
 			AccountData current = accountData;
-			AccountData updated = mutator.apply(current != null ? current : AccountData.empty());
+			if (current == null)
+			{
+				// Logged out (or not yet loaded): a click on a stale card must not create an empty
+				// AccountData and save it over a real file (final-review I6).
+				log.warn("ignoring account mutation: no account loaded");
+				return null;
+			}
+			AccountData updated = mutator.apply(current);
 			accountData = updated;
 			store.save(hash, updated);
 
@@ -440,7 +503,7 @@ public class NextTargetPlugin extends Plugin
 			if (advice != null)
 			{
 				cachedAdvice = advice;
-				maybeClearGoneFocus(advice, accountData.getFocusGoalId());
+				maybeClearGoneFocus(advice, advice.getPrefs().getFocusGoalId());
 				SwingUtilities.invokeLater(() -> panel.render(advice));
 			}
 		});

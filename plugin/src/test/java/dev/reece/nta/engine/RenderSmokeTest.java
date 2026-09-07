@@ -24,6 +24,7 @@ import net.runelite.api.Skill;
 import org.junit.jupiter.api.Assumptions;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -65,6 +66,58 @@ class RenderSmokeTest
 			}
 			throw e;
 		}
+	}
+
+	/** Final-review I4: a re-render with the same goal set (bank close, level-up) must not collapse "Show more" back to the first page. */
+	@Test
+	void showMorePagingSurvivesARenderWithTheSameGoalSet() throws Exception
+	{
+		KbBuilder builder = new KbBuilder();
+		for (int i = 1; i <= 15; i++)
+		{
+			builder.quest(i, "Quest " + i);
+		}
+		KnowledgeBase kb = builder.build();
+		Snapshot snapshot = new SnapshotBuilder().build();
+		Engine engine = new Engine(new BoostTable());
+		Advice first = engine.run(snapshot, kb, AccountData.empty(), Instant.now());
+		Advice sameGoals = engine.run(snapshot, kb, AccountData.empty(), Instant.now());
+		Advice fewerGoals = engine.run(snapshot, new KbBuilder().quest(1, "Quest 1").quest(2, "Quest 2").build(), AccountData.empty(), Instant.now());
+
+		Consumer<String> noop = id -> { };
+		SuggestPanel.Actions actions = new SuggestPanel.Actions(noop, noop, noop, noop, noop, noop, noop, () -> { });
+		int[] counts = new int[4];
+
+		try
+		{
+			SwingUtilities.invokeAndWait(() ->
+			{
+				SuggestPanel panel = new SuggestPanel(actions);
+				panel.render(first);
+				counts[0] = panel.shownNextCount();
+				panel.showMore();
+				counts[1] = panel.shownNextCount();
+				panel.render(sameGoals);
+				counts[2] = panel.shownNextCount();
+				panel.render(fewerGoals);
+				counts[3] = panel.shownNextCount();
+			});
+		}
+		catch (InvocationTargetException e)
+		{
+			if (e.getCause() instanceof HeadlessException)
+			{
+				Assumptions.abort("Headless environment cannot construct Swing components: " + e.getCause().getMessage());
+			}
+			throw e;
+		}
+
+		int rest = first.getRest().size();
+		assertTrue(rest > 10, "fixture must overflow one page, rest=" + rest);
+		assertEquals(10, counts[0], "first page");
+		assertEquals(rest, counts[1], "everything shown after Show more");
+		assertEquals(rest, counts[2], "same goal set: paging kept");
+		assertEquals(0, counts[3], "different goal set: paging reset (2 goals, both picked, nothing in Next)");
 	}
 
 	/**
