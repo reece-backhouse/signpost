@@ -1,0 +1,2254 @@
+{
+  "version": 1,
+  "milestones": [
+    {
+      "id": "milestone:barrows-gloves",
+      "category": "gear",
+      "subcategory": "hybrid",
+      "name": "Barrows gloves",
+      "wikiTitle": "Barrows gloves",
+      "priority": 9,
+      "reason": "Best-in-slot hybrid glove offensive bonuses across melee, ranged, and magic, making it the classic long-term goal for every beginner account.",
+      "unlocks": [
+        "Best hybrid gloves for all combat styles until Ferocious/Zaryte/tormented alternatives",
+        "Hard Lumbridge & Draynor Diary requirement (must own a pair)"
+      ],
+      "requirements": {
+        "skills": [],
+        "quests": [
+          "Recipe for Disaster"
+        ],
+        "diaries": [],
+        "combatLevel": null,
+        "questPoints": null,
+        "items": [
+          {
+            "name": "Coins",
+            "id": 995,
+            "quantity": 130000,
+            "sources": [
+              "Culinaromancer's Chest"
+            ]
+          }
+        ]
+      },
+      "ownedIf": [
+        {
+          "name": "Barrows gloves",
+          "id": 7462
+        }
+      ],
+      "gearTier": 7,
+      "sources": [
+        "quest",
+        "reward",
+        "shop"
+      ]
+    },
+    {
+      "id": "milestone:fire-cape",
+      "category": "gear",
+      "subcategory": "hybrid",
+      "name": "Fire cape",
+      "wikiTitle": "Fire cape",
+      "priority": 9,
+      "reason": "Iconic melee cape reward for defeating TzTok-Jad in the TzHaar Fight Cave, a landmark solo-combat challenge and the gateway to the Inferno.",
+      "unlocks": [
+        "Second-best melee cape behind the infernal cape",
+        "Access to Mor Ul Rek city (shown to TzHaar-Ket guards)",
+        "Required sacrifice item to enter the Inferno"
+      ],
+      "requirements": {
+        "skills": [],
+        "quests": [],
+        "diaries": [],
+        "combatLevel": null,
+        "questPoints": null,
+        "items": []
+      },
+      "ownedIf": [
+        {
+          "name": "Fire cape",
+          "id": 6570
+        }
+      ],
+      "gearTier": 6,
+      "sources": [
+        "minigame",
+        "reward"
+      ]
+    },
+    {
+      "id": "milestone:fighter-torso",
+      "category": "gear",
+      "subcategory": "melee",
+      "name": "Fighter torso",
+      "wikiTitle": "Fighter torso",
+      "priority": 7,
+      "reason": "Cheap, high-value melee torso from Barbarian Assault with no negative bonuses, filling the body slot until Bandos-tier upgrades.",
+      "unlocks": [
+        "Strong budget melee body slot upgrade"
+      ],
+      "requirements": {
+        "skills": [
+          {
+            "skill": "Defence",
+            "level": 40,
+            "boostable": false
+          }
+        ],
+        "quests": [],
+        "diaries": [],
+        "combatLevel": null,
+        "questPoints": null,
+        "items": []
+      },
+      "ownedIf": [
+        {
+          "name": "Fighter torso",
+          "id": 10551
+        }
+      ],
+      "gearTier": 5,
+      "sources": [
+        "minigame",
+        "reward"
+      ]
+    },
+    {
+      "id": "milestone:dragon-defender",
+      "category": "gear",
+      "subcategory": "melee",
+      "name": "Dragon defender",
+      "wikiTitle": "Dragon defender",
+      "priority": 6,
+      "reason": "Second-strongest defender in the game, giving strong melee accuracy and strength while occupying the shield slot until the Avernic defender.",
+      "unlocks": [
+        "Best defender available before the Avernic defender"
+      ],
+      "requirements": {
+        "skills": [
+          {
+            "skill": "Defence",
+            "level": 60,
+            "boostable": false
+          }
+        ],
+        "quests": [],
+        "diaries": [],
+        "combatLevel": null,
+        "questPoints": null,
+        "items": []
+      },
+      "ownedIf": [
+        {
+          "name": "Dragon defender",
+          "id": 12954
+        }
+      ],
+      "gearTier": 7,
+      "sources": [
+        "drop"
+      ]
+    },
+    {
+      "id": "milestone:avas-assembler",
+      "category": "gear",
+      "subcategory": "ranged",
+      "name": "Ava's assembler",
+      "wikiTitle": "Ava's assembler",
+      "priority": 8,
+      "reason": "Best-in-slot ranged cape (stat-identical to the cosmetic Masori assembler), gated behind killing Vorkath after Dragon Slayer II.",
+      "unlocks": [
+        "Best ranged cape slot item, unlockable further into Masori assembler (cosmetic only)"
+      ],
+      "requirements": {
+        "skills": [
+          {
+            "skill": "Ranged",
+            "level": 70,
+            "boostable": false
+          }
+        ],
+        "quests": [
+          "Dragon Slayer II"
+        ],
+        "diaries": [],
+        "combatLevel": null,
+        "questPoints": null,
+        "items": [
+          {
+            "name": "Vorkath's head",
+            "id": 21907,
+            "quantity": 1,
+            "sources": [
+              "Vorkath drop"
+            ]
+          },
+          {
+            "name": "Mithril arrow",
+            "id": 888,
+            "quantity": 75,
+            "sources": [
+              "GE"
+            ]
+          },
+          {
+            "name": "Coins",
+            "id": 995,
+            "quantity": 4999,
+            "sources": [
+              "GE"
+            ]
+          }
+        ]
+      },
+      "ownedIf": [
+        {
+          "name": "Ava's assembler",
+          "id": 22109
+        }
+      ],
+      "gearTier": 8,
+      "sources": [
+        "craft"
+      ]
+    },
+    {
+      "id": "milestone:elite-void",
+      "category": "gear",
+      "subcategory": "hybrid",
+      "name": "Elite void knight equipment",
+      "wikiTitle": "Elite Void Knight equipment",
+      "priority": 6,
+      "reason": "Upgraded Void top and robe add extra ranged/magic damage on top of the base Void set effect, giving cheap tribrid armour that swaps roles via helm.",
+      "unlocks": [
+        "Elite Void set bonus: +2.5% ranged damage or +5% magic damage on top of the base 10% set effect"
+      ],
+      "requirements": {
+        "skills": [
+          {
+            "skill": "Attack",
+            "level": 42,
+            "boostable": false
+          },
+          {
+            "skill": "Strength",
+            "level": 42,
+            "boostable": false
+          },
+          {
+            "skill": "Defence",
+            "level": 42,
+            "boostable": false
+          },
+          {
+            "skill": "Hitpoints",
+            "level": 42,
+            "boostable": false
+          },
+          {
+            "skill": "Ranged",
+            "level": 42,
+            "boostable": false
+          },
+          {
+            "skill": "Magic",
+            "level": 42,
+            "boostable": false
+          },
+          {
+            "skill": "Prayer",
+            "level": 22,
+            "boostable": false
+          }
+        ],
+        "quests": [],
+        "diaries": [
+          {
+            "area": "WESTERN",
+            "tier": "HARD"
+          }
+        ],
+        "combatLevel": null,
+        "questPoints": null,
+        "items": []
+      },
+      "ownedIf": [
+        {
+          "name": "Elite void top",
+          "id": 13072
+        },
+        {
+          "name": "Elite void robe",
+          "id": 13073
+        }
+      ],
+      "gearTier": 6,
+      "sources": [
+        "minigame",
+        "craft"
+      ]
+    },
+    {
+      "id": "milestone:slayer-helmet-imbued",
+      "category": "gear",
+      "subcategory": "hybrid",
+      "name": "Slayer helmet (imbued)",
+      "wikiTitle": "Slayer helmet (i)",
+      "priority": 9,
+      "reason": "Best-in-slot helm on Slayer tasks across all three combat styles, combining melee, ranged, and magic accuracy/damage bonuses in one head slot item.",
+      "unlocks": [
+        "16.67% melee, 15% ranged, and 15% magic accuracy/damage bonus against Slayer task monsters"
+      ],
+      "requirements": {
+        "skills": [
+          {
+            "skill": "Crafting",
+            "level": 55,
+            "boostable": true
+          },
+          {
+            "skill": "Slayer",
+            "level": 60,
+            "boostable": false
+          },
+          {
+            "skill": "Defence",
+            "level": 10,
+            "boostable": false
+          }
+        ],
+        "quests": [],
+        "diaries": [],
+        "combatLevel": null,
+        "questPoints": null,
+        "items": []
+      },
+      "ownedIf": [
+        {
+          "name": "Slayer helmet (i)",
+          "id": 11865
+        },
+        {
+          "name": "Slayer helmet (i)",
+          "id": 25177
+        },
+        {
+          "name": "Slayer helmet (i)",
+          "id": 26674
+        }
+      ],
+      "gearTier": 8,
+      "sources": [
+        "craft",
+        "minigame"
+      ]
+    },
+    {
+      "id": "milestone:piety",
+      "category": "prayer",
+      "subcategory": "melee",
+      "name": "Piety",
+      "wikiTitle": "Piety",
+      "priority": 10,
+      "reason": "Best melee combat prayer, boosting Attack, Strength, and Defence simultaneously, and a defining unlock for any melee-focused account.",
+      "unlocks": [
+        "+20% Attack, +23% Strength, +25% Defence while active",
+        "Morytania and Kandarin Hard Diary requirements"
+      ],
+      "requirements": {
+        "skills": [
+          {
+            "skill": "Prayer",
+            "level": 70,
+            "boostable": false
+          },
+          {
+            "skill": "Defence",
+            "level": 70,
+            "boostable": false
+          }
+        ],
+        "quests": [
+          "King's Ransom"
+        ],
+        "diaries": [],
+        "combatLevel": null,
+        "questPoints": null,
+        "items": []
+      },
+      "ownedIf": [],
+      "gearTier": null,
+      "sources": [
+        "quest",
+        "reward"
+      ]
+    },
+    {
+      "id": "milestone:rigour",
+      "category": "prayer",
+      "subcategory": "ranged",
+      "name": "Rigour",
+      "wikiTitle": "Rigour",
+      "priority": 8,
+      "reason": "Best ranged combat prayer, boosting Ranged Attack, Ranged Strength, and Defence, unlocked via a Chambers of Xeric raid drop.",
+      "unlocks": [
+        "+20% Ranged Attack, +23% Ranged Strength, +25% Defence while active"
+      ],
+      "requirements": {
+        "skills": [
+          {
+            "skill": "Prayer",
+            "level": 74,
+            "boostable": false
+          },
+          {
+            "skill": "Defence",
+            "level": 70,
+            "boostable": false
+          }
+        ],
+        "quests": [],
+        "diaries": [],
+        "combatLevel": null,
+        "questPoints": null,
+        "items": [
+          {
+            "name": "Dexterous prayer scroll",
+            "id": 21034,
+            "quantity": 1,
+            "sources": [
+              "Chambers of Xeric",
+              "GE"
+            ]
+          }
+        ]
+      },
+      "ownedIf": [],
+      "gearTier": null,
+      "sources": [
+        "drop",
+        "GE"
+      ]
+    },
+    {
+      "id": "milestone:augury",
+      "category": "prayer",
+      "subcategory": "magic",
+      "name": "Augury",
+      "wikiTitle": "Augury",
+      "priority": 7,
+      "reason": "Best magic combat prayer, boosting Magic Attack, Magic Damage, and Defence, unlocked via a Chambers of Xeric raid drop.",
+      "unlocks": [
+        "+25% Magic Attack, +4% Magic Damage, +25% Defence (magic and non-magic) while active"
+      ],
+      "requirements": {
+        "skills": [
+          {
+            "skill": "Prayer",
+            "level": 77,
+            "boostable": false
+          },
+          {
+            "skill": "Defence",
+            "level": 70,
+            "boostable": false
+          }
+        ],
+        "quests": [],
+        "diaries": [],
+        "combatLevel": null,
+        "questPoints": null,
+        "items": [
+          {
+            "name": "Arcane prayer scroll",
+            "id": 21079,
+            "quantity": 1,
+            "sources": [
+              "Chambers of Xeric",
+              "GE"
+            ]
+          }
+        ]
+      },
+      "ownedIf": [],
+      "gearTier": null,
+      "sources": [
+        "drop",
+        "GE"
+      ]
+    },
+    {
+      "id": "milestone:ancient-magicks",
+      "category": "spellbook",
+      "subcategory": "magic",
+      "name": "Ancient Magicks",
+      "wikiTitle": "Ancient Magicks",
+      "priority": 10,
+      "reason": "Unlocks the combat-oriented Ancient spellbook (including the ice barrage/blitz/burst family and unique teleports), a defining upgrade for any magic-focused account.",
+      "unlocks": [
+        "16 combat spells including Ice Barrage/Blitz/Burst freeze-and-damage spells",
+        "9 Ancient teleports across Kharidian Desert, Wilderness, and Morytania"
+      ],
+      "requirements": {
+        "skills": [
+          {
+            "skill": "Magic",
+            "level": 50,
+            "boostable": false
+          }
+        ],
+        "quests": [
+          "Desert Treasure I"
+        ],
+        "diaries": [],
+        "combatLevel": null,
+        "questPoints": null,
+        "items": []
+      },
+      "ownedIf": [],
+      "gearTier": null,
+      "sources": [
+        "quest",
+        "reward"
+      ]
+    },
+    {
+      "id": "milestone:fairy-rings",
+      "category": "unlock",
+      "subcategory": "utility",
+      "name": "Fairy rings",
+      "wikiTitle": "Fairy rings",
+      "priority": 6,
+      "reason": "Unlocks the fairy ring transportation network, one of the fastest and most versatile ways to reach remote training spots, bosses, and skilling locations across Gielinor.",
+      "unlocks": [
+        "Fairy ring teleport network (55+ rings)",
+        "Fast access to Zanaris and many otherwise long-walk areas"
+      ],
+      "requirements": {
+        "skills": [],
+        "quests": [
+          "Fairytale II - Cure a Queen"
+        ],
+        "diaries": [],
+        "combatLevel": null,
+        "questPoints": null,
+        "items": []
+      },
+      "ownedIf": [],
+      "gearTier": null,
+      "sources": [
+        "quest"
+      ]
+    },
+    {
+      "id": "milestone:graceful-outfit",
+      "category": "gear",
+      "subcategory": "utility",
+      "name": "Graceful outfit",
+      "wikiTitle": "Graceful outfit",
+      "priority": 5,
+      "reason": "The full graceful outfit reduces weight by 25kg and boosts run energy restoration by up to 30%, a lasting quality-of-life upgrade for Agility training, clue hunting, and general travel.",
+      "unlocks": [
+        "-25kg weight reduction when full set is worn",
+        "+30% run energy restoration rate when full set is worn (vs +20% from individual pieces)"
+      ],
+      "requirements": {
+        "skills": [],
+        "quests": [],
+        "diaries": [],
+        "combatLevel": null,
+        "questPoints": null,
+        "items": [
+          {
+            "name": "Mark of Grace",
+            "id": 11849,
+            "quantity": 260,
+            "sources": [
+              "Rooftop Agility Courses"
+            ]
+          }
+        ]
+      },
+      "ownedIf": [
+        {
+          "name": "Graceful hood",
+          "id": 11850
+        },
+        {
+          "name": "Graceful top",
+          "id": 11854
+        },
+        {
+          "name": "Graceful legs",
+          "id": 11856
+        },
+        {
+          "name": "Graceful gloves",
+          "id": 11858
+        },
+        {
+          "name": "Graceful boots",
+          "id": 11860
+        },
+        {
+          "name": "Graceful cape",
+          "id": 11852
+        }
+      ],
+      "gearTier": 4,
+      "sources": [
+        "shop"
+      ]
+    },
+    {
+      "id": "milestone:toxic-blowpipe",
+      "category": "gear",
+      "subcategory": "ranged",
+      "name": "Toxic blowpipe",
+      "wikiTitle": "Toxic blowpipe",
+      "priority": 7,
+      "reason": "A rapid, high-accuracy ranged weapon that needs no ammo restocking mid-trip beyond its charge, a huge DPS and convenience upgrade for mid-to-high level ranged PvM.",
+      "unlocks": [
+        "Fast, self-charging ranged weapon effective against most mid-to-high tier PvM content"
+      ],
+      "requirements": {
+        "skills": [
+          {
+            "skill": "Fletching",
+            "level": 78,
+            "boostable": true
+          }
+        ],
+        "quests": [],
+        "diaries": [],
+        "combatLevel": null,
+        "questPoints": null,
+        "items": [
+          {
+            "name": "Tanzanite fang",
+            "id": 12922,
+            "quantity": 1,
+            "sources": [
+              "Zulrah drop"
+            ]
+          },
+          {
+            "name": "Zulrah's scales",
+            "id": 12934,
+            "quantity": 1,
+            "sources": [
+              "Zulrah drop",
+              "GE"
+            ]
+          }
+        ]
+      },
+      "ownedIf": [
+        {
+          "name": "Toxic blowpipe (empty)",
+          "id": 12924
+        },
+        {
+          "name": "Toxic blowpipe",
+          "id": 12926
+        }
+      ],
+      "gearTier": 4,
+      "sources": [
+        "drop",
+        "craft"
+      ]
+    },
+    {
+      "id": "milestone:bow-of-faerdhinen",
+      "category": "gear",
+      "subcategory": "ranged",
+      "name": "Bow of Faerdhinen",
+      "wikiTitle": "Bow of Faerdhinen",
+      "priority": 9,
+      "reason": "Best-in-slot rapid ranged weapon for most PvM once Song of the Elves is complete, with top-tier accuracy and damage plus bonus synergy with crystal armour.",
+      "unlocks": [
+        "Highest Ranged attack/strength bonuses of any craftable bow",
+        "Up to +15% damage / +30% accuracy with full crystal armour equipped"
+      ],
+      "requirements": {
+        "skills": [
+          {
+            "skill": "Smithing",
+            "level": 82,
+            "boostable": true
+          },
+          {
+            "skill": "Crafting",
+            "level": 82,
+            "boostable": true
+          },
+          {
+            "skill": "Ranged",
+            "level": 80,
+            "boostable": false
+          },
+          {
+            "skill": "Agility",
+            "level": 70,
+            "boostable": false
+          }
+        ],
+        "quests": [
+          "Song of the Elves"
+        ],
+        "diaries": [],
+        "combatLevel": null,
+        "questPoints": null,
+        "items": [
+          {
+            "name": "Crystal shard",
+            "id": 23962,
+            "quantity": 100,
+            "sources": [
+              "Gauntlet",
+              "Prifddinas activities"
+            ]
+          },
+          {
+            "name": "Enhanced crystal weapon seed",
+            "id": 25859,
+            "quantity": 1,
+            "sources": [
+              "Corrupted Gauntlet",
+              "Crystal weapon seed upgrade"
+            ]
+          }
+        ]
+      },
+      "ownedIf": [
+        {
+          "name": "Bow of Faerdhinen (inactive)",
+          "id": 25862
+        },
+        {
+          "name": "Bow of Faerdhinen",
+          "id": 25865
+        }
+      ],
+      "gearTier": 8,
+      "sources": [
+        "craft"
+      ]
+    },
+    {
+      "id": "milestone:zenyte-jewellery",
+      "category": "gear",
+      "subcategory": "hybrid",
+      "name": "Zenyte jewellery",
+      "wikiTitle": "Zenyte",
+      "priority": 7,
+      "reason": "Zenyte accessories (amulet of torture, necklace of anguish, tormented bracelet, imbued ring of suffering) are the best-in-slot melee/ranged/magic jewellery pieces across all combat styles.",
+      "unlocks": [
+        "Amulet of torture - BiS melee neck slot",
+        "Necklace of anguish - BiS ranged neck slot",
+        "Tormented bracelet - BiS magic wrist slot",
+        "Ring of suffering (imbued) - BiS all-styles ring slot"
+      ],
+      "requirements": {
+        "skills": [
+          {
+            "skill": "Crafting",
+            "level": 89,
+            "boostable": true
+          }
+        ],
+        "quests": [],
+        "diaries": [],
+        "combatLevel": null,
+        "questPoints": null,
+        "items": [
+          {
+            "name": "Zenyte",
+            "id": 19493,
+            "quantity": 1,
+            "sources": [
+              "GE",
+              "Monkey Madness II (zenyte shard + cut onyx, from tortured/demonic gorillas)"
+            ]
+          }
+        ]
+      },
+      "ownedIf": [
+        {
+          "name": "Amulet of torture",
+          "id": 19553
+        },
+        {
+          "name": "Necklace of anguish",
+          "id": 19547
+        },
+        {
+          "name": "Tormented bracelet",
+          "id": 19544
+        },
+        {
+          "name": "Ring of suffering",
+          "id": 19550
+        },
+        {
+          "name": "Ring of suffering (i)",
+          "id": 19710
+        }
+      ],
+      "gearTier": 6,
+      "sources": [
+        "craft",
+        "drop",
+        "shop"
+      ]
+    },
+    {
+      "id": "milestone:bandos-armour",
+      "category": "gear",
+      "subcategory": "melee",
+      "name": "Bandos armour",
+      "wikiTitle": "Bandos armour",
+      "priority": 7,
+      "reason": "Bandos chestplate and tassets provide top-tier Strength and melee defence bonuses, a long-standing staple of mid-to-high level melee PvM setups.",
+      "unlocks": [
+        "High Strength-bonus melee torso and legs armour from General Graardor"
+      ],
+      "requirements": {
+        "skills": [
+          {
+            "skill": "Strength",
+            "level": 60,
+            "boostable": true
+          },
+          {
+            "skill": "Defence",
+            "level": 65,
+            "boostable": false
+          }
+        ],
+        "quests": [
+          "Troll Stronghold"
+        ],
+        "diaries": [],
+        "combatLevel": null,
+        "questPoints": null,
+        "items": []
+      },
+      "ownedIf": [
+        {
+          "name": "Bandos chestplate",
+          "id": 11832
+        },
+        {
+          "name": "Bandos tassets",
+          "id": 11834
+        }
+      ],
+      "gearTier": 5,
+      "sources": [
+        "drop"
+      ]
+    },
+    {
+      "id": "milestone:armadyl-armour",
+      "category": "gear",
+      "subcategory": "ranged",
+      "name": "Armadyl armour",
+      "wikiTitle": "Armadyl armour",
+      "priority": 7,
+      "reason": "Armadyl helmet, chestplate, and chainskirt form a lightweight ranged armour set with strong ranged defence bonuses, historically a top mid-tier ranged upgrade.",
+      "unlocks": [
+        "Lightweight, high ranged-defence armour set from Kree'arra"
+      ],
+      "requirements": {
+        "skills": [
+          {
+            "skill": "Strength",
+            "level": 60,
+            "boostable": true
+          },
+          {
+            "skill": "Defence",
+            "level": 70,
+            "boostable": false
+          },
+          {
+            "skill": "Ranged",
+            "level": 70,
+            "boostable": false
+          }
+        ],
+        "quests": [
+          "Troll Stronghold"
+        ],
+        "diaries": [],
+        "combatLevel": null,
+        "questPoints": null,
+        "items": []
+      },
+      "ownedIf": [
+        {
+          "name": "Armadyl helmet",
+          "id": 11826
+        },
+        {
+          "name": "Armadyl chestplate",
+          "id": 11828
+        },
+        {
+          "name": "Armadyl chainskirt",
+          "id": 11830
+        }
+      ],
+      "gearTier": 5,
+      "sources": [
+        "drop"
+      ]
+    },
+    {
+      "id": "milestone:ancestral-robes",
+      "category": "gear",
+      "subcategory": "magic",
+      "name": "Ancestral robes",
+      "wikiTitle": "Ancestral robes",
+      "priority": 7,
+      "reason": "Ancestral hat, robe top, and robe bottom form the best-in-slot magic damage armour set, a core upgrade for any serious magic-based PvM setup.",
+      "unlocks": [
+        "Highest magic damage bonus robe set in the game, from Chambers of Xeric"
+      ],
+      "requirements": {
+        "skills": [
+          {
+            "skill": "Magic",
+            "level": 75,
+            "boostable": false
+          },
+          {
+            "skill": "Defence",
+            "level": 65,
+            "boostable": false
+          }
+        ],
+        "quests": [],
+        "diaries": [],
+        "combatLevel": null,
+        "questPoints": null,
+        "items": []
+      },
+      "ownedIf": [
+        {
+          "name": "Ancestral hat",
+          "id": 21018
+        },
+        {
+          "name": "Ancestral robe top",
+          "id": 21021
+        },
+        {
+          "name": "Ancestral robe bottom",
+          "id": 21024
+        }
+      ],
+      "gearTier": 7,
+      "sources": [
+        "drop"
+      ]
+    },
+    {
+      "id": "milestone:masori-armour",
+      "category": "gear",
+      "subcategory": "ranged",
+      "name": "Masori armour",
+      "wikiTitle": "Masori armour",
+      "priority": 8,
+      "reason": "Masori mask, body, and chaps form the best-in-slot ranged armour set from Tombs of Amascut, offering the highest ranged accuracy and defence bonuses of any equipable armour.",
+      "unlocks": [
+        "Highest ranged attack bonus armour set in the game, from Tombs of Amascut",
+        "Fortified (f) variant adds further defence bonuses and +1 prayer bonus per piece"
+      ],
+      "requirements": {
+        "skills": [
+          {
+            "skill": "Ranged",
+            "level": 80,
+            "boostable": false
+          },
+          {
+            "skill": "Defence",
+            "level": 30,
+            "boostable": false
+          }
+        ],
+        "quests": [
+          "Beneath Cursed Sands"
+        ],
+        "diaries": [],
+        "combatLevel": null,
+        "questPoints": null,
+        "items": []
+      },
+      "ownedIf": [
+        {
+          "name": "Masori mask",
+          "id": 27226
+        },
+        {
+          "name": "Masori body",
+          "id": 27229
+        },
+        {
+          "name": "Masori chaps",
+          "id": 27232
+        },
+        {
+          "name": "Masori mask (f)",
+          "id": 27235
+        },
+        {
+          "name": "Masori body (f)",
+          "id": 27238
+        },
+        {
+          "name": "Masori chaps (f)",
+          "id": 27241
+        }
+      ],
+      "gearTier": 7,
+      "sources": [
+        "drop",
+        "craft"
+      ]
+    },
+    {
+      "id": "milestone:torva-armour",
+      "category": "gear",
+      "subcategory": "melee",
+      "name": "Torva armour",
+      "wikiTitle": "Torva armour",
+      "priority": 9,
+      "reason": "Torva full helm, platebody, and platelegs form the best-in-slot melee armour set in the game, dropped by Nex, representing a true account-defining melee upgrade.",
+      "unlocks": [
+        "Highest melee strength/defence bonus armour set in the game, from Nex"
+      ],
+      "requirements": {
+        "skills": [
+          {
+            "skill": "Smithing",
+            "level": 90,
+            "boostable": true
+          },
+          {
+            "skill": "Hitpoints",
+            "level": 70,
+            "boostable": true
+          },
+          {
+            "skill": "Ranged",
+            "level": 70,
+            "boostable": false
+          },
+          {
+            "skill": "Strength",
+            "level": 70,
+            "boostable": false
+          },
+          {
+            "skill": "Agility",
+            "level": 70,
+            "boostable": false
+          },
+          {
+            "skill": "Defence",
+            "level": 80,
+            "boostable": false
+          }
+        ],
+        "quests": [
+          "Troll Stronghold",
+          "The Frozen Door"
+        ],
+        "diaries": [],
+        "combatLevel": null,
+        "questPoints": null,
+        "items": [
+          {
+            "name": "Bandosian components",
+            "id": 26394,
+            "quantity": 1,
+            "sources": [
+              "Nex drop"
+            ]
+          }
+        ]
+      },
+      "ownedIf": [
+        {
+          "name": "Torva full helm (damaged)",
+          "id": 26376
+        },
+        {
+          "name": "Torva full helm",
+          "id": 26382
+        },
+        {
+          "name": "Torva platebody (damaged)",
+          "id": 26378
+        },
+        {
+          "name": "Torva platebody",
+          "id": 26384
+        },
+        {
+          "name": "Torva platelegs (damaged)",
+          "id": 26380
+        },
+        {
+          "name": "Torva platelegs",
+          "id": 26386
+        }
+      ],
+      "gearTier": 8,
+      "sources": [
+        "drop",
+        "craft"
+      ]
+    },
+    {
+      "id": "milestone:avernic-defender",
+      "category": "gear",
+      "subcategory": "melee",
+      "name": "Avernic defender",
+      "wikiTitle": "Avernic defender",
+      "priority": 7,
+      "reason": "The Avernic defender is the best-in-slot off-hand defender for melee, upgrading a dragon defender with the Avernic defender hilt reward from Theatre of Blood.",
+      "unlocks": [
+        "Best-in-slot melee defender, combining dragon defender bonuses with an irreversible hilt upgrade"
+      ],
+      "requirements": {
+        "skills": [
+          {
+            "skill": "Defence",
+            "level": 60,
+            "boostable": false
+          }
+        ],
+        "quests": [],
+        "diaries": [],
+        "combatLevel": null,
+        "questPoints": null,
+        "items": [
+          {
+            "name": "Dragon defender",
+            "id": 12954,
+            "quantity": 1,
+            "sources": [
+              "Cyclops (Warriors' Guild basement)"
+            ]
+          },
+          {
+            "name": "Avernic defender hilt",
+            "id": 22477,
+            "quantity": 1,
+            "sources": [
+              "Theatre of Blood reward"
+            ]
+          }
+        ]
+      },
+      "ownedIf": [
+        {
+          "name": "Avernic defender",
+          "id": 22322
+        }
+      ],
+      "gearTier": 6,
+      "sources": [
+        "craft"
+      ]
+    },
+    {
+      "id": "milestone:infernal-cape",
+      "category": "gear",
+      "subcategory": "hybrid",
+      "name": "Infernal cape",
+      "wikiTitle": "Infernal cape",
+      "priority": 8,
+      "reason": "Awarded for defeating TzKal-Zuk in the Inferno, the infernal cape is the best-in-slot melee cape and a widely recognised prestige item.",
+      "unlocks": [
+        "Best-in-slot melee cape slot item",
+        "Entry to the Inferno via handing in a Fire cape (one-time, consumed)"
+      ],
+      "requirements": {
+        "skills": [],
+        "quests": [],
+        "diaries": [],
+        "combatLevel": null,
+        "questPoints": null,
+        "items": [
+          {
+            "name": "Fire cape",
+            "id": 6570,
+            "quantity": 1,
+            "sources": [
+              "TzHaar Fight Cave reward"
+            ]
+          }
+        ]
+      },
+      "ownedIf": [
+        {
+          "name": "Infernal cape",
+          "id": 21295
+        }
+      ],
+      "gearTier": 7,
+      "sources": [
+        "reward"
+      ]
+    },
+    {
+      "id": "slayer:broad-ammo",
+      "category": "slayer_target",
+      "subcategory": null,
+      "name": "Broad ammunition",
+      "wikiTitle": "Broad bolts",
+      "priority": 5,
+      "reason": "Level 55 Slayer unlocks broad bolts and broad arrows, the only ranged ammunition able to damage Turoth and Kurask, letting Ranged-based accounts handle those tasks without switching to melee or magic.",
+      "unlocks": [
+        "Broad bolts equippable (Slayer 55, Ranged 61)",
+        "Broad arrows equippable (Slayer 55, Ranged 50)",
+        "Only ranged ammo that can damage Turoth and Kurask",
+        "Purchasable from any Slayer master for 35 Slayer reward points per set of 250",
+        "Broader Fletching unlock (300 Slayer points) lets 55 Fletching (bolts) / 52 Fletching (arrows) players craft their own"
+      ],
+      "requirements": {
+        "skills": [
+          {
+            "skill": "Slayer",
+            "level": 55,
+            "boostable": false
+          }
+        ],
+        "quests": [],
+        "diaries": [],
+        "combatLevel": null,
+        "questPoints": null,
+        "items": []
+      },
+      "ownedIf": [],
+      "gearTier": null,
+      "sources": [
+        "shop"
+      ]
+    },
+    {
+      "id": "slayer:cave-horrors",
+      "category": "slayer_target",
+      "subcategory": null,
+      "name": "Cave horrors",
+      "wikiTitle": "Cave horror",
+      "priority": 5,
+      "reason": "Level 58 Slayer unlocks Cave horror tasks, a reliable source of black mask drops and one of the better hard clue scroll rates among mid-level Slayer monsters.",
+      "unlocks": [
+        "Black mask drops",
+        "High hard clue scroll drop rate",
+        "Special attack dealing 10% of the player's base Hitpoints, mitigated by a witchwood icon or nullified by Protect from Melee",
+        "A light source (or a lit fire of eternal light) is required to see in the cave"
+      ],
+      "requirements": {
+        "skills": [
+          {
+            "skill": "Slayer",
+            "level": 58,
+            "boostable": false
+          }
+        ],
+        "quests": [
+          "Cabin Fever"
+        ],
+        "diaries": [],
+        "combatLevel": null,
+        "questPoints": null,
+        "items": []
+      },
+      "ownedIf": [],
+      "gearTier": null,
+      "sources": [
+        "drop"
+      ]
+    },
+    {
+      "id": "slayer:dust-devils",
+      "category": "slayer_target",
+      "subcategory": null,
+      "name": "Dust devils",
+      "wikiTitle": "Dust devil",
+      "priority": 5,
+      "reason": "Level 65 Slayer unlocks Dust devil tasks, a fast, high-volume task commonly bursted or barraged in the Catacombs of Kourend or Smoke Dungeon while wearing a facemask or Slayer helmet.",
+      "unlocks": [
+        "Dust devil task assignment",
+        "Facemask (or Slayer helmet) required to avoid full Attack/Strength/Ranged/Magic drain and 50% Agility/Defence/Prayer drain",
+        "Rare dragon chainbody and dust battlestaff drops",
+        "Smoke Dungeon access (one of three dust devil locations) requires Desert Treasure I to be underway; the Catacombs of Kourend and Wilderness Slayer Cave locations do not"
+      ],
+      "requirements": {
+        "skills": [
+          {
+            "skill": "Slayer",
+            "level": 65,
+            "boostable": false
+          }
+        ],
+        "quests": [],
+        "diaries": [],
+        "combatLevel": null,
+        "questPoints": null,
+        "items": []
+      },
+      "ownedIf": [],
+      "gearTier": null,
+      "sources": [
+        "drop"
+      ]
+    },
+    {
+      "id": "slayer:kurask",
+      "category": "slayer_target",
+      "subcategory": null,
+      "name": "Kurask",
+      "wikiTitle": "Kurask",
+      "priority": 5,
+      "reason": "Level 70 Slayer unlocks Kurask tasks; they're immune to standard weapons and must be fought with leaf-bladed weapons, broad ammunition, or Magic Dart, making broad ammo/leaf-bladed gear a natural companion unlock.",
+      "unlocks": [
+        "Kurask slayer task",
+        "Immune to all damage except leaf-bladed weapons, broad-tipped ammunition, or Magic Dart",
+        "Fast HP regeneration (1 HP per 5 ticks)"
+      ],
+      "requirements": {
+        "skills": [
+          {
+            "skill": "Slayer",
+            "level": 70,
+            "boostable": false
+          }
+        ],
+        "quests": [],
+        "diaries": [],
+        "combatLevel": null,
+        "questPoints": null,
+        "items": []
+      },
+      "ownedIf": [],
+      "gearTier": null,
+      "sources": [
+        "drop"
+      ]
+    },
+    {
+      "id": "slayer:skeletal-wyverns",
+      "category": "slayer_target",
+      "subcategory": null,
+      "name": "Skeletal wyverns",
+      "wikiTitle": "Skeletal Wyvern",
+      "priority": 6,
+      "reason": "Level 72 Slayer unlocks skeletal wyvern tasks, the only monster that drops granite legs, found at the end of the Asgarnian Ice Dungeon.",
+      "unlocks": [
+        "Granite legs (only source in the game)",
+        "Draconic visage drops",
+        "Slayer masters only assign this task after Elemental Workshop I has been completed, since an elemental shield or better is needed to block the icy breath attack",
+        "Salve amulet does not work against them (magically animated, not true undead)"
+      ],
+      "requirements": {
+        "skills": [
+          {
+            "skill": "Slayer",
+            "level": 72,
+            "boostable": false
+          }
+        ],
+        "quests": [],
+        "diaries": [],
+        "combatLevel": null,
+        "questPoints": null,
+        "items": []
+      },
+      "ownedIf": [],
+      "gearTier": null,
+      "sources": [
+        "drop"
+      ]
+    },
+    {
+      "id": "slayer:gargoyles",
+      "category": "slayer_target",
+      "subcategory": null,
+      "name": "Gargoyles",
+      "wikiTitle": "Gargoyle",
+      "priority": 6,
+      "reason": "Level 75 Slayer unlocks Gargoyle tasks, popular for strong GP/hour from rune item drops and reasonable Slayer XP rates in the Slayer Tower.",
+      "unlocks": [
+        "Gargoyle slayer task",
+        "Requires a rock hammer, rock thrownhammer, or granite hammer to finish off (or the Gargoyle Smasher perk, 120 Slayer points)",
+        "Basement gargoyles only attackable while on task"
+      ],
+      "requirements": {
+        "skills": [
+          {
+            "skill": "Slayer",
+            "level": 75,
+            "boostable": false
+          }
+        ],
+        "quests": [],
+        "diaries": [],
+        "combatLevel": null,
+        "questPoints": null,
+        "items": []
+      },
+      "ownedIf": [],
+      "gearTier": null,
+      "sources": [
+        "drop"
+      ]
+    },
+    {
+      "id": "slayer:nechryael",
+      "category": "slayer_target",
+      "subcategory": null,
+      "name": "Nechryael",
+      "wikiTitle": "Nechryael",
+      "priority": 6,
+      "reason": "Level 80 Slayer unlocks Nechryael tasks, known for frequent rune boots and rune/seed drops, and a stepping stone toward Greater nechryael/Nechryarch.",
+      "unlocks": [
+        "Rune boots drops (Strength bonus boots)",
+        "Frequent seed and combat rune drops",
+        "Access to fighting Greater nechryael variant in Catacombs of Kourend, Iorwerth Dungeon, Wilderness Slayer Cave"
+      ],
+      "requirements": {
+        "skills": [
+          {
+            "skill": "Slayer",
+            "level": 80,
+            "boostable": false
+          }
+        ],
+        "quests": [],
+        "diaries": [],
+        "combatLevel": null,
+        "questPoints": null,
+        "items": []
+      },
+      "ownedIf": [],
+      "gearTier": null,
+      "sources": [
+        "drop"
+      ]
+    },
+    {
+      "id": "slayer:abyssal-demons",
+      "category": "slayer_target",
+      "subcategory": null,
+      "name": "Abyssal demons",
+      "wikiTitle": "Abyssal demon",
+      "priority": 7,
+      "reason": "Level 85 Slayer unlocks Abyssal demon tasks, the sole non-boss source of the abyssal whip and abyssal dagger, a long-standing goal for melee accounts.",
+      "unlocks": [
+        "Abyssal whip drop",
+        "Abyssal dagger drop",
+        "Access to the Abyssal Sire boss variant"
+      ],
+      "requirements": {
+        "skills": [
+          {
+            "skill": "Slayer",
+            "level": 85,
+            "boostable": false
+          }
+        ],
+        "quests": [],
+        "diaries": [],
+        "combatLevel": null,
+        "questPoints": null,
+        "items": []
+      },
+      "ownedIf": [],
+      "gearTier": null,
+      "sources": [
+        "drop"
+      ]
+    },
+    {
+      "id": "slayer:kraken",
+      "category": "slayer_target",
+      "subcategory": null,
+      "name": "Kraken",
+      "wikiTitle": "Kraken",
+      "priority": 7,
+      "reason": "Level 87 Slayer unlocks the Kraken boss, the only monster to drop the trident of the seas and Kraken tentacle, and a strong AFK-style magic-only Slayer task.",
+      "unlocks": [
+        "Trident of the seas drop",
+        "Kraken tentacle drop",
+        "Slayer level for Kraken cannot be boosted",
+        "Must be on a Kraken/cave kraken Slayer task to attack it; also requires level 50 Magic",
+        "Immune to Melee and reduced Ranged damage; Magic is the only reliable damage source"
+      ],
+      "requirements": {
+        "skills": [
+          {
+            "skill": "Slayer",
+            "level": 87,
+            "boostable": false
+          },
+          {
+            "skill": "Magic",
+            "level": 50,
+            "boostable": true
+          }
+        ],
+        "quests": [],
+        "diaries": [],
+        "combatLevel": null,
+        "questPoints": null,
+        "items": []
+      },
+      "ownedIf": [],
+      "gearTier": null,
+      "sources": [
+        "drop"
+      ]
+    },
+    {
+      "id": "slayer:cerberus",
+      "category": "slayer_target",
+      "subcategory": null,
+      "name": "Cerberus",
+      "wikiTitle": "Cerberus",
+      "priority": 8,
+      "reason": "Level 91 Slayer unlocks Cerberus, a lucrative boss dropping the eternal, pegasian, and primordial crystals used to upgrade top-tier feet-slot gear, plus the Hellpuppy pet.",
+      "unlocks": [
+        "Eternal crystal (upgrades infinity boots to eternal boots)",
+        "Pegasian crystal (upgrades ranger boots to pegasian boots)",
+        "Primordial crystal (upgrades dragon boots to primordial boots)",
+        "Jar of Souls and Hellpuppy pet",
+        "Smouldering stone at an improved rate vs. regular hellhounds"
+      ],
+      "requirements": {
+        "skills": [
+          {
+            "skill": "Slayer",
+            "level": 91,
+            "boostable": true
+          }
+        ],
+        "quests": [],
+        "diaries": [],
+        "combatLevel": null,
+        "questPoints": null,
+        "items": []
+      },
+      "ownedIf": [],
+      "gearTier": null,
+      "sources": [
+        "drop"
+      ]
+    },
+    {
+      "id": "slayer:smoke-devils",
+      "category": "slayer_target",
+      "subcategory": null,
+      "name": "Smoke devils",
+      "wikiTitle": "Smoke devil",
+      "priority": 7,
+      "reason": "Level 93 Slayer unlocks Smoke devil tasks (bursted/barraged in a multi-combat chamber) and, at the same 93 Slayer requirement, the Thermonuclear smoke devil boss, sole source of the smoke battlestaff.",
+      "unlocks": [
+        "Smoke devil slayer task (requires an active task to be harmed; facemask/Slayer helmet required)",
+        "Occult necklace drop",
+        "Thermonuclear smoke devil boss access (also 93 Slayer; attackable only on a smoke devil task, except one permitted off-task kill for the Western Provinces elite diary)",
+        "Smoke battlestaff, jar of smoke, and pet smoke devil (Thermonuclear smoke devil only)"
+      ],
+      "requirements": {
+        "skills": [
+          {
+            "skill": "Slayer",
+            "level": 93,
+            "boostable": false
+          }
+        ],
+        "quests": [],
+        "diaries": [],
+        "combatLevel": null,
+        "questPoints": null,
+        "items": []
+      },
+      "ownedIf": [],
+      "gearTier": null,
+      "sources": [
+        "drop"
+      ]
+    },
+    {
+      "id": "slayer:hydra",
+      "category": "slayer_target",
+      "subcategory": null,
+      "name": "Alchemical Hydra",
+      "wikiTitle": "Alchemical Hydra",
+      "priority": 8,
+      "reason": "Level 95 Slayer unlocks the Alchemical Hydra, a top-end Slayer boss whose hydra's claw and hydra leather feed into the dragon hunter lance and ferocious gloves.",
+      "unlocks": [
+        "Hydra's claw (combines with Zamorakian hasta for dragon hunter lance)",
+        "Hydra leather (used to create ferocious gloves)",
+        "Ikkle hydra pet",
+        "Attackable only while on a hydra Slayer task, assigned solely by Konar quo Maten or Mortimer",
+        "Boots of stone/brimstone/granite boots required unless elite Kourend & Kebos Diary is complete"
+      ],
+      "requirements": {
+        "skills": [
+          {
+            "skill": "Slayer",
+            "level": 95,
+            "boostable": false
+          }
+        ],
+        "quests": [],
+        "diaries": [],
+        "combatLevel": null,
+        "questPoints": null,
+        "items": []
+      },
+      "ownedIf": [],
+      "gearTier": null,
+      "sources": [
+        "drop"
+      ]
+    },
+    {
+      "id": "boss:barrows",
+      "category": "boss",
+      "subcategory": null,
+      "name": "Barrows",
+      "wikiTitle": "Barrows",
+      "priority": 6,
+      "reason": "Barrows is an early minigame-style boss delivering the six iconic Barrows equipment sets (Ahrim's, Dharok's, Guthan's, Karil's, Torag's, Verac's), a staple of early-mid game melee/mage/range progression and a long-running gold-per-hour activity. Note: Barrows gloves are a SEPARATE reward, purchased from the Culinaromancer's Chest after fully completing Recipe for Disaster (not dropped from the Barrows chest) — do not conflate the two.",
+      "unlocks": [
+        "Ahrim's equipment",
+        "Dharok's equipment",
+        "Guthan's equipment",
+        "Karil's equipment",
+        "Torag's equipment",
+        "Verac's equipment"
+      ],
+      "requirements": {
+        "skills": [],
+        "quests": [
+          "Priest in Peril",
+          "His Faithful Servants"
+        ],
+        "diaries": [],
+        "combatLevel": null,
+        "questPoints": null,
+        "items": []
+      },
+      "ownedIf": [],
+      "gearTier": null,
+      "sources": [
+        "drop"
+      ]
+    },
+    {
+      "id": "boss:moons-of-peril",
+      "category": "boss",
+      "subcategory": null,
+      "name": "Moons of Peril",
+      "wikiTitle": "Moons of Peril",
+      "priority": 6,
+      "reason": "Three naguas imprisoned in Neypotzli beneath Cam Torum, aimed at mid-level players. Completing the Perilous Moons quest is required to fight them. Drops three armour sets, each tied to one combat style: Blood moon armour is melee (Bloodrager set effect, a stepping-stone toward Bandos armour), Blue moon armour is magic (Frostweaver set effect), and Eclipse moon armour is ranged (Eclipse set effect).",
+      "unlocks": [
+        "Blood moon armour (melee)",
+        "Blue moon armour (magic)",
+        "Eclipse moon armour (ranged)"
+      ],
+      "requirements": {
+        "skills": [],
+        "quests": [
+          "Perilous Moons"
+        ],
+        "diaries": [],
+        "combatLevel": 75,
+        "questPoints": null,
+        "items": []
+      },
+      "ownedIf": [],
+      "gearTier": null,
+      "sources": [
+        "drop"
+      ]
+    },
+    {
+      "id": "boss:zulrah",
+      "category": "boss",
+      "subcategory": null,
+      "name": "Zulrah",
+      "wikiTitle": "Zulrah",
+      "priority": 8,
+      "reason": "Zulrah is a solo-only shapeshifting boss and a core mid-game milestone. Kills yield the toxic blowpipe components (tanzanite fang/magic fang plus Zulrah's scales as ammo), the serpentine visage (serpentine helm), tanzanite and magma mutagens, and a chance at uncut onyx. Note: the wiki specifies access requires Regicide progressed only to the point of reaching Port Tyras, not necessarily full quest completion.",
+      "unlocks": [
+        "Zulrah's scales (toxic blowpipe ammunition)",
+        "Tanzanite fang / Magic fang (toxic blowpipe component)",
+        "Serpentine visage (serpentine helm)",
+        "Tanzanite mutagen",
+        "Magma mutagen",
+        "Uncut onyx"
+      ],
+      "requirements": {
+        "skills": [],
+        "quests": [
+          "Regicide"
+        ],
+        "diaries": [],
+        "combatLevel": null,
+        "questPoints": null,
+        "items": []
+      },
+      "ownedIf": [],
+      "gearTier": null,
+      "sources": [
+        "drop"
+      ]
+    },
+    {
+      "id": "boss:vorkath",
+      "category": "boss",
+      "subcategory": null,
+      "name": "Vorkath",
+      "wikiTitle": "Vorkath",
+      "priority": 8,
+      "reason": "Vorkath is a powerful blue dragon fought again (in a harder form) after completing Dragon Slayer II, and is a core mid-to-late game money-maker and gear source. Notable drops include the draconic visage (dragonfire shield component), skeletal visage (skeletal shield component), and the cosmetic Vorkath's head.",
+      "unlocks": [
+        "Draconic visage (dragonfire shield component)",
+        "Skeletal visage (skeletal shield component)",
+        "Vorkath's head"
+      ],
+      "requirements": {
+        "skills": [],
+        "quests": [
+          "Dragon Slayer II"
+        ],
+        "diaries": [],
+        "combatLevel": null,
+        "questPoints": null,
+        "items": []
+      },
+      "ownedIf": [],
+      "gearTier": null,
+      "sources": [
+        "drop"
+      ]
+    },
+    {
+      "id": "boss:god-wars-dungeon",
+      "category": "boss",
+      "subcategory": null,
+      "name": "God Wars Dungeon",
+      "wikiTitle": "God Wars Dungeon",
+      "priority": 8,
+      "reason": "Combined entry covering all four God Wars generals: General Graardor (Bandos), Kree'arra (Armadyl), Commander Zilyana (Saradomin), and K'ril Tsutsaroth (Zamorak). Dungeon-wide access requires completing Death Plateau and at least partial Troll Stronghold (defeating Dad) — or alternatively Ghommal's hilt from Easy Combat Achievements can bypass both quests entirely. Each individual boss room additionally requires killing that god's minions for a 'kill count' (or spending an Ecumenical key to skip it) — this KC/key system applies to all four generals, not just Zilyana and K'ril; Graardor's and K'ril's minions simply die fast enough that KC feels trivial. There is no Watchtower quest requirement anywhere in this chain — Kree'arra requires no quest beyond the shared dungeon-access gate. Room-specific stat gates (cannot be boosted): 70 Strength for Bandos' Stronghold (Graardor), 70 Agility for Saradomin's Encampment (Zilyana), plus a rope for first-time dungeon entry and extra ropes for Saradomin's Encampment. Drops include Bandos armour + Bandos hilt, Armadyl armour + Armadyl hilt, Saradomin sword + Saradomin's light, and Zamorak hilt + Steam battlestaff — hilts combine with godsword shards/blade for the four godswords.",
+      "unlocks": [
+        "Bandos chestplate/tassets/boots",
+        "Bandos hilt (Bandos godsword)",
+        "Armadyl helmet/chestplate/chainskirt",
+        "Armadyl hilt (Armadyl godsword)",
+        "Saradomin sword",
+        "Saradomin's light",
+        "Zamorak hilt (Zamorak godsword)",
+        "Steam battlestaff"
+      ],
+      "requirements": {
+        "skills": [],
+        "quests": [
+          "Death Plateau",
+          "Troll Stronghold"
+        ],
+        "diaries": [],
+        "combatLevel": 85,
+        "questPoints": null,
+        "items": []
+      },
+      "ownedIf": [],
+      "gearTier": null,
+      "sources": [
+        "drop"
+      ]
+    },
+    {
+      "id": "boss:dagannoth-kings",
+      "category": "boss",
+      "subcategory": null,
+      "name": "Dagannoth Kings",
+      "wikiTitle": "Dagannoth Kings",
+      "priority": 6,
+      "reason": "The three Dagannoth Kings (Rex, Prime, Supreme) reside on the sixth floor of the Waterbirth Island Dungeon and represent the combat triangle. No quest is required to enter the dungeon or fight them — Horror from the Deep is an unrelated quest tied to a different dungeon (the Lighthouse) and does not gate Waterbirth/DKs access. Drops include the berserker ring and warrior ring (from Rex), seers ring and mud battlestaff (from Prime), archers ring and Seercull (from Supreme), plus dragon axe and dagannoth bones from all three.",
+      "unlocks": [
+        "Berserker ring",
+        "Warrior ring",
+        "Seers ring",
+        "Archers ring",
+        "Mud battlestaff",
+        "Seercull",
+        "Dragon axe"
+      ],
+      "requirements": {
+        "skills": [],
+        "quests": [],
+        "diaries": [],
+        "combatLevel": null,
+        "questPoints": null,
+        "items": []
+      },
+      "ownedIf": [],
+      "gearTier": null,
+      "sources": [
+        "drop"
+      ]
+    },
+    {
+      "id": "boss:gauntlet",
+      "category": "boss",
+      "subcategory": null,
+      "name": "The Gauntlet",
+      "wikiTitle": "The Gauntlet",
+      "priority": 7,
+      "reason": "A solo procedurally-generated minigame in Prifddinas culminating in a fight against the Crystalline Hunllef. Access requires completing Song of the Elves (to unlock Prifddinas itself) — there is no other quest or level gate, though high combat stats (80+ across the board) are strongly advised. Crystal armour seed drops start the crystal armour/Bow of Faerdhinen progression line that continues through the Corrupted Gauntlet.",
+      "unlocks": [
+        "Crystal armour seed (crystal helm/body/legs)",
+        "Crystal weapon seed (Bow of Faerdhinen progression)",
+        "Crystal shards"
+      ],
+      "requirements": {
+        "skills": [],
+        "quests": [
+          "Song of the Elves"
+        ],
+        "diaries": [],
+        "combatLevel": null,
+        "questPoints": null,
+        "items": []
+      },
+      "ownedIf": [],
+      "gearTier": null,
+      "sources": [
+        "drop"
+      ]
+    },
+    {
+      "id": "boss:corrupted-gauntlet",
+      "category": "boss",
+      "subcategory": null,
+      "name": "The Corrupted Gauntlet",
+      "wikiTitle": "The Corrupted Gauntlet",
+      "priority": 8,
+      "reason": "A significantly harder hardmode version of The Gauntlet, fought against the Corrupted Hunllef (1000 HP, increased damage, shorter 7:30 prep window vs. 10:00). Entry requires having completed the regular Gauntlet at least once, plus the same Song of the Elves quest gate for Prifddinas access. No single recommended combat level figure is published on the wiki (only stat-by-stat recommendations, similar to or higher than the base Gauntlet's 80+ guidance). Notable extra rewards include the enhanced crystal weapon seed (further upgrades Bow of Faerdhinen-line weapons) and the Youngllef pet.",
+      "unlocks": [
+        "Enhanced crystal weapon seed",
+        "Youngllef (pet)",
+        "Gauntlet cape",
+        "Extra loot roll vs. base Gauntlet"
+      ],
+      "requirements": {
+        "skills": [],
+        "quests": [
+          "Song of the Elves"
+        ],
+        "diaries": [],
+        "combatLevel": null,
+        "questPoints": null,
+        "items": []
+      },
+      "ownedIf": [],
+      "gearTier": null,
+      "sources": [
+        "drop"
+      ]
+    },
+    {
+      "id": "boss:phantom-muspah",
+      "category": "boss",
+      "subcategory": null,
+      "name": "Phantom Muspah",
+      "wikiTitle": "Phantom Muspah",
+      "priority": 6,
+      "reason": "A stronger version of the Strange Creature fought after completing Secrets of the North, found in the Ghorrock Dungeon near Weiss. Notable drops include ancient essence and the Venator shard, five of which combine into the Venator bow.",
+      "unlocks": [
+        "Ancient essence",
+        "Venator shard (5 combine into Venator bow)",
+        "Ancient icon"
+      ],
+      "requirements": {
+        "skills": [],
+        "quests": [
+          "Secrets of the North"
+        ],
+        "diaries": [],
+        "combatLevel": null,
+        "questPoints": null,
+        "items": []
+      },
+      "ownedIf": [],
+      "gearTier": null,
+      "sources": [
+        "drop"
+      ]
+    },
+    {
+      "id": "boss:nex",
+      "category": "boss",
+      "subcategory": null,
+      "name": "Nex",
+      "wikiTitle": "Nex",
+      "priority": 8,
+      "reason": "Nex, Zaros's general, is imprisoned in the Ancient Prison beneath the God Wars Dungeon. The actual quest gate is The Frozen Door miniquest (which itself requires Desert Treasure I). The Frozen Door also requires 70 Hitpoints/Ranged/Strength/Agility (uncapped, only Hitpoints boostable) to traverse the four GWD generals' rooms, since the frozen key needed to open the Ancient Prison is assembled from pieces dropped by all four generals. An optional 100,000gp group-instance fee is available to players with Hard Combat Achievements. Drops include torva armour, zaryte vambraces, the ancient hilt (Ancient godsword), and the nihil horn (zaryte crossbow component).",
+      "unlocks": [
+        "Torva armour",
+        "Zaryte vambraces",
+        "Ancient hilt (Ancient godsword)",
+        "Nihil horn (zaryte crossbow component)"
+      ],
+      "requirements": {
+        "skills": [],
+        "quests": [
+          "The Frozen Door"
+        ],
+        "diaries": [],
+        "combatLevel": null,
+        "questPoints": null,
+        "items": []
+      },
+      "ownedIf": [],
+      "gearTier": null,
+      "sources": [
+        "drop"
+      ]
+    },
+    {
+      "id": "boss:duke-sucellus",
+      "category": "boss",
+      "subcategory": null,
+      "name": "Duke Sucellus",
+      "wikiTitle": "Duke Sucellus",
+      "priority": 8,
+      "reason": "Desert Treasure II boss. Drops Magus vestige (combines into the Magus ring, a top-tier magic ring), Virtus robe top and mask (BiS mage armour pieces shared by all four DT2 bosses), and the awakener's orb used to upgrade elemental weapons into their ancient variants.",
+      "unlocks": [
+        "Magus ring",
+        "Virtus robe top",
+        "Virtus mask",
+        "Awakener's orb (weapon upgrades)"
+      ],
+      "requirements": {
+        "skills": [],
+        "quests": [
+          "Desert Treasure II - The Fallen Empire"
+        ],
+        "diaries": [],
+        "combatLevel": null,
+        "questPoints": null,
+        "items": []
+      },
+      "ownedIf": [],
+      "gearTier": null,
+      "sources": [
+        "drop"
+      ]
+    },
+    {
+      "id": "boss:the-whisperer",
+      "category": "boss",
+      "subcategory": null,
+      "name": "The Whisperer",
+      "wikiTitle": "The Whisperer",
+      "priority": 7,
+      "reason": "Desert Treasure II boss. Drops Bellator vestige (combines into the Bellator ring), Siren's staff (combines into the Accursed sceptre), and Virtus robe top/mask.",
+      "unlocks": [
+        "Bellator ring",
+        "Accursed sceptre",
+        "Virtus robe top",
+        "Virtus mask"
+      ],
+      "requirements": {
+        "skills": [],
+        "quests": [
+          "Desert Treasure II - The Fallen Empire"
+        ],
+        "diaries": [],
+        "combatLevel": null,
+        "questPoints": null,
+        "items": []
+      },
+      "ownedIf": [],
+      "gearTier": null,
+      "sources": [
+        "drop"
+      ]
+    },
+    {
+      "id": "boss:vardorvis",
+      "category": "boss",
+      "subcategory": null,
+      "name": "Vardorvis",
+      "wikiTitle": "Vardorvis",
+      "priority": 8,
+      "reason": "Desert Treasure II boss. Drops Ultor vestige (combines into the Ultor ring, BiS melee-strength ring) and Executioner's axe head (combines into the Executioner's axe, a component of the Soulreaper axe), plus Virtus robe top/mask.",
+      "unlocks": [
+        "Ultor ring",
+        "Executioner's axe",
+        "Virtus robe top",
+        "Virtus mask"
+      ],
+      "requirements": {
+        "skills": [],
+        "quests": [
+          "Desert Treasure II - The Fallen Empire"
+        ],
+        "diaries": [],
+        "combatLevel": null,
+        "questPoints": null,
+        "items": []
+      },
+      "ownedIf": [],
+      "gearTier": null,
+      "sources": [
+        "drop"
+      ]
+    },
+    {
+      "id": "boss:the-leviathan",
+      "category": "boss",
+      "subcategory": null,
+      "name": "The Leviathan",
+      "wikiTitle": "The Leviathan",
+      "priority": 8,
+      "reason": "Desert Treasure II boss. Drops Venator vestige (combines into the Venator ring, a powerful general-purpose ring) and Virtus robe top/mask.",
+      "unlocks": [
+        "Venator ring",
+        "Virtus robe top",
+        "Virtus mask"
+      ],
+      "requirements": {
+        "skills": [],
+        "quests": [
+          "Desert Treasure II - The Fallen Empire"
+        ],
+        "diaries": [],
+        "combatLevel": null,
+        "questPoints": null,
+        "items": []
+      },
+      "ownedIf": [],
+      "gearTier": null,
+      "sources": [
+        "drop"
+      ]
+    },
+    {
+      "id": "boss:zalcano",
+      "category": "boss",
+      "subcategory": null,
+      "name": "Zalcano",
+      "wikiTitle": "Zalcano",
+      "priority": 5,
+      "reason": "Group skilling boss beneath Prifddinas fought with Mining, Smithing and Runecraft rather than combat. Drops the crystal tool seed, used to upgrade a dragon pickaxe or dragon axe into crystal tools, plus the Smolcano pet.",
+      "unlocks": [
+        "Crystal tool seed",
+        "Smolcano pet"
+      ],
+      "requirements": {
+        "skills": [
+          {
+            "skill": "Mining",
+            "level": 70,
+            "boostable": true
+          },
+          {
+            "skill": "Smithing",
+            "level": 70,
+            "boostable": true
+          }
+        ],
+        "quests": [
+          "Song of the Elves"
+        ],
+        "diaries": [],
+        "combatLevel": null,
+        "questPoints": null,
+        "items": []
+      },
+      "ownedIf": [],
+      "gearTier": null,
+      "sources": [
+        "drop"
+      ]
+    },
+    {
+      "id": "milestone:wintertodt",
+      "category": "unlock",
+      "subcategory": "utility",
+      "name": "Wintertodt",
+      "wikiTitle": "Wintertodt",
+      "priority": 6,
+      "reason": "Cooperative Firemaking skilling boss and one of the best AFK Firemaking training methods in the game. Rewards include the pyromancer outfit (boosts Firemaking xp), tome of fire (BiS fire spell bonus), bruma torch, and the Phoenix pet.",
+      "unlocks": [
+        "Pyromancer outfit",
+        "Tome of fire",
+        "Bruma torch",
+        "Phoenix pet"
+      ],
+      "requirements": {
+        "skills": [
+          {
+            "skill": "Firemaking",
+            "level": 50,
+            "boostable": true
+          }
+        ],
+        "quests": [],
+        "diaries": [],
+        "combatLevel": null,
+        "questPoints": null,
+        "items": []
+      },
+      "ownedIf": [],
+      "gearTier": null,
+      "sources": [
+        "minigame"
+      ]
+    },
+    {
+      "id": "milestone:tempoross",
+      "category": "unlock",
+      "subcategory": "utility",
+      "name": "Tempoross",
+      "wikiTitle": "Tempoross",
+      "priority": 5,
+      "reason": "Cooperative Fishing skilling boss and a popular low-intensity Fishing training method. Rewards include the tackle box, fish barrel, tome of water, dragon harpoon, and the Tiny tempor pet.",
+      "unlocks": [
+        "Tackle box",
+        "Fish barrel",
+        "Tome of water",
+        "Dragon harpoon"
+      ],
+      "requirements": {
+        "skills": [
+          {
+            "skill": "Fishing",
+            "level": 35,
+            "boostable": true
+          }
+        ],
+        "quests": [],
+        "diaries": [],
+        "combatLevel": null,
+        "questPoints": null,
+        "items": []
+      },
+      "ownedIf": [],
+      "gearTier": null,
+      "sources": [
+        "minigame"
+      ]
+    },
+    {
+      "id": "boss:chambers-of-xeric",
+      "category": "boss",
+      "subcategory": null,
+      "name": "Chambers of Xeric",
+      "wikiTitle": "Chambers of Xeric",
+      "priority": 8,
+      "reason": "The first OSRS raid, located beneath Mount Quidamortem. No quest or hard combat-level gate exists; the wiki states the raid's difficulty and skill requirements scale to the team's own skill levels. Drops the Twisted bow, Kodai wand, Elder maul, Dragon claws, Ancestral robes, Dinh's bulwark, and Dragon hunter crossbow, plus ancestral/twisted colour kits.",
+      "unlocks": [
+        "Twisted bow",
+        "Kodai wand",
+        "Elder maul",
+        "Dragon claws",
+        "Ancestral robes",
+        "Dinh's bulwark",
+        "Dragon hunter crossbow"
+      ],
+      "requirements": {
+        "skills": [],
+        "quests": [],
+        "diaries": [],
+        "combatLevel": null,
+        "questPoints": null,
+        "items": []
+      },
+      "ownedIf": [],
+      "gearTier": null,
+      "sources": [
+        "drop"
+      ]
+    },
+    {
+      "id": "boss:theatre-of-blood",
+      "category": "boss",
+      "subcategory": null,
+      "name": "Theatre of Blood",
+      "wikiTitle": "Theatre of Blood",
+      "priority": 9,
+      "reason": "Account-defining melee raid beneath Ver Sinhaza. Drops the Scythe of vitur, Ghrazi rapier, Sanguinesti staff, Justiciar armour, and Avernic defender hilt. The only hard entry requirement per the wiki is Priest in Peril (for Morytania access) — there is no enforced minimum combat level, only strongly recommended gear/stats.",
+      "unlocks": [
+        "Scythe of vitur",
+        "Ghrazi rapier",
+        "Sanguinesti staff",
+        "Justiciar armour",
+        "Avernic defender hilt"
+      ],
+      "requirements": {
+        "skills": [],
+        "quests": [
+          "Priest in Peril"
+        ],
+        "diaries": [],
+        "combatLevel": null,
+        "questPoints": null,
+        "items": []
+      },
+      "ownedIf": [],
+      "gearTier": null,
+      "sources": [
+        "drop"
+      ]
+    },
+    {
+      "id": "boss:tombs-of-amascut",
+      "category": "boss",
+      "subcategory": null,
+      "name": "Tombs of Amascut",
+      "wikiTitle": "Tombs of Amascut",
+      "priority": 8,
+      "reason": "Desert raid within the Jaltevas Pyramid necropolis. Drops Osmumten's fang, Lightbearer, Masori armour (crystal and expert variants), Elidinis' ward, and Tumeken's shadow.",
+      "unlocks": [
+        "Osmumten's fang",
+        "Lightbearer",
+        "Masori armour",
+        "Elidinis' ward",
+        "Tumeken's shadow"
+      ],
+      "requirements": {
+        "skills": [],
+        "quests": [
+          "Beneath Cursed Sands"
+        ],
+        "diaries": [],
+        "combatLevel": null,
+        "questPoints": null,
+        "items": []
+      },
+      "ownedIf": [],
+      "gearTier": null,
+      "sources": [
+        "drop"
+      ]
+    }
+  ]
+}
