@@ -1,26 +1,55 @@
 # Next Target Advisor — RuneLite plugin
 
 Personal RuneLite plugin: reads account state (quests, skills, bank, diaries,
-achievements) and recommends what to focus on next, with routes to get there.
+achievements) and suggests what to focus on next, with routes to get there.
 
 ## Layout
 
 - `tickets/` — product tickets with acceptance criteria (source of truth for scope)
-- `docs/surge/index.md` — Surge Engineering Workflow artifacts (specs, plans, reviews)
-- `plugin/` — the RuneLite plugin (Java 11, Gradle, RuneLite plugin template layout)
-- `kb-build/` — TypeScript scripts that generate `plugin/src/main/resources/kb/*.json` from the OSRS wiki
-- `investigations/` — debugging notes (see user protocol)
+- `docs/surge/index.md` — Surge Engineering Workflow artifacts (spec, grill, plan)
+- `plugin/` — the RuneLite plugin (Java 11, Gradle, RuneLite 1.12.38 pinned)
+  - `snapshot/` client-thread reads → immutable `Snapshot`
+  - `kb/` knowledge base model + loader (bundled JSON under `src/main/resources/kb/`)
+  - `engine/` pure logic: GapEngine, StageEstimator, Ranker, SuggestSelector, WhyBuilder,
+    RoutePlanner, ShortfallResolver, NextStepPicker, Engine (one `Advice` per snapshot)
+  - `store/` per-account JSON persistence (`~/.runelite/next-target/<accountHash>.json`)
+  - `ui/` Swing: header, search, SuggestPanel (pick one of three), GoalDetailPanel (route)
+- `kb-build/` — TypeScript (Node 22) scripts that generate the KB JSON from the OSRS wiki
+  (`npm run build-kb -- quests|diaries|methods|materials|expand-milestones`)
+  - `data/` inputs: RuneLite quest list, aliases, diary var map (from Quest Helper), RuneLite sources
+  - `milestones.json` and `priorities.json` are hand-curated (stage, recommended profile, obtainedFrom)
 
 ## Conventions
 
-- Java 11 source level (RuneLite requirement). Lombok is available via RuneLite.
-- Engine code (`gap`, `rank`, `route` packages) is pure: no `Client`, no Swing, no I/O.
-  It takes a `Snapshot` and `KnowledgeBase` and returns data. All logic tests live there.
-- Swing panel code only renders engine output; never computes.
-- Game-thread rule: anything touching `Client` runs on the client thread; engine runs off it.
-- No network calls from the plugin in v1.
-- Tests: JUnit 5 via Gradle. `./gradlew test` from `plugin/`.
-- Commits: `type: scope subject`, imperative, no AI attribution.
+- Engine code is pure: no `Client`, no Swing, no I/O. It takes `Snapshot` + `KnowledgeBase`
+  (+ `AccountData` prefs) and returns data. All logic tests live there (JUnit 5).
+- Swing panels only render `Advice`; every mutation goes through `NextTargetPlugin` actions,
+  which serialise account-data changes on the engine executor.
+- Anything touching `Client` runs on the client thread; the engine runs on a single-thread
+  executor with a generation guard; the panel updates on the EDT.
+- No network calls from the plugin (`NoNetworkTest` scans imports). Wiki links via `LinkBrowser`.
+- Fail loud: malformed KB data throws at load, naming the entry and field.
+- Tests: `cd plugin && ./gradlew test`; `cd kb-build && npm run typecheck && npm test`.
+- Commits: `type: scope subject`, imperative, files added individually, no AI attribution.
+
+## Running the dev client
+
+`cd plugin && ./gradlew run` launches RuneLite with the plugin loaded (`--developer-mode`).
+Jagex accounts: install RuneLite launcher ≥ 2.6.3, `launchctl setenv RUNELITE_ARGS
+--insecure-write-credentials` (or add it in `RuneLite --configure`), launch once via the
+Jagex launcher, then the dev client reads `~/.runelite/credentials.properties`. Delete that
+file when done. On macOS JDK 17 the `run` task needs `--add-exports java.desktop/com.apple.eawt`
+(already in build.gradle). Sideloading into the launcher-run client is not possible
+(RuneLite disables sideloading outside developer mode).
+
+## Known data caveats
+
+- Diary per-task bits come from Quest Helper's declaration order; the game's per-tier COUNT
+  varbit is trusted when it disagrees (Desert Medium's Pollnivneach task uses an unknown
+  ironman variable).
+- Milestone readiness = entry requirements + curated `recommended` profile; a boss is
+  "Ready now" only when both are met. Stage 1–4 per milestone; goals more than one stage
+  above the account's estimated stage are listed under "Later".
 
 ## Surge Engineering Workflow
 

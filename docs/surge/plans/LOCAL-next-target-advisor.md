@@ -1,7 +1,7 @@
 # LOCAL-next-target-advisor — Implementation Plan
 
 Jira: none
-Status: Approved (S1–S5 in one run, user 2026-09-07)
+Status: Implemented S1–S5 + S4.1–S4.3 (2026-09-07); S6 not started
 Date: 2026-09-07
 Links: docs/surge/specs/LOCAL-next-target-advisor.md (spec), docs/surge/reviews/LOCAL-next-target-advisor.md (grill), tickets/001-next-target-advisor.md
 
