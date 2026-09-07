@@ -3,6 +3,7 @@ package dev.reece.nta.ui;
 import dev.reece.nta.engine.model.Advice;
 import dev.reece.nta.engine.model.Goal;
 import dev.reece.nta.engine.model.GoalCategory;
+import dev.reece.nta.engine.model.GoalRef;
 import dev.reece.nta.engine.model.GoalStatus;
 import dev.reece.nta.engine.model.PrefsView;
 import dev.reece.nta.engine.model.RankedGoal;
@@ -15,11 +16,13 @@ import java.awt.Insets;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -79,6 +82,10 @@ public class SuggestPanel extends JPanel
 	private boolean laterExpanded;
 	private boolean snoozedExpanded;
 	private boolean ignoredExpanded;
+	// task 52b: which goals' "Why?" explanation is expanded, keyed by goal id - never cleared on
+	// re-render (same rule as laterExpanded/snoozedExpanded/ignoredExpanded above), so a re-render
+	// with the same goal set keeps whatever the user had open.
+	private final Set<String> expandedWhy = new HashSet<>();
 
 	public SuggestPanel(Actions actions)
 	{
@@ -220,7 +227,7 @@ public class SuggestPanel extends JPanel
 		pickOnePanel.removeAll();
 		for (RankedGoal r : advice.getPicked())
 		{
-			pickOnePanel.add(buildCard(r, advice.getWhys(), advice.getReasons()));
+			pickOnePanel.add(buildCard(r, advice.getWhys(), advice.getReasons(), advice.getExplanations()));
 			pickOnePanel.add(Box.createVerticalStrut(6));
 		}
 
@@ -233,7 +240,7 @@ public class SuggestPanel extends JPanel
 		{
 			for (RankedGoal r : advice.getLater())
 			{
-				laterContent.add(buildRow(r, advice.getWhys()));
+				laterContent.add(buildRow(r, advice.getWhys(), advice.getExplanations()));
 			}
 		}
 
@@ -274,14 +281,15 @@ public class SuggestPanel extends JPanel
 		int shown = Math.min(nextShown, rest.size());
 		for (int i = 0; i < shown; i++)
 		{
-			nextListPanel.add(buildRow(rest.get(i), advice.getWhys()));
+			nextListPanel.add(buildRow(rest.get(i), advice.getWhys(), advice.getExplanations()));
 		}
 		showMoreButton.setVisible(shown < rest.size());
 		revalidate();
 		repaint();
 	}
 
-	private JPanel buildCard(RankedGoal r, Map<String, String> whys, Map<String, String> reasons)
+	private JPanel buildCard(RankedGoal r, Map<String, String> whys, Map<String, String> reasons,
+		Map<String, List<String>> explanations)
 	{
 		Goal goal = r.getStatus().getGoal();
 
@@ -307,6 +315,11 @@ public class SuggestPanel extends JPanel
 		card.add(categoryLabel);
 		card.add(Box.createVerticalStrut(4));
 
+		if (goal.getCategory() == GoalCategory.SKILL_TARGET)
+		{
+			card.add(skillTargetDetail(r.getStatus()));
+		}
+
 		JLabel whyLabel = new JLabel(wrap(whys.getOrDefault(goal.getId(), "")));
 		whyLabel.setFont(FontManager.getRunescapeFont());
 		whyLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -322,6 +335,9 @@ public class SuggestPanel extends JPanel
 			card.add(reasonLabel);
 		}
 
+		card.add(Box.createVerticalStrut(4));
+		card.add(buildWhyToggle(goal.getId(), explanations));
+
 		card.add(Box.createVerticalStrut(6));
 		JButton doThis = button("Do this", () -> actions.getDoThis().accept(goal.getId()));
 		JButton notNow = button("Not now", () -> actions.getNotNow().accept(goal.getId()));
@@ -331,7 +347,7 @@ public class SuggestPanel extends JPanel
 		return card;
 	}
 
-	private JPanel buildRow(RankedGoal r, Map<String, String> whys)
+	private JPanel buildRow(RankedGoal r, Map<String, String> whys, Map<String, List<String>> explanations)
 	{
 		Goal goal = r.getStatus().getGoal();
 		String why = whys.getOrDefault(goal.getId(), "");
@@ -346,6 +362,8 @@ public class SuggestPanel extends JPanel
 		label.setAlignmentX(Component.LEFT_ALIGNMENT);
 		row.add(label);
 		row.add(Box.createVerticalStrut(4));
+		row.add(buildWhyToggle(goal.getId(), explanations));
+		row.add(Box.createVerticalStrut(4));
 
 		JButton doThis = button("Do this", () -> actions.getDoThis().accept(goal.getId()));
 		JButton notNow = button("Not now", () -> actions.getNotNow().accept(goal.getId()));
@@ -356,6 +374,93 @@ public class SuggestPanel extends JPanel
 		row.add(actionRow(doThis, notNow, ignore, pin));
 
 		return row;
+	}
+
+	private static final int MAX_PARENTS = 3;
+
+	/** Task 52b: a {@link GoalCategory#SKILL_TARGET} card's parent goals line (capped at {@value #MAX_PARENTS}, matching {@link dev.reece.nta.engine.WhyBuilder#explain}) and, when {@link GoalStatus#isBankCovered()}, a small "materials in bank" badge. */
+	private static JPanel skillTargetDetail(GoalStatus status)
+	{
+		JPanel panel = new JPanel();
+		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+		panel.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+		List<GoalRef> parents = status.getParents();
+		if (!parents.isEmpty())
+		{
+			String names = parents.stream().limit(MAX_PARENTS).map(GoalRef::getName).collect(Collectors.joining(", "));
+			int more = parents.size() - MAX_PARENTS;
+			JLabel parentsLabel = new JLabel(wrap("for " + names + (more > 0 ? ", +" + more + " more" : "")));
+			parentsLabel.setFont(FontManager.getRunescapeSmallFont());
+			parentsLabel.setForeground(ColorScheme.LIGHT_GRAY_COLOR);
+			parentsLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+			panel.add(parentsLabel);
+		}
+
+		if (status.isBankCovered())
+		{
+			JLabel badge = new JLabel("materials in bank");
+			badge.setFont(FontManager.getRunescapeSmallFont());
+			badge.setForeground(ColorScheme.PROGRESS_COMPLETE_COLOR);
+			badge.setAlignmentX(Component.LEFT_ALIGNMENT);
+			panel.add(badge);
+		}
+
+		panel.add(Box.createVerticalStrut(4));
+		return panel;
+	}
+
+	/**
+	 * Task 52b: a collapsed-by-default "Why?" toggle; expanding it lists {@code explanations}'
+	 * lines for {@code goalId} in the small grey font, wrapped to the card width. Expansion state
+	 * persists per goal id in {@link #expandedWhy} across re-renders (same rule as the collapsible
+	 * section headers).
+	 */
+	private JPanel buildWhyToggle(String goalId, Map<String, List<String>> explanations)
+	{
+		JPanel panel = new JPanel();
+		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+		panel.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+		boolean expanded = expandedWhy.contains(goalId);
+
+		JLabel toggle = new JLabel("Why? " + (expanded ? "▼" : "▶"));
+		toggle.setFont(FontManager.getRunescapeSmallFont());
+		toggle.setForeground(ColorScheme.LIGHT_GRAY_COLOR);
+		toggle.setAlignmentX(Component.LEFT_ALIGNMENT);
+		toggle.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		toggle.addMouseListener(new MouseAdapter()
+		{
+			@Override
+			public void mouseClicked(MouseEvent e)
+			{
+				if (expandedWhy.contains(goalId))
+				{
+					expandedWhy.remove(goalId);
+				}
+				else
+				{
+					expandedWhy.add(goalId);
+				}
+				rebuild();
+			}
+		});
+		panel.add(toggle);
+
+		if (expanded)
+		{
+			panel.add(Box.createVerticalStrut(2));
+			for (String line : explanations.getOrDefault(goalId, List.of()))
+			{
+				JLabel lineLabel = new JLabel(wrap(line));
+				lineLabel.setFont(FontManager.getRunescapeSmallFont());
+				lineLabel.setForeground(ColorScheme.LIGHT_GRAY_COLOR);
+				lineLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+				panel.add(lineLabel);
+			}
+		}
+
+		return panel;
 	}
 
 	private JPanel bringBackRow(String goalId, Advice advice, String buttonLabel, Consumer<String> action)
@@ -395,6 +500,8 @@ public class SuggestPanel extends JPanel
 				return "Slayer";
 			case BOSS:
 				return "Boss";
+			case SKILL_TARGET:
+				return "Skill";
 			default:
 				return category.name();
 		}

@@ -13,6 +13,7 @@ import dev.reece.nta.engine.model.ItemGap;
 import dev.reece.nta.engine.model.ItemSource;
 import dev.reece.nta.engine.model.KudosGap;
 import dev.reece.nta.engine.model.NextStep;
+import dev.reece.nta.engine.model.PlanOffer;
 import dev.reece.nta.engine.model.QuestPointsGap;
 import dev.reece.nta.engine.model.QuestPrereqGap;
 import dev.reece.nta.engine.model.Route;
@@ -20,17 +21,24 @@ import dev.reece.nta.engine.model.RouteStep;
 import dev.reece.nta.engine.model.Shortfall;
 import dev.reece.nta.engine.model.ShortfallItem;
 import dev.reece.nta.engine.model.SkillLevelGap;
+import dev.reece.nta.kb.GatheringAlternative;
+import dev.reece.nta.kb.GatheringPlan;
 import dev.reece.nta.kb.ItemQuantity;
 import dev.reece.nta.kb.OwnedItem;
 import dev.reece.nta.snapshot.DiaryTier;
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.Insets;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import javax.swing.BorderFactory;
@@ -62,6 +70,7 @@ public class GoalDetailPanel extends JPanel
 	private final JButton wikiButton = new JButton("Wiki");
 	private final JLabel whyLabel = new JLabel();
 	private final JLabel reasonLabel = new JLabel();
+	private final JPanel explanationPanel = new JPanel();
 	private final JPanel missingPanel = new JPanel();
 	private final JPanel nextPanel = new JPanel();
 	private final JPanel shortSection = new JPanel();
@@ -69,6 +78,10 @@ public class GoalDetailPanel extends JPanel
 
 	private Advice currentAdvice;
 	private String currentWikiUrl;
+	// task 52b-2: which gathering plans' "Alternatives" list is expanded, keyed by shortfall item
+	// name + plan id + plan title - never cleared, same persistence rule as SuggestPanel's Why?
+	// toggle (52b-1).
+	private final Set<String> expandedAlternatives = new HashSet<>();
 
 	public GoalDetailPanel(Actions actions)
 	{
@@ -108,6 +121,11 @@ public class GoalDetailPanel extends JPanel
 		reasonLabel.setFont(FontManager.getRunescapeSmallFont().deriveFont(Font.ITALIC));
 		reasonLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
 		add(reasonLabel);
+
+		explanationPanel.setLayout(new BoxLayout(explanationPanel, BoxLayout.Y_AXIS));
+		explanationPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+		explanationPanel.setBorder(BorderFactory.createEmptyBorder(4, 0, 0, 0));
+		add(explanationPanel);
 
 		add(SuggestPanel.sectionLabel("Missing"));
 		missingPanel.setLayout(new BoxLayout(missingPanel, BoxLayout.Y_AXIS));
@@ -153,6 +171,12 @@ public class GoalDetailPanel extends JPanel
 		String reason = advice.getReasons().get(goal.getId());
 		reasonLabel.setVisible(reason != null && !reason.isEmpty());
 		reasonLabel.setText(reason == null ? "" : SuggestPanel.wrap(SuggestPanel.truncateReason(reason)));
+
+		explanationPanel.removeAll();
+		for (String line : advice.getExplanations().getOrDefault(goal.getId(), List.of()))
+		{
+			explanationPanel.add(row(line, 0));
+		}
 
 		missingPanel.removeAll();
 		for (Gap gap : status.getGaps())
@@ -412,6 +436,10 @@ public class GoalDetailPanel extends JPanel
 		int shortQty = Math.max(0, item.getNeed() - item.getHave());
 		container.add(linkRow(item.getItem().getName() + ": have " + item.getHave() + ", need " + item.getNeed() + ", short " + shortQty,
 			item.getWikiUrl(), indent));
+		for (int i = 0; i < item.getPlans().size(); i++)
+		{
+			container.add(planOfferRows(item.getItem().getName(), item.getPlans().get(i), i == 0, indent + 1));
+		}
 		for (ItemSource source : item.getSources())
 		{
 			container.add(row(sourceText(source), indent, 8));
@@ -423,12 +451,137 @@ public class GoalDetailPanel extends JPanel
 		return container;
 	}
 
+	/**
+	 * Task 52b-2, spec ruling 28: one {@link PlanOffer} under its shortfall item - a bold title
+	 * linked to the wiki, numbered steps, the rate (when known), any unmet requirements, and a
+	 * collapsed alternatives toggle. {@code first} is false for a later offer in the same item's
+	 * {@link ShortfallItem#getPlans()} list, reached only through a craft-chain ingredient (e.g.
+	 * Dragon scale dust's plan via Blue dragon scales) - captioned "via &lt;plan's own item&gt;".
+	 */
+	private JPanel planOfferRows(String shortfallItemName, PlanOffer offer, boolean first, int indent)
+	{
+		GatheringPlan plan = offer.getPlan();
+
+		JPanel container = new JPanel();
+		container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
+		container.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+		if (!first)
+		{
+			JLabel via = row("via " + plan.getItem(), indent);
+			via.setForeground(ColorScheme.LIGHT_GRAY_COLOR);
+			container.add(via);
+		}
+
+		container.add(boldLinkRow(plan.getTitle(), plan.getWikiUrl(), indent));
+
+		int n = 1;
+		for (String step : plan.getSteps())
+		{
+			container.add(row(n + ". " + step, indent + 1));
+			n++;
+		}
+
+		if (plan.getRatePerHour() != null)
+		{
+			container.add(row("~" + plan.getRatePerHour() + "/h", indent + 1));
+		}
+
+		if (!offer.isMeetsRequirements())
+		{
+			JLabel requires = row("requires: " + String.join(", ", offer.getMissing()), indent + 1);
+			requires.setForeground(ColorScheme.LIGHT_GRAY_COLOR);
+			container.add(requires);
+		}
+
+		if (plan.getAlternatives() != null && !plan.getAlternatives().isEmpty())
+		{
+			String key = shortfallItemName + "|" + plan.getId() + "|" + plan.getTitle();
+			container.add(alternativesToggle(key, plan.getAlternatives(), indent + 1));
+		}
+
+		return container;
+	}
+
+	/**
+	 * Task 52b-2: a collapsed "Alternatives (n)" toggle; expanding it lists each alternative's
+	 * title and numbered steps. Expansion persists per {@code key} across re-renders (same rule as
+	 * {@code expandedAlternatives} above / SuggestPanel's Why? toggle) - clicking it re-renders the
+	 * whole panel from {@link #currentAdvice} since, unlike the collapsible section headers, a
+	 * fresh label is built on every render rather than one persistent label mutated in place.
+	 */
+	private JPanel alternativesToggle(String key, List<GatheringAlternative> alternatives, int indent)
+	{
+		JPanel panel = new JPanel();
+		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+		panel.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+		boolean expanded = expandedAlternatives.contains(key);
+		JLabel toggle = new JLabel("Alternatives (" + alternatives.size() + ") " + (expanded ? "▼" : "▶"));
+		toggle.setFont(FontManager.getRunescapeSmallFont());
+		toggle.setForeground(ColorScheme.LIGHT_GRAY_COLOR);
+		toggle.setAlignmentX(Component.LEFT_ALIGNMENT);
+		toggle.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		toggle.setBorder(BorderFactory.createEmptyBorder(2, indent * 12, 2, 0));
+		toggle.addMouseListener(new MouseAdapter()
+		{
+			@Override
+			public void mouseClicked(MouseEvent e)
+			{
+				if (expandedAlternatives.contains(key))
+				{
+					expandedAlternatives.remove(key);
+				}
+				else
+				{
+					expandedAlternatives.add(key);
+				}
+				render(currentAdvice);
+			}
+		});
+		panel.add(toggle);
+
+		if (expanded)
+		{
+			for (GatheringAlternative alt : alternatives)
+			{
+				panel.add(row(alt.getTitle(), indent + 1));
+				int n = 1;
+				for (String step : alt.getSteps())
+				{
+					panel.add(row(n + ". " + step, indent + 2));
+					n++;
+				}
+			}
+		}
+
+		return panel;
+	}
+
 	/** A {@link #row} with a "Wiki" button on the right when {@code wikiUrl} is known (ticket F3: methods and materials link to the wiki). */
 	private static JPanel linkRow(String text, String wikiUrl, int indent)
 	{
 		JPanel row = new JPanel(new BorderLayout(4, 0));
 		row.setAlignmentX(Component.LEFT_ALIGNMENT);
 		row.add(row(text, indent), BorderLayout.CENTER);
+		if (wikiUrl != null)
+		{
+			row.add(SuggestPanel.button("Wiki", () -> LinkBrowser.browse(wikiUrl)), BorderLayout.EAST);
+		}
+		return row;
+	}
+
+	/** Task 52b-2: as {@link #linkRow}, but the text is a gathering plan's bold title. */
+	private static JPanel boldLinkRow(String title, String wikiUrl, int indent)
+	{
+		JLabel titleLabel = new JLabel(SuggestPanel.wrap(title));
+		titleLabel.setFont(FontManager.getRunescapeBoldFont());
+		titleLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+		titleLabel.setBorder(BorderFactory.createEmptyBorder(2, indent * 12, 2, 0));
+
+		JPanel row = new JPanel(new BorderLayout(4, 0));
+		row.setAlignmentX(Component.LEFT_ALIGNMENT);
+		row.add(titleLabel, BorderLayout.CENTER);
 		if (wikiUrl != null)
 		{
 			row.add(SuggestPanel.button("Wiki", () -> LinkBrowser.browse(wikiUrl)), BorderLayout.EAST);
