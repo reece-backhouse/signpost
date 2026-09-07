@@ -376,7 +376,9 @@ public class SuggestPanel extends JPanel
 		return row;
 	}
 
-	/** Task 52b: a {@link GoalCategory#SKILL_TARGET} card's parent goals line and, when {@link GoalStatus#isBankCovered()}, a small "materials in bank" badge. */
+	private static final int MAX_PARENTS = 3;
+
+	/** Task 52b: a {@link GoalCategory#SKILL_TARGET} card's parent goals line (capped at {@value #MAX_PARENTS}, matching {@link dev.reece.nta.engine.WhyBuilder#explain}) and, when {@link GoalStatus#isBankCovered()}, a small "materials in bank" badge. */
 	private static JPanel skillTargetDetail(GoalStatus status)
 	{
 		JPanel panel = new JPanel();
@@ -386,7 +388,9 @@ public class SuggestPanel extends JPanel
 		List<GoalRef> parents = status.getParents();
 		if (!parents.isEmpty())
 		{
-			JLabel parentsLabel = new JLabel(wrap("for " + parents.stream().map(GoalRef::getName).collect(Collectors.joining(", "))));
+			String names = parents.stream().limit(MAX_PARENTS).map(GoalRef::getName).collect(Collectors.joining(", "));
+			int more = parents.size() - MAX_PARENTS;
+			JLabel parentsLabel = new JLabel(wrap("for " + names + (more > 0 ? ", +" + more + " more" : "")));
 			parentsLabel.setFont(FontManager.getRunescapeSmallFont());
 			parentsLabel.setForeground(ColorScheme.LIGHT_GRAY_COLOR);
 			parentsLabel.setAlignmentX(Component.LEFT_ALIGNMENT);

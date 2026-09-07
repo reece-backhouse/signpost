@@ -72,12 +72,18 @@ class RenderSmokeTest
 		// Why? toggle and the skill-target card rendering without needing SkillTargetSynthesiser.
 		Goal skillGoal = new Goal("skill:woodcutting:75", GoalCategory.SKILL_TARGET, "75 Woodcutting", null, 0, 1);
 		SkillLevelGap skillGap = new SkillLevelGap(Skill.WOODCUTTING, 60, 75, 500_000L, false, null, false);
-		GoalRef parent = new GoalRef("quest:song-of-the-elves", "Song of the Elves", 75);
+		// fix round 1: 5 parents, to exercise skillTargetDetail's cap at 3 + "+2 more".
+		List<GoalRef> parents = List.of(
+			new GoalRef("quest:song-of-the-elves", "Song of the Elves", 75),
+			new GoalRef("quest:parent-b", "Parent B", 75),
+			new GoalRef("quest:parent-c", "Parent C", 75),
+			new GoalRef("quest:parent-d", "Parent D", 75),
+			new GoalRef("quest:parent-e", "Parent E", 75));
 		Route bankRoute = new Route(List.of(), 0L, 1_000_000L, Map.of());
 		// main added GoalStatus.parentScore (b4e8915); 0 is correct here since this fixture is
 		// bank-covered, not an uncovered target, and the hand-built picked list below bypasses
 		// Ranker/pick3 entirely, so no code path reads this value.
-		GoalStatus skillStatus = new GoalStatus(skillGoal, List.of(skillGap), false, false, List.of(), List.of(), List.of(parent), bankRoute, 0);
+		GoalStatus skillStatus = new GoalStatus(skillGoal, List.of(skillGap), false, false, List.of(), List.of(), parents, bankRoute, 0);
 		RankedGoal skillRanked = new RankedGoal(skillStatus, 10.0, false, false);
 
 		// picked is replaced (not merged) with just the skill target, so it's deterministically the
@@ -128,6 +134,9 @@ class RenderSmokeTest
 
 				assertTrue(containsLabelContaining(panel, "Skill"), "SKILL_TARGET category label 'Skill' must render");
 				assertTrue(containsLabelContaining(panel, "for Song of the Elves"), "skill-target card must show its parent goal");
+				assertTrue(containsLabelContaining(panel, "Parent C"), "third parent name must render (cap is 3)");
+				assertFalse(containsLabelContaining(panel, "Parent D"), "fourth parent must be capped, not rendered");
+				assertTrue(containsLabelContaining(panel, "+2 more"), "capped parents must show a +N more suffix");
 				assertTrue(containsLabelContaining(panel, "materials in bank"), "bank-covered skill target must show the badge");
 			});
 		}
@@ -429,6 +438,8 @@ class RenderSmokeTest
 			{
 				GoalDetailPanel panel = new GoalDetailPanel(actions);
 				panel.render(advice);
+				layoutAtRealPanelWidth(panel);
+				assertNoButtonNarrowerThanItsPreferredWidth(panel);
 
 				assertTrue(containsLabelContaining(panel, "Farm ranarr weeds"), "plan title must render");
 				assertTrue(containsLabelContaining(panel, "Plant ranarr seeds at Falador farm"), "first step must render");
