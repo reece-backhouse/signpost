@@ -174,7 +174,7 @@ Rulings from the grill (docs/surge/reviews/LOCAL-next-target-advisor.md):
     reqs in quests.json/diaries.json; applied for account types 1–6; GE
     excluded for types 1–6 (group irons have no GE) — grill 10.
 23. **Ruling: snapshot triggers** — `StatChanged` with level change,
-    `VarbitChanged` where `varbitId == Varbits.QUEST_POINTS` or `varpId` in
+    `VarbitChanged` where `varpId == VarPlayer.QUEST_POINTS` (101) or `varpId` in
     the diary VarPlayer range, bank close, first GameTick after login,
     Refresh. Not every VarbitChanged/inventory change — grill 11.
 24. **Ruling: one pinned `runeLiteVersion` (1.12.38) for `client` and

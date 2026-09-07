@@ -86,7 +86,7 @@ wiring per spec rulings 9, 18, 19, 23:
   → cache container items. `WidgetClosed` where `groupId ==
   InterfaceID.BANKMAIN` → `store.save(bank)`, `requestSnapshot()`.
 - `StatChanged` where level changed → `requestSnapshot()`.
-- `VarbitChanged` where `varbitId == Varbits.QUEST_POINTS` or `varpId`
+- `VarbitChanged` where `varpId == VarPlayer.QUEST_POINTS (101)` or `varpId`
   in 1176..1199 → `requestSnapshot()`.
 - `requestSnapshot()` = `clientThread.invoke(collect → executor.submit(run
   engine with generation g) → if g current: invokeLater(panel.render))`.
