@@ -69,6 +69,13 @@ describe('resolveItemIds', () => {
     const resolved = resolveItemIds(['Any pickaxe'], mapping, itemIdRows);
     expect(resolved.get('Any pickaxe')).toEqual({ id: null, generic: true });
   });
+
+  it('treats a non-finite id (main.ts Number()-parses a non-numeric "hist..." historical id to NaN) as unresolved, not resolved', () => {
+    // Real case: Easter spices / Special egg / Uncooked easter bun / Yeastier dough only have
+    // a historical Bucket item_id like "hist30710", which Number(...) turns into NaN.
+    const resolved = resolveItemIds(['Easter spices'], [], [{ page_name: 'Easter spices', id: [NaN] }]);
+    expect(resolved.get('Easter spices')).toEqual({ id: null, generic: true });
+  });
 });
 
 describe('buildMaterials', () => {

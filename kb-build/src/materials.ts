@@ -103,23 +103,27 @@ export interface ResolvedItem {
 
 /**
  * Resolves each name to an item id: exact case-insensitive match against the prices mapping first, then the
- * Bucket `item_id` rows (first id). A name resolved by neither is emitted `{ id: null, generic: true }` rather
- * than dropped — expected for prose item references like "Any pickaxe".
+ * Bucket `item_id` rows (first *finite* id — a few real rows, e.g. removed Easter event items, carry only
+ * non-numeric historical ids like "hist30710", which `main.ts` turns into `NaN` via `Number(...)`). A name
+ * resolved by neither is emitted `{ id: null, generic: true }` rather than dropped — expected for prose item
+ * references like "Any pickaxe".
  */
 export function resolveItemIds(names: string[], mapping: PriceMappingEntry[], itemIdRows: ItemIdRow[]): Map<string, ResolvedItem> {
   const byMappingName = new Map(mapping.map((entry) => [entry.name.toLowerCase(), entry.id]));
-  const byPageName = new Map(itemIdRows.map((row) => [row.page_name.toLowerCase(), row.id[0]]));
+  const byPageName = new Map(itemIdRows.map((row) => [row.page_name.toLowerCase(), row.id.find((id) => Number.isFinite(id))]));
 
   const resolved = new Map<string, ResolvedItem>();
   for (const name of names) {
     const key = name.toLowerCase();
+    // `!= null` (not `!== undefined`): a lookup can yield an explicit `null`/`NaN`-filtered-away
+    // id for a real row, which must count as unresolved too, not silently treated as resolved.
     const fromMapping = byMappingName.get(key);
-    if (fromMapping !== undefined) {
+    if (fromMapping != null) {
       resolved.set(name, { id: fromMapping, generic: false });
       continue;
     }
     const fromBucket = byPageName.get(key);
-    if (fromBucket !== undefined) {
+    if (fromBucket != null) {
       resolved.set(name, { id: fromBucket, generic: false });
       continue;
     }
@@ -239,6 +243,12 @@ export function buildMaterials(input: BuildMaterialsInput): Material[] {
 
     return { name, id: res.id, generic: res.generic, sources };
   });
+
+  for (const material of materials) {
+    if ((material.id === null) !== material.generic) {
+      throw new Error(`Material "${material.name}" violates the id/generic invariant: id=${material.id}, generic=${material.generic}`);
+    }
+  }
 
   return materials.sort((a, b) => a.name.localeCompare(b.name));
 }
