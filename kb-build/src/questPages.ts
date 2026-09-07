@@ -52,8 +52,12 @@ export function templateParams(wikitext: string, templateName: string): Record<s
     }
   };
 
+  // A `|name =` line only starts a new outer parameter when it sits at the outer
+  // template's own brace depth; a nested template's `|name =` line (depth > 0
+  // at that point) is part of the current parameter's value instead.
+  let nestedDepth = 0;
   for (const line of inner.split('\n')) {
-    const match = /^\|(\w+)\s*=(.*)$/.exec(line);
+    const match = nestedDepth === 0 ? /^\|(\w+)\s*=(.*)$/.exec(line) : null;
     if (match) {
       flush();
       currentName = match[1]!;
@@ -61,10 +65,21 @@ export function templateParams(wikitext: string, templateName: string): Record<s
     } else if (currentName !== null) {
       currentLines.push(line);
     }
+    nestedDepth += countOccurrences(line, '{{') - countOccurrences(line, '}}');
   }
   flush();
 
   return params;
+}
+
+function countOccurrences(text: string, needle: string): number {
+  let count = 0;
+  let index = text.indexOf(needle);
+  while (index !== -1) {
+    count++;
+    index = text.indexOf(needle, index + needle.length);
+  }
+  return count;
 }
 
 function parseItems(value: string): ItemReq[] {
@@ -90,14 +105,15 @@ function parseRequirements(value: string): { skills: SkillReq[]; prereqs: string
     const skillMatch = SKILL_REQ_LINE.exec(trimmed);
     if (skillMatch) {
       const level = Number(skillMatch[2]);
-      if (!Number.isNaN(level)) {
-        skills.push({
-          skill: skillMatch[1]!.trim(),
-          level,
-          boostable: /\{\{Boostable\|yes\}\}/i.test(trimmed),
-          ironmanOnly: false,
-        });
+      if (Number.isNaN(level)) {
+        throw new Error(`Non-numeric skill level in requirements line: "${trimmed}"`);
       }
+      skills.push({
+        skill: skillMatch[1]!.trim(),
+        level,
+        boostable: /\{\{Boostable\|yes\}\}/i.test(trimmed),
+        ironmanOnly: false,
+      });
       continue;
     }
 

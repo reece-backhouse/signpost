@@ -12,6 +12,23 @@ describe('templateParams', () => {
   it('returns an empty object when the template is absent', () => {
     expect(templateParams('no templates here', 'Foo')).toEqual({});
   });
+
+  it('does not split on a nested template\'s own |name= line (depth-aware)', () => {
+    const wikitext = [
+      '{{Quest details',
+      '|requirements = *{{SCP|Agility|70}}',
+      '{{SomeTemplate',
+      '|foo = bar',
+      '}}',
+      '|items = *[[Axe]]',
+      '}}',
+    ].join('\n');
+    const params = templateParams(wikitext, 'Quest details');
+    expect(params.requirements).toContain('{{SomeTemplate');
+    expect(params.requirements).toContain('|foo = bar');
+    expect(params.foo).toBeUndefined();
+    expect(params.items).toBe('*[[Axe]]');
+  });
 });
 
 describe('parseQuestPage', () => {
@@ -40,5 +57,10 @@ describe('parseQuestPage', () => {
       { skill: 'Woodcutting', level: 70, boostable: false, ironmanOnly: false },
     ]);
     expect(page.requirements!.prereqs).toEqual(["Mourning's End Part II", 'Making History', 'Druidic Ritual']);
+  });
+
+  it('throws instead of silently dropping a skill requirement with a non-numeric level', () => {
+    const wikitext = '{{Quest details\n|requirements = *{{SCP|Agility|80+|link=yes}} {{Boostable|no}}\n}}';
+    expect(() => parseQuestPage(wikitext)).toThrow(/Agility/);
   });
 });
