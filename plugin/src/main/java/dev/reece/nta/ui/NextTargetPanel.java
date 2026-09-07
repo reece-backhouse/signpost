@@ -58,6 +58,20 @@ public class NextTargetPanel extends PluginPanel
 	}
 
 	/**
+	 * Shows the knowledge base's generation dates in the footer, once loaded. Must be called on
+	 * the EDT.
+	 */
+	public void showKbLoaded(String questsGeneratedAt, String diariesGeneratedAt)
+	{
+		if (!SwingUtilities.isEventDispatchThread())
+		{
+			throw new IllegalStateException("NextTargetPanel.showKbLoaded must run on the EDT");
+		}
+
+		kbFooterLabel.setText("KB: quests " + questsGeneratedAt + ", diaries " + diariesGeneratedAt);
+	}
+
+	/**
 	 * Renders {@code snapshot}. Must be called on the EDT; the caller (the plugin) is responsible
 	 * for dispatching via {@link SwingUtilities#invokeLater}.
 	 */

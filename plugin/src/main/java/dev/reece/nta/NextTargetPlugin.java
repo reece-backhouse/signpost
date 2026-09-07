@@ -1,8 +1,12 @@
 package dev.reece.nta;
 
 import com.google.gson.Gson;
+import dev.reece.nta.engine.DiaryProgress;
+import dev.reece.nta.engine.DiaryTierProgress;
 import dev.reece.nta.engine.EngineRunner;
+import dev.reece.nta.kb.KnowledgeBase;
 import dev.reece.nta.snapshot.CachedBank;
+import dev.reece.nta.snapshot.DiaryTier;
 import dev.reece.nta.snapshot.Snapshot;
 import dev.reece.nta.snapshot.SnapshotCollector;
 import dev.reece.nta.store.AccountData;
@@ -47,9 +51,6 @@ import net.runelite.client.util.ImageUtil;
 )
 public class NextTargetPlugin extends Plugin
 {
-	private static final int DIARY_VARP_START = 1176;
-	private static final int DIARY_VARP_END = 1199;
-
 	@Inject
 	private Client client;
 
@@ -75,6 +76,7 @@ public class NextTargetPlugin extends Plugin
 	private volatile boolean accountLoaded;
 	private volatile boolean firstTickPending;
 	private volatile boolean snapshotRequested;
+	private volatile KnowledgeBase kb;
 
 	@Override
 	protected void startUp() throws Exception
@@ -82,6 +84,7 @@ public class NextTargetPlugin extends Plugin
 		runner = new EngineRunner();
 		store = new AccountStore(new File(RuneLite.RUNELITE_DIR, "next-target").toPath(), gson);
 		cachedBank = CachedBank.unknown();
+		kb = null;
 		lastLevel.clear();
 
 		panel = new NextTargetPanel(this::requestSnapshot);
@@ -93,6 +96,12 @@ public class NextTargetPlugin extends Plugin
 			.panel(panel)
 			.build();
 		clientToolbar.addNavigation(navButton);
+
+		runner.submit(() -> KnowledgeBase.load(gson), loaded ->
+		{
+			kb = loaded;
+			SwingUtilities.invokeLater(() -> panel.showKbLoaded(loaded.getQuestsGeneratedAt(), loaded.getDiariesGeneratedAt()));
+		});
 	}
 
 	@Override
@@ -105,6 +114,7 @@ public class NextTargetPlugin extends Plugin
 		accountLoaded = false;
 		firstTickPending = false;
 		snapshotRequested = false;
+		kb = null;
 		lastLevel.clear();
 	}
 
@@ -144,7 +154,8 @@ public class NextTargetPlugin extends Plugin
 	@Subscribe
 	public void onGameTick(GameTick event)
 	{
-		if (!accountLoaded || !(firstTickPending || snapshotRequested))
+		KnowledgeBase loadedKb = kb;
+		if (!accountLoaded || loadedKb == null || !(firstTickPending || snapshotRequested))
 		{
 			return;
 		}
@@ -152,8 +163,30 @@ public class NextTargetPlugin extends Plugin
 		firstTickPending = false;
 		snapshotRequested = false;
 
-		Snapshot snapshot = SnapshotCollector.collect(client, itemManager, cachedBank);
+		Snapshot snapshot = SnapshotCollector.collect(client, itemManager, cachedBank, loadedKb);
+		logDiarySelfCheck(snapshot, loadedKb);
 		runner.submit(() -> snapshot, result -> SwingUtilities.invokeLater(() -> panel.render(result)));
+	}
+
+	/**
+	 * Cross-checks {@link DiaryProgress}'s bit-derived per-tier task counts against the game's own
+	 * per-tier completed-task counter varbit, logging any tier where the bundled task->bit mapping
+	 * disagrees with the game.
+	 */
+	private void logDiarySelfCheck(Snapshot snapshot, KnowledgeBase loadedKb)
+	{
+		Map<DiaryTier, DiaryTierProgress> progress = DiaryProgress.compute(snapshot, loadedKb);
+		int mismatches = 0;
+		for (Map.Entry<DiaryTier, DiaryTierProgress> entry : progress.entrySet())
+		{
+			DiaryTierProgress tierProgress = entry.getValue();
+			if (tierProgress.isMismatch())
+			{
+				mismatches++;
+				log.warn("diary bit map mismatch: {} kb={} game={}", entry.getKey(), tierProgress.getCompleted(), tierProgress.getGameCount());
+			}
+		}
+		log.info("diary self-check: {} tiers, {} mismatches", progress.size(), mismatches);
 	}
 
 	@Subscribe
@@ -218,8 +251,15 @@ public class NextTargetPlugin extends Plugin
 	@Subscribe
 	public void onVarbitChanged(VarbitChanged event)
 	{
+		KnowledgeBase loadedKb = kb;
+		if (loadedKb == null)
+		{
+			return;
+		}
+
 		int varpId = event.getVarpId();
-		if (varpId == VarPlayer.QUEST_POINTS || (varpId >= DIARY_VARP_START && varpId <= DIARY_VARP_END))
+		int varbitId = event.getVarbitId();
+		if (varpId == VarPlayer.QUEST_POINTS || loadedKb.diaryVarps().contains(varpId) || loadedKb.diaryVarbits().contains(varbitId))
 		{
 			requestSnapshot();
 		}
