@@ -5,6 +5,7 @@
       "gearTier": 7,
       "id": "milestone:barrows-gloves",
       "name": "Barrows gloves",
+      "obtainedFrom": null,
       "ownedIf": [
         {
           "id": 7462,
@@ -57,6 +58,7 @@
       "gearTier": 6,
       "id": "milestone:fire-cape",
       "name": "Fire cape",
+      "obtainedFrom": null,
       "ownedIf": [
         {
           "id": 6570,
@@ -97,6 +99,7 @@
       "gearTier": 5,
       "id": "milestone:fighter-torso",
       "name": "Fighter torso",
+      "obtainedFrom": null,
       "ownedIf": [
         {
           "id": 10551,
@@ -143,6 +146,7 @@
       "gearTier": 7,
       "id": "milestone:dragon-defender",
       "name": "Dragon defender",
+      "obtainedFrom": null,
       "ownedIf": [
         {
           "id": 12954,
@@ -188,6 +192,7 @@
       "gearTier": 8,
       "id": "milestone:avas-assembler",
       "name": "Ava's assembler",
+      "obtainedFrom": null,
       "ownedIf": [
         {
           "id": 22109,
@@ -270,6 +275,7 @@
       "gearTier": 6,
       "id": "milestone:elite-void",
       "name": "Elite void knight equipment",
+      "obtainedFrom": null,
       "ownedIf": [
         {
           "id": 13072,
@@ -362,6 +368,7 @@
       "gearTier": 8,
       "id": "milestone:slayer-helmet-imbued",
       "name": "Slayer helmet (imbued)",
+      "obtainedFrom": null,
       "ownedIf": [
         {
           "id": 11865,
@@ -434,6 +441,7 @@
       "gearTier": null,
       "id": "milestone:piety",
       "name": "Piety",
+      "obtainedFrom": null,
       "ownedIf": [],
       "priority": 10,
       "reason": "Best melee combat prayer, boosting Attack, Strength, and Defence simultaneously, and a defining unlock for any melee-focused account.",
@@ -476,6 +484,7 @@
       "gearTier": null,
       "id": "milestone:rigour",
       "name": "Rigour",
+      "obtainedFrom": null,
       "ownedIf": [],
       "priority": 8,
       "reason": "Best ranged combat prayer, boosting Ranged Attack, Ranged Strength, and Defence, unlocked via a Chambers of Xeric raid drop.",
@@ -528,6 +537,7 @@
       "gearTier": null,
       "id": "milestone:augury",
       "name": "Augury",
+      "obtainedFrom": null,
       "ownedIf": [],
       "priority": 7,
       "reason": "Best magic combat prayer, boosting Magic Attack, Magic Damage, and Defence, unlocked via a Chambers of Xeric raid drop.",
@@ -580,6 +590,7 @@
       "gearTier": null,
       "id": "milestone:ancient-magicks",
       "name": "Ancient Magicks",
+      "obtainedFrom": null,
       "ownedIf": [],
       "priority": 10,
       "reason": "Unlocks the combat-oriented Ancient spellbook (including the ice barrage/blitz/burst family and unique teleports), a defining upgrade for any magic-focused account.",
@@ -617,6 +628,7 @@
       "gearTier": null,
       "id": "milestone:fairy-rings",
       "name": "Fairy rings",
+      "obtainedFrom": null,
       "ownedIf": [],
       "priority": 6,
       "reason": "Unlocks the fairy ring transportation network, one of the fastest and most versatile ways to reach remote training spots, bosses, and skilling locations across Gielinor.",
@@ -647,6 +659,7 @@
       "gearTier": 4,
       "id": "milestone:graceful-outfit",
       "name": "Graceful outfit",
+      "obtainedFrom": null,
       "ownedIf": [
         {
           "id": 11850,
@@ -736,6 +749,7 @@
       "gearTier": 4,
       "id": "milestone:toxic-blowpipe",
       "name": "Toxic blowpipe",
+      "obtainedFrom": "boss:zulrah",
       "ownedIf": [
         {
           "id": 12924,
@@ -907,6 +921,7 @@
       "gearTier": 8,
       "id": "milestone:bow-of-faerdhinen",
       "name": "Bow of Faerdhinen",
+      "obtainedFrom": "boss:corrupted-gauntlet",
       "ownedIf": [
         {
           "id": 25862,
@@ -1078,6 +1093,7 @@
       "gearTier": 6,
       "id": "milestone:zenyte-jewellery",
       "name": "Zenyte jewellery",
+      "obtainedFrom": null,
       "ownedIf": [
         {
           "id": 19553,
@@ -1171,6 +1187,7 @@
       "gearTier": 5,
       "id": "milestone:bandos-armour",
       "name": "Bandos armour",
+      "obtainedFrom": "boss:god-wars-dungeon",
       "ownedIf": [
         {
           "id": 11832,
@@ -1312,6 +1329,7 @@
       "gearTier": 5,
       "id": "milestone:armadyl-armour",
       "name": "Armadyl armour",
+      "obtainedFrom": "boss:god-wars-dungeon",
       "ownedIf": [
         {
           "id": 11826,
@@ -1465,6 +1483,7 @@
       "gearTier": 7,
       "id": "milestone:ancestral-robes",
       "name": "Ancestral robes",
+      "obtainedFrom": "boss:chambers-of-xeric",
       "ownedIf": [
         {
           "id": 21018,
@@ -1615,6 +1634,7 @@
       "gearTier": 7,
       "id": "milestone:masori-armour",
       "name": "Masori armour",
+      "obtainedFrom": "boss:tombs-of-amascut",
       "ownedIf": [
         {
           "id": 27226,
@@ -1784,6 +1804,7 @@
       "gearTier": 8,
       "id": "milestone:torva-armour",
       "name": "Torva armour",
+      "obtainedFrom": "boss:nex",
       "ownedIf": [
         {
           "id": 26376,
@@ -1994,6 +2015,7 @@
       "gearTier": 6,
       "id": "milestone:avernic-defender",
       "name": "Avernic defender",
+      "obtainedFrom": "boss:theatre-of-blood",
       "ownedIf": [
         {
           "id": 22322,
@@ -2156,6 +2178,7 @@
       "gearTier": 7,
       "id": "milestone:infernal-cape",
       "name": "Infernal cape",
+      "obtainedFrom": null,
       "ownedIf": [
         {
           "id": 21295,
@@ -2279,6 +2302,7 @@
       "gearTier": null,
       "id": "slayer:broad-ammo",
       "name": "Broad ammunition",
+      "obtainedFrom": null,
       "ownedIf": [],
       "priority": 5,
       "reason": "Level 55 Slayer unlocks broad bolts and broad arrows, the only ranged ammunition able to damage Turoth and Kurask, letting Ranged-based accounts handle those tasks without switching to melee or magic.",
@@ -2316,6 +2340,7 @@
       "gearTier": null,
       "id": "slayer:cave-horrors",
       "name": "Cave horrors",
+      "obtainedFrom": null,
       "ownedIf": [],
       "priority": 5,
       "reason": "Level 58 Slayer unlocks Cave horror tasks, a reliable source of black mask drops and one of the better hard clue scroll rates among mid-level Slayer monsters.",
@@ -2354,6 +2379,7 @@
       "gearTier": null,
       "id": "slayer:dust-devils",
       "name": "Dust devils",
+      "obtainedFrom": null,
       "ownedIf": [],
       "priority": 5,
       "reason": "Level 65 Slayer unlocks Dust devil tasks, a fast, high-volume task commonly bursted or barraged in the Catacombs of Kourend or Smoke Dungeon while wearing a facemask or Slayer helmet.",
@@ -2390,6 +2416,7 @@
       "gearTier": null,
       "id": "slayer:kurask",
       "name": "Kurask",
+      "obtainedFrom": null,
       "ownedIf": [],
       "priority": 5,
       "reason": "Level 70 Slayer unlocks Kurask tasks; they're immune to standard weapons and must be fought with leaf-bladed weapons, broad ammunition, or Magic Dart, making broad ammo/leaf-bladed gear a natural companion unlock.",
@@ -2425,6 +2452,7 @@
       "gearTier": null,
       "id": "slayer:skeletal-wyverns",
       "name": "Skeletal wyverns",
+      "obtainedFrom": null,
       "ownedIf": [],
       "priority": 6,
       "reason": "Level 72 Slayer unlocks skeletal wyvern tasks, the only monster that drops granite legs, found at the end of the Asgarnian Ice Dungeon.",
@@ -2461,6 +2489,7 @@
       "gearTier": null,
       "id": "slayer:gargoyles",
       "name": "Gargoyles",
+      "obtainedFrom": null,
       "ownedIf": [],
       "priority": 6,
       "reason": "Level 75 Slayer unlocks Gargoyle tasks, popular for strong GP/hour from rune item drops and reasonable Slayer XP rates in the Slayer Tower.",
@@ -2496,6 +2525,7 @@
       "gearTier": null,
       "id": "slayer:nechryael",
       "name": "Nechryael",
+      "obtainedFrom": null,
       "ownedIf": [],
       "priority": 6,
       "reason": "Level 80 Slayer unlocks Nechryael tasks, known for frequent rune boots and rune/seed drops, and a stepping stone toward Greater nechryael/Nechryarch.",
@@ -2531,6 +2561,7 @@
       "gearTier": null,
       "id": "slayer:abyssal-demons",
       "name": "Abyssal demons",
+      "obtainedFrom": null,
       "ownedIf": [],
       "priority": 7,
       "reason": "Level 85 Slayer unlocks Abyssal demon tasks, the sole non-boss source of the abyssal whip and abyssal dagger, a long-standing goal for melee accounts.",
@@ -2566,6 +2597,7 @@
       "gearTier": null,
       "id": "slayer:kraken",
       "name": "Kraken",
+      "obtainedFrom": null,
       "ownedIf": [],
       "priority": 7,
       "reason": "Level 87 Slayer unlocks the Kraken boss, the only monster to drop the trident of the seas and Kraken tentacle, and a strong AFK-style magic-only Slayer task.",
@@ -2608,6 +2640,7 @@
       "gearTier": null,
       "id": "slayer:cerberus",
       "name": "Cerberus",
+      "obtainedFrom": null,
       "ownedIf": [],
       "priority": 8,
       "reason": "Level 91 Slayer unlocks Cerberus, a lucrative boss dropping the eternal, pegasian, and primordial crystals used to upgrade top-tier feet-slot gear, plus the Hellpuppy pet.",
@@ -2645,6 +2678,7 @@
       "gearTier": null,
       "id": "slayer:smoke-devils",
       "name": "Smoke devils",
+      "obtainedFrom": null,
       "ownedIf": [],
       "priority": 7,
       "reason": "Level 93 Slayer unlocks Smoke devil tasks (bursted/barraged in a multi-combat chamber) and, at the same 93 Slayer requirement, the Thermonuclear smoke devil boss, sole source of the smoke battlestaff.",
@@ -2681,6 +2715,7 @@
       "gearTier": null,
       "id": "slayer:hydra",
       "name": "Alchemical Hydra",
+      "obtainedFrom": null,
       "ownedIf": [],
       "priority": 8,
       "reason": "Level 95 Slayer unlocks the Alchemical Hydra, a top-end Slayer boss whose hydra's claw and hydra leather feed into the dragon hunter lance and ferocious gloves.",
@@ -2718,6 +2753,7 @@
       "gearTier": null,
       "id": "boss:barrows",
       "name": "Barrows",
+      "obtainedFrom": null,
       "ownedIf": [],
       "priority": 6,
       "reason": "Barrows is an early minigame-style boss delivering the six iconic Barrows equipment sets (Ahrim's, Dharok's, Guthan's, Karil's, Torag's, Verac's), a staple of early-mid game melee/mage/range progression and a long-running gold-per-hour activity. Note: Barrows gloves are a SEPARATE reward, purchased from the Culinaromancer's Chest after fully completing Recipe for Disaster (not dropped from the Barrows chest) — do not conflate the two.",
@@ -2846,8 +2882,9 @@
       "gearTier": null,
       "id": "boss:moons-of-peril",
       "name": "Moons of Peril",
+      "obtainedFrom": null,
       "ownedIf": [],
-      "priority": 6,
+      "priority": 8,
       "reason": "Three naguas imprisoned in Neypotzli beneath Cam Torum, aimed at mid-level players. Completing the Perilous Moons quest is required to fight them. Drops three armour sets, each tied to one combat style: Blood moon armour is melee (Bloodrager set effect, a stepping-stone toward Bandos armour), Blue moon armour is magic (Frostweaver set effect), and Eclipse moon armour is ranged (Eclipse set effect).",
       "recommended": {
         "combatLevel": null,
@@ -2958,6 +2995,7 @@
       "gearTier": null,
       "id": "boss:zulrah",
       "name": "Zulrah",
+      "obtainedFrom": null,
       "ownedIf": [],
       "priority": 8,
       "reason": "Zulrah is a solo-only shapeshifting boss and a core mid-game milestone. Kills yield the toxic blowpipe components (tanzanite fang/magic fang plus Zulrah's scales as ammo), the serpentine visage (serpentine helm), tanzanite and magma mutagens, and a chance at uncut onyx. Note: the wiki specifies access requires Regicide progressed only to the point of reaching Port Tyras, not necessarily full quest completion.",
@@ -3089,6 +3127,7 @@
       "gearTier": null,
       "id": "boss:vorkath",
       "name": "Vorkath",
+      "obtainedFrom": null,
       "ownedIf": [],
       "priority": 8,
       "reason": "Vorkath is a powerful blue dragon fought again (in a harder form) after completing Dragon Slayer II, and is a core mid-to-late game money-maker and gear source. Notable drops include the draconic visage (dragonfire shield component), skeletal visage (skeletal shield component), and the cosmetic Vorkath's head.",
@@ -3199,6 +3238,7 @@
       "gearTier": null,
       "id": "boss:god-wars-dungeon",
       "name": "God Wars Dungeon",
+      "obtainedFrom": null,
       "ownedIf": [],
       "priority": 8,
       "reason": "Combined entry covering all four God Wars generals: General Graardor (Bandos), Kree'arra (Armadyl), Commander Zilyana (Saradomin), and K'ril Tsutsaroth (Zamorak). Dungeon-wide access requires completing Death Plateau and at least partial Troll Stronghold (defeating Dad) — or alternatively Ghommal's hilt from Easy Combat Achievements can bypass both quests entirely. Each individual boss room additionally requires killing that god's minions for a 'kill count' (or spending an Ecumenical key to skip it) — this KC/key system applies to all four generals, not just Zilyana and K'ril; Graardor's and K'ril's minions simply die fast enough that KC feels trivial. There is no Watchtower quest requirement anywhere in this chain — Kree'arra requires no quest beyond the shared dungeon-access gate. Room-specific stat gates (cannot be boosted): 70 Strength for Bandos' Stronghold (Graardor), 70 Agility for Saradomin's Encampment (Zilyana), plus a rope for first-time dungeon entry and extra ropes for Saradomin's Encampment. Drops include Bandos armour + Bandos hilt, Armadyl armour + Armadyl hilt, Saradomin sword + Saradomin's light, and Zamorak hilt + Steam battlestaff — hilts combine with godsword shards/blade for the four godswords.",
@@ -3303,7 +3343,7 @@
       "sources": [
         "drop"
       ],
-      "stage": 2,
+      "stage": 3,
       "subcategory": null,
       "unlocks": [
         "Bandos chestplate/tassets/boots",
@@ -3322,6 +3362,7 @@
       "gearTier": null,
       "id": "boss:dagannoth-kings",
       "name": "Dagannoth Kings",
+      "obtainedFrom": null,
       "ownedIf": [],
       "priority": 6,
       "reason": "The three Dagannoth Kings (Rex, Prime, Supreme) reside on the sixth floor of the Waterbirth Island Dungeon and represent the combat triangle. No quest is required to enter the dungeon or fight them — Horror from the Deep is an unrelated quest tied to a different dungeon (the Lighthouse) and does not gate Waterbirth/DKs access. Drops include the berserker ring and warrior ring (from Rex), seers ring and mud battlestaff (from Prime), archers ring and Seercull (from Supreme), plus dragon axe and dagannoth bones from all three.",
@@ -3451,6 +3492,7 @@
       "gearTier": null,
       "id": "boss:gauntlet",
       "name": "The Gauntlet",
+      "obtainedFrom": null,
       "ownedIf": [],
       "priority": 7,
       "reason": "A solo procedurally-generated minigame in Prifddinas culminating in a fight against the Crystalline Hunllef. Access requires completing Song of the Elves (to unlock Prifddinas itself) — there is no other quest or level gate, though high combat stats (80+ across the board) are strongly advised. Crystal armour seed drops start the crystal armour/Bow of Faerdhinen progression line that continues through the Corrupted Gauntlet.",
@@ -3561,6 +3603,7 @@
       "gearTier": null,
       "id": "boss:corrupted-gauntlet",
       "name": "The Corrupted Gauntlet",
+      "obtainedFrom": null,
       "ownedIf": [],
       "priority": 8,
       "reason": "A significantly harder hardmode version of The Gauntlet, fought against the Corrupted Hunllef (1000 HP, increased damage, shorter 7:30 prep window vs. 10:00). Entry requires having completed the regular Gauntlet at least once, plus the same Song of the Elves quest gate for Prifddinas access. No single recommended combat level figure is published on the wiki (only stat-by-stat recommendations, similar to or higher than the base Gauntlet's 80+ guidance). Notable extra rewards include the enhanced crystal weapon seed (further upgrades Bow of Faerdhinen-line weapons) and the Youngllef pet.",
@@ -3672,6 +3715,7 @@
       "gearTier": null,
       "id": "boss:phantom-muspah",
       "name": "Phantom Muspah",
+      "obtainedFrom": null,
       "ownedIf": [],
       "priority": 6,
       "reason": "A stronger version of the Strange Creature fought after completing Secrets of the North, found in the Ghorrock Dungeon near Weiss. Notable drops include ancient essence and the Venator shard, five of which combine into the Venator bow.",
@@ -3767,6 +3811,7 @@
       "gearTier": null,
       "id": "boss:nex",
       "name": "Nex",
+      "obtainedFrom": null,
       "ownedIf": [],
       "priority": 8,
       "reason": "Nex, Zaros's general, is imprisoned in the Ancient Prison beneath the God Wars Dungeon. The actual quest gate is The Frozen Door miniquest (which itself requires Desert Treasure I). The Frozen Door also requires 70 Hitpoints/Ranged/Strength/Agility (uncapped, only Hitpoints boostable) to traverse the four GWD generals' rooms, since the frozen key needed to open the Ancient Prison is assembled from pieces dropped by all four generals. An optional 100,000gp group-instance fee is available to players with Hard Combat Achievements. Drops include torva armour, zaryte vambraces, the ancient hilt (Ancient godsword), and the nihil horn (zaryte crossbow component).",
@@ -3889,6 +3934,7 @@
       "gearTier": null,
       "id": "boss:duke-sucellus",
       "name": "Duke Sucellus",
+      "obtainedFrom": null,
       "ownedIf": [],
       "priority": 8,
       "reason": "Desert Treasure II boss. Drops Magus vestige (combines into the Magus ring, a top-tier magic ring), Virtus robe top and mask (BiS mage armour pieces shared by all four DT2 bosses), and the awakener's orb used to upgrade elemental weapons into their ancient variants.",
@@ -3995,6 +4041,7 @@
       "gearTier": null,
       "id": "boss:the-whisperer",
       "name": "The Whisperer",
+      "obtainedFrom": null,
       "ownedIf": [],
       "priority": 7,
       "reason": "Desert Treasure II boss. Drops Bellator vestige (combines into the Bellator ring), Siren's staff (combines into the Accursed sceptre), and Virtus robe top/mask.",
@@ -4084,6 +4131,7 @@
       "gearTier": null,
       "id": "boss:vardorvis",
       "name": "Vardorvis",
+      "obtainedFrom": null,
       "ownedIf": [],
       "priority": 8,
       "reason": "Desert Treasure II boss. Drops Ultor vestige (combines into the Ultor ring, BiS melee-strength ring) and Executioner's axe head (combines into the Executioner's axe, a component of the Soulreaper axe), plus Virtus robe top/mask.",
@@ -4175,6 +4223,7 @@
       "gearTier": null,
       "id": "boss:the-leviathan",
       "name": "The Leviathan",
+      "obtainedFrom": null,
       "ownedIf": [],
       "priority": 8,
       "reason": "Desert Treasure II boss. Drops Venator vestige (combines into the Venator ring, a powerful general-purpose ring) and Virtus robe top/mask.",
@@ -4267,6 +4316,7 @@
       "gearTier": null,
       "id": "boss:zalcano",
       "name": "Zalcano",
+      "obtainedFrom": null,
       "ownedIf": [],
       "priority": 5,
       "reason": "Group skilling boss beneath Prifddinas fought with Mining, Smithing and Runecraft rather than combat. Drops the crystal tool seed, used to upgrade a dragon pickaxe or dragon axe into crystal tools, plus the Smolcano pet.",
@@ -4344,6 +4394,7 @@
       "gearTier": null,
       "id": "milestone:wintertodt",
       "name": "Wintertodt",
+      "obtainedFrom": null,
       "ownedIf": [],
       "priority": 6,
       "reason": "Cooperative Firemaking skilling boss and one of the best AFK Firemaking training methods in the game. Rewards include the pyromancer outfit (boosts Firemaking xp), tome of fire (BiS fire spell bonus), bruma torch, and the Phoenix pet.",
@@ -4380,6 +4431,7 @@
       "gearTier": null,
       "id": "milestone:tempoross",
       "name": "Tempoross",
+      "obtainedFrom": null,
       "ownedIf": [],
       "priority": 5,
       "reason": "Cooperative Fishing skilling boss and a popular low-intensity Fishing training method. Rewards include the tackle box, fish barrel, tome of water, dragon harpoon, and the Tiny tempor pet.",
@@ -4416,6 +4468,7 @@
       "gearTier": null,
       "id": "boss:chambers-of-xeric",
       "name": "Chambers of Xeric",
+      "obtainedFrom": null,
       "ownedIf": [],
       "priority": 8,
       "reason": "The first OSRS raid, located beneath Mount Quidamortem. No quest or hard combat-level gate exists; the wiki states the raid's difficulty and skill requirements scale to the team's own skill levels. Drops the Twisted bow, Kodai wand, Elder maul, Dragon claws, Ancestral robes, Dinh's bulwark, and Dragon hunter crossbow, plus ancestral/twisted colour kits.",
@@ -4539,6 +4592,7 @@
       "gearTier": null,
       "id": "boss:theatre-of-blood",
       "name": "Theatre of Blood",
+      "obtainedFrom": null,
       "ownedIf": [],
       "priority": 9,
       "reason": "Account-defining melee raid beneath Ver Sinhaza. Drops the Scythe of vitur, Ghrazi rapier, Sanguinesti staff, Justiciar armour, and Avernic defender hilt. The only hard entry requirement per the wiki is Priest in Peril (for Morytania access) — there is no enforced minimum combat level, only strongly recommended gear/stats.",
@@ -4666,6 +4720,7 @@
       "gearTier": null,
       "id": "boss:tombs-of-amascut",
       "name": "Tombs of Amascut",
+      "obtainedFrom": null,
       "ownedIf": [],
       "priority": 8,
       "reason": "Desert raid within the Jaltevas Pyramid necropolis. Drops Osmumten's fang, Lightbearer, Masori armour (crystal and expert variants), Elidinis' ward, and Tumeken's shadow.",

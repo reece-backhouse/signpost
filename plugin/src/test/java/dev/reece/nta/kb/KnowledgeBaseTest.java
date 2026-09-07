@@ -266,6 +266,20 @@ class KnowledgeBaseTest
 		assertEquals(100, entry.getRecommended().getCombatLevel());
 		assertEquals(1, entry.getRecommended().getGearOwnedAny().size());
 		assertEquals(11832, entry.getRecommended().getGearOwnedAny().get(0).getId());
+		assertEquals(1, entry.getRecommended().effectiveGearOwnedMin(), "no gearOwnedMin in the JSON: defaults to ceil(1/2) = 1");
+	}
+
+	@Test
+	void milestoneWithExplicitGearOwnedMinLoadsIt()
+	{
+		String recommended = ",\"recommended\":{\"skills\":[],\"combatLevel\":null,"
+			+ "\"gearOwnedAny\":[{\"name\":\"A\",\"id\":1,\"ids\":[1]},{\"name\":\"B\",\"id\":2,\"ids\":[2]}],\"gearOwnedMin\":1}";
+		String milestonesJson = "{\"version\":1,\"milestones\":[" + String.format(MILESTONE_TEMPLATE, recommended) + "]}";
+
+		KnowledgeBase kb = KnowledgeBase.fromJson(new Gson(), EMPTY_QUESTS_JSON, EMPTY_DIARIES_JSON, milestonesJson, EMPTY_PRIORITIES_JSON);
+
+		assertEquals(1, kb.milestoneById("milestone:test").getRecommended().effectiveGearOwnedMin(),
+			"explicit gearOwnedMin overrides the default ceil(2/2) = 2");
 	}
 
 	@Test
@@ -300,6 +314,58 @@ class KnowledgeBaseTest
 		for (MilestoneEntry entry : kb.getMilestones())
 		{
 			assertTrue(entry.getStage() >= 1 && entry.getStage() <= 4, entry.getId() + " has stage " + entry.getStage());
+		}
+	}
+
+	// --- Task 46: milestone obtainedFrom (the boss a gear entry drops from). ---
+
+	@Test
+	void milestoneObtainedFromResolvingToAKnownMilestoneLoadsFine()
+	{
+		String boss = String.format(MILESTONE_TEMPLATE, "").replace("milestone:test", "boss:test");
+		String gear = String.format(MILESTONE_TEMPLATE, ",\"obtainedFrom\":\"boss:test\"");
+		String milestonesJson = "{\"version\":1,\"milestones\":[" + boss + "," + gear + "]}";
+
+		KnowledgeBase kb = KnowledgeBase.fromJson(new Gson(), EMPTY_QUESTS_JSON, EMPTY_DIARIES_JSON, milestonesJson, EMPTY_PRIORITIES_JSON);
+
+		assertEquals("boss:test", kb.milestoneById("milestone:test").getObtainedFrom());
+	}
+
+	@Test
+	void milestoneWithNoObtainedFromFieldLeavesItNull()
+	{
+		String milestonesJson = "{\"version\":1,\"milestones\":[" + String.format(MILESTONE_TEMPLATE, "") + "]}";
+
+		KnowledgeBase kb = KnowledgeBase.fromJson(new Gson(), EMPTY_QUESTS_JSON, EMPTY_DIARIES_JSON, milestonesJson, EMPTY_PRIORITIES_JSON);
+
+		assertNull(kb.milestoneById("milestone:test").getObtainedFrom());
+	}
+
+	@Test
+	void milestoneObtainedFromNamingAnUnknownMilestoneFailsLoudly()
+	{
+		String milestonesJson = "{\"version\":1,\"milestones\":["
+			+ String.format(MILESTONE_TEMPLATE, ",\"obtainedFrom\":\"boss:does-not-exist\"") + "]}";
+
+		IllegalStateException e = assertThrows(IllegalStateException.class,
+			() -> KnowledgeBase.fromJson(new Gson(), EMPTY_QUESTS_JSON, EMPTY_DIARIES_JSON, milestonesJson, EMPTY_PRIORITIES_JSON));
+
+		assertTrue(e.getMessage().contains("milestone:test"), e.getMessage());
+		assertTrue(e.getMessage().contains("boss:does-not-exist"), e.getMessage());
+	}
+
+	@Test
+	void everyBundledMilestoneObtainedFromResolvesToAKnownMilestoneId()
+	{
+		KnowledgeBase kb = KnowledgeBase.load(new Gson());
+
+		for (MilestoneEntry entry : kb.getMilestones())
+		{
+			if (entry.getObtainedFrom() != null)
+			{
+				assertNotNull(kb.milestoneById(entry.getObtainedFrom()),
+					entry.getId() + " has obtainedFrom \"" + entry.getObtainedFrom() + "\", which doesn't resolve");
+			}
 		}
 	}
 }

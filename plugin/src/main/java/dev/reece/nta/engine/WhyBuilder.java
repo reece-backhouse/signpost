@@ -114,10 +114,18 @@ public final class WhyBuilder
 			}
 			else if (gap instanceof GearGap)
 			{
-				items.add(((GearGap) gap).getAcceptable().get(0).getName() + " or better");
+				items.add(gearGapText((GearGap) gap));
 			}
 		}
 		return "recommended: " + items.stream().limit(3).collect(Collectors.joining(", "));
+	}
+
+	/** "gear: own at least 2 of A, B, C… (have 0)" (task 46 - {@link GearGap} now carries a minimum, not "any one"). */
+	private static String gearGapText(GearGap gap)
+	{
+		List<String> names = gap.getAcceptable().stream().map(OwnedItem::getName).limit(3).collect(Collectors.toList());
+		String namesText = String.join(", ", names) + (gap.getAcceptable().size() > 3 ? "…" : "");
+		return "gear: own at least " + gap.getRequired() + " of " + namesText + " (have " + gap.getOwned() + ")";
 	}
 
 	private static String awayClause(List<Gap> gaps)

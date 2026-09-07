@@ -228,6 +228,57 @@ class RankerTest
 		assertFalse(ranked.get(0).isLater());
 	}
 
+	// --- Task 46: stage-proximity ordering within the ready/rest tiers. ---
+
+	@Test
+	void withinTheReadyTierAStageAppropriateGoalOutranksANextStageGoalEvenWithALowerScore()
+	{
+		// Both ready (no gaps). "nextStage" (stage 3) scores higher (priority 8) than "current" (stage
+		// 2, priority 6), but must still sort after it - real-world case: Moons of Peril (stage 2,
+		// same as the account) must outrank God Wars Dungeon (stage 3) even though GWD's score is higher.
+		GoalStatus nextStage = status("nextStage", GoalCategory.BOSS, 8, 3, List.of());
+		GoalStatus current = status("current", GoalCategory.BOSS, 6, 2, List.of());
+
+		List<RankedGoal> ranked = ranker.rank(List.of(nextStage, current), Set.of(), List.of(), 2);
+
+		assertEquals(List.of("current", "nextStage"), ids(ranked), "same-stage goal must sort before a next-stage one: " + ids(ranked));
+	}
+
+	@Test
+	void withinTheRestTierAStageAppropriateGoalOutranksANextStageGoalEvenWithALowerScore()
+	{
+		// Neither ready (both have a gap), so both land in the rest tier.
+		GoalStatus nextStage = status("nextStage", GoalCategory.BOSS, 8, 3, List.of(new CombatLevelGap(1, 2, false)));
+		GoalStatus current = status("current", GoalCategory.BOSS, 6, 2, List.of(new CombatLevelGap(1, 2, false)));
+
+		List<RankedGoal> ranked = ranker.rank(List.of(nextStage, current), Set.of(), List.of(), 2);
+
+		assertEquals(List.of("current", "nextStage"), ids(ranked));
+	}
+
+	@Test
+	void stageProximityOrderingLeavesScoreAsTheTieBreakWithinTheSameProximityGroup()
+	{
+		GoalStatus lowerScoreSameStage = status("low", GoalCategory.BOSS, 5, 2, List.of());
+		GoalStatus higherScoreSameStage = status("high", GoalCategory.BOSS, 9, 2, List.of());
+
+		List<RankedGoal> ranked = ranker.rank(List.of(lowerScoreSameStage, higherScoreSameStage), Set.of(), List.of(), 2);
+
+		assertEquals(List.of("high", "low"), ids(ranked), "same stage-proximity group: falls back to score: " + ids(ranked));
+	}
+
+	@Test
+	void laterTierOrderingIsUnaffectedByStageProximity()
+	{
+		// Both "later" (more than one stage above account stage 1): plain score ordering, unchanged.
+		GoalStatus stageFour = status("four", GoalCategory.BOSS, 5, 4, List.of());
+		GoalStatus stageThree = status("three", GoalCategory.BOSS, 9, 3, List.of());
+
+		List<RankedGoal> ranked = ranker.rank(List.of(stageFour, stageThree), Set.of(), List.of(), 1);
+
+		assertEquals(List.of("three", "four"), ids(ranked), "later tier: plain score ordering, not stage-proximity: " + ids(ranked));
+	}
+
 	private static SkillLevelGap skillGap(Skill skill, int have, int need, long xpDelta)
 	{
 		return new SkillLevelGap(skill, have, need, xpDelta, false, null, false);

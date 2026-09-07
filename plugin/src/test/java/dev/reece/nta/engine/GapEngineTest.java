@@ -722,6 +722,8 @@ class GapEngineTest
 
 		assertEquals(1, gap.getAcceptable().size());
 		assertEquals("Bandos chestplate", gap.getAcceptable().get(0).getName());
+		assertEquals(0, gap.getOwned());
+		assertEquals(1, gap.getRequired(), "single-item list: default gearOwnedMin is ceil(1/2) = 1");
 		assertFalse(gap.isBankUnknown());
 	}
 
@@ -752,8 +754,95 @@ class GapEngineTest
 		GoalStatus status = goalFor(engine.evaluate(snapshot, kb), "boss:test");
 		GearGap gap = (GearGap) onlyGap(status);
 
-		assertTrue(gap.isBankUnknown());
+		assertTrue(gap.isBankUnknown(), "the unseen bank could still hold the 1 item needed to satisfy this list");
 		assertTrue(status.isBankUnknown());
+	}
+
+	// --- Task 46: gearOwnedAny is satisfied only once effectiveGearOwnedMin distinct items are owned. ---
+
+	@Test
+	void gearOwnedMinDefaultsToHalfTheListRoundedUp()
+	{
+		KnowledgeBase kb = new KbBuilder()
+			.milestone("boss:test", MilestoneCategory.BOSS, "Test Boss", 5)
+			.recommendedGear("Item A", 1).recommendedGear("Item B", 2).recommendedGear("Item C", 3)
+			.build();
+		Snapshot snapshot = new SnapshotBuilder().inventoryItem(1, "Item A", 1).build();
+
+		GoalStatus status = goalFor(engine.evaluate(snapshot, kb), "boss:test");
+		GearGap gap = (GearGap) onlyGap(status);
+
+		assertEquals(1, gap.getOwned());
+		assertEquals(2, gap.getRequired(), "3-item list with no explicit gearOwnedMin: ceil(3/2) = 2");
+	}
+
+	@Test
+	void gearOwnedMinExplicitOverridesTheDefault()
+	{
+		KnowledgeBase kb = new KbBuilder()
+			.milestone("boss:test", MilestoneCategory.BOSS, "Test Boss", 5)
+			.recommendedGear("Item A", 1).recommendedGear("Item B", 2).recommendedGear("Item C", 3).recommendedGear("Item D", 4)
+			.recommendedGearOwnedMin(1)
+			.build();
+		Snapshot snapshot = new SnapshotBuilder().inventoryItem(1, "Item A", 1).build();
+
+		GoalStatus status = goalFor(engine.evaluate(snapshot, kb), "boss:test");
+
+		assertTrue(status.getGaps().isEmpty(),
+			"1 of 4 owned meets an explicit gearOwnedMin of 1 (default would have been ceil(4/2) = 2): " + status.getGaps());
+	}
+
+	@Test
+	void gearOwnedMinSatisfiedOnceEnoughDistinctItemsAreOwned()
+	{
+		KnowledgeBase kb = new KbBuilder()
+			.milestone("boss:test", MilestoneCategory.BOSS, "Test Boss", 5)
+			.recommendedGear("Item A", 1).recommendedGear("Item B", 2).recommendedGear("Item C", 3)
+			.build();
+		Snapshot snapshot = new SnapshotBuilder().inventoryItem(1, "Item A", 1).inventoryItem(2, "Item B", 1).build();
+
+		GoalStatus status = goalFor(engine.evaluate(snapshot, kb), "boss:test");
+
+		assertTrue(status.getGaps().isEmpty(), "2 of 3 owned meets the default gearOwnedMin of ceil(3/2) = 2: " + status.getGaps());
+	}
+
+	@Test
+	void gearOwnedGapBankUnknownTrueWhenTheUnseenBankCouldStillReachTheMinimum()
+	{
+		KnowledgeBase kb = new KbBuilder()
+			.milestone("boss:test", MilestoneCategory.BOSS, "Test Boss", 5)
+			.recommendedGear("Item A", 1).recommendedGear("Item B", 2)
+			.recommendedGearOwnedMin(2)
+			.build();
+		Snapshot snapshot = new SnapshotBuilder().bankUnknown().build();
+
+		GoalStatus status = goalFor(engine.evaluate(snapshot, kb), "boss:test");
+		GearGap gap = (GearGap) onlyGap(status);
+
+		assertEquals(0, gap.getOwned());
+		assertEquals(2, gap.getRequired());
+		assertTrue(gap.isBankUnknown(), "both items are unseen-bank-uncertain, and 0 + 2 uncertain reaches the required 2");
+	}
+
+	@Test
+	void gearOwnedGapBankUnknownFalseWhenEvenTheUnseenBankCouldNotReachTheMinimum()
+	{
+		// required (3) exceeds the 2-item list's size, so even crediting every unresolved item to the
+		// unseen bank (max possible = 2) can never reach it - a confirmed shortfall despite the bank
+		// being unseen.
+		KnowledgeBase kb = new KbBuilder()
+			.milestone("boss:test", MilestoneCategory.BOSS, "Test Boss", 5)
+			.recommendedGear("Item A", 1).recommendedGear("Item B", 2)
+			.recommendedGearOwnedMin(3)
+			.build();
+		Snapshot snapshot = new SnapshotBuilder().bankUnknown().build();
+
+		GoalStatus status = goalFor(engine.evaluate(snapshot, kb), "boss:test");
+		GearGap gap = (GearGap) onlyGap(status);
+
+		assertEquals(0, gap.getOwned());
+		assertEquals(3, gap.getRequired());
+		assertFalse(gap.isBankUnknown(), "0 + 2 uncertain can never reach the required 3");
 	}
 
 	@Test

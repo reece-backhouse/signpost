@@ -190,6 +190,20 @@ final class KbBuilder
 		return this;
 	}
 
+	/** Sets an explicit {@code recommended.gearOwnedMin} on the currently open milestone, overriding the default half-of-list rule. */
+	KbBuilder recommendedGearOwnedMin(int min)
+	{
+		currentMilestone.recommendedGearOwnedMin = min;
+		return this;
+	}
+
+	/** Sets the currently open milestone's {@code obtainedFrom} (the boss milestone id its gear drops from). */
+	KbBuilder obtainedFrom(String bossId)
+	{
+		currentMilestone.obtainedFrom = bossId;
+		return this;
+	}
+
 	/** Starts a {@code methods.json}-style training method chain (task 34/35/36 engine tests). */
 	KbBuilder method(Skill skill, String name, int levelReq, double xpPerAction)
 	{
@@ -425,10 +439,11 @@ final class KbBuilder
 			}
 			RecommendedProfile recommended = m.recommendedSkills.isEmpty() && m.recommendedCombatLevel == null && m.recommendedGearOwnedAny.isEmpty()
 				? null
-				: new RecommendedProfile(List.copyOf(m.recommendedSkills), m.recommendedCombatLevel, List.copyOf(m.recommendedGearOwnedAny));
+				: new RecommendedProfile(List.copyOf(m.recommendedSkills), m.recommendedCombatLevel, List.copyOf(m.recommendedGearOwnedAny),
+					m.recommendedGearOwnedMin);
 			milestones.add(new MilestoneEntry(m.id, m.category, m.subcategory, m.name, m.name, m.priority, "test", List.copyOf(m.unlocks),
 				List.copyOf(m.skills), List.copyOf(m.quests), diaryRefs, null, null, List.copyOf(m.items), List.copyOf(m.ownedIf),
-				m.gearTier, List.of(), m.stage, recommended));
+				m.gearTier, List.of(), m.stage, recommended, m.obtainedFrom));
 		}
 
 		Map<Integer, String> materialNames = new LinkedHashMap<>();
@@ -518,6 +533,8 @@ final class KbBuilder
 		Integer gearTier;
 		int stage = 2;
 		Integer recommendedCombatLevel;
+		Integer recommendedGearOwnedMin;
+		String obtainedFrom;
 
 		MilestoneSpec(String id, MilestoneCategory category, String name, int priority)
 		{

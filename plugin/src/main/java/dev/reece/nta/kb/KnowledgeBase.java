@@ -233,6 +233,7 @@ public final class KnowledgeBase
 			log.warn("milestones.json has entries with no 'stage' field (bundled data predates S4.1 stages); "
 				+ "defaulting stage=2 and recommended=null for those entries");
 		}
+		validateObtainedFromResolves(milestones, milestoneIds);
 
 		List<MaterialEntry> materials = materialsFile.materials.stream().map(KnowledgeBase::toMaterialEntry).collect(Collectors.toList());
 		Map<String, Integer> materialIdsByName = new LinkedHashMap<>();
@@ -347,6 +348,19 @@ public final class KnowledgeBase
 					throw new IllegalStateException(
 						"Malformed knowledge base data: quest \"" + quest.getName() + "\" has unknown started prereq \"" + prereq + "\"");
 				}
+			}
+		}
+	}
+
+	/** Fails loudly, naming the milestone and the unresolved id, if any {@code obtainedFrom} doesn't name another known milestone. */
+	private static void validateObtainedFromResolves(List<MilestoneEntry> milestones, Set<String> milestoneIds)
+	{
+		for (MilestoneEntry milestone : milestones)
+		{
+			if (milestone.getObtainedFrom() != null && !milestoneIds.contains(milestone.getObtainedFrom()))
+			{
+				throw new IllegalStateException("Malformed knowledge base data: milestone \"" + milestone.getId()
+					+ "\" has unknown obtainedFrom \"" + milestone.getObtainedFrom() + "\"");
 			}
 		}
 	}
@@ -469,7 +483,7 @@ public final class KnowledgeBase
 
 		return new MilestoneEntry(dto.id, category, dto.subcategory, dto.name, dto.wikiTitle, dto.priority, dto.reason,
 			List.copyOf(dto.unlocks), skills, List.copyOf(dto.requirements.quests), diaries, dto.requirements.combatLevel,
-			dto.requirements.questPoints, items, ownedIf, dto.gearTier, List.copyOf(dto.sources), stage, recommended);
+			dto.requirements.questPoints, items, ownedIf, dto.gearTier, List.copyOf(dto.sources), stage, recommended, dto.obtainedFrom);
 	}
 
 	/** {@code dto} is {@code null} for a milestone with no {@code recommended} profile (the common case). */
@@ -486,7 +500,7 @@ public final class KnowledgeBase
 			.map(s -> new RecommendedSkill(resolveSkill(s.skill, context), s.level))
 			.collect(Collectors.toList());
 		List<OwnedItem> gearOwnedAny = dto.gearOwnedAny.stream().map(o -> toOwnedItem(o, context)).collect(Collectors.toList());
-		return new RecommendedProfile(skills, dto.combatLevel, gearOwnedAny);
+		return new RecommendedProfile(skills, dto.combatLevel, gearOwnedAny, dto.gearOwnedMin);
 	}
 
 	private static DiaryRef toDiaryRef(DiaryRefDto dto, String context)
@@ -809,6 +823,7 @@ public final class KnowledgeBase
 		List<String> sources = new ArrayList<>();
 		Integer stage;
 		RecommendedDto recommended;
+		String obtainedFrom;
 	}
 
 	private static final class RecommendedDto
@@ -816,6 +831,7 @@ public final class KnowledgeBase
 		List<SkillDto> skills = new ArrayList<>();
 		Integer combatLevel;
 		List<OwnedIfDto> gearOwnedAny = new ArrayList<>();
+		Integer gearOwnedMin;
 	}
 
 	private static final class RequirementsDto

@@ -57,7 +57,7 @@ public class Engine
 		PrefsView prefs = prefsResolver.resolve(data, statuses, now);
 		int accountStage = StageEstimator.estimate(snapshot, kb);
 		List<RankedGoal> ranked = ranker.rank(statuses, prefs.getHidden(), prefs.getPins(), accountStage);
-		List<RankedGoal> picked = suggestSelector.pick3(ranked);
+		List<RankedGoal> picked = suggestSelector.pick3(ranked, kb);
 		List<RankedGoal> restAll = suggestSelector.rest(ranked, picked);
 		List<RankedGoal> later = ranked.stream().filter(RankedGoal::isLater).collect(Collectors.toList());
 		List<RankedGoal> rest = restAll.stream().filter(r -> !r.isLater()).collect(Collectors.toList());

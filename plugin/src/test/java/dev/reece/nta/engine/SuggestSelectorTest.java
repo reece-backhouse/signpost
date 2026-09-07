@@ -4,6 +4,8 @@ import dev.reece.nta.engine.model.Goal;
 import dev.reece.nta.engine.model.GoalCategory;
 import dev.reece.nta.engine.model.GoalStatus;
 import dev.reece.nta.engine.model.RankedGoal;
+import dev.reece.nta.kb.KnowledgeBase;
+import dev.reece.nta.kb.MilestoneCategory;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.junit.jupiter.api.Test;
@@ -141,6 +143,80 @@ class SuggestSelectorTest
 		List<RankedGoal> rest = selector.rest(all, picked);
 
 		assertEquals(List.of("later"), ids(rest), "a later goal is excluded from picked but still shows up in rest: " + ids(rest));
+	}
+
+	// --- Task 46: a boss is never picked alongside one of its own drops. ---
+
+	@Test
+	void gearGoalSkippedWhenItsObtainedFromBossIsAlreadyPicked()
+	{
+		KnowledgeBase kb = new KbBuilder()
+			.milestone("boss:gwd", MilestoneCategory.BOSS, "God Wars Dungeon", 8)
+			.milestone("milestone:bandos", MilestoneCategory.GEAR, "Bandos armour", 7).ownedIf("Bandos chestplate", 1)
+			.obtainedFrom("boss:gwd")
+			.build();
+		RankedGoal boss = ranked("boss:gwd", GoalCategory.BOSS, 10, false);
+		RankedGoal bandos = ranked("milestone:bandos", GoalCategory.MILESTONE, 9, false);
+		RankedGoal r3 = ranked("r3", GoalCategory.QUEST, 8, false);
+
+		List<RankedGoal> picked = selector.pick3(List.of(boss, bandos, r3), kb);
+
+		assertEquals(List.of("boss:gwd", "r3"), ids(picked), "bandos armour must be skipped: its own boss (gwd) is already picked: " + ids(picked));
+	}
+
+	@Test
+	void bossGoalSkippedWhenOneOfItsDropsIsAlreadyPicked()
+	{
+		KnowledgeBase kb = new KbBuilder()
+			.milestone("boss:gwd", MilestoneCategory.BOSS, "God Wars Dungeon", 8)
+			.milestone("milestone:bandos", MilestoneCategory.GEAR, "Bandos armour", 7).ownedIf("Bandos chestplate", 1)
+			.obtainedFrom("boss:gwd")
+			.build();
+		RankedGoal bandos = ranked("milestone:bandos", GoalCategory.MILESTONE, 10, false);
+		RankedGoal boss = ranked("boss:gwd", GoalCategory.BOSS, 9, false);
+		RankedGoal r3 = ranked("r3", GoalCategory.QUEST, 8, false);
+
+		List<RankedGoal> picked = selector.pick3(List.of(bandos, boss, r3), kb);
+
+		assertEquals(List.of("milestone:bandos", "r3"), ids(picked), "gwd must be skipped: its own drop (bandos) is already picked: " + ids(picked));
+	}
+
+	@Test
+	void pairingRuleAppliesToSlotThreeToo()
+	{
+		KnowledgeBase kb = new KbBuilder()
+			.milestone("boss:gwd", MilestoneCategory.BOSS, "God Wars Dungeon", 8)
+			.milestone("milestone:bandos", MilestoneCategory.GEAR, "Bandos armour", 7).ownedIf("Bandos chestplate", 1)
+			.obtainedFrom("boss:gwd")
+			.build();
+		RankedGoal r1 = ranked("r1", GoalCategory.QUEST, 10, false);
+		RankedGoal bandos = ranked("milestone:bandos", GoalCategory.MILESTONE, 9, false);
+		RankedGoal boss = ranked("boss:gwd", GoalCategory.BOSS, 8, false);
+		RankedGoal r4 = ranked("r4", GoalCategory.QUEST, 7, false);
+
+		// Slots 1/2 fill with r1 and bandos (different categories, so slot 3 goes via nextUnused, not
+		// the different-category fallback); boss is next in rank order but must be skipped there too.
+		List<RankedGoal> picked = selector.pick3(List.of(r1, bandos, boss, r4), kb);
+
+		assertEquals(List.of("r1", "milestone:bandos", "r4"), ids(picked), "gwd must be skipped in slot 3 too - its drop is already picked: "
+			+ ids(picked));
+	}
+
+	@Test
+	void pairingRuleDoesNotApplyToPinnedGoals()
+	{
+		KnowledgeBase kb = new KbBuilder()
+			.milestone("boss:gwd", MilestoneCategory.BOSS, "God Wars Dungeon", 8)
+			.milestone("milestone:bandos", MilestoneCategory.GEAR, "Bandos armour", 7).ownedIf("Bandos chestplate", 1)
+			.obtainedFrom("boss:gwd")
+			.build();
+		RankedGoal pinnedBoss = ranked("boss:gwd", GoalCategory.BOSS, 1, true);
+		RankedGoal pinnedBandos = ranked("milestone:bandos", GoalCategory.MILESTONE, 1, true);
+		RankedGoal r3 = ranked("r3", GoalCategory.QUEST, 20, false);
+
+		List<RankedGoal> picked = selector.pick3(List.of(pinnedBoss, pinnedBandos, r3), kb);
+
+		assertEquals(List.of("boss:gwd", "milestone:bandos", "r3"), ids(picked), "a pin is an explicit user override: " + ids(picked));
 	}
 
 	private static RankedGoal ranked(String id, GoalCategory category, double score, boolean pinned)

@@ -122,10 +122,11 @@ class WhyBuilderTest
 		GoalStatus status = status("boss:test", GoalCategory.BOSS,
 			List.of(
 				new SkillLevelGap(Skill.RANGED, 70, 85, 1_000_000, false, null, true),
-				new GearGap(List.of(new OwnedItem("Bandos", 11832)), false)),
+				new GearGap(List.of(new OwnedItem("Bandos", 11832)), 0, 1, false)),
 			false, false);
 
-		assertEquals("2 requirements away; recommended: 85 Ranged (have 70), Bandos or better", whyBuilder.why(rank(status), kb, snap));
+		assertEquals("2 requirements away; recommended: 85 Ranged (have 70), gear: own at least 1 of Bandos (have 0)",
+			whyBuilder.why(rank(status), kb, snap));
 	}
 
 	@Test
