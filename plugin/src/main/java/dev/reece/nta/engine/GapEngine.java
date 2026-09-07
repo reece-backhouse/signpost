@@ -199,7 +199,7 @@ public final class GapEngine
 		Set<String> path = new LinkedHashSet<>();
 		path.add(entry.getName());
 		resolvePrereqs(entry.getPrereqs(), snapshot, kb, entry.getName(), true, prereqGaps, new ArrayList<>(), path);
-		resolveStartedPrereqs(entry.getPrereqsStarted(), snapshot, entry.getName(), prereqGaps);
+		resolveStartedPrereqs(entry.getPrereqsStarted(), snapshot, kb, entry.getName(), prereqGaps);
 		gaps.addAll(prereqGaps.values());
 
 		for (ItemReq req : entry.getItems())
@@ -580,9 +580,9 @@ public final class GapEngine
 				continue;
 			}
 			boolean hasUnfinishedPrereq = resolvePrereqs(entry.getPrereqs(), snapshot, kb, name, throwOnUnknown, gapsByName, extraNotes, path);
-			resolveStartedPrereqs(entry.getPrereqsStarted(), snapshot, name, gapsByName);
+			resolveStartedPrereqs(entry.getPrereqsStarted(), snapshot, kb, name, gapsByName);
 			path.remove(name);
-			gapsByName.put(name, new QuestPrereqGap(quest, state, !hasUnfinishedPrereq, false));
+			gapsByName.put(name, new QuestPrereqGap(quest, state, !hasUnfinishedPrereq, false, wikiUrlFor(entry)));
 		}
 		return anyUnfinished;
 	}
@@ -594,7 +594,8 @@ public final class GapEngine
 	 * so every gap produced here is unconditionally {@code startHere}. Every name has already been
 	 * validated at {@link KnowledgeBase} load time to be a known quest name.
 	 */
-	private static void resolveStartedPrereqs(List<String> names, Snapshot snapshot, String forName, Map<String, QuestPrereqGap> gapsByName)
+	private static void resolveStartedPrereqs(List<String> names, Snapshot snapshot, KnowledgeBase kb, String forName,
+		Map<String, QuestPrereqGap> gapsByName)
 	{
 		for (String name : names)
 		{
@@ -612,8 +613,14 @@ public final class GapEngine
 			{
 				continue;
 			}
-			gapsByName.put(name, new QuestPrereqGap(quest, state, true, true));
+			gapsByName.put(name, new QuestPrereqGap(quest, state, true, true, wikiUrlFor(kb.questByName(name))));
 		}
+	}
+
+	/** Same construction {@link Goal#getWikiUrl()} uses (spaces to underscores, no other encoding) - never {@code Quest.getName()}, which 404s for a subquest whose wiki title differs (e.g. a Recipe for Disaster subquest). */
+	private static String wikiUrlFor(QuestEntry entry)
+	{
+		return WIKI_BASE + spacesToUnderscores(entry.getWikiTitle());
 	}
 
 	private static Integer sumHave(Snapshot snapshot, String itemName)

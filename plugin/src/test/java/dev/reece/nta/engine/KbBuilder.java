@@ -331,6 +331,13 @@ final class KbBuilder
 		return this;
 	}
 
+	/** Sets a wiki title distinct from the currently open quest's name (defaults to the name) - for a subquest whose wiki title differs, e.g. a Recipe for Disaster subquest. */
+	KbBuilder wikiTitle(String title)
+	{
+		currentQuest.wikiTitle = title;
+		return this;
+	}
+
 	KbBuilder kudos(int n)
 	{
 		currentQuest.kudosRequired = n;
@@ -364,8 +371,9 @@ final class KbBuilder
 		List<QuestEntry> quests = new ArrayList<>();
 		for (QuestSpec s : questSpecs)
 		{
-			quests.add(new QuestEntry(s.id, s.name, s.name, List.copyOf(s.skills), List.copyOf(s.prereqs), List.copyOf(s.prereqsStarted),
-				List.copyOf(s.prereqNotes), List.copyOf(s.items), 1, "test", s.questPointsRequired, s.kudosRequired, s.combatLevelRequired));
+			quests.add(new QuestEntry(s.id, s.name, s.wikiTitle != null ? s.wikiTitle : s.name, List.copyOf(s.skills), List.copyOf(s.prereqs),
+				List.copyOf(s.prereqsStarted), List.copyOf(s.prereqNotes), List.copyOf(s.items), 1, "test", s.questPointsRequired,
+				s.kudosRequired, s.combatLevelRequired));
 		}
 
 		List<DiaryEntry> diaries = new ArrayList<>(legacyDiaries);
@@ -446,6 +454,7 @@ final class KbBuilder
 		Integer questPointsRequired;
 		Integer kudosRequired;
 		Integer combatLevelRequired;
+		String wikiTitle;
 
 		QuestSpec(int id, String name)
 		{

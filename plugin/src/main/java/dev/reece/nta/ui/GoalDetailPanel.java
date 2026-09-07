@@ -59,7 +59,6 @@ import net.runelite.client.util.LinkBrowser;
 public class GoalDetailPanel extends JPanel
 {
 	private static final int MAX_SEARCH_RESULTS = 8;
-	private static final String WIKI_BASE = "https://oldschool.runescape.wiki/w/";
 
 	private final Actions actions;
 
@@ -343,8 +342,7 @@ public class GoalDetailPanel extends JPanel
 				JPanel questRow = new JPanel(new BorderLayout(4, 0));
 				questRow.setAlignmentX(Component.LEFT_ALIGNMENT);
 				questRow.add(new JLabel(verb + g.getQuest().getName()), BorderLayout.CENTER);
-				questRow.add(SuggestPanel.button("Wiki", () -> LinkBrowser.browse(WIKI_BASE + g.getQuest().getName().replace(' ', '_'))),
-					BorderLayout.EAST);
+				questRow.add(SuggestPanel.button("Wiki", () -> LinkBrowser.browse(g.getWikiUrl())), BorderLayout.EAST);
 				panel.add(questRow);
 				break;
 			}

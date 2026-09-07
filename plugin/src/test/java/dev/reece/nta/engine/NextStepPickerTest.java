@@ -30,7 +30,7 @@ class NextStepPickerTest
 	@Test
 	void branchAPicksAStartHereQuestPrereqOverEverythingElse()
 	{
-		QuestPrereqGap questGap = new QuestPrereqGap(Quest.BIOHAZARD, QuestState.NOT_STARTED, true, false);
+		QuestPrereqGap questGap = new QuestPrereqGap(Quest.BIOHAZARD, QuestState.NOT_STARTED, true, false, "https://example.test/w/Biohazard");
 		SkillLevelGap skillGap = new SkillLevelGap(Skill.HERBLORE, 1, 10, 1000, false, null, false);
 		GoalStatus status = status(List.of(questGap, skillGap));
 
@@ -43,7 +43,7 @@ class NextStepPickerTest
 	@Test
 	void branchAFindsAStartHereQuestPrereqNestedInsideADiaryTaskGap()
 	{
-		QuestPrereqGap questGap = new QuestPrereqGap(Quest.BIOHAZARD, QuestState.NOT_STARTED, true, false);
+		QuestPrereqGap questGap = new QuestPrereqGap(Quest.BIOHAZARD, QuestState.NOT_STARTED, true, false, "https://example.test/w/Biohazard");
 		DiaryTaskGap taskGap = new DiaryTaskGap(1, "task", List.of(questGap), List.of());
 		GoalStatus status = status(List.of(taskGap));
 
@@ -56,7 +56,7 @@ class NextStepPickerTest
 	@Test
 	void aQuestPrereqThatIsNotStartHereIsSkippedInFavourOfALaterBranch()
 	{
-		QuestPrereqGap notStartHere = new QuestPrereqGap(Quest.BIOHAZARD, QuestState.NOT_STARTED, false, false);
+		QuestPrereqGap notStartHere = new QuestPrereqGap(Quest.BIOHAZARD, QuestState.NOT_STARTED, false, false, "https://example.test/w/Biohazard");
 		ItemGap itemGap = new ItemGap("Rope", 0, 1, List.of(), false);
 		GoalStatus status = status(List.of(notStartHere, itemGap));
 

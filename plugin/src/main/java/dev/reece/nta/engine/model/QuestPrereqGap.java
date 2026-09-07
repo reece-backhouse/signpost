@@ -11,7 +11,11 @@ import net.runelite.api.QuestState;
  * the deepest unfinished quest(s): those with no unfinished prerequisite of their own - always true
  * for a {@code startOnly} gap, since those are never recursed into. {@code startOnly} is true when
  * this is a "must have started" prerequisite (the wiki's {@code Started:} prefix): satisfied by
- * {@code QuestState.IN_PROGRESS}, not just {@code FINISHED}.
+ * {@code QuestState.IN_PROGRESS}, not just {@code FINISHED}. {@code wikiUrl} is built by
+ * {@link dev.reece.nta.engine.GapEngine} from the knowledge base's {@code QuestEntry.wikiTitle},
+ * the same way {@link Goal#getWikiUrl()} is - never from {@code quest.getName()}, which 404s for
+ * a subquest whose wiki title differs (e.g. a Recipe for Disaster subquest's title has a
+ * {@code "Recipe for Disaster/"} prefix the RuneLite {@code Quest} name doesn't).
  */
 @Value
 @EqualsAndHashCode(callSuper = false)
@@ -21,4 +25,5 @@ public class QuestPrereqGap extends Gap
 	QuestState state;
 	boolean startHere;
 	boolean startOnly;
+	String wikiUrl;
 }
