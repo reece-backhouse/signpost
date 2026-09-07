@@ -113,9 +113,22 @@ public final class SnapshotCollector
 		Map<Integer, Integer> items = new HashMap<>();
 		for (Item item : container.getItems())
 		{
-			items.merge(item.getId(), item.getQuantity(), Integer::sum);
+			if (isRealItem(item))
+			{
+				items.merge(item.getId(), item.getQuantity(), Integer::sum);
+			}
 		}
 		return items;
+	}
+
+	/**
+	 * RuneLite fills empty container slots with a placeholder {@code Item(-1, 0)}; this excludes
+	 * those (and any other non-positive id or quantity) so they never reach a Snapshot map or an
+	 * {@code ItemManager.getItemComposition} lookup.
+	 */
+	static boolean isRealItem(Item item)
+	{
+		return item.getId() > 0 && item.getQuantity() > 0;
 	}
 
 	private static void collectItemNames(ItemManager itemManager, Map<Integer, String> itemNames, Iterable<Integer> ids)
