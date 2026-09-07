@@ -19,13 +19,30 @@ import java.util.Set;
 public final class Ranker
 {
 	private static final double XP_SCALE = 250_000.0;
+	/** Spec ruling 27: a goal more than one stage above the account's is scored down, not excluded. */
+	private static final double LATER_PENALTY = 0.05;
 
 	private static final Comparator<RankedGoal> BY_SCORE_THEN_PRIORITY_THEN_NAME = Comparator
 		.comparingDouble(RankedGoal::getScore).reversed()
 		.thenComparing((RankedGoal r) -> r.getStatus().getGoal().getPriority(), Comparator.reverseOrder())
 		.thenComparing(r -> r.getStatus().getGoal().getName());
 
+	/**
+	 * As {@link #rank(List, Set, List, int)} with {@code accountStage} high enough that no goal is
+	 * ever "later" (stage 4 is the max) - kept for callers that don't have a stage yet.
+	 */
 	public List<RankedGoal> rank(List<GoalStatus> statuses, Set<String> hidden, List<String> pins)
+	{
+		return rank(statuses, hidden, pins, 4);
+	}
+
+	/**
+	 * {@code accountStage} (spec ruling 27) is the account's estimated progression stage
+	 * ({@link StageEstimator}). A non-pinned goal with {@code stage > accountStage + 1} has its
+	 * score multiplied by {@link #LATER_PENALTY} and {@link RankedGoal#isLater()} set - a pinned
+	 * goal is never marked later, since a pin is an explicit user override.
+	 */
+	public List<RankedGoal> rank(List<GoalStatus> statuses, Set<String> hidden, List<String> pins, int accountStage)
 	{
 		Map<String, GoalStatus> byId = new LinkedHashMap<>();
 		for (GoalStatus status : statuses)
@@ -45,27 +62,34 @@ public final class Ranker
 			{
 				continue;
 			}
-			pinned.add(new RankedGoal(status, score(status), true));
+			pinned.add(new RankedGoal(status, score(status), true, false));
 		}
 
 		List<RankedGoal> ready = new ArrayList<>();
 		List<RankedGoal> rest = new ArrayList<>();
+		List<RankedGoal> later = new ArrayList<>();
 		for (GoalStatus status : byId.values())
 		{
 			if (used.contains(status.getGoal().getId()))
 			{
 				continue;
 			}
-			RankedGoal ranked = new RankedGoal(status, score(status), false);
-			(isReadyNow(status) ? ready : rest).add(ranked);
+			boolean isLater = status.getGoal().getStage() > accountStage + 1;
+			double score = isLater ? score(status) * LATER_PENALTY : score(status);
+			RankedGoal ranked = new RankedGoal(status, score, false, isLater);
+			// A later goal never enters the ready tier, regardless of its own gaps: readiness within
+			// the account's own stage range must always outrank a stage-inappropriate goal.
+			(isLater ? later : (isReadyNow(status) ? ready : rest)).add(ranked);
 		}
 		ready.sort(BY_SCORE_THEN_PRIORITY_THEN_NAME);
 		rest.sort(BY_SCORE_THEN_PRIORITY_THEN_NAME);
+		later.sort(BY_SCORE_THEN_PRIORITY_THEN_NAME);
 
-		List<RankedGoal> result = new ArrayList<>(pinned.size() + ready.size() + rest.size());
+		List<RankedGoal> result = new ArrayList<>(pinned.size() + ready.size() + rest.size() + later.size());
 		result.addAll(pinned);
 		result.addAll(ready);
 		result.addAll(rest);
+		result.addAll(later);
 		return result;
 	}
 

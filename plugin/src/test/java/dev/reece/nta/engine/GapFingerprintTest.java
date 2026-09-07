@@ -3,6 +3,7 @@ package dev.reece.nta.engine;
 import dev.reece.nta.engine.model.CombatLevelGap;
 import dev.reece.nta.engine.model.DiaryTaskGap;
 import dev.reece.nta.engine.model.Gap;
+import dev.reece.nta.engine.model.GearGap;
 import dev.reece.nta.engine.model.Goal;
 import dev.reece.nta.engine.model.GoalCategory;
 import dev.reece.nta.engine.model.GoalStatus;
@@ -11,6 +12,7 @@ import dev.reece.nta.engine.model.KudosGap;
 import dev.reece.nta.engine.model.QuestPointsGap;
 import dev.reece.nta.engine.model.QuestPrereqGap;
 import dev.reece.nta.engine.model.SkillLevelGap;
+import dev.reece.nta.kb.OwnedItem;
 import java.util.List;
 import net.runelite.api.Quest;
 import net.runelite.api.QuestState;
@@ -64,6 +66,24 @@ class GapFingerprintTest
 	}
 
 	@Test
+	void gearGapContributesAKeyOrderIndependentOfAcceptableItemOrder()
+	{
+		GoalStatus a = status(List.of(new GearGap(List.of(new OwnedItem("A", 1), new OwnedItem("B", 2)), false)));
+		GoalStatus b = status(List.of(new GearGap(List.of(new OwnedItem("B", 2), new OwnedItem("A", 1)), false)));
+
+		assertEquals(GapFingerprint.of(a), GapFingerprint.of(b));
+	}
+
+	@Test
+	void aChangedGearGapAcceptableSetProducesADifferentFingerprint()
+	{
+		GoalStatus before = status(List.of(new GearGap(List.of(new OwnedItem("A", 1)), false)));
+		GoalStatus after = status(List.of(new GearGap(List.of(new OwnedItem("A", 1), new OwnedItem("B", 2)), false)));
+
+		assertNotEquals(GapFingerprint.of(before), GapFingerprint.of(after));
+	}
+
+	@Test
 	void noGapsAtAllIsAStableEmptyFingerprint()
 	{
 		assertEquals(GapFingerprint.of(status(List.of())), GapFingerprint.of(status(List.of())));
@@ -78,7 +98,7 @@ class GapFingerprintTest
 			new ItemGap("Egg", 0, 1, List.of(), false),
 			new QuestPointsGap(5, 10),
 			new KudosGap(0, 5),
-			new CombatLevelGap(50, 60),
+			new CombatLevelGap(50, 60, false),
 			new DiaryTaskGap(1, "text", List.of(skillGap(Skill.FISHING, 1, 5)), List.of())));
 
 		String fingerprint = GapFingerprint.of(status);
@@ -87,12 +107,12 @@ class GapFingerprintTest
 
 	private static SkillLevelGap skillGap(Skill skill, int have, int need)
 	{
-		return new SkillLevelGap(skill, have, need, 0, false, null);
+		return new SkillLevelGap(skill, have, need, 0, false, null, false);
 	}
 
 	private static GoalStatus status(List<Gap> gaps)
 	{
-		Goal goal = new Goal("g1", GoalCategory.QUEST, "g1", "https://x", 5);
+		Goal goal = new Goal("g1", GoalCategory.QUEST, "g1", "https://x", 5, 1);
 		return new GoalStatus(goal, gaps, gaps.isEmpty(), false, List.of());
 	}
 }

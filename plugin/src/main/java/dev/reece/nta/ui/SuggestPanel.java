@@ -44,6 +44,8 @@ public class SuggestPanel extends JPanel
 	private final JPanel pickOnePanel = new JPanel();
 	private final JPanel nextListPanel = new JPanel();
 	private final JButton showMoreButton = new JButton("Show more");
+	private final JButton laterHeaderButton = new JButton("Later (0)");
+	private final JPanel laterContent = new JPanel();
 	private final JButton snoozedHeaderButton = new JButton("Snoozed (0)");
 	private final JPanel snoozedContent = new JPanel();
 	private final JButton ignoredHeaderButton = new JButton("Ignored (0)");
@@ -51,6 +53,7 @@ public class SuggestPanel extends JPanel
 
 	private Advice currentAdvice;
 	private int nextShown = PAGE_SIZE;
+	private boolean laterExpanded;
 	private boolean snoozedExpanded;
 	private boolean ignoredExpanded;
 
@@ -85,6 +88,18 @@ public class SuggestPanel extends JPanel
 			rebuildNextSection();
 		});
 		add(showMoreButton);
+
+		laterHeaderButton.setAlignmentX(Component.LEFT_ALIGNMENT);
+		laterHeaderButton.addActionListener(e ->
+		{
+			laterExpanded = !laterExpanded;
+			rebuild();
+		});
+		add(laterHeaderButton);
+		laterContent.setLayout(new BoxLayout(laterContent, BoxLayout.Y_AXIS));
+		laterContent.setAlignmentX(Component.LEFT_ALIGNMENT);
+		laterContent.setVisible(false);
+		add(laterContent);
 
 		snoozedHeaderButton.setAlignmentX(Component.LEFT_ALIGNMENT);
 		snoozedHeaderButton.addActionListener(e ->
@@ -155,6 +170,17 @@ public class SuggestPanel extends JPanel
 		}
 
 		rebuildNextSection();
+
+		laterHeaderButton.setText("Later (" + advice.getLater().size() + ")" + (laterExpanded ? " ▼" : " ▶"));
+		laterContent.removeAll();
+		laterContent.setVisible(laterExpanded);
+		if (laterExpanded)
+		{
+			for (RankedGoal r : advice.getLater())
+			{
+				laterContent.add(buildRow(r, advice.getWhys()));
+			}
+		}
 
 		Set<String> ignoredIds = new LinkedHashSet<>(prefs.getHidden());
 		ignoredIds.removeAll(prefs.getSnoozedActive());

@@ -100,11 +100,59 @@ class SuggestSelectorTest
 		assertEquals(List.of("r3"), ids(rest));
 	}
 
+	// --- Task 42: a `later` goal (spec ruling 27) is never picked, but still appears in `rest`. ---
+
+	@Test
+	void laterGoalIsSkippedForSlotsOneAndTwo()
+	{
+		RankedGoal later = ranked("later", GoalCategory.MILESTONE, 100, false, true);
+		RankedGoal r1 = ranked("r1", GoalCategory.QUEST, 10, false);
+		RankedGoal r2 = ranked("r2", GoalCategory.QUEST, 9, false);
+
+		List<RankedGoal> picked = selector.pick3(List.of(later, r1, r2));
+
+		assertEquals(List.of("r1", "r2"), ids(picked), "the later goal must be skipped despite its high score: " + ids(picked));
+	}
+
+	@Test
+	void laterGoalIsSkippedForSlotThreeTooIncludingTheDifferentCategoryFallback()
+	{
+		RankedGoal r1 = ranked("r1", GoalCategory.MILESTONE, 10, false);
+		RankedGoal r2 = ranked("r2", GoalCategory.MILESTONE, 9, false);
+		RankedGoal laterQuest = ranked("laterQuest", GoalCategory.QUEST, 100, false, true);
+		RankedGoal r3 = ranked("r3", GoalCategory.QUEST, 8, false);
+
+		List<RankedGoal> picked = selector.pick3(List.of(r1, r2, laterQuest, r3));
+
+		assertEquals(List.of("r1", "r2", "r3"), ids(picked), "laterQuest must be skipped even as the only different-category candidate ahead of r3: "
+			+ ids(picked));
+	}
+
+	@Test
+	void laterGoalStillAppearsInRest()
+	{
+		RankedGoal later = ranked("later", GoalCategory.MILESTONE, 100, false, true);
+		RankedGoal r1 = ranked("r1", GoalCategory.QUEST, 10, false);
+		RankedGoal r2 = ranked("r2", GoalCategory.QUEST, 9, false);
+		RankedGoal r3 = ranked("r3", GoalCategory.QUEST, 8, false);
+		List<RankedGoal> all = List.of(later, r1, r2, r3);
+
+		List<RankedGoal> picked = selector.pick3(all);
+		List<RankedGoal> rest = selector.rest(all, picked);
+
+		assertEquals(List.of("later"), ids(rest), "a later goal is excluded from picked but still shows up in rest: " + ids(rest));
+	}
+
 	private static RankedGoal ranked(String id, GoalCategory category, double score, boolean pinned)
 	{
-		Goal goal = new Goal(id, category, id, "https://x", 5);
+		return ranked(id, category, score, pinned, false);
+	}
+
+	private static RankedGoal ranked(String id, GoalCategory category, double score, boolean pinned, boolean later)
+	{
+		Goal goal = new Goal(id, category, id, "https://x", 5, 1);
 		GoalStatus status = new GoalStatus(goal, List.of(), true, false, List.of());
-		return new RankedGoal(status, score, pinned);
+		return new RankedGoal(status, score, pinned, later);
 	}
 
 	private static List<String> ids(List<RankedGoal> ranked)

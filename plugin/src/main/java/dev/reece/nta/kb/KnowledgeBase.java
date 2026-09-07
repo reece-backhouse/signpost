@@ -224,9 +224,15 @@ public final class KnowledgeBase
 		validatePrereqsResolve(quests, questNames);
 
 		Set<String> milestoneIds = new HashSet<>();
+		boolean[] anyMissingStage = {false};
 		List<MilestoneEntry> milestones = milestonesFile.milestones.stream()
-			.map(dto -> toMilestoneEntry(dto, questNames, milestoneIds))
+			.map(dto -> toMilestoneEntry(dto, questNames, milestoneIds, anyMissingStage))
 			.collect(Collectors.toList());
+		if (anyMissingStage[0])
+		{
+			log.warn("milestones.json has entries with no 'stage' field (bundled data predates S4.1 stages); "
+				+ "defaulting stage=2 and recommended=null for those entries");
+		}
 
 		List<MaterialEntry> materials = materialsFile.materials.stream().map(KnowledgeBase::toMaterialEntry).collect(Collectors.toList());
 		Map<String, Integer> materialIdsByName = new LinkedHashMap<>();
@@ -397,7 +403,7 @@ public final class KnowledgeBase
 		return new SkillReq(resolveSkill(dto.skill, null), dto.level, dto.boostable, dto.ironmanOnly);
 	}
 
-	private static MilestoneEntry toMilestoneEntry(MilestoneDto dto, Set<String> questNames, Set<String> milestoneIds)
+	private static MilestoneEntry toMilestoneEntry(MilestoneDto dto, Set<String> questNames, Set<String> milestoneIds, boolean[] anyMissingStage)
 	{
 		requireField(dto.id, "milestones.json entry", "id");
 		String context = "milestone \"" + dto.id + "\"";
@@ -445,9 +451,42 @@ public final class KnowledgeBase
 			throw new IllegalStateException("Malformed knowledge base data: " + context + " is category gear but has no ownedIf entries");
 		}
 
+		int stage;
+		if (dto.stage == null)
+		{
+			anyMissingStage[0] = true;
+			stage = 2;
+		}
+		else
+		{
+			stage = dto.stage;
+			if (stage < 1 || stage > 4)
+			{
+				throw new IllegalStateException("Malformed knowledge base data: " + context + " has stage " + stage + " outside 1..4");
+			}
+		}
+		RecommendedProfile recommended = toRecommendedProfile(dto.recommended, context);
+
 		return new MilestoneEntry(dto.id, category, dto.subcategory, dto.name, dto.wikiTitle, dto.priority, dto.reason,
 			List.copyOf(dto.unlocks), skills, List.copyOf(dto.requirements.quests), diaries, dto.requirements.combatLevel,
-			dto.requirements.questPoints, items, ownedIf, dto.gearTier, List.copyOf(dto.sources));
+			dto.requirements.questPoints, items, ownedIf, dto.gearTier, List.copyOf(dto.sources), stage, recommended);
+	}
+
+	/** {@code dto} is {@code null} for a milestone with no {@code recommended} profile (the common case). */
+	private static RecommendedProfile toRecommendedProfile(RecommendedDto dto, String context)
+	{
+		if (dto == null)
+		{
+			return null;
+		}
+		requireField(dto.skills, context, "recommended.skills");
+		requireField(dto.gearOwnedAny, context, "recommended.gearOwnedAny");
+
+		List<RecommendedSkill> skills = dto.skills.stream()
+			.map(s -> new RecommendedSkill(resolveSkill(s.skill, context), s.level))
+			.collect(Collectors.toList());
+		List<OwnedItem> gearOwnedAny = dto.gearOwnedAny.stream().map(o -> toOwnedItem(o, context)).collect(Collectors.toList());
+		return new RecommendedProfile(skills, dto.combatLevel, gearOwnedAny);
 	}
 
 	private static DiaryRef toDiaryRef(DiaryRefDto dto, String context)
@@ -766,6 +805,15 @@ public final class KnowledgeBase
 		List<OwnedIfDto> ownedIf = new ArrayList<>();
 		Integer gearTier;
 		List<String> sources = new ArrayList<>();
+		Integer stage;
+		RecommendedDto recommended;
+	}
+
+	private static final class RecommendedDto
+	{
+		List<SkillDto> skills = new ArrayList<>();
+		Integer combatLevel;
+		List<OwnedIfDto> gearOwnedAny = new ArrayList<>();
 	}
 
 	private static final class RequirementsDto

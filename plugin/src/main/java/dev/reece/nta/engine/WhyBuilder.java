@@ -1,6 +1,8 @@
 package dev.reece.nta.engine;
 
+import dev.reece.nta.engine.model.CombatLevelGap;
 import dev.reece.nta.engine.model.Gap;
+import dev.reece.nta.engine.model.GearGap;
 import dev.reece.nta.engine.model.Goal;
 import dev.reece.nta.engine.model.GoalCategory;
 import dev.reece.nta.engine.model.GoalStatus;
@@ -33,14 +35,21 @@ public final class WhyBuilder
 		GoalStatus status = r.getStatus();
 		Goal goal = status.getGoal();
 		List<Gap> gaps = status.getGaps();
-		boolean readyNow = status.isReady() && !status.isBankUnknown();
+		// A later goal (spec ruling 27) is never "Ready now", even with empty gaps - Ranker already
+		// keeps it out of the ready tier for the same reason.
+		boolean readyNow = !r.isLater() && status.isReady() && !status.isBankUnknown();
 
 		List<String> clauses = new ArrayList<>();
-		clauses.add(readyNow ? "Ready now" : awayClause(gaps));
+		clauses.add(r.isLater() ? "later: stage " + goal.getStage() : (readyNow ? "Ready now" : awayClause(gaps)));
 
 		if (clauses.size() < MAX_CLAUSES && status.isBankUnknown())
 		{
 			clauses.add("bank unknown");
+		}
+
+		if (clauses.size() < MAX_CLAUSES && hasRecommendedGaps(gaps))
+		{
+			clauses.add(recommendedClause(gaps));
 		}
 
 		MilestoneEntry entry = kb.milestoneById(goal.getId());
@@ -66,6 +75,49 @@ public final class WhyBuilder
 		}
 
 		return truncate(clauses);
+	}
+
+	private static boolean hasRecommendedGaps(List<Gap> gaps)
+	{
+		for (Gap gap : gaps)
+		{
+			if (isRecommended(gap))
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private static boolean isRecommended(Gap gap)
+	{
+		return (gap instanceof SkillLevelGap && ((SkillLevelGap) gap).isRecommended())
+			|| (gap instanceof CombatLevelGap && ((CombatLevelGap) gap).isRecommended())
+			|| gap instanceof GearGap;
+	}
+
+	/** "recommended: 85 Ranged (have 70), Bandos or better" - up to three recommended items, one clause. */
+	private static String recommendedClause(List<Gap> gaps)
+	{
+		List<String> items = new ArrayList<>();
+		for (Gap gap : gaps)
+		{
+			if (gap instanceof SkillLevelGap && ((SkillLevelGap) gap).isRecommended())
+			{
+				SkillLevelGap g = (SkillLevelGap) gap;
+				items.add(g.getNeed() + " " + g.getSkill().getName() + " (have " + g.getHave() + ")");
+			}
+			else if (gap instanceof CombatLevelGap && ((CombatLevelGap) gap).isRecommended())
+			{
+				CombatLevelGap g = (CombatLevelGap) gap;
+				items.add("combat " + g.getNeed() + " (have " + g.getHave() + ")");
+			}
+			else if (gap instanceof GearGap)
+			{
+				items.add(((GearGap) gap).getAcceptable().get(0).getName() + " or better");
+			}
+		}
+		return "recommended: " + items.stream().limit(3).collect(Collectors.joining(", "));
 	}
 
 	private static String awayClause(List<Gap> gaps)

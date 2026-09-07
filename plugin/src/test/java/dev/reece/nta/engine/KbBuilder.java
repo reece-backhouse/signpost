@@ -13,6 +13,8 @@ import dev.reece.nta.kb.MilestoneCategory;
 import dev.reece.nta.kb.MilestoneEntry;
 import dev.reece.nta.kb.OwnedItem;
 import dev.reece.nta.kb.QuestEntry;
+import dev.reece.nta.kb.RecommendedProfile;
+import dev.reece.nta.kb.RecommendedSkill;
 import dev.reece.nta.kb.SkillReq;
 import dev.reece.nta.kb.TaskCompletion;
 import dev.reece.nta.snapshot.DiaryTier;
@@ -150,6 +152,34 @@ final class KbBuilder
 	KbBuilder subcategory(String subcategory)
 	{
 		currentMilestone.subcategory = subcategory;
+		return this;
+	}
+
+	/** Sets the progression stage (1..4) of the currently open milestone; defaults to 2 (mid game) when unset. */
+	KbBuilder stage(int stage)
+	{
+		currentMilestone.stage = stage;
+		return this;
+	}
+
+	/** Adds a recommended (not required) skill level to the currently open milestone's {@code recommended} profile. */
+	KbBuilder recommendedSkill(Skill skill, int level)
+	{
+		currentMilestone.recommendedSkills.add(new RecommendedSkill(skill, level));
+		return this;
+	}
+
+	/** Sets a recommended combat level on the currently open milestone's {@code recommended} profile. */
+	KbBuilder recommendedCombat(int level)
+	{
+		currentMilestone.recommendedCombatLevel = level;
+		return this;
+	}
+
+	/** Adds an acceptable item id to the currently open milestone's {@code recommended.gearOwnedAny}. */
+	KbBuilder recommendedGear(String name, int id)
+	{
+		currentMilestone.recommendedGearOwnedAny.add(new OwnedItem(name, id));
 		return this;
 	}
 
@@ -359,9 +389,12 @@ final class KbBuilder
 			{
 				diaryRefs.add(new DiaryRef(tier));
 			}
+			RecommendedProfile recommended = m.recommendedSkills.isEmpty() && m.recommendedCombatLevel == null && m.recommendedGearOwnedAny.isEmpty()
+				? null
+				: new RecommendedProfile(List.copyOf(m.recommendedSkills), m.recommendedCombatLevel, List.copyOf(m.recommendedGearOwnedAny));
 			milestones.add(new MilestoneEntry(m.id, m.category, m.subcategory, m.name, m.name, m.priority, "test", List.copyOf(m.unlocks),
 				List.copyOf(m.skills), List.copyOf(m.quests), diaryRefs, null, null, List.copyOf(m.items), List.copyOf(m.ownedIf),
-				m.gearTier, List.of()));
+				m.gearTier, List.of(), m.stage, recommended));
 		}
 
 		Map<Integer, String> materialNames = new LinkedHashMap<>();
@@ -444,8 +477,12 @@ final class KbBuilder
 		final List<ItemReq> items = new ArrayList<>();
 		final List<OwnedItem> ownedIf = new ArrayList<>();
 		final List<String> unlocks = new ArrayList<>();
+		final List<RecommendedSkill> recommendedSkills = new ArrayList<>();
+		final List<OwnedItem> recommendedGearOwnedAny = new ArrayList<>();
 		String subcategory;
 		Integer gearTier;
+		int stage = 2;
+		Integer recommendedCombatLevel;
 
 		MilestoneSpec(String id, MilestoneCategory category, String name, int priority)
 		{

@@ -9,7 +9,9 @@ import net.runelite.api.Skill;
  * needed to reach {@code need} from the player's current XP (via {@code Experience.getXpForLevel}).
  * {@code boostableFrom} is the lowest real level from which a boost could reach {@code need}
  * (per {@link dev.reece.nta.engine.BoostTable#maxBoost}), or {@code null} when the requirement
- * isn't boostable or the player's level is below even the boosted floor.
+ * isn't boostable or the player's level is below even the boosted floor. {@code recommended} is
+ * true when this comes from a milestone's {@code recommended} profile (spec ruling 27) rather than
+ * its hard requirements - never boostable, since a recommended level is advisory, not a gate.
  */
 @Value
 @EqualsAndHashCode(callSuper = false)
@@ -21,4 +23,5 @@ public class SkillLevelGap extends Gap
 	long xpDelta;
 	boolean boostable;
 	Integer boostableFrom;
+	boolean recommended;
 }

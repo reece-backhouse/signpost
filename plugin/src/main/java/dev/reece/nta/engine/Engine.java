@@ -6,12 +6,14 @@ import dev.reece.nta.engine.model.PrefsView;
 import dev.reece.nta.engine.model.RankedGoal;
 import dev.reece.nta.kb.KnowledgeBase;
 import dev.reece.nta.kb.MilestoneEntry;
+import dev.reece.nta.snapshot.DiaryTier;
 import dev.reece.nta.snapshot.Snapshot;
 import dev.reece.nta.store.AccountData;
 import java.time.Instant;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import lombok.Value;
 
 /**
@@ -43,11 +45,15 @@ public class Engine
 
 	public Advice run(Snapshot snapshot, KnowledgeBase kb, AccountData data, Instant now)
 	{
-		List<GoalStatus> statuses = gapEngine.evaluate(snapshot, kb);
+		Map<DiaryTier, DiaryTierProgress> diaryProgress = DiaryProgress.compute(snapshot, kb);
+		List<GoalStatus> statuses = gapEngine.evaluate(snapshot, kb, diaryProgress);
 		PrefsView prefs = prefsResolver.resolve(data, statuses, now);
-		List<RankedGoal> ranked = ranker.rank(statuses, prefs.getHidden(), prefs.getPins());
+		int accountStage = StageEstimator.estimate(snapshot, kb);
+		List<RankedGoal> ranked = ranker.rank(statuses, prefs.getHidden(), prefs.getPins(), accountStage);
 		List<RankedGoal> picked = suggestSelector.pick3(ranked);
-		List<RankedGoal> rest = suggestSelector.rest(ranked, picked);
+		List<RankedGoal> restAll = suggestSelector.rest(ranked, picked);
+		List<RankedGoal> later = ranked.stream().filter(RankedGoal::isLater).collect(Collectors.toList());
+		List<RankedGoal> rest = restAll.stream().filter(r -> !r.isLater()).collect(Collectors.toList());
 
 		Map<String, String> whys = new LinkedHashMap<>();
 		Map<String, String> reasons = new LinkedHashMap<>();
@@ -63,7 +69,7 @@ public class Engine
 			}
 		}
 
-		return new Advice(snapshot, statuses, DiaryProgress.compute(snapshot, kb), now, ranked, picked, rest, whys, reasons, prefs);
+		return new Advice(snapshot, statuses, diaryProgress, now, ranked, picked, rest, accountStage, later, whys, reasons, prefs);
 	}
 
 	/** Thin overload for callers with no account data (e.g. existing tests): behaves as {@link #run} with an empty {@link AccountData} and the current time. */

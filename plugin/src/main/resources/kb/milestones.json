@@ -43,7 +43,9 @@
         "quest",
         "reward",
         "shop"
-      ]
+      ],
+      "stage": 1,
+      "recommended": null
     },
     {
       "id": "milestone:fire-cape",
@@ -76,7 +78,9 @@
       "sources": [
         "minigame",
         "reward"
-      ]
+      ],
+      "stage": 1,
+      "recommended": null
     },
     {
       "id": "milestone:fighter-torso",
@@ -113,7 +117,9 @@
       "sources": [
         "minigame",
         "reward"
-      ]
+      ],
+      "stage": 1,
+      "recommended": null
     },
     {
       "id": "milestone:dragon-defender",
@@ -149,7 +155,9 @@
       "gearTier": 7,
       "sources": [
         "drop"
-      ]
+      ],
+      "stage": 1,
+      "recommended": null
     },
     {
       "id": "milestone:avas-assembler",
@@ -212,7 +220,9 @@
       "gearTier": 8,
       "sources": [
         "craft"
-      ]
+      ],
+      "stage": 1,
+      "recommended": null
     },
     {
       "id": "milestone:elite-void",
@@ -288,7 +298,9 @@
       "sources": [
         "minigame",
         "craft"
-      ]
+      ],
+      "stage": 2,
+      "recommended": null
     },
     {
       "id": "milestone:slayer-helmet-imbued",
@@ -343,7 +355,9 @@
       "sources": [
         "craft",
         "minigame"
-      ]
+      ],
+      "stage": 2,
+      "recommended": null
     },
     {
       "id": "milestone:piety",
@@ -383,7 +397,9 @@
       "sources": [
         "quest",
         "reward"
-      ]
+      ],
+      "stage": 1,
+      "recommended": null
     },
     {
       "id": "milestone:rigour",
@@ -430,7 +446,9 @@
       "sources": [
         "drop",
         "GE"
-      ]
+      ],
+      "stage": 2,
+      "recommended": null
     },
     {
       "id": "milestone:augury",
@@ -477,7 +495,9 @@
       "sources": [
         "drop",
         "GE"
-      ]
+      ],
+      "stage": 2,
+      "recommended": null
     },
     {
       "id": "milestone:ancient-magicks",
@@ -512,7 +532,9 @@
       "sources": [
         "quest",
         "reward"
-      ]
+      ],
+      "stage": 2,
+      "recommended": null
     },
     {
       "id": "milestone:fairy-rings",
@@ -540,7 +562,9 @@
       "gearTier": null,
       "sources": [
         "quest"
-      ]
+      ],
+      "stage": 1,
+      "recommended": null
     },
     {
       "id": "milestone:graceful-outfit",
@@ -600,7 +624,9 @@
       "gearTier": 4,
       "sources": [
         "shop"
-      ]
+      ],
+      "stage": 1,
+      "recommended": null
     },
     {
       "id": "milestone:toxic-blowpipe",
@@ -659,7 +685,67 @@
       "sources": [
         "drop",
         "craft"
-      ]
+      ],
+      "stage": 2,
+      "recommended": {
+        "skills": [
+          {
+            "skill": "Magic",
+            "level": 75
+          },
+          {
+            "skill": "Ranged",
+            "level": 80
+          },
+          {
+            "skill": "Defence",
+            "level": 70
+          },
+          {
+            "skill": "Hitpoints",
+            "level": 80
+          },
+          {
+            "skill": "Prayer",
+            "level": 45
+          },
+          {
+            "skill": "Construction",
+            "level": 82
+          }
+        ],
+        "combatLevel": null,
+        "gearOwnedAny": [
+          {
+            "name": "Trident of the seas (full)",
+            "id": 11905
+          },
+          {
+            "name": "Rune crossbow",
+            "id": 9185
+          },
+          {
+            "name": "Elite void top",
+            "id": 13072
+          },
+          {
+            "name": "Elite void robe",
+            "id": 13073
+          },
+          {
+            "name": "Void knight gloves",
+            "id": 8842
+          },
+          {
+            "name": "Ava's accumulator",
+            "id": 10499
+          },
+          {
+            "name": "Amulet of glory",
+            "id": 1704
+          }
+        ]
+      }
     },
     {
       "id": "milestone:bow-of-faerdhinen",
@@ -736,7 +822,67 @@
       "gearTier": 8,
       "sources": [
         "craft"
-      ]
+      ],
+      "stage": 2,
+      "recommended": {
+        "skills": [
+          {
+            "skill": "Attack",
+            "level": 80
+          },
+          {
+            "skill": "Strength",
+            "level": 85
+          },
+          {
+            "skill": "Defence",
+            "level": 80
+          },
+          {
+            "skill": "Ranged",
+            "level": 85
+          },
+          {
+            "skill": "Magic",
+            "level": 80
+          },
+          {
+            "skill": "Hitpoints",
+            "level": 85
+          },
+          {
+            "skill": "Prayer",
+            "level": 77
+          }
+        ],
+        "combatLevel": null,
+        "gearOwnedAny": [
+          {
+            "name": "Corrupted bow (perfected)",
+            "id": 23857
+          },
+          {
+            "name": "Corrupted halberd (perfected)",
+            "id": 23851
+          },
+          {
+            "name": "Corrupted staff (perfected)",
+            "id": 23854
+          },
+          {
+            "name": "Crystal helm",
+            "id": 23971
+          },
+          {
+            "name": "Crystal body",
+            "id": 23975
+          },
+          {
+            "name": "Crystal legs",
+            "id": 23979
+          }
+        ]
+      }
     },
     {
       "id": "milestone:zenyte-jewellery",
@@ -803,7 +949,9 @@
         "craft",
         "drop",
         "shop"
-      ]
+      ],
+      "stage": 3,
+      "recommended": null
     },
     {
       "id": "milestone:bandos-armour",
@@ -850,7 +998,59 @@
       "gearTier": 5,
       "sources": [
         "drop"
-      ]
+      ],
+      "stage": 3,
+      "recommended": {
+        "skills": [
+          {
+            "skill": "Strength",
+            "level": 60
+          },
+          {
+            "skill": "Ranged",
+            "level": 70
+          },
+          {
+            "skill": "Agility",
+            "level": 70
+          },
+          {
+            "skill": "Hitpoints",
+            "level": 70
+          }
+        ],
+        "combatLevel": null,
+        "gearOwnedAny": [
+          {
+            "name": "Rune crossbow",
+            "id": 9185
+          },
+          {
+            "name": "Diamond bolts (e)",
+            "id": 9243
+          },
+          {
+            "name": "Karil's coif",
+            "id": 4732
+          },
+          {
+            "name": "Karil's leathertop",
+            "id": 4736
+          },
+          {
+            "name": "Karil's leatherskirt",
+            "id": 4738
+          },
+          {
+            "name": "Mixed hide boots",
+            "id": 29286
+          },
+          {
+            "name": "Barrows gloves",
+            "id": 7462
+          }
+        ]
+      }
     },
     {
       "id": "milestone:armadyl-armour",
@@ -906,7 +1106,59 @@
       "gearTier": 5,
       "sources": [
         "drop"
-      ]
+      ],
+      "stage": 3,
+      "recommended": {
+        "skills": [
+          {
+            "skill": "Strength",
+            "level": 60
+          },
+          {
+            "skill": "Ranged",
+            "level": 70
+          },
+          {
+            "skill": "Agility",
+            "level": 70
+          },
+          {
+            "skill": "Hitpoints",
+            "level": 70
+          }
+        ],
+        "combatLevel": null,
+        "gearOwnedAny": [
+          {
+            "name": "Rune crossbow",
+            "id": 9185
+          },
+          {
+            "name": "Diamond bolts (e)",
+            "id": 9243
+          },
+          {
+            "name": "Karil's coif",
+            "id": 4732
+          },
+          {
+            "name": "Karil's leathertop",
+            "id": 4736
+          },
+          {
+            "name": "Karil's leatherskirt",
+            "id": 4738
+          },
+          {
+            "name": "Mixed hide boots",
+            "id": 29286
+          },
+          {
+            "name": "Barrows gloves",
+            "id": 7462
+          }
+        ]
+      }
     },
     {
       "id": "milestone:ancestral-robes",
@@ -955,7 +1207,75 @@
       "gearTier": 7,
       "sources": [
         "drop"
-      ]
+      ],
+      "stage": 4,
+      "recommended": {
+        "skills": [
+          {
+            "skill": "Hitpoints",
+            "level": 80
+          },
+          {
+            "skill": "Attack",
+            "level": 80
+          },
+          {
+            "skill": "Strength",
+            "level": 80
+          },
+          {
+            "skill": "Defence",
+            "level": 70
+          },
+          {
+            "skill": "Ranged",
+            "level": 80
+          },
+          {
+            "skill": "Magic",
+            "level": 80
+          },
+          {
+            "skill": "Prayer",
+            "level": 77
+          }
+        ],
+        "combatLevel": null,
+        "gearOwnedAny": [
+          {
+            "name": "Dragon hunter lance",
+            "id": 22978
+          },
+          {
+            "name": "Ghrazi rapier",
+            "id": 22324
+          },
+          {
+            "name": "Dragon crossbow",
+            "id": 21902
+          },
+          {
+            "name": "Bandos chestplate",
+            "id": 11832
+          },
+          {
+            "name": "Bandos tassets",
+            "id": 11834
+          },
+          {
+            "name": "Helm of neitiznot",
+            "id": 10828
+          },
+          {
+            "name": "Amulet of fury",
+            "id": 6585
+          },
+          {
+            "name": "Dragon boots",
+            "id": 11840
+          }
+        ]
+      }
     },
     {
       "id": "milestone:masori-armour",
@@ -1020,7 +1340,71 @@
       "sources": [
         "drop",
         "craft"
-      ]
+      ],
+      "stage": 4,
+      "recommended": {
+        "skills": [
+          {
+            "skill": "Attack",
+            "level": 70
+          },
+          {
+            "skill": "Strength",
+            "level": 70
+          },
+          {
+            "skill": "Defence",
+            "level": 70
+          },
+          {
+            "skill": "Hitpoints",
+            "level": 75
+          },
+          {
+            "skill": "Ranged",
+            "level": 70
+          },
+          {
+            "skill": "Magic",
+            "level": 70
+          },
+          {
+            "skill": "Prayer",
+            "level": 77
+          },
+          {
+            "skill": "Mining",
+            "level": 41
+          }
+        ],
+        "combatLevel": null,
+        "gearOwnedAny": [
+          {
+            "name": "Helm of neitiznot",
+            "id": 10828
+          },
+          {
+            "name": "Fire cape",
+            "id": 6570
+          },
+          {
+            "name": "Amulet of glory(4)",
+            "id": 1712
+          },
+          {
+            "name": "Dragon sword",
+            "id": 21009
+          },
+          {
+            "name": "Dragon defender",
+            "id": 12954
+          },
+          {
+            "name": "Barrows gloves",
+            "id": 7462
+          }
+        ]
+      }
     },
     {
       "id": "milestone:torva-armour",
@@ -1114,7 +1498,75 @@
       "sources": [
         "drop",
         "craft"
-      ]
+      ],
+      "stage": 4,
+      "recommended": {
+        "skills": [
+          {
+            "skill": "Ranged",
+            "level": 90
+          },
+          {
+            "skill": "Hitpoints",
+            "level": 90
+          },
+          {
+            "skill": "Defence",
+            "level": 80
+          },
+          {
+            "skill": "Attack",
+            "level": 90
+          },
+          {
+            "skill": "Strength",
+            "level": 90
+          },
+          {
+            "skill": "Prayer",
+            "level": 74
+          },
+          {
+            "skill": "Magic",
+            "level": 76
+          }
+        ],
+        "combatLevel": null,
+        "gearOwnedAny": [
+          {
+            "name": "Masori mask",
+            "id": 27226
+          },
+          {
+            "name": "Necklace of rupture",
+            "id": 33639
+          },
+          {
+            "name": "Twisted bow",
+            "id": 20997
+          },
+          {
+            "name": "Masori body",
+            "id": 27229
+          },
+          {
+            "name": "Masori chaps",
+            "id": 27232
+          },
+          {
+            "name": "Zaryte vambraces",
+            "id": 26235
+          },
+          {
+            "name": "Avernic treads",
+            "id": 31088
+          },
+          {
+            "name": "Lightbearer",
+            "id": 25975
+          }
+        ]
+      }
     },
     {
       "id": "milestone:avernic-defender",
@@ -1167,7 +1619,75 @@
       "gearTier": 6,
       "sources": [
         "craft"
-      ]
+      ],
+      "stage": 4,
+      "recommended": {
+        "skills": [
+          {
+            "skill": "Attack",
+            "level": 90
+          },
+          {
+            "skill": "Strength",
+            "level": 90
+          },
+          {
+            "skill": "Defence",
+            "level": 80
+          },
+          {
+            "skill": "Hitpoints",
+            "level": 95
+          },
+          {
+            "skill": "Ranged",
+            "level": 90
+          },
+          {
+            "skill": "Magic",
+            "level": 94
+          },
+          {
+            "skill": "Prayer",
+            "level": 77
+          },
+          {
+            "skill": "Agility",
+            "level": 70
+          }
+        ],
+        "combatLevel": null,
+        "gearOwnedAny": [
+          {
+            "name": "Blade of saeldor",
+            "id": 23995
+          },
+          {
+            "name": "Osmumten's fang",
+            "id": 26219
+          },
+          {
+            "name": "Abyssal tentacle",
+            "id": 12006
+          },
+          {
+            "name": "Amulet of torture",
+            "id": 19553
+          },
+          {
+            "name": "Infernal cape",
+            "id": 21295
+          },
+          {
+            "name": "Avernic defender",
+            "id": 22322
+          },
+          {
+            "name": "Dragon boots",
+            "id": 11840
+          }
+        ]
+      }
     },
     {
       "id": "milestone:infernal-cape",
@@ -1207,7 +1727,59 @@
       "gearTier": 7,
       "sources": [
         "reward"
-      ]
+      ],
+      "stage": 4,
+      "recommended": {
+        "skills": [
+          {
+            "skill": "Ranged",
+            "level": 90
+          },
+          {
+            "skill": "Defence",
+            "level": 90
+          },
+          {
+            "skill": "Prayer",
+            "level": 80
+          },
+          {
+            "skill": "Magic",
+            "level": 94
+          },
+          {
+            "skill": "Hitpoints",
+            "level": 90
+          }
+        ],
+        "combatLevel": null,
+        "gearOwnedAny": [
+          {
+            "name": "Twisted bow",
+            "id": 20997
+          },
+          {
+            "name": "Toxic blowpipe",
+            "id": 12926
+          },
+          {
+            "name": "Justiciar faceguard",
+            "id": 22326
+          },
+          {
+            "name": "Masori body (f)",
+            "id": 27238
+          },
+          {
+            "name": "Elysian spirit shield",
+            "id": 12817
+          },
+          {
+            "name": "Avernic treads",
+            "id": 31088
+          }
+        ]
+      }
     },
     {
       "id": "slayer:broad-ammo",
@@ -1242,7 +1814,9 @@
       "gearTier": null,
       "sources": [
         "shop"
-      ]
+      ],
+      "stage": 1,
+      "recommended": null
     },
     {
       "id": "slayer:cave-horrors",
@@ -1278,7 +1852,9 @@
       "gearTier": null,
       "sources": [
         "drop"
-      ]
+      ],
+      "stage": 1,
+      "recommended": null
     },
     {
       "id": "slayer:dust-devils",
@@ -1312,7 +1888,9 @@
       "gearTier": null,
       "sources": [
         "drop"
-      ]
+      ],
+      "stage": 1,
+      "recommended": null
     },
     {
       "id": "slayer:kurask",
@@ -1345,7 +1923,9 @@
       "gearTier": null,
       "sources": [
         "drop"
-      ]
+      ],
+      "stage": 1,
+      "recommended": null
     },
     {
       "id": "slayer:skeletal-wyverns",
@@ -1379,7 +1959,9 @@
       "gearTier": null,
       "sources": [
         "drop"
-      ]
+      ],
+      "stage": 1,
+      "recommended": null
     },
     {
       "id": "slayer:gargoyles",
@@ -1412,7 +1994,9 @@
       "gearTier": null,
       "sources": [
         "drop"
-      ]
+      ],
+      "stage": 2,
+      "recommended": null
     },
     {
       "id": "slayer:nechryael",
@@ -1445,7 +2029,9 @@
       "gearTier": null,
       "sources": [
         "drop"
-      ]
+      ],
+      "stage": 2,
+      "recommended": null
     },
     {
       "id": "slayer:abyssal-demons",
@@ -1478,7 +2064,9 @@
       "gearTier": null,
       "sources": [
         "drop"
-      ]
+      ],
+      "stage": 2,
+      "recommended": null
     },
     {
       "id": "slayer:kraken",
@@ -1518,7 +2106,9 @@
       "gearTier": null,
       "sources": [
         "drop"
-      ]
+      ],
+      "stage": 2,
+      "recommended": null
     },
     {
       "id": "slayer:cerberus",
@@ -1553,7 +2143,9 @@
       "gearTier": null,
       "sources": [
         "drop"
-      ]
+      ],
+      "stage": 3,
+      "recommended": null
     },
     {
       "id": "slayer:smoke-devils",
@@ -1587,7 +2179,9 @@
       "gearTier": null,
       "sources": [
         "drop"
-      ]
+      ],
+      "stage": 3,
+      "recommended": null
     },
     {
       "id": "slayer:hydra",
@@ -1622,7 +2216,9 @@
       "gearTier": null,
       "sources": [
         "drop"
-      ]
+      ],
+      "stage": 3,
+      "recommended": null
     },
     {
       "id": "boss:barrows",
@@ -1631,7 +2227,7 @@
       "name": "Barrows",
       "wikiTitle": "Barrows",
       "priority": 6,
-      "reason": "Barrows is an early minigame-style boss delivering the six iconic Barrows equipment sets (Ahrim's, Dharok's, Guthan's, Karil's, Torag's, Verac's), a staple of early-mid game melee/mage/range progression and a long-running gold-per-hour activity. Note: Barrows gloves are a SEPARATE reward, purchased from the Culinaromancer's Chest after fully completing Recipe for Disaster (not dropped from the Barrows chest) — do not conflate the two.",
+      "reason": "Barrows is an early minigame-style boss delivering the six iconic Barrows equipment sets (Ahrim's, Dharok's, Guthan's, Karil's, Torag's, Verac's), a staple of early-mid game melee/mage/range progression and a long-running gold-per-hour activity. Note: Barrows gloves are a SEPARATE reward, purchased from the Culinaromancer's Chest after fully completing Recipe for Disaster (not dropped from the Barrows chest) \u2014 do not conflate the two.",
       "unlocks": [
         "Ahrim's equipment",
         "Dharok's equipment",
@@ -1655,7 +2251,75 @@
       "gearTier": null,
       "sources": [
         "drop"
-      ]
+      ],
+      "stage": 1,
+      "recommended": {
+        "skills": [
+          {
+            "skill": "Attack",
+            "level": 50
+          },
+          {
+            "skill": "Strength",
+            "level": 50
+          },
+          {
+            "skill": "Defence",
+            "level": 50
+          },
+          {
+            "skill": "Ranged",
+            "level": 50
+          },
+          {
+            "skill": "Magic",
+            "level": 50
+          },
+          {
+            "skill": "Prayer",
+            "level": 43
+          },
+          {
+            "skill": "Agility",
+            "level": 50
+          },
+          {
+            "skill": "Construction",
+            "level": 45
+          }
+        ],
+        "combatLevel": null,
+        "gearOwnedAny": [
+          {
+            "name": "Iban's staff (u)",
+            "id": 12658
+          },
+          {
+            "name": "Rune full helm",
+            "id": 1163
+          },
+          {
+            "name": "Black d'hide body",
+            "id": 2503
+          },
+          {
+            "name": "Black d'hide chaps",
+            "id": 2497
+          },
+          {
+            "name": "Combat bracelet",
+            "id": 11126
+          },
+          {
+            "name": "Rune kiteshield",
+            "id": 1201
+          },
+          {
+            "name": "Guthix cloak",
+            "id": 10448
+          }
+        ]
+      }
     },
     {
       "id": "boss:moons-of-peril",
@@ -1684,7 +2348,63 @@
       "gearTier": null,
       "sources": [
         "drop"
-      ]
+      ],
+      "stage": 2,
+      "recommended": {
+        "skills": [
+          {
+            "skill": "Attack",
+            "level": 70
+          },
+          {
+            "skill": "Strength",
+            "level": 70
+          },
+          {
+            "skill": "Defence",
+            "level": 70
+          },
+          {
+            "skill": "Hitpoints",
+            "level": 75
+          },
+          {
+            "skill": "Prayer",
+            "level": 34
+          }
+        ],
+        "combatLevel": null,
+        "gearOwnedAny": [
+          {
+            "name": "Abyssal whip",
+            "id": 4151
+          },
+          {
+            "name": "Dragon chainbody",
+            "id": 3140
+          },
+          {
+            "name": "Dragon platelegs",
+            "id": 4087
+          },
+          {
+            "name": "Granite boots",
+            "id": 21643
+          },
+          {
+            "name": "Obsidian cape",
+            "id": 6568
+          },
+          {
+            "name": "Amulet of glory",
+            "id": 1704
+          },
+          {
+            "name": "Rune kiteshield",
+            "id": 1201
+          }
+        ]
+      }
     },
     {
       "id": "boss:zulrah",
@@ -1716,7 +2436,67 @@
       "gearTier": null,
       "sources": [
         "drop"
-      ]
+      ],
+      "stage": 2,
+      "recommended": {
+        "skills": [
+          {
+            "skill": "Magic",
+            "level": 75
+          },
+          {
+            "skill": "Ranged",
+            "level": 80
+          },
+          {
+            "skill": "Defence",
+            "level": 70
+          },
+          {
+            "skill": "Hitpoints",
+            "level": 80
+          },
+          {
+            "skill": "Prayer",
+            "level": 45
+          },
+          {
+            "skill": "Construction",
+            "level": 82
+          }
+        ],
+        "combatLevel": null,
+        "gearOwnedAny": [
+          {
+            "name": "Trident of the seas (full)",
+            "id": 11905
+          },
+          {
+            "name": "Rune crossbow",
+            "id": 9185
+          },
+          {
+            "name": "Elite void top",
+            "id": 13072
+          },
+          {
+            "name": "Elite void robe",
+            "id": 13073
+          },
+          {
+            "name": "Void knight gloves",
+            "id": 8842
+          },
+          {
+            "name": "Ava's accumulator",
+            "id": 10499
+          },
+          {
+            "name": "Amulet of glory",
+            "id": 1704
+          }
+        ]
+      }
     },
     {
       "id": "boss:vorkath",
@@ -1745,7 +2525,67 @@
       "gearTier": null,
       "sources": [
         "drop"
-      ]
+      ],
+      "stage": 2,
+      "recommended": {
+        "skills": [
+          {
+            "skill": "Ranged",
+            "level": 85
+          },
+          {
+            "skill": "Attack",
+            "level": 80
+          },
+          {
+            "skill": "Strength",
+            "level": 85
+          },
+          {
+            "skill": "Defence",
+            "level": 75
+          },
+          {
+            "skill": "Prayer",
+            "level": 70
+          },
+          {
+            "skill": "Construction",
+            "level": 82
+          }
+        ],
+        "combatLevel": null,
+        "gearOwnedAny": [
+          {
+            "name": "Rune crossbow",
+            "id": 9185
+          },
+          {
+            "name": "Black d'hide body",
+            "id": 2503
+          },
+          {
+            "name": "Black d'hide chaps",
+            "id": 2497
+          },
+          {
+            "name": "Archer helm",
+            "id": 3749
+          },
+          {
+            "name": "Barrows gloves",
+            "id": 7462
+          },
+          {
+            "name": "Ava's accumulator",
+            "id": 10499
+          },
+          {
+            "name": "Anti-dragon shield",
+            "id": 1540
+          }
+        ]
+      }
     },
     {
       "id": "boss:god-wars-dungeon",
@@ -1754,7 +2594,7 @@
       "name": "God Wars Dungeon",
       "wikiTitle": "God Wars Dungeon",
       "priority": 8,
-      "reason": "Combined entry covering all four God Wars generals: General Graardor (Bandos), Kree'arra (Armadyl), Commander Zilyana (Saradomin), and K'ril Tsutsaroth (Zamorak). Dungeon-wide access requires completing Death Plateau and at least partial Troll Stronghold (defeating Dad) — or alternatively Ghommal's hilt from Easy Combat Achievements can bypass both quests entirely. Each individual boss room additionally requires killing that god's minions for a 'kill count' (or spending an Ecumenical key to skip it) — this KC/key system applies to all four generals, not just Zilyana and K'ril; Graardor's and K'ril's minions simply die fast enough that KC feels trivial. There is no Watchtower quest requirement anywhere in this chain — Kree'arra requires no quest beyond the shared dungeon-access gate. Room-specific stat gates (cannot be boosted): 70 Strength for Bandos' Stronghold (Graardor), 70 Agility for Saradomin's Encampment (Zilyana), plus a rope for first-time dungeon entry and extra ropes for Saradomin's Encampment. Drops include Bandos armour + Bandos hilt, Armadyl armour + Armadyl hilt, Saradomin sword + Saradomin's light, and Zamorak hilt + Steam battlestaff — hilts combine with godsword shards/blade for the four godswords.",
+      "reason": "Combined entry covering all four God Wars generals: General Graardor (Bandos), Kree'arra (Armadyl), Commander Zilyana (Saradomin), and K'ril Tsutsaroth (Zamorak). Dungeon-wide access requires completing Death Plateau and at least partial Troll Stronghold (defeating Dad) \u2014 or alternatively Ghommal's hilt from Easy Combat Achievements can bypass both quests entirely. Each individual boss room additionally requires killing that god's minions for a 'kill count' (or spending an Ecumenical key to skip it) \u2014 this KC/key system applies to all four generals, not just Zilyana and K'ril; Graardor's and K'ril's minions simply die fast enough that KC feels trivial. There is no Watchtower quest requirement anywhere in this chain \u2014 Kree'arra requires no quest beyond the shared dungeon-access gate. Room-specific stat gates (cannot be boosted): 70 Strength for Bandos' Stronghold (Graardor), 70 Agility for Saradomin's Encampment (Zilyana), plus a rope for first-time dungeon entry and extra ropes for Saradomin's Encampment. Drops include Bandos armour + Bandos hilt, Armadyl armour + Armadyl hilt, Saradomin sword + Saradomin's light, and Zamorak hilt + Steam battlestaff \u2014 hilts combine with godsword shards/blade for the four godswords.",
       "unlocks": [
         "Bandos chestplate/tassets/boots",
         "Bandos hilt (Bandos godsword)",
@@ -1780,7 +2620,59 @@
       "gearTier": null,
       "sources": [
         "drop"
-      ]
+      ],
+      "stage": 2,
+      "recommended": {
+        "skills": [
+          {
+            "skill": "Strength",
+            "level": 60
+          },
+          {
+            "skill": "Ranged",
+            "level": 70
+          },
+          {
+            "skill": "Agility",
+            "level": 70
+          },
+          {
+            "skill": "Hitpoints",
+            "level": 70
+          }
+        ],
+        "combatLevel": null,
+        "gearOwnedAny": [
+          {
+            "name": "Rune crossbow",
+            "id": 9185
+          },
+          {
+            "name": "Diamond bolts (e)",
+            "id": 9243
+          },
+          {
+            "name": "Karil's coif",
+            "id": 4732
+          },
+          {
+            "name": "Karil's leathertop",
+            "id": 4736
+          },
+          {
+            "name": "Karil's leatherskirt",
+            "id": 4738
+          },
+          {
+            "name": "Mixed hide boots",
+            "id": 29286
+          },
+          {
+            "name": "Barrows gloves",
+            "id": 7462
+          }
+        ]
+      }
     },
     {
       "id": "boss:dagannoth-kings",
@@ -1789,7 +2681,7 @@
       "name": "Dagannoth Kings",
       "wikiTitle": "Dagannoth Kings",
       "priority": 6,
-      "reason": "The three Dagannoth Kings (Rex, Prime, Supreme) reside on the sixth floor of the Waterbirth Island Dungeon and represent the combat triangle. No quest is required to enter the dungeon or fight them — Horror from the Deep is an unrelated quest tied to a different dungeon (the Lighthouse) and does not gate Waterbirth/DKs access. Drops include the berserker ring and warrior ring (from Rex), seers ring and mud battlestaff (from Prime), archers ring and Seercull (from Supreme), plus dragon axe and dagannoth bones from all three.",
+      "reason": "The three Dagannoth Kings (Rex, Prime, Supreme) reside on the sixth floor of the Waterbirth Island Dungeon and represent the combat triangle. No quest is required to enter the dungeon or fight them \u2014 Horror from the Deep is an unrelated quest tied to a different dungeon (the Lighthouse) and does not gate Waterbirth/DKs access. Drops include the berserker ring and warrior ring (from Rex), seers ring and mud battlestaff (from Prime), archers ring and Seercull (from Supreme), plus dragon axe and dagannoth bones from all three.",
       "unlocks": [
         "Berserker ring",
         "Warrior ring",
@@ -1811,7 +2703,79 @@
       "gearTier": null,
       "sources": [
         "drop"
-      ]
+      ],
+      "stage": 2,
+      "recommended": {
+        "skills": [
+          {
+            "skill": "Attack",
+            "level": 70
+          },
+          {
+            "skill": "Strength",
+            "level": 70
+          },
+          {
+            "skill": "Magic",
+            "level": 75
+          },
+          {
+            "skill": "Ranged",
+            "level": 70
+          },
+          {
+            "skill": "Defence",
+            "level": 80
+          },
+          {
+            "skill": "Hitpoints",
+            "level": 70
+          },
+          {
+            "skill": "Prayer",
+            "level": 70
+          },
+          {
+            "skill": "Agility",
+            "level": 85
+          }
+        ],
+        "combatLevel": null,
+        "gearOwnedAny": [
+          {
+            "name": "Abyssal whip",
+            "id": 4151
+          },
+          {
+            "name": "Helm of neitiznot",
+            "id": 10828
+          },
+          {
+            "name": "Granite body",
+            "id": 10564
+          },
+          {
+            "name": "Granite legs",
+            "id": 6809
+          },
+          {
+            "name": "Dragon boots",
+            "id": 11840
+          },
+          {
+            "name": "Barrows gloves",
+            "id": 7462
+          },
+          {
+            "name": "Amulet of fury",
+            "id": 6585
+          },
+          {
+            "name": "Dragon defender",
+            "id": 12954
+          }
+        ]
+      }
     },
     {
       "id": "boss:gauntlet",
@@ -1820,7 +2784,7 @@
       "name": "The Gauntlet",
       "wikiTitle": "The Gauntlet",
       "priority": 7,
-      "reason": "A solo procedurally-generated minigame in Prifddinas culminating in a fight against the Crystalline Hunllef. Access requires completing Song of the Elves (to unlock Prifddinas itself) — there is no other quest or level gate, though high combat stats (80+ across the board) are strongly advised. Crystal armour seed drops start the crystal armour/Bow of Faerdhinen progression line that continues through the Corrupted Gauntlet.",
+      "reason": "A solo procedurally-generated minigame in Prifddinas culminating in a fight against the Crystalline Hunllef. Access requires completing Song of the Elves (to unlock Prifddinas itself) \u2014 there is no other quest or level gate, though high combat stats (80+ across the board) are strongly advised. Crystal armour seed drops start the crystal armour/Bow of Faerdhinen progression line that continues through the Corrupted Gauntlet.",
       "unlocks": [
         "Crystal armour seed (crystal helm/body/legs)",
         "Crystal weapon seed (Bow of Faerdhinen progression)",
@@ -1840,7 +2804,67 @@
       "gearTier": null,
       "sources": [
         "drop"
-      ]
+      ],
+      "stage": 2,
+      "recommended": {
+        "skills": [
+          {
+            "skill": "Attack",
+            "level": 80
+          },
+          {
+            "skill": "Strength",
+            "level": 85
+          },
+          {
+            "skill": "Defence",
+            "level": 80
+          },
+          {
+            "skill": "Ranged",
+            "level": 85
+          },
+          {
+            "skill": "Magic",
+            "level": 80
+          },
+          {
+            "skill": "Hitpoints",
+            "level": 85
+          },
+          {
+            "skill": "Prayer",
+            "level": 77
+          }
+        ],
+        "combatLevel": null,
+        "gearOwnedAny": [
+          {
+            "name": "Crystal bow (perfected)",
+            "id": 23903
+          },
+          {
+            "name": "Crystal halberd (perfected)",
+            "id": 23897
+          },
+          {
+            "name": "Crystal staff (perfected)",
+            "id": 23900
+          },
+          {
+            "name": "Crystal helm",
+            "id": 23971
+          },
+          {
+            "name": "Crystal body",
+            "id": 23975
+          },
+          {
+            "name": "Crystal legs",
+            "id": 23979
+          }
+        ]
+      }
     },
     {
       "id": "boss:corrupted-gauntlet",
@@ -1870,7 +2894,67 @@
       "gearTier": null,
       "sources": [
         "drop"
-      ]
+      ],
+      "stage": 3,
+      "recommended": {
+        "skills": [
+          {
+            "skill": "Attack",
+            "level": 80
+          },
+          {
+            "skill": "Strength",
+            "level": 85
+          },
+          {
+            "skill": "Defence",
+            "level": 80
+          },
+          {
+            "skill": "Ranged",
+            "level": 85
+          },
+          {
+            "skill": "Magic",
+            "level": 80
+          },
+          {
+            "skill": "Hitpoints",
+            "level": 85
+          },
+          {
+            "skill": "Prayer",
+            "level": 77
+          }
+        ],
+        "combatLevel": null,
+        "gearOwnedAny": [
+          {
+            "name": "Corrupted bow (perfected)",
+            "id": 23857
+          },
+          {
+            "name": "Corrupted halberd (perfected)",
+            "id": 23851
+          },
+          {
+            "name": "Corrupted staff (perfected)",
+            "id": 23854
+          },
+          {
+            "name": "Crystal helm",
+            "id": 23971
+          },
+          {
+            "name": "Crystal body",
+            "id": 23975
+          },
+          {
+            "name": "Crystal legs",
+            "id": 23979
+          }
+        ]
+      }
     },
     {
       "id": "boss:phantom-muspah",
@@ -1899,7 +2983,55 @@
       "gearTier": null,
       "sources": [
         "drop"
-      ]
+      ],
+      "stage": 2,
+      "recommended": {
+        "skills": [
+          {
+            "skill": "Ranged",
+            "level": 85
+          },
+          {
+            "skill": "Magic",
+            "level": 85
+          },
+          {
+            "skill": "Defence",
+            "level": 75
+          },
+          {
+            "skill": "Prayer",
+            "level": 74
+          }
+        ],
+        "combatLevel": null,
+        "gearOwnedAny": [
+          {
+            "name": "Masori mask (f)",
+            "id": 27235
+          },
+          {
+            "name": "Necklace of rupture",
+            "id": 33639
+          },
+          {
+            "name": "Masori body (f)",
+            "id": 27238
+          },
+          {
+            "name": "Masori chaps (f)",
+            "id": 27241
+          },
+          {
+            "name": "Twisted bow",
+            "id": 20997
+          },
+          {
+            "name": "Seeking dragon arrow",
+            "id": 33595
+          }
+        ]
+      }
     },
     {
       "id": "boss:nex",
@@ -1929,7 +3061,75 @@
       "gearTier": null,
       "sources": [
         "drop"
-      ]
+      ],
+      "stage": 3,
+      "recommended": {
+        "skills": [
+          {
+            "skill": "Ranged",
+            "level": 90
+          },
+          {
+            "skill": "Hitpoints",
+            "level": 90
+          },
+          {
+            "skill": "Defence",
+            "level": 80
+          },
+          {
+            "skill": "Attack",
+            "level": 90
+          },
+          {
+            "skill": "Strength",
+            "level": 90
+          },
+          {
+            "skill": "Prayer",
+            "level": 74
+          },
+          {
+            "skill": "Magic",
+            "level": 76
+          }
+        ],
+        "combatLevel": null,
+        "gearOwnedAny": [
+          {
+            "name": "Masori mask",
+            "id": 27226
+          },
+          {
+            "name": "Necklace of rupture",
+            "id": 33639
+          },
+          {
+            "name": "Twisted bow",
+            "id": 20997
+          },
+          {
+            "name": "Masori body",
+            "id": 27229
+          },
+          {
+            "name": "Masori chaps",
+            "id": 27232
+          },
+          {
+            "name": "Zaryte vambraces",
+            "id": 26235
+          },
+          {
+            "name": "Avernic treads",
+            "id": 31088
+          },
+          {
+            "name": "Lightbearer",
+            "id": 25975
+          }
+        ]
+      }
     },
     {
       "id": "boss:duke-sucellus",
@@ -1959,7 +3159,59 @@
       "gearTier": null,
       "sources": [
         "drop"
-      ]
+      ],
+      "stage": 3,
+      "recommended": {
+        "skills": [
+          {
+            "skill": "Attack",
+            "level": 75
+          },
+          {
+            "skill": "Strength",
+            "level": 75
+          },
+          {
+            "skill": "Defence",
+            "level": 70
+          },
+          {
+            "skill": "Hitpoints",
+            "level": 80
+          }
+        ],
+        "combatLevel": null,
+        "gearOwnedAny": [
+          {
+            "name": "Scythe of vitur",
+            "id": 22486
+          },
+          {
+            "name": "Torva platebody",
+            "id": 26384
+          },
+          {
+            "name": "Torva platelegs",
+            "id": 26386
+          },
+          {
+            "name": "Primordial boots",
+            "id": 13239
+          },
+          {
+            "name": "Amulet of rancour",
+            "id": 29801
+          },
+          {
+            "name": "Abyssal whip",
+            "id": 4151
+          },
+          {
+            "name": "Avernic treads",
+            "id": 31088
+          }
+        ]
+      }
     },
     {
       "id": "boss:the-whisperer",
@@ -1989,7 +3241,47 @@
       "gearTier": null,
       "sources": [
         "drop"
-      ]
+      ],
+      "stage": 3,
+      "recommended": {
+        "skills": [
+          {
+            "skill": "Magic",
+            "level": 75
+          },
+          {
+            "skill": "Hitpoints",
+            "level": 80
+          }
+        ],
+        "combatLevel": null,
+        "gearOwnedAny": [
+          {
+            "name": "Tumeken's shadow",
+            "id": 27277
+          },
+          {
+            "name": "Ancestral hat",
+            "id": 21018
+          },
+          {
+            "name": "Ancestral robe top",
+            "id": 21021
+          },
+          {
+            "name": "Ancestral robe bottom",
+            "id": 21024
+          },
+          {
+            "name": "Occult necklace",
+            "id": 12002
+          },
+          {
+            "name": "Eternal boots",
+            "id": 13235
+          }
+        ]
+      }
     },
     {
       "id": "boss:vardorvis",
@@ -2019,7 +3311,51 @@
       "gearTier": null,
       "sources": [
         "drop"
-      ]
+      ],
+      "stage": 3,
+      "recommended": {
+        "skills": [
+          {
+            "skill": "Attack",
+            "level": 80
+          },
+          {
+            "skill": "Strength",
+            "level": 85
+          },
+          {
+            "skill": "Defence",
+            "level": 80
+          },
+          {
+            "skill": "Hitpoints",
+            "level": 85
+          }
+        ],
+        "combatLevel": null,
+        "gearOwnedAny": [
+          {
+            "name": "Soulreaper axe",
+            "id": 28338
+          },
+          {
+            "name": "Scythe of vitur",
+            "id": 22486
+          },
+          {
+            "name": "Blade of saeldor",
+            "id": 23997
+          },
+          {
+            "name": "Amulet of rancour",
+            "id": 29801
+          },
+          {
+            "name": "Primordial boots",
+            "id": 13239
+          }
+        ]
+      }
     },
     {
       "id": "boss:the-leviathan",
@@ -2048,7 +3384,51 @@
       "gearTier": null,
       "sources": [
         "drop"
-      ]
+      ],
+      "stage": 3,
+      "recommended": {
+        "skills": [
+          {
+            "skill": "Ranged",
+            "level": 75
+          },
+          {
+            "skill": "Defence",
+            "level": 70
+          },
+          {
+            "skill": "Hitpoints",
+            "level": 80
+          }
+        ],
+        "combatLevel": null,
+        "gearOwnedAny": [
+          {
+            "name": "Zaryte crossbow",
+            "id": 26374
+          },
+          {
+            "name": "Toxic blowpipe",
+            "id": 12926
+          },
+          {
+            "name": "Twisted bow",
+            "id": 20997
+          },
+          {
+            "name": "Masori body",
+            "id": 27229
+          },
+          {
+            "name": "Masori chaps",
+            "id": 27232
+          },
+          {
+            "name": "Necklace of rupture",
+            "id": 33639
+          }
+        ]
+      }
     },
     {
       "id": "boss:zalcano",
@@ -2087,7 +3467,35 @@
       "gearTier": null,
       "sources": [
         "drop"
-      ]
+      ],
+      "stage": 2,
+      "recommended": {
+        "skills": [
+          {
+            "skill": "Mining",
+            "level": 70
+          },
+          {
+            "skill": "Smithing",
+            "level": 70
+          }
+        ],
+        "combatLevel": null,
+        "gearOwnedAny": [
+          {
+            "name": "Rune pickaxe",
+            "id": 1275
+          },
+          {
+            "name": "Stamina potion(4)",
+            "id": 12625
+          },
+          {
+            "name": "Graceful hood",
+            "id": 11850
+          }
+        ]
+      }
     },
     {
       "id": "milestone:wintertodt",
@@ -2121,7 +3529,9 @@
       "gearTier": null,
       "sources": [
         "minigame"
-      ]
+      ],
+      "stage": 1,
+      "recommended": null
     },
     {
       "id": "milestone:tempoross",
@@ -2155,7 +3565,9 @@
       "gearTier": null,
       "sources": [
         "minigame"
-      ]
+      ],
+      "stage": 1,
+      "recommended": null
     },
     {
       "id": "boss:chambers-of-xeric",
@@ -2186,7 +3598,75 @@
       "gearTier": null,
       "sources": [
         "drop"
-      ]
+      ],
+      "stage": 3,
+      "recommended": {
+        "skills": [
+          {
+            "skill": "Hitpoints",
+            "level": 80
+          },
+          {
+            "skill": "Attack",
+            "level": 80
+          },
+          {
+            "skill": "Strength",
+            "level": 80
+          },
+          {
+            "skill": "Defence",
+            "level": 70
+          },
+          {
+            "skill": "Ranged",
+            "level": 80
+          },
+          {
+            "skill": "Magic",
+            "level": 80
+          },
+          {
+            "skill": "Prayer",
+            "level": 77
+          }
+        ],
+        "combatLevel": null,
+        "gearOwnedAny": [
+          {
+            "name": "Dragon hunter lance",
+            "id": 22978
+          },
+          {
+            "name": "Ghrazi rapier",
+            "id": 22324
+          },
+          {
+            "name": "Dragon crossbow",
+            "id": 21902
+          },
+          {
+            "name": "Bandos chestplate",
+            "id": 11832
+          },
+          {
+            "name": "Bandos tassets",
+            "id": 11834
+          },
+          {
+            "name": "Helm of neitiznot",
+            "id": 10828
+          },
+          {
+            "name": "Amulet of fury",
+            "id": 6585
+          },
+          {
+            "name": "Dragon boots",
+            "id": 11840
+          }
+        ]
+      }
     },
     {
       "id": "boss:theatre-of-blood",
@@ -2195,7 +3675,7 @@
       "name": "Theatre of Blood",
       "wikiTitle": "Theatre of Blood",
       "priority": 9,
-      "reason": "Account-defining melee raid beneath Ver Sinhaza. Drops the Scythe of vitur, Ghrazi rapier, Sanguinesti staff, Justiciar armour, and Avernic defender hilt. The only hard entry requirement per the wiki is Priest in Peril (for Morytania access) — there is no enforced minimum combat level, only strongly recommended gear/stats.",
+      "reason": "Account-defining melee raid beneath Ver Sinhaza. Drops the Scythe of vitur, Ghrazi rapier, Sanguinesti staff, Justiciar armour, and Avernic defender hilt. The only hard entry requirement per the wiki is Priest in Peril (for Morytania access) \u2014 there is no enforced minimum combat level, only strongly recommended gear/stats.",
       "unlocks": [
         "Scythe of vitur",
         "Ghrazi rapier",
@@ -2217,7 +3697,75 @@
       "gearTier": null,
       "sources": [
         "drop"
-      ]
+      ],
+      "stage": 4,
+      "recommended": {
+        "skills": [
+          {
+            "skill": "Attack",
+            "level": 90
+          },
+          {
+            "skill": "Strength",
+            "level": 90
+          },
+          {
+            "skill": "Defence",
+            "level": 80
+          },
+          {
+            "skill": "Hitpoints",
+            "level": 95
+          },
+          {
+            "skill": "Ranged",
+            "level": 90
+          },
+          {
+            "skill": "Magic",
+            "level": 94
+          },
+          {
+            "skill": "Prayer",
+            "level": 77
+          },
+          {
+            "skill": "Agility",
+            "level": 70
+          }
+        ],
+        "combatLevel": null,
+        "gearOwnedAny": [
+          {
+            "name": "Blade of saeldor",
+            "id": 23995
+          },
+          {
+            "name": "Osmumten's fang",
+            "id": 26219
+          },
+          {
+            "name": "Abyssal tentacle",
+            "id": 12006
+          },
+          {
+            "name": "Amulet of torture",
+            "id": 19553
+          },
+          {
+            "name": "Infernal cape",
+            "id": 21295
+          },
+          {
+            "name": "Avernic defender",
+            "id": 22322
+          },
+          {
+            "name": "Dragon boots",
+            "id": 11840
+          }
+        ]
+      }
     },
     {
       "id": "boss:tombs-of-amascut",
@@ -2248,7 +3796,71 @@
       "gearTier": null,
       "sources": [
         "drop"
-      ]
+      ],
+      "stage": 3,
+      "recommended": {
+        "skills": [
+          {
+            "skill": "Attack",
+            "level": 70
+          },
+          {
+            "skill": "Strength",
+            "level": 70
+          },
+          {
+            "skill": "Defence",
+            "level": 70
+          },
+          {
+            "skill": "Hitpoints",
+            "level": 75
+          },
+          {
+            "skill": "Ranged",
+            "level": 70
+          },
+          {
+            "skill": "Magic",
+            "level": 70
+          },
+          {
+            "skill": "Prayer",
+            "level": 77
+          },
+          {
+            "skill": "Mining",
+            "level": 41
+          }
+        ],
+        "combatLevel": null,
+        "gearOwnedAny": [
+          {
+            "name": "Helm of neitiznot",
+            "id": 10828
+          },
+          {
+            "name": "Fire cape",
+            "id": 6570
+          },
+          {
+            "name": "Amulet of glory(4)",
+            "id": 1712
+          },
+          {
+            "name": "Dragon sword",
+            "id": 21009
+          },
+          {
+            "name": "Dragon defender",
+            "id": 12954
+          },
+          {
+            "name": "Barrows gloves",
+            "id": 7462
+          }
+        ]
+      }
     }
   ]
 }

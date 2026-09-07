@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -239,5 +240,66 @@ class KnowledgeBaseTest
 
 		assertTrue(kb.diaryVarps().contains(1176));
 		assertTrue(kb.diaryVarps().contains(2085));
+	}
+
+	// --- Task 41: milestone stage and recommended profile (spec ruling 27). ---
+
+	private static final String MILESTONE_TEMPLATE = "{\"id\":\"milestone:test\",\"category\":\"boss\","
+		+ "\"subcategory\":null,\"name\":\"Test\",\"wikiTitle\":\"Test\",\"priority\":5,\"reason\":\"r\",\"unlocks\":[],"
+		+ "\"requirements\":{\"skills\":[],\"quests\":[],\"diaries\":[],\"combatLevel\":null,\"questPoints\":null,\"items\":[]},"
+		+ "\"ownedIf\":[],\"gearTier\":null,\"sources\":[]%s}";
+
+	@Test
+	void milestoneWithStageAndRecommendedProfileLoadsBoth()
+	{
+		String recommended = ",\"stage\":3,\"recommended\":{\"skills\":[{\"skill\":\"Ranged\",\"level\":85}],"
+			+ "\"combatLevel\":100,\"gearOwnedAny\":[{\"name\":\"Bandos chestplate\",\"id\":11832}]}";
+		String milestonesJson = "{\"version\":1,\"milestones\":[" + String.format(MILESTONE_TEMPLATE, recommended) + "]}";
+
+		KnowledgeBase kb = KnowledgeBase.fromJson(new Gson(), EMPTY_QUESTS_JSON, EMPTY_DIARIES_JSON, milestonesJson, EMPTY_PRIORITIES_JSON);
+		MilestoneEntry entry = kb.milestoneById("milestone:test");
+
+		assertEquals(3, entry.getStage());
+		assertNotNull(entry.getRecommended());
+		assertEquals(1, entry.getRecommended().getSkills().size());
+		assertEquals(85, entry.getRecommended().getSkills().get(0).getLevel());
+		assertEquals(100, entry.getRecommended().getCombatLevel());
+		assertEquals(1, entry.getRecommended().getGearOwnedAny().size());
+		assertEquals(11832, entry.getRecommended().getGearOwnedAny().get(0).getId());
+	}
+
+	@Test
+	void milestoneWithNoStageFieldDefaultsToStageTwoAndNullRecommended()
+	{
+		String milestonesJson = "{\"version\":1,\"milestones\":[" + String.format(MILESTONE_TEMPLATE, "") + "]}";
+
+		KnowledgeBase kb = KnowledgeBase.fromJson(new Gson(), EMPTY_QUESTS_JSON, EMPTY_DIARIES_JSON, milestonesJson, EMPTY_PRIORITIES_JSON);
+		MilestoneEntry entry = kb.milestoneById("milestone:test");
+
+		assertEquals(2, entry.getStage());
+		assertNull(entry.getRecommended());
+	}
+
+	@Test
+	void milestoneStageOutsideOneToFourFailsLoudly()
+	{
+		String milestonesJson = "{\"version\":1,\"milestones\":[" + String.format(MILESTONE_TEMPLATE, ",\"stage\":5") + "]}";
+
+		IllegalStateException e = assertThrows(IllegalStateException.class,
+			() -> KnowledgeBase.fromJson(new Gson(), EMPTY_QUESTS_JSON, EMPTY_DIARIES_JSON, milestonesJson, EMPTY_PRIORITIES_JSON));
+
+		assertTrue(e.getMessage().contains("milestone:test"), e.getMessage());
+		assertTrue(e.getMessage().contains("stage"), e.getMessage());
+	}
+
+	@Test
+	void everyBundledMilestoneHasAStageBetweenOneAndFour()
+	{
+		KnowledgeBase kb = KnowledgeBase.load(new Gson());
+
+		for (MilestoneEntry entry : kb.getMilestones())
+		{
+			assertTrue(entry.getStage() >= 1 && entry.getStage() <= 4, entry.getId() + " has stage " + entry.getStage());
+		}
 	}
 }
