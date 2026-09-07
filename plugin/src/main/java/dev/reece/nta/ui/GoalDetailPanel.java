@@ -26,6 +26,7 @@ import dev.reece.nta.snapshot.DiaryTier;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Font;
+import java.awt.Insets;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -40,6 +41,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import lombok.Value;
 import net.runelite.api.QuestState;
+import net.runelite.client.ui.ColorScheme;
 import net.runelite.client.ui.FontManager;
 import net.runelite.client.util.LinkBrowser;
 
@@ -81,6 +83,8 @@ public class GoalDetailPanel extends JPanel
 		titleLabel.setFont(FontManager.getRunescapeBoldFont());
 		titleRow.add(titleLabel);
 		titleRow.add(javax.swing.Box.createHorizontalGlue());
+		wikiButton.setMargin(new Insets(2, 4, 2, 4));
+		wikiButton.setFocusPainted(false);
 		wikiButton.addActionListener(e ->
 		{
 			if (currentWikiUrl != null)
@@ -93,10 +97,12 @@ public class GoalDetailPanel extends JPanel
 		add(titleRow);
 
 		categoryStageLabel.setFont(FontManager.getRunescapeSmallFont());
+		categoryStageLabel.setForeground(ColorScheme.LIGHT_GRAY_COLOR);
 		categoryStageLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
 		add(categoryStageLabel);
+		add(javax.swing.Box.createVerticalStrut(4));
 
-		whyLabel.setFont(FontManager.getRunescapeSmallFont());
+		whyLabel.setFont(FontManager.getRunescapeFont());
 		whyLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
 		add(whyLabel);
 		reasonLabel.setFont(FontManager.getRunescapeSmallFont().deriveFont(Font.ITALIC));
@@ -146,7 +152,7 @@ public class GoalDetailPanel extends JPanel
 		whyLabel.setText(SuggestPanel.wrap(advice.getWhys().getOrDefault(goal.getId(), "")));
 		String reason = advice.getReasons().get(goal.getId());
 		reasonLabel.setVisible(reason != null && !reason.isEmpty());
-		reasonLabel.setText(reason == null ? "" : SuggestPanel.wrap(reason));
+		reasonLabel.setText(reason == null ? "" : SuggestPanel.wrap(SuggestPanel.truncateReason(reason)));
 
 		missingPanel.removeAll();
 		for (Gap gap : status.getGaps())
@@ -347,8 +353,10 @@ public class GoalDetailPanel extends JPanel
 		JPanel container = new JPanel();
 		container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
 		container.setAlignmentX(Component.LEFT_ALIGNMENT);
-		container.add(linkRow(step.getMethod().getName() + " ×" + step.getCount()
-			+ " (" + step.getFromLevel() + "→" + step.getToLevel() + ", +" + step.getXpGained() + " xp)", step.getMethod().wikiUrl(), indent));
+		container.add(twoLineLinkRow(
+			step.getMethod().getName() + " ×" + step.getCount(),
+			step.getFromLevel() + "→" + step.getToLevel() + ", +" + step.getXpGained() + " xp",
+			step.getMethod().wikiUrl(), indent));
 		for (RouteStep craft : step.getCrafts())
 		{
 			container.add(linkRow("craft " + craft.getMethod().getName() + " ×" + craft.getCount() + " from " + materialsList(craft),
@@ -406,7 +414,7 @@ public class GoalDetailPanel extends JPanel
 			item.getWikiUrl(), indent));
 		for (ItemSource source : item.getSources())
 		{
-			container.add(row(sourceText(source), indent + 1));
+			container.add(row(sourceText(source), indent, 8));
 		}
 		for (ShortfallItem craftFrom : item.getCraftFrom())
 		{
@@ -428,12 +436,37 @@ public class GoalDetailPanel extends JPanel
 		return row;
 	}
 
+	/** Task 49: a route step as two lines - the method and count on top, levels/xp below - with the "Wiki" button spanning both. */
+	private static JPanel twoLineLinkRow(String line1, String line2, String wikiUrl, int indent)
+	{
+		JPanel text = new JPanel();
+		text.setLayout(new BoxLayout(text, BoxLayout.Y_AXIS));
+		text.setAlignmentX(Component.LEFT_ALIGNMENT);
+		text.add(row(line1, indent));
+		text.add(row(line2, indent));
+
+		JPanel row = new JPanel(new BorderLayout(4, 0));
+		row.setAlignmentX(Component.LEFT_ALIGNMENT);
+		row.add(text, BorderLayout.CENTER);
+		if (wikiUrl != null)
+		{
+			row.add(SuggestPanel.button("Wiki", () -> LinkBrowser.browse(wikiUrl)), BorderLayout.EAST);
+		}
+		return row;
+	}
+
 	private static JLabel row(String text, int indent)
+	{
+		return row(text, indent, 0);
+	}
+
+	/** {@code extraPx}: an additional left indent beyond the usual 12px/level, e.g. the 8px shortfall sources get under their item. */
+	private static JLabel row(String text, int indent, int extraPx)
 	{
 		JLabel label = new JLabel(SuggestPanel.wrap(text));
 		label.setFont(FontManager.getRunescapeSmallFont());
 		label.setAlignmentX(Component.LEFT_ALIGNMENT);
-		label.setBorder(BorderFactory.createEmptyBorder(2, indent * 12, 2, 0));
+		label.setBorder(BorderFactory.createEmptyBorder(2, indent * 12 + extraPx, 2, 0));
 		return label;
 	}
 
