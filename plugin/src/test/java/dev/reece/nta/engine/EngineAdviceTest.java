@@ -157,43 +157,63 @@ class EngineAdviceTest
 	}
 
 	/**
-	 * Regression test for the user feedback that motivated S4.1 (spec ruling 27): against the
-	 * bundled real knowledge base, a mid-game account (combat ~103, several dozen quests, no raid
-	 * gear) must not see Theatre of Blood or the infernal cape (both stage 4) picked or "ready", and
-	 * Chambers of Xeric (stage 3, recommended stats/gear far above this account's) must not be
-	 * "ready" either - while the account's actual stage-2 boss (Moons of Peril, whose recommended
-	 * profile this account meets) is not excluded as "later".
+	 * Regression test for the user feedback that motivated S4.1 (spec ruling 27) and its task-46
+	 * follow-up: against the bundled real knowledge base, a mid-game group ironman account (combat
+	 * ~105, total level ~1643, quest log mostly finished, owns Barrows gloves + a Rune crossbow + a
+	 * Dragon defender variant but no Karil's or Bandos) must not see Theatre of Blood or the infernal
+	 * cape (both stage 4) picked or "ready", and Chambers of Xeric (stage 3, recommended stats/gear
+	 * far above this account's) must not be "ready" either - while the account's actual stage-2 boss
+	 * (Moons of Peril) is not excluded as "later" and is picked, and God Wars Dungeon (task 46: now
+	 * stage 3, and its recommended gear list is no longer satisfied by owning just Barrows gloves) is
+	 * correctly not ready and never picked alongside its own drop, Bandos armour.
 	 */
 	@Test
 	void midGameAccountDoesNotSeeEndgameBossesAsReadyOrPicked()
 	{
 		KnowledgeBase kb = KnowledgeBase.load(new Gson());
 		SnapshotBuilder builder = new SnapshotBuilder()
-			.skill(Skill.ATTACK, 88)
-			.skill(Skill.STRENGTH, 88)
-			.skill(Skill.DEFENCE, 75)
-			.skill(Skill.HITPOINTS, 85)
-			.skill(Skill.RANGED, 70)
-			.skill(Skill.MAGIC, 75)
-			.skill(Skill.PRAYER, 43)
+			.skill(Skill.ATTACK, 92)
+			.skill(Skill.STRENGTH, 92)
+			.skill(Skill.DEFENCE, 78)
+			.skill(Skill.HITPOINTS, 88)
+			.skill(Skill.RANGED, 72)
+			.skill(Skill.MAGIC, 77)
+			.skill(Skill.PRAYER, 45)
+			.skill(Skill.COOKING, 69).skill(Skill.WOODCUTTING, 69).skill(Skill.FLETCHING, 69).skill(Skill.FISHING, 69)
+			.skill(Skill.FIREMAKING, 69).skill(Skill.CRAFTING, 69).skill(Skill.SMITHING, 69).skill(Skill.MINING, 69)
+			.skill(Skill.HERBLORE, 69).skill(Skill.AGILITY, 69).skill(Skill.THIEVING, 69)
+			.skill(Skill.SLAYER, 68).skill(Skill.FARMING, 68).skill(Skill.RUNECRAFT, 68).skill(Skill.HUNTER, 68).skill(Skill.CONSTRUCTION, 68)
 			.quest(Quest.PERILOUS_MOONS, QuestState.FINISHED)
 			.quest(Quest.PRIEST_IN_PERIL, QuestState.FINISHED)
-			.inventoryItem(3140, "Dragon chainbody", 1); // meets Moons of Peril's recommended gearOwnedAny, not CoX/ToB's.
+			.inventoryItem(7462, "Barrows gloves", 1)   // in GWD/Bandos's recommended.gearOwnedAny (2 of 7 owned - short of the min 4).
+			.inventoryItem(9185, "Rune crossbow", 1)    // ditto.
+			.inventoryItem(27008, "Dragon defender (t)", 1) // a Dragon defender variant; not in GWD/Bandos/Moons's gear lists.
+			// Common early/mid-game gear a combat-105 account has long since picked up - owned so these
+			// zero/low-requirement milestones don't crowd out the GWD-vs-Moons comparison under test.
+			.inventoryItem(6570, "Fire cape", 1)
+			.inventoryItem(11865, "Slayer helmet (i)", 1)
+			.inventoryItem(10551, "Fighter torso", 1);
 		Quest[] quests = Quest.values();
-		for (int i = 0; i < 150; i++)
+		// 186 of 211 bundled quests finished (plus Perilous Moons and Priest in Peril explicitly
+		// above): short of the questsFinished >= 190 stage-3 threshold, but high enough that the
+		// remaining unfinished quests don't flood the ranked list with unrelated "ready" candidates
+		// that would otherwise obscure the GWD-vs-Moons comparison this test is actually about.
+		for (int i = 0; i < 186; i++)
 		{
-			if (quests[i] != Quest.PERILOUS_MOONS && quests[i] != Quest.PRIEST_IN_PERIL)
-			{
-				builder.quest(quests[i], QuestState.FINISHED);
-			}
+			builder.quest(quests[i], QuestState.FINISHED);
 		}
 		Snapshot snapshot = builder.build();
 
 		Advice advice = engine.run(snapshot, kb, AccountData.empty(), now);
 
 		assertEquals(2, advice.getAccountStage(), "sanity check on the account fixture itself");
+		assertEquals(106, snapshot.combatLevel(), "sanity check: combat ~105 as described in the user feedback");
 
 		Set<String> pickedIds = ids(advice.getPicked());
+		System.out.println("mid-game account top three (task 46): " + advice.getPicked().stream()
+			.map(r -> r.getStatus().getGoal().getId() + " \"" + r.getStatus().getGoal().getName() + "\"")
+			.collect(Collectors.toList()));
+
 		assertFalse(pickedIds.contains("boss:theatre-of-blood"), pickedIds.toString());
 		assertFalse(pickedIds.contains("milestone:infernal-cape"), pickedIds.toString());
 
@@ -207,6 +227,15 @@ class EngineAdviceTest
 
 		boolean moonsIsLater = laterIds.contains("boss:moons-of-peril");
 		assertFalse(moonsIsLater, "Moons of Peril is stage 2, same as the account - must not be excluded as later");
+
+		boolean gwdReady = advice.getStatuses().stream()
+			.anyMatch(s -> s.getGoal().getId().equals("boss:god-wars-dungeon") && s.isReady());
+		assertFalse(gwdReady,
+			"owning only 2 of GWD's 7 recommended.gearOwnedAny items (Barrows gloves + Rune crossbow) is short of the default min of 4");
+
+		assertTrue(pickedIds.contains("boss:moons-of-peril"), "Moons of Peril must be picked: " + pickedIds);
+		assertFalse(pickedIds.contains("boss:god-wars-dungeon") && pickedIds.contains("milestone:bandos-armour"),
+			"GWD and its own drop (Bandos armour) must never both be picked: " + pickedIds);
 	}
 
 	@Test
