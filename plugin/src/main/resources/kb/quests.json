@@ -30,11 +30,13 @@
         }
       ],
       "name": "Animal Magnetism",
+      "prereqNotes": [],
       "prereqs": [
         "Ernest the Chicken",
         "Priest in Peril",
         "The Restless Ghost"
       ],
+      "prereqsStarted": [],
       "questPoints": 1,
       "skills": [
         {
@@ -84,11 +86,13 @@
         }
       ],
       "name": "Another Slice of H.A.M.",
+      "prereqNotes": [],
       "prereqs": [
         "Death to the Dorgeshuun",
         "The Dig Site",
         "The Giant Dwarf"
       ],
+      "prereqsStarted": [],
       "questPoints": 1,
       "skills": [
         {
@@ -111,9 +115,11 @@
       "id": 3,
       "items": [],
       "name": "The Ascent of Arceuus",
+      "prereqNotes": [],
       "prereqs": [
         "Client of Kourend"
       ],
+      "prereqsStarted": [],
       "questPoints": 1,
       "skills": [
         {
@@ -130,7 +136,9 @@
       "id": 4,
       "items": [],
       "name": "Alfred Grimhand's Barcrawl",
+      "prereqNotes": [],
       "prereqs": [],
+      "prereqsStarted": [],
       "questPoints": null,
       "skills": [],
       "source": "questreq",
@@ -149,7 +157,9 @@
         }
       ],
       "name": "Bear Your Soul",
+      "prereqNotes": [],
       "prereqs": [],
+      "prereqsStarted": [],
       "questPoints": null,
       "skills": [],
       "source": "questreq",
@@ -159,7 +169,9 @@
       "id": 6,
       "items": [],
       "name": "Below Ice Mountain",
+      "prereqNotes": [],
       "prereqs": [],
+      "prereqsStarted": [],
       "questPoints": 1,
       "skills": [
         {
@@ -176,10 +188,12 @@
       "id": 7,
       "items": [],
       "name": "Between a Rock...",
+      "prereqNotes": [],
       "prereqs": [
         "Dwarf Cannon",
         "Fishing Contest"
       ],
+      "prereqsStarted": [],
       "questPoints": 2,
       "skills": [
         {
@@ -208,7 +222,9 @@
       "id": 8,
       "items": [],
       "name": "Big Chompy Bird Hunting",
+      "prereqNotes": [],
       "prereqs": [],
+      "prereqsStarted": [],
       "questPoints": 2,
       "skills": [
         {
@@ -237,9 +253,11 @@
       "id": 9,
       "items": [],
       "name": "Biohazard",
+      "prereqNotes": [],
       "prereqs": [
         "Plague City"
       ],
+      "prereqsStarted": [],
       "questPoints": 3,
       "skills": [],
       "source": "questreq",
@@ -249,7 +267,9 @@
       "id": 10,
       "items": [],
       "name": "Black Knights' Fortress",
+      "prereqNotes": [],
       "prereqs": [],
+      "prereqsStarted": [],
       "questPoints": 3,
       "skills": [
         {
@@ -271,9 +291,11 @@
         }
       ],
       "name": "Bone Voyage",
+      "prereqNotes": [],
       "prereqs": [
         "The Dig Site"
       ],
+      "prereqsStarted": [],
       "questPoints": null,
       "skills": [
         {
@@ -290,10 +312,12 @@
       "id": 12,
       "items": [],
       "name": "Cabin Fever",
+      "prereqNotes": [],
       "prereqs": [
         "Pirate's Treasure",
         "Rum Deal"
       ],
+      "prereqsStarted": [],
       "questPoints": 2,
       "skills": [
         {
@@ -328,9 +352,11 @@
       "id": 13,
       "items": [],
       "name": "Client of Kourend",
+      "prereqNotes": [],
       "prereqs": [
         "X Marks the Spot"
       ],
+      "prereqsStarted": [],
       "questPoints": 1,
       "skills": [],
       "source": "questreq",
@@ -340,7 +366,9 @@
       "id": 14,
       "items": [],
       "name": "Clock Tower",
+      "prereqNotes": [],
       "prereqs": [],
+      "prereqsStarted": [],
       "questPoints": 1,
       "skills": [],
       "source": "questreq",
@@ -391,7 +419,9 @@
         }
       ],
       "name": "Cold War",
+      "prereqNotes": [],
       "prereqs": [],
+      "prereqsStarted": [],
       "questPoints": 1,
       "skills": [
         {
@@ -438,10 +468,12 @@
       "id": 16,
       "items": [],
       "name": "Contact!",
+      "prereqNotes": [],
       "prereqs": [
         "Prince Ali Rescue",
         "Icthlarin's Little Helper"
       ],
+      "prereqsStarted": [],
       "questPoints": 1,
       "skills": [],
       "source": "questreq",
@@ -451,7 +483,9 @@
       "id": 17,
       "items": [],
       "name": "Cook's Assistant",
+      "prereqNotes": [],
       "prereqs": [],
+      "prereqsStarted": [],
       "questPoints": 1,
       "skills": [],
       "source": "questreq",
@@ -461,7 +495,9 @@
       "id": 18,
       "items": [],
       "name": "The Corsair Curse",
+      "prereqNotes": [],
       "prereqs": [],
+      "prereqsStarted": [],
       "questPoints": 2,
       "skills": [],
       "source": "questreq",
@@ -471,10 +507,12 @@
       "id": 19,
       "items": [],
       "name": "Creature of Fenkenstrain",
+      "prereqNotes": [],
       "prereqs": [
         "Priest in Peril",
         "The Restless Ghost"
       ],
+      "prereqsStarted": [],
       "questPoints": 2,
       "skills": [
         {
@@ -512,10 +550,12 @@
         }
       ],
       "name": "Curse of the Empty Lord",
+      "prereqNotes": [],
       "prereqs": [
         "Desert Treasure I",
         "The Restless Ghost"
       ],
+      "prereqsStarted": [],
       "questPoints": null,
       "skills": [
         {
@@ -547,7 +587,9 @@
         }
       ],
       "name": "Daddy's Home",
+      "prereqNotes": [],
       "prereqs": [],
+      "prereqsStarted": [],
       "questPoints": null,
       "skills": [],
       "source": "questreq",
@@ -566,9 +608,11 @@
         }
       ],
       "name": "Darkness of Hallowvale",
+      "prereqNotes": [],
       "prereqs": [
         "In Aid of the Myreque"
       ],
+      "prereqsStarted": [],
       "questPoints": 2,
       "skills": [
         {
@@ -630,7 +674,9 @@
         }
       ],
       "name": "Death Plateau",
+      "prereqNotes": [],
       "prereqs": [],
+      "prereqsStarted": [],
       "questPoints": 1,
       "skills": [],
       "source": "questreq",
@@ -645,9 +691,11 @@
         }
       ],
       "name": "Death to the Dorgeshuun",
+      "prereqNotes": [],
       "prereqs": [
         "The Lost Tribe"
       ],
+      "prereqsStarted": [],
       "questPoints": 1,
       "skills": [
         {
@@ -670,7 +718,9 @@
       "id": 25,
       "items": [],
       "name": "Demon Slayer",
+      "prereqNotes": [],
       "prereqs": [],
+      "prereqsStarted": [],
       "questPoints": 3,
       "skills": [],
       "source": "questreq",
@@ -680,9 +730,11 @@
       "id": 26,
       "items": [],
       "name": "The Depths of Despair",
+      "prereqNotes": [],
       "prereqs": [
         "Client of Kourend"
       ],
+      "prereqsStarted": [],
       "questPoints": 1,
       "skills": [
         {
@@ -699,6 +751,7 @@
       "id": 27,
       "items": [],
       "name": "Desert Treasure I",
+      "prereqNotes": [],
       "prereqs": [
         "The Dig Site",
         "Temple of Ikov",
@@ -707,6 +760,7 @@
         "Priest in Peril",
         "Waterfall Quest"
       ],
+      "prereqsStarted": [],
       "questPoints": null,
       "skills": [
         {
@@ -741,12 +795,14 @@
       "id": 28,
       "items": [],
       "name": "Devious Minds",
+      "prereqNotes": [],
       "prereqs": [
         "Doric's Quest",
         "Enter the Abyss",
         "Troll Stronghold",
         "Wanted!"
       ],
+      "prereqsStarted": [],
       "questPoints": 1,
       "skills": [
         {
@@ -775,9 +831,11 @@
       "id": 29,
       "items": [],
       "name": "The Dig Site",
+      "prereqNotes": [],
       "prereqs": [
         "Druidic Ritual"
       ],
+      "prereqsStarted": [],
       "questPoints": 2,
       "skills": [
         {
@@ -806,7 +864,9 @@
       "id": 30,
       "items": [],
       "name": "Doric's Quest",
+      "prereqNotes": [],
       "prereqs": [],
+      "prereqsStarted": [],
       "questPoints": 1,
       "skills": [
         {
@@ -823,7 +883,9 @@
       "id": 31,
       "items": [],
       "name": "Dragon Slayer I",
+      "prereqNotes": [],
       "prereqs": [],
+      "prereqsStarted": [],
       "questPoints": null,
       "skills": [
         {
@@ -883,9 +945,11 @@
         }
       ],
       "name": "Dragon Slayer II",
+      "prereqNotes": [
+        "Barbarian Firemaking"
+      ],
       "prereqs": [
         "Animal Magnetism",
-        "Barbarian Firemaking",
         "Bone Voyage",
         "Client of Kourend",
         "Dream Mentor",
@@ -893,6 +957,7 @@
         "Legends' Quest",
         "A Tail of Two Cats"
       ],
+      "prereqsStarted": [],
       "questPoints": 5,
       "skills": [
         {
@@ -962,10 +1027,12 @@
         }
       ],
       "name": "Dream Mentor",
+      "prereqNotes": [],
       "prereqs": [
         "Eadgar's Ruse",
         "Lunar Diplomacy"
       ],
+      "prereqsStarted": [],
       "questPoints": 2,
       "skills": [
         {
@@ -999,7 +1066,9 @@
         }
       ],
       "name": "Druidic Ritual",
+      "prereqNotes": [],
       "prereqs": [],
+      "prereqsStarted": [],
       "questPoints": 4,
       "skills": [],
       "source": "questreq",
@@ -1014,7 +1083,9 @@
         }
       ],
       "name": "Dwarf Cannon",
+      "prereqNotes": [],
       "prereqs": [],
+      "prereqsStarted": [],
       "questPoints": 1,
       "skills": [],
       "source": "questreq",
@@ -1024,10 +1095,12 @@
       "id": 36,
       "items": [],
       "name": "Eadgar's Ruse",
+      "prereqNotes": [],
       "prereqs": [
         "Druidic Ritual",
         "Troll Stronghold"
       ],
+      "prereqsStarted": [],
       "questPoints": 1,
       "skills": [
         {
@@ -1053,7 +1126,9 @@
         }
       ],
       "name": "Eagles' Peak",
+      "prereqNotes": [],
       "prereqs": [],
+      "prereqsStarted": [],
       "questPoints": 2,
       "skills": [
         {
@@ -1070,7 +1145,9 @@
       "id": 38,
       "items": [],
       "name": "Elemental Workshop I",
+      "prereqNotes": [],
       "prereqs": [],
+      "prereqsStarted": [],
       "questPoints": 1,
       "skills": [
         {
@@ -1114,9 +1191,11 @@
         }
       ],
       "name": "Elemental Workshop II",
+      "prereqNotes": [],
       "prereqs": [
         "Elemental Workshop I"
       ],
+      "prereqsStarted": [],
       "questPoints": 1,
       "skills": [
         {
@@ -1180,7 +1259,9 @@
         }
       ],
       "name": "Enakhra's Lament",
+      "prereqNotes": [],
       "prereqs": [],
+      "prereqsStarted": [],
       "questPoints": 2,
       "skills": [
         {
@@ -1230,9 +1311,11 @@
         }
       ],
       "name": "The Enchanted Key",
+      "prereqNotes": [],
       "prereqs": [
         "Making History"
       ],
+      "prereqsStarted": [],
       "questPoints": null,
       "skills": [],
       "source": "questreq",
@@ -1255,7 +1338,9 @@
         }
       ],
       "name": "Enlightened Journey",
+      "prereqNotes": [],
       "prereqs": [],
+      "prereqsStarted": [],
       "questPoints": 1,
       "skills": [
         {
@@ -1290,9 +1375,11 @@
       "id": 43,
       "items": [],
       "name": "Enter the Abyss",
+      "prereqNotes": [],
       "prereqs": [
         "Rune Mysteries"
       ],
+      "prereqsStarted": [],
       "questPoints": null,
       "skills": [],
       "source": "questreq",
@@ -1302,7 +1389,9 @@
       "id": 44,
       "items": [],
       "name": "Ernest the Chicken",
+      "prereqNotes": [],
       "prereqs": [],
+      "prereqsStarted": [],
       "questPoints": 4,
       "skills": [],
       "source": "questreq",
@@ -1341,9 +1430,11 @@
         }
       ],
       "name": "The Eyes of Glouphrie",
+      "prereqNotes": [],
       "prereqs": [
         "The Grand Tree"
       ],
+      "prereqsStarted": [],
       "questPoints": 2,
       "skills": [
         {
@@ -1393,10 +1484,12 @@
         }
       ],
       "name": "Fairytale I - Growing Pains",
+      "prereqNotes": [],
       "prereqs": [
         "Lost City",
         "Nature Spirit"
       ],
+      "prereqsStarted": [],
       "questPoints": 2,
       "skills": [],
       "source": "questreq",
@@ -1423,10 +1516,12 @@
         }
       ],
       "name": "Fairytale II - Cure a Queen",
+      "prereqNotes": [],
       "prereqs": [
         "Druidic Ritual",
         "Fairytale I - Growing Pains"
       ],
+      "prereqsStarted": [],
       "questPoints": 2,
       "skills": [
         {
@@ -1455,7 +1550,9 @@
       "id": 48,
       "items": [],
       "name": "Family Crest",
+      "prereqNotes": [],
       "prereqs": [],
+      "prereqsStarted": [],
       "questPoints": 1,
       "skills": [
         {
@@ -1490,9 +1587,11 @@
       "id": 49,
       "items": [],
       "name": "Family Pest",
+      "prereqNotes": [],
       "prereqs": [
         "Family Crest"
       ],
+      "prereqsStarted": [],
       "questPoints": null,
       "skills": [],
       "source": "questreq",
@@ -1502,7 +1601,9 @@
       "id": 50,
       "items": [],
       "name": "The Feud",
+      "prereqNotes": [],
       "prereqs": [],
+      "prereqsStarted": [],
       "questPoints": 1,
       "skills": [
         {
@@ -1519,7 +1620,9 @@
       "id": 51,
       "items": [],
       "name": "Fight Arena",
+      "prereqNotes": [],
       "prereqs": [],
+      "prereqsStarted": [],
       "questPoints": 2,
       "skills": [],
       "source": "questreq",
@@ -1546,7 +1649,9 @@
         }
       ],
       "name": "Fishing Contest",
+      "prereqNotes": [],
       "prereqs": [],
+      "prereqsStarted": [],
       "questPoints": 1,
       "skills": [
         {
@@ -1584,10 +1689,12 @@
         }
       ],
       "name": "Forgettable Tale...",
+      "prereqNotes": [],
       "prereqs": [
         "The Giant Dwarf",
         "Fishing Contest"
       ],
+      "prereqsStarted": [],
       "questPoints": 2,
       "skills": [
         {
@@ -1615,9 +1722,11 @@
         }
       ],
       "name": "The Forsaken Tower",
+      "prereqNotes": [],
       "prereqs": [
         "Client of Kourend"
       ],
+      "prereqsStarted": [],
       "questPoints": 1,
       "skills": [],
       "source": "questreq",
@@ -1664,12 +1773,14 @@
         }
       ],
       "name": "The Fremennik Exiles",
+      "prereqNotes": [],
       "prereqs": [
         "The Fremennik Isles",
         "Lunar Diplomacy",
         "Mountain Daughter",
         "Heroes' Quest"
       ],
+      "prereqsStarted": [],
       "questPoints": null,
       "skills": [
         {
@@ -1719,9 +1830,11 @@
         }
       ],
       "name": "The Fremennik Isles",
+      "prereqNotes": [],
       "prereqs": [
         "The Fremennik Trials"
       ],
+      "prereqsStarted": [],
       "questPoints": 1,
       "skills": [
         {
@@ -1750,7 +1863,9 @@
       "id": 57,
       "items": [],
       "name": "The Fremennik Trials",
+      "prereqNotes": [],
       "prereqs": [],
+      "prereqsStarted": [],
       "questPoints": null,
       "skills": [],
       "source": "questreq",
@@ -1769,9 +1884,11 @@
         }
       ],
       "name": "Garden of Tranquillity",
+      "prereqNotes": [],
       "prereqs": [
         "Creature of Fenkenstrain"
       ],
+      "prereqsStarted": [],
       "questPoints": 2,
       "skills": [
         {
@@ -1793,10 +1910,12 @@
         }
       ],
       "name": "The General's Shadow",
+      "prereqNotes": [],
       "prereqs": [
         "Curse of the Empty Lord",
         "Fight Arena"
       ],
+      "prereqsStarted": [],
       "questPoints": null,
       "skills": [],
       "source": "questreq",
@@ -1806,7 +1925,9 @@
       "id": 60,
       "items": [],
       "name": "Gertrude's Cat",
+      "prereqNotes": [],
       "prereqs": [],
+      "prereqsStarted": [],
       "questPoints": 1,
       "skills": [],
       "source": "questreq",
@@ -1853,7 +1974,9 @@
         }
       ],
       "name": "Getting Ahead",
+      "prereqNotes": [],
       "prereqs": [],
+      "prereqsStarted": [],
       "questPoints": 1,
       "skills": [
         {
@@ -1905,10 +2028,12 @@
         }
       ],
       "name": "Ghosts Ahoy",
+      "prereqNotes": [],
       "prereqs": [
         "Priest in Peril",
         "The Restless Ghost"
       ],
+      "prereqsStarted": [],
       "questPoints": null,
       "skills": [
         {
@@ -1931,7 +2056,9 @@
       "id": 63,
       "items": [],
       "name": "The Giant Dwarf",
+      "prereqNotes": [],
       "prereqs": [],
+      "prereqsStarted": [],
       "questPoints": 2,
       "skills": [
         {
@@ -1966,7 +2093,9 @@
       "id": 64,
       "items": [],
       "name": "Goblin Diplomacy",
+      "prereqNotes": [],
       "prereqs": [],
+      "prereqsStarted": [],
       "questPoints": 5,
       "skills": [],
       "source": "questreq",
@@ -1976,7 +2105,9 @@
       "id": 65,
       "items": [],
       "name": "The Golem",
+      "prereqNotes": [],
       "prereqs": [],
+      "prereqsStarted": [],
       "questPoints": 1,
       "skills": [
         {
@@ -1999,7 +2130,9 @@
       "id": 66,
       "items": [],
       "name": "The Grand Tree",
+      "prereqNotes": [],
       "prereqs": [],
+      "prereqsStarted": [],
       "questPoints": 5,
       "skills": [
         {
@@ -2025,11 +2158,13 @@
         }
       ],
       "name": "The Great Brain Robbery",
+      "prereqNotes": [],
       "prereqs": [
         "Cabin Fever",
         "Creature of Fenkenstrain",
         "Recipe for Disaster - Pirate Pete"
       ],
+      "prereqsStarted": [],
       "questPoints": 2,
       "skills": [
         {
@@ -2071,10 +2206,12 @@
         }
       ],
       "name": "Grim Tales",
+      "prereqNotes": [],
       "prereqs": [
         "Druidic Ritual",
         "Witch's House"
       ],
+      "prereqsStarted": [],
       "questPoints": 1,
       "skills": [
         {
@@ -2136,7 +2273,9 @@
         }
       ],
       "name": "The Hand in the Sand",
+      "prereqNotes": [],
       "prereqs": [],
+      "prereqsStarted": [],
       "questPoints": 1,
       "skills": [
         {
@@ -2159,9 +2298,11 @@
       "id": 70,
       "items": [],
       "name": "Haunted Mine",
+      "prereqNotes": [],
       "prereqs": [
         "Priest in Peril"
       ],
+      "prereqsStarted": [],
       "questPoints": 2,
       "skills": [
         {
@@ -2178,7 +2319,9 @@
       "id": 71,
       "items": [],
       "name": "Hazeel Cult",
+      "prereqNotes": [],
       "prereqs": [],
+      "prereqsStarted": [],
       "questPoints": 1,
       "skills": [],
       "source": "questreq",
@@ -2188,6 +2331,7 @@
       "id": 72,
       "items": [],
       "name": "Heroes' Quest",
+      "prereqNotes": [],
       "prereqs": [
         "Dragon Slayer I",
         "Druidic Ritual",
@@ -2195,6 +2339,7 @@
         "Merlin's Crystal",
         "Shield of Arrav"
       ],
+      "prereqsStarted": [],
       "questPoints": null,
       "skills": [
         {
@@ -2240,9 +2385,11 @@
         }
       ],
       "name": "Holy Grail",
+      "prereqNotes": [],
       "prereqs": [
         "Merlin's Crystal"
       ],
+      "prereqsStarted": [],
       "questPoints": 2,
       "skills": [
         {
@@ -2292,9 +2439,11 @@
         }
       ],
       "name": "Horror from the Deep",
+      "prereqNotes": [],
       "prereqs": [
         "Alfred Grimhand's Barcrawl"
       ],
+      "prereqsStarted": [],
       "questPoints": 2,
       "skills": [
         {
@@ -2311,9 +2460,11 @@
       "id": 75,
       "items": [],
       "name": "Icthlarin's Little Helper",
+      "prereqNotes": [],
       "prereqs": [
         "Gertrude's Cat"
       ],
+      "prereqsStarted": [],
       "questPoints": 2,
       "skills": [],
       "source": "questreq",
@@ -2336,7 +2487,9 @@
         }
       ],
       "name": "Imp Catcher",
+      "prereqNotes": [],
       "prereqs": [],
+      "prereqsStarted": [],
       "questPoints": 1,
       "skills": [],
       "source": "questreq",
@@ -2383,9 +2536,11 @@
         }
       ],
       "name": "In Aid of the Myreque",
+      "prereqNotes": [],
       "prereqs": [
         "In Search of the Myreque"
       ],
+      "prereqsStarted": [],
       "questPoints": null,
       "skills": [
         {
@@ -2432,7 +2587,9 @@
       "id": 78,
       "items": [],
       "name": "In Search of Knowledge",
+      "prereqNotes": [],
       "prereqs": [],
+      "prereqsStarted": [],
       "questPoints": null,
       "skills": [],
       "source": "questreq",
@@ -2442,9 +2599,11 @@
       "id": 79,
       "items": [],
       "name": "In Search of the Myreque",
+      "prereqNotes": [],
       "prereqs": [
         "Nature Spirit"
       ],
+      "prereqsStarted": [],
       "questPoints": 2,
       "skills": [
         {
@@ -2461,9 +2620,11 @@
       "id": 80,
       "items": [],
       "name": "Jungle Potion",
+      "prereqNotes": [],
       "prereqs": [
         "Druidic Ritual"
       ],
+      "prereqsStarted": [],
       "questPoints": 1,
       "skills": [
         {
@@ -2480,8 +2641,10 @@
       "id": 81,
       "items": [],
       "name": "A Kingdom Divided",
+      "prereqNotes": [
+        "Architectural Alliance"
+      ],
       "prereqs": [
-        "Architectural Alliance",
         "The Ascent of Arceuus",
         "The Depths of Despair",
         "Druidic Ritual",
@@ -2489,6 +2652,7 @@
         "The Queen of Thieves",
         "Tale of the Righteous"
       ],
+      "prereqsStarted": [],
       "questPoints": 2,
       "skills": [
         {
@@ -2554,12 +2718,14 @@
         }
       ],
       "name": "King's Ransom",
+      "prereqNotes": [],
       "prereqs": [
         "Black Knights' Fortress",
         "Holy Grail",
         "Murder Mystery",
         "One Small Favour"
       ],
+      "prereqsStarted": [],
       "questPoints": 1,
       "skills": [
         {
@@ -2582,7 +2748,9 @@
       "id": 83,
       "items": [],
       "name": "The Knight's Sword",
+      "prereqNotes": [],
       "prereqs": [],
+      "prereqsStarted": [],
       "questPoints": 1,
       "skills": [
         {
@@ -2617,9 +2785,11 @@
       "id": 84,
       "items": [],
       "name": "Lair of Tarn Razorlor",
+      "prereqNotes": [],
       "prereqs": [
         "Haunted Mine"
       ],
+      "prereqsStarted": [],
       "questPoints": null,
       "skills": [
         {
@@ -2636,6 +2806,7 @@
       "id": 85,
       "items": [],
       "name": "Legends' Quest",
+      "prereqNotes": [],
       "prereqs": [
         "Family Crest",
         "Heroes' Quest",
@@ -2643,6 +2814,7 @@
         "Underground Pass",
         "Waterfall Quest"
       ],
+      "prereqsStarted": [],
       "questPoints": 4,
       "skills": [
         {
@@ -2719,7 +2891,9 @@
       "id": 86,
       "items": [],
       "name": "Lost City",
+      "prereqNotes": [],
       "prereqs": [],
+      "prereqsStarted": [],
       "questPoints": 3,
       "skills": [
         {
@@ -2742,10 +2916,12 @@
       "id": 87,
       "items": [],
       "name": "The Lost Tribe",
+      "prereqNotes": [],
       "prereqs": [
         "Goblin Diplomacy",
         "Rune Mysteries"
       ],
+      "prereqsStarted": [],
       "questPoints": 1,
       "skills": [
         {
@@ -2779,12 +2955,14 @@
         }
       ],
       "name": "Lunar Diplomacy",
+      "prereqNotes": [],
       "prereqs": [
         "The Fremennik Trials",
         "Lost City",
         "Rune Mysteries",
         "Shilo Village"
       ],
+      "prereqsStarted": [],
       "questPoints": 2,
       "skills": [
         {
@@ -2837,7 +3015,9 @@
       "id": 89,
       "items": [],
       "name": "Mage Arena I",
+      "prereqNotes": [],
       "prereqs": [],
+      "prereqsStarted": [],
       "questPoints": null,
       "skills": [
         {
@@ -2859,9 +3039,11 @@
         }
       ],
       "name": "Mage Arena II",
+      "prereqNotes": [],
       "prereqs": [
         "Mage Arena I"
       ],
+      "prereqsStarted": [],
       "questPoints": null,
       "skills": [
         {
@@ -2915,12 +3097,14 @@
         }
       ],
       "name": "Making Friends with My Arm",
+      "prereqNotes": [],
       "prereqs": [
         "Cold War",
         "My Arm's Big Adventure",
         "Romeo & Juliet",
         "Swan Song"
       ],
+      "prereqsStarted": [],
       "questPoints": 2,
       "skills": [
         {
@@ -2968,10 +3152,12 @@
         }
       ],
       "name": "Making History",
+      "prereqNotes": [],
       "prereqs": [
         "Priest in Peril",
         "The Restless Ghost"
       ],
+      "prereqsStarted": [],
       "questPoints": 3,
       "skills": [],
       "source": "questreq",
@@ -2998,7 +3184,9 @@
         }
       ],
       "name": "Merlin's Crystal",
+      "prereqNotes": [],
       "prereqs": [],
+      "prereqsStarted": [],
       "questPoints": 6,
       "skills": [],
       "source": "questreq",
@@ -3017,7 +3205,9 @@
         }
       ],
       "name": "Misthalin Mystery",
+      "prereqNotes": [],
       "prereqs": [],
+      "prereqsStarted": [],
       "questPoints": 1,
       "skills": [],
       "source": "questreq",
@@ -3027,10 +3217,12 @@
       "id": 95,
       "items": [],
       "name": "Monkey Madness I",
+      "prereqNotes": [],
       "prereqs": [
         "The Grand Tree",
         "Tree Gnome Village"
       ],
+      "prereqsStarted": [],
       "questPoints": 3,
       "skills": [],
       "source": "questreq",
@@ -3049,6 +3241,7 @@
         }
       ],
       "name": "Monkey Madness II",
+      "prereqNotes": [],
       "prereqs": [
         "Enlightened Journey",
         "The Eyes of Glouphrie",
@@ -3056,6 +3249,7 @@
         "Troll Stronghold",
         "Watchtower"
       ],
+      "prereqsStarted": [],
       "questPoints": null,
       "skills": [
         {
@@ -3102,7 +3296,9 @@
       "id": 97,
       "items": [],
       "name": "Monk's Friend",
+      "prereqNotes": [],
       "prereqs": [],
+      "prereqsStarted": [],
       "questPoints": 1,
       "skills": [],
       "source": "questreq",
@@ -3112,7 +3308,9 @@
       "id": 98,
       "items": [],
       "name": "Mountain Daughter",
+      "prereqNotes": [],
       "prereqs": [],
+      "prereqsStarted": [],
       "questPoints": 2,
       "skills": [
         {
@@ -3166,11 +3364,13 @@
         }
       ],
       "name": "Mourning's End Part I",
+      "prereqNotes": [],
       "prereqs": [
         "Big Chompy Bird Hunting",
         "Roving Elves",
         "Sheep Herder"
       ],
+      "prereqsStarted": [],
       "questPoints": 2,
       "skills": [
         {
@@ -3198,9 +3398,11 @@
         }
       ],
       "name": "Mourning's End Part II",
+      "prereqNotes": [],
       "prereqs": [
         "Mourning's End Part I"
       ],
+      "prereqsStarted": [],
       "questPoints": 2,
       "skills": [],
       "source": "questreq",
@@ -3210,7 +3412,9 @@
       "id": 101,
       "items": [],
       "name": "Murder Mystery",
+      "prereqNotes": [],
       "prereqs": [],
+      "prereqsStarted": [],
       "questPoints": 3,
       "skills": [],
       "source": "questreq",
@@ -3253,11 +3457,13 @@
         }
       ],
       "name": "My Arm's Big Adventure",
+      "prereqNotes": [],
       "prereqs": [
         "Eadgar's Ruse",
         "The Feud",
         "Jungle Potion"
       ],
+      "prereqsStarted": [],
       "questPoints": 1,
       "skills": [
         {
@@ -3280,10 +3486,12 @@
       "id": 103,
       "items": [],
       "name": "Nature Spirit",
+      "prereqNotes": [],
       "prereqs": [
         "Priest in Peril",
         "The Restless Ghost"
       ],
+      "prereqsStarted": [],
       "questPoints": 2,
       "skills": [
         {
@@ -3313,9 +3521,11 @@
         }
       ],
       "name": "A Night at the Theatre",
+      "prereqNotes": [],
       "prereqs": [
         "A Taste of Hope"
       ],
+      "prereqsStarted": [],
       "questPoints": 2,
       "skills": [],
       "source": "questreq",
@@ -3325,7 +3535,9 @@
       "id": 105,
       "items": [],
       "name": "Observatory Quest",
+      "prereqNotes": [],
       "prereqs": [],
+      "prereqsStarted": [],
       "questPoints": 2,
       "skills": [],
       "source": "questreq",
@@ -3344,9 +3556,11 @@
         }
       ],
       "name": "Olaf's Quest",
+      "prereqNotes": [],
       "prereqs": [
         "The Fremennik Trials"
       ],
+      "prereqsStarted": [],
       "questPoints": null,
       "skills": [
         {
@@ -3369,10 +3583,12 @@
       "id": 107,
       "items": [],
       "name": "One Small Favour",
+      "prereqNotes": [],
       "prereqs": [
         "Rune Mysteries",
         "Shilo Village"
       ],
+      "prereqsStarted": [],
       "questPoints": 2,
       "skills": [
         {
@@ -3420,7 +3636,9 @@
         }
       ],
       "name": "Pirate's Treasure",
+      "prereqNotes": [],
       "prereqs": [],
+      "prereqsStarted": [],
       "questPoints": 2,
       "skills": [],
       "source": "questreq",
@@ -3467,7 +3685,9 @@
         }
       ],
       "name": "Plague City",
+      "prereqNotes": [],
       "prereqs": [],
+      "prereqsStarted": [],
       "questPoints": 1,
       "skills": [],
       "source": "questreq",
@@ -3477,7 +3697,9 @@
       "id": 110,
       "items": [],
       "name": "A Porcine of Interest",
+      "prereqNotes": [],
       "prereqs": [],
+      "prereqsStarted": [],
       "questPoints": 1,
       "skills": [],
       "source": "questreq",
@@ -3487,7 +3709,9 @@
       "id": 111,
       "items": [],
       "name": "Priest in Peril",
+      "prereqNotes": [],
       "prereqs": [],
+      "prereqsStarted": [],
       "questPoints": 1,
       "skills": [],
       "source": "questreq",
@@ -3534,7 +3758,9 @@
         }
       ],
       "name": "Prince Ali Rescue",
+      "prereqNotes": [],
       "prereqs": [],
+      "prereqsStarted": [],
       "questPoints": 3,
       "skills": [],
       "source": "questreq",
@@ -3544,9 +3770,11 @@
       "id": 113,
       "items": [],
       "name": "The Queen of Thieves",
+      "prereqNotes": [],
       "prereqs": [
         "Client of Kourend"
       ],
+      "prereqsStarted": [],
       "questPoints": 1,
       "skills": [
         {
@@ -3568,7 +3796,9 @@
         }
       ],
       "name": "Rag and Bone Man I",
+      "prereqNotes": [],
       "prereqs": [],
+      "prereqsStarted": [],
       "questPoints": 1,
       "skills": [],
       "source": "questreq",
@@ -3607,14 +3837,17 @@
         }
       ],
       "name": "Rag and Bone Man II",
+      "prereqNotes": [],
       "prereqs": [
         "The Fremennik Trials",
         "Horror from the Deep",
         "Rag and Bone Man I",
-        "Skippy and the Mogres",
-        "Started:Creature of Fenkenstrain",
-        "Started:Waterfall Quest",
-        "Started:Zogre Flesh Eaters"
+        "Skippy and the Mogres"
+      ],
+      "prereqsStarted": [
+        "Creature of Fenkenstrain",
+        "Waterfall Quest",
+        "Zogre Flesh Eaters"
       ],
       "questPoints": null,
       "skills": [
@@ -3675,9 +3908,12 @@
         }
       ],
       "name": "Ratcatchers",
+      "prereqNotes": [],
       "prereqs": [
-        "Icthlarin's Little Helper",
-        "Started:The Giant Dwarf"
+        "Icthlarin's Little Helper"
+      ],
+      "prereqsStarted": [
+        "The Giant Dwarf"
       ],
       "questPoints": 2,
       "skills": [],
@@ -3817,9 +4053,11 @@
         }
       ],
       "name": "Recipe for Disaster",
+      "prereqNotes": [],
       "prereqs": [
         "Recipe for Disaster - Culinaromancer"
       ],
+      "prereqsStarted": [],
       "questPoints": 10,
       "skills": [],
       "source": "questreq",
@@ -3829,10 +4067,12 @@
       "id": 118,
       "items": [],
       "name": "Recruitment Drive",
+      "prereqNotes": [],
       "prereqs": [
         "Black Knights' Fortress",
         "Druidic Ritual"
       ],
+      "prereqsStarted": [],
       "questPoints": 1,
       "skills": [],
       "source": "questreq",
@@ -3842,9 +4082,11 @@
       "id": 119,
       "items": [],
       "name": "Regicide",
+      "prereqNotes": [],
       "prereqs": [
         "Underground Pass"
       ],
+      "prereqsStarted": [],
       "questPoints": null,
       "skills": [
         {
@@ -3867,7 +4109,9 @@
       "id": 120,
       "items": [],
       "name": "The Restless Ghost",
+      "prereqNotes": [],
       "prereqs": [],
+      "prereqsStarted": [],
       "questPoints": 1,
       "skills": [],
       "source": "questreq",
@@ -3882,7 +4126,9 @@
         }
       ],
       "name": "Romeo & Juliet",
+      "prereqNotes": [],
       "prereqs": [],
+      "prereqsStarted": [],
       "questPoints": null,
       "skills": [],
       "source": "questreq",
@@ -3892,10 +4138,12 @@
       "id": 122,
       "items": [],
       "name": "Roving Elves",
+      "prereqNotes": [],
       "prereqs": [
         "Regicide",
         "Waterfall Quest"
       ],
+      "prereqsStarted": [],
       "questPoints": 1,
       "skills": [
         {
@@ -3912,9 +4160,11 @@
       "id": 123,
       "items": [],
       "name": "Royal Trouble",
+      "prereqNotes": [],
       "prereqs": [
         "Throne of Miscellania"
       ],
+      "prereqsStarted": [],
       "questPoints": null,
       "skills": [
         {
@@ -3950,10 +4200,12 @@
         }
       ],
       "name": "Rum Deal",
+      "prereqNotes": [],
       "prereqs": [
         "Priest in Peril",
         "Zogre Flesh Eaters"
       ],
+      "prereqsStarted": [],
       "questPoints": 2,
       "skills": [
         {
@@ -3999,7 +4251,9 @@
         }
       ],
       "name": "Rune Mysteries",
+      "prereqNotes": [],
       "prereqs": [],
+      "prereqsStarted": [],
       "questPoints": 1,
       "skills": [],
       "source": "questreq",
@@ -4014,9 +4268,11 @@
         }
       ],
       "name": "Scorpion Catcher",
+      "prereqNotes": [],
       "prereqs": [
         "Alfred Grimhand's Barcrawl"
       ],
+      "prereqsStarted": [],
       "questPoints": 1,
       "skills": [
         {
@@ -4033,7 +4289,9 @@
       "id": 127,
       "items": [],
       "name": "Sea Slug",
+      "prereqNotes": [],
       "prereqs": [],
+      "prereqsStarted": [],
       "questPoints": 1,
       "skills": [
         {
@@ -4059,10 +4317,12 @@
         }
       ],
       "name": "Shades of Mort'ton",
+      "prereqNotes": [],
       "prereqs": [
         "Druidic Ritual",
         "Priest in Peril"
       ],
+      "prereqsStarted": [],
       "questPoints": 3,
       "skills": [
         {
@@ -4108,10 +4368,12 @@
         }
       ],
       "name": "Shadow of the Storm",
+      "prereqNotes": [],
       "prereqs": [
         "Demon Slayer",
         "The Golem"
       ],
+      "prereqsStarted": [],
       "questPoints": 1,
       "skills": [
         {
@@ -4128,7 +4390,9 @@
       "id": 130,
       "items": [],
       "name": "Sheep Herder",
+      "prereqNotes": [],
       "prereqs": [],
+      "prereqsStarted": [],
       "questPoints": 4,
       "skills": [],
       "source": "questreq",
@@ -4143,7 +4407,9 @@
         }
       ],
       "name": "Sheep Shearer",
+      "prereqNotes": [],
       "prereqs": [],
+      "prereqsStarted": [],
       "questPoints": 1,
       "skills": [],
       "source": "questreq",
@@ -4153,7 +4419,9 @@
       "id": 132,
       "items": [],
       "name": "Shield of Arrav",
+      "prereqNotes": [],
       "prereqs": [],
+      "prereqsStarted": [],
       "questPoints": 1,
       "skills": [],
       "source": "questreq",
@@ -4163,9 +4431,11 @@
       "id": 133,
       "items": [],
       "name": "Shilo Village",
+      "prereqNotes": [],
       "prereqs": [
         "Jungle Potion"
       ],
+      "prereqsStarted": [],
       "questPoints": 2,
       "skills": [
         {
@@ -4215,10 +4485,12 @@
         }
       ],
       "name": "Sins of the Father",
+      "prereqNotes": [],
       "prereqs": [
         "A Taste of Hope",
         "Vampyre Slayer"
       ],
+      "prereqsStarted": [],
       "questPoints": 2,
       "skills": [
         {
@@ -4320,7 +4592,9 @@
         }
       ],
       "name": "Skippy and the Mogres",
+      "prereqNotes": [],
       "prereqs": [],
+      "prereqsStarted": [],
       "questPoints": null,
       "skills": [
         {
@@ -4362,10 +4636,12 @@
         }
       ],
       "name": "The Slug Menace",
+      "prereqNotes": [],
       "prereqs": [
         "Sea Slug",
         "Wanted!"
       ],
+      "prereqsStarted": [],
       "questPoints": 1,
       "skills": [
         {
@@ -4505,11 +4781,13 @@
         }
       ],
       "name": "Song of the Elves",
+      "prereqNotes": [],
       "prereqs": [
         "Druidic Ritual",
         "Making History",
         "Mourning's End Part II"
       ],
+      "prereqsStarted": [],
       "questPoints": 4,
       "skills": [
         {
@@ -4573,7 +4851,9 @@
         }
       ],
       "name": "A Soul's Bane",
+      "prereqNotes": [],
       "prereqs": [],
+      "prereqsStarted": [],
       "questPoints": 1,
       "skills": [],
       "source": "questreq",
@@ -4612,7 +4892,9 @@
         }
       ],
       "name": "Spirits of the Elid",
+      "prereqNotes": [],
       "prereqs": [],
+      "prereqsStarted": [],
       "questPoints": null,
       "skills": [
         {
@@ -4652,10 +4934,12 @@
         }
       ],
       "name": "Swan Song",
+      "prereqNotes": [],
       "prereqs": [
         "Garden of Tranquillity",
         "One Small Favour"
       ],
+      "prereqsStarted": [],
       "questPoints": 2,
       "skills": [
         {
@@ -4708,9 +4992,11 @@
       "id": 141,
       "items": [],
       "name": "Tai Bwo Wannai Trio",
+      "prereqNotes": [],
       "prereqs": [
         "Jungle Potion"
       ],
+      "prereqsStarted": [],
       "questPoints": 2,
       "skills": [
         {
@@ -4800,9 +5086,11 @@
         }
       ],
       "name": "A Tail of Two Cats",
+      "prereqNotes": [],
       "prereqs": [
         "Icthlarin's Little Helper"
       ],
+      "prereqsStarted": [],
       "questPoints": null,
       "skills": [],
       "source": "questreq",
@@ -4817,9 +5105,11 @@
         }
       ],
       "name": "Tale of the Righteous",
+      "prereqNotes": [],
       "prereqs": [
         "Client of Kourend"
       ],
+      "prereqsStarted": [],
       "questPoints": 1,
       "skills": [
         {
@@ -4871,10 +5161,12 @@
         }
       ],
       "name": "A Taste of Hope",
+      "prereqNotes": [],
       "prereqs": [
         "Darkness of Hallowvale",
         "Druidic Ritual"
       ],
+      "prereqsStarted": [],
       "questPoints": 1,
       "skills": [
         {
@@ -4915,7 +5207,9 @@
       "id": 145,
       "items": [],
       "name": "Tears of Guthix",
+      "prereqNotes": [],
       "prereqs": [],
+      "prereqsStarted": [],
       "questPoints": 1,
       "skills": [
         {
@@ -4955,7 +5249,9 @@
         }
       ],
       "name": "Temple of Ikov",
+      "prereqNotes": [],
       "prereqs": [],
+      "prereqsStarted": [],
       "questPoints": 1,
       "skills": [
         {
@@ -4978,10 +5274,12 @@
       "id": 147,
       "items": [],
       "name": "Throne of Miscellania",
+      "prereqNotes": [],
       "prereqs": [
         "The Fremennik Trials",
         "Heroes' Quest"
       ],
+      "prereqsStarted": [],
       "questPoints": 1,
       "skills": [],
       "source": "questreq",
@@ -4991,7 +5289,9 @@
       "id": 148,
       "items": [],
       "name": "The Tourist Trap",
+      "prereqNotes": [],
       "prereqs": [],
+      "prereqsStarted": [],
       "questPoints": 2,
       "skills": [
         {
@@ -5027,7 +5327,9 @@
         }
       ],
       "name": "Tower of Life",
+      "prereqNotes": [],
       "prereqs": [],
+      "prereqsStarted": [],
       "questPoints": 2,
       "skills": [
         {
@@ -5044,7 +5346,9 @@
       "id": 150,
       "items": [],
       "name": "Tree Gnome Village",
+      "prereqNotes": [],
       "prereqs": [],
+      "prereqsStarted": [],
       "questPoints": 2,
       "skills": [],
       "source": "questreq",
@@ -5054,7 +5358,9 @@
       "id": 151,
       "items": [],
       "name": "Tribal Totem",
+      "prereqNotes": [],
       "prereqs": [],
+      "prereqsStarted": [],
       "questPoints": 1,
       "skills": [
         {
@@ -5071,9 +5377,11 @@
       "id": 152,
       "items": [],
       "name": "Troll Romance",
+      "prereqNotes": [],
       "prereqs": [
         "Troll Stronghold"
       ],
+      "prereqsStarted": [],
       "questPoints": null,
       "skills": [
         {
@@ -5096,9 +5404,11 @@
       "id": 153,
       "items": [],
       "name": "Troll Stronghold",
+      "prereqNotes": [],
       "prereqs": [
         "Death Plateau"
       ],
+      "prereqsStarted": [],
       "questPoints": 1,
       "skills": [
         {
@@ -5115,9 +5425,11 @@
       "id": 154,
       "items": [],
       "name": "Underground Pass",
+      "prereqNotes": [],
       "prereqs": [
         "Biohazard"
       ],
+      "prereqsStarted": [],
       "questPoints": 5,
       "skills": [
         {
@@ -5139,7 +5451,9 @@
         }
       ],
       "name": "Vampyre Slayer",
+      "prereqNotes": [],
       "prereqs": [],
+      "prereqsStarted": [],
       "questPoints": 3,
       "skills": [],
       "source": "questreq",
@@ -5154,11 +5468,14 @@
         }
       ],
       "name": "Wanted!",
+      "prereqNotes": [],
       "prereqs": [
         "The Lost Tribe",
         "Priest in Peril",
-        "Recruitment Drive",
-        "Started:Enter the Abyss"
+        "Recruitment Drive"
+      ],
+      "prereqsStarted": [
+        "Enter the Abyss"
       ],
       "questPoints": 1,
       "skills": [
@@ -5181,9 +5498,11 @@
         }
       ],
       "name": "Watchtower",
+      "prereqNotes": [],
       "prereqs": [
         "Druidic Ritual"
       ],
+      "prereqsStarted": [],
       "questPoints": 4,
       "skills": [
         {
@@ -5224,7 +5543,9 @@
       "id": 158,
       "items": [],
       "name": "Waterfall Quest",
+      "prereqNotes": [],
       "prereqs": [],
+      "prereqsStarted": [],
       "questPoints": 1,
       "skills": [],
       "source": "questreq",
@@ -5239,9 +5560,11 @@
         }
       ],
       "name": "What Lies Below",
+      "prereqNotes": [],
       "prereqs": [
         "Rune Mysteries"
       ],
+      "prereqsStarted": [],
       "questPoints": 1,
       "skills": [
         {
@@ -5267,7 +5590,9 @@
         }
       ],
       "name": "Witch's House",
+      "prereqNotes": [],
       "prereqs": [],
+      "prereqsStarted": [],
       "questPoints": 4,
       "skills": [],
       "source": "questreq",
@@ -5294,7 +5619,9 @@
         }
       ],
       "name": "Witch's Potion",
+      "prereqNotes": [],
       "prereqs": [],
+      "prereqsStarted": [],
       "questPoints": 1,
       "skills": [],
       "source": "questreq",
@@ -5304,7 +5631,9 @@
       "id": 162,
       "items": [],
       "name": "X Marks the Spot",
+      "prereqNotes": [],
       "prereqs": [],
+      "prereqsStarted": [],
       "questPoints": 1,
       "skills": [],
       "source": "questreq",
@@ -5319,10 +5648,12 @@
         }
       ],
       "name": "Zogre Flesh Eaters",
+      "prereqNotes": [],
       "prereqs": [
         "Big Chompy Bird Hunting",
         "Jungle Potion"
       ],
+      "prereqsStarted": [],
       "questPoints": 1,
       "skills": [
         {
@@ -5351,9 +5682,11 @@
       "id": 164,
       "items": [],
       "name": "The Frozen Door",
+      "prereqNotes": [],
       "prereqs": [
         "Desert Treasure I"
       ],
+      "prereqsStarted": [],
       "questPoints": null,
       "skills": [
         {
@@ -5388,10 +5721,12 @@
       "id": 165,
       "items": [],
       "name": "Land of the Goblins",
+      "prereqNotes": [],
       "prereqs": [
         "Another Slice of H.A.M.",
         "Fishing Contest"
       ],
+      "prereqsStarted": [],
       "questPoints": 2,
       "skills": [
         {
@@ -5426,11 +5761,14 @@
       "id": 166,
       "items": [],
       "name": "Hopespear's Will",
+      "prereqNotes": [],
       "prereqs": [
-        "Started:The Restless Ghost",
         "Desert Treasure I",
         "Fairytale II - Cure a Queen",
         "Land of the Goblins"
+      ],
+      "prereqsStarted": [
+        "The Restless Ghost"
       ],
       "questPoints": null,
       "skills": [
@@ -5448,9 +5786,11 @@
       "id": 167,
       "items": [],
       "name": "Temple of the Eye",
+      "prereqNotes": [],
       "prereqs": [
         "Enter the Abyss"
       ],
+      "prereqsStarted": [],
       "questPoints": 1,
       "skills": [
         {
@@ -5467,9 +5807,11 @@
       "id": 168,
       "items": [],
       "name": "Beneath Cursed Sands",
+      "prereqNotes": [],
       "prereqs": [
         "Contact!"
       ],
+      "prereqsStarted": [],
       "questPoints": 2,
       "skills": [
         {
@@ -5498,7 +5840,9 @@
       "id": 169,
       "items": [],
       "name": "Sleeping Giants",
+      "prereqNotes": [],
       "prereqs": [],
+      "prereqsStarted": [],
       "questPoints": 1,
       "skills": [
         {
@@ -5515,7 +5859,9 @@
       "id": 180,
       "items": [],
       "name": "The Garden of Death",
+      "prereqNotes": [],
       "prereqs": [],
+      "prereqsStarted": [],
       "questPoints": 1,
       "skills": [
         {
@@ -5532,9 +5878,11 @@
       "id": 2306,
       "items": [],
       "name": "Into the Tombs",
+      "prereqNotes": [],
       "prereqs": [
         "Beneath Cursed Sands"
       ],
+      "prereqsStarted": [],
       "questPoints": null,
       "skills": [],
       "source": "questreq",
@@ -5561,9 +5909,11 @@
         }
       ],
       "name": "Recipe for Disaster - Another Cook's Quest",
+      "prereqNotes": [],
       "prereqs": [
         "Cook's Assistant"
       ],
+      "prereqsStarted": [],
       "questPoints": 1,
       "skills": [
         {
@@ -5601,10 +5951,12 @@
         }
       ],
       "name": "Recipe for Disaster - Mountain Dwarf",
+      "prereqNotes": [],
       "prereqs": [
         "Fishing Contest",
         "Recipe for Disaster - Another Cook's Quest"
       ],
+      "prereqsStarted": [],
       "questPoints": 1,
       "skills": [],
       "source": "questreq",
@@ -5639,10 +5991,12 @@
         }
       ],
       "name": "Recipe for Disaster - Wartface & Bentnoze",
+      "prereqNotes": [],
       "prereqs": [
         "Goblin Diplomacy",
         "Recipe for Disaster - Another Cook's Quest"
       ],
+      "prereqsStarted": [],
       "questPoints": 1,
       "skills": [],
       "source": "questreq",
@@ -5657,9 +6011,11 @@
         }
       ],
       "name": "Recipe for Disaster - Pirate Pete",
+      "prereqNotes": [],
       "prereqs": [
         "Recipe for Disaster - Another Cook's Quest"
       ],
+      "prereqsStarted": [],
       "questPoints": 1,
       "skills": [
         {
@@ -5697,6 +6053,7 @@
         }
       ],
       "name": "Recipe for Disaster - Lumbridge Guide",
+      "prereqNotes": [],
       "prereqs": [
         "Big Chompy Bird Hunting",
         "Biohazard",
@@ -5706,6 +6063,7 @@
         "Recipe for Disaster - Another Cook's Quest",
         "Witch's House"
       ],
+      "prereqsStarted": [],
       "questPoints": 1,
       "skills": [
         {
@@ -5722,11 +6080,13 @@
       "id": 2312,
       "items": [],
       "name": "Recipe for Disaster - Evil Dave",
+      "prereqNotes": [],
       "prereqs": [
         "Gertrude's Cat",
         "Recipe for Disaster - Another Cook's Quest",
         "Shadow of the Storm"
       ],
+      "prereqsStarted": [],
       "questPoints": 1,
       "skills": [
         {
@@ -5784,10 +6144,12 @@
         }
       ],
       "name": "Recipe for Disaster - Skrach Uglogwee",
+      "prereqNotes": [],
       "prereqs": [
         "Big Chompy Bird Hunting",
         "Recipe for Disaster - Another Cook's Quest"
       ],
+      "prereqsStarted": [],
       "questPoints": 1,
       "skills": [
         {
@@ -5847,9 +6209,12 @@
         }
       ],
       "name": "Recipe for Disaster - Sir Amik Varze",
+      "prereqNotes": [],
       "prereqs": [
-        "Recipe for Disaster - Another Cook's Quest",
-        "Started:Legends' Quest"
+        "Recipe for Disaster - Another Cook's Quest"
+      ],
+      "prereqsStarted": [
+        "Legends' Quest"
       ],
       "questPoints": null,
       "skills": [
@@ -5900,10 +6265,12 @@
         }
       ],
       "name": "Recipe for Disaster - King Awowogei",
+      "prereqNotes": [],
       "prereqs": [
         "Monkey Madness I",
         "Recipe for Disaster - Another Cook's Quest"
       ],
+      "prereqsStarted": [],
       "questPoints": 1,
       "skills": [
         {
@@ -5935,6 +6302,7 @@
         }
       ],
       "name": "Recipe for Disaster - Culinaromancer",
+      "prereqNotes": [],
       "prereqs": [
         "Desert Treasure I",
         "Horror from the Deep",
@@ -5947,6 +6315,7 @@
         "Recipe for Disaster - Sir Amik Varze",
         "Recipe for Disaster - King Awowogei"
       ],
+      "prereqsStarted": [],
       "questPoints": 1,
       "skills": [
         {
@@ -5972,12 +6341,14 @@
         }
       ],
       "name": "Secrets of the North",
+      "prereqNotes": [],
       "prereqs": [
         "Making Friends with My Arm",
         "The General's Shadow",
         "Devious Minds",
         "Hazeel Cult"
       ],
+      "prereqsStarted": [],
       "questPoints": 2,
       "skills": [
         {
@@ -6006,6 +6377,7 @@
       "id": 2343,
       "items": [],
       "name": "Desert Treasure II - The Fallen Empire",
+      "prereqNotes": [],
       "prereqs": [
         "Desert Treasure I",
         "Secrets of the North",
@@ -6015,6 +6387,7 @@
         "Below Ice Mountain",
         "His Faithful Servants"
       ],
+      "prereqsStarted": [],
       "questPoints": 5,
       "skills": [
         {
@@ -6061,9 +6434,11 @@
       "id": 3250,
       "items": [],
       "name": "His Faithful Servants",
+      "prereqNotes": [],
       "prereqs": [
         "Priest in Peril"
       ],
+      "prereqsStarted": [],
       "questPoints": null,
       "skills": [],
       "source": "questreq",
@@ -6073,11 +6448,13 @@
       "id": 3425,
       "items": [],
       "name": "The Path of Glouphrie",
+      "prereqNotes": [],
       "prereqs": [
         "The Eyes of Glouphrie",
         "Waterfall Quest",
         "Tree Gnome Village"
       ],
+      "prereqsStarted": [],
       "questPoints": 2,
       "skills": [
         {
@@ -6118,7 +6495,9 @@
       "id": 3450,
       "items": [],
       "name": "Children of the Sun",
+      "prereqNotes": [],
       "prereqs": [],
+      "prereqsStarted": [],
       "questPoints": 1,
       "skills": [],
       "source": "questreq",
@@ -6141,13 +6520,15 @@
         }
       ],
       "name": "Barbarian Training",
-      "prereqs": [
+      "prereqNotes": [
         "Barbarian Firemaking",
         "Barbarian Fishing",
         "Barbarian Herblore",
         "Barbarian Smithing",
         "Barbarian Farming"
       ],
+      "prereqs": [],
+      "prereqsStarted": [],
       "questPoints": null,
       "skills": [],
       "source": "questreq",
@@ -6162,6 +6543,7 @@
         }
       ],
       "name": "Defender of Varrock",
+      "prereqNotes": [],
       "prereqs": [
         "Shield of Arrav",
         "Temple of Ikov",
@@ -6172,6 +6554,7 @@
         "Romeo & Juliet",
         "Demon Slayer"
       ],
+      "prereqsStarted": [],
       "questPoints": 2,
       "skills": [
         {
@@ -6194,6 +6577,7 @@
       "id": 3467,
       "items": [],
       "name": "While Guthix Sleeps",
+      "prereqNotes": [],
       "prereqs": [
         "Defender of Varrock",
         "The Path of Glouphrie",
@@ -6206,6 +6590,7 @@
         "Nature Spirit",
         "A Tail of Two Cats"
       ],
+      "prereqsStarted": [],
       "questPoints": 5,
       "skills": [
         {
@@ -6258,9 +6643,11 @@
       "id": 3512,
       "items": [],
       "name": "Twilight's Promise",
+      "prereqNotes": [],
       "prereqs": [
         "Children of the Sun"
       ],
+      "prereqsStarted": [],
       "questPoints": 1,
       "skills": [],
       "source": "questreq",
@@ -6270,10 +6657,12 @@
       "id": 3513,
       "items": [],
       "name": "At First Light",
+      "prereqNotes": [],
       "prereqs": [
         "Children of the Sun",
         "Eagles' Peak"
       ],
+      "prereqsStarted": [],
       "questPoints": 1,
       "skills": [
         {
@@ -6302,9 +6691,11 @@
       "id": 3514,
       "items": [],
       "name": "Perilous Moons",
+      "prereqNotes": [],
       "prereqs": [
         "Twilight's Promise"
       ],
+      "prereqsStarted": [],
       "questPoints": 2,
       "skills": [
         {
@@ -6345,9 +6736,11 @@
       "id": 3515,
       "items": [],
       "name": "The Ribbiting Tale of a Lily Pad Labour Dispute",
+      "prereqNotes": [],
       "prereqs": [
         "Children of the Sun"
       ],
+      "prereqsStarted": [],
       "questPoints": 1,
       "skills": [
         {
@@ -6364,9 +6757,11 @@
       "id": 3710,
       "items": [],
       "name": "The Heart of Darkness",
+      "prereqNotes": [],
       "prereqs": [
         "Twilight's Promise"
       ],
+      "prereqsStarted": [],
       "questPoints": null,
       "skills": [
         {
@@ -6401,9 +6796,11 @@
       "id": 3711,
       "items": [],
       "name": "Death on the Isle",
+      "prereqNotes": [],
       "prereqs": [
         "Children of the Sun"
       ],
+      "prereqsStarted": [],
       "questPoints": 2,
       "skills": [
         {
@@ -6426,9 +6823,11 @@
       "id": 3712,
       "items": [],
       "name": "Meat and Greet",
+      "prereqNotes": [],
       "prereqs": [
         "Children of the Sun"
       ],
+      "prereqsStarted": [],
       "questPoints": 1,
       "skills": [],
       "source": "questreq",
@@ -6438,10 +6837,12 @@
       "id": 3713,
       "items": [],
       "name": "Ethically Acquired Antiquities",
+      "prereqNotes": [],
       "prereqs": [
         "Children of the Sun",
         "Shield of Arrav"
       ],
+      "prereqsStarted": [],
       "questPoints": 1,
       "skills": [
         {
@@ -6471,10 +6872,12 @@
         }
       ],
       "name": "The Curse of Arrav",
+      "prereqNotes": [],
       "prereqs": [
         "Defender of Varrock",
         "Troll Romance"
       ],
+      "prereqsStarted": [],
       "questPoints": 2,
       "skills": [
         {
@@ -6521,7 +6924,9 @@
       "id": 5189,
       "items": [],
       "name": "The Final Dawn",
+      "prereqNotes": [],
       "prereqs": [],
+      "prereqsStarted": [],
       "questPoints": 3,
       "skills": [],
       "source": "page",
@@ -6540,7 +6945,9 @@
         }
       ],
       "name": "Shadows of Custodia",
+      "prereqNotes": [],
       "prereqs": [],
+      "prereqsStarted": [],
       "questPoints": 2,
       "skills": [],
       "source": "page",
@@ -6550,7 +6957,9 @@
       "id": 5191,
       "items": [],
       "name": "Scrambled!",
+      "prereqNotes": [],
       "prereqs": [],
+      "prereqsStarted": [],
       "questPoints": 1,
       "skills": [],
       "source": "page",
@@ -6560,7 +6969,9 @@
       "id": 5194,
       "items": [],
       "name": "Vale Totems",
+      "prereqNotes": [],
       "prereqs": [],
+      "prereqsStarted": [],
       "questPoints": null,
       "skills": [],
       "source": "none",
@@ -6570,7 +6981,9 @@
       "id": 7103,
       "items": [],
       "name": "Pandemonium",
+      "prereqNotes": [],
       "prereqs": [],
+      "prereqsStarted": [],
       "questPoints": null,
       "skills": [],
       "source": "none",
@@ -6580,7 +6993,9 @@
       "id": 7104,
       "items": [],
       "name": "Prying Times",
+      "prereqNotes": [],
       "prereqs": [],
+      "prereqsStarted": [],
       "questPoints": 1,
       "skills": [],
       "source": "page",
@@ -6590,7 +7005,9 @@
       "id": 7105,
       "items": [],
       "name": "Current Affairs",
+      "prereqNotes": [],
       "prereqs": [],
+      "prereqsStarted": [],
       "questPoints": 1,
       "skills": [],
       "source": "page",
@@ -6600,7 +7017,9 @@
       "id": 7106,
       "items": [],
       "name": "Troubled Tortugans",
+      "prereqNotes": [],
       "prereqs": [],
+      "prereqsStarted": [],
       "questPoints": 1,
       "skills": [],
       "source": "page",
@@ -6610,9 +7029,11 @@
       "id": 7107,
       "items": [],
       "name": "The Red Reef",
+      "prereqNotes": [],
       "prereqs": [
         "Troubled Tortugans"
       ],
+      "prereqsStarted": [],
       "questPoints": 2,
       "skills": [],
       "source": "page",
@@ -6622,9 +7043,11 @@
       "id": 7133,
       "items": [],
       "name": "Fallen From Grace",
+      "prereqNotes": [],
       "prereqs": [
         "Pandemonium"
       ],
+      "prereqsStarted": [],
       "questPoints": 2,
       "skills": [],
       "source": "page",
@@ -6634,7 +7057,9 @@
       "id": 9643,
       "items": [],
       "name": "Learning the Ropes",
+      "prereqNotes": [],
       "prereqs": [],
+      "prereqsStarted": [],
       "questPoints": 1,
       "skills": [],
       "source": "none",
@@ -6644,7 +7069,9 @@
       "id": 9645,
       "items": [],
       "name": "The Ides of Milk",
+      "prereqNotes": [],
       "prereqs": [],
+      "prereqsStarted": [],
       "questPoints": 1,
       "skills": [],
       "source": "page",
@@ -6654,10 +7081,12 @@
       "id": 16414,
       "items": [],
       "name": "The Blood Moon Rises",
+      "prereqNotes": [],
       "prereqs": [
         "A Night at the Theatre",
         "Sins of the Father"
       ],
+      "prereqsStarted": [],
       "questPoints": 4,
       "skills": [],
       "source": "page",
