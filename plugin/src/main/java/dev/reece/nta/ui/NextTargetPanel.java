@@ -2,7 +2,6 @@ package dev.reece.nta.ui;
 
 import dev.reece.nta.snapshot.Snapshot;
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
@@ -56,7 +55,6 @@ public class NextTargetPanel extends PluginPanel
 
 		add(header, BorderLayout.NORTH);
 		add(footer, BorderLayout.SOUTH);
-		setPreferredSize(new Dimension(PANEL_WIDTH, 0));
 	}
 
 	/**
