@@ -317,7 +317,7 @@ public class SuggestPanel extends JPanel
 		return goalId;
 	}
 
-	private static String categoryLabel(GoalCategory category)
+	static String categoryLabel(GoalCategory category)
 	{
 		switch (category)
 		{
@@ -336,7 +336,7 @@ public class SuggestPanel extends JPanel
 		}
 	}
 
-	private static JLabel sectionLabel(String text)
+	static JLabel sectionLabel(String text)
 	{
 		JLabel label = new JLabel(text);
 		label.setFont(FontManager.getRunescapeBoldFont());
@@ -345,7 +345,7 @@ public class SuggestPanel extends JPanel
 		return label;
 	}
 
-	private static JButton button(String text, Runnable onClick)
+	static JButton button(String text, Runnable onClick)
 	{
 		JButton b = new JButton(text);
 		b.addActionListener(e -> onClick.run());
@@ -353,7 +353,7 @@ public class SuggestPanel extends JPanel
 	}
 
 	/** Wraps {@code text} to the panel width via HTML, escaping the few characters that would otherwise break the markup. */
-	private static String wrap(String text)
+	static String wrap(String text)
 	{
 		String escaped = text.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;");
 		return "<html><div style='width:" + WRAP_WIDTH + "px'>" + escaped + "</div></html>";

@@ -17,6 +17,7 @@ import dev.reece.nta.snapshot.SnapshotCollector;
 import dev.reece.nta.store.AccountData;
 import dev.reece.nta.store.AccountDataMutations;
 import dev.reece.nta.store.AccountStore;
+import dev.reece.nta.ui.GoalDetailPanel;
 import dev.reece.nta.ui.NextTargetPanel;
 import dev.reece.nta.ui.SuggestPanel;
 import java.awt.image.BufferedImage;
@@ -121,7 +122,8 @@ public class NextTargetPlugin extends Plugin
 			this::unsnooze,
 			this::unignore,
 			this::clearFocus);
-		panel = new NextTargetPanel(this::requestSnapshot, actions);
+		GoalDetailPanel.Actions detailActions = new GoalDetailPanel.Actions(this::focus, this::clearFocus);
+		panel = new NextTargetPanel(this::requestSnapshot, actions, detailActions);
 		BufferedImage icon = ImageUtil.loadImageResource(NextTargetPlugin.class, "icon.png");
 		navButton = NavigationButton.builder()
 			.tooltip("Next Target Advisor")
@@ -218,8 +220,31 @@ public class NextTargetPlugin extends Plugin
 		{
 			cachedAdvice = advice;
 			logDiarySelfCheck(advice.getDiaryProgress());
+			maybeClearGoneFocus(advice, dataForEngine.getFocusGoalId());
 			SwingUtilities.invokeLater(() -> panel.render(advice));
 		});
+	}
+
+	/**
+	 * If a goal is focused but {@link Advice#getFocus()} came back null (the focused goal is gone -
+	 * e.g. completed), clears the focus once so the panel falls back to Suggest mode (ticket E7
+	 * semantics). Guarded against looping: only fires when the focused id is also absent from
+	 * {@code advice.getRanked()} and {@code advice.getLater()} - a focused goal that's merely hidden
+	 * (snoozed/ignored) still has a status and so already gets a non-null {@code focus}, never
+	 * reaching this check.
+	 */
+	private void maybeClearGoneFocus(Advice advice, String focusGoalId)
+	{
+		if (focusGoalId == null || advice.getFocus() != null)
+		{
+			return;
+		}
+		boolean stillPresent = advice.getRanked().stream().anyMatch(r -> r.getStatus().getGoal().getId().equals(focusGoalId))
+			|| advice.getLater().stream().anyMatch(r -> r.getStatus().getGoal().getId().equals(focusGoalId));
+		if (!stillPresent)
+		{
+			clearFocus();
+		}
 	}
 
 	/**
@@ -406,6 +431,7 @@ public class NextTargetPlugin extends Plugin
 			if (advice != null)
 			{
 				cachedAdvice = advice;
+				maybeClearGoneFocus(advice, accountData.getFocusGoalId());
 				SwingUtilities.invokeLater(() -> panel.render(advice));
 			}
 		});
