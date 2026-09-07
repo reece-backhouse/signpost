@@ -156,7 +156,7 @@ class PrefsResolverTest
 
 	private static AccountData accountData()
 	{
-		return new AccountData(new HashMap<>(), null, new HashMap<>(), new HashSet<>(), new ArrayList<>(), null);
+		return new AccountData(new HashMap<>(), null, new HashMap<>(), new HashSet<>(), new ArrayList<>(), null, new HashSet<>());
 	}
 
 	private static GoalStatus status(String id, List<Gap> gaps)

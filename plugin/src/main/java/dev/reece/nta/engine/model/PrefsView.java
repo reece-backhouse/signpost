@@ -9,6 +9,9 @@ import lombok.Value;
  * the current {@link GoalStatus}es, as computed by {@link dev.reece.nta.engine.PrefsResolver}.
  * {@code hidden} (passed to {@link dev.reece.nta.engine.Ranker#rank}) is ignores unioned with
  * {@code snoozedActive}; {@code snoozedExpired} exists for display/bookkeeping only.
+ * {@code ownedManually} (ticket 55) is passed through from {@link dev.reece.nta.store.AccountData}
+ * unchanged, for the panel's "Owned (manual)" section - the goals themselves are never in
+ * {@code hidden} since {@link dev.reece.nta.engine.GapEngine} doesn't emit them at all.
  */
 @Value
 public class PrefsView
@@ -18,4 +21,5 @@ public class PrefsView
 	Set<String> snoozedActive;
 	Set<String> snoozedExpired;
 	String focusGoalId;
+	Set<String> ownedManually;
 }

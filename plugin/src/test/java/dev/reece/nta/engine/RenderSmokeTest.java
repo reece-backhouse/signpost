@@ -21,6 +21,7 @@ import dev.reece.nta.snapshot.Snapshot;
 import dev.reece.nta.store.AccountData;
 import dev.reece.nta.ui.GoalDetailPanel;
 import dev.reece.nta.ui.GoalSearchField;
+import dev.reece.nta.ui.NextTargetPanel;
 import dev.reece.nta.ui.SuggestPanel;
 import java.awt.Component;
 import java.awt.Container;
@@ -28,6 +29,7 @@ import java.awt.HeadlessException;
 import java.awt.event.MouseEvent;
 import java.lang.reflect.InvocationTargetException;
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -99,10 +101,10 @@ class RenderSmokeTest
 
 		Advice advice = new Advice(base.getSnapshot(), statuses, base.getDiaryProgress(), base.getComputedAt(),
 			ranked, picked, base.getRest(), base.getAccountStage(), base.getLater(), base.getWhys(), explanations,
-			base.getReasons(), base.getPrefs(), base.getFocus());
+			base.getReasons(), base.getOwnedManuallyNames(), base.getPrefs(), base.getFocus());
 
 		Consumer<String> noop = id -> { };
-		SuggestPanel.Actions actions = new SuggestPanel.Actions(noop, noop, noop, noop, noop, noop, noop, () -> { });
+		SuggestPanel.Actions actions = new SuggestPanel.Actions(noop, noop, noop, noop, noop, noop, noop, () -> { }, noop, noop);
 
 		try
 		{
@@ -138,6 +140,43 @@ class RenderSmokeTest
 				assertFalse(containsLabelContaining(panel, "Parent D"), "fourth parent must be capped, not rendered");
 				assertTrue(containsLabelContaining(panel, "+2 more"), "capped parents must show a +N more suffix");
 				assertTrue(containsLabelContaining(panel, "materials in bank"), "bank-covered skill target must show the badge");
+			});
+		}
+		catch (InvocationTargetException e)
+		{
+			if (e.getCause() instanceof HeadlessException)
+			{
+				Assumptions.abort("Headless environment cannot construct Swing components: " + e.getCause().getMessage());
+			}
+			throw e;
+		}
+	}
+
+	/**
+	 * Ticket 55 addition: {@link NextTargetPanel}'s header shows a "stale" hint (warning colour)
+	 * when the bank snapshot is more than 60 minutes older than {@code computedAt} - compared to
+	 * that, not wall-clock, so the check is deterministic in a test.
+	 */
+	@Test
+	void headerShowsStaleBankHintWhenBankAsOfIsOverAnHourBeforeComputedAt() throws Exception
+	{
+		Instant bankAsOf = Instant.parse("2026-09-07T10:00:00Z");
+		Instant computedAt = bankAsOf.plus(2, ChronoUnit.HOURS);
+		Snapshot snapshot = new SnapshotBuilder().build().toBuilder().bankAsOf(bankAsOf).build();
+		Advice advice = new Engine(new BoostTable()).run(snapshot, new KbBuilder().build(), AccountData.empty(), computedAt);
+
+		Consumer<String> noop = id -> { };
+		SuggestPanel.Actions actions = new SuggestPanel.Actions(noop, noop, noop, noop, noop, noop, noop, () -> { }, noop, noop);
+		GoalDetailPanel.Actions detailActions = new GoalDetailPanel.Actions(noop, () -> { });
+
+		try
+		{
+			SwingUtilities.invokeAndWait(() ->
+			{
+				NextTargetPanel panel = new NextTargetPanel(() -> { }, actions, detailActions);
+				panel.render(advice);
+				assertTrue(containsLabelContaining(panel, "stale"),
+					"bank line must show the stale hint when bankAsOf is over 60 minutes before computedAt");
 			});
 		}
 		catch (InvocationTargetException e)
@@ -223,7 +262,7 @@ class RenderSmokeTest
 		Advice fewerGoals = engine.run(snapshot, new KbBuilder().quest(1, "Quest 1").quest(2, "Quest 2").build(), AccountData.empty(), Instant.now());
 
 		Consumer<String> noop = id -> { };
-		SuggestPanel.Actions actions = new SuggestPanel.Actions(noop, noop, noop, noop, noop, noop, noop, () -> { });
+		SuggestPanel.Actions actions = new SuggestPanel.Actions(noop, noop, noop, noop, noop, noop, noop, () -> { }, noop, noop);
 		int[] counts = new int[4];
 
 		try
@@ -259,6 +298,67 @@ class RenderSmokeTest
 	}
 
 	/**
+	 * Ticket 55: a MILESTONE/SLAYER_TARGET/BOSS card renders an "Own it" (or, for a boss, "Done it")
+	 * action alongside "Do this"/"Not now"/"Ignore" without squeezing any button below its preferred
+	 * width, and a manually-owned goal (never emitted by GapEngine, so it can't render as a card
+	 * itself) surfaces in a collapsed "Owned (manual)" section with an "Unmark" button.
+	 */
+	@Test
+	void ownItButtonRendersOnAMilestoneCardAndOwnedManualSectionListsAnUnmarkableName() throws Exception
+	{
+		KnowledgeBase kb = new KbBuilder()
+			.milestone("m:barrows-gloves", MilestoneCategory.GEAR, "Barrows gloves", 8)
+			.ownedIf("Barrows gloves", 7462)
+			.skill(Skill.DEFENCE, 40)
+			.milestone("boss:test", MilestoneCategory.BOSS, "Test Boss", 5)
+			.build();
+		Snapshot snapshot = new SnapshotBuilder().build();
+		Advice unowned = new Engine(new BoostTable()).run(snapshot, kb, AccountData.empty(), Instant.now());
+
+		AccountData ownedData = new AccountData(new HashMap<>(), null, new HashMap<>(), new HashSet<>(), new ArrayList<>(), null,
+			new HashSet<>(java.util.Set.of("m:barrows-gloves")));
+		Advice owned = new Engine(new BoostTable()).run(snapshot, kb, ownedData, Instant.now());
+
+		Consumer<String> noop = id -> { };
+		SuggestPanel.Actions actions = new SuggestPanel.Actions(noop, noop, noop, noop, noop, noop, noop, () -> { }, noop, noop);
+
+		try
+		{
+			SwingUtilities.invokeAndWait(() ->
+			{
+				SuggestPanel panel = new SuggestPanel(actions);
+				panel.render(unowned);
+				layoutAtRealPanelWidth(panel);
+				assertNoButtonNarrowerThanItsPreferredWidth(panel);
+				assertTrue(containsButtonWithText(panel, "Own it"), "a milestone card must render an Own it button");
+				assertTrue(containsButtonWithText(panel, "Done it"), "a boss card/row must render a Done it button");
+
+				panel.render(owned);
+				JLabel ownedHeaderLabel = findLabelStartingWith(panel, "OWNED (MANUAL)");
+				assertNotNull(ownedHeaderLabel, "Owned (manual) section header must exist");
+				assertTrue(ownedHeaderLabel.getText().contains("(1)"),
+					"header count must reflect one manually-owned goal: " + ownedHeaderLabel.getText());
+
+				ownedHeaderLabel.dispatchEvent(new MouseEvent(ownedHeaderLabel, MouseEvent.MOUSE_CLICKED,
+					System.currentTimeMillis(), 0, 1, 1, 1, false));
+
+				assertTrue(containsLabelContaining(panel, "Barrows gloves"), "the manually-owned goal's name must render");
+				assertTrue(containsButtonWithText(panel, "Unmark"), "an Unmark button must render in the Owned (manual) section");
+				layoutAtRealPanelWidth(panel);
+				assertNoButtonNarrowerThanItsPreferredWidth(panel);
+			});
+		}
+		catch (InvocationTargetException e)
+		{
+			if (e.getCause() instanceof HeadlessException)
+			{
+				Assumptions.abort("Headless environment cannot construct Swing components: " + e.getCause().getMessage());
+			}
+			throw e;
+		}
+	}
+
+	/**
 	 * Fix round 1: a collapsible section header (Later/Snoozed/Ignored) must toggle when the click
 	 * lands on the label the user actually sees ("LATER (0) ▶"), not just on the outer panel -
 	 * AWT delivers a click to the deepest component under the cursor and does not bubble it to
@@ -276,7 +376,7 @@ class RenderSmokeTest
 		Advice advice = new Engine(new BoostTable()).run(snapshot, kb, AccountData.empty(), Instant.now());
 
 		Consumer<String> noop = id -> { };
-		SuggestPanel.Actions actions = new SuggestPanel.Actions(noop, noop, noop, noop, noop, noop, noop, () -> { });
+		SuggestPanel.Actions actions = new SuggestPanel.Actions(noop, noop, noop, noop, noop, noop, noop, () -> { }, noop, noop);
 
 		try
 		{
@@ -361,7 +461,7 @@ class RenderSmokeTest
 			.source("GE", "Grand Exchange")
 			.build();
 		Snapshot snapshot = new SnapshotBuilder().bankItem(ranarrUnf, "Ranarr potion (unf)", 2).build();
-		AccountData data = new AccountData(new HashMap<>(), null, new HashMap<>(), new HashSet<>(), new ArrayList<>(), "quest:0");
+		AccountData data = new AccountData(new HashMap<>(), null, new HashMap<>(), new HashSet<>(), new ArrayList<>(), "quest:0", new HashSet<>());
 		Advice advice = new Engine(new BoostTable()).run(snapshot, kb, data, Instant.now());
 		assertNotNull(advice.getFocus(), "fixture must produce a focus for the render to exercise the detail panel");
 		assertNotNull(advice.getFocus().getRoute(), "fixture must produce a route");
@@ -406,7 +506,7 @@ class RenderSmokeTest
 			.source("GE", "Grand Exchange")
 			.build();
 		Snapshot snapshot = new SnapshotBuilder().bankItem(ranarrUnf, "Ranarr potion (unf)", 2).build();
-		AccountData data = new AccountData(new HashMap<>(), null, new HashMap<>(), new HashSet<>(), new ArrayList<>(), "quest:0");
+		AccountData data = new AccountData(new HashMap<>(), null, new HashMap<>(), new HashSet<>(), new ArrayList<>(), "quest:0", new HashSet<>());
 		Advice base = new Engine(new BoostTable()).run(snapshot, kb, data, Instant.now());
 		assertNotNull(base.getFocus(), "fixture must produce a focus for the render to exercise the detail panel");
 		assertNotNull(base.getFocus().getShortfall(), "fixture must produce a shortfall (bank only partly covers the route)");
@@ -427,7 +527,7 @@ class RenderSmokeTest
 
 		Advice advice = new Advice(base.getSnapshot(), base.getStatuses(), base.getDiaryProgress(), base.getComputedAt(),
 			base.getRanked(), base.getPicked(), base.getRest(), base.getAccountStage(), base.getLater(), base.getWhys(),
-			base.getExplanations(), base.getReasons(), base.getPrefs(), focus);
+			base.getExplanations(), base.getReasons(), base.getOwnedManuallyNames(), base.getPrefs(), focus);
 
 		Consumer<String> noop = id -> { };
 		GoalDetailPanel.Actions actions = new GoalDetailPanel.Actions(noop, () -> { });

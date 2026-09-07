@@ -127,7 +127,9 @@ public class NextTargetPlugin extends Plugin
 			this::unpin,
 			this::unsnooze,
 			this::unignore,
-			this::clearFocus);
+			this::clearFocus,
+			this::markOwned,
+			this::unmarkOwned);
 		GoalDetailPanel.Actions detailActions = new GoalDetailPanel.Actions(this::focus, this::clearFocus);
 		panel = new NextTargetPanel(this::requestSnapshot, actions, detailActions);
 		BufferedImage icon = ImageUtil.loadImageResource(NextTargetPlugin.class, "icon.png");
@@ -456,6 +458,18 @@ public class NextTargetPlugin extends Plugin
 	public void unpin(String goalId)
 	{
 		mutateAccountData(data -> AccountDataMutations.unpin(data, goalId));
+	}
+
+	/** Ticket 55: "Own it"/"Done it" - marks a milestone/slayer-target/boss goal done by hand. */
+	public void markOwned(String goalId)
+	{
+		mutateAccountData(data -> AccountDataMutations.markOwned(data, goalId));
+	}
+
+	/** Ticket 55: "Unmark" in the Owned (manual) section - undoes {@link #markOwned}. */
+	public void unmarkOwned(String goalId)
+	{
+		mutateAccountData(data -> AccountDataMutations.unmarkOwned(data, goalId));
 	}
 
 	private GoalStatus statusFor(String goalId)

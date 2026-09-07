@@ -88,6 +88,10 @@ public class AccountStore
 		{
 			data.setPins(new ArrayList<>());
 		}
+		if (data.getOwnedManually() == null)
+		{
+			data.setOwnedManually(new HashSet<>());
+		}
 		return data;
 	}
 

@@ -34,6 +34,13 @@ public class Advice
 	Map<String, List<String>> explanations;
 	/** A milestone/slayer-target/boss goal's curated KB {@code reason} text, keyed by goal id. Absent for goals with none (quests, diaries, or a milestone with no reason text) - the panel must never read the {@link dev.reece.nta.kb.KnowledgeBase} itself. */
 	Map<String, String> reasons;
+	/**
+	 * Ticket 55: the curated KB name of every goal in {@code prefs.ownedManually}, keyed by goal
+	 * id - since {@link dev.reece.nta.engine.GapEngine} never emits a manually-owned goal's status,
+	 * it can't appear in {@code ranked}, so the panel's "Owned (manual)" section needs the name from
+	 * here instead. An ownedManually id absent from the KB (stale hand-edited file) is simply omitted.
+	 */
+	Map<String, String> ownedManuallyNames;
 	PrefsView prefs;
 	/** The player's active focus goal drill-down (ticket E, spec ruling 26), or {@code null} when no goal is focused or the focused goal is no longer present (e.g. completed) among {@code statuses}. */
 	FocusDetail focus;
@@ -51,6 +58,7 @@ public class Advice
 		Map<String, String> whys,
 		Map<String, List<String>> explanations,
 		Map<String, String> reasons,
+		Map<String, String> ownedManuallyNames,
 		PrefsView prefs,
 		FocusDetail focus)
 	{
@@ -66,6 +74,7 @@ public class Advice
 		this.whys = Map.copyOf(whys);
 		this.explanations = Map.copyOf(explanations);
 		this.reasons = Map.copyOf(reasons);
+		this.ownedManuallyNames = Map.copyOf(ownedManuallyNames);
 		this.prefs = prefs;
 		this.focus = focus;
 	}

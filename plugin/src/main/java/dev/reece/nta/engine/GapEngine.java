@@ -111,7 +111,7 @@ public final class GapEngine
 	/** As {@link #evaluate(Snapshot, KnowledgeBase, Map)}, computing {@link DiaryProgress} internally - for callers with no other need for it. */
 	public List<GoalStatus> evaluate(Snapshot snapshot, KnowledgeBase kb)
 	{
-		return evaluate(snapshot, kb, DiaryProgress.compute(snapshot, kb));
+		return evaluate(snapshot, kb, DiaryProgress.compute(snapshot, kb), Set.of());
 	}
 
 	/**
@@ -121,6 +121,17 @@ public final class GapEngine
 	 * {@link dev.reece.nta.engine.model.Advice#getDiaryProgress()}.
 	 */
 	public List<GoalStatus> evaluate(Snapshot snapshot, KnowledgeBase kb, Map<DiaryTier, DiaryTierProgress> diaryProgress)
+	{
+		return evaluate(snapshot, kb, diaryProgress, Set.of());
+	}
+
+	/**
+	 * As {@link #evaluate(Snapshot, KnowledgeBase, Map)}, but a milestone/slayer-target/boss goal
+	 * whose id is in {@code ownedManually} (ticket 55) is treated as done - never emitted here, so
+	 * it can't appear ranked, later, snoozed, or ignored - and instead surfaces only via
+	 * {@link Engine}'s {@code ownedManuallyNames}.
+	 */
+	public List<GoalStatus> evaluate(Snapshot snapshot, KnowledgeBase kb, Map<DiaryTier, DiaryTierProgress> diaryProgress, Set<String> ownedManually)
 	{
 		List<GoalStatus> result = new ArrayList<>();
 
@@ -156,7 +167,7 @@ public final class GapEngine
 
 		for (MilestoneEntry entry : kb.getMilestones())
 		{
-			milestoneGoalStatus(entry, snapshot, kb).ifPresent(result::add);
+			milestoneGoalStatus(entry, snapshot, kb, ownedManually).ifPresent(result::add);
 		}
 
 		result.sort(Comparator.comparing(gs -> gs.getGoal().getId()));
@@ -332,7 +343,7 @@ public final class GapEngine
 	 * entry's Slayer skill requirement is met; {@code unlock}/{@code prayer}/{@code spellbook} -
 	 * every requirement is met (no gaps); {@code boss} - never done.
 	 */
-	private Optional<GoalStatus> milestoneGoalStatus(MilestoneEntry entry, Snapshot snapshot, KnowledgeBase kb)
+	private Optional<GoalStatus> milestoneGoalStatus(MilestoneEntry entry, Snapshot snapshot, KnowledgeBase kb, Set<String> ownedManually)
 	{
 		List<Gap> gaps = new ArrayList<>();
 		List<Met> met = new ArrayList<>();
@@ -384,7 +395,7 @@ public final class GapEngine
 		}
 
 		OwnedState ownedState = entry.getCategory() == MilestoneCategory.GEAR
-			? ownedState(entry.getOwnedIf(), snapshot)
+			? ownedState(entry, snapshot, ownedManually)
 			: null;
 
 		boolean done;
@@ -403,6 +414,10 @@ public final class GapEngine
 				done = gaps.isEmpty();
 				break;
 		}
+		// Ticket 55: a manual "Own it"/"Done it" override finishes any milestone/slayer-target/boss
+		// goal, whatever its category's own completion rule says - the shared ownership predicate
+		// below already covers GEAR, so this only adds anything for the other three categories.
+		done = done || isOwned(entry, snapshot, ownedManually);
 		if (done)
 		{
 			return Optional.empty();
@@ -567,23 +582,42 @@ public final class GapEngine
 	}
 
 	/**
-	 * Whether any of {@code items}' ids (each item's full variant {@code ids} list, not just its
-	 * primary {@code id}) is held (bank &cup; inventory &cup; equipment), shared by a milestone's
-	 * {@code ownedIf} (gear category completion) and a {@code recommended} profile's
-	 * {@code gearOwnedAny} (recommended-gear gap). Inventory and equipment are always known; the bank
+	 * Whether any of {@code entry}'s {@code ownedIf} ids (each item's full variant {@code ids}
+	 * list, not just its primary {@code id}) is held (bank &cup; inventory &cup; equipment), shared
+	 * by a milestone's gear category completion. Inventory and equipment are always known; the bank
 	 * is only checked when {@link Snapshot#isBankKnown()}, so an unseen bank with nothing found
 	 * elsewhere is {@link OwnedState#UNKNOWN} rather than {@link OwnedState#NOT_OWNED}.
 	 */
-	private static OwnedState ownedState(List<OwnedItem> items, Snapshot snapshot)
+	private static OwnedState ownedState(MilestoneEntry entry, Snapshot snapshot, Set<String> ownedManually)
 	{
-		for (OwnedItem owned : items)
+		if (isOwned(entry, snapshot, ownedManually))
+		{
+			return OwnedState.OWNED;
+		}
+		return snapshot.isBankKnown() ? OwnedState.NOT_OWNED : OwnedState.UNKNOWN;
+	}
+
+	/**
+	 * Shared "owns this milestone" predicate (ticket 55) consulted by both this class's GEAR-category
+	 * done-check and {@link StageEstimator}'s stage-N gear-milestone count: true when any of
+	 * {@code entry.getOwnedIf()}'s variant ids is held (bank/inventory/equipment, {@link #anyIdHeld})
+	 * or the player has manually marked the milestone owned (some gear - a house cape rack cosmetic,
+	 * a group-ironman shared-storage item - never appears in a client-visible container).
+	 */
+	static boolean isOwned(MilestoneEntry entry, Snapshot snapshot, Set<String> ownedManually)
+	{
+		if (ownedManually.contains(entry.getId()))
+		{
+			return true;
+		}
+		for (OwnedItem owned : entry.getOwnedIf())
 		{
 			if (anyIdHeld(owned.getIds(), snapshot))
 			{
-				return OwnedState.OWNED;
+				return true;
 			}
 		}
-		return snapshot.isBankKnown() ? OwnedState.NOT_OWNED : OwnedState.UNKNOWN;
+		return false;
 	}
 
 	/**

@@ -54,6 +54,7 @@ public final class PrefsResolver
 		Set<String> hidden = new LinkedHashSet<>(data.getIgnores());
 		hidden.addAll(snoozedActive);
 
-		return new PrefsView(hidden, List.copyOf(data.getPins()), snoozedActive, snoozedExpired, data.getFocusGoalId());
+		return new PrefsView(hidden, List.copyOf(data.getPins()), snoozedActive, snoozedExpired, data.getFocusGoalId(),
+			Set.copyOf(data.getOwnedManually()));
 	}
 }

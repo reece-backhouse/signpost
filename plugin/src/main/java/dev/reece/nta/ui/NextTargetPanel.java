@@ -9,6 +9,7 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Insets;
+import java.time.Duration;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import javax.swing.BorderFactory;
@@ -21,6 +22,7 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import net.runelite.api.Quest;
 import net.runelite.api.QuestState;
+import net.runelite.client.ui.ColorScheme;
 import net.runelite.client.ui.PluginPanel;
 
 /**
@@ -152,11 +154,14 @@ public class NextTargetPanel extends PluginPanel
 		if (!snapshot.isBankKnown())
 		{
 			bankLabel.setText("Bank: unknown — open your bank once");
+			bankLabel.setForeground(ColorScheme.TEXT_COLOR);
 		}
 		else
 		{
 			String time = BANK_TIME_FORMAT.withZone(ZoneId.systemDefault()).format(snapshot.getBankAsOf());
-			bankLabel.setText("Bank as of " + time);
+			boolean stale = Duration.between(snapshot.getBankAsOf(), advice.getComputedAt()).toMinutes() >= 60;
+			bankLabel.setText(stale ? "Bank as of " + time + " (stale, open your bank to refresh)" : "Bank as of " + time);
+			bankLabel.setForeground(stale ? ColorScheme.PROGRESS_ERROR_COLOR : ColorScheme.TEXT_COLOR);
 		}
 
 		long ready = advice.getStatuses().stream().filter(GoalStatus::isReady).count();

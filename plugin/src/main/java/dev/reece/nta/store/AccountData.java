@@ -27,10 +27,12 @@ public class AccountData
 	private Set<String> ignores;
 	private List<String> pins;
 	private String focusGoalId;
+	/** Goal ids marked "owned" by hand (ticket 55): the account has it but it lives somewhere the client can't see (house cape rack, group-ironman shared storage). */
+	private Set<String> ownedManually;
 
 	public static AccountData empty()
 	{
-		return new AccountData(new HashMap<>(), null, new HashMap<>(), new HashSet<>(), new ArrayList<>(), null);
+		return new AccountData(new HashMap<>(), null, new HashMap<>(), new HashSet<>(), new ArrayList<>(), null, new HashSet<>());
 	}
 
 	public CachedBank toCachedBank()
@@ -52,6 +54,7 @@ public class AccountData
 			new HashMap<>(snoozes),
 			new HashSet<>(ignores),
 			new ArrayList<>(pins),
-			focusGoalId);
+			focusGoalId,
+			new HashSet<>(ownedManually));
 	}
 }

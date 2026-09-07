@@ -55,9 +55,9 @@ public class Engine
 	public Advice run(Snapshot snapshot, KnowledgeBase kb, AccountData data, Instant now)
 	{
 		Map<DiaryTier, DiaryTierProgress> diaryProgress = DiaryProgress.compute(snapshot, kb);
-		List<GoalStatus> base = gapEngine.evaluate(snapshot, kb, diaryProgress);
+		List<GoalStatus> base = gapEngine.evaluate(snapshot, kb, diaryProgress, data.getOwnedManually());
 		PrefsView basePrefs = prefsResolver.resolve(data, base, now);
-		int accountStage = StageEstimator.estimate(snapshot, kb);
+		int accountStage = StageEstimator.estimate(snapshot, kb, data.getOwnedManually());
 		// Spec ruling 28: skill targets come from the visible, stage-appropriate goals' skill gaps,
 		// then join the statuses so they rank, pin, snooze, and focus like any other goal.
 		List<GoalStatus> targets = SkillTargetSynthesiser.synthesise(base, basePrefs.getHidden(), accountStage, snapshot, kb);
@@ -88,7 +88,18 @@ public class Engine
 
 		FocusDetail focus = computeFocus(prefs, statuses, snapshot, kb);
 
-		return new Advice(snapshot, statuses, diaryProgress, now, ranked, picked, rest, accountStage, later, whys, explanations, reasons, prefs, focus);
+		Map<String, String> ownedManuallyNames = new LinkedHashMap<>();
+		for (String goalId : data.getOwnedManually())
+		{
+			MilestoneEntry entry = kb.milestoneById(goalId);
+			if (entry != null)
+			{
+				ownedManuallyNames.put(goalId, entry.getName());
+			}
+		}
+
+		return new Advice(snapshot, statuses, diaryProgress, now, ranked, picked, rest, accountStage, later, whys, explanations, reasons,
+			ownedManuallyNames, prefs, focus);
 	}
 
 	/** Thin overload for callers with no account data (e.g. existing tests): behaves as {@link #run} with an empty {@link AccountData} and the current time. */

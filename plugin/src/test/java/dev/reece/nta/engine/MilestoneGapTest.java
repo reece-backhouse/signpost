@@ -10,6 +10,7 @@ import dev.reece.nta.kb.MilestoneCategory;
 import dev.reece.nta.snapshot.DiaryTier;
 import dev.reece.nta.snapshot.Snapshot;
 import java.util.List;
+import java.util.Set;
 import net.runelite.api.Skill;
 import org.junit.jupiter.api.Test;
 
@@ -69,6 +70,51 @@ class MilestoneGapTest
 		GoalStatus status = goalFor(engine.evaluate(snapshot, kb), "milestone:test-gear");
 
 		assertTrue(status.isBankUnknown());
+	}
+
+	/** Ticket 55: a manual "Own it" override finishes a gear milestone even though nothing owned-if is held. */
+	@Test
+	void gearMilestoneDoneWhenManuallyMarkedOwnedEvenWithNoOwnedIfItemHeld()
+	{
+		KnowledgeBase kb = new KbBuilder()
+			.milestone("milestone:test-gear", MilestoneCategory.GEAR, "Test Gear", 5)
+			.ownedIf("Item A", 100)
+			.build();
+		Snapshot snapshot = new SnapshotBuilder().build();
+
+		List<GoalStatus> statuses = engine.evaluate(snapshot, kb, DiaryProgress.compute(snapshot, kb), Set.of("milestone:test-gear"));
+
+		assertFalse(hasGoal(statuses, "milestone:test-gear"), "manually-owned gear milestone should not be emitted: " + statuses);
+	}
+
+	/** Ticket 55: a manual override finishes a slayer target even below the required level. */
+	@Test
+	void slayerTargetDoneWhenManuallyMarkedOwnedEvenBelowRequiredLevel()
+	{
+		KnowledgeBase kb = new KbBuilder()
+			.milestone("slayer:test", MilestoneCategory.SLAYER_TARGET, "Test Slayer Target", 5)
+			.skill(Skill.SLAYER, 85)
+			.build();
+		Snapshot snapshot = new SnapshotBuilder().skill(Skill.SLAYER, 50).build();
+
+		List<GoalStatus> statuses = engine.evaluate(snapshot, kb, DiaryProgress.compute(snapshot, kb), Set.of("slayer:test"));
+
+		assertFalse(hasGoal(statuses, "slayer:test"), "manually-owned slayer target should not be emitted: " + statuses);
+	}
+
+	/** Ticket 55: a boss's "Done it" override finishes it, even though a boss is otherwise never done. */
+	@Test
+	void bossMilestoneDoneWhenManuallyMarkedDone()
+	{
+		KnowledgeBase kb = new KbBuilder()
+			.milestone("boss:test", MilestoneCategory.BOSS, "Test Boss", 5)
+			.skill(Skill.STRENGTH, 60)
+			.build();
+		Snapshot snapshot = new SnapshotBuilder().skill(Skill.STRENGTH, 60).build();
+
+		List<GoalStatus> statuses = engine.evaluate(snapshot, kb, DiaryProgress.compute(snapshot, kb), Set.of("boss:test"));
+
+		assertFalse(hasGoal(statuses, "boss:test"), "manually-marked-done boss should not be emitted: " + statuses);
 	}
 
 	@Test

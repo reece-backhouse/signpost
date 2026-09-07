@@ -22,7 +22,7 @@ class AccountDataTest
 		assertFalse(empty.toCachedBank().isKnown());
 
 		AccountData withBank = new AccountData(
-			Map.of(995, 100), Instant.parse("2026-09-01T00:00:00Z"), Map.of(), Set.of(), List.of(), null);
+			Map.of(995, 100), Instant.parse("2026-09-01T00:00:00Z"), Map.of(), Set.of(), List.of(), null, Set.of());
 		CachedBank cachedBank = withBank.toCachedBank();
 
 		assertEquals(Map.of(995, 100), cachedBank.getItems());
@@ -38,15 +38,18 @@ class AccountDataTest
 			new HashMap<>(),
 			new HashSet<>(),
 			new ArrayList<>(),
-			null);
+			null,
+			new HashSet<>(Set.of("milestone:barrows-gloves")));
 
 		AccountData copy = original.copy();
 
 		original.getBank().put(996, 5);
 		original.setBank(new HashMap<>(Map.of(1, 1)));
 		original.setBankAsOf(Instant.parse("2026-09-02T00:00:00Z"));
+		original.getOwnedManually().add("milestone:fire-cape");
 
 		assertEquals(Map.of(995, 100), copy.getBank());
 		assertEquals(Instant.parse("2026-09-01T00:00:00Z"), copy.getBankAsOf());
+		assertEquals(Set.of("milestone:barrows-gloves"), copy.getOwnedManually(), "copy must not see a later mutation of the original's ownedManually set");
 	}
 }

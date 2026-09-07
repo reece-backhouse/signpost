@@ -75,6 +75,8 @@ public class SuggestPanel extends JPanel
 	private final JPanel snoozedContent = new JPanel();
 	private final Header ignoredHeader;
 	private final JPanel ignoredContent = new JPanel();
+	private final Header ownedHeader;
+	private final JPanel ownedContent = new JPanel();
 
 	private Advice currentAdvice;
 	private Set<String> lastGoalIds;
@@ -82,6 +84,7 @@ public class SuggestPanel extends JPanel
 	private boolean laterExpanded;
 	private boolean snoozedExpanded;
 	private boolean ignoredExpanded;
+	private boolean ownedExpanded;
 	// task 52b: which goals' "Why?" explanation is expanded, keyed by goal id - never cleared on
 	// re-render (same rule as laterExpanded/snoozedExpanded/ignoredExpanded above), so a re-render
 	// with the same goal set keeps whatever the user had open.
@@ -151,6 +154,17 @@ public class SuggestPanel extends JPanel
 		ignoredContent.setAlignmentX(Component.LEFT_ALIGNMENT);
 		ignoredContent.setVisible(false);
 		add(ignoredContent);
+
+		ownedHeader = new Header("Owned (manual)", () ->
+		{
+			ownedExpanded = !ownedExpanded;
+			rebuild();
+		});
+		add(ownedHeader);
+		ownedContent.setLayout(new BoxLayout(ownedContent, BoxLayout.Y_AXIS));
+		ownedContent.setAlignmentX(Component.LEFT_ALIGNMENT);
+		ownedContent.setVisible(false);
+		add(ownedContent);
 	}
 
 	/**
@@ -183,7 +197,7 @@ public class SuggestPanel extends JPanel
 		lastGoalIds = null;
 		nextShown = PAGE_SIZE;
 		focusBannerPanel.setVisible(false);
-		for (JPanel content : List.of(pickOnePanel, nextListPanel, laterContent, snoozedContent, ignoredContent))
+		for (JPanel content : List.of(pickOnePanel, nextListPanel, laterContent, snoozedContent, ignoredContent, ownedContent))
 		{
 			content.removeAll();
 		}
@@ -269,6 +283,18 @@ public class SuggestPanel extends JPanel
 			}
 		}
 
+		Map<String, String> ownedManuallyNames = advice.getOwnedManuallyNames();
+		ownedHeader.update(ownedManuallyNames.size(), ownedExpanded);
+		ownedContent.removeAll();
+		ownedContent.setVisible(ownedExpanded);
+		if (ownedExpanded)
+		{
+			for (Map.Entry<String, String> entry : ownedManuallyNames.entrySet())
+			{
+				ownedContent.add(ownedRow(entry.getKey(), entry.getValue()));
+			}
+		}
+
 		revalidate();
 		repaint();
 	}
@@ -342,7 +368,9 @@ public class SuggestPanel extends JPanel
 		JButton doThis = button("Do this", () -> actions.getDoThis().accept(goal.getId()));
 		JButton notNow = button("Not now", () -> actions.getNotNow().accept(goal.getId()));
 		JButton ignore = button("Ignore", () -> actions.getIgnore().accept(goal.getId()));
-		card.add(actionRow(doThis, notNow, ignore));
+		card.add(ownableLabel(goal.getCategory()) != null
+			? actionRow(doThis, notNow, ignore, button(ownableLabel(goal.getCategory()), () -> actions.getMarkOwned().accept(goal.getId())))
+			: actionRow(doThis, notNow, ignore));
 
 		return card;
 	}
@@ -371,7 +399,10 @@ public class SuggestPanel extends JPanel
 		JButton pin = r.isPinned()
 			? button("Unpin", () -> actions.getUnpin().accept(goal.getId()))
 			: button("Pin", () -> actions.getPin().accept(goal.getId()));
-		row.add(actionRow(doThis, notNow, ignore, pin));
+		String ownLabel = ownableLabel(goal.getCategory());
+		row.add(ownLabel != null
+			? actionRow(doThis, notNow, ignore, pin, button(ownLabel, () -> actions.getMarkOwned().accept(goal.getId())))
+			: actionRow(doThis, notNow, ignore, pin));
 
 		return row;
 	}
@@ -474,6 +505,18 @@ public class SuggestPanel extends JPanel
 		return row;
 	}
 
+	/** Ticket 55: an "Owned (manual)" section row - unlike {@link #bringBackRow}, the goal has no status in {@code advice} (a manually-owned goal is never emitted), so its name comes straight from {@link Advice#getOwnedManuallyNames()}. */
+	private JPanel ownedRow(String goalId, String name)
+	{
+		JPanel row = new JPanel(new BorderLayout(4, 0));
+		row.setAlignmentX(Component.LEFT_ALIGNMENT);
+		JLabel label = new JLabel(name);
+		label.setFont(FontManager.getRunescapeSmallFont());
+		row.add(label, BorderLayout.CENTER);
+		row.add(button("Unmark", () -> actions.getUnmarkOwned().accept(goalId)), BorderLayout.EAST);
+		return row;
+	}
+
 	private static String nameFor(String goalId, Advice advice)
 	{
 		for (GoalStatus status : advice.getStatuses())
@@ -484,6 +527,21 @@ public class SuggestPanel extends JPanel
 			}
 		}
 		return goalId;
+	}
+
+	/** Ticket 55: the "Own it"/"Done it" button label for a milestone/slayer-target/boss card or row, {@code null} for a quest/diary/skill target (never ownable by hand). */
+	private static String ownableLabel(GoalCategory category)
+	{
+		switch (category)
+		{
+			case BOSS:
+				return "Done it";
+			case MILESTONE:
+			case SLAYER_TARGET:
+				return "Own it";
+			default:
+				return null;
+		}
 	}
 
 	static String categoryLabel(GoalCategory category)
@@ -685,5 +743,7 @@ public class SuggestPanel extends JPanel
 		Consumer<String> unsnooze;
 		Consumer<String> unignore;
 		Runnable clearFocus;
+		Consumer<String> markOwned;
+		Consumer<String> unmarkOwned;
 	}
 }

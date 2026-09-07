@@ -77,6 +77,22 @@ public final class AccountDataMutations
 		return copy;
 	}
 
+	/** Ticket 55: "Own it" - marks a milestone/slayer-target/boss goal done by hand. */
+	public static AccountData markOwned(AccountData data, String goalId)
+	{
+		AccountData copy = data.copy();
+		copy.getOwnedManually().add(goalId);
+		return copy;
+	}
+
+	/** Ticket 55: "Unmark" in the Owned (manual) section - undoes {@link #markOwned}. */
+	public static AccountData unmarkOwned(AccountData data, String goalId)
+	{
+		AccountData copy = data.copy();
+		copy.getOwnedManually().remove(goalId);
+		return copy;
+	}
+
 	public static AccountData bank(AccountData data, Map<Integer, Integer> items, Instant asOf)
 	{
 		AccountData copy = data.copy();
