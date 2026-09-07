@@ -5409,6 +5409,7 @@
       "xpPerAction": 60
     },
     {
+      "boostable": true,
       "levelReq": 10,
       "materials": [
         {
@@ -5425,6 +5426,7 @@
         }
       ],
       "skill": "Cooking",
+      "ticks": 1,
       "title": "Redberry pie",
       "types": [
         "Baked"
@@ -5432,6 +5434,7 @@
       "xpPerAction": 78
     },
     {
+      "boostable": true,
       "levelReq": 10,
       "materials": [
         {
@@ -5460,6 +5463,7 @@
         }
       ],
       "skill": "Cooking",
+      "ticks": 1,
       "title": "Redberry pie",
       "types": [
         "Baked"
@@ -5467,6 +5471,7 @@
       "xpPerAction": 78
     },
     {
+      "boostable": true,
       "levelReq": 10,
       "materials": [
         {
@@ -5499,6 +5504,7 @@
         }
       ],
       "skill": "Cooking",
+      "ticks": 1,
       "title": "Redberry pie",
       "types": [
         "Baked"
@@ -6574,6 +6580,7 @@
       "xpPerAction": 52
     },
     {
+      "boostable": true,
       "levelReq": 20,
       "materials": [
         {
@@ -6590,6 +6597,7 @@
         }
       ],
       "skill": "Cooking",
+      "ticks": 1,
       "title": "Meat pie",
       "types": [
         "Baked"
@@ -6597,6 +6605,7 @@
       "xpPerAction": 104
     },
     {
+      "boostable": true,
       "levelReq": 20,
       "materials": [
         {
@@ -6625,6 +6634,7 @@
         }
       ],
       "skill": "Cooking",
+      "ticks": 1,
       "title": "Meat pie",
       "types": [
         "Baked"
@@ -6632,6 +6642,7 @@
       "xpPerAction": 104
     },
     {
+      "boostable": true,
       "levelReq": 20,
       "materials": [
         {
@@ -6664,6 +6675,7 @@
         }
       ],
       "skill": "Cooking",
+      "ticks": 1,
       "title": "Meat pie",
       "types": [
         "Baked"
@@ -8027,6 +8039,7 @@
       "xpPerAction": 0
     },
     {
+      "boostable": true,
       "levelReq": 29,
       "materials": [
         {
@@ -8043,6 +8056,7 @@
         }
       ],
       "skill": "Cooking",
+      "ticks": 1,
       "title": "Mud pie",
       "types": [
         "Baked"
@@ -8050,6 +8064,7 @@
       "xpPerAction": 128
     },
     {
+      "boostable": true,
       "levelReq": 29,
       "materials": [
         {
@@ -8086,6 +8101,7 @@
         }
       ],
       "skill": "Cooking",
+      "ticks": 1,
       "title": "Mud pie",
       "types": [
         "Baked"
@@ -8093,6 +8109,7 @@
       "xpPerAction": 128
     },
     {
+      "boostable": true,
       "levelReq": 29,
       "materials": [
         {
@@ -8133,6 +8150,7 @@
         }
       ],
       "skill": "Cooking",
+      "ticks": 1,
       "title": "Mud pie",
       "types": [
         "Baked"
@@ -8277,6 +8295,7 @@
       "xpPerAction": 0
     },
     {
+      "boostable": true,
       "levelReq": 30,
       "materials": [
         {
@@ -8293,6 +8312,7 @@
         }
       ],
       "skill": "Cooking",
+      "ticks": 1,
       "title": "Apple pie",
       "types": [
         "Baked"
@@ -8300,6 +8320,7 @@
       "xpPerAction": 130
     },
     {
+      "boostable": true,
       "levelReq": 30,
       "materials": [
         {
@@ -8328,6 +8349,7 @@
         }
       ],
       "skill": "Cooking",
+      "ticks": 1,
       "title": "Apple pie",
       "types": [
         "Baked"
@@ -8335,6 +8357,7 @@
       "xpPerAction": 130
     },
     {
+      "boostable": true,
       "levelReq": 30,
       "materials": [
         {
@@ -8367,6 +8390,7 @@
         }
       ],
       "skill": "Cooking",
+      "ticks": 1,
       "title": "Apple pie",
       "types": [
         "Baked"
@@ -9077,6 +9101,7 @@
       "xpPerAction": 31
     },
     {
+      "boostable": true,
       "levelReq": 34,
       "materials": [
         {
@@ -9093,6 +9118,7 @@
         }
       ],
       "skill": "Cooking",
+      "ticks": 1,
       "title": "Garden pie",
       "types": [
         "Baked"
@@ -9100,6 +9126,7 @@
       "xpPerAction": 128
     },
     {
+      "boostable": true,
       "levelReq": 34,
       "materials": [
         {
@@ -9136,6 +9163,7 @@
         }
       ],
       "skill": "Cooking",
+      "ticks": 1,
       "title": "Garden pie",
       "types": [
         "Baked"
@@ -9143,6 +9171,7 @@
       "xpPerAction": 128
     },
     {
+      "boostable": true,
       "levelReq": 34,
       "materials": [
         {
@@ -9183,6 +9212,7 @@
         }
       ],
       "skill": "Cooking",
+      "ticks": 1,
       "title": "Garden pie",
       "types": [
         "Baked"
@@ -9501,6 +9531,7 @@
       "xpPerAction": 0
     },
     {
+      "boostable": true,
       "levelReq": 35,
       "materials": [
         {
@@ -9529,6 +9560,7 @@
         }
       ],
       "skill": "Cooking",
+      "ticks": 1,
       "title": "Plain pizza",
       "types": [
         "Baked"
@@ -10578,6 +10610,7 @@
       "xpPerAction": 0
     },
     {
+      "boostable": true,
       "levelReq": 45,
       "materials": [
         {
@@ -10610,6 +10643,7 @@
         }
       ],
       "skill": "Cooking",
+      "ticks": 2,
       "title": "Meat pizza",
       "types": [
         "Baked"
@@ -10617,6 +10651,7 @@
       "xpPerAction": 169
     },
     {
+      "boostable": true,
       "levelReq": 45,
       "materials": [
         {
@@ -10645,6 +10680,7 @@
         }
       ],
       "skill": "Cooking",
+      "ticks": 2,
       "title": "Meat pizza",
       "types": [
         "Baked"
@@ -10652,6 +10688,7 @@
       "xpPerAction": 169
     },
     {
+      "boostable": true,
       "levelReq": 45,
       "materials": [
         {
@@ -10684,6 +10721,7 @@
         }
       ],
       "skill": "Cooking",
+      "ticks": 2,
       "title": "Meat pizza",
       "types": [
         "Baked"
@@ -10691,6 +10729,7 @@
       "xpPerAction": 169
     },
     {
+      "boostable": true,
       "levelReq": 45,
       "materials": [
         {
@@ -10719,6 +10758,7 @@
         }
       ],
       "skill": "Cooking",
+      "ticks": 2,
       "title": "Meat pizza",
       "types": [
         "Baked"
@@ -10726,6 +10766,7 @@
       "xpPerAction": 169
     },
     {
+      "boostable": true,
       "levelReq": 45,
       "materials": [
         {
@@ -10746,6 +10787,7 @@
         }
       ],
       "skill": "Cooking",
+      "ticks": 2,
       "title": "Meat pizza",
       "types": [
         "Baked"
@@ -10905,6 +10947,7 @@
       "xpPerAction": 0
     },
     {
+      "boostable": true,
       "levelReq": 47,
       "materials": [
         {
@@ -10921,6 +10964,7 @@
         }
       ],
       "skill": "Cooking",
+      "ticks": 1,
       "title": "Fish pie",
       "types": [
         "Baked"
@@ -10928,6 +10972,7 @@
       "xpPerAction": 164
     },
     {
+      "boostable": true,
       "levelReq": 47,
       "materials": [
         {
@@ -10964,6 +11009,7 @@
         }
       ],
       "skill": "Cooking",
+      "ticks": 1,
       "title": "Fish pie",
       "types": [
         "Baked"
@@ -10971,6 +11017,7 @@
       "xpPerAction": 164
     },
     {
+      "boostable": true,
       "levelReq": 47,
       "materials": [
         {
@@ -11011,6 +11058,7 @@
         }
       ],
       "skill": "Cooking",
+      "ticks": 1,
       "title": "Fish pie",
       "types": [
         "Baked"
@@ -11299,6 +11347,7 @@
       "xpPerAction": 0
     },
     {
+      "boostable": true,
       "levelReq": 50,
       "materials": [
         {
@@ -11319,6 +11368,7 @@
         }
       ],
       "skill": "Cooking",
+      "ticks": 2,
       "title": "Chocolate cake",
       "types": [
         "Baked"
@@ -11421,6 +11471,7 @@
       "xpPerAction": 45
     },
     {
+      "boostable": true,
       "levelReq": 52,
       "materials": [
         {
@@ -11437,6 +11488,7 @@
         }
       ],
       "skill": "Cooking",
+      "ticks": 1,
       "title": "Botanical pie",
       "types": [
         "Baked"
@@ -11444,6 +11496,7 @@
       "xpPerAction": 180
     },
     {
+      "boostable": true,
       "levelReq": 52,
       "materials": [
         {
@@ -11472,6 +11525,7 @@
         }
       ],
       "skill": "Cooking",
+      "ticks": 1,
       "title": "Botanical pie",
       "types": [
         "Baked"
@@ -11479,6 +11533,7 @@
       "xpPerAction": 180
     },
     {
+      "boostable": true,
       "levelReq": 52,
       "materials": [
         {
@@ -11511,6 +11566,7 @@
         }
       ],
       "skill": "Cooking",
+      "ticks": 1,
       "title": "Botanical pie",
       "types": [
         "Baked"
@@ -11641,6 +11697,7 @@
       "xpPerAction": 446
     },
     {
+      "boostable": true,
       "levelReq": 55,
       "materials": [
         {
@@ -11673,6 +11730,7 @@
         }
       ],
       "skill": "Cooking",
+      "ticks": 2,
       "title": "Anchovy pizza",
       "types": [
         "Baked"
@@ -11680,6 +11738,7 @@
       "xpPerAction": 182
     },
     {
+      "boostable": true,
       "levelReq": 55,
       "materials": [
         {
@@ -11708,6 +11767,7 @@
         }
       ],
       "skill": "Cooking",
+      "ticks": 2,
       "title": "Anchovy pizza",
       "types": [
         "Baked"
@@ -12030,6 +12090,7 @@
       "xpPerAction": 280
     },
     {
+      "boostable": true,
       "levelReq": 60,
       "materials": [
         {
@@ -12046,6 +12107,7 @@
         }
       ],
       "skill": "Cooking",
+      "ticks": 1,
       "title": "Mushroom pie",
       "types": [
         "Baked"
@@ -12053,6 +12115,7 @@
       "xpPerAction": 200
     },
     {
+      "boostable": true,
       "levelReq": 60,
       "materials": [
         {
@@ -12081,6 +12144,7 @@
         }
       ],
       "skill": "Cooking",
+      "ticks": 1,
       "title": "Mushroom pie",
       "types": [
         "Baked"
@@ -12088,6 +12152,7 @@
       "xpPerAction": 200
     },
     {
+      "boostable": true,
       "levelReq": 60,
       "materials": [
         {
@@ -12120,6 +12185,7 @@
         }
       ],
       "skill": "Cooking",
+      "ticks": 1,
       "title": "Mushroom pie",
       "types": [
         "Baked"
@@ -12266,6 +12332,7 @@
       "xpPerAction": 55
     },
     {
+      "boostable": true,
       "levelReq": 65,
       "materials": [
         {
@@ -12298,6 +12365,7 @@
         }
       ],
       "skill": "Cooking",
+      "ticks": 2,
       "title": "Pineapple pizza",
       "types": [
         "Baked"
@@ -12305,6 +12373,7 @@
       "xpPerAction": 188
     },
     {
+      "boostable": true,
       "levelReq": 65,
       "materials": [
         {
@@ -12337,6 +12406,7 @@
         }
       ],
       "skill": "Cooking",
+      "ticks": 2,
       "title": "Pineapple pizza",
       "types": [
         "Baked"
@@ -12344,6 +12414,7 @@
       "xpPerAction": 188
     },
     {
+      "boostable": true,
       "levelReq": 65,
       "materials": [
         {
@@ -12372,6 +12443,7 @@
         }
       ],
       "skill": "Cooking",
+      "ticks": 2,
       "title": "Pineapple pizza",
       "types": [
         "Baked"
@@ -12379,6 +12451,7 @@
       "xpPerAction": 188
     },
     {
+      "boostable": true,
       "levelReq": 65,
       "materials": [
         {
@@ -12399,6 +12472,7 @@
         }
       ],
       "skill": "Cooking",
+      "ticks": 2,
       "title": "Pineapple pizza",
       "types": [
         "Baked"
@@ -12731,6 +12805,7 @@
       "xpPerAction": 177.5
     },
     {
+      "boostable": true,
       "levelReq": 70,
       "materials": [
         {
@@ -12747,6 +12822,7 @@
         }
       ],
       "skill": "Cooking",
+      "ticks": 1,
       "title": "Admiral pie",
       "types": [
         "Baked"
@@ -12754,6 +12830,7 @@
       "xpPerAction": 210
     },
     {
+      "boostable": true,
       "levelReq": 70,
       "materials": [
         {
@@ -12790,6 +12867,7 @@
         }
       ],
       "skill": "Cooking",
+      "ticks": 1,
       "title": "Admiral pie",
       "types": [
         "Baked"
@@ -12797,6 +12875,7 @@
       "xpPerAction": 210
     },
     {
+      "boostable": true,
       "levelReq": 70,
       "materials": [
         {
@@ -12837,6 +12916,7 @@
         }
       ],
       "skill": "Cooking",
+      "ticks": 1,
       "title": "Admiral pie",
       "types": [
         "Baked"
@@ -13077,6 +13157,7 @@
       "xpPerAction": 0
     },
     {
+      "boostable": true,
       "levelReq": 73,
       "materials": [
         {
@@ -13093,6 +13174,7 @@
         }
       ],
       "skill": "Cooking",
+      "ticks": 1,
       "title": "Dragonfruit pie",
       "types": [
         "Baked"
@@ -13100,6 +13182,7 @@
       "xpPerAction": 220
     },
     {
+      "boostable": true,
       "levelReq": 73,
       "materials": [
         {
@@ -13128,6 +13211,7 @@
         }
       ],
       "skill": "Cooking",
+      "ticks": 1,
       "title": "Dragonfruit pie",
       "types": [
         "Baked"
@@ -13135,6 +13219,7 @@
       "xpPerAction": 220
     },
     {
+      "boostable": true,
       "levelReq": 73,
       "materials": [
         {
@@ -13167,6 +13252,7 @@
         }
       ],
       "skill": "Cooking",
+      "ticks": 1,
       "title": "Dragonfruit pie",
       "types": [
         "Baked"
@@ -13659,6 +13745,7 @@
       "xpPerAction": 0
     },
     {
+      "boostable": true,
       "levelReq": 85,
       "materials": [
         {
@@ -13675,6 +13762,7 @@
         }
       ],
       "skill": "Cooking",
+      "ticks": 1,
       "title": "Wild pie",
       "types": [
         "Baked"
@@ -13682,6 +13770,7 @@
       "xpPerAction": 240
     },
     {
+      "boostable": true,
       "levelReq": 85,
       "materials": [
         {
@@ -13718,6 +13807,7 @@
         }
       ],
       "skill": "Cooking",
+      "ticks": 1,
       "title": "Wild pie",
       "types": [
         "Baked"
@@ -13725,6 +13815,7 @@
       "xpPerAction": 240
     },
     {
+      "boostable": true,
       "levelReq": 85,
       "materials": [
         {
@@ -13765,6 +13856,7 @@
         }
       ],
       "skill": "Cooking",
+      "ticks": 1,
       "title": "Wild pie",
       "types": [
         "Baked"
@@ -14106,6 +14198,7 @@
       "xpPerAction": 0
     },
     {
+      "boostable": true,
       "levelReq": 95,
       "materials": [
         {
@@ -14122,6 +14215,7 @@
         }
       ],
       "skill": "Cooking",
+      "ticks": 1,
       "title": "Summer pie",
       "types": [
         "Baked"
@@ -14129,6 +14223,7 @@
       "xpPerAction": 260
     },
     {
+      "boostable": true,
       "levelReq": 95,
       "materials": [
         {
@@ -14165,6 +14260,7 @@
         }
       ],
       "skill": "Cooking",
+      "ticks": 1,
       "title": "Summer pie",
       "types": [
         "Baked"
@@ -14172,6 +14268,7 @@
       "xpPerAction": 260
     },
     {
+      "boostable": true,
       "levelReq": 95,
       "materials": [
         {
@@ -14212,6 +14309,7 @@
         }
       ],
       "skill": "Cooking",
+      "ticks": 1,
       "title": "Summer pie",
       "types": [
         "Baked"
@@ -14352,6 +14450,7 @@
       "xpPerAction": 13.8
     },
     {
+      "boostable": true,
       "levelReq": 1,
       "materials": [
         {
@@ -14372,6 +14471,7 @@
         }
       ],
       "skill": "Crafting",
+      "ticks": 6,
       "title": "Molten glass",
       "types": [
         "Other"
@@ -14433,6 +14533,7 @@
       "xpPerAction": 10
     },
     {
+      "boostable": false,
       "levelReq": 1,
       "materials": [
         {
@@ -14449,6 +14550,7 @@
         }
       ],
       "skill": "Crafting",
+      "ticks": 7,
       "title": "Pot",
       "types": [
         "Pottery"
@@ -14715,6 +14817,7 @@
       "xpPerAction": 16.2
     },
     {
+      "boostable": false,
       "levelReq": 7,
       "materials": [
         {
@@ -14731,6 +14834,7 @@
         }
       ],
       "skill": "Crafting",
+      "ticks": 7,
       "title": "Pie dish",
       "types": [
         "Pottery"
@@ -14788,6 +14892,7 @@
       "xpPerAction": 15
     },
     {
+      "boostable": false,
       "levelReq": 8,
       "materials": [
         {
@@ -14804,6 +14909,7 @@
         }
       ],
       "skill": "Crafting",
+      "ticks": 7,
       "title": "Bowl",
       "types": [
         "Pottery"
@@ -14940,6 +15046,7 @@
       "xpPerAction": 15
     },
     {
+      "boostable": true,
       "levelReq": 10,
       "materials": [
         {
@@ -14956,6 +15063,7 @@
         }
       ],
       "skill": "Crafting",
+      "ticks": 3,
       "title": "Crossbow string (sinew)",
       "types": [
         "Spinning"
@@ -15796,6 +15904,7 @@
       "xpPerAction": 0
     },
     {
+      "boostable": false,
       "levelReq": 19,
       "materials": [
         {
@@ -15812,6 +15921,7 @@
         }
       ],
       "skill": "Crafting",
+      "ticks": 7,
       "title": "Empty plant pot",
       "types": [
         "Pottery"
@@ -16197,6 +16307,7 @@
       "xpPerAction": 54
     },
     {
+      "boostable": false,
       "levelReq": 25,
       "materials": [
         {
@@ -16213,6 +16324,7 @@
         }
       ],
       "skill": "Crafting",
+      "ticks": 7,
       "title": "Pot lid",
       "types": [
         "Pottery"
@@ -18725,6 +18837,7 @@
       "xpPerAction": 0
     },
     {
+      "boostable": true,
       "levelReq": 61,
       "materials": [
         {
@@ -18757,6 +18870,7 @@
         }
       ],
       "skill": "Crafting",
+      "ticks": 6,
       "title": "Molten glass (Superglass Make)",
       "types": [
         "Other"
@@ -20053,6 +20167,7 @@
       "xpPerAction": 70
     },
     {
+      "boostable": true,
       "levelReq": 87,
       "materials": [
         {
@@ -20073,6 +20188,7 @@
         }
       ],
       "skill": "Crafting",
+      "ticks": 0,
       "title": "Light orb",
       "types": [
         "Other"
@@ -21746,6 +21862,7 @@
       "xpPerAction": 15
     },
     {
+      "boostable": true,
       "levelReq": 5,
       "materials": [
         {
@@ -21766,6 +21883,7 @@
         }
       ],
       "skill": "Fletching",
+      "ticks": 2,
       "title": "Shortbow (stringing)",
       "types": [
         "Bows"
@@ -21856,6 +21974,7 @@
       "xpPerAction": 5
     },
     {
+      "boostable": true,
       "levelReq": 9,
       "materials": [
         {
@@ -21876,6 +21995,7 @@
         }
       ],
       "skill": "Fletching",
+      "ticks": 2,
       "title": "Bronze crossbow (stringing)",
       "types": [
         "Crossbows"
@@ -21999,6 +22119,7 @@
       "xpPerAction": 18
     },
     {
+      "boostable": true,
       "levelReq": 10,
       "materials": [
         {
@@ -22019,6 +22140,7 @@
         }
       ],
       "skill": "Fletching",
+      "ticks": 2,
       "title": "Longbow (stringing)",
       "types": [
         "Bows"
@@ -22192,6 +22314,7 @@
       "xpPerAction": 30
     },
     {
+      "boostable": true,
       "levelReq": 20,
       "materials": [
         {
@@ -22212,6 +22335,7 @@
         }
       ],
       "skill": "Fletching",
+      "ticks": 2,
       "title": "Oak shortbow (stringing)",
       "types": [
         "Bows"
@@ -22358,6 +22482,7 @@
       "xpPerAction": 10
     },
     {
+      "boostable": true,
       "levelReq": 24,
       "materials": [
         {
@@ -22378,6 +22503,7 @@
         }
       ],
       "skill": "Fletching",
+      "ticks": 2,
       "title": "Blurite crossbow (stringing)",
       "types": [
         "Crossbows"
@@ -22472,6 +22598,7 @@
       "xpPerAction": 16
     },
     {
+      "boostable": true,
       "levelReq": 25,
       "materials": [
         {
@@ -22492,6 +22619,7 @@
         }
       ],
       "skill": "Fletching",
+      "ticks": 2,
       "title": "Oak longbow (stringing)",
       "types": [
         "Bows"
@@ -22632,6 +22760,7 @@
       "xpPerAction": 50
     },
     {
+      "boostable": true,
       "levelReq": 30,
       "materials": [
         {
@@ -22652,6 +22781,7 @@
         }
       ],
       "skill": "Fletching",
+      "ticks": 2,
       "title": "Comp ogre bow (stringing)",
       "types": [
         "Bows"
@@ -22831,6 +22961,7 @@
       "xpPerAction": 634.4
     },
     {
+      "boostable": true,
       "levelReq": 35,
       "materials": [
         {
@@ -22851,6 +22982,7 @@
         }
       ],
       "skill": "Fletching",
+      "ticks": 2,
       "title": "Willow shortbow (stringing)",
       "types": [
         "Bows"
@@ -22970,6 +23102,7 @@
       "xpPerAction": 15
     },
     {
+      "boostable": true,
       "levelReq": 39,
       "materials": [
         {
@@ -22990,6 +23123,7 @@
         }
       ],
       "skill": "Fletching",
+      "ticks": 2,
       "title": "Iron crossbow (stringing)",
       "types": [
         "Crossbows"
@@ -23109,6 +23243,7 @@
       "xpPerAction": 80
     },
     {
+      "boostable": true,
       "levelReq": 40,
       "materials": [
         {
@@ -23129,6 +23264,7 @@
         }
       ],
       "skill": "Fletching",
+      "ticks": 2,
       "title": "Willow longbow (stringing)",
       "types": [
         "Bows"
@@ -23190,6 +23326,7 @@
       "xpPerAction": 41.5
     },
     {
+      "boostable": true,
       "levelReq": 41,
       "materials": [
         {
@@ -23206,6 +23343,7 @@
         }
       ],
       "skill": "Fletching",
+      "ticks": 5,
       "title": "Pearl bolt tips (6)",
       "types": [
         "Bolt tips"
@@ -23404,6 +23542,7 @@
       "xpPerAction": 35
     },
     {
+      "boostable": true,
       "levelReq": 46,
       "materials": [
         {
@@ -23424,6 +23563,7 @@
         }
       ],
       "skill": "Fletching",
+      "ticks": 2,
       "title": "Steel crossbow (stringing)",
       "types": [
         "Crossbows"
@@ -23547,6 +23687,7 @@
       "xpPerAction": 15
     },
     {
+      "boostable": true,
       "levelReq": 47,
       "materials": [
         {
@@ -23567,6 +23708,7 @@
         }
       ],
       "skill": "Fletching",
+      "ticks": 0,
       "title": "Light ballista",
       "types": [
         "Other"
@@ -23723,6 +23865,7 @@
       "xpPerAction": 40
     },
     {
+      "boostable": true,
       "levelReq": 50,
       "materials": [
         {
@@ -23743,6 +23886,7 @@
         }
       ],
       "skill": "Fletching",
+      "ticks": 2,
       "title": "Maple shortbow (stringing)",
       "types": [
         "Bows"
@@ -23943,6 +24087,7 @@
       "xpPerAction": 50
     },
     {
+      "boostable": true,
       "levelReq": 54,
       "materials": [
         {
@@ -23963,6 +24108,7 @@
         }
       ],
       "skill": "Fletching",
+      "ticks": 2,
       "title": "Mithril crossbow (stringing)",
       "types": [
         "Crossbows"
@@ -24061,6 +24207,7 @@
       "xpPerAction": 30
     },
     {
+      "boostable": true,
       "levelReq": 55,
       "materials": [
         {
@@ -24081,6 +24228,7 @@
         }
       ],
       "skill": "Fletching",
+      "ticks": 2,
       "title": "Maple longbow (stringing)",
       "types": [
         "Bows"
@@ -24390,6 +24538,7 @@
       "xpPerAction": 70
     },
     {
+      "boostable": true,
       "levelReq": 61,
       "materials": [
         {
@@ -24410,6 +24559,7 @@
         }
       ],
       "skill": "Fletching",
+      "ticks": 2,
       "title": "Adamant crossbow (stringing)",
       "types": [
         "Crossbows"
@@ -24693,6 +24843,7 @@
       "xpPerAction": 1635.2
     },
     {
+      "boostable": true,
       "levelReq": 65,
       "materials": [
         {
@@ -24713,6 +24864,7 @@
         }
       ],
       "skill": "Fletching",
+      "ticks": 2,
       "title": "Yew shortbow (stringing)",
       "types": [
         "Bows"
@@ -24803,6 +24955,7 @@
       "xpPerAction": 150
     },
     {
+      "boostable": true,
       "levelReq": 69,
       "materials": [
         {
@@ -24823,6 +24976,7 @@
         }
       ],
       "skill": "Fletching",
+      "ticks": 2,
       "title": "Rune crossbow (stringing)",
       "types": [
         "Crossbows"
@@ -24970,6 +25124,7 @@
       "xpPerAction": 0
     },
     {
+      "boostable": true,
       "levelReq": 70,
       "materials": [
         {
@@ -24990,6 +25145,7 @@
         }
       ],
       "skill": "Fletching",
+      "ticks": 2,
       "title": "Yew longbow (stringing)",
       "types": [
         "Bows"
@@ -25105,6 +25261,7 @@
       "xpPerAction": 82
     },
     {
+      "boostable": true,
       "levelReq": 72,
       "materials": [
         {
@@ -25125,6 +25282,7 @@
         }
       ],
       "skill": "Fletching",
+      "ticks": 0,
       "title": "Heavy ballista",
       "types": [
         "Other"
@@ -25446,6 +25604,7 @@
       "xpPerAction": 186
     },
     {
+      "boostable": true,
       "levelReq": 78,
       "materials": [
         {
@@ -25466,6 +25625,7 @@
         }
       ],
       "skill": "Fletching",
+      "ticks": 2,
       "title": "Dragon crossbow (stringing)",
       "types": [
         "Crossbows"
@@ -25560,6 +25720,7 @@
       "xpPerAction": 70
     },
     {
+      "boostable": true,
       "levelReq": 80,
       "materials": [
         {
@@ -25580,6 +25741,7 @@
         }
       ],
       "skill": "Fletching",
+      "ticks": 2,
       "title": "Magic shortbow (stringing)",
       "types": [
         "Bows"
@@ -26074,6 +26236,7 @@
       "xpPerAction": 40
     },
     {
+      "boostable": true,
       "levelReq": 85,
       "materials": [
         {
@@ -26094,6 +26257,7 @@
         }
       ],
       "skill": "Fletching",
+      "ticks": 2,
       "title": "Magic longbow (stringing)",
       "types": [
         "Bows"
@@ -28147,6 +28311,7 @@
       "xpPerAction": 0
     },
     {
+      "boostable": true,
       "levelReq": 56,
       "materials": [
         {
@@ -28167,6 +28332,7 @@
         }
       ],
       "skill": "Herblore",
+      "ticks": 2,
       "title": "Haemostatic dressing",
       "types": [
         "Regular potions"
@@ -30080,6 +30246,7 @@
       "xpPerAction": 2
     },
     {
+      "boostable": true,
       "levelReq": 98,
       "materials": [
         {
@@ -30100,6 +30267,7 @@
         }
       ],
       "skill": "Herblore",
+      "ticks": 2,
       "title": "Extended super antifire",
       "types": [
         "Regular potions"
@@ -41334,6 +41502,7 @@
       "xpPerAction": 202.5
     },
     {
+      "boostable": false,
       "levelReq": 30,
       "materials": [
         {
@@ -41354,6 +41523,7 @@
         }
       ],
       "skill": "Prayer",
+      "ticks": 0,
       "title": "Blessed bone shards",
       "types": [
         "Blessed bone shards"
@@ -42193,6 +42363,7 @@
       "xpPerAction": 12.5
     },
     {
+      "boostable": true,
       "levelReq": 1,
       "materials": [
         {
@@ -42213,6 +42384,7 @@
         }
       ],
       "skill": "Smithing",
+      "ticks": 3,
       "title": "Bronze bar (smelting & smithing)",
       "types": [
         "Smelting & Smithing"
@@ -42882,6 +43054,7 @@
       "xpPerAction": 37.5
     },
     {
+      "boostable": true,
       "levelReq": 15,
       "materials": [
         {
@@ -42898,6 +43071,7 @@
         }
       ],
       "skill": "Smithing",
+      "ticks": 3,
       "title": "Iron bar (smelting & smithing)",
       "types": [
         "Smelting & Smithing"
@@ -42905,6 +43079,7 @@
       "xpPerAction": 37.5
     },
     {
+      "boostable": true,
       "levelReq": 15,
       "materials": [
         {
@@ -42921,6 +43096,7 @@
         }
       ],
       "skill": "Smithing",
+      "ticks": 3,
       "title": "Iron bar",
       "types": [
         "Smelting"
@@ -42928,6 +43104,7 @@
       "xpPerAction": 12.5
     },
     {
+      "boostable": true,
       "levelReq": 15,
       "materials": [
         {
@@ -42948,6 +43125,7 @@
         }
       ],
       "skill": "Smithing",
+      "ticks": 3,
       "title": "Iron bar (ring of forging)",
       "types": [
         "Smelting"
@@ -43816,6 +43994,7 @@
       "xpPerAction": 75
     },
     {
+      "boostable": true,
       "levelReq": 30,
       "materials": [
         {
@@ -43836,6 +44015,7 @@
         }
       ],
       "skill": "Smithing",
+      "ticks": 3,
       "title": "Steel bar (smelting & smithing)",
       "types": [
         "Smelting & Smithing"
@@ -43843,6 +44023,7 @@
       "xpPerAction": 55
     },
     {
+      "boostable": true,
       "levelReq": 30,
       "materials": [
         {
@@ -43863,6 +44044,7 @@
         }
       ],
       "skill": "Smithing",
+      "ticks": 3,
       "title": "Steel bar",
       "types": [
         "Smelting"
@@ -44510,6 +44692,7 @@
       "xpPerAction": 112.5
     },
     {
+      "boostable": true,
       "levelReq": 40,
       "materials": [
         {
@@ -44526,6 +44709,7 @@
         }
       ],
       "skill": "Smithing",
+      "ticks": 3,
       "title": "Gold bar",
       "types": [
         "Smelting"
@@ -44890,6 +45074,7 @@
       "xpPerAction": 0
     },
     {
+      "boostable": true,
       "levelReq": 50,
       "materials": [
         {
@@ -44910,6 +45095,7 @@
         }
       ],
       "skill": "Smithing",
+      "ticks": 3,
       "title": "Mithril bar (smelting & smithing)",
       "types": [
         "Smelting & Smithing"
@@ -44917,6 +45103,7 @@
       "xpPerAction": 80
     },
     {
+      "boostable": true,
       "levelReq": 50,
       "materials": [
         {
@@ -44937,6 +45124,7 @@
         }
       ],
       "skill": "Smithing",
+      "ticks": 3,
       "title": "Mithril bar",
       "types": [
         "Smelting"
@@ -45843,6 +46031,7 @@
       "xpPerAction": 62.5
     },
     {
+      "boostable": true,
       "levelReq": 70,
       "materials": [
         {
@@ -45863,6 +46052,7 @@
         }
       ],
       "skill": "Smithing",
+      "ticks": 3,
       "title": "Adamantite bar (smelting & smithing)",
       "types": [
         "Smelting & Smithing"
@@ -45870,6 +46060,7 @@
       "xpPerAction": 100
     },
     {
+      "boostable": true,
       "levelReq": 70,
       "materials": [
         {
@@ -45890,6 +46081,7 @@
         }
       ],
       "skill": "Smithing",
+      "ticks": 3,
       "title": "Adamantite bar",
       "types": [
         "Smelting"
@@ -46836,6 +47028,7 @@
       "xpPerAction": 75
     },
     {
+      "boostable": true,
       "levelReq": 85,
       "materials": [
         {
@@ -46856,6 +47049,7 @@
         }
       ],
       "skill": "Smithing",
+      "ticks": 3,
       "title": "Runite bar (smelting & smithing)",
       "types": [
         "Smelting & Smithing"
@@ -46863,6 +47057,7 @@
       "xpPerAction": 125
     },
     {
+      "boostable": true,
       "levelReq": 85,
       "materials": [
         {
@@ -46883,6 +47078,7 @@
         }
       ],
       "skill": "Smithing",
+      "ticks": 3,
       "title": "Runite bar",
       "types": [
         "Smelting"

@@ -33288,7 +33288,7 @@
       ]
     },
     {
-      "generic": false,
+      "generic": true,
       "id": null,
       "name": "Easter spices",
       "sources": []
@@ -90665,7 +90665,7 @@
       ]
     },
     {
-      "generic": false,
+      "generic": true,
       "id": null,
       "name": "Special egg",
       "sources": []
@@ -102307,7 +102307,7 @@
       ]
     },
     {
-      "generic": false,
+      "generic": true,
       "id": null,
       "name": "Uncooked easter bun",
       "sources": [
@@ -109091,7 +109091,7 @@
       ]
     },
     {
-      "generic": false,
+      "generic": true,
       "id": null,
       "name": "Yeastier dough",
       "sources": []
