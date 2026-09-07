@@ -11,8 +11,19 @@ export interface QuestPage {
   requirements: { skills: SkillReq[]; prereqs: string[] } | null;
 }
 
-const ITEM_LINE = /^\*+\[\[([^\]|]+)(?:\|[^\]]*)?\]\](?:\s*x\s*(\d+))?/;
-const SKILL_REQ_LINE = /^\*(?!\*)\{\{SCP\|([^|}]+)\|([^|}]+)/;
+/** Matches a `[[target]]` or `[[target|display]]` wikilink; capture group 1 is the target page. */
+export const WIKILINK = /\[\[([^\]|]+)(?:\|[^\]]*)?\]\]/;
+
+/** Matches a `{{SCP|Skill|Level|...}}` token; capture groups are the skill name and level. */
+export const SCP_SKILL_TOKEN = /\{\{SCP\|([^|}]+)\|([^|}]+?)(?:\|[^}]*)?\}\}/;
+
+/** True when `text` contains an explicit `{{Boostable|yes}}` or abbreviated `{{Boostable|y}}` tag (the codebase's convention: skill requirements default to non-boostable otherwise). Diary pages use the abbreviated `y`/`n` form; quest pages spell out `yes`/`no`. */
+export function boostableFromText(text: string): boolean {
+  return /\{\{Boostable\|y(?:es)?\}\}/i.test(text);
+}
+
+const ITEM_LINE = new RegExp(`^\\*+${WIKILINK.source}(?:\\s*x\\s*(\\d+))?`);
+const SKILL_REQ_LINE = new RegExp(`^\\*(?!\\*)${SCP_SKILL_TOKEN.source}`);
 const DIRECT_PREREQ_LINE = /^\*\*(?!\*)\[\[([^\]|]+)/;
 
 /**
@@ -111,7 +122,7 @@ function parseRequirements(value: string): { skills: SkillReq[]; prereqs: string
       skills.push({
         skill: skillMatch[1]!.trim(),
         level,
-        boostable: /\{\{Boostable\|yes\}\}/i.test(trimmed),
+        boostable: boostableFromText(trimmed),
         ironmanOnly: false,
       });
       continue;
