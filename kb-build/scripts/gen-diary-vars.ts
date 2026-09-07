@@ -10,15 +10,15 @@ import { pathToFileURL } from 'node:url';
 // (a directory containing one subdirectory per area, per AREA_DIRS below, each with
 // <FilePrefix>Easy.java / Medium.java / Hard.java / Elite.java files)
 //
-// Declaration order of the `notXxx = new VarplayerRequirement(...)` assignments in
-// these files is NOT reliably wiki task order: ArdougneElite.java declares its bits
-// as 6,7,9,8,10,11,12,13 and KourendMedium.java declares 25,13,14,... — both
-// scrambled relative to ascending bit order. Varrock (the one area with a wiki-text
-// fixture to verify against) has bits in ascending declaration order, matching wiki
-// order exactly. So rather than trust file order, this script sorts each tier's
-// entries by their underlying numeric id -- (varp id, bit) ascending for varp-style
-// tasks, varbit id ascending for varbit-style (Karamja) tasks -- which is consistent
-// for both known cases and doesn't depend on a developer's variable-declaration habits.
+// Entries are emitted in the SAME ORDER the `new VarplayerRequirement(...)` /
+// `new VarbitRequirement(...)` calls appear in each tier's source file. A prior
+// version of this script sorted by (varp, bit) ascending instead, reasoning that
+// ArdougneElite.java (bits 6,7,9,8,10,11,12,13) and KourendMedium.java (bits
+// 25,13,14,15,21,...) look scrambled relative to ascending bit order. That
+// reasoning was wrong: checked against the real wiki (via the built diaries.json),
+// declaration order matches wiki task order exactly for both, and the numeric sort
+// actually swapped Ardougne Elite tasks 3/4 and misordered nearly all of Kourend
+// Medium's 13 tasks. Declaration order is trusted as-is.
 
 export type VarpEntry = { varp: number; bit: number };
 export type VarbitEntry = { varbit: number; doneMin: number };
@@ -140,12 +140,12 @@ const VARP_TASK = /VarplayerRequirement\(VarPlayerID\.([A-Z0-9_]+),\s*false,\s*(
 const VARBIT_TASK = /VarbitRequirement\(VarbitID\.([A-Z0-9_]+),\s*(\d+)(?:,\s*Operation\.([A-Z_]+))?\)/g;
 
 /**
- * Extracts one tier's task-completion vars from its Quest Helper java source.
- * Recognizes the achievement-diary varp form (`VarplayerRequirement(VarPlayerID.<X>_ACHIEVEMENT_DIARY[2], false, bit)`)
+ * Extracts one tier's task-completion vars from its Quest Helper java source, in
+ * source declaration order (see file header). Recognizes the achievement-diary varp
+ * form (`VarplayerRequirement(VarPlayerID.<X>_ACHIEVEMENT_DIARY[2], false, bit)`)
  * and Karamja's varbit doneMin form (`VarbitRequirement(VarbitID.ATJUN_..., v[, Operation.LESS_EQUAL])`),
  * filtered against the known-id tables above so unrelated same-shaped calls
- * (memoir/zone/reward checks) are ignored. Returns entries sorted by their
- * underlying numeric id, not source declaration order (see file header).
+ * (memoir/zone/reward checks) are ignored.
  */
 export function parseTierJava(java: string): Entry[] {
   const varpEntries: VarpEntry[] = [...java.matchAll(VARP_TASK)]
@@ -170,9 +170,7 @@ export function parseTierJava(java: string): Entry[] {
     throw new Error('Found no diary task vars in this file');
   }
 
-  return varpEntries.length > 0
-    ? varpEntries.sort((a, b) => a.varp - b.varp || a.bit - b.bit)
-    : varbitEntries.sort((a, b) => a.varbit - b.varbit);
+  return varpEntries.length > 0 ? varpEntries : varbitEntries;
 }
 
 interface AreaVars {
