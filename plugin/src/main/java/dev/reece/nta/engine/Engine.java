@@ -134,7 +134,7 @@ public class Engine
 			: nextStepPicker.next(status, snapshot, kb);
 		Route route = next.getType() == NextStepType.SKILL ? next.getRoute() : null;
 		Shortfall shortfall = route != null && route.getUncoveredXp() > 0
-			? ShortfallResolver.resolve(next.getSkillGap().getSkill(), route, kb, snapshot.getAccountType())
+			? ShortfallResolver.resolve(next.getSkillGap().getSkill(), route, kb, snapshot)
 			: null;
 		int fromLevel = next.getType() == NextStepType.SKILL ? next.getSkillGap().getHave() : 0;
 		int toLevel = next.getType() == NextStepType.SKILL ? next.getSkillGap().getNeed() : 0;
