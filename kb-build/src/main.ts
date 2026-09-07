@@ -1,7 +1,8 @@
-import { existsSync, readFileSync } from 'node:fs';
+import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { buildDiaries, DIARY_PAGE_TITLES, type DiaryEntry, type DiaryVarsFile } from './diaries.js';
-import { writeKb } from './emit.js';
+import { emitJson, writeKb } from './emit.js';
+import { expandMilestoneItemIds, type ItemIdRow as ExpandItemIdRow, type MilestoneLike } from './expandItems.js';
 import { buildMaterials, collectReferencedItems, resolveItemIds, type DropslineRow, type ItemIdRow, type LoclineRow, type Material, type StorelineRow } from './materials.js';
 import { mergeRecipes, parseRecipeRow, parseSkillCalc, type Method, type RecipeRow } from './methods.js';
 import { buildQuests, type QuestEntry } from './quests.js';
@@ -209,6 +210,22 @@ function logMaterialsSummary(materials: Material[], unresolved: string[]): void 
   }
 }
 
+async function expandMilestonesCommand(): Promise<void> {
+  const path = join(kbDir, 'milestones.json');
+  const raw = JSON.parse(readFileSync(path, 'utf8')) as { version: number; milestones: MilestoneLike[] };
+
+  const rawItemIdRows = await bucket<{ page_name: string; id: string[] }>("bucket('item_id').select('page_name','id')");
+  const itemIdRows: ExpandItemIdRow[] = rawItemIdRows.map((row) => ({ page_name: row.page_name, id: row.id.map(Number) }));
+
+  const { milestones, summary } = expandMilestoneItemIds(raw.milestones, itemIdRows);
+
+  writeFileSync(path, emitJson({ version: raw.version, milestones }));
+
+  console.log(`Processed ${summary.itemsProcessed} milestone item entries (ownedIf + recommended.gearOwnedAny + requirements.items).`);
+  console.log(`Names with >1 id (${summary.multiId.length}): ${summary.multiId.join(', ')}`);
+  console.log(`Unresolved names (${summary.unresolved.length}): ${summary.unresolved.join(', ') || 'none'}`);
+}
+
 const command = process.argv[2];
 if (command === 'quests') {
   await buildQuestsCommand();
@@ -218,7 +235,9 @@ if (command === 'quests') {
   await buildMethodsCommand();
 } else if (command === 'materials') {
   await buildMaterialsCommand();
+} else if (command === 'expand-milestones') {
+  await expandMilestonesCommand();
 } else {
-  console.error(`Unknown command: ${String(command)}. Usage: npm run build-kb -- quests|diaries|methods|materials`);
+  console.error(`Unknown command: ${String(command)}. Usage: npm run build-kb -- quests|diaries|methods|materials|expand-milestones`);
   process.exit(1);
 }
