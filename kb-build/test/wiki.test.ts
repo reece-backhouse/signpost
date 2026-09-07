@@ -8,6 +8,14 @@ function jsonResponse(body: unknown): Response {
   });
 }
 
+function errorResponse(code: string, info: string): Response {
+  return jsonResponse({ error: { code, info } });
+}
+
+function httpErrorResponse(status: number): Response {
+  return new Response('', { status });
+}
+
 function revisionsBody(titles: string[]): unknown {
   return {
     query: {
@@ -64,6 +72,72 @@ describe('fetchRevisions', () => {
 
     await expect(fetchRevisions(['Present page'], fake)).rejects.toThrow(/Present page/);
   });
+
+  it('throws naming the error code on a MediaWiki error response (e.g. maxlag)', async () => {
+    const fake: FetchLike = vi.fn(async () =>
+      errorResponse('maxlag', 'Waiting for a database server: 5 seconds lagged'),
+    );
+
+    await expect(fetchRevisions(['X'], fake)).rejects.toThrow(/maxlag/);
+  });
+
+  it('throws on a non-2xx HTTP status', async () => {
+    const fake: FetchLike = vi.fn(async () => httpErrorResponse(503));
+
+    await expect(fetchRevisions(['X'], fake)).rejects.toThrow(/503/);
+  });
+
+  it('keys the result by the requested title when the API normalizes it', async () => {
+    const fake: FetchLike = vi.fn(async () =>
+      jsonResponse({
+        query: {
+          normalized: [{ from: 'song_of_the_elves', to: 'Song of the Elves' }],
+          pages: [
+            {
+              title: 'Song of the Elves',
+              revisions: [
+                { timestamp: '2026-01-01T00:00:00Z', slots: { main: { content: 'content' } } },
+              ],
+            },
+          ],
+        },
+      }),
+    );
+
+    const result = await fetchRevisions(['song_of_the_elves'], fake);
+
+    expect(result.get('song_of_the_elves')).toEqual({
+      content: 'content',
+      timestamp: '2026-01-01T00:00:00Z',
+    });
+    expect(result.has('Song of the Elves')).toBe(false);
+  });
+
+  it('keys the result by the requested title when the API resolves a redirect', async () => {
+    const fake: FetchLike = vi.fn(async () =>
+      jsonResponse({
+        query: {
+          redirects: [{ from: 'SOTE', to: 'Song of the Elves' }],
+          pages: [
+            {
+              title: 'Song of the Elves',
+              revisions: [
+                { timestamp: '2026-01-01T00:00:00Z', slots: { main: { content: 'content' } } },
+              ],
+            },
+          ],
+        },
+      }),
+    );
+
+    const result = await fetchRevisions(['SOTE'], fake);
+
+    expect(result.get('SOTE')).toEqual({
+      content: 'content',
+      timestamp: '2026-01-01T00:00:00Z',
+    });
+    expect(result.has('Song of the Elves')).toBe(false);
+  });
 });
 
 describe('bucket', () => {
@@ -109,5 +183,19 @@ describe('bucket', () => {
     });
 
     await bucket('bucket("test")', fake);
+  });
+
+  it('throws naming the error code on a MediaWiki error response (e.g. maxlag)', async () => {
+    const fake: FetchLike = vi.fn(async () =>
+      errorResponse('maxlag', 'Waiting for a database server: 5 seconds lagged'),
+    );
+
+    await expect(bucket('bucket("test")', fake)).rejects.toThrow(/maxlag/);
+  });
+
+  it('throws on a non-2xx HTTP status', async () => {
+    const fake: FetchLike = vi.fn(async () => httpErrorResponse(503));
+
+    await expect(bucket('bucket("test")', fake)).rejects.toThrow(/503/);
   });
 });
