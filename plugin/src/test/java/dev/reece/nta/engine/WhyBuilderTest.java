@@ -105,6 +105,18 @@ class WhyBuilderTest
 	}
 
 	@Test
+	void laterGoalNeverSaysReadyNowEvenWithNoGaps()
+	{
+		GoalStatus status = status("boss:test", GoalCategory.BOSS, List.of(), true, false);
+		RankedGoal later = new RankedGoal(status, 0.25, false, true);
+
+		String why = whyBuilder.why(later, kb, snap);
+
+		assertFalse(why.contains("Ready now"), why);
+		assertTrue(why.startsWith("later: stage " + status.getGoal().getStage()), why);
+	}
+
+	@Test
 	void recommendedClauseListsRecommendedSkillAndGearGaps()
 	{
 		GoalStatus status = status("boss:test", GoalCategory.BOSS,

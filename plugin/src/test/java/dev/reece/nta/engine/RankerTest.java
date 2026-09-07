@@ -167,6 +167,23 @@ class RankerTest
 	}
 
 	@Test
+	void laterGoalNeverEntersTheReadyTierEvenWhenItsGapsAreEmpty()
+	{
+		// Ready (no gaps) but stage 4, more than one stage above account stage 2: score 5 * 1 * 0.05 = 0.25.
+		GoalStatus readyButLater = status("later", GoalCategory.BOSS, 5, 4, List.of());
+		// Not ready (one gap) but current stage 2: score 9 * 1/(1+1) = 4.5 - higher priority, lower score than
+		// readyButLater's unpenalised score would be, but readyButLater must still rank last.
+		GoalStatus currentStageWithGaps = status("current", GoalCategory.QUEST, 9, 2, List.of(new CombatLevelGap(1, 2, false)));
+
+		List<RankedGoal> ranked = ranker.rank(List.of(readyButLater, currentStageWithGaps), Set.of(), List.of(), 2);
+
+		assertEquals(List.of("current", "later"), ids(ranked), "a later goal must never outrank a stage-appropriate goal: " + ids(ranked));
+		assertEquals(9.0 * 0.5, ranked.get(0).getScore(), 1e-9);
+		assertEquals(5.0 * 0.05, ranked.get(1).getScore(), 1e-9);
+		assertTrue(ranked.get(1).isLater());
+	}
+
+	@Test
 	void goalExactlyOneStageAboveAccountStageIsNotLater()
 	{
 		GoalStatus stageThree = status("m", GoalCategory.MILESTONE, 5, 3, List.of());

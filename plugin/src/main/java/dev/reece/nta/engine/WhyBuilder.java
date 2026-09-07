@@ -35,10 +35,12 @@ public final class WhyBuilder
 		GoalStatus status = r.getStatus();
 		Goal goal = status.getGoal();
 		List<Gap> gaps = status.getGaps();
-		boolean readyNow = status.isReady() && !status.isBankUnknown();
+		// A later goal (spec ruling 27) is never "Ready now", even with empty gaps - Ranker already
+		// keeps it out of the ready tier for the same reason.
+		boolean readyNow = !r.isLater() && status.isReady() && !status.isBankUnknown();
 
 		List<String> clauses = new ArrayList<>();
-		clauses.add(readyNow ? "Ready now" : awayClause(gaps));
+		clauses.add(r.isLater() ? "later: stage " + goal.getStage() : (readyNow ? "Ready now" : awayClause(gaps)));
 
 		if (clauses.size() < MAX_CLAUSES && status.isBankUnknown())
 		{

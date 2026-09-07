@@ -67,24 +67,29 @@ public final class Ranker
 
 		List<RankedGoal> ready = new ArrayList<>();
 		List<RankedGoal> rest = new ArrayList<>();
+		List<RankedGoal> later = new ArrayList<>();
 		for (GoalStatus status : byId.values())
 		{
 			if (used.contains(status.getGoal().getId()))
 			{
 				continue;
 			}
-			boolean later = status.getGoal().getStage() > accountStage + 1;
-			double score = later ? score(status) * LATER_PENALTY : score(status);
-			RankedGoal ranked = new RankedGoal(status, score, false, later);
-			(isReadyNow(status) ? ready : rest).add(ranked);
+			boolean isLater = status.getGoal().getStage() > accountStage + 1;
+			double score = isLater ? score(status) * LATER_PENALTY : score(status);
+			RankedGoal ranked = new RankedGoal(status, score, false, isLater);
+			// A later goal never enters the ready tier, regardless of its own gaps: readiness within
+			// the account's own stage range must always outrank a stage-inappropriate goal.
+			(isLater ? later : (isReadyNow(status) ? ready : rest)).add(ranked);
 		}
 		ready.sort(BY_SCORE_THEN_PRIORITY_THEN_NAME);
 		rest.sort(BY_SCORE_THEN_PRIORITY_THEN_NAME);
+		later.sort(BY_SCORE_THEN_PRIORITY_THEN_NAME);
 
-		List<RankedGoal> result = new ArrayList<>(pinned.size() + ready.size() + rest.size());
+		List<RankedGoal> result = new ArrayList<>(pinned.size() + ready.size() + rest.size() + later.size());
 		result.addAll(pinned);
 		result.addAll(ready);
 		result.addAll(rest);
+		result.addAll(later);
 		return result;
 	}
 
