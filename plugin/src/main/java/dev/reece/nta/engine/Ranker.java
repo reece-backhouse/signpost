@@ -26,6 +26,10 @@ public final class Ranker
 		.comparingDouble(RankedGoal::getScore).reversed()
 		// Fix round 1: an uncovered skill target scores exactly as its parent - the parent goes first.
 		.thenComparing((RankedGoal r) -> r.getStatus().isUncoveredTarget() ? 1 : 0)
+		// Task 54: on an equal score, the closer progression rung (lower stage) wins - e.g. Moons of
+		// Peril (stage 2) over God Wars Dungeon (stage 3) for a stage-3 account, both scoring 8.00 and
+		// landing in the same stage-proximity group (task 46), where name order alone got this wrong.
+		.thenComparingInt(r -> r.getStatus().getGoal().getStage())
 		.thenComparing((RankedGoal r) -> r.getStatus().getGoal().getPriority(), Comparator.reverseOrder())
 		.thenComparing(r -> r.getStatus().getGoal().getName());
 
