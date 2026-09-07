@@ -9,9 +9,13 @@ import net.runelite.api.Skill;
  * "Chop willow trees", ...). {@code intermediate} methods (e.g. unfinished potions) grant 0 xp and
  * exist only so {@link dev.reece.nta.engine.RoutePlanner} and
  * {@link dev.reece.nta.engine.ShortfallResolver} can recurse one level into them when a real
- * method's material is itself craftable. {@code usable} is false when any material or output name
+ * method's material is itself craftable. {@code usable} is false when any MATERIAL (input) name
  * didn't resolve to a known {@code materials.json} entry (id stays {@code null} on that
- * {@link ItemQuantity}); such a method is kept for display but never a route candidate.
+ * {@link ItemQuantity}); such a method is kept for display but never a route candidate. An
+ * unresolved OUTPUT doesn't affect {@code usable} - it just isn't added to a simulated bank (its
+ * {@code id} stays {@code null} too) - since a method with a generic byproduct is still perfectly
+ * trainable. This matters a lot in the bundled data: 281 of Magic's 286 methods have a generic
+ * output.
  */
 @Value
 public class MethodEntry

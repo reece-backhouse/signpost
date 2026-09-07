@@ -81,6 +81,12 @@ public final class RoutePlanner
 			}
 			for (ItemQuantity output : best.getOutputs())
 			{
+				if (output.getId() == null)
+				{
+					// Unresolved (generic) output: not tracked in the simulated bank, but the method
+					// stays usable as long as its own materials (inputs) all resolve.
+					continue;
+				}
 				int produced = (int) Math.floor(count * output.getQuantity());
 				simBank.merge(output.getId(), produced, Integer::sum);
 			}

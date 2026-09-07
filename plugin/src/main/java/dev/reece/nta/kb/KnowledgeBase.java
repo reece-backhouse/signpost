@@ -511,20 +511,26 @@ public final class KnowledgeBase
 		}
 		Skill skill = resolveSkill(dto.skill, context);
 
+		// usable depends only on materials (inputs) resolving to an id: a method the route planner
+		// can never afford (a required input has no known item) is unusable. An unresolved OUTPUT
+		// (e.g. a generic-named byproduct) doesn't block the method - RoutePlanner just doesn't add
+		// it to the simulated bank (see ItemQuantity#getId()). This matters a lot in practice: 281
+		// of Magic's 286 methods have a generic output (e.g. rune/tablet-adjacent byproducts) and
+		// would otherwise be wrongly excluded from every route.
 		boolean[] usable = {true};
 		List<ItemQuantity> materials = dto.materials.stream().map(i -> toItemQuantity(i, materialIdsByName, usable)).collect(Collectors.toList());
-		List<ItemQuantity> outputs = dto.outputs.stream().map(i -> toItemQuantity(i, materialIdsByName, usable)).collect(Collectors.toList());
+		List<ItemQuantity> outputs = dto.outputs.stream().map(i -> toItemQuantity(i, materialIdsByName, null)).collect(Collectors.toList());
 
 		return new MethodEntry(skill, dto.name, dto.title, dto.levelReq, dto.xpPerAction, List.copyOf(materials), List.copyOf(outputs),
 			List.copyOf(dto.types), dto.members, Boolean.TRUE.equals(dto.boostable), dto.ticks, Boolean.TRUE.equals(dto.intermediate),
 			usable[0]);
 	}
 
-	/** {@code usable} is flipped to {@code false} (in place) when {@code dto.name} has no {@code materials.json} entry. */
+	/** {@code usable} (when non-null) is flipped to {@code false} (in place) when {@code dto.name} has no {@code materials.json} entry. */
 	private static ItemQuantity toItemQuantity(ItemQtyDto dto, Map<String, Integer> materialIdsByName, boolean[] usable)
 	{
 		Integer id = materialIdsByName.get(dto.name);
-		if (id == null)
+		if (id == null && usable != null)
 		{
 			usable[0] = false;
 		}

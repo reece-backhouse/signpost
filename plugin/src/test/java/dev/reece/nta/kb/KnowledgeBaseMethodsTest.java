@@ -92,6 +92,39 @@ class KnowledgeBaseMethodsTest
 	}
 
 	@Test
+	void methodWithAnUnresolvedOutputButResolvableMaterialsIsUsable()
+	{
+		String methodsJson = "{\"version\":1,\"generatedAt\":\"x\",\"methods\":[{\"skill\":\"Herblore\",\"name\":\"Test Method\","
+			+ "\"title\":\"Test Method\",\"levelReq\":1,\"xpPerAction\":10,\"materials\":[{\"name\":\"Ranarr weed\",\"quantity\":1}],"
+			+ "\"outputs\":[{\"name\":\"Not A Real Output\",\"quantity\":1}],\"types\":[],\"members\":false}]}";
+
+		KnowledgeBase kb = KnowledgeBase.fromJson(new Gson(), EMPTY_QUESTS_JSON, EMPTY_DIARIES_JSON, EMPTY_MILESTONES_JSON,
+			EMPTY_PRIORITIES_JSON, methodsJson, materialsJsonWithRanarrWeed());
+
+		MethodEntry entry = kb.methodsFor(Skill.HERBLORE).get(0);
+		assertTrue(entry.isUsable(), "an unresolved output must not block usability");
+		assertNotNull(entry.getMaterials().get(0).getId());
+		assertEquals(null, entry.getOutputs().get(0).getId());
+	}
+
+	@Test
+	void bundledMagicMethodsAreMostlyUsableDespiteGenericOutputs()
+	{
+		KnowledgeBase kb = KnowledgeBase.load(new Gson());
+
+		long usableTrainable = kb.methodsFor(Skill.MAGIC).stream()
+			.filter(m -> m.isUsable() && !m.isIntermediate() && m.getXpPerAction() > 0)
+			.count();
+
+		assertTrue(usableTrainable >= 50, "expected at least 50 usable non-intermediate Magic methods, got " + usableTrainable);
+	}
+
+	private static String materialsJsonWithRanarrWeed()
+	{
+		return "{\"version\":1,\"generatedAt\":\"x\",\"materials\":[{\"name\":\"Ranarr weed\",\"id\":257,\"generic\":false,\"sources\":[]}]}";
+	}
+
+	@Test
 	void methodWithLevelReqOutsideOneToNinetyNineFailsLoudlyNamingTheMethod()
 	{
 		String methodsJson = "{\"version\":1,\"generatedAt\":\"x\",\"methods\":[{\"skill\":\"Herblore\",\"name\":\"Bad Method\","
