@@ -80,9 +80,7 @@ public final class StageEstimator
 	{
 		for (OwnedItem owned : ownedIf)
 		{
-			if (snapshot.getInventory().getOrDefault(owned.getId(), 0) > 0
-				|| snapshot.getEquipment().getOrDefault(owned.getId(), 0) > 0
-				|| (snapshot.isBankKnown() && snapshot.getBank().getOrDefault(owned.getId(), 0) > 0))
+			if (GapEngine.anyIdHeld(owned.getIds(), snapshot))
 			{
 				return true;
 			}

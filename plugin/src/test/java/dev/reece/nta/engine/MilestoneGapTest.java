@@ -41,6 +41,23 @@ class MilestoneGapTest
 	}
 
 	@Test
+	void gearMilestoneDoneWhenOwnedViaAWikiVariantIdNotThePrimaryId()
+	{
+		// Real bug: Dragon defender's ownedIf carried only id 12954, so a player holding the
+		// trimmed variant (27008) was told to go get one they already owned.
+		KnowledgeBase kb = new KbBuilder()
+			.milestone("milestone:dragon-defender", MilestoneCategory.GEAR, "Dragon defender", 5)
+			.ownedIf("Dragon defender", 12954, 19722, 20463, 24143, 27008)
+			.build();
+		Snapshot snapshot = new SnapshotBuilder().inventoryItem(27008, "Dragon defender (t)", 1).build();
+
+		List<GoalStatus> statuses = engine.evaluate(snapshot, kb);
+
+		assertFalse(hasGoal(statuses, "milestone:dragon-defender"),
+			"owning a variant id should count as owning the gear milestone: " + statuses);
+	}
+
+	@Test
 	void gearMilestoneNotDoneAndBankUnknownWhenBankUnseenAndNothingOwnedElsewhere()
 	{
 		KnowledgeBase kb = new KbBuilder()
@@ -162,6 +179,43 @@ class MilestoneGapTest
 		assertEquals(1, gap.getNeed());
 		assertTrue(gap.getSources().isEmpty(), "GE source should be filtered out for an iron: " + gap.getSources());
 		assertTrue(gap.isMustObtain());
+	}
+
+	@Test
+	void milestoneItemRequirementSumsHaveAcrossVariantIds()
+	{
+		KnowledgeBase kb = new KbBuilder()
+			.milestone("milestone:test-item-ids", MilestoneCategory.UNLOCK, "Test Item Ids", 5)
+			.itemIds("Mithril arrow", 884, 5, 9236, 9237)
+			.build();
+		Snapshot snapshot = new SnapshotBuilder()
+			.inventoryItem(884, "Mithril arrow", 2)
+			.bankItem(9236, "Mithril arrow(p)", 3)
+			.build();
+
+		List<GoalStatus> statuses = engine.evaluate(snapshot, kb);
+
+		assertFalse(hasGoal(statuses, "milestone:test-item-ids"),
+			"2 + 3 across variant ids should meet a requirement of 5: " + statuses);
+	}
+
+	@Test
+	void milestoneItemRequirementGapByIdIsStillShortWhenVariantsDontSumEnough()
+	{
+		KnowledgeBase kb = new KbBuilder()
+			.milestone("milestone:test-item-ids", MilestoneCategory.UNLOCK, "Test Item Ids", 5)
+			.itemIds("Mithril arrow", 884, 5, 9236, 9237)
+			.build();
+		Snapshot snapshot = new SnapshotBuilder()
+			.inventoryItem(884, "Mithril arrow", 2)
+			.bankItem(9236, "Mithril arrow(p)", 1)
+			.build();
+
+		GoalStatus status = goalFor(engine.evaluate(snapshot, kb), "milestone:test-item-ids");
+		ItemGap gap = (ItemGap) onlyGap(status);
+
+		assertEquals(3, gap.getHave());
+		assertEquals(5, gap.getNeed());
 	}
 
 	@Test

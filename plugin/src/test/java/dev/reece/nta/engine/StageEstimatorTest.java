@@ -97,6 +97,18 @@ class StageEstimatorTest
 	}
 
 	@Test
+	void owningAGearMilestoneViaAWikiVariantIdCountsTowardStage()
+	{
+		KnowledgeBase kb = new KbBuilder()
+			.milestone("g:1", MilestoneCategory.GEAR, "Gear One", 5).ownedIf("Item One", 101, 201).stage(2)
+			.milestone("g:2", MilestoneCategory.GEAR, "Gear Two", 5).ownedIf("Item Two", 102).stage(2)
+			.build();
+		Snapshot snapshot = new SnapshotBuilder().inventoryItem(201, "Item One (variant)", 1).inventoryItem(102, "Item Two", 1).build();
+
+		assertEquals(2, StageEstimator.estimate(snapshot, kb));
+	}
+
+	@Test
 	void combatOneTenAndTotalLevelNineteenHundredReachesStageThree()
 	{
 		SnapshotBuilder builder = new SnapshotBuilder();

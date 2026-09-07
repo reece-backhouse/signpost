@@ -245,7 +245,16 @@ public class NextTargetPlugin extends Plugin
 	@Subscribe
 	public void onItemContainerChanged(ItemContainerChanged event)
 	{
-		if (event.getContainerId() != InventoryID.BANK.getId())
+		int containerId = event.getContainerId();
+		if (containerId == InventoryID.INVENTORY.getId() || containerId == InventoryID.EQUIPMENT.getId())
+		{
+			// The first post-login GameTick can fire before these containers are populated, so a
+			// login-time snapshot may wrongly see them empty; request a fresh one once they report.
+			requestSnapshot();
+			return;
+		}
+
+		if (containerId != InventoryID.BANK.getId())
 		{
 			return;
 		}
