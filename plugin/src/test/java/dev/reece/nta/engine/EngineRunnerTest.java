@@ -84,7 +84,12 @@ class EngineRunnerTest
 	void aThrowingTaskIsReportedAndDoesNotStopTheNextSubmission() throws InterruptedException
 	{
 		List<Throwable> reported = new CopyOnWriteArrayList<>();
-		EngineRunner runner = new EngineRunner(reported::add);
+		CountDownLatch twoReported = new CountDownLatch(2);
+		EngineRunner runner = new EngineRunner(e ->
+		{
+			reported.add(e);
+			twoReported.countDown();
+		});
 		CountDownLatch delivered = new CountDownLatch(1);
 		AtomicReference<String> result = new AtomicReference<>();
 
@@ -96,6 +101,9 @@ class EngineRunnerTest
 		{
 			throw new IllegalStateException("onResult boom");
 		});
+		// Wait for both failures before the next submit, which would otherwise supersede the
+		// second task's generation and legitimately skip its onResult.
+		assertTrue(twoReported.await(5, TimeUnit.SECONDS), "both failures must be reported");
 		runner.submit(() -> "second", r ->
 		{
 			result.set(r);
