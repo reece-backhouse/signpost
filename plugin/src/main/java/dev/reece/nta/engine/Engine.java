@@ -71,11 +71,13 @@ public class Engine
 		List<RankedGoal> rest = restAll.stream().filter(r -> !r.isLater()).collect(Collectors.toList());
 
 		Map<String, String> whys = new LinkedHashMap<>();
+		Map<String, List<String>> explanations = new LinkedHashMap<>();
 		Map<String, String> reasons = new LinkedHashMap<>();
 		for (RankedGoal r : ranked)
 		{
 			String goalId = r.getStatus().getGoal().getId();
 			whys.put(goalId, whyBuilder.why(r, kb, snapshot));
+			explanations.put(goalId, whyBuilder.explain(r, kb, snapshot, accountStage));
 
 			MilestoneEntry entry = kb.milestoneById(goalId);
 			if (entry != null && entry.getReason() != null && !entry.getReason().isEmpty())
@@ -86,7 +88,7 @@ public class Engine
 
 		FocusDetail focus = computeFocus(prefs, statuses, snapshot, kb);
 
-		return new Advice(snapshot, statuses, diaryProgress, now, ranked, picked, rest, accountStage, later, whys, reasons, prefs, focus);
+		return new Advice(snapshot, statuses, diaryProgress, now, ranked, picked, rest, accountStage, later, whys, explanations, reasons, prefs, focus);
 	}
 
 	/** Thin overload for callers with no account data (e.g. existing tests): behaves as {@link #run} with an empty {@link AccountData} and the current time. */

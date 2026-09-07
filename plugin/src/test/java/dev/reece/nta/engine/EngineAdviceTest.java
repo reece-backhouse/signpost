@@ -72,6 +72,23 @@ class EngineAdviceTest
 	}
 
 	@Test
+	void explanationsAreKeyedForEveryRankedGoalWithOneToSixShortLines()
+	{
+		KnowledgeBase kb = fiveQuestKb();
+		Snapshot snapshot = new SnapshotBuilder().build();
+
+		Advice advice = engine.run(snapshot, kb, AccountData.empty(), now);
+
+		for (RankedGoal r : advice.getRanked())
+		{
+			List<String> lines = advice.getExplanations().get(id(r));
+			assertTrue(lines != null && !lines.isEmpty() && lines.size() <= 6, "explanation for " + id(r) + ": " + lines);
+			assertEquals(new WhyBuilder().explain(r, kb, snapshot, advice.getAccountStage()), lines);
+		}
+		assertEquals(advice.getRanked().size(), advice.getExplanations().size(), "no stray explanation entries beyond ranked");
+	}
+
+	@Test
 	void ignoredGoalsAreAbsentFromRanked()
 	{
 		KnowledgeBase kb = fiveQuestKb();
@@ -260,6 +277,10 @@ class EngineAdviceTest
 		System.out.println("mid-game account top three (task 51): " + advice.getPicked().stream()
 			.map(r -> r.getStatus().getGoal().getId() + " \"" + r.getStatus().getGoal().getName() + "\"")
 			.collect(Collectors.toList()));
+		for (String line : AdviceDiagnostics.lines(advice))
+		{
+			System.out.println("  " + line);
+		}
 	}
 
 	/** The mid-game group ironman account described on {@link #midGameAccountDoesNotSeeEndgameBossesAsReadyOrPicked}. */
