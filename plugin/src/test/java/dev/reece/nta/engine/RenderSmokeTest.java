@@ -1,13 +1,20 @@
 package dev.reece.nta.engine;
 
 import dev.reece.nta.engine.model.Advice;
+import dev.reece.nta.engine.model.FocusDetail;
 import dev.reece.nta.engine.model.Goal;
 import dev.reece.nta.engine.model.GoalCategory;
 import dev.reece.nta.engine.model.GoalRef;
 import dev.reece.nta.engine.model.GoalStatus;
+import dev.reece.nta.engine.model.PlanOffer;
 import dev.reece.nta.engine.model.RankedGoal;
 import dev.reece.nta.engine.model.Route;
+import dev.reece.nta.engine.model.Shortfall;
+import dev.reece.nta.engine.model.ShortfallItem;
 import dev.reece.nta.engine.model.SkillLevelGap;
+import dev.reece.nta.kb.GatheringAlternative;
+import dev.reece.nta.kb.GatheringPlan;
+import dev.reece.nta.kb.GatheringRequires;
 import dev.reece.nta.kb.KnowledgeBase;
 import dev.reece.nta.kb.MilestoneCategory;
 import dev.reece.nta.snapshot.Snapshot;
@@ -360,6 +367,73 @@ class RenderSmokeTest
 			{
 				GoalDetailPanel panel = new GoalDetailPanel(actions);
 				panel.render(advice);
+			});
+		}
+		catch (InvocationTargetException e)
+		{
+			if (e.getCause() instanceof HeadlessException)
+			{
+				Assumptions.abort("Headless environment cannot construct Swing components: " + e.getCause().getMessage());
+			}
+			throw e;
+		}
+	}
+
+	/**
+	 * Task 52b-2, spec ruling 28: as {@link #constructsAndRendersGoalDetailPanelWithARouteAndAShortfallWithoutThrowing},
+	 * but the real engine-produced shortfall item's {@code plans} is replaced with a hand-built
+	 * {@link PlanOffer} carrying two steps and one alternative, to exercise the gathering-plan
+	 * rendering and its "Alternatives" toggle without needing a KbBuilder gathering-plan chain.
+	 */
+	@Test
+	void goalDetailPanelRendersAGatheringPlanWithStepsAndAnAlternative() throws Exception
+	{
+		int ranarrUnf = 200;
+		KnowledgeBase kb = new KbBuilder()
+			.quest(0, "Test Quest").skill(Skill.HERBLORE, 20)
+			.method(Skill.HERBLORE, "Prayer potion(3)", 1, 4)
+			.material(ranarrUnf, 1)
+			.material("Ranarr potion (unf)", ranarrUnf)
+			.source("GE", "Grand Exchange")
+			.build();
+		Snapshot snapshot = new SnapshotBuilder().bankItem(ranarrUnf, "Ranarr potion (unf)", 2).build();
+		AccountData data = new AccountData(new HashMap<>(), null, new HashMap<>(), new HashSet<>(), new ArrayList<>(), "quest:0");
+		Advice base = new Engine(new BoostTable()).run(snapshot, kb, data, Instant.now());
+		assertNotNull(base.getFocus(), "fixture must produce a focus for the render to exercise the detail panel");
+		assertNotNull(base.getFocus().getShortfall(), "fixture must produce a shortfall (bank only partly covers the route)");
+		ShortfallItem baseItem = base.getFocus().getShortfall().getItems().get(0);
+
+		GatheringRequires requires = new GatheringRequires(List.of(), null, List.of(), List.of(), null);
+		GatheringAlternative alternative = new GatheringAlternative("Kill blue dragons",
+			List.of("Travel to the dragon lair", "Kill and collect scales"), requires);
+		GatheringPlan plan = new GatheringPlan("Ranarr potion (unf)", ranarrUnf, "Farm ranarr weeds", requires, 120,
+			List.of("Plant ranarr seeds at Falador farm", "Harvest and return"), List.of(alternative),
+			"https://oldschool.runescape.wiki/w/Ranarr_weed");
+		PlanOffer offer = new PlanOffer(plan, true, List.of());
+		ShortfallItem itemWithPlan = new ShortfallItem(baseItem.getItem(), baseItem.getHave(), baseItem.getNeed(),
+			baseItem.getSources(), baseItem.getCraftFrom(), baseItem.getWikiUrl(), List.of(offer));
+		Shortfall shortfall = new Shortfall(base.getFocus().getShortfall().getMethod(), List.of(itemWithPlan));
+		FocusDetail focus = new FocusDetail(base.getFocus().getStatus(), base.getFocus().getNext(), base.getFocus().getRoute(), shortfall,
+			base.getFocus().getFromLevel(), base.getFocus().getToLevel());
+
+		Advice advice = new Advice(base.getSnapshot(), base.getStatuses(), base.getDiaryProgress(), base.getComputedAt(),
+			base.getRanked(), base.getPicked(), base.getRest(), base.getAccountStage(), base.getLater(), base.getWhys(),
+			base.getExplanations(), base.getReasons(), base.getPrefs(), focus);
+
+		Consumer<String> noop = id -> { };
+		GoalDetailPanel.Actions actions = new GoalDetailPanel.Actions(noop, () -> { });
+
+		try
+		{
+			SwingUtilities.invokeAndWait(() ->
+			{
+				GoalDetailPanel panel = new GoalDetailPanel(actions);
+				panel.render(advice);
+
+				assertTrue(containsLabelContaining(panel, "Farm ranarr weeds"), "plan title must render");
+				assertTrue(containsLabelContaining(panel, "Plant ranarr seeds at Falador farm"), "first step must render");
+				assertTrue(containsLabelContaining(panel, "Harvest and return"), "second step must render");
+				assertTrue(containsLabelContaining(panel, "Alternatives (1)"), "alternatives toggle must render");
 			});
 		}
 		catch (InvocationTargetException e)
