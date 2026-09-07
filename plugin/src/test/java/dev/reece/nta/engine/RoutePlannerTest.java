@@ -166,6 +166,44 @@ class RoutePlannerTest
 	}
 
 	@Test
+	void affordabilityAccountsForTwoMaterialsWhoseIntermediatesShareARawIngredientAndNeverGoesNegative()
+	{
+		// M needs X and Y, one each per action; both are crafted purely from the same raw item R.
+		// R=5 covers at most 2 actions of M (2R for X + 2R for Y = 4R, 1 left over) - never 5, which
+		// is what independently checking X's and Y's craftability against the same undecremented
+		// bank would wrongly report.
+		KnowledgeBase kb = new KbBuilder()
+			.method(Skill.HERBLORE, "M", 1, 10)
+			.material(10, 1)
+			.material(11, 1)
+			.method(Skill.HERBLORE, "MakeX", 1, 0)
+			.material(1, 1)
+			.output(10, 1)
+			.intermediate()
+			.method(Skill.HERBLORE, "MakeY", 1, 0)
+			.material(1, 1)
+			.output(11, 1)
+			.intermediate()
+			.build();
+		Map<Integer, Integer> bank = new HashMap<>();
+		bank.put(1, 5);
+
+		Route route = RoutePlanner.route(Skill.HERBLORE, 0, 1000, bank, kb);
+
+		assertEquals(1, route.getSteps().size());
+		RouteStep step = route.getSteps().get(0);
+		assertEquals("M", step.getMethod().getName());
+		assertEquals(2, step.getCount());
+		for (Map.Entry<Integer, Integer> entry : route.getSimulatedBank().entrySet())
+		{
+			assertTrue(entry.getValue() >= 0, "simulated bank must never go negative: " + route.getSimulatedBank());
+		}
+		assertEquals(1, route.getSimulatedBank().get(1));
+		assertEquals(0, route.getSimulatedBank().getOrDefault(10, 0));
+		assertEquals(0, route.getSimulatedBank().getOrDefault(11, 0));
+	}
+
+	@Test
 	void sameInputsProduceAnIdenticalRoute()
 	{
 		KnowledgeBase kb = new KbBuilder()

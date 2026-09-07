@@ -7,6 +7,7 @@ import dev.reece.nta.kb.KnowledgeBase;
 import dev.reece.nta.kb.MethodEntry;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -78,6 +79,7 @@ public final class RoutePlanner
 					}
 				}
 				simBank.merge(material.getId(), -need, Integer::sum);
+				assertNonNegative(simBank, material.getId(), best);
 			}
 			for (ItemQuantity output : best.getOutputs())
 			{
@@ -140,6 +142,7 @@ public final class RoutePlanner
 			int need = (int) Math.ceil(craftCount * material.getQuantity());
 			materialsUsed.merge(material.getId(), need, Integer::sum);
 			simBank.merge(material.getId(), -need, Integer::sum);
+			assertNonNegative(simBank, material.getId(), intermediate);
 		}
 		int produced = (int) Math.floor(craftCount * outputQty);
 		simBank.merge(itemId, produced, Integer::sum);
@@ -147,12 +150,54 @@ public final class RoutePlanner
 		return new RouteStep(intermediate, craftCount, level, level, 0, Map.copyOf(materialsUsed), List.of());
 	}
 
+	/** Fail loud (never silently let a simulated bank entry go negative) rather than produce a route that spends items it doesn't have. */
+	private static void assertNonNegative(Map<Integer, Integer> bank, int itemId, MethodEntry method)
+	{
+		Integer qty = bank.get(itemId);
+		if (qty != null && qty < 0)
+		{
+			throw new IllegalStateException(
+				"Route simulation drove item " + itemId + " negative (" + qty + ") consuming materials for \"" + method.getName() + "\"");
+		}
+	}
+
 	/**
 	 * The affordable action count for {@code method} from {@code simBank}, where a short material
 	 * may be topped up by {@link #maxCraftable} - one level of intermediate crafting, no deeper
-	 * recursion. 0 when any material can't be reached at all.
+	 * recursion. Two materials whose intermediates draw on the same raw ingredient (or that overlap
+	 * with the method's own other material) can't both be checked independently against the same
+	 * undecremented bank - that double-counts the shared stock and can drive {@code simBank}
+	 * negative once actions actually run. So this binary-searches the true count: {@link #feasible}
+	 * simulates {@code count} actions (materials + crafts) against a scratch copy of the bank and
+	 * reports whether every entry stays non-negative, which is monotonic in {@code count} (higher
+	 * count only needs more, never less), so binary search converges on the exact answer.
+	 * {@code independentUpperBound} - the old per-material calculation - only bounds the search.
 	 */
 	private static int affordable(MethodEntry method, Skill skill, Map<Integer, Integer> simBank, KnowledgeBase kb)
+	{
+		int upperBound = independentUpperBound(method, skill, simBank, kb);
+		if (upperBound <= 0)
+		{
+			return 0;
+		}
+		int low = 0;
+		int high = upperBound;
+		while (low < high)
+		{
+			int mid = low + (high - low + 1) / 2;
+			if (feasible(method, mid, skill, simBank, kb))
+			{
+				low = mid;
+			}
+			else
+			{
+				high = mid - 1;
+			}
+		}
+		return low;
+	}
+
+	private static int independentUpperBound(MethodEntry method, Skill skill, Map<Integer, Integer> simBank, KnowledgeBase kb)
 	{
 		int min = Integer.MAX_VALUE;
 		for (ItemQuantity material : method.getMaterials())
@@ -162,6 +207,45 @@ public final class RoutePlanner
 			min = Math.min(min, afford);
 		}
 		return min == Integer.MAX_VALUE ? 0 : min;
+	}
+
+	/** Whether {@code count} actions of {@code method} are jointly affordable: simulated against a scratch copy of
+	 * {@code bank}, crafting each short material (one level, from whatever the scratch bank has left at that point)
+	 * and failing as soon as a material can't be fully covered. */
+	private static boolean feasible(MethodEntry method, int count, Skill skill, Map<Integer, Integer> bank, KnowledgeBase kb)
+	{
+		Map<Integer, Integer> scratch = new HashMap<>(bank);
+		for (ItemQuantity material : method.getMaterials())
+		{
+			int need = (int) Math.ceil(count * material.getQuantity());
+			int have = scratch.getOrDefault(material.getId(), 0);
+			if (have < need && !craftIntoScratch(material.getId(), need - have, skill, scratch, kb))
+			{
+				return false;
+			}
+			scratch.merge(material.getId(), -need, Integer::sum);
+		}
+		return true;
+	}
+
+	/** As {@link #craftShortfall}, but on a throwaway scratch bank and reporting success/failure instead of
+	 * recording a {@link RouteStep} - used only by {@link #feasible} to probe a candidate count. */
+	private static boolean craftIntoScratch(int itemId, int shortfall, Skill skill, Map<Integer, Integer> scratch, KnowledgeBase kb)
+	{
+		MethodEntry intermediate = bestIntermediateFor(itemId, skill, scratch, kb);
+		if (intermediate == null || producibleUnits(intermediate, itemId, scratch) < shortfall)
+		{
+			return false;
+		}
+		double outputQty = outputQuantity(intermediate, itemId);
+		int craftCount = (int) Math.ceil(shortfall / outputQty);
+		for (ItemQuantity material : intermediate.getMaterials())
+		{
+			int need = (int) Math.ceil(craftCount * material.getQuantity());
+			scratch.merge(material.getId(), -need, Integer::sum);
+		}
+		scratch.merge(itemId, (int) Math.floor(craftCount * outputQty), Integer::sum);
+		return true;
 	}
 
 	/**
