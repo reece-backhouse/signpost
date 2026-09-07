@@ -12,7 +12,7 @@ Task specs live in `docs/surge/specs/`.
 
 Implementation plans live in `docs/surge/plans/`.
 
-- [LOCAL-next-target-advisor](plans/LOCAL-next-target-advisor.md) — six slices S1–S6 (Awaiting approval)
+- [LOCAL-next-target-advisor](plans/LOCAL-next-target-advisor.md) — six slices S1–S6 (Approved)
 
 ## Reviews
 

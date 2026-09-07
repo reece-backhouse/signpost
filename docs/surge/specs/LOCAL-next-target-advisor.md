@@ -1,7 +1,7 @@
 # LOCAL-next-target-advisor — Spec
 
 Jira: none
-Status: Approved for planning (pending user sign-off)
+Status: Approved
 Date: 2026-09-07
 Links: tickets/001-next-target-advisor.md, docs/surge/reviews/LOCAL-next-target-advisor.md (grill), docs/surge/plans/LOCAL-next-target-advisor.md (plan)
 
