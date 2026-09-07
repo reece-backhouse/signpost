@@ -38,4 +38,20 @@ public class AccountData
 		boolean known = bank != null && bankAsOf != null;
 		return known ? new CachedBank(bank, bankAsOf, true) : CachedBank.unknown();
 	}
+
+	/**
+	 * A snapshot independent of this instance: later mutating (or replacing) any of this
+	 * instance's fields does not affect the returned copy. Used to hand a stable value to a
+	 * background thread while the live instance keeps being updated on the client thread.
+	 */
+	public AccountData copy()
+	{
+		return new AccountData(
+			new HashMap<>(bank),
+			bankAsOf,
+			new HashMap<>(snoozes),
+			new HashSet<>(ignores),
+			new ArrayList<>(pins),
+			focusGoalId);
+	}
 }

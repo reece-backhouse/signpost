@@ -189,10 +189,13 @@ public class NextTargetPlugin extends Plugin
 		{
 			data.setBank(new HashMap<>(bank.getItems()));
 			data.setBankAsOf(bank.getAsOf());
+			// Hand the engine thread its own copy: `data` keeps being mutated on the client
+			// thread (e.g. by the next bank close) while this save is queued.
+			AccountData toSave = data.copy();
 			long hash = accountHash;
 			runner.submit(() ->
 			{
-				store.save(hash, data);
+				store.save(hash, toSave);
 				return null;
 			}, ignored -> { });
 		}
