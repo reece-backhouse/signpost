@@ -9,9 +9,10 @@ import java.util.Map;
 import lombok.Value;
 
 /**
- * One completed run of the engine over a {@link Snapshot}: every unfinished-goal status plus
- * per-tier diary progress, timestamped. Constructed only by {@link dev.reece.nta.engine.Engine};
- * {@code statuses} and {@code diaryProgress} are unmodifiable.
+ * One completed run of the engine over a {@link Snapshot}: every unfinished-goal status, per-tier
+ * diary progress, the ranked/picked/rest suggestion lists with their "why" text, and the resolved
+ * preferences view, timestamped. Constructed only by {@link dev.reece.nta.engine.Engine}; every
+ * collection is unmodifiable.
  */
 @Value
 public class Advice
@@ -20,12 +21,31 @@ public class Advice
 	List<GoalStatus> statuses;
 	Map<DiaryTier, DiaryTierProgress> diaryProgress;
 	Instant computedAt;
+	List<RankedGoal> ranked;
+	List<RankedGoal> picked;
+	List<RankedGoal> rest;
+	Map<String, String> whys;
+	PrefsView prefs;
 
-	public Advice(Snapshot snapshot, List<GoalStatus> statuses, Map<DiaryTier, DiaryTierProgress> diaryProgress, Instant computedAt)
+	public Advice(
+		Snapshot snapshot,
+		List<GoalStatus> statuses,
+		Map<DiaryTier, DiaryTierProgress> diaryProgress,
+		Instant computedAt,
+		List<RankedGoal> ranked,
+		List<RankedGoal> picked,
+		List<RankedGoal> rest,
+		Map<String, String> whys,
+		PrefsView prefs)
 	{
 		this.snapshot = snapshot;
 		this.statuses = List.copyOf(statuses);
 		this.diaryProgress = Map.copyOf(diaryProgress);
 		this.computedAt = computedAt;
+		this.ranked = List.copyOf(ranked);
+		this.picked = List.copyOf(picked);
+		this.rest = List.copyOf(rest);
+		this.whys = Map.copyOf(whys);
+		this.prefs = prefs;
 	}
 }
