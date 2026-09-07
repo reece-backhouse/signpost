@@ -31,7 +31,7 @@ class PrefsResolverTest
 	@Test
 	void snoozeExpiresByTimeEvenWithAMatchingFingerprint()
 	{
-		GoalStatus status = status("g1", List.of(new CombatLevelGap(50, 60)));
+		GoalStatus status = status("g1", List.of(new CombatLevelGap(50, 60, false)));
 		String fingerprint = GapFingerprint.of(status);
 
 		AccountData data = accountData();
@@ -47,14 +47,14 @@ class PrefsResolverTest
 	@Test
 	void snoozeExpiresEarlyWhenTheGapFingerprintChangesEvenBeforeItsTimeIsUp()
 	{
-		GoalStatus original = status("g1", List.of(new CombatLevelGap(50, 60)));
+		GoalStatus original = status("g1", List.of(new CombatLevelGap(50, 60, false)));
 		String staleFingerprint = GapFingerprint.of(original);
 
 		AccountData data = accountData();
 		data.getSnoozes().put("g1", new Snooze(now.plusSeconds(60), staleFingerprint));
 
 		// The requirement changed (need 60 -> 70): a different fingerprint, same goal id.
-		GoalStatus changed = status("g1", List.of(new CombatLevelGap(50, 70)));
+		GoalStatus changed = status("g1", List.of(new CombatLevelGap(50, 70, false)));
 
 		PrefsView view = resolver.resolve(data, List.of(changed), now);
 
@@ -66,7 +66,7 @@ class PrefsResolverTest
 	@Test
 	void snoozeStaysActiveWhenNotExpiredByTimeOrFingerprint()
 	{
-		GoalStatus status = status("g1", List.of(new CombatLevelGap(50, 60)));
+		GoalStatus status = status("g1", List.of(new CombatLevelGap(50, 60, false)));
 		String fingerprint = GapFingerprint.of(status);
 
 		AccountData data = accountData();
@@ -133,7 +133,7 @@ class PrefsResolverTest
 
 	private static GoalStatus status(String id, List<Gap> gaps)
 	{
-		Goal goal = new Goal(id, GoalCategory.QUEST, id, "https://x", 5);
+		Goal goal = new Goal(id, GoalCategory.QUEST, id, "https://x", 5, 1);
 		return new GoalStatus(goal, gaps, gaps.isEmpty(), false, List.of());
 	}
 }

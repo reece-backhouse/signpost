@@ -16,6 +16,7 @@ import net.runelite.api.Skill;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
@@ -35,7 +36,7 @@ class RankerTest
 		// Two plain top-level gaps (a combat level gap + an item gap) plus one SkillLevelGap with an
 		// xpDelta of 125000: unmet = 3, xpDelta = 125000 -> closeness = 1 / (1 + 3 + 0.5) = 1/4.5.
 		GoalStatus mixed = status("g2", GoalCategory.QUEST, 5, List.of(
-			new CombatLevelGap(50, 60),
+			new CombatLevelGap(50, 60, false),
 			new ItemGap("Rune", 0, 1, List.of(), false),
 			skillGap(Skill.HERBLORE, 60, 70, 125_000)));
 		assertEquals(5.0 * (1.0 / 4.5), Ranker.score(mixed), 1e-9);
@@ -64,7 +65,7 @@ class RankerTest
 	void pinsComeFirstInPinOrderRegardlessOfScore()
 	{
 		GoalStatus high = status("high", GoalCategory.QUEST, 5, List.of());
-		GoalStatus low = status("low", GoalCategory.DIARY, 1, List.of(new CombatLevelGap(1, 99)));
+		GoalStatus low = status("low", GoalCategory.DIARY, 1, List.of(new CombatLevelGap(1, 99, false)));
 
 		List<RankedGoal> ranked = ranker.rank(List.of(high, low), Set.of(), List.of("low", "high"));
 
@@ -77,7 +78,7 @@ class RankerTest
 	void readyGoalsComeBeforeGoalsWithGaps()
 	{
 		GoalStatus ready = status("ready", GoalCategory.QUEST, 1, List.of());
-		GoalStatus gapped = status("gapped", GoalCategory.QUEST, 10, List.of(new CombatLevelGap(1, 2)));
+		GoalStatus gapped = status("gapped", GoalCategory.QUEST, 10, List.of(new CombatLevelGap(1, 2, false)));
 
 		List<RankedGoal> ranked = ranker.rank(List.of(gapped, ready), Set.of(), List.of());
 
@@ -105,7 +106,7 @@ class RankerTest
 		DiaryTaskGap taskGap = new DiaryTaskGap(1, "task", List.of(
 			new ItemGap("Rune", null, 1, List.of(), false),
 			new ItemGap("Feather", null, 5, List.of(), false)), List.of());
-		GoalStatus status = new GoalStatus(new Goal("g1", GoalCategory.DIARY, "g1", "https://x", 4), List.of(taskGap), false, true, List.of());
+		GoalStatus status = new GoalStatus(new Goal("g1", GoalCategory.DIARY, "g1", "https://x", 4, 1), List.of(taskGap), false, true, List.of());
 
 		assertEquals(4.0 * 0.5, Ranker.score(status), 1e-9, "floor: an all-unknown diary task should still count as 1 unmet, not 0");
 
@@ -127,7 +128,7 @@ class RankerTest
 	@Test
 	void bankUnknownWithNoGapsIsNeverReady()
 	{
-		Goal goal = new Goal("bu", GoalCategory.MILESTONE, "Bank Unknown Goal", "https://x", 5);
+		Goal goal = new Goal("bu", GoalCategory.MILESTONE, "Bank Unknown Goal", "https://x", 5, 1);
 		GoalStatus bankUnknown = new GoalStatus(goal, List.of(), true, true, List.of());
 		GoalStatus ready = status("ready", GoalCategory.QUEST, 5, List.of());
 
@@ -151,14 +152,78 @@ class RankerTest
 		assertEquals(List.of("higher", "apple", "zebra"), ids(ranked));
 	}
 
+	// --- Task 42: later-stage penalty (spec ruling 27). ---
+
+	@Test
+	void goalMoreThanOneStageAboveAccountStageIsPenalisedAndMarkedLater()
+	{
+		GoalStatus stageFour = status("boss", GoalCategory.BOSS, 5, 4, List.of());
+
+		List<RankedGoal> ranked = ranker.rank(List.of(stageFour), Set.of(), List.of(), 2);
+
+		RankedGoal r = ranked.get(0);
+		assertTrue(r.isLater(), "stage 4 goal is more than one stage above account stage 2");
+		assertEquals(5.0 * 0.05, r.getScore(), 1e-9);
+	}
+
+	@Test
+	void goalExactlyOneStageAboveAccountStageIsNotLater()
+	{
+		GoalStatus stageThree = status("m", GoalCategory.MILESTONE, 5, 3, List.of());
+
+		List<RankedGoal> ranked = ranker.rank(List.of(stageThree), Set.of(), List.of(), 2);
+
+		RankedGoal r = ranked.get(0);
+		assertFalse(r.isLater());
+		assertEquals(5.0, r.getScore(), 1e-9, "not later: score should be unpenalised");
+	}
+
+	@Test
+	void goalAtOrBelowAccountStageIsNotLater()
+	{
+		GoalStatus sameStage = status("m", GoalCategory.MILESTONE, 5, 2, List.of());
+
+		List<RankedGoal> ranked = ranker.rank(List.of(sameStage), Set.of(), List.of(), 2);
+
+		assertFalse(ranked.get(0).isLater());
+	}
+
+	@Test
+	void pinnedGoalIsNeverMarkedLaterEvenWhenFarAboveAccountStage()
+	{
+		GoalStatus stageFour = status("boss", GoalCategory.BOSS, 5, 4, List.of());
+
+		List<RankedGoal> ranked = ranker.rank(List.of(stageFour), Set.of(), List.of("boss"), 1);
+
+		RankedGoal r = ranked.get(0);
+		assertTrue(r.isPinned());
+		assertFalse(r.isLater(), "a pin is an explicit user override");
+		assertEquals(5.0, r.getScore(), 1e-9, "pinned score is not later-penalised");
+	}
+
+	@Test
+	void threeArgRankOverloadNeverMarksAnythingLater()
+	{
+		GoalStatus stageFour = status("boss", GoalCategory.BOSS, 5, 4, List.of());
+
+		List<RankedGoal> ranked = ranker.rank(List.of(stageFour), Set.of(), List.of());
+
+		assertFalse(ranked.get(0).isLater());
+	}
+
 	private static SkillLevelGap skillGap(Skill skill, int have, int need, long xpDelta)
 	{
-		return new SkillLevelGap(skill, have, need, xpDelta, false, null);
+		return new SkillLevelGap(skill, have, need, xpDelta, false, null, false);
 	}
 
 	private static GoalStatus status(String id, GoalCategory category, int priority, List<Gap> gaps)
 	{
-		Goal goal = new Goal(id, category, id, "https://x", priority);
+		return status(id, category, priority, 1, gaps);
+	}
+
+	private static GoalStatus status(String id, GoalCategory category, int priority, int stage, List<Gap> gaps)
+	{
+		Goal goal = new Goal(id, category, id, "https://x", priority, stage);
 		return new GoalStatus(goal, gaps, gaps.isEmpty(), false, List.of());
 	}
 

@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import dev.reece.nta.engine.model.CombatLevelGap;
 import dev.reece.nta.engine.model.DiaryTaskGap;
 import dev.reece.nta.engine.model.Gap;
+import dev.reece.nta.engine.model.GearGap;
 import dev.reece.nta.engine.model.GoalStatus;
 import dev.reece.nta.engine.model.ItemGap;
 import dev.reece.nta.engine.model.ItemSource;
@@ -12,6 +13,7 @@ import dev.reece.nta.engine.model.QuestPointsGap;
 import dev.reece.nta.engine.model.QuestPrereqGap;
 import dev.reece.nta.engine.model.SkillLevelGap;
 import dev.reece.nta.kb.KnowledgeBase;
+import dev.reece.nta.kb.MilestoneCategory;
 import dev.reece.nta.snapshot.AccountType;
 import dev.reece.nta.snapshot.DiaryTier;
 import dev.reece.nta.snapshot.Snapshot;
@@ -558,6 +560,259 @@ class GapEngineTest
 		List<String> ids = statuses.stream().map(s -> s.getGoal().getId()).collect(java.util.stream.Collectors.toList());
 
 		assertEquals(ids.stream().sorted().collect(java.util.stream.Collectors.toList()), ids);
+	}
+
+	// --- Task 41/42: quest/diary priority overrides and stage mapping (spec ruling 27). ---
+
+	@Test
+	void questPriorityOverrideAppliedAndDrivesStageMapping()
+	{
+		KnowledgeBase kb = new KbBuilder()
+			.quest(CLOCK_TOWER_ID, "Clock Tower")
+			.priorityOverride("quest:" + CLOCK_TOWER_ID, 9)
+			.build();
+		Snapshot snapshot = new SnapshotBuilder().build();
+
+		GoalStatus status = onlyGoal(engine.evaluate(snapshot, kb));
+
+		assertEquals(9, status.getGoal().getPriority());
+		assertEquals(3, status.getGoal().getStage(), "priority >= 8 should map to stage 3");
+	}
+
+	@Test
+	void questDefaultPriorityMapsToStageTwo()
+	{
+		KnowledgeBase kb = new KbBuilder().quest(CLOCK_TOWER_ID, "Clock Tower").build();
+		Snapshot snapshot = new SnapshotBuilder().build();
+
+		GoalStatus status = onlyGoal(engine.evaluate(snapshot, kb));
+
+		assertEquals(5, status.getGoal().getPriority());
+		assertEquals(2, status.getGoal().getStage(), "default quest priority 5 should map to stage 2");
+	}
+
+	@Test
+	void questPriorityOverrideBelowFiveMapsToStageOne()
+	{
+		KnowledgeBase kb = new KbBuilder()
+			.quest(CLOCK_TOWER_ID, "Clock Tower")
+			.priorityOverride("quest:" + CLOCK_TOWER_ID, 3)
+			.build();
+		Snapshot snapshot = new SnapshotBuilder().build();
+
+		GoalStatus status = onlyGoal(engine.evaluate(snapshot, kb));
+
+		assertEquals(1, status.getGoal().getStage());
+	}
+
+	@Test
+	void diaryPriorityOverrideApplied()
+	{
+		KnowledgeBase kb = new KbBuilder()
+			.diary(DiaryTier.VARROCK_EASY).task(1, "t").completion(1176, 0)
+			.priorityOverride("diary:VARROCK_EASY", 9)
+			.build();
+		Snapshot snapshot = new SnapshotBuilder().build();
+
+		GoalStatus status = goalFor(engine.evaluate(snapshot, kb), "diary:VARROCK_EASY");
+
+		assertEquals(9, status.getGoal().getPriority());
+	}
+
+	@Test
+	void diaryStageDerivedFromTier()
+	{
+		KnowledgeBase kb = new KbBuilder()
+			.diary(DiaryTier.VARROCK_EASY).task(1, "t").completion(1176, 0)
+			.diary(DiaryTier.VARROCK_MEDIUM).task(1, "t").completion(1177, 0)
+			.diary(DiaryTier.VARROCK_HARD).task(1, "t").completion(1178, 0)
+			.diary(DiaryTier.VARROCK_ELITE).task(1, "t").completion(1179, 0)
+			.build();
+		Snapshot snapshot = new SnapshotBuilder().build();
+
+		List<GoalStatus> statuses = engine.evaluate(snapshot, kb);
+
+		assertEquals(1, goalFor(statuses, "diary:VARROCK_EASY").getGoal().getStage());
+		assertEquals(2, goalFor(statuses, "diary:VARROCK_MEDIUM").getGoal().getStage());
+		assertEquals(3, goalFor(statuses, "diary:VARROCK_HARD").getGoal().getStage());
+		assertEquals(4, goalFor(statuses, "diary:VARROCK_ELITE").getGoal().getStage());
+	}
+
+	@Test
+	void milestoneStageComesFromTheKbEntry()
+	{
+		KnowledgeBase kb = new KbBuilder()
+			.milestone("milestone:test", MilestoneCategory.UNLOCK, "Test", 5).stage(3)
+			.skill(Skill.AGILITY, 40)
+			.build();
+		Snapshot snapshot = new SnapshotBuilder().build();
+
+		GoalStatus status = goalFor(engine.evaluate(snapshot, kb), "milestone:test");
+
+		assertEquals(3, status.getGoal().getStage());
+	}
+
+	// --- Task 41: recommended-profile gaps (spec ruling 27). ---
+
+	@Test
+	void recommendedSkillGapAddedWhenBelowRecommendedLevel()
+	{
+		KnowledgeBase kb = new KbBuilder()
+			.milestone("boss:test", MilestoneCategory.BOSS, "Test Boss", 5)
+			.recommendedSkill(Skill.RANGED, 80)
+			.build();
+		Snapshot snapshot = new SnapshotBuilder().skill(Skill.RANGED, 70).build();
+
+		GoalStatus status = goalFor(engine.evaluate(snapshot, kb), "boss:test");
+		SkillLevelGap gap = (SkillLevelGap) onlyGap(status);
+
+		assertEquals(Skill.RANGED, gap.getSkill());
+		assertEquals(70, gap.getHave());
+		assertEquals(80, gap.getNeed());
+		assertTrue(gap.isRecommended());
+		assertFalse(status.isReady());
+	}
+
+	@Test
+	void recommendedCombatGapAddedWhenBelowRecommendedCombatLevel()
+	{
+		KnowledgeBase kb = new KbBuilder()
+			.milestone("boss:test", MilestoneCategory.BOSS, "Test Boss", 5)
+			.recommendedCombat(100)
+			.build();
+		Snapshot snapshot = new SnapshotBuilder().build();
+
+		GoalStatus status = goalFor(engine.evaluate(snapshot, kb), "boss:test");
+		CombatLevelGap gap = (CombatLevelGap) onlyGap(status);
+
+		assertEquals(100, gap.getNeed());
+		assertTrue(gap.isRecommended());
+	}
+
+	@Test
+	void recommendedGearGapAddedWhenNoneOfTheAcceptableItemsOwned()
+	{
+		KnowledgeBase kb = new KbBuilder()
+			.milestone("boss:test", MilestoneCategory.BOSS, "Test Boss", 5)
+			.recommendedGear("Bandos chestplate", 11832)
+			.build();
+		Snapshot snapshot = new SnapshotBuilder().build();
+
+		GoalStatus status = goalFor(engine.evaluate(snapshot, kb), "boss:test");
+		GearGap gap = (GearGap) onlyGap(status);
+
+		assertEquals(1, gap.getAcceptable().size());
+		assertEquals("Bandos chestplate", gap.getAcceptable().get(0).getName());
+		assertFalse(gap.isBankUnknown());
+	}
+
+	@Test
+	void recommendedGearGapAbsentWhenAnAcceptableItemIsOwned()
+	{
+		KnowledgeBase kb = new KbBuilder()
+			.milestone("boss:test", MilestoneCategory.BOSS, "Test Boss", 5)
+			.recommendedGear("Bandos chestplate", 11832)
+			.build();
+		Snapshot snapshot = new SnapshotBuilder().inventoryItem(11832, "Bandos chestplate", 1).build();
+
+		GoalStatus status = goalFor(engine.evaluate(snapshot, kb), "boss:test");
+
+		assertTrue(status.getGaps().isEmpty());
+		assertTrue(status.isReady());
+	}
+
+	@Test
+	void recommendedGearGapFlagsBankUnknownWhenBankUnseen()
+	{
+		KnowledgeBase kb = new KbBuilder()
+			.milestone("boss:test", MilestoneCategory.BOSS, "Test Boss", 5)
+			.recommendedGear("Bandos chestplate", 11832)
+			.build();
+		Snapshot snapshot = new SnapshotBuilder().bankUnknown().build();
+
+		GoalStatus status = goalFor(engine.evaluate(snapshot, kb), "boss:test");
+		GearGap gap = (GearGap) onlyGap(status);
+
+		assertTrue(gap.isBankUnknown());
+		assertTrue(status.isBankUnknown());
+	}
+
+	@Test
+	void bossReadyOnlyWhenEntryAndRecommendedAreBothMet()
+	{
+		KnowledgeBase kb = new KbBuilder()
+			.milestone("boss:test", MilestoneCategory.BOSS, "Test Boss", 5)
+			.skill(Skill.STRENGTH, 60)
+			.recommendedSkill(Skill.RANGED, 80)
+			.build();
+
+		Snapshot entryOnlyMet = new SnapshotBuilder().skill(Skill.STRENGTH, 60).skill(Skill.RANGED, 50).build();
+		GoalStatus entryOnlyStatus = goalFor(engine.evaluate(entryOnlyMet, kb), "boss:test");
+		assertFalse(entryOnlyStatus.isReady(), "entry met but recommended unmet should not be ready");
+
+		Snapshot bothMet = new SnapshotBuilder().skill(Skill.STRENGTH, 60).skill(Skill.RANGED, 80).build();
+		GoalStatus bothMetStatus = goalFor(engine.evaluate(bothMet, kb), "boss:test");
+		assertTrue(bothMetStatus.isReady());
+	}
+
+	// --- Task 41: diary game-count trust (live self-check: DESERT_MEDIUM kb=11 game=12). ---
+
+	@Test
+	void diaryGameCountEqualToTotalSuppressesAllTaskGapsAndTierIsReady()
+	{
+		KnowledgeBase kb = new KbBuilder()
+			.diary(DiaryTier.VARROCK_EASY)
+			.task(1, "t1").completion(1176, 0)
+			.task(2, "t2").completion(1176, 1)
+			.build();
+		Snapshot snapshot = new SnapshotBuilder()
+			.diaryVarp(1176, 0) // both tasks look incomplete by bit map...
+			.diaryCountVarbit(DiaryProgress.COUNT_VARBITS.get(DiaryTier.VARROCK_EASY), 2) // ...but the game says both are done.
+			.build();
+
+		GoalStatus status = goalFor(engine.evaluate(snapshot, kb), "diary:VARROCK_EASY");
+
+		assertTrue(status.getGaps().isEmpty(), "game-reported completion should suppress every task gap: " + status.getGaps());
+		assertTrue(status.isReady());
+	}
+
+	@Test
+	void diaryGameCountGreaterThanKbCompletedKeepsTaskGapsAndAddsANote()
+	{
+		KnowledgeBase kb = new KbBuilder()
+			.diary(DiaryTier.VARROCK_EASY)
+			.task(1, "t1").completion(1176, 0)
+			.task(2, "t2").completion(1176, 1)
+			.task(3, "t3").completion(1176, 2)
+			.build();
+		Snapshot snapshot = new SnapshotBuilder()
+			.diaryVarp(1176, 0b001) // kb sees only task 1 complete.
+			.diaryCountVarbit(DiaryProgress.COUNT_VARBITS.get(DiaryTier.VARROCK_EASY), 2) // game says 2 done.
+			.build();
+
+		GoalStatus status = goalFor(engine.evaluate(snapshot, kb), "diary:VARROCK_EASY");
+
+		assertEquals(2, status.getGaps().size(), "kb-derived task gaps for 2 and 3 must be kept, not shrunk: " + status.getGaps());
+		assertTrue(status.getNotes().stream().anyMatch(n -> n.contains("2/3")), status.getNotes().toString());
+	}
+
+	@Test
+	void diaryGameCountMatchingKbCompletedBehavesNormallyWithNoNote()
+	{
+		KnowledgeBase kb = new KbBuilder()
+			.diary(DiaryTier.VARROCK_EASY)
+			.task(1, "t1").completion(1176, 0)
+			.task(2, "t2").completion(1176, 1)
+			.build();
+		Snapshot snapshot = new SnapshotBuilder()
+			.diaryVarp(1176, 0b01) // task 1 complete.
+			.diaryCountVarbit(DiaryProgress.COUNT_VARBITS.get(DiaryTier.VARROCK_EASY), 1) // game agrees: 1 done.
+			.build();
+
+		GoalStatus status = goalFor(engine.evaluate(snapshot, kb), "diary:VARROCK_EASY");
+
+		assertEquals(1, status.getGaps().size());
+		assertTrue(status.getNotes().isEmpty());
 	}
 
 	// --- helpers ---

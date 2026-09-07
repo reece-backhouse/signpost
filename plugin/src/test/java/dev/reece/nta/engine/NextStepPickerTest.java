@@ -31,7 +31,7 @@ class NextStepPickerTest
 	void branchAPicksAStartHereQuestPrereqOverEverythingElse()
 	{
 		QuestPrereqGap questGap = new QuestPrereqGap(Quest.BIOHAZARD, QuestState.NOT_STARTED, true, false);
-		SkillLevelGap skillGap = new SkillLevelGap(Skill.HERBLORE, 1, 10, 1000, false, null);
+		SkillLevelGap skillGap = new SkillLevelGap(Skill.HERBLORE, 1, 10, 1000, false, null, false);
 		GoalStatus status = status(List.of(questGap, skillGap));
 
 		NextStep step = picker.next(status, new SnapshotBuilder().build(), new KbBuilder().build());
@@ -77,9 +77,9 @@ class NextStepPickerTest
 		Snapshot snapshot = new SnapshotBuilder().bankItem(2, "P material", 100_000).build();
 
 		// Smaller xpDelta, but no bank materials for HERBLORE -> its route can't be covered.
-		SkillLevelGap smallerButUncoverable = new SkillLevelGap(Skill.HERBLORE, 1, 10, Experience.getXpForLevel(10), false, null);
+		SkillLevelGap smallerButUncoverable = new SkillLevelGap(Skill.HERBLORE, 1, 10, Experience.getXpForLevel(10), false, null, false);
 		// Larger xpDelta, but fully covered from the bank.
-		SkillLevelGap largerButCovered = new SkillLevelGap(Skill.PRAYER, 1, 20, Experience.getXpForLevel(20), false, null);
+		SkillLevelGap largerButCovered = new SkillLevelGap(Skill.PRAYER, 1, 20, Experience.getXpForLevel(20), false, null, false);
 		GoalStatus status = status(List.of(smallerButUncoverable, largerButCovered));
 
 		NextStep step = picker.next(status, snapshot, kb);
@@ -100,8 +100,8 @@ class NextStepPickerTest
 			.build();
 		Snapshot snapshot = new SnapshotBuilder().build();
 
-		SkillLevelGap smaller = new SkillLevelGap(Skill.HERBLORE, 1, 10, Experience.getXpForLevel(10), false, null);
-		SkillLevelGap larger = new SkillLevelGap(Skill.PRAYER, 1, 20, Experience.getXpForLevel(20), false, null);
+		SkillLevelGap smaller = new SkillLevelGap(Skill.HERBLORE, 1, 10, Experience.getXpForLevel(10), false, null, false);
+		SkillLevelGap larger = new SkillLevelGap(Skill.PRAYER, 1, 20, Experience.getXpForLevel(20), false, null, false);
 		GoalStatus status = status(List.of(larger, smaller));
 
 		NextStep step = picker.next(status, snapshot, kb);
@@ -149,7 +149,7 @@ class NextStepPickerTest
 
 	private static GoalStatus status(List<Gap> gaps)
 	{
-		Goal goal = new Goal("quest:0", GoalCategory.QUEST, "Test Goal", "https://example.test", 5);
+		Goal goal = new Goal("quest:0", GoalCategory.QUEST, "Test Goal", "https://example.test", 5, 1);
 		return new GoalStatus(goal, gaps, gaps.isEmpty(), false, List.of());
 	}
 }

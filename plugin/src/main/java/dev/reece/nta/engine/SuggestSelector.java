@@ -13,7 +13,9 @@ import java.util.stream.Collectors;
  * spec ruling 17 / ticket D4: pins fill slots first (up to three, regardless of category), then
  * the ranked order fills what's left; the last of the three slots must be a different
  * {@link GoalCategory} from the first two when they share one, unless fewer than two categories
- * exist among the remaining candidates. Pure: no {@link net.runelite.api.Client}, no I/O.
+ * exist among the remaining candidates. A goal {@link Ranker} marked {@code later} (spec ruling 27)
+ * is never picked - it can still appear in {@link #rest}. Pure: no {@link net.runelite.api.Client},
+ * no I/O.
  */
 public final class SuggestSelector
 {
@@ -30,7 +32,7 @@ public final class SuggestSelector
 		Set<String> used = new LinkedHashSet<>();
 
 		// Pinned entries sit at the front of `ranked` (Ranker's contract): take up to three of them
-		// first, before any category consideration.
+		// first, before any category consideration. Never `later` (Ranker never marks a pin later).
 		for (RankedGoal r : ranked)
 		{
 			if (picked.size() >= SLOTS || !r.isPinned())
@@ -48,7 +50,7 @@ public final class SuggestSelector
 			{
 				break;
 			}
-			if (used.add(id(r)))
+			if (!r.isLater() && used.add(id(r)))
 			{
 				picked.add(r);
 			}
@@ -84,7 +86,7 @@ public final class SuggestSelector
 	{
 		for (RankedGoal r : ranked)
 		{
-			if (!used.contains(id(r)) && category(r) != exclude)
+			if (!r.isLater() && !used.contains(id(r)) && category(r) != exclude)
 			{
 				return r;
 			}
@@ -96,7 +98,7 @@ public final class SuggestSelector
 	{
 		for (RankedGoal r : ranked)
 		{
-			if (!used.contains(id(r)))
+			if (!r.isLater() && !used.contains(id(r)))
 			{
 				return r;
 			}

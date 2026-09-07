@@ -4,6 +4,7 @@ import dev.reece.nta.engine.model.CombatLevelGap;
 import dev.reece.nta.engine.model.DiaryTaskGap;
 import dev.reece.nta.engine.model.DiaryTierGap;
 import dev.reece.nta.engine.model.Gap;
+import dev.reece.nta.engine.model.GearGap;
 import dev.reece.nta.engine.model.Goal;
 import dev.reece.nta.engine.model.GoalCategory;
 import dev.reece.nta.engine.model.GoalStatus;
@@ -22,6 +23,8 @@ import dev.reece.nta.kb.MilestoneCategory;
 import dev.reece.nta.kb.MilestoneEntry;
 import dev.reece.nta.kb.OwnedItem;
 import dev.reece.nta.kb.QuestEntry;
+import dev.reece.nta.kb.RecommendedProfile;
+import dev.reece.nta.kb.RecommendedSkill;
 import dev.reece.nta.kb.SkillReq;
 import dev.reece.nta.snapshot.AccountType;
 import dev.reece.nta.snapshot.DiaryTier;
@@ -29,6 +32,7 @@ import dev.reece.nta.snapshot.SkillState;
 import dev.reece.nta.snapshot.Snapshot;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.EnumMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -52,6 +56,45 @@ public final class GapEngine
 	private static final int DIARY_PRIORITY = 4;
 	private static final String WIKI_BASE = "https://oldschool.runescape.wiki/w/";
 
+	/** Quest goal stage from its effective (post-override) priority: &ge;8 &rarr; 3, 5..7 &rarr; 2, else 1 (spec ruling 27). */
+	private static int questStage(int priority)
+	{
+		if (priority >= 8)
+		{
+			return 3;
+		}
+		return priority >= 5 ? 2 : 1;
+	}
+
+	/** Diary goal stage by tier (spec ruling 27): Easy 1, Medium 2, Hard 3, Elite 4. */
+	private static final Map<DiaryTier, Integer> DIARY_STAGE = buildDiaryStages();
+
+	private static Map<DiaryTier, Integer> buildDiaryStages()
+	{
+		Map<DiaryTier, Integer> m = new EnumMap<>(DiaryTier.class);
+		for (DiaryTier tier : DiaryTier.values())
+		{
+			String tierName = tier.name();
+			if (tierName.endsWith("_EASY"))
+			{
+				m.put(tier, 1);
+			}
+			else if (tierName.endsWith("_MEDIUM"))
+			{
+				m.put(tier, 2);
+			}
+			else if (tierName.endsWith("_HARD"))
+			{
+				m.put(tier, 3);
+			}
+			else // _ELITE
+			{
+				m.put(tier, 4);
+			}
+		}
+		return Map.copyOf(m);
+	}
+
 	private static final Map<Integer, Quest> QUESTS_BY_ID = buildQuestsById();
 	private static final Map<String, Quest> QUESTS_BY_NAME = buildQuestsByName();
 
@@ -62,7 +105,19 @@ public final class GapEngine
 		this.boostTable = boostTable;
 	}
 
+	/** As {@link #evaluate(Snapshot, KnowledgeBase, Map)}, computing {@link DiaryProgress} internally - for callers with no other need for it. */
 	public List<GoalStatus> evaluate(Snapshot snapshot, KnowledgeBase kb)
+	{
+		return evaluate(snapshot, kb, DiaryProgress.compute(snapshot, kb));
+	}
+
+	/**
+	 * As {@link #evaluate(Snapshot, KnowledgeBase)}, but takes an already-computed
+	 * {@link DiaryProgress#compute} result (spec ruling: "diary game-count trust") instead of
+	 * computing it again - {@link Engine#run} shares one computation between this and
+	 * {@link dev.reece.nta.engine.model.Advice#getDiaryProgress()}.
+	 */
+	public List<GoalStatus> evaluate(Snapshot snapshot, KnowledgeBase kb, Map<DiaryTier, DiaryTierProgress> diaryProgress)
 	{
 		List<GoalStatus> result = new ArrayList<>();
 
@@ -93,7 +148,7 @@ public final class GapEngine
 			{
 				continue;
 			}
-			result.add(diaryGoalStatus(tier, entry, snapshot, kb));
+			result.add(diaryGoalStatus(tier, entry, snapshot, kb, diaryProgress.get(tier)));
 		}
 
 		for (MilestoneEntry entry : kb.getMilestones())
@@ -162,31 +217,56 @@ public final class GapEngine
 		}
 		if (entry.getCombatLevelRequired() != null && entry.getCombatLevelRequired() > snapshot.combatLevel())
 		{
-			gaps.add(new CombatLevelGap(snapshot.combatLevel(), entry.getCombatLevelRequired()));
+			gaps.add(new CombatLevelGap(snapshot.combatLevel(), entry.getCombatLevelRequired(), false));
 		}
 
-		Goal goal = new Goal("quest:" + entry.getId(), GoalCategory.QUEST, entry.getName(), WIKI_BASE + spacesToUnderscores(entry.getWikiTitle()),
-			QUEST_PRIORITY);
+		String goalId = "quest:" + entry.getId();
+		int priority = kb.getPriorityOverrides().getOrDefault(goalId, QUEST_PRIORITY);
+		Goal goal = new Goal(goalId, GoalCategory.QUEST, entry.getName(), WIKI_BASE + spacesToUnderscores(entry.getWikiTitle()),
+			priority, questStage(priority));
 		return toGoalStatus(goal, gaps, entry.getPrereqNotes());
 	}
 
-	private GoalStatus diaryGoalStatus(DiaryTier tier, DiaryEntry entry, Snapshot snapshot, KnowledgeBase kb)
+	/**
+	 * Ruling ("diary game-count trust"): the game's own per-tier completed-task counter varbit
+	 * ({@code progress.getGameCount()}) is trusted over the bundled task-&gt;bit map when they
+	 * disagree - the live self-check found a kb/game mismatch caused by an unmapped variable, not a
+	 * genuinely incomplete task. If the game reports every task done, no {@link DiaryTaskGap}s are
+	 * emitted at all (the goal is "ready" - claim the reward - unless the tier varbit is already set,
+	 * in which case {@link #evaluate} never calls this method for it). If the game reports more done
+	 * than the kb's bit-derived count (but not all), the kb's task gaps are kept as-is (never
+	 * shrunk - the specific completed task isn't known) with a note that one of them is already done.
+	 */
+	private GoalStatus diaryGoalStatus(DiaryTier tier, DiaryEntry entry, Snapshot snapshot, KnowledgeBase kb, DiaryTierProgress progress)
 	{
 		List<Gap> gaps = new ArrayList<>();
-		for (DiaryTask task : entry.getTasks())
+		List<String> notes = new ArrayList<>();
+		Integer gameCount = progress == null ? null : progress.getGameCount();
+		int total = entry.getTasks().size();
+
+		if (gameCount == null || gameCount != total)
 		{
-			if (task.getCompletion().isComplete(snapshot))
+			for (DiaryTask task : entry.getTasks())
 			{
-				continue;
+				if (task.getCompletion().isComplete(snapshot))
+				{
+					continue;
+				}
+				gaps.add(diaryTaskGap(task, snapshot, kb));
 			}
-			gaps.add(diaryTaskGap(task, snapshot, kb));
+			if (gameCount != null && gameCount > progress.getCompleted())
+			{
+				notes.add("game reports " + gameCount + "/" + total + " done; one of these tasks is already complete");
+			}
 		}
 
 		String area = diaryArea(tier);
 		String tierName = diaryTierName(tier);
-		Goal goal = new Goal("diary:" + tier.name(), GoalCategory.DIARY, area + " " + tierName + " Diary",
-			WIKI_BASE + spacesToUnderscores(area) + "_Diary", DIARY_PRIORITY);
-		return toGoalStatus(goal, gaps);
+		String goalId = "diary:" + tier.name();
+		int priority = kb.getPriorityOverrides().getOrDefault(goalId, DIARY_PRIORITY);
+		Goal goal = new Goal(goalId, GoalCategory.DIARY, area + " " + tierName + " Diary",
+			WIKI_BASE + spacesToUnderscores(area) + "_Diary", priority, DIARY_STAGE.get(tier));
+		return toGoalStatus(goal, gaps, notes);
 	}
 
 	private DiaryTaskGap diaryTaskGap(DiaryTask task, Snapshot snapshot, KnowledgeBase kb)
@@ -215,7 +295,7 @@ public final class GapEngine
 
 		if (task.getCombatLevelRequired() != null && task.getCombatLevelRequired() > snapshot.combatLevel())
 		{
-			inner.add(new CombatLevelGap(snapshot.combatLevel(), task.getCombatLevelRequired()));
+			inner.add(new CombatLevelGap(snapshot.combatLevel(), task.getCombatLevelRequired(), false));
 		}
 
 		List<String> notes = new ArrayList<>(task.getNotes());
@@ -258,7 +338,7 @@ public final class GapEngine
 
 		if (entry.getCombatLevel() != null && entry.getCombatLevel() > snapshot.combatLevel())
 		{
-			gaps.add(new CombatLevelGap(snapshot.combatLevel(), entry.getCombatLevel()));
+			gaps.add(new CombatLevelGap(snapshot.combatLevel(), entry.getCombatLevel(), false));
 		}
 		if (entry.getQuestPoints() != null && entry.getQuestPoints() > snapshot.getQuestPoints())
 		{
@@ -270,8 +350,13 @@ public final class GapEngine
 			addMilestoneItemGapIfShort(gaps, snapshot, req);
 		}
 
+		if (entry.getRecommended() != null)
+		{
+			addRecommendedGaps(gaps, entry.getRecommended(), snapshot);
+		}
+
 		OwnedState ownedState = entry.getCategory() == MilestoneCategory.GEAR
-			? gearOwnedState(entry, snapshot)
+			? ownedState(entry.getOwnedIf(), snapshot)
 			: null;
 
 		boolean done;
@@ -297,9 +382,46 @@ public final class GapEngine
 
 		int priority = kb.getPriorityOverrides().getOrDefault(entry.getId(), entry.getPriority());
 		Goal goal = new Goal(entry.getId(), mapMilestoneCategory(entry.getCategory()), entry.getName(),
-			WIKI_BASE + spacesToUnderscores(entry.getWikiTitle()), priority);
+			WIKI_BASE + spacesToUnderscores(entry.getWikiTitle()), priority, entry.getStage());
 		boolean bankUnknown = anyBankUnknown(gaps) || ownedState == OwnedState.UNKNOWN;
 		return Optional.of(new GoalStatus(goal, List.copyOf(gaps), gaps.isEmpty(), bankUnknown, List.of()));
+	}
+
+	/**
+	 * Adds gaps for a milestone's {@code recommended} profile (spec ruling 27) - a "actually ready"
+	 * layer on top of hard requirements, e.g. a boss's recommended combat stats and gear. A boss (or
+	 * any milestone) is only {@code ready} once these are met too, since they land in the same
+	 * {@code gaps} list as the hard requirements.
+	 */
+	private static void addRecommendedGaps(List<Gap> gaps, RecommendedProfile recommended, Snapshot snapshot)
+	{
+		for (RecommendedSkill req : recommended.getSkills())
+		{
+			SkillState state = snapshot.getSkills().get(req.getSkill());
+			int have = state == null ? 1 : state.getLevel();
+			if (have >= req.getLevel())
+			{
+				continue;
+			}
+			long currentXp = state == null ? 0 : state.getXp();
+			long xpDelta = Experience.getXpForLevel(req.getLevel()) - currentXp;
+			gaps.add(new SkillLevelGap(req.getSkill(), have, req.getLevel(), xpDelta, false, null, true));
+		}
+
+		if (recommended.getCombatLevel() != null && recommended.getCombatLevel() > snapshot.combatLevel())
+		{
+			gaps.add(new CombatLevelGap(snapshot.combatLevel(), recommended.getCombatLevel(), true));
+		}
+
+		List<OwnedItem> gearOwnedAny = recommended.getGearOwnedAny();
+		if (!gearOwnedAny.isEmpty())
+		{
+			OwnedState gearState = ownedState(gearOwnedAny, snapshot);
+			if (gearState != OwnedState.OWNED)
+			{
+				gaps.add(new GearGap(gearOwnedAny, gearState == OwnedState.UNKNOWN));
+			}
+		}
 	}
 
 	private static void addMilestoneItemGapIfShort(List<Gap> gaps, Snapshot snapshot, ItemReq req)
@@ -334,13 +456,15 @@ public final class GapEngine
 	}
 
 	/**
-	 * Whether any of the milestone's {@code ownedIf} item ids is held. Inventory and equipment are
-	 * always known; the bank is only checked when {@link Snapshot#isBankKnown()}, so an unseen bank
-	 * with nothing found elsewhere is {@link OwnedState#UNKNOWN} rather than {@link OwnedState#NOT_OWNED}.
+	 * Whether any of {@code items}' ids is held (bank &cup; inventory &cup; equipment), shared by a
+	 * milestone's {@code ownedIf} (gear category completion) and a {@code recommended} profile's
+	 * {@code gearOwnedAny} (recommended-gear gap). Inventory and equipment are always known; the bank
+	 * is only checked when {@link Snapshot#isBankKnown()}, so an unseen bank with nothing found
+	 * elsewhere is {@link OwnedState#UNKNOWN} rather than {@link OwnedState#NOT_OWNED}.
 	 */
-	private static OwnedState gearOwnedState(MilestoneEntry entry, Snapshot snapshot)
+	private static OwnedState ownedState(List<OwnedItem> items, Snapshot snapshot)
 	{
-		for (OwnedItem owned : entry.getOwnedIf())
+		for (OwnedItem owned : items)
 		{
 			if (snapshot.getInventory().getOrDefault(owned.getId(), 0) > 0
 				|| snapshot.getEquipment().getOrDefault(owned.getId(), 0) > 0)
@@ -404,7 +528,7 @@ public final class GapEngine
 				boostableFrom = floor;
 			}
 		}
-		gaps.add(new SkillLevelGap(req.getSkill(), have, req.getLevel(), xpDelta, req.isBoostable(), boostableFrom));
+		gaps.add(new SkillLevelGap(req.getSkill(), have, req.getLevel(), xpDelta, req.isBoostable(), boostableFrom, false));
 	}
 
 	private static void addItemGapIfShort(List<Gap> gaps, Snapshot snapshot, String name, int need)
@@ -532,6 +656,10 @@ public final class GapEngine
 		for (Gap gap : gaps)
 		{
 			if (gap instanceof ItemGap && ((ItemGap) gap).getHave() == null)
+			{
+				return true;
+			}
+			if (gap instanceof GearGap && ((GearGap) gap).isBankUnknown())
 			{
 				return true;
 			}

@@ -4,15 +4,18 @@ import dev.reece.nta.engine.model.CombatLevelGap;
 import dev.reece.nta.engine.model.DiaryTaskGap;
 import dev.reece.nta.engine.model.DiaryTierGap;
 import dev.reece.nta.engine.model.Gap;
+import dev.reece.nta.engine.model.GearGap;
 import dev.reece.nta.engine.model.GoalStatus;
 import dev.reece.nta.engine.model.ItemGap;
 import dev.reece.nta.engine.model.KudosGap;
 import dev.reece.nta.engine.model.QuestPointsGap;
 import dev.reece.nta.engine.model.QuestPrereqGap;
 import dev.reece.nta.engine.model.SkillLevelGap;
+import dev.reece.nta.kb.OwnedItem;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * A stable, order-independent digest over a {@link GoalStatus}'s gap kinds and keys (not its
@@ -79,6 +82,12 @@ public final class GapFingerprint
 		if (gap instanceof CombatLevelGap)
 		{
 			return "combat:" + ((CombatLevelGap) gap).getNeed();
+		}
+		if (gap instanceof GearGap)
+		{
+			List<String> ids = ((GearGap) gap).getAcceptable().stream().map(OwnedItem::getId).map(String::valueOf).collect(Collectors.toList());
+			Collections.sort(ids);
+			return "gear:[" + String.join(",", ids) + "]";
 		}
 		throw new IllegalStateException("Unknown gap type: " + gap.getClass());
 	}

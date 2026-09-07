@@ -2,6 +2,7 @@ package dev.reece.nta.engine;
 
 import dev.reece.nta.engine.model.CombatLevelGap;
 import dev.reece.nta.engine.model.Gap;
+import dev.reece.nta.engine.model.GearGap;
 import dev.reece.nta.engine.model.Goal;
 import dev.reece.nta.engine.model.GoalCategory;
 import dev.reece.nta.engine.model.GoalStatus;
@@ -10,12 +11,14 @@ import dev.reece.nta.engine.model.RankedGoal;
 import dev.reece.nta.engine.model.SkillLevelGap;
 import dev.reece.nta.kb.KnowledgeBase;
 import dev.reece.nta.kb.MilestoneCategory;
+import dev.reece.nta.kb.OwnedItem;
 import dev.reece.nta.snapshot.Snapshot;
 import java.util.List;
 import net.runelite.api.Skill;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
@@ -39,11 +42,11 @@ class WhyBuilderTest
 	@Test
 	void awayClauseCountsLeafGapsSingularAndPlural()
 	{
-		GoalStatus one = status("g1", GoalCategory.QUEST, List.of(new CombatLevelGap(1, 2)), false, false);
+		GoalStatus one = status("g1", GoalCategory.QUEST, List.of(new CombatLevelGap(1, 2, false)), false, false);
 		assertEquals("1 requirement away", whyBuilder.why(rank(one), kb, snap));
 
 		GoalStatus two = status("g2", GoalCategory.QUEST,
-			List.of(new CombatLevelGap(1, 2), new ItemGap("Rune", 0, 1, List.of(), false)), false, false);
+			List.of(new CombatLevelGap(1, 2, false), new ItemGap("Rune", 0, 1, List.of(), false)), false, false);
 		assertEquals("2 requirements away", whyBuilder.why(rank(two), kb, snap));
 	}
 
@@ -64,7 +67,7 @@ class WhyBuilderTest
 			.milestone("milestone:test", MilestoneCategory.UNLOCK, "Test Unlock", 5)
 			.unlocks("Ability A", "Ability B", "Ability C")
 			.build();
-		GoalStatus status = status("milestone:test", GoalCategory.MILESTONE, List.of(new CombatLevelGap(1, 2)), false, false);
+		GoalStatus status = status("milestone:test", GoalCategory.MILESTONE, List.of(new CombatLevelGap(1, 2, false)), false, false);
 
 		assertEquals("1 requirement away; unlocks Ability A, Ability B", whyBuilder.why(rank(status), unlockKb, snap));
 	}
@@ -96,9 +99,32 @@ class WhyBuilderTest
 	void justLevelsClauseListsSkillsWithHaveAndNeed()
 	{
 		GoalStatus status = status("g1", GoalCategory.QUEST,
-			List.of(new SkillLevelGap(Skill.HERBLORE, 61, 70, 500_000, false, null)), false, false);
+			List.of(new SkillLevelGap(Skill.HERBLORE, 61, 70, 500_000, false, null, false)), false, false);
 
 		assertEquals("1 requirement away; just levels: Herblore 61/70", whyBuilder.why(rank(status), kb, snap));
+	}
+
+	@Test
+	void recommendedClauseListsRecommendedSkillAndGearGaps()
+	{
+		GoalStatus status = status("boss:test", GoalCategory.BOSS,
+			List.of(
+				new SkillLevelGap(Skill.RANGED, 70, 85, 1_000_000, false, null, true),
+				new GearGap(List.of(new OwnedItem("Bandos", 11832)), false)),
+			false, false);
+
+		assertEquals("2 requirements away; recommended: 85 Ranged (have 70), Bandos or better", whyBuilder.why(rank(status), kb, snap));
+	}
+
+	@Test
+	void nonRecommendedGapsDoNotTriggerTheRecommendedClause()
+	{
+		GoalStatus status = status("g1", GoalCategory.QUEST,
+			List.of(new SkillLevelGap(Skill.RANGED, 70, 85, 1_000_000, false, null, false)), false, false);
+
+		String why = whyBuilder.why(rank(status), kb, snap);
+
+		assertFalse(why.contains("recommended:"), why);
 	}
 
 	@Test
@@ -124,12 +150,12 @@ class WhyBuilderTest
 
 	private static GoalStatus status(String id, GoalCategory category, List<Gap> gaps, boolean ready, boolean bankUnknown)
 	{
-		Goal goal = new Goal(id, category, id, "https://x", 5);
+		Goal goal = new Goal(id, category, id, "https://x", 5, 1);
 		return new GoalStatus(goal, gaps, ready, bankUnknown, List.of());
 	}
 
 	private static RankedGoal rank(GoalStatus status)
 	{
-		return new RankedGoal(status, 1.0, false);
+		return new RankedGoal(status, 1.0, false, false);
 	}
 }
