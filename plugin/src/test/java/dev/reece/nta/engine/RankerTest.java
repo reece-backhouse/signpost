@@ -271,6 +271,35 @@ class RankerTest
 		assertEquals(List.of("high", "low"), ids(ranked), "same stage-proximity group: falls back to score: " + ids(ranked));
 	}
 
+	// --- Task 54: equal-score ties break by lower stage first (spec ruling 29). ---
+
+	@Test
+	void equalScoreAndPriorityTiesBreakByLowerStageFirstRegardlessOfName()
+	{
+		// Real-world case: Moons of Peril (stage 2, score 8.00) and God Wars Dungeon (stage 3, score
+		// 8.00) for a stage-3 account - both land in the same stage-proximity group (task 46), so the
+		// tie falls to this comparator. Name order alone would put "godWarsDungeon" first; the closer
+		// progression rung (lower stage) must win instead.
+		GoalStatus godWarsDungeon = status("godWarsDungeon", GoalCategory.BOSS, 8, 3, List.of());
+		GoalStatus moonsOfPeril = status("moonsOfPeril", GoalCategory.BOSS, 8, 2, List.of());
+
+		List<RankedGoal> ranked = ranker.rank(List.of(godWarsDungeon, moonsOfPeril), Set.of(), List.of(), 3);
+
+		assertEquals(List.of("moonsOfPeril", "godWarsDungeon"), ids(ranked),
+			"equal score/priority: lower stage must win over name order: " + ids(ranked));
+	}
+
+	@Test
+	void unequalScoresStillOutrankTheLowerStageTieBreak()
+	{
+		GoalStatus higherScoreNextStage = status("higher", GoalCategory.BOSS, 9, 3, List.of());
+		GoalStatus lowerScoreCurrentStage = status("lower", GoalCategory.BOSS, 5, 2, List.of());
+
+		List<RankedGoal> ranked = ranker.rank(List.of(higherScoreNextStage, lowerScoreCurrentStage), Set.of(), List.of(), 3);
+
+		assertEquals(List.of("higher", "lower"), ids(ranked), "score still wins over the stage tie-break: " + ids(ranked));
+	}
+
 	@Test
 	void laterTierOrderingIsUnaffectedByStageProximity()
 	{
