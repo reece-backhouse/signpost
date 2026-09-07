@@ -1,7 +1,7 @@
 # LOCAL-next-target-advisor — Spec
 
 Jira: none
-Status: Implemented (S1–S5, S4.1–S4.3); S6 AI narrative not started
+Status: Implemented (S1–S5, S4.1–S4.3, S4.6–S4.7, S7); S6 AI narrative not started
 Date: 2026-09-07
 Links: tickets/001-next-target-advisor.md, docs/surge/reviews/LOCAL-next-target-advisor.md (grill), docs/surge/plans/LOCAL-next-target-advisor.md (plan)
 

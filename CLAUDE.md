@@ -13,11 +13,11 @@ achievements) and suggests what to focus on next, with routes to get there.
   - `engine/` pure logic: GapEngine, StageEstimator, Ranker, SuggestSelector, WhyBuilder,
     RoutePlanner, ShortfallResolver, NextStepPicker, Engine (one `Advice` per snapshot)
   - `store/` per-account JSON persistence (`~/.runelite/next-target/<accountHash>.json`)
-  - `ui/` Swing: header, search, SuggestPanel (pick one of three), GoalDetailPanel (route)
+  - `ui/` Swing: header, search, SuggestPanel (pick one of three, Why? per goal), GoalDetailPanel (route, shortfall with gathering plans)
 - `kb-build/` — TypeScript (Node 22) scripts that generate the KB JSON from the OSRS wiki
   (`npm run build-kb -- quests|diaries|methods|materials|expand-milestones`)
   - `data/` inputs: RuneLite quest list, aliases, diary var map (from Quest Helper), RuneLite sources
-  - `milestones.json` and `priorities.json` are hand-curated (stage, recommended profile, obtainedFrom)
+  - `milestones.json`, `priorities.json` and `data/gathering.json` are hand-curated (stage, recommended profile with gearOwnedMin, obtainedFrom; step-by-step gathering loops)
 
 ## Conventions
 
@@ -47,9 +47,12 @@ file when done. On macOS JDK 17 the `run` task needs `--add-exports java.desktop
 - Diary per-task bits come from Quest Helper's declaration order; the game's per-tier COUNT
   varbit is trusted when it disagrees (Desert Medium's Pollnivneach task uses an unknown
   ironman variable).
-- Milestone readiness = entry requirements + curated `recommended` profile; a boss is
-  "Ready now" only when both are met. Stage 1–4 per milestone; goals more than one stage
-  above the account's estimated stage are listed under "Later".
+- Milestone readiness = entry requirements + curated `recommended` profile (skills, gear with a
+  minimum owned count); a boss is "Ready now" only when both are met. Stage 1–4 per milestone;
+  the account stage needs two pieces of a stage's gear; goals more than one stage above are "Later".
+- Skill targets ("70 Herblore") are synthesised from upcoming goals' skill gaps; only bank-covered
+  targets can be picked, uncovered ones never outrank their parent goal.
+- Diagnostics: each engine run logs the top three picks and the Moons/GWD watch lines at INFO.
 
 ## Surge Engineering Workflow
 
