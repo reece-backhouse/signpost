@@ -1,15 +1,21 @@
 package dev.reece.nta.engine;
 
 import dev.reece.nta.kb.DiaryEntry;
+import dev.reece.nta.kb.DiaryRef;
 import dev.reece.nta.kb.DiaryTask;
 import dev.reece.nta.kb.ItemReq;
 import dev.reece.nta.kb.KnowledgeBase;
+import dev.reece.nta.kb.MilestoneCategory;
+import dev.reece.nta.kb.MilestoneEntry;
+import dev.reece.nta.kb.OwnedItem;
 import dev.reece.nta.kb.QuestEntry;
 import dev.reece.nta.kb.SkillReq;
 import dev.reece.nta.kb.TaskCompletion;
 import dev.reece.nta.snapshot.DiaryTier;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import net.runelite.api.Skill;
 
 /**
@@ -27,10 +33,13 @@ final class KbBuilder
 	private final List<QuestSpec> questSpecs = new ArrayList<>();
 	private final List<DiarySpec> diarySpecs = new ArrayList<>();
 	private final List<DiaryEntry> legacyDiaries = new ArrayList<>();
+	private final List<MilestoneSpec> milestoneSpecs = new ArrayList<>();
+	private final Map<String, Integer> priorityOverrides = new LinkedHashMap<>();
 
 	private QuestSpec currentQuest;
 	private DiarySpec currentDiary;
 	private TaskSpec currentTask;
+	private MilestoneSpec currentMilestone;
 
 	/**
 	 * Adds a tier with {@code taskCount} tasks, each completed via bit {@code ordinal - 1} of
@@ -54,18 +63,35 @@ final class KbBuilder
 		questSpecs.add(currentQuest);
 		currentDiary = null;
 		currentTask = null;
+		currentMilestone = null;
 		return this;
 	}
 
-	/** Adds a quest-name requirement to the currently open diary task. */
+	/** Adds a quest-name requirement to the currently open milestone, or diary task if none is open. */
 	KbBuilder quest(String name)
 	{
-		currentTask.quests.add(name);
+		if (currentMilestone != null)
+		{
+			currentMilestone.quests.add(name);
+		}
+		else
+		{
+			currentTask.quests.add(name);
+		}
 		return this;
 	}
 
+	/**
+	 * Starts a diary tier chain, or - if a milestone is currently open - adds {@code tier} as a
+	 * diary requirement to that milestone instead.
+	 */
 	KbBuilder diary(DiaryTier tier)
 	{
+		if (currentMilestone != null)
+		{
+			currentMilestone.diaries.add(tier);
+			return this;
+		}
 		currentDiary = new DiarySpec(tier);
 		diarySpecs.add(currentDiary);
 		currentQuest = null;
@@ -77,6 +103,31 @@ final class KbBuilder
 	{
 		currentTask = new TaskSpec(ordinal, text);
 		currentDiary.tasks.add(currentTask);
+		return this;
+	}
+
+	/** Starts a milestone chain. */
+	KbBuilder milestone(String id, MilestoneCategory category, String name, int priority)
+	{
+		currentMilestone = new MilestoneSpec(id, category, name, priority);
+		milestoneSpecs.add(currentMilestone);
+		currentQuest = null;
+		currentDiary = null;
+		currentTask = null;
+		return this;
+	}
+
+	/** Adds an ownedIf item id to the currently open milestone. */
+	KbBuilder ownedIf(String name, int id)
+	{
+		currentMilestone.ownedIf.add(new OwnedItem(name, id));
+		return this;
+	}
+
+	/** Sets a priority override for a goal id, applied instead of that goal's own priority. */
+	KbBuilder priorityOverride(String id, int priority)
+	{
+		priorityOverrides.put(id, priority);
 		return this;
 	}
 
@@ -93,7 +144,11 @@ final class KbBuilder
 	KbBuilder skill(Skill skill, int level, boolean boostable, boolean ironmanOnly)
 	{
 		SkillReq req = new SkillReq(skill, level, boostable, ironmanOnly);
-		if (currentTask != null)
+		if (currentMilestone != null)
+		{
+			currentMilestone.skills.add(req);
+		}
+		else if (currentTask != null)
 		{
 			currentTask.skills.add(req);
 		}
@@ -122,6 +177,13 @@ final class KbBuilder
 	KbBuilder item(String name)
 	{
 		currentTask.items.add(name);
+		return this;
+	}
+
+	/** Adds an item requirement (by id, with sources) to the currently open milestone. */
+	KbBuilder item(String name, int id, int quantity, String... sources)
+	{
+		currentMilestone.items.add(new ItemReq(name, id, quantity, List.of(sources)));
 		return this;
 	}
 
@@ -187,7 +249,20 @@ final class KbBuilder
 			diaries.add(new DiaryEntry(d.tier, 0, tasks));
 		}
 
-		return KnowledgeBase.of(1, "test", 1, "test", quests, diaries);
+		List<MilestoneEntry> milestones = new ArrayList<>();
+		for (MilestoneSpec m : milestoneSpecs)
+		{
+			List<DiaryRef> diaryRefs = new ArrayList<>();
+			for (DiaryTier tier : m.diaries)
+			{
+				diaryRefs.add(new DiaryRef(tier));
+			}
+			milestones.add(new MilestoneEntry(m.id, m.category, null, m.name, m.name, m.priority, "test", List.of(),
+				List.copyOf(m.skills), List.copyOf(m.quests), diaryRefs, null, null, List.copyOf(m.items), List.copyOf(m.ownedIf),
+				null, List.of()));
+		}
+
+		return KnowledgeBase.of(1, "test", 1, "test", quests, diaries, milestones, priorityOverrides);
 	}
 
 	private static final class QuestSpec
@@ -216,6 +291,27 @@ final class KbBuilder
 		DiarySpec(DiaryTier tier)
 		{
 			this.tier = tier;
+		}
+	}
+
+	private static final class MilestoneSpec
+	{
+		final String id;
+		final MilestoneCategory category;
+		final String name;
+		final int priority;
+		final List<SkillReq> skills = new ArrayList<>();
+		final List<String> quests = new ArrayList<>();
+		final List<DiaryTier> diaries = new ArrayList<>();
+		final List<ItemReq> items = new ArrayList<>();
+		final List<OwnedItem> ownedIf = new ArrayList<>();
+
+		MilestoneSpec(String id, MilestoneCategory category, String name, int priority)
+		{
+			this.id = id;
+			this.category = category;
+			this.name = name;
+			this.priority = priority;
 		}
 	}
 
