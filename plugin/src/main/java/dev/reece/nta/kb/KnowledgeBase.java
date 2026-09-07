@@ -110,6 +110,22 @@ public final class KnowledgeBase
 	{
 		QuestsFile questsFile = readResource(gson, QUESTS_RESOURCE, QuestsFile.class);
 		DiariesFile diariesFile = readResource(gson, DIARIES_RESOURCE, DiariesFile.class);
+		return build(questsFile, diariesFile);
+	}
+
+	/**
+	 * Package-visible for tests: maps already-parsed JSON strings the same way {@link #load} maps
+	 * the bundled classpath resources, without touching the classpath.
+	 */
+	static KnowledgeBase fromJson(Gson gson, String questsJson, String diariesJson)
+	{
+		return build(gson.fromJson(questsJson, QuestsFile.class), gson.fromJson(diariesJson, DiariesFile.class));
+	}
+
+	private static KnowledgeBase build(QuestsFile questsFile, DiariesFile diariesFile)
+	{
+		requireField(questsFile.quests, QUESTS_RESOURCE, "quests");
+		requireField(diariesFile.diaries, DIARIES_RESOURCE, "diaries");
 
 		List<QuestEntry> quests = questsFile.quests.stream().map(KnowledgeBase::toQuestEntry).collect(Collectors.toList());
 		List<DiaryEntry> diaries = diariesFile.diaries.stream().map(KnowledgeBase::toDiaryEntry).collect(Collectors.toList());
@@ -118,6 +134,22 @@ public final class KnowledgeBase
 			questsFile.version, questsFile.generatedAt,
 			diariesFile.version, diariesFile.generatedAt,
 			quests, diaries);
+	}
+
+	/** Fails loudly (rather than a bare NPE downstream) when a required JSON field is missing or explicitly null. */
+	private static void requireField(Object value, String context, String field)
+	{
+		if (value == null)
+		{
+			throw new IllegalStateException("Malformed knowledge base data: " + context + " is missing '" + field + "'");
+		}
+	}
+
+	private static boolean isValidCompletion(CompletionDto c)
+	{
+		boolean varpForm = c.varp != null && c.bit != null;
+		boolean varbitForm = c.varbit != null && c.doneMin != null;
+		return varpForm || varbitForm;
 	}
 
 	private static <T> T readResource(Gson gson, String resource, Class<T> type)
@@ -147,6 +179,11 @@ public final class KnowledgeBase
 
 	private static QuestEntry toQuestEntry(QuestDto dto)
 	{
+		String context = "quest \"" + dto.name + "\"";
+		requireField(dto.skills, context, "skills");
+		requireField(dto.prereqs, context, "prereqs");
+		requireField(dto.items, context, "items");
+
 		List<SkillReq> skills = new ArrayList<>();
 		Integer questPointsRequired = null;
 		Integer kudosRequired = null;
@@ -178,6 +215,7 @@ public final class KnowledgeBase
 
 	private static DiaryEntry toDiaryEntry(DiaryDto dto)
 	{
+		requireField(dto.tasks, dto.area + " " + dto.tier, "tasks");
 		DiaryTier tier = DiaryTier.valueOf(dto.area + "_" + dto.tier);
 		List<DiaryTask> tasks = dto.tasks.stream().map(t -> toDiaryTask(t, dto.area, dto.tier)).collect(Collectors.toList());
 		return new DiaryEntry(tier, dto.tierVarbit, tasks);
@@ -185,6 +223,18 @@ public final class KnowledgeBase
 
 	private static DiaryTask toDiaryTask(TaskDto dto, String area, String tier)
 	{
+		String context = area + " " + tier + " task " + dto.ordinal;
+		requireField(dto.skills, context, "skills");
+		requireField(dto.quests, context, "quests");
+		requireField(dto.items, context, "items");
+		requireField(dto.notes, context, "notes");
+		requireField(dto.completion, context, "completion");
+		if (!isValidCompletion(dto.completion))
+		{
+			throw new IllegalStateException("Malformed knowledge base data: " + context
+				+ " has an invalid completion (needs varp+bit or varbit+doneMin)");
+		}
+
 		List<SkillReq> skills = new ArrayList<>();
 		Integer combatLevelRequired = null;
 		List<String> notes = new ArrayList<>(dto.notes);

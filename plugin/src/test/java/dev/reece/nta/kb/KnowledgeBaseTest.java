@@ -9,10 +9,42 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class KnowledgeBaseTest
 {
+	private static final String EMPTY_QUESTS_JSON = "{\"version\":1,\"generatedAt\":\"x\",\"quests\":[]}";
+	private static final String EMPTY_DIARIES_JSON = "{\"version\":1,\"generatedAt\":\"x\",\"diaries\":[]}";
+
+	@Test
+	void nullSkillsListOnAQuestFailsLoudlyNamingTheQuestAndField()
+	{
+		String questsJson = "{\"version\":1,\"generatedAt\":\"x\",\"quests\":[{\"id\":0,\"name\":\"Test Quest\","
+			+ "\"wikiTitle\":\"Test Quest\",\"skills\":null,\"prereqs\":[],\"items\":[],\"questPoints\":1,\"source\":\"test\"}]}";
+
+		IllegalStateException e = assertThrows(IllegalStateException.class,
+			() -> KnowledgeBase.fromJson(new Gson(), questsJson, EMPTY_DIARIES_JSON));
+
+		assertTrue(e.getMessage().contains("Test Quest"), e.getMessage());
+		assertTrue(e.getMessage().contains("skills"), e.getMessage());
+	}
+
+	@Test
+	void malformedCompletionOnADiaryTaskFailsLoudlyNamingAreaTierAndOrdinal()
+	{
+		String diariesJson = "{\"version\":1,\"generatedAt\":\"x\",\"diaries\":[{\"area\":\"VARROCK\",\"tier\":\"EASY\","
+			+ "\"tierVarbit\":0,\"tasks\":[{\"ordinal\":1,\"text\":\"t\",\"skills\":[],\"quests\":[],\"items\":[],"
+			+ "\"notes\":[],\"completion\":{}}]}]}";
+
+		IllegalStateException e = assertThrows(IllegalStateException.class,
+			() -> KnowledgeBase.fromJson(new Gson(), EMPTY_QUESTS_JSON, diariesJson));
+
+		assertTrue(e.getMessage().contains("VARROCK"), e.getMessage());
+		assertTrue(e.getMessage().contains("EASY"), e.getMessage());
+		assertTrue(e.getMessage().contains("task 1"), e.getMessage());
+	}
+
 	@Test
 	void bundledJsonLoads()
 	{
