@@ -1,10 +1,14 @@
 package dev.reece.nta.engine;
 
+import dev.reece.nta.engine.model.ItemSource;
 import dev.reece.nta.kb.DiaryEntry;
 import dev.reece.nta.kb.DiaryRef;
 import dev.reece.nta.kb.DiaryTask;
+import dev.reece.nta.kb.ItemQuantity;
 import dev.reece.nta.kb.ItemReq;
 import dev.reece.nta.kb.KnowledgeBase;
+import dev.reece.nta.kb.MaterialEntry;
+import dev.reece.nta.kb.MethodEntry;
 import dev.reece.nta.kb.MilestoneCategory;
 import dev.reece.nta.kb.MilestoneEntry;
 import dev.reece.nta.kb.OwnedItem;
@@ -34,12 +38,16 @@ final class KbBuilder
 	private final List<DiarySpec> diarySpecs = new ArrayList<>();
 	private final List<DiaryEntry> legacyDiaries = new ArrayList<>();
 	private final List<MilestoneSpec> milestoneSpecs = new ArrayList<>();
+	private final List<MethodSpec> methodSpecs = new ArrayList<>();
+	private final List<MaterialSpec> materialSpecs = new ArrayList<>();
 	private final Map<String, Integer> priorityOverrides = new LinkedHashMap<>();
 
 	private QuestSpec currentQuest;
 	private DiarySpec currentDiary;
 	private TaskSpec currentTask;
 	private MilestoneSpec currentMilestone;
+	private MethodSpec currentMethod;
+	private MaterialSpec currentMaterial;
 
 	/**
 	 * Adds a tier with {@code taskCount} tasks, each completed via bit {@code ordinal - 1} of
@@ -142,6 +150,65 @@ final class KbBuilder
 	KbBuilder subcategory(String subcategory)
 	{
 		currentMilestone.subcategory = subcategory;
+		return this;
+	}
+
+	/** Starts a {@code methods.json}-style training method chain (task 34/35/36 engine tests). */
+	KbBuilder method(Skill skill, String name, int levelReq, double xpPerAction)
+	{
+		currentMethod = new MethodSpec(skill, name, levelReq, xpPerAction);
+		methodSpecs.add(currentMethod);
+		currentQuest = null;
+		currentDiary = null;
+		currentTask = null;
+		currentMilestone = null;
+		currentMaterial = null;
+		return this;
+	}
+
+	/** Adds a material requirement (by id only; the name is synthesised for display) to the currently open method. */
+	KbBuilder material(int id, double quantity)
+	{
+		currentMethod.materials.add(new ItemQtyRef(id, quantity));
+		return this;
+	}
+
+	/** Adds an output (by id only) to the currently open method. */
+	KbBuilder output(int id, double quantity)
+	{
+		currentMethod.outputs.add(new ItemQtyRef(id, quantity));
+		return this;
+	}
+
+	/** Flags the currently open method {@code intermediate} (0-xp recipe, e.g. an unfinished potion). */
+	KbBuilder intermediate()
+	{
+		currentMethod.intermediate = true;
+		return this;
+	}
+
+	/** Adds a Bucket "type" tag (e.g. {@code "Barbarian Mix"}) to the currently open method. */
+	KbBuilder type(String type)
+	{
+		currentMethod.types.add(type);
+		return this;
+	}
+
+	/** Starts a {@code materials.json}-style material chain (task 34/35 engine tests). */
+	KbBuilder material(String name, Integer id)
+	{
+		currentMaterial = new MaterialSpec(name, id);
+		materialSpecs.add(currentMaterial);
+		currentMethod = null;
+		return this;
+	}
+
+	/** Adds a source to the currently open material. {@code accountTypes} is accepted for readability but unused: every
+	 * bundled source's {@code type == "GE"} exactly when its {@code accountTypes} is {@code ["main"]}, so filtering
+	 * (see {@link dev.reece.nta.engine.GapEngine#sourcesFor}) only ever looks at {@code type}. */
+	KbBuilder source(String type, String where, String... accountTypes)
+	{
+		currentMaterial.sources.add(new ItemSource(type, where, ""));
 		return this;
 	}
 
@@ -297,7 +364,41 @@ final class KbBuilder
 				m.gearTier, List.of()));
 		}
 
-		return KnowledgeBase.of(1, "test", 1, "test", quests, diaries, milestones, priorityOverrides);
+		Map<Integer, String> materialNames = new LinkedHashMap<>();
+		for (MaterialSpec s : materialSpecs)
+		{
+			if (s.id != null)
+			{
+				materialNames.put(s.id, s.name);
+			}
+		}
+
+		List<MethodEntry> methods = new ArrayList<>();
+		for (MethodSpec m : methodSpecs)
+		{
+			List<ItemQuantity> materials = toItemQuantities(m.materials, materialNames);
+			List<ItemQuantity> outputs = toItemQuantities(m.outputs, materialNames);
+			methods.add(new MethodEntry(m.skill, m.name, m.name, m.levelReq, m.xpPerAction, materials, outputs, List.copyOf(m.types),
+				true, false, null, m.intermediate, true));
+		}
+
+		List<MaterialEntry> materials = new ArrayList<>();
+		for (MaterialSpec s : materialSpecs)
+		{
+			materials.add(new MaterialEntry(s.name, s.id, false, List.copyOf(s.sources)));
+		}
+
+		return KnowledgeBase.of(1, "test", 1, "test", quests, diaries, milestones, priorityOverrides, methods, materials);
+	}
+
+	private static List<ItemQuantity> toItemQuantities(List<ItemQtyRef> refs, Map<Integer, String> materialNames)
+	{
+		List<ItemQuantity> result = new ArrayList<>();
+		for (ItemQtyRef r : refs)
+		{
+			result.add(new ItemQuantity(materialNames.getOrDefault(r.id, "item " + r.id), r.id, r.quantity));
+		}
+		return result;
 	}
 
 	private static final class QuestSpec
@@ -372,6 +473,51 @@ final class KbBuilder
 			this.ordinal = ordinal;
 			this.text = text;
 			this.bit = ordinal - 1;
+		}
+	}
+
+	private static final class MethodSpec
+	{
+		final Skill skill;
+		final String name;
+		final int levelReq;
+		final double xpPerAction;
+		final List<ItemQtyRef> materials = new ArrayList<>();
+		final List<ItemQtyRef> outputs = new ArrayList<>();
+		final List<String> types = new ArrayList<>();
+		boolean intermediate;
+
+		MethodSpec(Skill skill, String name, int levelReq, double xpPerAction)
+		{
+			this.skill = skill;
+			this.name = name;
+			this.levelReq = levelReq;
+			this.xpPerAction = xpPerAction;
+		}
+	}
+
+	private static final class ItemQtyRef
+	{
+		final int id;
+		final double quantity;
+
+		ItemQtyRef(int id, double quantity)
+		{
+			this.id = id;
+			this.quantity = quantity;
+		}
+	}
+
+	private static final class MaterialSpec
+	{
+		final String name;
+		final Integer id;
+		final List<ItemSource> sources = new ArrayList<>();
+
+		MaterialSpec(String name, Integer id)
+		{
+			this.name = name;
+			this.id = id;
 		}
 	}
 }

@@ -2,6 +2,7 @@ package dev.reece.nta.kb;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonParseException;
+import dev.reece.nta.engine.model.ItemSource;
 import dev.reece.nta.snapshot.DiaryTier;
 import java.io.IOException;
 import java.io.InputStream;
@@ -32,6 +33,10 @@ public final class KnowledgeBase
 	private static final String DIARIES_RESOURCE = "/kb/diaries.json";
 	private static final String MILESTONES_RESOURCE = "/kb/milestones.json";
 	private static final String PRIORITIES_RESOURCE = "/kb/priorities.json";
+	private static final String METHODS_RESOURCE = "/kb/methods.json";
+	private static final String MATERIALS_RESOURCE = "/kb/materials.json";
+	private static final String EMPTY_METHODS_JSON = "{\"version\":1,\"generatedAt\":\"x\",\"methods\":[]}";
+	private static final String EMPTY_MATERIALS_JSON = "{\"version\":1,\"generatedAt\":\"x\",\"materials\":[]}";
 
 	private static final String QUEST_POINT_SKILL = "Quest point";
 	private static final String KUDOS_SKILL = "Kudos";
@@ -46,10 +51,15 @@ public final class KnowledgeBase
 	private final List<QuestEntry> quests;
 	private final List<DiaryEntry> diaries;
 	private final List<MilestoneEntry> milestones;
+	private final List<MethodEntry> methods;
+	private final List<MaterialEntry> materials;
 	private final Map<Integer, QuestEntry> questsById;
 	private final Map<String, QuestEntry> questsByName;
 	private final Map<DiaryTier, DiaryEntry> diariesByTier;
 	private final Map<String, MilestoneEntry> milestonesById;
+	private final Map<Skill, List<MethodEntry>> methodsBySkill;
+	private final Map<String, MaterialEntry> materialsByName;
+	private final Map<Integer, MaterialEntry> materialsById;
 	private final Map<String, Integer> priorityOverrides;
 	private final Set<Integer> diaryVarps;
 	private final Set<Integer> diaryVarbits;
@@ -58,7 +68,8 @@ public final class KnowledgeBase
 		int questsVersion, String questsGeneratedAt,
 		int diariesVersion, String diariesGeneratedAt,
 		List<QuestEntry> quests, List<DiaryEntry> diaries,
-		List<MilestoneEntry> milestones, Map<String, Integer> priorityOverrides)
+		List<MilestoneEntry> milestones, Map<String, Integer> priorityOverrides,
+		List<MethodEntry> methods, List<MaterialEntry> materials)
 	{
 		this.questsVersion = questsVersion;
 		this.questsGeneratedAt = questsGeneratedAt;
@@ -67,6 +78,8 @@ public final class KnowledgeBase
 		this.quests = List.copyOf(quests);
 		this.diaries = List.copyOf(diaries);
 		this.milestones = List.copyOf(milestones);
+		this.methods = List.copyOf(methods);
+		this.materials = List.copyOf(materials);
 		this.priorityOverrides = Map.copyOf(priorityOverrides);
 
 		Map<Integer, QuestEntry> byId = new LinkedHashMap<>();
@@ -108,6 +121,31 @@ public final class KnowledgeBase
 		this.diariesByTier = Map.copyOf(byTier);
 		this.diaryVarps = Set.copyOf(varps);
 		this.diaryVarbits = Set.copyOf(varbits);
+
+		Map<Skill, List<MethodEntry>> bySkill = new EnumMap<>(Skill.class);
+		for (MethodEntry method : this.methods)
+		{
+			bySkill.computeIfAbsent(method.getSkill(), s -> new ArrayList<>()).add(method);
+		}
+		Map<Skill, List<MethodEntry>> immutableBySkill = new EnumMap<>(Skill.class);
+		for (Map.Entry<Skill, List<MethodEntry>> e : bySkill.entrySet())
+		{
+			immutableBySkill.put(e.getKey(), List.copyOf(e.getValue()));
+		}
+		this.methodsBySkill = Map.copyOf(immutableBySkill);
+
+		Map<String, MaterialEntry> byMaterialName = new LinkedHashMap<>();
+		Map<Integer, MaterialEntry> byMaterialId = new LinkedHashMap<>();
+		for (MaterialEntry material : this.materials)
+		{
+			byMaterialName.put(material.getName(), material);
+			if (material.getId() != null)
+			{
+				byMaterialId.put(material.getId(), material);
+			}
+		}
+		this.materialsByName = Map.copyOf(byMaterialName);
+		this.materialsById = Map.copyOf(byMaterialId);
 	}
 
 	/**
@@ -120,8 +158,20 @@ public final class KnowledgeBase
 		List<QuestEntry> quests, List<DiaryEntry> diaries,
 		List<MilestoneEntry> milestones, Map<String, Integer> priorityOverrides)
 	{
+		return of(questsVersion, questsGeneratedAt, diariesVersion, diariesGeneratedAt, quests, diaries, milestones, priorityOverrides,
+			List.of(), List.of());
+	}
+
+	/** As {@link #of(int, String, int, String, List, List, List, Map)}, also seeding {@code methods}/{@code materials}. */
+	public static KnowledgeBase of(
+		int questsVersion, String questsGeneratedAt,
+		int diariesVersion, String diariesGeneratedAt,
+		List<QuestEntry> quests, List<DiaryEntry> diaries,
+		List<MilestoneEntry> milestones, Map<String, Integer> priorityOverrides,
+		List<MethodEntry> methods, List<MaterialEntry> materials)
+	{
 		return new KnowledgeBase(questsVersion, questsGeneratedAt, diariesVersion, diariesGeneratedAt, quests, diaries, milestones,
-			priorityOverrides);
+			priorityOverrides, methods, materials);
 	}
 
 	public static KnowledgeBase load(Gson gson)
@@ -130,7 +180,9 @@ public final class KnowledgeBase
 		DiariesFile diariesFile = readResource(gson, DIARIES_RESOURCE, DiariesFile.class);
 		MilestonesFile milestonesFile = readResource(gson, MILESTONES_RESOURCE, MilestonesFile.class);
 		PrioritiesFile prioritiesFile = readResource(gson, PRIORITIES_RESOURCE, PrioritiesFile.class);
-		return build(questsFile, diariesFile, milestonesFile, prioritiesFile);
+		MethodsFile methodsFile = readResource(gson, METHODS_RESOURCE, MethodsFile.class);
+		MaterialsFile materialsFile = readResource(gson, MATERIALS_RESOURCE, MaterialsFile.class);
+		return build(questsFile, diariesFile, milestonesFile, prioritiesFile, methodsFile, materialsFile);
 	}
 
 	/**
@@ -139,20 +191,31 @@ public final class KnowledgeBase
 	 */
 	static KnowledgeBase fromJson(Gson gson, String questsJson, String diariesJson, String milestonesJson, String prioritiesJson)
 	{
+		return fromJson(gson, questsJson, diariesJson, milestonesJson, prioritiesJson, EMPTY_METHODS_JSON, EMPTY_MATERIALS_JSON);
+	}
+
+	/** As above, also mapping {@code methodsJson}/{@code materialsJson}. */
+	static KnowledgeBase fromJson(Gson gson, String questsJson, String diariesJson, String milestonesJson, String prioritiesJson,
+		String methodsJson, String materialsJson)
+	{
 		return build(
 			gson.fromJson(questsJson, QuestsFile.class),
 			gson.fromJson(diariesJson, DiariesFile.class),
 			gson.fromJson(milestonesJson, MilestonesFile.class),
-			gson.fromJson(prioritiesJson, PrioritiesFile.class));
+			gson.fromJson(prioritiesJson, PrioritiesFile.class),
+			gson.fromJson(methodsJson, MethodsFile.class),
+			gson.fromJson(materialsJson, MaterialsFile.class));
 	}
 
 	private static KnowledgeBase build(QuestsFile questsFile, DiariesFile diariesFile, MilestonesFile milestonesFile,
-		PrioritiesFile prioritiesFile)
+		PrioritiesFile prioritiesFile, MethodsFile methodsFile, MaterialsFile materialsFile)
 	{
 		requireField(questsFile.quests, QUESTS_RESOURCE, "quests");
 		requireField(diariesFile.diaries, DIARIES_RESOURCE, "diaries");
 		requireField(milestonesFile.milestones, MILESTONES_RESOURCE, "milestones");
 		requireField(prioritiesFile.overrides, PRIORITIES_RESOURCE, "overrides");
+		requireField(methodsFile.methods, METHODS_RESOURCE, "methods");
+		requireField(materialsFile.materials, MATERIALS_RESOURCE, "materials");
 
 		List<QuestEntry> quests = questsFile.quests.stream().map(KnowledgeBase::toQuestEntry).collect(Collectors.toList());
 		List<DiaryEntry> diaries = diariesFile.diaries.stream().map(KnowledgeBase::toDiaryEntry).collect(Collectors.toList());
@@ -165,10 +228,18 @@ public final class KnowledgeBase
 			.map(dto -> toMilestoneEntry(dto, questNames, milestoneIds))
 			.collect(Collectors.toList());
 
+		List<MaterialEntry> materials = materialsFile.materials.stream().map(KnowledgeBase::toMaterialEntry).collect(Collectors.toList());
+		Map<String, Integer> materialIdsByName = new LinkedHashMap<>();
+		for (MaterialEntry material : materials)
+		{
+			materialIdsByName.put(material.getName(), material.getId());
+		}
+		List<MethodEntry> methods = methodsFile.methods.stream().map(dto -> toMethodEntry(dto, materialIdsByName)).collect(Collectors.toList());
+
 		return new KnowledgeBase(
 			questsFile.version, questsFile.generatedAt,
 			diariesFile.version, diariesFile.generatedAt,
-			quests, diaries, milestones, prioritiesFile.overrides);
+			quests, diaries, milestones, prioritiesFile.overrides, methods, materials);
 	}
 
 	/** Fails loudly (rather than a bare NPE downstream) when a required JSON field is missing or explicitly null. */
@@ -409,6 +480,63 @@ public final class KnowledgeBase
 		return new OwnedItem(dto.name, dto.id);
 	}
 
+	private static MaterialEntry toMaterialEntry(MaterialDto dto)
+	{
+		requireField(dto.name, "materials.json entry", "name");
+		String context = "material \"" + dto.name + "\"";
+		requireField(dto.sources, context, "sources");
+
+		List<ItemSource> sources = dto.sources.stream()
+			.map(s -> new ItemSource(s.type, s.where, s.detail))
+			.collect(Collectors.toList());
+		return new MaterialEntry(dto.name, dto.id, dto.generic, List.copyOf(sources));
+	}
+
+	private static MethodEntry toMethodEntry(MethodDto dto, Map<String, Integer> materialIdsByName)
+	{
+		String context = "method \"" + dto.name + "\"";
+		requireField(dto.skill, context, "skill");
+		requireField(dto.name, context, "name");
+		requireField(dto.materials, context, "materials");
+		requireField(dto.outputs, context, "outputs");
+		requireField(dto.types, context, "types");
+
+		if (dto.levelReq < 1 || dto.levelReq > 99)
+		{
+			throw new IllegalStateException("Malformed knowledge base data: " + context + " has levelReq " + dto.levelReq + " outside 1..99");
+		}
+		if (dto.xpPerAction < 0)
+		{
+			throw new IllegalStateException("Malformed knowledge base data: " + context + " has negative xpPerAction " + dto.xpPerAction);
+		}
+		Skill skill = resolveSkill(dto.skill, context);
+
+		// usable depends only on materials (inputs) resolving to an id: a method the route planner
+		// can never afford (a required input has no known item) is unusable. An unresolved OUTPUT
+		// (e.g. a generic-named byproduct) doesn't block the method - RoutePlanner just doesn't add
+		// it to the simulated bank (see ItemQuantity#getId()). This matters a lot in practice: 281
+		// of Magic's 286 methods have a generic output (e.g. rune/tablet-adjacent byproducts) and
+		// would otherwise be wrongly excluded from every route.
+		boolean[] usable = {true};
+		List<ItemQuantity> materials = dto.materials.stream().map(i -> toItemQuantity(i, materialIdsByName, usable)).collect(Collectors.toList());
+		List<ItemQuantity> outputs = dto.outputs.stream().map(i -> toItemQuantity(i, materialIdsByName, null)).collect(Collectors.toList());
+
+		return new MethodEntry(skill, dto.name, dto.title, dto.levelReq, dto.xpPerAction, List.copyOf(materials), List.copyOf(outputs),
+			List.copyOf(dto.types), dto.members, Boolean.TRUE.equals(dto.boostable), dto.ticks, Boolean.TRUE.equals(dto.intermediate),
+			usable[0]);
+	}
+
+	/** {@code usable} (when non-null) is flipped to {@code false} (in place) when {@code dto.name} has no {@code materials.json} entry. */
+	private static ItemQuantity toItemQuantity(ItemQtyDto dto, Map<String, Integer> materialIdsByName, boolean[] usable)
+	{
+		Integer id = materialIdsByName.get(dto.name);
+		if (id == null && usable != null)
+		{
+			usable[0] = false;
+		}
+		return new ItemQuantity(dto.name, id, dto.quantity);
+	}
+
 	private static MilestoneCategory resolveMilestoneCategory(String raw, String context)
 	{
 		switch (raw)
@@ -497,6 +625,32 @@ public final class KnowledgeBase
 	public MilestoneEntry milestoneById(String id)
 	{
 		return milestonesById.get(id);
+	}
+
+	public List<MethodEntry> getMethods()
+	{
+		return methods;
+	}
+
+	public List<MaterialEntry> getMaterials()
+	{
+		return materials;
+	}
+
+	/** Every {@link MethodEntry} (real and {@code intermediate}) for {@code skill}, or empty if none. */
+	public List<MethodEntry> methodsFor(Skill skill)
+	{
+		return methodsBySkill.getOrDefault(skill, List.of());
+	}
+
+	public MaterialEntry materialByName(String name)
+	{
+		return materialsByName.get(name);
+	}
+
+	public MaterialEntry materialById(int id)
+	{
+		return materialsById.get(id);
 	}
 
 	public Map<String, Integer> getPriorityOverrides()
@@ -642,5 +796,57 @@ public final class KnowledgeBase
 	{
 		String name;
 		Integer id;
+	}
+
+	private static final class MethodsFile
+	{
+		int version;
+		String generatedAt;
+		List<MethodDto> methods = new ArrayList<>();
+	}
+
+	private static final class MethodDto
+	{
+		String skill;
+		String name;
+		String title;
+		int levelReq;
+		double xpPerAction;
+		List<ItemQtyDto> materials = new ArrayList<>();
+		List<ItemQtyDto> outputs = new ArrayList<>();
+		List<String> types = new ArrayList<>();
+		boolean members;
+		Boolean boostable;
+		Integer ticks;
+		Boolean intermediate;
+	}
+
+	private static final class ItemQtyDto
+	{
+		String name;
+		double quantity;
+	}
+
+	private static final class MaterialsFile
+	{
+		int version;
+		String generatedAt;
+		List<MaterialDto> materials = new ArrayList<>();
+	}
+
+	private static final class MaterialDto
+	{
+		String name;
+		Integer id;
+		boolean generic;
+		List<SourceDto> sources = new ArrayList<>();
+	}
+
+	private static final class SourceDto
+	{
+		String type;
+		String where;
+		String detail;
+		List<String> accountTypes;
 	}
 }
