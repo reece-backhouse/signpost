@@ -108,6 +108,42 @@ class KnowledgeBaseMethodsTest
 	}
 
 	@Test
+	void outputNamedLikeOneOfTheMethodsOwnMaterialsIsDroppedAtLoad()
+	{
+		// A stale methods.json (pre C1 fix) listed "Dragon bones" as both material and output; a
+		// method must never refill the simulated bank with what it just consumed.
+		String methodsJson = "{\"version\":1,\"generatedAt\":\"x\",\"methods\":[{\"skill\":\"Herblore\",\"name\":\"Ranarr weed\","
+			+ "\"title\":\"Ranarr weed\",\"levelReq\":1,\"xpPerAction\":10,\"materials\":[{\"name\":\"Ranarr weed\",\"quantity\":1}],"
+			+ "\"outputs\":[{\"name\":\"Ranarr weed\",\"quantity\":1},{\"name\":\"Something else\",\"quantity\":1}],\"types\":[],\"members\":false}]}";
+
+		KnowledgeBase kb = KnowledgeBase.fromJson(new Gson(), EMPTY_QUESTS_JSON, EMPTY_DIARIES_JSON, EMPTY_MILESTONES_JSON,
+			EMPTY_PRIORITIES_JSON, methodsJson, materialsJsonWithRanarrWeed());
+
+		MethodEntry entry = kb.methodsFor(Skill.HERBLORE).get(0);
+		assertEquals(1, entry.getOutputs().size(), "the self-consuming output must be dropped, the other kept");
+		assertEquals("Something else", entry.getOutputs().get(0).getName());
+		assertTrue(entry.isUsable());
+	}
+
+	@Test
+	void noBundledMethodOutputsAnItemItConsumes()
+	{
+		KnowledgeBase kb = KnowledgeBase.load(new Gson());
+
+		for (MethodEntry method : kb.getMethods())
+		{
+			for (ItemQuantity output : method.getOutputs())
+			{
+				for (ItemQuantity material : method.getMaterials())
+				{
+					assertFalse(material.getName().equals(output.getName()),
+						method.getSkill() + " \"" + method.getTitle() + "\" outputs the \"" + output.getName() + "\" it consumes");
+				}
+			}
+		}
+	}
+
+	@Test
 	void bundledMagicMethodsAreMostlyUsableDespiteGenericOutputs()
 	{
 		KnowledgeBase kb = KnowledgeBase.load(new Gson());

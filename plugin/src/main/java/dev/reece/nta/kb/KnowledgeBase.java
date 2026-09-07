@@ -574,7 +574,14 @@ public final class KnowledgeBase
 		// would otherwise be wrongly excluded from every route.
 		boolean[] usable = {true};
 		List<ItemQuantity> materials = dto.materials.stream().map(i -> toItemQuantity(i, materialIdsByName, usable)).collect(Collectors.toList());
-		List<ItemQuantity> outputs = dto.outputs.stream().map(i -> toItemQuantity(i, materialIdsByName, null)).collect(Collectors.toList());
+		// Final-review C1: an output that is also a material is the action's *subject* (bury Dragon
+		// bones, burn Yew logs), not a product; keeping it would make RoutePlanner's simulated bank
+		// self-replenishing. kb-build no longer emits these, but a stale JSON must not reintroduce it.
+		Set<String> materialNames = dto.materials.stream().map(i -> i.name).collect(Collectors.toSet());
+		List<ItemQuantity> outputs = dto.outputs.stream()
+			.filter(i -> !materialNames.contains(i.name))
+			.map(i -> toItemQuantity(i, materialIdsByName, null))
+			.collect(Collectors.toList());
 
 		return new MethodEntry(skill, dto.name, dto.title, dto.levelReq, dto.xpPerAction, List.copyOf(materials), List.copyOf(outputs),
 			List.copyOf(dto.types), dto.members, Boolean.TRUE.equals(dto.boostable), dto.ticks, Boolean.TRUE.equals(dto.intermediate),

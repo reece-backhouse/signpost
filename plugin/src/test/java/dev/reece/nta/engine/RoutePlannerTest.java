@@ -1,5 +1,6 @@
 package dev.reece.nta.engine;
 
+import com.google.gson.Gson;
 import dev.reece.nta.engine.model.Route;
 import dev.reece.nta.engine.model.RouteStep;
 import dev.reece.nta.kb.KnowledgeBase;
@@ -15,6 +16,28 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 /** Task 35: {@link RoutePlanner}, per spec ruling 15. */
 class RoutePlannerTest
 {
+	private static final int DRAGON_BONES_ID = 536;
+
+	/** Final-review C1: on the bundled KB, burying 300 Dragon bones must spend exactly 300 bones, not refill the bank each action. */
+	@Test
+	void prayerRouteFromThreeHundredDragonBonesOnTheRealKbConsumesExactlyThreeHundred()
+	{
+		KnowledgeBase kb = KnowledgeBase.load(new Gson());
+		Map<Integer, Integer> bank = new HashMap<>();
+		bank.put(DRAGON_BONES_ID, 300);
+		long fromXp = Experience.getXpForLevel(70);
+		long toXp = Experience.getXpForLevel(77);
+
+		Route route = RoutePlanner.route(Skill.PRAYER, fromXp, toXp, bank, kb);
+
+		int bonesUsed = route.getSteps().stream().mapToInt(s -> s.getMaterialsUsed().getOrDefault(DRAGON_BONES_ID, 0)).sum();
+		assertEquals(300, bonesUsed, "steps: " + route.getSteps());
+		assertEquals(0, route.getSimulatedBank().getOrDefault(DRAGON_BONES_ID, 0));
+		assertEquals(fromXp + 300 * 72, route.getFinalXp(), "300 bones at 72 xp each");
+		assertEquals(toXp - route.getFinalXp(), route.getUncoveredXp());
+		assertTrue(route.getUncoveredXp() > 0, "300 bones cannot cover 70->77");
+	}
+
 	@Test
 	void switchesToTheHigherXpMethodExactlyAtItsUnlockLevelAndConsumesTheSharedMaterialOnceAcrossBoth()
 	{
