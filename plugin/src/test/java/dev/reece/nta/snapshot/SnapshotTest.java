@@ -63,6 +63,25 @@ class SnapshotTest
 	}
 
 	@Test
+	void combatLevelForAMidLevelMeleeBuild()
+	{
+		Snapshot snapshot = Snapshot.builder()
+			.accountHash(1L)
+			.accountType(AccountType.NORMAL)
+			.skills(Map.of(
+				Skill.ATTACK, new SkillState(60, 0),
+				Skill.STRENGTH, new SkillState(60, 0),
+				Skill.DEFENCE, new SkillState(60, 0),
+				Skill.HITPOINTS, new SkillState(60, 0),
+				Skill.MAGIC, new SkillState(1, 0),
+				Skill.RANGED, new SkillState(1, 0),
+				Skill.PRAYER, new SkillState(43, 0)))
+			.build();
+
+		assertEquals(74, snapshot.combatLevel());
+	}
+
+	@Test
 	void withBankReturnsCopyCarryingBankFields()
 	{
 		Snapshot original = Snapshot.builder()

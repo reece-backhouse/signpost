@@ -68,7 +68,13 @@ public class NextTargetPanel extends PluginPanel
 			throw new IllegalStateException("NextTargetPanel.showKbLoaded must run on the EDT");
 		}
 
-		kbFooterLabel.setText("KB: quests " + questsGeneratedAt + ", diaries " + diariesGeneratedAt);
+		kbFooterLabel.setText("KB: quests " + bareDate(questsGeneratedAt) + ", diaries " + bareDate(diariesGeneratedAt));
+	}
+
+	/** {@code generatedAt} is always ISO-8601 ("2026-09-07T07:29:49Z"); the footer shows just the date. */
+	private static String bareDate(String generatedAt)
+	{
+		return generatedAt.length() >= 10 ? generatedAt.substring(0, 10) : generatedAt;
 	}
 
 	/**
