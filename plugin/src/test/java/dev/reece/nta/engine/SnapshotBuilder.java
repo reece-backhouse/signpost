@@ -31,6 +31,8 @@ final class SnapshotBuilder
 	private final Map<DiaryTier, Boolean> diaryTiers = new EnumMap<>(DiaryTier.class);
 	private final Map<Integer, Integer> diaryVarps = new HashMap<>();
 	private final Map<Integer, Integer> karamjaVarbits = new HashMap<>();
+	private final Map<Integer, Integer> diaryCountVarbits = new HashMap<>();
+	private final Map<Integer, Boolean> combatAchievementTiers = new HashMap<>();
 	private boolean bankKnown = true;
 	private int questPoints;
 	private int kudos;
@@ -119,6 +121,24 @@ final class SnapshotBuilder
 		return this;
 	}
 
+	SnapshotBuilder karamjaVarbit(int id, int value)
+	{
+		karamjaVarbits.put(id, value);
+		return this;
+	}
+
+	SnapshotBuilder diaryCountVarbit(int id, int value)
+	{
+		diaryCountVarbits.put(id, value);
+		return this;
+	}
+
+	SnapshotBuilder combatAchievementTier(int varbit, boolean done)
+	{
+		combatAchievementTiers.put(varbit, done);
+		return this;
+	}
+
 	SnapshotBuilder questPoints(int n)
 	{
 		this.questPoints = n;
@@ -145,6 +165,8 @@ final class SnapshotBuilder
 			.diaryTiers(diaryTiers)
 			.diaryVarps(diaryVarps)
 			.karamjaVarbits(karamjaVarbits)
+			.diaryCountVarbits(diaryCountVarbits)
+			.combatAchievementTiers(combatAchievementTiers)
 			.bankKnown(bankKnown)
 			.questPoints(questPoints)
 			.kudos(kudos)

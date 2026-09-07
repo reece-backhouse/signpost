@@ -354,6 +354,72 @@ class GapEngineTest
 		assertTrue(task3.getNotes().contains("optional note"));
 	}
 
+	// --- DiaryTaskGap quest-requirement path (task.getQuests()). ---
+
+	@Test
+	void diaryTaskQuestReqNotStartedYieldsQuestPrereqGap()
+	{
+		KnowledgeBase kb = new KbBuilder()
+			.quest(COOKS_ASSISTANT_ID, "Cook's Assistant")
+			.diary(DiaryTier.VARROCK_EASY).task(1, "Talk to the cook").quest("Cook's Assistant").completion(1176, 0)
+			.build();
+		Snapshot snapshot = new SnapshotBuilder().quest(Quest.COOKS_ASSISTANT, QuestState.NOT_STARTED).build();
+
+		GoalStatus status = goalFor(engine.evaluate(snapshot, kb), "diary:VARROCK_EASY");
+		DiaryTaskGap task = (DiaryTaskGap) onlyGap(status);
+		QuestPrereqGap gap = (QuestPrereqGap) onlyGapOf(task);
+
+		assertEquals(Quest.COOKS_ASSISTANT, gap.getQuest());
+		assertEquals(QuestState.NOT_STARTED, gap.getState());
+	}
+
+	@Test
+	void diaryTaskQuestReqInProgressYieldsQuestPrereqGap()
+	{
+		KnowledgeBase kb = new KbBuilder()
+			.quest(COOKS_ASSISTANT_ID, "Cook's Assistant")
+			.diary(DiaryTier.VARROCK_EASY).task(1, "Talk to the cook").quest("Cook's Assistant").completion(1176, 0)
+			.build();
+		Snapshot snapshot = new SnapshotBuilder().quest(Quest.COOKS_ASSISTANT, QuestState.IN_PROGRESS).build();
+
+		GoalStatus status = goalFor(engine.evaluate(snapshot, kb), "diary:VARROCK_EASY");
+		DiaryTaskGap task = (DiaryTaskGap) onlyGap(status);
+		QuestPrereqGap gap = (QuestPrereqGap) onlyGapOf(task);
+
+		assertEquals(Quest.COOKS_ASSISTANT, gap.getQuest());
+		assertEquals(QuestState.IN_PROGRESS, gap.getState());
+	}
+
+	@Test
+	void diaryTaskQuestReqFinishedYieldsNoQuestGap()
+	{
+		KnowledgeBase kb = new KbBuilder()
+			.quest(COOKS_ASSISTANT_ID, "Cook's Assistant")
+			.diary(DiaryTier.VARROCK_EASY).task(1, "Talk to the cook").quest("Cook's Assistant").completion(1176, 0)
+			.build();
+		Snapshot snapshot = new SnapshotBuilder().quest(Quest.COOKS_ASSISTANT, QuestState.FINISHED).build();
+
+		GoalStatus status = goalFor(engine.evaluate(snapshot, kb), "diary:VARROCK_EASY");
+		DiaryTaskGap task = (DiaryTaskGap) onlyGap(status);
+
+		assertTrue(task.getGaps().isEmpty());
+	}
+
+	@Test
+	void diaryTaskUnknownQuestNameDoesNotThrowAndAddsNoteNamingIt()
+	{
+		KnowledgeBase kb = new KbBuilder()
+			.diary(DiaryTier.VARROCK_EASY).task(1, "Talk to someone").quest("Not A Real Quest").completion(1176, 0)
+			.build();
+		Snapshot snapshot = new SnapshotBuilder().build();
+
+		GoalStatus status = onlyGoal(engine.evaluate(snapshot, kb));
+		DiaryTaskGap task = (DiaryTaskGap) onlyGap(status);
+
+		assertTrue(task.getGaps().isEmpty());
+		assertTrue(task.getNotes().stream().anyMatch(n -> n.contains("Not A Real Quest")), task.getNotes().toString());
+	}
+
 	// --- Finished/completed exclusion, readiness, and determinism. ---
 
 	@Test
@@ -413,6 +479,12 @@ class GapEngineTest
 	{
 		assertEquals(1, status.getGaps().size(), "expected exactly one gap: " + status.getGaps());
 		return status.getGaps().get(0);
+	}
+
+	private static Gap onlyGapOf(DiaryTaskGap task)
+	{
+		assertEquals(1, task.getGaps().size(), "expected exactly one gap: " + task.getGaps());
+		return task.getGaps().get(0);
 	}
 
 	private static GoalStatus goalFor(List<GoalStatus> statuses, String goalId)
