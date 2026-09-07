@@ -13,8 +13,8 @@ import net.runelite.api.QuestState;
  * here, in one place:
  *
  * <ul>
- *   <li>Stage 4: owns any stage-4 gear milestone, or (combat &ge; 120 and owns &ge; 2 stage-3 gear
- *       milestones).
+ *   <li>Stage 4: owns &ge; 2 distinct stage-4 gear milestones, or (combat &ge; 120 and owns &ge; 2
+ *       stage-3 gear milestones).
  *   <li>Stage 3 (else): owns &ge; 2 stage-3 gear milestones, or (combat &ge; 110 and total level
  *       &ge; 1900), or &ge; 190 quests finished.
  *   <li>Stage 2 (else): combat &ge; 85, or total level &ge; 1400, or &ge; 120 quests finished, or
@@ -38,7 +38,7 @@ public final class StageEstimator
 		int totalLevel = totalLevel(snapshot);
 		int questsFinished = questsFinished(snapshot);
 
-		if (ownedGearMilestoneCount(kb, snapshot, 4) >= 1 || (combat >= 120 && ownedGearMilestoneCount(kb, snapshot, 3) >= 2))
+		if (ownedGearMilestoneCount(kb, snapshot, 4) >= 2 || (combat >= 120 && ownedGearMilestoneCount(kb, snapshot, 3) >= 2))
 		{
 			return 4;
 		}

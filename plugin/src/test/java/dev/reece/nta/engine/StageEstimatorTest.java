@@ -1,5 +1,6 @@
 package dev.reece.nta.engine;
 
+import com.google.gson.Gson;
 import dev.reece.nta.kb.KnowledgeBase;
 import dev.reece.nta.kb.MilestoneCategory;
 import dev.reece.nta.snapshot.Snapshot;
@@ -154,12 +155,26 @@ class StageEstimatorTest
 	}
 
 	@Test
-	void owningAnyStageFourGearMilestoneAloneReachesStageFour()
+	void owningOnlyOneStageFourGearMilestoneIsNotEnoughForStageFour()
 	{
 		KnowledgeBase kb = new KbBuilder()
 			.milestone("g:1", MilestoneCategory.GEAR, "Gear One", 5).ownedIf("Item One", 101).stage(4)
 			.build();
-		Snapshot snapshot = new SnapshotBuilder().inventoryItem(101, "Item One", 1).build();
+		SnapshotBuilder builder = new SnapshotBuilder().inventoryItem(101, "Item One", 1);
+		setCombatSkills(builder, 67); // combat level 85: mid stats, enough for stage 2 on their own.
+		Snapshot snapshot = builder.build();
+
+		assertEquals(2, StageEstimator.estimate(snapshot, kb));
+	}
+
+	@Test
+	void owningTwoStageFourGearMilestonesAloneReachesStageFour()
+	{
+		KnowledgeBase kb = new KbBuilder()
+			.milestone("g:1", MilestoneCategory.GEAR, "Gear One", 5).ownedIf("Item One", 101).stage(4)
+			.milestone("g:2", MilestoneCategory.GEAR, "Gear Two", 5).ownedIf("Item Two", 102).stage(4)
+			.build();
+		Snapshot snapshot = new SnapshotBuilder().inventoryItem(101, "Item One", 1).inventoryItem(102, "Item Two", 1).build();
 
 		assertEquals(4, StageEstimator.estimate(snapshot, kb));
 	}
@@ -213,6 +228,43 @@ class StageEstimatorTest
 			.milestone("boss:tob", MilestoneCategory.BOSS, "Theatre of Blood", 5)
 			.milestone("boss:cox", MilestoneCategory.BOSS, "Chambers of Xeric", 5)
 			.build();
+
+		assertEquals(2, StageEstimator.estimate(snapshot, kb));
+	}
+
+	/**
+	 * Task 53: reproduces the live diagnostics incident where a group-ironman account's shared bank
+	 * held a single Masori mask (one stage-4 gear milestone) and was miscalculated as stage 4. Real
+	 * KB, real item ids: Masori mask (stage 4), Armadyl chainskirt (stage 3), toxic blowpipe, imbued
+	 * slayer helmet (both stage 2), fighter torso, dragon defender, graceful outfit (all stage 1).
+	 */
+	@Test
+	void usersLiveDiagnosticsProfileWithOnlyOneStageFourGearPieceStaysAtStageTwo()
+	{
+		SnapshotBuilder builder = new SnapshotBuilder();
+		setCombatSkills(builder, 83); // combat level 105
+		for (Skill skill : Skill.values())
+		{
+			if (!isCombatSkill(skill))
+			{
+				builder.skill(skill, 66); // total level ~1637, matching the diagnostics profile's ~1643.
+			}
+		}
+		Quest[] quests = Quest.values();
+		for (int i = 0; i < 150; i++)
+		{
+			builder.quest(quests[i], QuestState.FINISHED);
+		}
+		builder
+			.inventoryItem(27226, "Masori mask", 1)
+			.inventoryItem(11830, "Armadyl chainskirt", 1)
+			.inventoryItem(12926, "Toxic blowpipe", 1)
+			.inventoryItem(11865, "Slayer helmet (i)", 1)
+			.inventoryItem(10551, "Fighter torso", 1)
+			.inventoryItem(12954, "Dragon defender", 1)
+			.inventoryItem(11850, "Graceful hood", 1);
+		Snapshot snapshot = builder.build();
+		KnowledgeBase kb = KnowledgeBase.load(new Gson());
 
 		assertEquals(2, StageEstimator.estimate(snapshot, kb));
 	}
