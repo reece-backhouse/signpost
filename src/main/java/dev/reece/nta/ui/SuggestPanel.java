@@ -34,6 +34,7 @@ import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.SwingUtilities;
 import lombok.Value;
+import net.runelite.api.Experience;
 import net.runelite.api.Skill;
 import net.runelite.client.ui.ColorScheme;
 import net.runelite.client.ui.FontManager;
@@ -430,6 +431,13 @@ public class SuggestPanel extends JPanel
 	/** Task 57: a {@link GoalCategory#SKILL_TARGET}'s skill (its one {@link SkillLevelGap}), for the card's icon; {@code null} for any other goal. */
 	private static Skill targetSkill(GoalStatus status)
 	{
+		SkillLevelGap gap = skillGap(status);
+		return gap == null ? null : gap.getSkill();
+	}
+
+	/** A {@link GoalCategory#SKILL_TARGET}'s one {@link SkillLevelGap}; {@code null} for any other goal. */
+	private static SkillLevelGap skillGap(GoalStatus status)
+	{
 		if (status.getGoal().getCategory() != GoalCategory.SKILL_TARGET)
 		{
 			return null;
@@ -438,7 +446,7 @@ public class SuggestPanel extends JPanel
 		{
 			if (gap instanceof SkillLevelGap)
 			{
-				return ((SkillLevelGap) gap).getSkill();
+				return (SkillLevelGap) gap;
 			}
 		}
 		return null;
@@ -463,6 +471,22 @@ public class SuggestPanel extends JPanel
 			parentsLabel.setForeground(ColorScheme.LIGHT_GRAY_COLOR);
 			parentsLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
 			panel.add(parentsLabel);
+		}
+
+		SkillLevelGap gap = skillGap(status);
+		if (gap != null)
+		{
+			JLabel levels = new JLabel(gap.getHave() + "/" + gap.getNeed());
+			levels.setFont(FontManager.getRunescapeSmallFont());
+			levels.setForeground(ColorScheme.LIGHT_GRAY_COLOR);
+			levels.setAlignmentX(Component.LEFT_ALIGNMENT);
+			panel.add(levels);
+			// RL-011 AC1: fraction of the target level's xp already earned
+			long targetXp = Experience.getXpForLevel(gap.getNeed());
+			ProgressBar bar = new ProgressBar((targetXp - gap.getXpDelta()) / (double) targetXp,
+				status.isBankCovered() ? ColorScheme.PROGRESS_COMPLETE_COLOR : ColorScheme.BRAND_ORANGE);
+			bar.setBorder(BorderFactory.createEmptyBorder(2, 0, 2, 0));
+			panel.add(bar);
 		}
 
 		if (status.isBankCovered())

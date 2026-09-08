@@ -28,6 +28,7 @@ import dev.reece.nta.ui.GoalDetailPanel;
 import dev.reece.nta.ui.GoalSearchField;
 import dev.reece.nta.ui.Icons;
 import dev.reece.nta.ui.NextTargetPanel;
+import dev.reece.nta.ui.ProgressBar;
 import dev.reece.nta.ui.SuggestPanel;
 import java.awt.Component;
 import java.awt.Container;
@@ -150,6 +151,9 @@ class RenderSmokeTest
 				assertTrue(containsLabelContaining(panel, "+2 more"), "capped parents must show a +N more suffix");
 				assertTrue(containsLabelContaining(panel, "materials in bank"), "bank-covered skill target must show the badge");
 				assertTrue(containsIconOnlyLabel(panel), "task 57: the skill-target card must carry the skill's icon");
+				// RL-011 AC1: a thin xp progress bar with "have/need" text, the detail view's component
+				assertTrue(containsLabelContaining(panel, "60/75"), "skill-target card must show have/need level text");
+				assertTrue(containsComponentOfType(panel, ProgressBar.class), "skill-target card must carry a ProgressBar");
 			});
 		}
 		catch (InvocationTargetException e)
@@ -1548,6 +1552,18 @@ class RenderSmokeTest
 				return true;
 			}
 			if (child instanceof Container && containsIconOnlyLabel((Container) child))
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private static boolean containsComponentOfType(Container container, Class<?> type)
+	{
+		for (Component child : container.getComponents())
+		{
+			if (type.isInstance(child) || (child instanceof Container && containsComponentOfType((Container) child, type)))
 			{
 				return true;
 			}
