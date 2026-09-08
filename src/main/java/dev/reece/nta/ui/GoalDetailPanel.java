@@ -42,7 +42,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.EnumMap;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -110,14 +109,6 @@ public class GoalDetailPanel extends JPanel
 	// task 57: the one skill row whose route is open; reset to the next skill plan's skill whenever
 	// the focused goal changes, otherwise kept across re-renders (same rule as the toggles below).
 	private Skill expandedSkill;
-	/**
-	 * RL-003 fix round 1: what the group storage still holds while one skill plan renders - each
-	 * step note and shortfall line takes its share out of this working copy, so together they
-	 * never claim more than the storage has. Reset per {@link #skillPlanContent}.
-	 * ponytail: steps folded under a collapsed small-steps toggle are not rendered and so take
-	 * nothing; the shortfall may then over-claim by their share until the toggle is opened.
-	 */
-	private Map<Integer, Integer> storageLeft = new HashMap<>();
 	private boolean metExpanded;
 	// task 52b-2: which gathering plans' "Alternatives" list is expanded, keyed by shortfall item
 	// name + plan id + plan title - never cleared, same persistence rule as SuggestPanel's Why?
@@ -410,7 +401,6 @@ public class GoalDetailPanel extends JPanel
 	private JPanel skillPlanContent(SkillPlan plan, int indent)
 	{
 		JPanel panel = column();
-		storageLeft = new HashMap<>(currentAdvice.getSnapshot().getGroupStorage());
 		Route route = plan.getRoute();
 		boolean anySteps = route != null && !route.getSteps().isEmpty();
 		if (anySteps)
@@ -706,37 +696,22 @@ public class GoalDetailPanel extends JPanel
 	}
 
 	/**
-	 * RL-003 AC3: "in group storage: Ranarr weed 200, Vial of water 100" for the step's materials
-	 * the shared storage (still) holds, or null when none. Walks the method's own material list so
-	 * the order is stable ({@code materialsUsed} is an unordered {@code Map.copyOf}).
+	 * RL-003 AC3: "in group storage: Ranarr weed 200, Vial of water 100" from the step's
+	 * {@link RouteStep#getFromGroupStorage()}, or null when empty. Walks the method's own material
+	 * list so the order is stable.
 	 */
-	private String groupStorageNote(RouteStep step)
+	private static String groupStorageNote(RouteStep step)
 	{
 		List<String> parts = new ArrayList<>();
 		for (ItemQuantity material : step.getMethod().getMaterials())
 		{
-			if (material.getId() == null)
-			{
-				continue;
-			}
-			int share = takeFromStorage(material.getId(), step.getMaterialsUsed().getOrDefault(material.getId(), 0));
+			int share = material.getId() == null ? 0 : step.getFromGroupStorage().getOrDefault(material.getId(), 0);
 			if (share > 0)
 			{
 				parts.add(material.getName() + " " + thousands(share));
 			}
 		}
 		return parts.isEmpty() ? null : "in group storage: " + String.join(", ", parts);
-	}
-
-	/** How much of {@code quantity} of {@code itemId} the group storage still covers; that much is consumed from {@link #storageLeft}. */
-	private int takeFromStorage(int itemId, int quantity)
-	{
-		int share = Math.min(quantity, storageLeft.getOrDefault(itemId, 0));
-		if (share > 0)
-		{
-			storageLeft.merge(itemId, -share, Integer::sum);
-		}
-		return share;
 	}
 
 	private static String stepName(RouteStep step)
@@ -827,8 +802,7 @@ public class GoalDetailPanel extends JPanel
 			? "<span style='color:" + Icons.hex(ColorScheme.PROGRESS_ERROR_COLOR) + "'>short " + shortQty + "</span>"
 			: "<span style='color:" + Icons.hex(ColorScheme.PROGRESS_COMPLETE_COLOR) + "'>covered</span>";
 		// task 59: lead with the shortage; the label's grey foreground colours everything but the span
-		// RL-003 AC3: how much of "have" the group ironman shared storage accounts for
-		int inGroupStorage = item.getItem().getId() == null ? 0 : takeFromStorage(item.getItem().getId(), item.getHave());
+		int inGroupStorage = item.getInGroupStorage();
 		JLabel text = htmlLabel(SuggestPanel.escape(item.getItem().getName()) + ": " + shortText
 			+ " (have " + item.getHave() + ", need " + item.getNeed()
 			+ (inGroupStorage > 0 ? "; in group storage: " + inGroupStorage : "") + ")", textWidth(indent, icon, null));

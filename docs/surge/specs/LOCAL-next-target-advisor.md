@@ -208,9 +208,12 @@ option; cost-if-wrong noted.
     ownership contribution but keeps the cached copy (`ConfigChanged` on the
     key requests a snapshot; the header then reads "Group storage: off").
     `GapEngine.anyIdHeld`, the item sums and `NextStepPicker.bankAll` add the
-    storage to the bank; the detail view prints "in group storage: N" per step
-    and shortfall line, taking each share out of a working copy of the storage
-    so the lines never claim more than it holds. Unlike the bank, unseen storage is
+    storage to the bank; `GroupStorageShares.apply` (called once per
+    `SkillPlan` in `Engine.computeSkillPlans`) spends the storage first across
+    the route's steps and crafts in planner order and sets each shortfall
+    line's share to min(have, left) without consuming, since those lines
+    restate one have; the detail view only prints `RouteStep.fromGroupStorage`
+    and `ShortfallItem.inGroupStorage`. Unlike the bank, unseen storage is
     treated as empty - it never makes a goal's readiness unknown - and the
     why line says "group storage not seen" instead. `AccountData.version`
     is 2; a version-1 file upgrades on load with an empty, unseen map - cost:

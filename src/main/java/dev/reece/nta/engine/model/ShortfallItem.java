@@ -26,6 +26,8 @@ public class ShortfallItem
 	List<ShortfallItem> craftFrom;
 	String wikiUrl;
 	List<PlanOffer> plans;
+	/** RL-003: how much of {@code have} sits in the group ironman shared storage (set by {@link dev.reece.nta.engine.GroupStorageShares}); 0 until then. */
+	int inGroupStorage;
 
 	public ShortfallItem(ItemQuantity item, int have, int need, List<ItemSource> sources, List<ShortfallItem> craftFrom)
 	{
@@ -40,6 +42,12 @@ public class ShortfallItem
 	public ShortfallItem(ItemQuantity item, int have, int need, List<ItemSource> sources, List<ShortfallItem> craftFrom, String wikiUrl,
 		List<PlanOffer> plans)
 	{
+		this(item, have, need, sources, craftFrom, wikiUrl, plans, 0);
+	}
+
+	public ShortfallItem(ItemQuantity item, int have, int need, List<ItemSource> sources, List<ShortfallItem> craftFrom, String wikiUrl,
+		List<PlanOffer> plans, int inGroupStorage)
+	{
 		this.item = item;
 		this.have = have;
 		this.need = need;
@@ -47,5 +55,6 @@ public class ShortfallItem
 		this.craftFrom = craftFrom;
 		this.wikiUrl = wikiUrl;
 		this.plans = plans;
+		this.inGroupStorage = inGroupStorage;
 	}
 }

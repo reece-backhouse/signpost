@@ -25,4 +25,25 @@ public class RouteStep
 	long xpGained;
 	Map<Integer, Integer> materialsUsed;
 	List<RouteStep> crafts;
+	/** RL-003: how much of {@code materialsUsed} the group ironman shared storage supplied, by item id (set by {@link dev.reece.nta.engine.GroupStorageShares}); empty until then. */
+	Map<Integer, Integer> fromGroupStorage;
+
+	public RouteStep(MethodEntry method, int count, int fromLevel, int toLevel, long xpGained, Map<Integer, Integer> materialsUsed,
+		List<RouteStep> crafts)
+	{
+		this(method, count, fromLevel, toLevel, xpGained, materialsUsed, crafts, Map.of());
+	}
+
+	public RouteStep(MethodEntry method, int count, int fromLevel, int toLevel, long xpGained, Map<Integer, Integer> materialsUsed,
+		List<RouteStep> crafts, Map<Integer, Integer> fromGroupStorage)
+	{
+		this.method = method;
+		this.count = count;
+		this.fromLevel = fromLevel;
+		this.toLevel = toLevel;
+		this.xpGained = xpGained;
+		this.materialsUsed = materialsUsed;
+		this.crafts = crafts;
+		this.fromGroupStorage = fromGroupStorage;
+	}
 }

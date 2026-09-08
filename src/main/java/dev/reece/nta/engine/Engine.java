@@ -247,8 +247,9 @@ public class Engine
 				: RoutePlanner.route(gap.getSkill(), fromXp, toXp, bankAll, kb);
 			boolean covered = route.getUncoveredXp() == 0;
 			Shortfall shortfall = covered ? null : ShortfallResolver.resolve(gap.getSkill(), route, kb, snapshot);
-			plans.add(new SkillPlan(gap.getSkill(), gap.getHave(), gap.getNeed(), fromXp, toXp, gap.isRecommended(), route, shortfall, covered,
-				f.source));
+			SkillPlan plan = new SkillPlan(gap.getSkill(), gap.getHave(), gap.getNeed(), fromXp, toXp, gap.isRecommended(), route, shortfall, covered,
+				f.source);
+			plans.add(GroupStorageShares.apply(plan, snapshot.getGroupStorage()));
 		}
 		plans.sort(Comparator.comparingLong(p -> p.getToXp() - p.getFromXp()));
 		return plans;
