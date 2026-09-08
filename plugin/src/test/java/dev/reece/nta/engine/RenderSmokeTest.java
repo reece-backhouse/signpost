@@ -1037,6 +1037,171 @@ class RenderSmokeTest
 		}
 	}
 
+	/** Task 59 C2: a route step whose method is typed "Cleaning grimy herbs" reads "Clean Kwuarm", not the bare herb name. */
+	@Test
+	void cleaningStepRendersAsCleanPlusTheHerbName() throws Exception
+	{
+		Advice advice = foldableRouteFixture();
+		Consumer<String> noop = id -> { };
+		GoalDetailPanel.Actions actions = new GoalDetailPanel.Actions(noop, () -> { });
+		try
+		{
+			SwingUtilities.invokeAndWait(() ->
+			{
+				GoalDetailPanel panel = new GoalDetailPanel(actions, icons());
+				panel.render(advice);
+				assertTrue(containsLabelContaining(panel, "Clean Kwuarm ×40"), "a cleaning step must read 'Clean <herb>'");
+			});
+		}
+		catch (InvocationTargetException e)
+		{
+			if (e.getCause() instanceof HeadlessException)
+			{
+				Assumptions.abort("Headless environment cannot construct Swing components: " + e.getCause().getMessage());
+			}
+			throw e;
+		}
+	}
+
+	/**
+	 * Task 59 C3: steps worth under 2% of the route's xp fold into one collapsed "+ N small steps"
+	 * toggle at the end of the route; clicking it lists them. A 0-xp craft is never folded.
+	 */
+	@Test
+	void smallRouteStepsFoldIntoAToggleAtTheEndOfTheRoute() throws Exception
+	{
+		Advice advice = foldableRouteFixture();
+		Consumer<String> noop = id -> { };
+		GoalDetailPanel.Actions actions = new GoalDetailPanel.Actions(noop, () -> { });
+		try
+		{
+			SwingUtilities.invokeAndWait(() ->
+			{
+				GoalDetailPanel panel = new GoalDetailPanel(actions, icons());
+				panel.render(advice);
+				assertTrue(containsLabelContaining(panel, "Prayer potion(3) ×340"), "the big step must render");
+				assertTrue(containsLabelContaining(panel, "craft Ranarr potion (unf) ×100"), "a 0-xp craft is never folded");
+				assertFalse(containsLabelContaining(panel, "Attack potion(3) ×2"), "a step under 2% of the route's xp must be folded");
+				JLabel toggle = findLabelStartingWith(panel, "+ 1 small step");
+				assertNotNull(toggle, "a collapsed small-steps toggle must render at the end of the route");
+				assertTrue(toggle.getText().contains("(+50 xp)") && toggle.getText().endsWith("[+]"), "toggle text: " + toggle.getText());
+
+				toggle.dispatchEvent(new MouseEvent(toggle, MouseEvent.MOUSE_CLICKED, System.currentTimeMillis(), 0, 1, 1, 1, false));
+
+				assertTrue(containsLabelContaining(panel, "Attack potion(3) ×2"), "expanding the toggle must list the small step");
+				JLabel expanded = findLabelStartingWith(panel, "+ 1 small step");
+				assertNotNull(expanded);
+				assertTrue(expanded.getText().endsWith("[-]"), "toggle text after click: " + expanded.getText());
+			});
+		}
+		catch (InvocationTargetException e)
+		{
+			if (e.getCause() instanceof HeadlessException)
+			{
+				Assumptions.abort("Headless environment cannot construct Swing components: " + e.getCause().getMessage());
+			}
+			throw e;
+		}
+	}
+
+	/**
+	 * Task 59 C4: a step's materials are a strip of chips (item icon + "×N") on a line under its
+	 * text rather than an east strip of bare icons, so the text column gets the full row width;
+	 * a 0-xp craft drops its "from ..." line (the chips carry it). Nothing ends past the edge.
+	 */
+	@Test
+	void stepMaterialsRenderAsChipsUnderTheStepText() throws Exception
+	{
+		Advice advice = foldableRouteFixture();
+		Consumer<String> noop = id -> { };
+		GoalDetailPanel.Actions actions = new GoalDetailPanel.Actions(noop, () -> { });
+		try
+		{
+			SwingUtilities.invokeAndWait(() ->
+			{
+				GoalDetailPanel panel = new GoalDetailPanel(actions, icons());
+				panel.render(advice);
+				assertNotNull(findLabelWithText(panel, "×340"), "the brewing step's unfinished potions must render as a ×N chip");
+				assertNotNull(findLabelWithText(panel, "×100"), "the craft's ingredients must render as ×N chips");
+				assertFalse(containsLabelContaining(panel, "from Ranarr weed"), "the craft's 'from ...' line is replaced by its chips");
+				layoutAtRealPanelWidth(panel);
+				assertNothingEndsPastTheRightEdge(panel);
+				assertOnlyRenderableGlyphs(panel);
+			});
+		}
+		catch (InvocationTargetException e)
+		{
+			if (e.getCause() instanceof HeadlessException)
+			{
+				Assumptions.abort("Headless environment cannot construct Swing components: " + e.getCause().getMessage());
+			}
+			throw e;
+		}
+	}
+
+	/**
+	 * Task 59 C: {@link #craftChainFixture()}'s focus with its Herblore plan replaced by a
+	 * hand-built covered route - brewing 340 Prayer potions (crafting 100 unfinished ones first),
+	 * cleaning 40 Kwuarm (a "Cleaning grimy herbs" method), and 2 Attack potions worth 50 xp of
+	 * the route's 34,800 (under 2%).
+	 */
+	private static Advice foldableRouteFixture()
+	{
+		Advice base = craftChainFixture();
+		int unf = 200;
+		int ranarr = 201;
+		int vial = 202;
+		int prayerPot = 203;
+		int grimyKwuarm = 204;
+		int kwuarm = 205;
+		int guamUnf = 206;
+		int attackPot = 207;
+		MethodEntry makeUnf = new MethodEntry(Skill.HERBLORE, "Ranarr potion (unf)", "Ranarr potion (unf)", 30, 0,
+			List.of(new ItemQuantity("Ranarr weed", ranarr, 1), new ItemQuantity("Vial of water", vial, 1)),
+			List.of(new ItemQuantity("Ranarr potion (unf)", unf, 1)), List.of(), true, false, null, true, true);
+		MethodEntry brew = new MethodEntry(Skill.HERBLORE, "Prayer potion(3)", "Prayer potion(3)", 38, 87.5,
+			List.of(new ItemQuantity("Ranarr potion (unf)", unf, 1)), List.of(new ItemQuantity("Prayer potion(3)", prayerPot, 1)),
+			List.of(), true, false, null, false, true);
+		MethodEntry clean = new MethodEntry(Skill.HERBLORE, "Kwuarm", "Kwuarm", 54, 11.3,
+			List.of(new ItemQuantity("Grimy kwuarm", grimyKwuarm, 1)), List.of(new ItemQuantity("Kwuarm", kwuarm, 1)),
+			List.of("Cleaning grimy herbs"), true, false, null, false, true);
+		MethodEntry attack = new MethodEntry(Skill.HERBLORE, "Attack potion(3)", "Attack potion(3)", 3, 25,
+			List.of(new ItemQuantity("Guam potion (unf)", guamUnf, 1)), List.of(new ItemQuantity("Attack potion(3)", attackPot, 1)),
+			List.of(), true, false, null, false, true);
+		RouteStep craft = new RouteStep(makeUnf, 100, 61, 61, 0L, Map.of(ranarr, 100, vial, 100), List.of());
+		RouteStep brewStep = new RouteStep(brew, 340, 61, 66, 29_750L, Map.of(unf, 340), List.of(craft));
+		RouteStep cleanStep = new RouteStep(clean, 40, 66, 66, 5_000L, Map.of(grimyKwuarm, 40), List.of());
+		RouteStep attackStep = new RouteStep(attack, 2, 66, 66, 50L, Map.of(guamUnf, 2), List.of());
+		long fromXp = 302_288L;
+		long toXp = 737_627L;
+		Route route = new Route(List.of(brewStep, cleanStep, attackStep), 0L, toXp, Map.of());
+		SkillPlan plan = new SkillPlan(Skill.HERBLORE, 61, 70, fromXp, toXp, false, route, null, true, "quest");
+		FocusDetail focus = new FocusDetail(base.getFocus().getStatus(), base.getFocus().getNext(), route, null, 61, 70, List.of(plan), plan);
+		return new Advice(base.getSnapshot(), base.getStatuses(), base.getDiaryProgress(), base.getComputedAt(),
+			base.getRanked(), base.getPicked(), base.getRest(), base.getAccountStage(), base.getLater(), base.getWhys(),
+			base.getExplanations(), base.getReasons(), base.getOwnedManuallyNames(), base.getPrefs(), focus);
+	}
+
+	private static JLabel findLabelWithText(Container container, String text)
+	{
+		for (Component child : container.getComponents())
+		{
+			if (child instanceof JLabel && text.equals(((JLabel) child).getText()))
+			{
+				return (JLabel) child;
+			}
+			if (child instanceof Container)
+			{
+				JLabel found = findLabelWithText((Container) child, text);
+				if (found != null)
+				{
+					return found;
+				}
+			}
+		}
+		return null;
+	}
+
 	/** Task 57: item images need an {@link net.runelite.client.game.ItemManager} (client-backed, so null here - placeholder path); skill icons come from the real resource-backed manager. */
 	private static Icons icons()
 	{

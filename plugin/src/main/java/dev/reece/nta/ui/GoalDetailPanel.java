@@ -25,6 +25,7 @@ import dev.reece.nta.engine.model.SkillPlan;
 import dev.reece.nta.kb.GatheringAlternative;
 import dev.reece.nta.kb.GatheringPlan;
 import dev.reece.nta.kb.ItemQuantity;
+import dev.reece.nta.kb.MethodEntry;
 import dev.reece.nta.kb.OwnedItem;
 import dev.reece.nta.snapshot.DiaryTier;
 import java.awt.BorderLayout;
@@ -38,6 +39,7 @@ import java.awt.Insets;
 import java.awt.LayoutManager;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -81,6 +83,8 @@ public class GoalDetailPanel extends JPanel
 	private static final int INDENT_PX = 12;
 	/** The {@link BorderLayout} hgap between an {@link #iconRow}'s icon column and its text. */
 	private static final int ICON_GAP = 4;
+	/** The Bucket type of a herb-cleaning method, whose name is just the herb ("Kwuarm"); rendered as "Clean Kwuarm" (task 59). */
+	private static final String CLEANING_TYPE = "Cleaning grimy herbs";
 	/** Component-name prefix of a skill row's label ("skill-row:HERBLORE"), for tests to click. */
 	public static final String SKILL_ROW_NAME = "skill-row:";
 
@@ -109,6 +113,8 @@ public class GoalDetailPanel extends JPanel
 	// name + plan id + plan title - never cleared, same persistence rule as SuggestPanel's Why?
 	// toggle (52b-1).
 	private final Set<String> expandedAlternatives = new HashSet<>();
+	// task 59: which routes' folded "+ N small steps" toggle is open, keyed by goal id + skill.
+	private final Set<String> expandedSmallSteps = new HashSet<>();
 
 	public GoalDetailPanel(Actions actions, Icons icons)
 	{
@@ -390,9 +396,28 @@ public class GoalDetailPanel extends JPanel
 		boolean anySteps = route != null && !route.getSteps().isEmpty();
 		if (anySteps)
 		{
+			// task 59: steps worth under 2% of the route's xp fold into one toggle at the end;
+			// 0-xp crafts never reach here (they nest under their parent step).
+			long totalXp = 0;
 			for (RouteStep step : route.getSteps())
 			{
-				panel.add(stepRows(step, "", indent));
+				totalXp += step.getXpGained();
+			}
+			List<RouteStep> small = new ArrayList<>();
+			for (RouteStep step : route.getSteps())
+			{
+				if (step.getXpGained() > 0 && step.getXpGained() * 50 < totalXp)
+				{
+					small.add(step);
+				}
+				else
+				{
+					panel.add(stepRows(step, "", indent));
+				}
+			}
+			if (!small.isEmpty())
+			{
+				panel.add(smallStepsToggle(lastGoalId + "|" + plan.getSkill().name(), small, indent));
 			}
 		}
 		if (plan.getShortfall() != null)
@@ -411,6 +436,34 @@ public class GoalDetailPanel extends JPanel
 			JLabel none = row("No training method known — see the wiki", indent);
 			none.setForeground(ColorScheme.LIGHT_GRAY_COLOR);
 			panel.add(none);
+		}
+		return panel;
+	}
+
+	/** Task 59: the folded small steps of a route as a collapsed "+ N small steps (+X xp)" toggle; expanded, each step in full. */
+	private JPanel smallStepsToggle(String key, List<RouteStep> small, int indent)
+	{
+		JPanel panel = column();
+		boolean expanded = expandedSmallSteps.contains(key);
+		long xp = 0;
+		for (RouteStep step : small)
+		{
+			xp += step.getXpGained();
+		}
+		JLabel toggle = toggleLabel("+ " + small.size() + (small.size() == 1 ? " small step" : " small steps")
+			+ " (+" + thousands(xp) + " xp) " + (expanded ? "[-]" : "[+]"), indent);
+		clickable(() ->
+		{
+			flip(expandedSmallSteps, key);
+			render(currentAdvice);
+		}, toggle);
+		panel.add(toggle);
+		if (expanded)
+		{
+			for (RouteStep step : small)
+			{
+				panel.add(stepRows(step, "", indent));
+			}
 		}
 		return panel;
 	}
@@ -573,10 +626,10 @@ public class GoalDetailPanel extends JPanel
 	}
 
 	/**
-	 * A route step (task 49, now task 57 with icons): the OUTPUT item's icon on the left, "Prayer
-	 * potion(3) ×340" over "61-66, +29,750 xp" (or, for a 0-xp craft, "from Ranarr weed ×340, ..."),
-	 * and the materials used as a strip of icons on the right (tooltip = name and count). Icons and
-	 * names open the wiki. Crafts nest one level deeper with a "craft " prefix.
+	 * A route step (task 49, now task 57 with icons, task 59 with chips): the OUTPUT item's icon on
+	 * the left, "Prayer potion(3) ×340" over "61-66, +29,750 xp" (a 0-xp craft has no second
+	 * line), then the materials used as a line of chips - item icon and "×N" - under the text.
+	 * Icons and names open the wiki. Crafts nest one level deeper with a "craft " prefix.
 	 */
 	private JPanel stepRows(RouteStep step, String prefix, int indent)
 	{
@@ -585,20 +638,23 @@ public class GoalDetailPanel extends JPanel
 		JLabel icon = icons.item(output == null ? null : output.getId());
 		Icons.linkToWiki(icon, output == null ? step.getMethod().wikiUrl() : Icons.itemWikiUrl(output.getName()));
 
-		JPanel materials = materialIcons(step);
-		int width = textWidth(indent, icon, materials);
+		int width = textWidth(indent, icon, null);
 		JPanel text = column();
-		JLabel line1 = label(prefix + step.getMethod().getName() + " ×" + thousands(step.getCount()), width);
+		JLabel line1 = label(prefix + stepName(step) + " ×" + thousands(step.getCount()), width);
 		Icons.linkToWiki(line1, step.getMethod().wikiUrl());
 		text.add(line1);
-		String line2 = step.getXpGained() == 0
-			? "from " + materialsList(step)
-			: step.getFromLevel() + "-" + step.getToLevel() + ", +" + thousands(step.getXpGained()) + " xp";
-		JLabel line2Label = label(line2, width);
-		line2Label.setForeground(ColorScheme.LIGHT_GRAY_COLOR);
-		text.add(line2Label);
+		if (step.getXpGained() > 0)
+		{
+			JLabel line2 = label(step.getFromLevel() + "-" + step.getToLevel() + ", +" + thousands(step.getXpGained()) + " xp", width);
+			line2.setForeground(ColorScheme.LIGHT_GRAY_COLOR);
+			text.add(line2);
+		}
+		if (!step.getMaterialsUsed().isEmpty())
+		{
+			text.add(materialChips(step));
+		}
 
-		container.add(iconRow(icon, text, materials, indent));
+		container.add(iconRow(icon, text, null, indent));
 		for (RouteStep craft : step.getCrafts())
 		{
 			container.add(stepRows(craft, "craft ", indent + 1));
@@ -606,7 +662,14 @@ public class GoalDetailPanel extends JPanel
 		return container;
 	}
 
-	private JPanel materialIcons(RouteStep step)
+	private static String stepName(RouteStep step)
+	{
+		MethodEntry method = step.getMethod();
+		return (method.getTypes().contains(CLEANING_TYPE) ? "Clean " : "") + method.getName();
+	}
+
+	/** Task 59: one chip per material used - its icon (wiki-linked, tooltip = name) and a small grey "×N" - left-aligned on one line. */
+	private JPanel materialChips(RouteStep step)
 	{
 		Map<Integer, ItemQuantity> byId = new LinkedHashMap<>();
 		for (ItemQuantity material : step.getMethod().getMaterials())
@@ -616,6 +679,8 @@ public class GoalDetailPanel extends JPanel
 				byId.put(material.getId(), material);
 			}
 		}
+		// ponytail: one BoxLayout line; bundled methods use at most three materials, so it never
+		// needs to wrap - switch to a wrapping layout if a wider recipe ever shows up.
 		JPanel strip = new NoStretchPanel();
 		strip.setLayout(new BoxLayout(strip, BoxLayout.X_AXIS));
 		for (Map.Entry<Integer, Integer> used : step.getMaterialsUsed().entrySet())
@@ -624,8 +689,15 @@ public class GoalDetailPanel extends JPanel
 			String name = material == null ? "item " + used.getKey() : material.getName();
 			JLabel icon = icons.item(used.getKey());
 			Icons.linkToWiki(icon, Icons.itemWikiUrl(name));
-			icon.setToolTipText(name + " ×" + used.getValue());
+			icon.setToolTipText(name);
+			JLabel count = new JLabel("×" + thousands(used.getValue()));
+			count.setFont(FontManager.getRunescapeSmallFont());
+			count.setForeground(ColorScheme.LIGHT_GRAY_COLOR);
+			count.setToolTipText(name);
 			strip.add(icon);
+			strip.add(Box.createHorizontalStrut(2));
+			strip.add(count);
+			strip.add(Box.createHorizontalStrut(8));
 		}
 		return strip;
 	}
@@ -646,25 +718,6 @@ public class GoalDetailPanel extends JPanel
 	private static String thousands(long n)
 	{
 		return String.format(Locale.ENGLISH, "%,d", n);
-	}
-
-	private static String materialsList(RouteStep step)
-	{
-		Map<Integer, String> names = new LinkedHashMap<>();
-		for (ItemQuantity material : step.getMethod().getMaterials())
-		{
-			names.put(material.getId(), material.getName());
-		}
-		StringBuilder sb = new StringBuilder();
-		for (Map.Entry<Integer, Integer> used : step.getMaterialsUsed().entrySet())
-		{
-			if (sb.length() > 0)
-			{
-				sb.append(", ");
-			}
-			sb.append(names.getOrDefault(used.getKey(), "item " + used.getKey())).append(" ×").append(used.getValue());
-		}
-		return sb.toString();
 	}
 
 	private static JLabel sourceRow(ItemSource source, int indent)
@@ -781,14 +834,7 @@ public class GoalDetailPanel extends JPanel
 		JLabel toggle = toggleLabel("Alternatives (" + alternatives.size() + ") " + (expanded ? "[-]" : "[+]"), indent);
 		clickable(() ->
 		{
-			if (expandedAlternatives.contains(key))
-			{
-				expandedAlternatives.remove(key);
-			}
-			else
-			{
-				expandedAlternatives.add(key);
-			}
+			flip(expandedAlternatives, key);
 			render(currentAdvice);
 		}, toggle);
 		panel.add(toggle);
@@ -840,6 +886,15 @@ public class GoalDetailPanel extends JPanel
 		toggle.setAlignmentX(Component.LEFT_ALIGNMENT);
 		toggle.setBorder(BorderFactory.createEmptyBorder(2, indent * INDENT_PX, 2, 0));
 		return toggle;
+	}
+
+	/** Toggles {@code key}'s membership of a persistent expanded-toggle set. */
+	private static void flip(Set<String> expanded, String key)
+	{
+		if (!expanded.remove(key))
+		{
+			expanded.add(key);
+		}
 	}
 
 	/** Runs {@code action} on a click on any of {@code targets} (hand cursor on each). */

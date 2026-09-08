@@ -101,15 +101,19 @@ public final class RoutePlanner
 			int toLevel = capLevel(simXp);
 			long xpGained = (long) Math.floor(count * best.getXpPerAction());
 
-			if (!steps.isEmpty() && steps.get(steps.size() - 1).getMethod().equals(best))
+			// Task 59: a method the route comes back to (after a better one ran dry) merges into its
+			// FIRST step, wherever that is, so the reader sees each method once with its total.
+			int existing = indexOfMethod(steps, best);
+			if (existing >= 0)
 			{
-				RouteStep previous = steps.remove(steps.size() - 1);
+				RouteStep previous = steps.get(existing);
 				Map<Integer, Integer> mergedMaterials = new LinkedHashMap<>(previous.getMaterialsUsed());
 				materialsUsed.forEach((id, qty) -> mergedMaterials.merge(id, qty, Integer::sum));
 				List<RouteStep> mergedCrafts = new ArrayList<>(previous.getCrafts());
 				mergedCrafts.addAll(crafts);
-				steps.add(new RouteStep(best, previous.getCount() + count, previous.getFromLevel(), toLevel,
-					previous.getXpGained() + xpGained, Map.copyOf(mergedMaterials), List.copyOf(mergedCrafts)));
+				steps.set(existing, new RouteStep(best, previous.getCount() + count, previous.getFromLevel(),
+					Math.max(previous.getToLevel(), toLevel), previous.getXpGained() + xpGained, Map.copyOf(mergedMaterials),
+					List.copyOf(mergedCrafts)));
 			}
 			else
 			{
@@ -120,6 +124,18 @@ public final class RoutePlanner
 		long uncoveredXp = Math.max(0, (long) Math.ceil(toXp - simXp));
 		long finalXp = (long) Math.floor(simXp);
 		return new Route(List.copyOf(steps), uncoveredXp, finalXp, Map.copyOf(simBank));
+	}
+
+	private static int indexOfMethod(List<RouteStep> steps, MethodEntry method)
+	{
+		for (int i = 0; i < steps.size(); i++)
+		{
+			if (steps.get(i).getMethod().equals(method))
+			{
+				return i;
+			}
+		}
+		return -1;
 	}
 
 	/**
