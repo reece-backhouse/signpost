@@ -17,7 +17,7 @@ achievements) and suggests what to focus on next, with routes to get there.
   - `store/` per-account JSON persistence (`~/.runelite/next-target/<accountHash>.json`)
   - `ui/` Swing: header, search, SuggestPanel (pick one of three, Why? per goal), GoalDetailPanel (route, shortfall with gathering plans)
 - `kb-build/` — TypeScript (Node 22) scripts that generate the KB JSON from the OSRS wiki
-  (`npm run build-kb -- quests|diaries|methods|materials|expand-milestones`)
+  (`npm run build-kb -- quests|diaries|methods|materials|expand-milestones|gathering`)
   - `data/` inputs: RuneLite quest list, aliases, diary var map (from Quest Helper), RuneLite sources
   - `milestones.json`, `priorities.json` and `data/gathering.json` are hand-curated (stage, recommended profile with gearOwnedMin, obtainedFrom; step-by-step gathering loops)
 

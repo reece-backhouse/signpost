@@ -26,8 +26,10 @@ stats meet a curated profile, and ironman rules (no Grand Exchange) apply automa
   herb farm runs, snape grass at Waterbirth...), filtered to steps your levels and quests allow.
   When the fastest method needs something you can't obtain yet, a fully gatherable alternative is
   offered too.
-- **Search** any quest, diary, boss or skill to focus it directly.
-- **"Own it"**: mark gear you keep outside the bank so it counts.
+- **Search** the current suggestions (any ranked or "later" quest, diary, boss, milestone or
+  skill target) to focus one directly.
+- **"Own it" / "Done it"**: mark a milestone as already owned, or a boss as done, so it drops
+  out of the suggestions.
 
 ## How it decides
 
@@ -40,7 +42,8 @@ both its entry requirements and its recommended gear/stat profile are met.
 ## Privacy and safety
 
 Signpost never makes a network call. It reads game state through the RuneLite API only, and
-stores its per-account notes (bank snapshot, snoozes, pins, owned items) as JSON under
+stores its per-account notes (bank snapshot, snoozes, ignores, pins, focused goal, goals marked
+owned) as JSON under
 `~/.runelite/next-target/`. Wiki links open in your browser.
 
 ## Data
