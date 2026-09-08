@@ -152,6 +152,25 @@ option; cost-if-wrong noted.
     target serves, whether the bank covers the route); cards show it
     collapsed, the detail view in full — cost: none.
 
+30. **Ruling (live run + user ruling, 2026-09-08 11:45): the shortfall
+    always shows the fastest method; when its materials are not all
+    obtainable it also offers the best fully-obtainable method as an
+    alternative.** A GIM at Herblore 62 was told "Weapon poison: Kwuarm potion
+    (unf) need 2,590" — the highest-xp method at that level, with a drop-only
+    herb no iron can farm. `Shortfall.method` stays the highest-xp candidate
+    at the route's final level (never hidden); `Shortfall.alternative` is the
+    highest-xp candidate whose every material is obtainable, resolved with
+    its own items, set only when it differs from the primary (null when the
+    primary is itself obtainable or nothing is). A material is obtainable
+    when the simulated bank covers the full need for that candidate, it has
+    a curated gathering plan, a non-iron account can buy it (shop or GE
+    source), or it has a craft source whose intermediate's ingredients are
+    all obtainable by the same rules (one level, no deeper recursion).
+    `Shortfall` also carries `xpShort` and `actionsNeeded` so the UI can
+    print "~403,000 xp: Prayer potion(3) ×4,600" — cost: an iron may be
+    offered a lower-xp alternative when the KB lacks a plan for a gatherable
+    herb; fix by curating gathering.json.
+
 Rulings from the grill (docs/surge/reviews/LOCAL-next-target-advisor.md):
 
 13. **Ruling: quest name resolver in kb-build is three-step** — (a) committed
