@@ -1,4 +1,4 @@
-import { buildMaterials, type BuildMaterialsInput, type Material } from './materials.js';
+import { addMissingMaterials, type BuildMaterialsInput, type Material } from './materials.js';
 
 export interface GatheringSkillReq {
   skill: string;
@@ -90,17 +90,14 @@ export function addMissingGatheringMaterials(
   draftPlans: GatheringPlanDraft[],
   bucketData: Omit<BuildMaterialsInput, 'names' | 'resolved'>,
 ): Material[] {
-  const have = new Set(materials.map((m) => m.name));
-  const names = [...new Set(draftPlans.map((p) => canonicalName(p.item)))].filter(
-    (name) => !have.has(name) && Object.prototype.hasOwnProperty.call(MISSING_GATHERING_MATERIAL_IDS, name),
-  );
-  if (names.length === 0) {
-    return materials;
+  const wanted = new Map<string, number>();
+  for (const plan of draftPlans) {
+    const name = canonicalName(plan.item);
+    if (Object.prototype.hasOwnProperty.call(MISSING_GATHERING_MATERIAL_IDS, name)) {
+      wanted.set(name, MISSING_GATHERING_MATERIAL_IDS[name]!);
+    }
   }
-
-  const resolved = new Map(names.map((name) => [name, { id: MISSING_GATHERING_MATERIAL_IDS[name]!, generic: false }]));
-  const added = buildMaterials({ ...bucketData, names, resolved });
-  return [...materials, ...added].sort((a, b) => a.name.localeCompare(b.name));
+  return addMissingMaterials(materials, wanted, bucketData);
 }
 
 /**

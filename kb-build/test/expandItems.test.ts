@@ -83,6 +83,15 @@ describe('expandMilestoneItemIds', () => {
     expect(summary.unresolved).toEqual([]);
   });
 
+  it('keeps hand-curated variant ids already on an ownedIf entry (a golden/spirit reskin on its own page)', () => {
+    const { milestones } = expandMilestoneItemIds(
+      [milestone({ ownedIf: [{ name: 'Rune defender', id: 8850, ids: [8850, 99999] }] })],
+      itemIdRows,
+    );
+
+    expect(milestones[0]?.ownedIf).toEqual([{ name: 'Rune defender', id: 8850, ids: [8850, 99999] }]);
+  });
+
   it('preserves every other field on the milestone untouched', () => {
     const { milestones } = expandMilestoneItemIds(
       [

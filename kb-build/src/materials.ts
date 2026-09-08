@@ -180,6 +180,26 @@ export interface BuildMaterialsInput {
   methods: Method[];
 }
 
+/**
+ * Adds a `materials.json` entry (built by {@link buildMaterials} like every other material) for each
+ * `wanted` name (-> item id) not already present in `materials`, keeping the file sorted by name.
+ * Returns `materials` itself when nothing is missing, so callers can skip a rewrite.
+ */
+export function addMissingMaterials(
+  materials: Material[],
+  wanted: Map<string, number>,
+  bucketData: Omit<BuildMaterialsInput, 'names' | 'resolved'>,
+): Material[] {
+  const have = new Set(materials.map((m) => m.name));
+  const names = [...wanted.keys()].filter((name) => !have.has(name));
+  if (names.length === 0) {
+    return materials;
+  }
+  const resolved = new Map(names.map((name) => [name, { id: wanted.get(name)!, generic: false }]));
+  const added = buildMaterials({ ...bucketData, names, resolved });
+  return [...materials, ...added].sort((a, b) => a.name.localeCompare(b.name));
+}
+
 /** Builds `materials.json`'s `materials` array: every KB-referenced item id/generic flag plus its GE/shop/drop/spawn/craft sources. */
 export function buildMaterials(input: BuildMaterialsInput): Material[] {
   const { names, resolved, mapping, storelineRows, droplineRows, loclineRows, methods } = input;

@@ -4,7 +4,7 @@ import { buildDiaries, DIARY_PAGE_TITLES, type DiaryEntry, type DiaryVarsFile } 
 import { emitJson, writeKb } from './emit.js';
 import { expandMilestoneItemIds, type ItemIdRow as ExpandItemIdRow, type MilestoneLike } from './expandItems.js';
 import { addMissingGatheringMaterials, resolveGatheringPlans, type GatheringPlanDraft } from './gathering.js';
-import { buildMaterials, collectReferencedItems, resolveItemIds, type DropslineRow, type ItemIdRow, type LoclineRow, type Material, type StorelineRow } from './materials.js';
+import { addMissingMaterials, buildMaterials, collectReferencedItems, resolveItemIds, type DropslineRow, type ItemIdRow, type LoclineRow, type Material, type StorelineRow } from './materials.js';
 import { mergeRecipes, parseRecipeRow, parseSkillCalc, type Method, type RecipeRow } from './methods.js';
 import { buildQuests, type QuestEntry } from './quests.js';
 import { parseQuestreq } from './questreq.js';
@@ -225,6 +225,28 @@ async function expandMilestonesCommand(): Promise<void> {
   console.log(`Processed ${summary.itemsProcessed} milestone item entries (ownedIf + recommended.gearOwnedAny + requirements.items).`);
   console.log(`Names with >1 id (${summary.multiId.length}): ${summary.multiId.join(', ')}`);
   console.log(`Unresolved names (${summary.unresolved.length}): ${summary.unresolved.join(', ') || 'none'}`);
+
+  // Every milestone ownedIf/requirement item must resolve in materials.json (the plugin's item
+  // gap wiki links and shortfall sources come from there); add the ones a newly curated entry
+  // introduced, keyed by the entry's own primary id, rather than regenerating the whole file.
+  const materialsFile = readKb<{ materials: Material[] }>('materials');
+  const wanted = new Map<string, number>();
+  for (const milestone of milestones) {
+    for (const owned of milestone.ownedIf) wanted.set(owned.name, owned.id);
+    for (const item of milestone.requirements.items) wanted.set(item.name, item.id);
+  }
+  const have = new Set(materialsFile.materials.map((m) => m.name));
+  const missingNames = [...wanted.keys()].filter((name) => !have.has(name));
+  if (missingNames.length > 0) {
+    const mapping = await fetchPriceMapping();
+    const storelineRows = await bucket<StorelineRow>("bucket('storeline').select('sold_item','sold_by','store_buy_price','store_stock')");
+    const droplineRows = await bucket<DropslineRow>("bucket('dropsline').select('item_name','page_name','drop_json')");
+    const loclineRows = await bucket<LoclineRow>("bucket('locline').select('page_name','coordinates')");
+    const methodsFile = readKb<{ methods: Method[] }>('methods');
+    const materials = addMissingMaterials(materialsFile.materials, wanted, { mapping, storelineRows, droplineRows, loclineRows, methods: methodsFile.methods });
+    writeFileSync(join(kbDir, 'materials.json'), emitJson({ version: 1, generatedAt: materialsFile.generatedAt, materials }));
+  }
+  console.log(`Materials added for milestone items: ${missingNames.join(', ') || 'none'}`);
 }
 
 async function buildGatheringCommand(): Promise<void> {

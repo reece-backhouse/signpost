@@ -1,11 +1,13 @@
 import { describe, expect, it } from 'vitest';
 import {
+  addMissingMaterials,
   buildMaterials,
   collectReferencedItems,
   resolveItemIds,
   type DropslineRow,
   type ItemIdRow,
   type LoclineRow,
+  type Material,
   type PriceMappingEntry,
   type StorelineRow,
 } from '../src/materials.js';
@@ -261,5 +263,37 @@ describe('buildMaterials', () => {
     });
 
     expect(materials.map((m) => m.name)).toEqual(['Coins', 'Snape grass']);
+  });
+});
+
+describe('addMissingMaterials', () => {
+  const bucketData = { mapping: [], storelineRows: [], droplineRows: [], loclineRows: [], methods: [] };
+  const existing: Material = { name: 'Coins', id: 995, generic: false, wikiUrl: 'https://oldschool.runescape.wiki/w/Coins', sources: [] };
+
+  it('adds an entry (built like every other material) for each wanted name not already present, sorted by name', () => {
+    const materials = addMissingMaterials(
+      [existing],
+      new Map([
+        ['Coins', 995],
+        ['Coal bag', 12019],
+        ['Ash sanctifier', 25781],
+      ]),
+      { ...bucketData, storelineRows: [{ sold_item: 'Coal bag', sold_by: "Prospector Percy's Nugget Shop", store_buy_price: '100', store_stock: '1' }] },
+    );
+
+    expect(materials.map((m) => m.name)).toEqual(['Ash sanctifier', 'Coal bag', 'Coins']);
+    expect(materials[1]).toEqual({
+      name: 'Coal bag',
+      id: 12019,
+      generic: false,
+      wikiUrl: 'https://oldschool.runescape.wiki/w/Coal_bag',
+      sources: [{ type: 'shop', where: "Prospector Percy's Nugget Shop", detail: '100 gp, stock 1', accountTypes: ['all'] }],
+    });
+  });
+
+  it('returns the input array untouched when nothing is missing', () => {
+    const input = [existing];
+
+    expect(addMissingMaterials(input, new Map([['Coins', 995]]), bucketData)).toBe(input);
   });
 });

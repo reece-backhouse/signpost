@@ -6,6 +6,8 @@ export interface ItemIdRow {
 interface NamedItemRef {
   name: string;
   id: number;
+  /** Hand-curated variant ids (a reskin on its own wiki page, e.g. Golden prospector helmet); kept and unioned with the wiki's. */
+  ids?: number[];
 }
 
 interface RecommendedLike {
@@ -58,14 +60,14 @@ export function expandMilestoneItemIds<M extends MilestoneLike>(
   const multiId = new Set<string>();
   const unresolved = new Set<string>();
 
-  function idsFor(name: string, id: number, includeTrimmed: boolean): number[] {
+  function idsFor(name: string, id: number, includeTrimmed: boolean, existing: number[] = []): number[] {
     itemsProcessed++;
     const wikiIds = byPageName.get(name.toLowerCase());
     const trimmedIds = includeTrimmed ? (byPageName.get(`${name} (t)`.toLowerCase()) ?? []) : [];
     if (wikiIds === undefined && trimmedIds.length === 0) {
       unresolved.add(name);
     }
-    const ids = [...new Set([id, ...(wikiIds ?? []), ...trimmedIds])].sort((a, b) => a - b);
+    const ids = [...new Set([id, ...existing, ...(wikiIds ?? []), ...trimmedIds])].sort((a, b) => a - b);
     if (ids.length > 1) {
       multiId.add(name);
     }
@@ -74,17 +76,17 @@ export function expandMilestoneItemIds<M extends MilestoneLike>(
 
   const expanded = milestones.map((milestone) => ({
     ...milestone,
-    ownedIf: milestone.ownedIf.map((owned) => ({ ...owned, ids: idsFor(owned.name, owned.id, true) })),
+    ownedIf: milestone.ownedIf.map((owned) => ({ ...owned, ids: idsFor(owned.name, owned.id, true, owned.ids) })),
     recommended:
       milestone.recommended === null
         ? null
         : {
             ...milestone.recommended,
-            gearOwnedAny: milestone.recommended.gearOwnedAny.map((owned) => ({ ...owned, ids: idsFor(owned.name, owned.id, false) })),
+            gearOwnedAny: milestone.recommended.gearOwnedAny.map((owned) => ({ ...owned, ids: idsFor(owned.name, owned.id, false, owned.ids) })),
           },
     requirements: {
       ...milestone.requirements,
-      items: milestone.requirements.items.map((item) => ({ ...item, ids: idsFor(item.name, item.id, false) })),
+      items: milestone.requirements.items.map((item) => ({ ...item, ids: idsFor(item.name, item.id, false, item.ids) })),
     },
   }));
 
