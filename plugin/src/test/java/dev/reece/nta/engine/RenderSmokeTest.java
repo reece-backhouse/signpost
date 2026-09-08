@@ -54,6 +54,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
@@ -1202,14 +1203,14 @@ class RenderSmokeTest
 		return null;
 	}
 
-	/** Task 59 D1: the shortfall header says how much xp is still uncovered, from the route, and for which method. */
+	/** Task 59 D1 / task 61: the shortfall header says how much xp is still uncovered, the method, and how many actions close it. */
 	@Test
 	void shortfallHeaderNamesTheUncoveredXpAndTheMethod() throws Exception
 	{
 		Advice advice = craftChainFixture();
 		SkillPlan herblore = advice.getFocus().getNextSkillPlan();
 		String expected = "Then still short ~" + String.format(java.util.Locale.ENGLISH, "%,d", herblore.getRoute().getUncoveredXp())
-			+ " xp for Prayer potion(3):";
+			+ " xp: Prayer potion(3) ×" + grouped(herblore.getShortfall().getActionsNeeded());
 		Consumer<String> noop = id -> { };
 		GoalDetailPanel.Actions actions = new GoalDetailPanel.Actions(noop, () -> { });
 		try
@@ -1351,6 +1352,124 @@ class RenderSmokeTest
 			}
 			throw e;
 		}
+	}
+
+	/**
+	 * Task 61 (spec ruling 30): when the primary method's materials can't all be obtained, the
+	 * detail view keeps the primary (with a note naming what has no known source) and then offers
+	 * the fully-gatherable alternative under its own green header, its items rendered the same
+	 * way - no plan repeated, nothing past the panel edge, ASCII-only labels.
+	 */
+	@Test
+	void shortfallOffersTheGatherableAlternativeUnderThePrimary() throws Exception
+	{
+		Advice advice = unobtainablePrimaryFixture();
+		Shortfall shortfall = advice.getFocus().getNextSkillPlan().getShortfall();
+		String primaryHeader = "Then still short ~" + grouped(shortfall.getXpShort()) + " xp: Goading potion(3) ×" + grouped(shortfall.getActionsNeeded());
+		String altHeader = "Or, everything gatherable: Prayer potion(3) ×" + grouped(shortfall.getAlternative().getActionsNeeded());
+		Consumer<String> noop = id -> { };
+		GoalDetailPanel.Actions actions = new GoalDetailPanel.Actions(noop, () -> { });
+		try
+		{
+			SwingUtilities.invokeAndWait(() ->
+			{
+				GoalDetailPanel panel = new GoalDetailPanel(actions, icons());
+				panel.render(advice);
+				assertTrue(containsLabelContaining(panel, primaryHeader), "primary header must read '" + primaryHeader + "'");
+				assertTrue(containsLabelContaining(panel, "Aldarium: no gathering plan"), "the note must name the unobtainable material");
+				assertTrue(containsLabelContaining(panel, altHeader), "alternative header must read '" + altHeader + "'");
+				assertTrue(containsLabelContaining(panel, "Ranarr potion (unf)"), "the alternative's items must render");
+				assertEquals(1, countLabelsContaining(panel, "Gather Ranarr weed"), "the alternative's plan must render exactly once");
+				layoutAtRealPanelWidth(panel);
+				assertNothingEndsPastTheRightEdge(panel);
+				assertOnlyRenderableGlyphs(panel);
+			});
+		}
+		catch (InvocationTargetException e)
+		{
+			if (e.getCause() instanceof HeadlessException)
+			{
+				Assumptions.abort("Headless environment cannot construct Swing components: " + e.getCause().getMessage());
+			}
+			throw e;
+		}
+	}
+
+	/** Task 61: a primary whose materials are all obtainable gets no alternative header and no note. */
+	@Test
+	void shortfallWithAnObtainablePrimaryOffersNoAlternative() throws Exception
+	{
+		Advice advice = craftChainFixture();
+		assertNull(advice.getFocus().getNextSkillPlan().getShortfall().getAlternative(), "fixture primary must be obtainable");
+		Consumer<String> noop = id -> { };
+		GoalDetailPanel.Actions actions = new GoalDetailPanel.Actions(noop, () -> { });
+		try
+		{
+			SwingUtilities.invokeAndWait(() ->
+			{
+				GoalDetailPanel panel = new GoalDetailPanel(actions, icons());
+				panel.render(advice);
+				assertFalse(containsLabelContaining(panel, "Or, everything gatherable"), "no alternative header without an alternative");
+				assertFalse(containsLabelContaining(panel, "no gathering plan"), "no note without an alternative");
+			});
+		}
+		catch (InvocationTargetException e)
+		{
+			if (e.getCause() instanceof HeadlessException)
+			{
+				Assumptions.abort("Headless environment cannot construct Swing components: " + e.getCause().getMessage());
+			}
+			throw e;
+		}
+	}
+
+	/**
+	 * Task 61: as {@link #craftChainFixture()}, plus a faster Goading potion whose Aldarium is
+	 * drop-only with no plan - so for a normal account the fastest method is the primary, is not
+	 * obtainable, and Prayer potion (unf craftable from a planned Ranarr weed + shop vial) is the
+	 * alternative.
+	 */
+	private static Advice unobtainablePrimaryFixture()
+	{
+		int ranarrUnf = 200;
+		int ranarr = 201;
+		int vial = 202;
+		int aldarium = 203;
+		KnowledgeBase kb = new KbBuilder()
+			.quest(0, "Test Quest").skill(Skill.HERBLORE, 20)
+			.method(Skill.HERBLORE, "Goading potion(3)", 1, 100)
+			.material(aldarium, 1)
+			.method(Skill.HERBLORE, "Prayer potion(3)", 1, 4)
+			.material(ranarrUnf, 1)
+			.method(Skill.HERBLORE, "Ranarr potion (unf)", 1, 0)
+			.material(ranarr, 1)
+			.material(vial, 1)
+			.output(ranarrUnf, 1)
+			.intermediate()
+			.material("Aldarium", aldarium)
+			.source("drop", "Moons of Peril")
+			.material("Ranarr potion (unf)", ranarrUnf)
+			.source("craft", "Ranarr weed + Vial of water")
+			.material("Ranarr weed", ranarr)
+			.source("drop", "Chaos druids")
+			.material("Vial of water", vial)
+			.source("shop", "Any general store")
+			.gatheringPlan("Ranarr weed", ranarr)
+			.build();
+		Snapshot snapshot = new SnapshotBuilder().bankItem(ranarrUnf, "Ranarr potion (unf)", 2).build();
+		AccountData data = new AccountData(new HashMap<>(), null, new HashMap<>(), new HashSet<>(), new ArrayList<>(), "quest:0", new HashSet<>());
+		Advice advice = new Engine(new BoostTable()).run(snapshot, kb, data, Instant.now());
+		SkillPlan herblore = advice.getFocus().getNextSkillPlan();
+		assertNotNull(herblore.getShortfall(), "fixture must leave Herblore short");
+		assertEquals("Goading potion(3)", herblore.getShortfall().getMethod().getName(), "the fastest method stays primary");
+		assertNotNull(herblore.getShortfall().getAlternative(), "fixture primary must be unobtainable");
+		assertEquals(List.of("Aldarium"), herblore.getShortfall().getUnobtainable());
+		return advice;
+	}
+
+	private static String grouped(long n)
+	{
+		return String.format(java.util.Locale.ENGLISH, "%,d", n);
 	}
 
 	private static int countLabelsContaining(Container container, String substring)
