@@ -175,6 +175,11 @@ public class NextTargetPanel extends PluginPanel
 		{
 			groupStorageLabel.setText("");
 		}
+		else if (!snapshot.isGroupStorageEnabled())
+		{
+			groupStorageLabel.setText("Group storage: off");
+			groupStorageLabel.setForeground(ColorScheme.TEXT_COLOR);
+		}
 		else if (!snapshot.isGroupStorageKnown())
 		{
 			groupStorageLabel.setText("Group storage: not seen - open it once");

@@ -31,7 +31,7 @@ public class AccountData
 	private Set<String> ignores;
 	private List<String> pins;
 	private String focusGoalId;
-	/** Goal ids marked "owned" by hand (ticket 55): the account has it but it lives somewhere the client can't see (house cape rack, group-ironman shared storage). */
+	/** Goal ids marked "owned" by hand (ticket 55): the account has it but it lives somewhere the client can't see (a house cape rack; group storage only while "Count group storage" is off). */
 	private Set<String> ownedManually;
 	private Map<Integer, Integer> groupStorage;
 	private Instant groupStorageAsOf;

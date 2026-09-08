@@ -36,6 +36,7 @@ final class SnapshotBuilder
 	private final Map<Integer, Integer> groupStorage = new HashMap<>();
 	private boolean bankKnown = true;
 	private boolean groupStorageKnown;
+	private boolean groupStorageEnabled = true;
 	private int questPoints;
 	private int kudos;
 
@@ -120,6 +121,13 @@ final class SnapshotBuilder
 		return this;
 	}
 
+	/** RL-003 AC5: the "Count group storage" toggle is off. */
+	SnapshotBuilder groupStorageOff()
+	{
+		groupStorageEnabled = false;
+		return this;
+	}
+
 	SnapshotBuilder bankUnknown()
 	{
 		bankKnown = false;
@@ -187,6 +195,7 @@ final class SnapshotBuilder
 			.bankKnown(bankKnown)
 			.groupStorage(groupStorage)
 			.groupStorageKnown(groupStorageKnown)
+			.groupStorageEnabled(groupStorageEnabled)
 			.questPoints(questPoints)
 			.kudos(kudos)
 			.build();

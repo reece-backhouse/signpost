@@ -188,10 +188,12 @@ option; cost-if-wrong noted.
     `groupStorageAsOf`) when `InterfaceID.SHARED_BANK` closes, only on
     GROUP/HARDCORE_GROUP/UNRANKED_GROUP accounts and only while the "Count
     group storage" toggle (default on) is set; off stops the read and the
-    ownership contribution but keeps the cached copy. `GapEngine.anyIdHeld`,
-    the item sums and `NextStepPicker.bankAll` add the storage to the bank;
-    `Snapshot.groupStorageShare` gives the per-item breakdown the detail view
-    prints as "in group storage: N". Unlike the bank, unseen storage is
+    ownership contribution but keeps the cached copy (`ConfigChanged` on the
+    key requests a snapshot; the header then reads "Group storage: off").
+    `GapEngine.anyIdHeld`, the item sums and `NextStepPicker.bankAll` add the
+    storage to the bank; the detail view prints "in group storage: N" per step
+    and shortfall line, taking each share out of a working copy of the storage
+    so the lines never claim more than it holds. Unlike the bank, unseen storage is
     treated as empty - it never makes a goal's readiness unknown - and the
     why line says "group storage not seen" instead. `AccountData.version`
     is 2; a version-1 file upgrades on load with an empty, unseen map - cost:

@@ -44,9 +44,9 @@ class SnapshotTest
 		assertThrows(UnsupportedOperationException.class, () -> snapshot.getSkills().put(Skill.ATTACK, new SkillState(1, 0)));
 	}
 
-	/** RL-003: group storage rides on the snapshot exactly like the bank, and the UI asks how much of a quantity it holds. */
+	/** RL-003: group storage rides on the snapshot exactly like the bank. */
 	@Test
-	void withGroupStorageCopiesTheCachedContainerAndShareCapsAtWhatItHolds()
+	void withGroupStorageCopiesTheCachedContainer()
 	{
 		Instant asOf = Instant.parse("2026-09-08T10:00:00Z");
 		Snapshot snapshot = Snapshot.builder().accountHash(1L).accountType(AccountType.GROUP).build()
@@ -55,9 +55,6 @@ class SnapshotTest
 		assertTrue(snapshot.isGroupStorageKnown());
 		assertEquals(asOf, snapshot.getGroupStorageAsOf());
 		assertEquals(Map.of(4151, 200), snapshot.getGroupStorage());
-		assertEquals(200, snapshot.groupStorageShare(4151, 500));
-		assertEquals(50, snapshot.groupStorageShare(4151, 50));
-		assertEquals(0, snapshot.groupStorageShare(995, 50));
 	}
 
 	@Test

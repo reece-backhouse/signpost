@@ -52,6 +52,7 @@ import net.runelite.client.RuneLite;
 import net.runelite.client.callback.ClientThread;
 import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.Subscribe;
+import net.runelite.client.events.ConfigChanged;
 import net.runelite.client.game.ItemManager;
 import net.runelite.client.game.SkillIconManager;
 import net.runelite.client.plugins.Plugin;
@@ -254,8 +255,7 @@ public class NextTargetPlugin extends Plugin
 		firstTickPending = false;
 		snapshotRequested = false;
 
-		Snapshot snapshot = SnapshotCollector.collect(client, itemManager, cachedBank,
-			config.countGroupStorage() ? cachedGroupStorage : CachedBank.unknown(), loadedKb);
+		Snapshot snapshot = SnapshotCollector.collect(client, itemManager, cachedBank, cachedGroupStorage, config.countGroupStorage(), loadedKb);
 		cachedSnapshot = snapshot;
 		if (!snapshot.getInventory().isEmpty() || !snapshot.getEquipment().isEmpty())
 		{
@@ -413,6 +413,16 @@ public class NextTargetPlugin extends Plugin
 	public void onWidgetLoaded(WidgetLoaded event)
 	{
 		if (event.getGroupId() == InterfaceID.JOURNALSCROLL)
+		{
+			requestSnapshot();
+		}
+	}
+
+	/** RL-003 AC5: the "Count group storage" toggle takes effect on the next tick rather than the next bank close or level-up. */
+	@Subscribe
+	public void onConfigChanged(ConfigChanged event)
+	{
+		if ("nexttarget".equals(event.getGroup()) && "countGroupStorage".equals(event.getKey()))
 		{
 			requestSnapshot();
 		}

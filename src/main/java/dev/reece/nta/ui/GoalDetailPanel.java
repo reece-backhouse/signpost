@@ -27,7 +27,6 @@ import dev.reece.nta.kb.GatheringAlternative;
 import dev.reece.nta.kb.GatheringPlan;
 import dev.reece.nta.kb.ItemQuantity;
 import dev.reece.nta.kb.MethodEntry;
-import dev.reece.nta.snapshot.Snapshot;
 import dev.reece.nta.kb.OwnedItem;
 import dev.reece.nta.snapshot.DiaryTier;
 import java.awt.BorderLayout;
@@ -42,6 +41,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.EnumMap;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -109,6 +109,14 @@ public class GoalDetailPanel extends JPanel
 	// task 57: the one skill row whose route is open; reset to the next skill plan's skill whenever
 	// the focused goal changes, otherwise kept across re-renders (same rule as the toggles below).
 	private Skill expandedSkill;
+	/**
+	 * RL-003 fix round 1: what the group storage still holds while one skill plan renders - each
+	 * step note and shortfall line takes its share out of this working copy, so together they
+	 * never claim more than the storage has. Reset per {@link #skillPlanContent}.
+	 * ponytail: steps folded under a collapsed small-steps toggle are not rendered and so take
+	 * nothing; the shortfall may then over-claim by their share until the toggle is opened.
+	 */
+	private Map<Integer, Integer> storageLeft = new HashMap<>();
 	private boolean metExpanded;
 	// task 52b-2: which gathering plans' "Alternatives" list is expanded, keyed by shortfall item
 	// name + plan id + plan title - never cleared, same persistence rule as SuggestPanel's Why?
@@ -395,6 +403,7 @@ public class GoalDetailPanel extends JPanel
 	private JPanel skillPlanContent(SkillPlan plan, int indent)
 	{
 		JPanel panel = column();
+		storageLeft = new HashMap<>(currentAdvice.getSnapshot().getGroupStorage());
 		Route route = plan.getRoute();
 		boolean anySteps = route != null && !route.getSteps().isEmpty();
 		if (anySteps)
@@ -691,12 +700,11 @@ public class GoalDetailPanel extends JPanel
 
 	/**
 	 * RL-003 AC3: "in group storage: Ranarr weed 200, Vial of water 100" for the step's materials
-	 * the shared storage holds, or null when none. Walks the method's own material list so the
-	 * order is stable ({@code materialsUsed} is an unordered {@code Map.copyOf}).
+	 * the shared storage (still) holds, or null when none. Walks the method's own material list so
+	 * the order is stable ({@code materialsUsed} is an unordered {@code Map.copyOf}).
 	 */
 	private String groupStorageNote(RouteStep step)
 	{
-		Snapshot snapshot = currentAdvice.getSnapshot();
 		List<String> parts = new ArrayList<>();
 		for (ItemQuantity material : step.getMethod().getMaterials())
 		{
@@ -704,13 +712,24 @@ public class GoalDetailPanel extends JPanel
 			{
 				continue;
 			}
-			int share = snapshot.groupStorageShare(material.getId(), step.getMaterialsUsed().getOrDefault(material.getId(), 0));
+			int share = takeFromStorage(material.getId(), step.getMaterialsUsed().getOrDefault(material.getId(), 0));
 			if (share > 0)
 			{
 				parts.add(material.getName() + " " + thousands(share));
 			}
 		}
 		return parts.isEmpty() ? null : "in group storage: " + String.join(", ", parts);
+	}
+
+	/** How much of {@code quantity} of {@code itemId} the group storage still covers; that much is consumed from {@link #storageLeft}. */
+	private int takeFromStorage(int itemId, int quantity)
+	{
+		int share = Math.min(quantity, storageLeft.getOrDefault(itemId, 0));
+		if (share > 0)
+		{
+			storageLeft.merge(itemId, -share, Integer::sum);
+		}
+		return share;
 	}
 
 	private static String stepName(RouteStep step)
@@ -802,7 +821,7 @@ public class GoalDetailPanel extends JPanel
 			: "<span style='color:" + Icons.hex(ColorScheme.PROGRESS_COMPLETE_COLOR) + "'>covered</span>";
 		// task 59: lead with the shortage; the label's grey foreground colours everything but the span
 		// RL-003 AC3: how much of "have" the group ironman shared storage accounts for
-		int inGroupStorage = item.getItem().getId() == null ? 0 : currentAdvice.getSnapshot().groupStorageShare(item.getItem().getId(), item.getHave());
+		int inGroupStorage = item.getItem().getId() == null ? 0 : takeFromStorage(item.getItem().getId(), item.getHave());
 		JLabel text = htmlLabel(SuggestPanel.escape(item.getItem().getName()) + ": " + shortText
 			+ " (have " + item.getHave() + ", need " + item.getNeed()
 			+ (inGroupStorage > 0 ? "; in group storage: " + inGroupStorage : "") + ")", textWidth(indent, icon, null));

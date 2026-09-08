@@ -72,6 +72,8 @@ class WhyBuilderTest
 		assertEquals("Ready now; group storage not seen", whyBuilder.why(rank(status), kb, unseen));
 		assertEquals("Ready now", whyBuilder.why(rank(status), kb, seen));
 		assertEquals("Ready now", whyBuilder.why(rank(status), kb, snap), "a non-group account has no group storage to see");
+		Snapshot off = new SnapshotBuilder().accountType(AccountType.GROUP).groupStorageOff().build();
+		assertEquals("Ready now", whyBuilder.why(rank(status), kb, off), "toggle off: nothing to open, so no clause (fix round 1)");
 	}
 
 	@Test

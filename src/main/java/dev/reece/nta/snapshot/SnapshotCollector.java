@@ -35,11 +35,17 @@ public final class SnapshotCollector
 	{
 	}
 
-	public static Snapshot collect(Client client, ItemManager itemManager, CachedBank bank, CachedBank groupStorage, KnowledgeBase kb)
+	/** {@code countGroupStorage} is the "Count group storage" toggle (RL-003 AC5): off, the cached storage is left out of the snapshot (kept in memory and on disk). */
+	public static Snapshot collect(Client client, ItemManager itemManager, CachedBank bank, CachedBank groupStorage, boolean countGroupStorage,
+		KnowledgeBase kb)
 	{
 		if (!client.isClientThread())
 		{
 			throw new IllegalStateException("SnapshotCollector.collect must run on the client thread");
+		}
+		if (!countGroupStorage)
+		{
+			groupStorage = CachedBank.unknown();
 		}
 
 		Map<Skill, SkillState> skills = new EnumMap<>(Skill.class);
@@ -112,6 +118,7 @@ public final class SnapshotCollector
 			.groupStorage(groupStorage.getItems())
 			.groupStorageKnown(groupStorage.isKnown())
 			.groupStorageAsOf(groupStorage.getAsOf())
+			.groupStorageEnabled(countGroupStorage)
 			.questPoints(client.getVarpValue(VarPlayerID.QP))
 			.kudos(client.getVarbitValue(VarbitID.VM_KUDOS))
 			.build();

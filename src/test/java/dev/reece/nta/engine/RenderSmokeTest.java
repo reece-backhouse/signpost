@@ -219,10 +219,12 @@ class RenderSmokeTest
 			.bankAsOf(asOf).groupStorageKnown(true).groupStorageAsOf(asOf).build();
 		Snapshot unseen = new SnapshotBuilder().accountType(AccountType.GROUP).build().toBuilder().bankAsOf(asOf).build();
 		Snapshot normal = new SnapshotBuilder().build().toBuilder().bankAsOf(asOf).build();
+		Snapshot off = new SnapshotBuilder().accountType(AccountType.GROUP).groupStorageOff().build().toBuilder().bankAsOf(asOf).build();
 		Engine engine = new Engine(new BoostTable());
 		Advice seenAdvice = engine.run(seen, kb, AccountData.empty(), asOf);
 		Advice unseenAdvice = engine.run(unseen, kb, AccountData.empty(), asOf);
 		Advice normalAdvice = engine.run(normal, kb, AccountData.empty(), asOf);
+		Advice offAdvice = engine.run(off, kb, AccountData.empty(), asOf);
 
 		Consumer<String> noop = id -> { };
 		SuggestPanel.Actions actions = new SuggestPanel.Actions(noop, noop, noop, noop, noop, noop, noop, () -> { }, noop, noop, () -> 7);
@@ -239,7 +241,54 @@ class RenderSmokeTest
 				assertTrue(containsLabelContaining(panel, "Group storage: not seen"), "unseen storage says so");
 				panel.render(normalAdvice);
 				assertFalse(containsLabelContaining(panel, "Group storage"), "a non-group account has no group storage line");
+				panel.render(offAdvice);
+				assertTrue(containsLabelContaining(panel, "Group storage: off"), "toggle off says off, never 'not seen' (fix round 1)");
 				assertOnlyRenderableGlyphs(panel);
+			});
+		}
+		catch (InvocationTargetException e)
+		{
+			if (e.getCause() instanceof HeadlessException)
+			{
+				Assumptions.abort("Headless environment cannot construct Swing components: " + e.getCause().getMessage());
+			}
+			throw e;
+		}
+	}
+
+	/** RL-003 fix round 1: the storage share is consumed across steps, so two steps and the shortfall never claim more than storage holds. */
+	@Test
+	void groupStorageShareIsConsumedAcrossStepsAndTheShortfall() throws Exception
+	{
+		Advice base = craftChainFixture();
+		int unf = 200;
+		MethodEntry brew = new MethodEntry(Skill.HERBLORE, "Prayer potion(3)", "Prayer potion(3)", 38, 87.5,
+			List.of(new ItemQuantity("Ranarr potion (unf)", unf, 1)), List.of(), List.of(), true, false, null, false, true);
+		MethodEntry restore = new MethodEntry(Skill.HERBLORE, "Super restore(3)", "Super restore(3)", 63, 142.5,
+			List.of(new ItemQuantity("Ranarr potion (unf)", unf, 1)), List.of(), List.of(), true, false, null, false, true);
+		RouteStep first = new RouteStep(brew, 4, 61, 62, 350L, Map.of(unf, 4), List.of());
+		RouteStep second = new RouteStep(restore, 4, 62, 63, 570L, Map.of(unf, 4), List.of());
+		Route route = new Route(List.of(first, second), 1_000L, 303_208L, Map.of(unf, 3));
+		Shortfall shortfall = new Shortfall(restore, List.of(new ShortfallItem(new ItemQuantity("Ranarr potion (unf)", unf, 1), 3, 10, List.of(), List.of())),
+			1_000L, 7);
+		SkillPlan plan = new SkillPlan(Skill.HERBLORE, 61, 70, 302_288L, 737_627L, false, route, shortfall, false, "quest");
+		FocusDetail focus = new FocusDetail(base.getFocus().getStatus(), base.getFocus().getNext(), route, shortfall, 61, 70, List.of(plan), plan);
+		Snapshot snapshot = base.getSnapshot().toBuilder().groupStorage(Map.of(unf, 5)).groupStorageKnown(true).build();
+		Advice advice = new Advice(snapshot, base.getStatuses(), base.getDiaryProgress(), base.getComputedAt(),
+			base.getRanked(), base.getPicked(), base.getRest(), base.getAccountStage(), base.getLater(), base.getWhys(),
+			base.getExplanations(), base.getReasons(), base.getOwnedManuallyNames(), base.getPrefs(), focus, base.getCompletedSinceLast());
+
+		Consumer<String> noop = id -> { };
+		GoalDetailPanel.Actions actions = new GoalDetailPanel.Actions(noop, () -> { });
+		try
+		{
+			SwingUtilities.invokeAndWait(() ->
+			{
+				GoalDetailPanel panel = new GoalDetailPanel(actions, icons());
+				panel.render(advice);
+				assertTrue(containsLabelContaining(panel, "in group storage: Ranarr potion (unf) 4"), "first step takes 4 of the 5");
+				assertTrue(containsLabelContaining(panel, "in group storage: Ranarr potion (unf) 1"), "second step gets the last 1");
+				assertEquals(2, countLabelsContaining(panel, "in group storage"), "the shortfall's have=3 must not claim storage that the steps used up");
 			});
 		}
 		catch (InvocationTargetException e)

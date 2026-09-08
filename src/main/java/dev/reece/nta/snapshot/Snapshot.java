@@ -33,10 +33,12 @@ public class Snapshot
 	Map<Integer, Boolean> combatAchievementTiers;
 	boolean bankKnown;
 	Instant bankAsOf;
-	/** RL-003: the group ironman shared storage, cached like the bank; empty (and not known) on any other account type. */
+	/** RL-003: the group ironman shared storage, cached like the bank; empty (and not known) on any other account type or when the "Count group storage" toggle is off. */
 	Map<Integer, Integer> groupStorage;
 	boolean groupStorageKnown;
 	Instant groupStorageAsOf;
+	/** RL-003 AC5: false when the "Count group storage" toggle is off - the header then says "off" rather than "not seen". */
+	boolean groupStorageEnabled;
 	int questPoints;
 	int kudos;
 
@@ -60,6 +62,7 @@ public class Snapshot
 		Map<Integer, Integer> groupStorage,
 		boolean groupStorageKnown,
 		Instant groupStorageAsOf,
+		boolean groupStorageEnabled,
 		int questPoints,
 		int kudos)
 	{
@@ -81,6 +84,7 @@ public class Snapshot
 		this.groupStorage = copyOf(groupStorage);
 		this.groupStorageKnown = groupStorageKnown;
 		this.groupStorageAsOf = groupStorageAsOf;
+		this.groupStorageEnabled = groupStorageEnabled;
 		this.questPoints = questPoints;
 		this.kudos = kudos;
 	}
@@ -110,16 +114,6 @@ public class Snapshot
 			.groupStorageKnown(cached.isKnown())
 			.groupStorageAsOf(cached.getAsOf())
 			.build();
-	}
-
-	/**
-	 * How much of {@code quantity} of {@code itemId} group storage accounts for - the per-item
-	 * source breakdown behind "in group storage: N" (RL-003 AC3). Ownership sums bank and group
-	 * storage into one pool, so this caps at whatever the shared storage holds.
-	 */
-	public int groupStorageShare(int itemId, int quantity)
-	{
-		return Math.min(quantity, groupStorage.getOrDefault(itemId, 0));
 	}
 
 	/**

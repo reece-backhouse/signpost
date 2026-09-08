@@ -67,8 +67,9 @@ public final class WhyBuilder
 			clauses.add("bank unknown");
 		}
 
-		// RL-003: unseen group storage counts as empty (never blocks "Ready now"), so say it was never seen.
-		if (clauses.size() < MAX_CLAUSES && s.getAccountType().isGroup() && !s.isGroupStorageKnown())
+		// RL-003: unseen group storage counts as empty (never blocks "Ready now"), so say it was never
+		// seen - unless the toggle is off, when there is nothing to open.
+		if (clauses.size() < MAX_CLAUSES && s.getAccountType().isGroup() && s.isGroupStorageEnabled() && !s.isGroupStorageKnown())
 		{
 			clauses.add("group storage not seen");
 		}
