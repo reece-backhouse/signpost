@@ -1,12 +1,14 @@
 package dev.reece.nta.ui;
 
 import dev.reece.nta.engine.model.Advice;
+import dev.reece.nta.engine.model.Gap;
 import dev.reece.nta.engine.model.Goal;
 import dev.reece.nta.engine.model.GoalCategory;
 import dev.reece.nta.engine.model.GoalRef;
 import dev.reece.nta.engine.model.GoalStatus;
 import dev.reece.nta.engine.model.PrefsView;
 import dev.reece.nta.engine.model.RankedGoal;
+import dev.reece.nta.engine.model.SkillLevelGap;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Cursor;
@@ -32,6 +34,7 @@ import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.SwingUtilities;
 import lombok.Value;
+import net.runelite.api.Skill;
 import net.runelite.client.ui.ColorScheme;
 import net.runelite.client.ui.FontManager;
 import net.runelite.client.ui.PluginPanel;
@@ -53,12 +56,14 @@ public class SuggestPanel extends JPanel
 	private static final int WRAP_WIDTH = PluginPanel.PANEL_WIDTH - 30;
 	private static final int CARD_BORDER_THICKNESS = 1;
 	private static final int CARD_PADDING = 6;
+	// task 57: the coloured category accent down a card's left edge
+	private static final int CARD_ACCENT_WIDTH = 4;
 	// the narrowest a button row is ever actually laid out in: a card's interior (the sidebar
 	// minus its scrollbar, minus the card's own border and padding on both sides). List rows have
 	// no card border, so they always get at least this much room - using the card's tighter figure
 	// for both callers is conservative, never wrong.
 	private static final int BUTTON_ROW_WIDTH = PluginPanel.PANEL_WIDTH - PluginPanel.SCROLLBAR_WIDTH
-		- 2 * (CARD_BORDER_THICKNESS + CARD_PADDING);
+		- 2 * (CARD_BORDER_THICKNESS + CARD_PADDING) - CARD_ACCENT_WIDTH;
 	// ponytail: char-count heuristic for the milestone reason's 3-line cap; tune if a real font's
 	// wrapping at WRAP_WIDTH turns out to differ noticeably from this.
 	private static final int REASON_MAX_CHARS = 140;
@@ -326,19 +331,32 @@ public class SuggestPanel extends JPanel
 		card.setAlignmentX(Component.LEFT_ALIGNMENT);
 		card.setBackground(ColorScheme.DARKER_GRAY_COLOR);
 		card.setBorder(BorderFactory.createCompoundBorder(
-			BorderFactory.createLineBorder(ColorScheme.MEDIUM_GRAY_COLOR, CARD_BORDER_THICKNESS),
-			BorderFactory.createEmptyBorder(CARD_PADDING, CARD_PADDING, CARD_PADDING, CARD_PADDING)));
+			BorderFactory.createMatteBorder(0, CARD_ACCENT_WIDTH, 0, 0, Icons.categoryColor(goal.getCategory())),
+			BorderFactory.createCompoundBorder(
+				BorderFactory.createLineBorder(ColorScheme.MEDIUM_GRAY_COLOR, CARD_BORDER_THICKNESS),
+				BorderFactory.createEmptyBorder(CARD_PADDING, CARD_PADDING, CARD_PADDING, CARD_PADDING))));
 
 		JLabel nameLabel = new JLabel(goal.getName() + (r.isPinned() ? " (pinned)" : ""));
 		nameLabel.setFont(FontManager.getRunescapeBoldFont());
 		nameLabel.setForeground(ColorScheme.TEXT_COLOR);
 		nameLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
-		card.add(nameLabel);
+		Skill skill = targetSkill(r.getStatus());
+		if (skill != null)
+		{
+			JPanel nameRow = GoalDetailPanel.borderRow();
+			nameRow.add(icons.skill(skill), BorderLayout.WEST);
+			nameRow.add(nameLabel, BorderLayout.CENTER);
+			card.add(nameRow);
+		}
+		else
+		{
+			card.add(nameLabel);
+		}
 		card.add(Box.createVerticalStrut(4));
 
 		JLabel categoryLabel = new JLabel(categoryLabel(goal.getCategory()) + " · stage " + goal.getStage());
 		categoryLabel.setFont(FontManager.getRunescapeSmallFont());
-		categoryLabel.setForeground(ColorScheme.LIGHT_GRAY_COLOR);
+		categoryLabel.setForeground(Icons.categoryColor(goal.getCategory()));
 		categoryLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
 		card.add(categoryLabel);
 		card.add(Box.createVerticalStrut(4));
@@ -407,6 +425,23 @@ public class SuggestPanel extends JPanel
 			: actionRow(doThis, notNow, ignore, pin));
 
 		return row;
+	}
+
+	/** Task 57: a {@link GoalCategory#SKILL_TARGET}'s skill (its one {@link SkillLevelGap}), for the card's icon; {@code null} for any other goal. */
+	private static Skill targetSkill(GoalStatus status)
+	{
+		if (status.getGoal().getCategory() != GoalCategory.SKILL_TARGET)
+		{
+			return null;
+		}
+		for (Gap gap : status.getGaps())
+		{
+			if (gap instanceof SkillLevelGap)
+			{
+				return ((SkillLevelGap) gap).getSkill();
+			}
+		}
+		return null;
 	}
 
 	private static final int MAX_PARENTS = 3;

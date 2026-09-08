@@ -146,6 +146,7 @@ class RenderSmokeTest
 				assertFalse(containsLabelContaining(panel, "Parent D"), "fourth parent must be capped, not rendered");
 				assertTrue(containsLabelContaining(panel, "+2 more"), "capped parents must show a +N more suffix");
 				assertTrue(containsLabelContaining(panel, "materials in bank"), "bank-covered skill target must show the badge");
+				assertTrue(containsIconOnlyLabel(panel), "task 57: the skill-target card must carry the skill's icon");
 			});
 		}
 		catch (InvocationTargetException e)
@@ -838,6 +839,22 @@ class RenderSmokeTest
 			}
 		}
 		return null;
+	}
+
+	private static boolean containsIconOnlyLabel(Container container)
+	{
+		for (Component child : container.getComponents())
+		{
+			if (child instanceof JLabel && ((JLabel) child).getIcon() != null && ((JLabel) child).getText().isEmpty())
+			{
+				return true;
+			}
+			if (child instanceof Container && containsIconOnlyLabel((Container) child))
+			{
+				return true;
+			}
+		}
+		return false;
 	}
 
 	private static boolean containsComponentNamed(Container container, String name)
