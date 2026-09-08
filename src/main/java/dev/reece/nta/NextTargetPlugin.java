@@ -44,6 +44,7 @@ import net.runelite.api.events.ItemContainerChanged;
 import net.runelite.api.events.StatChanged;
 import net.runelite.api.events.VarbitChanged;
 import net.runelite.api.events.WidgetClosed;
+import net.runelite.api.events.WidgetLoaded;
 import net.runelite.api.gameval.InterfaceID;
 import net.runelite.client.RuneLite;
 import net.runelite.client.callback.ClientThread;
@@ -369,6 +370,20 @@ public class NextTargetPlugin extends Plugin
 		mutateAccountData(data -> AccountDataMutations.bank(data, items, asOf));
 
 		requestSnapshot();
+	}
+
+	/**
+	 * RL-011 AC6: the diary journal ({@code JOURNALSCROLL}) loading means the player just opened a
+	 * diary's task list, which is when the game refreshes the per-task varbits - re-snapshot so
+	 * the panel's diary progress follows.
+	 */
+	@Subscribe
+	public void onWidgetLoaded(WidgetLoaded event)
+	{
+		if (event.getGroupId() == InterfaceID.JOURNALSCROLL)
+		{
+			requestSnapshot();
+		}
 	}
 
 	@Subscribe
