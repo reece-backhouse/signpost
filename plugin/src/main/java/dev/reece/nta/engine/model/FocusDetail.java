@@ -1,5 +1,6 @@
 package dev.reece.nta.engine.model;
 
+import java.util.List;
 import lombok.Value;
 
 /**
@@ -10,6 +11,12 @@ import lombok.Value;
  * is {@code null} unless {@code next} is a skill step; {@code shortfall} is {@code null} unless
  * {@code route.getUncoveredXp() > 0}. {@code fromLevel}/{@code toLevel} are the skill step's
  * current/target level (both 0 for a non-skill step).
+ *
+ * <p>Task 56: {@code skillPlans} is one {@link SkillPlan} per distinct skill gap of the focused
+ * goal - top-level, inside a {@link DiaryTaskGap}, and recommended; a skill appearing more than
+ * once keeps its highest target level - sorted by xp delta ascending. {@code nextSkillPlan} is
+ * the entry matching {@code next} when {@code next} is a skill step, else {@code null}; when it
+ * exists, its {@code route} is the same object as {@code route} above (never recomputed).
  */
 @Value
 public class FocusDetail
@@ -20,4 +27,6 @@ public class FocusDetail
 	Shortfall shortfall;
 	int fromLevel;
 	int toLevel;
+	List<SkillPlan> skillPlans;
+	SkillPlan nextSkillPlan;
 }

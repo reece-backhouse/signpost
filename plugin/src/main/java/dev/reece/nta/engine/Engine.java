@@ -1,7 +1,9 @@
 package dev.reece.nta.engine;
 
 import dev.reece.nta.engine.model.Advice;
+import dev.reece.nta.engine.model.DiaryTaskGap;
 import dev.reece.nta.engine.model.FocusDetail;
+import dev.reece.nta.engine.model.Gap;
 import dev.reece.nta.engine.model.GoalStatus;
 import dev.reece.nta.engine.model.NextStep;
 import dev.reece.nta.engine.model.NextStepType;
@@ -10,18 +12,23 @@ import dev.reece.nta.engine.model.RankedGoal;
 import dev.reece.nta.engine.model.Route;
 import dev.reece.nta.engine.model.Shortfall;
 import dev.reece.nta.engine.model.SkillLevelGap;
+import dev.reece.nta.engine.model.SkillPlan;
 import dev.reece.nta.kb.KnowledgeBase;
 import dev.reece.nta.kb.MilestoneEntry;
 import dev.reece.nta.snapshot.DiaryTier;
+import dev.reece.nta.snapshot.SkillState;
 import dev.reece.nta.snapshot.Snapshot;
 import dev.reece.nta.store.AccountData;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import lombok.Value;
+import net.runelite.api.Experience;
+import net.runelite.api.Skill;
 
 /**
  * Pure entry point wiring {@link GapEngine}, {@link DiaryProgress}, {@link PrefsResolver},
@@ -149,6 +156,91 @@ public class Engine
 			: null;
 		int fromLevel = next.getType() == NextStepType.SKILL ? next.getSkillGap().getHave() : 0;
 		int toLevel = next.getType() == NextStepType.SKILL ? next.getSkillGap().getNeed() : 0;
-		return new FocusDetail(status, next, route, shortfall, fromLevel, toLevel);
+
+		List<SkillPlan> skillPlans = computeSkillPlans(status, next, snapshot, kb);
+		SkillPlan nextSkillPlan = next.getType() == NextStepType.SKILL
+			? skillPlans.stream().filter(p -> p.getSkill() == next.getSkillGap().getSkill()).findFirst().orElse(null)
+			: null;
+
+		return new FocusDetail(status, next, route, shortfall, fromLevel, toLevel, skillPlans, nextSkillPlan);
+	}
+
+	/**
+	 * Task 56: one {@link SkillPlan} per distinct skill of the focused goal's {@link SkillLevelGap}s
+	 * - top-level, inside a {@link DiaryTaskGap}, and recommended; a skill appearing more than once
+	 * keeps its highest target level. The gap NextStepPicker already picked (if any) reuses its
+	 * already-computed {@link Route}/{@link Shortfall} rather than recomputing them.
+	 */
+	private List<SkillPlan> computeSkillPlans(GoalStatus status, NextStep next, Snapshot snapshot, KnowledgeBase kb)
+	{
+		List<FlatSkillGap> flat = new ArrayList<>();
+		collectSkillGaps(status.getGaps(), null, flat);
+
+		Map<Skill, FlatSkillGap> bySkill = new LinkedHashMap<>();
+		for (FlatSkillGap f : flat)
+		{
+			FlatSkillGap existing = bySkill.get(f.gap.getSkill());
+			if (existing == null || f.gap.getNeed() > existing.gap.getNeed())
+			{
+				bySkill.put(f.gap.getSkill(), f);
+			}
+		}
+
+		Map<Integer, Integer> bankAll = NextStepPicker.bankAll(snapshot);
+		List<SkillPlan> plans = new ArrayList<>();
+		for (FlatSkillGap f : bySkill.values())
+		{
+			SkillLevelGap gap = f.gap;
+			long fromXp = currentXp(snapshot, gap.getSkill());
+			long toXp = Experience.getXpForLevel(gap.getNeed());
+			Route route = next.getType() == NextStepType.SKILL && next.getSkillGap() == gap
+				? next.getRoute()
+				: RoutePlanner.route(gap.getSkill(), fromXp, toXp, bankAll, kb);
+			boolean covered = route.getUncoveredXp() == 0;
+			Shortfall shortfall = covered ? null : ShortfallResolver.resolve(gap.getSkill(), route, kb, snapshot);
+			plans.add(new SkillPlan(gap.getSkill(), gap.getHave(), gap.getNeed(), fromXp, toXp, gap.isRecommended(), route, shortfall, covered,
+				f.source));
+		}
+		plans.sort(Comparator.comparingLong(p -> p.getToXp() - p.getFromXp()));
+		return plans;
+	}
+
+	/** Recursively finds every {@link SkillLevelGap}, tagging each with where it came from (spec ruling 30). */
+	private static void collectSkillGaps(List<Gap> gaps, Integer diaryTaskOrdinal, List<FlatSkillGap> out)
+	{
+		for (Gap gap : gaps)
+		{
+			if (gap instanceof SkillLevelGap)
+			{
+				SkillLevelGap skillGap = (SkillLevelGap) gap;
+				String source = diaryTaskOrdinal != null
+					? "diary task " + diaryTaskOrdinal
+					: skillGap.isRecommended() ? "recommended" : "quest";
+				out.add(new FlatSkillGap(skillGap, source));
+			}
+			else if (gap instanceof DiaryTaskGap)
+			{
+				DiaryTaskGap taskGap = (DiaryTaskGap) gap;
+				collectSkillGaps(taskGap.getGaps(), taskGap.getOrdinal(), out);
+			}
+		}
+	}
+
+	private static long currentXp(Snapshot snapshot, Skill skill)
+	{
+		SkillState state = snapshot.getSkills().get(skill);
+		return state == null ? 0 : state.getXp();
+	}
+
+	private static final class FlatSkillGap
+	{
+		final SkillLevelGap gap;
+		final String source;
+
+		FlatSkillGap(SkillLevelGap gap, String source)
+		{
+			this.gap = gap;
+			this.source = source;
+		}
 	}
 }

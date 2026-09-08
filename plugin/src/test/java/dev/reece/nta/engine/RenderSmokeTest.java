@@ -523,7 +523,7 @@ class RenderSmokeTest
 			baseItem.getSources(), baseItem.getCraftFrom(), baseItem.getWikiUrl(), List.of(offer));
 		Shortfall shortfall = new Shortfall(base.getFocus().getShortfall().getMethod(), List.of(itemWithPlan));
 		FocusDetail focus = new FocusDetail(base.getFocus().getStatus(), base.getFocus().getNext(), base.getFocus().getRoute(), shortfall,
-			base.getFocus().getFromLevel(), base.getFocus().getToLevel());
+			base.getFocus().getFromLevel(), base.getFocus().getToLevel(), base.getFocus().getSkillPlans(), base.getFocus().getNextSkillPlan());
 
 		Advice advice = new Advice(base.getSnapshot(), base.getStatuses(), base.getDiaryProgress(), base.getComputedAt(),
 			base.getRanked(), base.getPicked(), base.getRest(), base.getAccountStage(), base.getLater(), base.getWhys(),

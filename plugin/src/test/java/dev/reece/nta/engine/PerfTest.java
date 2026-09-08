@@ -1,13 +1,20 @@
 package dev.reece.nta.engine;
 
 import com.google.gson.Gson;
+import dev.reece.nta.engine.model.Advice;
+import dev.reece.nta.engine.model.FocusDetail;
 import dev.reece.nta.engine.model.GoalStatus;
 import dev.reece.nta.engine.model.NextStep;
 import dev.reece.nta.engine.model.Route;
 import dev.reece.nta.engine.model.RouteStep;
+import dev.reece.nta.engine.model.SkillPlan;
 import dev.reece.nta.kb.KnowledgeBase;
 import dev.reece.nta.snapshot.Snapshot;
+import dev.reece.nta.store.AccountData;
+import java.time.Instant;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import net.runelite.api.Experience;
@@ -15,7 +22,9 @@ import net.runelite.api.Quest;
 import net.runelite.api.Skill;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
@@ -63,6 +72,40 @@ class PerfTest
 		boolean usesRanarr = route.getSteps().stream().anyMatch(s -> s.getMaterialsUsed().containsKey(RANARR_WEED_ID))
 			|| route.getSteps().stream().flatMap(s -> s.getCrafts().stream()).anyMatch(s -> s.getMaterialsUsed().containsKey(RANARR_WEED_ID));
 		assertTrue(usesRanarr, "expected the route to use some of the bank's Ranarr weed (id " + RANARR_WEED_ID + ")");
+	}
+
+	/**
+	 * Task 56: a fresh account focused on Song of the Elves has 8 skill gaps (Agility, Construction,
+	 * Farming, Herblore, Hunter, Mining, Smithing, Woodcutting all req level 70) - {@link Engine#run}
+	 * must compute a {@link SkillPlan} (route + shortfall) for every one of them, once, and still
+	 * stay under the same 1s budget as the rest of the engine.
+	 */
+	@Test
+	void focusedSongOfTheElvesWithEightSkillGapsStaysUnderOneSecondBudget()
+	{
+		KnowledgeBase kb = KnowledgeBase.load(new Gson());
+		Engine engine = new Engine(new BoostTable());
+		Snapshot snapshot = new SnapshotBuilder().build();
+		AccountData data = focusOn("quest:" + Quest.SONG_OF_THE_ELVES.getId());
+
+		// Warm up (JIT, class loading) - only the second run is measured.
+		engine.run(snapshot, kb, data, Instant.now());
+
+		long start = System.nanoTime();
+		Advice advice = engine.run(snapshot, kb, data, Instant.now());
+		long elapsedMs = (System.nanoTime() - start) / 1_000_000;
+
+		assertTrue(elapsedMs < 1000, "Engine.run (focused Song of the Elves) took " + elapsedMs + "ms, budget is 1000ms");
+		System.out.println("PerfTest: Engine.run with a focused Song of the Elves (8 skill gaps) took " + elapsedMs + "ms");
+
+		FocusDetail focus = advice.getFocus();
+		assertNotNull(focus, "expected a focus detail for the focused Song of the Elves goal");
+		assertEquals(8, focus.getSkillPlans().size(), "expected one SkillPlan per Song of the Elves skill requirement");
+	}
+
+	private static AccountData focusOn(String goalId)
+	{
+		return new AccountData(new HashMap<>(), null, new HashMap<>(), new HashSet<>(), new ArrayList<>(), goalId, new HashSet<>());
 	}
 
 	private static GoalStatus songOfTheElves(List<GoalStatus> statuses)
