@@ -17,6 +17,7 @@ import dev.reece.nta.engine.model.SkillPlan;
 import dev.reece.nta.kb.GatheringAlternative;
 import dev.reece.nta.kb.GatheringPlan;
 import dev.reece.nta.kb.GatheringRequires;
+import dev.reece.nta.kb.GatheringStep;
 import dev.reece.nta.kb.ItemQuantity;
 import dev.reece.nta.kb.MethodEntry;
 import dev.reece.nta.kb.KnowledgeBase;
@@ -454,6 +455,17 @@ class RenderSmokeTest
 	}
 
 	/** Task 52b: as {@link #findLabelStartingWith}, but a substring match anywhere in the label's text (HTML-wrapped explanation/parent lines included). */
+	/** Wraps each text as a {@link GatheringStep} carrying {@code requires} (task 62). */
+	private static List<GatheringStep> steps(GatheringRequires requires, String... texts)
+	{
+		List<GatheringStep> steps = new ArrayList<>();
+		for (String text : texts)
+		{
+			steps.add(new GatheringStep(text, requires));
+		}
+		return steps;
+	}
+
 	private static boolean containsLabelContaining(Container container, String substring)
 	{
 		for (Component child : container.getComponents())
@@ -576,11 +588,13 @@ class RenderSmokeTest
 
 		GatheringRequires requires = new GatheringRequires(List.of(), null, List.of(), List.of(), null);
 		GatheringAlternative alternative = new GatheringAlternative("Kill blue dragons",
-			List.of("Travel to the dragon lair", "Kill and collect scales"), requires);
+			steps(requires, "Travel to the dragon lair", "Kill and collect scales"), requires);
+		// task 62: the plan carries a Weiss step the engine dropped from the offer (quest not done)
 		GatheringPlan plan = new GatheringPlan("Ranarr potion (unf)", ranarrUnf, "Farm ranarr weeds", requires, 120,
-			List.of("Plant ranarr seeds at Falador farm", "Harvest and return"), List.of(alternative),
-			"https://oldschool.runescape.wiki/w/Ranarr_weed");
-		PlanOffer offer = new PlanOffer(plan, true, List.of());
+			steps(requires, "Plant ranarr seeds at Falador farm", "Weiss: plant at the disease-free patch", "Harvest and return"),
+			List.of(alternative), "https://oldschool.runescape.wiki/w/Ranarr_weed");
+		PlanOffer offer = new PlanOffer(plan, true, List.of(), List.of("Plant ranarr seeds at Falador farm", "Harvest and return"),
+			List.of(List.of("Travel to the dragon lair", "Kill and collect scales")));
 		ShortfallItem itemWithPlan = new ShortfallItem(baseItem.getItem(), baseItem.getHave(), baseItem.getNeed(),
 			baseItem.getSources(), baseItem.getCraftFrom(), baseItem.getWikiUrl(), List.of(offer));
 		Shortfall shortfall = new Shortfall(base.getFocus().getShortfall().getMethod(), List.of(itemWithPlan));
@@ -610,7 +624,8 @@ class RenderSmokeTest
 
 				assertTrue(containsLabelContaining(panel, "Farm ranarr weeds"), "plan title must render");
 				assertTrue(containsLabelContaining(panel, "Plant ranarr seeds at Falador farm"), "first step must render");
-				assertTrue(containsLabelContaining(panel, "Harvest and return"), "second step must render");
+				assertTrue(containsLabelContaining(panel, "2. Harvest and return"), "steps must be numbered after filtering");
+				assertFalse(containsLabelContaining(panel, "Weiss"), "a step the offer dropped must not render");
 				assertTrue(containsLabelContaining(panel, "Alternatives (1)"), "alternatives toggle must render");
 			});
 		}
@@ -769,10 +784,11 @@ class RenderSmokeTest
 		ShortfallItem baseItem = herblore.getShortfall().getItems().get(0);
 		GatheringRequires requires = new GatheringRequires(List.of(), null, List.of(), List.of(), null);
 		GatheringPlan plan = new GatheringPlan("Ranarr potion (unf)", ranarrUnf, "Farm ranarr weeds", requires, 120,
-			List.of("Plant ranarr seeds at Falador farm", "Harvest and return"), List.of(),
+			steps(requires, "Plant ranarr seeds at Falador farm", "Harvest and return"), List.of(),
 			"https://oldschool.runescape.wiki/w/Ranarr_weed");
 		ShortfallItem itemWithPlan = new ShortfallItem(baseItem.getItem(), baseItem.getHave(), baseItem.getNeed(),
-			baseItem.getSources(), baseItem.getCraftFrom(), baseItem.getWikiUrl(), List.of(new PlanOffer(plan, true, List.of())));
+			baseItem.getSources(), baseItem.getCraftFrom(), baseItem.getWikiUrl(),
+			List.of(new PlanOffer(plan, true, List.of(), List.of("Plant ranarr seeds at Falador farm", "Harvest and return"), List.of())));
 		SkillPlan herblorePlan = new SkillPlan(Skill.HERBLORE, herblore.getFromLevel(), herblore.getToLevel(), herblore.getFromXp(),
 			herblore.getToXp(), false, herblore.getRoute(), new Shortfall(herblore.getShortfall().getMethod(), List.of(itemWithPlan)),
 			false, "quest");

@@ -5,6 +5,7 @@ import dev.reece.nta.kb.DiaryEntry;
 import dev.reece.nta.kb.DiaryRef;
 import dev.reece.nta.kb.DiaryTask;
 import dev.reece.nta.kb.GatheringPlan;
+import dev.reece.nta.kb.GatheringStep;
 import dev.reece.nta.kb.GatheringRequires;
 import dev.reece.nta.kb.ItemQuantity;
 import dev.reece.nta.kb.ItemReq;
@@ -24,7 +25,9 @@ import dev.reece.nta.snapshot.DiaryTier;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.Map;
+import net.runelite.api.Quest;
 import net.runelite.api.Skill;
 
 /**
@@ -45,6 +48,7 @@ final class KbBuilder
 	private final List<MilestoneSpec> milestoneSpecs = new ArrayList<>();
 	private final List<MethodSpec> methodSpecs = new ArrayList<>();
 	private final List<MaterialSpec> materialSpecs = new ArrayList<>();
+	private static final GatheringRequires NO_REQUIRES = new GatheringRequires(List.of(), null, List.of(), List.of(), null);
 	private final List<GatheringPlanSpec> gatheringPlanSpecs = new ArrayList<>();
 	private final Map<String, Integer> priorityOverrides = new LinkedHashMap<>();
 
@@ -285,6 +289,20 @@ final class KbBuilder
 		return this;
 	}
 
+	/** Adds an unconditional step to the currently open gathering plan (task 62); with no steps, the plan gets a single "Go gather" step. */
+	KbBuilder step(String text)
+	{
+		return step(text, List.of(), List.of());
+	}
+
+	/** Adds a step to the currently open gathering plan that the engine drops unless the account meets {@code skills} and has finished {@code quests}. */
+	KbBuilder step(String text, List<SkillReq> skills, List<Quest> quests)
+	{
+		List<String> questNames = quests.stream().map(Quest::getName).collect(Collectors.toList());
+		currentGatheringPlan.steps.add(new GatheringStep(text, new GatheringRequires(skills, null, questNames, List.of(), null)));
+		return this;
+	}
+
 	/** Sets a priority override for a goal id, applied instead of that goal's own priority. */
 	KbBuilder priorityOverride(String id, int priority)
 	{
@@ -497,8 +515,10 @@ final class KbBuilder
 		for (GatheringPlanSpec s : gatheringPlanSpecs)
 		{
 			GatheringRequires requires = new GatheringRequires(List.copyOf(s.skills), null, List.of(), List.of(), null);
-			gatheringPlans.add(new GatheringPlan(s.item, s.id, "Gather " + s.item, requires, null, List.of("Go gather " + s.item + "."),
-				List.of(), WikiUrls.forTitle(s.item)));
+			List<GatheringStep> steps = s.steps.isEmpty()
+				? List.of(new GatheringStep("Go gather " + s.item + ".", NO_REQUIRES))
+				: List.copyOf(s.steps);
+			gatheringPlans.add(new GatheringPlan(s.item, s.id, "Gather " + s.item, requires, null, steps, List.of(), WikiUrls.forTitle(s.item)));
 		}
 
 		return KnowledgeBase.of(1, "test", 1, "test", quests, diaries, milestones, priorityOverrides, methods, materials, gatheringPlans);
@@ -646,6 +666,7 @@ final class KbBuilder
 		final String item;
 		final int id;
 		final List<SkillReq> skills = new ArrayList<>();
+		final List<GatheringStep> steps = new ArrayList<>();
 
 		GatheringPlanSpec(String item, int id)
 		{

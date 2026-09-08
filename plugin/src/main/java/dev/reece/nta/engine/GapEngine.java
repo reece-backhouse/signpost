@@ -888,6 +888,12 @@ public final class GapEngine
 		return Map.copyOf(m);
 	}
 
+	/** The RuneLite {@link Quest} with exactly this name, or null - the mapping every quest name in the KB resolves through. */
+	static Quest questByName(String name)
+	{
+		return QUESTS_BY_NAME.get(name);
+	}
+
 	private static Map<String, Quest> buildQuestsByName()
 	{
 		Map<String, Quest> m = new LinkedHashMap<>();

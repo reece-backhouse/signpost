@@ -5,7 +5,10 @@ import dev.reece.nta.engine.model.PlanOffer;
 import dev.reece.nta.engine.model.Route;
 import dev.reece.nta.engine.model.Shortfall;
 import dev.reece.nta.engine.model.ShortfallItem;
+import dev.reece.nta.kb.GatheringAlternative;
 import dev.reece.nta.kb.GatheringPlan;
+import dev.reece.nta.kb.GatheringRequires;
+import dev.reece.nta.kb.GatheringStep;
 import dev.reece.nta.kb.ItemQuantity;
 import dev.reece.nta.kb.KnowledgeBase;
 import dev.reece.nta.kb.MaterialEntry;
@@ -17,6 +20,8 @@ import dev.reece.nta.snapshot.Snapshot;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import net.runelite.api.Quest;
+import net.runelite.api.QuestState;
 import net.runelite.api.Skill;
 
 /**
@@ -219,7 +224,11 @@ public final class ShortfallResolver
 		return offers;
 	}
 
-	/** Flags a plan {@code meetsRequirements = false} (naming each shortfall) when any {@code requires.skills} level exceeds the snapshot. */
+	/**
+	 * Flags a plan {@code meetsRequirements = false} (naming each shortfall) when any
+	 * {@code requires.skills} level exceeds the snapshot, and (task 62) keeps only the steps -
+	 * of the plan and of each alternative - whose own requirements the account meets.
+	 */
 	private static PlanOffer toPlanOffer(GatheringPlan plan, Snapshot snapshot)
 	{
 		List<String> missing = new ArrayList<>();
@@ -231,7 +240,46 @@ public final class ShortfallResolver
 				missing.add(req.getSkill().getName() + " " + req.getLevel() + " (have " + have + ")");
 			}
 		}
-		return new PlanOffer(plan, missing.isEmpty(), List.copyOf(missing));
+		List<List<String>> alternativeSteps = new ArrayList<>();
+		for (GatheringAlternative alternative : plan.getAlternatives())
+		{
+			alternativeSteps.add(doableSteps(alternative.getSteps(), snapshot));
+		}
+		return new PlanOffer(plan, missing.isEmpty(), List.copyOf(missing), doableSteps(plan.getSteps(), snapshot), List.copyOf(alternativeSteps));
+	}
+
+	/** The text of each step whose skill levels the snapshot meets and whose quests it has finished, in order. */
+	private static List<String> doableSteps(List<GatheringStep> steps, Snapshot snapshot)
+	{
+		List<String> doable = new ArrayList<>();
+		for (GatheringStep step : steps)
+		{
+			if (meets(step.getRequires(), snapshot))
+			{
+				doable.add(step.getText());
+			}
+		}
+		return List.copyOf(doable);
+	}
+
+	private static boolean meets(GatheringRequires requires, Snapshot snapshot)
+	{
+		for (SkillReq req : requires.getSkills())
+		{
+			if (snapshot.getSkills().getOrDefault(req.getSkill(), UNKNOWN_SKILL).getLevel() < req.getLevel())
+			{
+				return false;
+			}
+		}
+		for (String questName : requires.getQuests())
+		{
+			Quest quest = GapEngine.questByName(questName);
+			if (quest == null || snapshot.getQuests().get(quest) != QuestState.FINISHED)
+			{
+				return false;
+			}
+		}
+		return true;
 	}
 
 	private static MethodEntry findIntermediateProducing(int itemId, Skill skill, KnowledgeBase kb)

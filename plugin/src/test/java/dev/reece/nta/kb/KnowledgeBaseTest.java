@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import dev.reece.nta.snapshot.DiaryTier;
 import java.util.List;
 import net.runelite.api.Quest;
+import net.runelite.api.Skill;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -19,6 +20,8 @@ class KnowledgeBaseTest
 	private static final String EMPTY_DIARIES_JSON = "{\"version\":1,\"generatedAt\":\"x\",\"diaries\":[]}";
 	private static final String EMPTY_MILESTONES_JSON = "{\"version\":1,\"milestones\":[]}";
 	private static final String EMPTY_PRIORITIES_JSON = "{\"version\":1,\"overrides\":{}}";
+	private static final String EMPTY_METHODS_JSON = "{\"version\":1,\"generatedAt\":\"x\",\"methods\":[]}";
+	private static final String EMPTY_MATERIALS_JSON = "{\"version\":1,\"generatedAt\":\"x\",\"materials\":[]}";
 
 	@Test
 	void nullSkillsListOnAQuestFailsLoudlyNamingTheQuestAndField()
@@ -381,6 +384,43 @@ class KnowledgeBaseTest
 	 * requirement and weren't offenders under this rule, but got a curated {@code recommended}
 	 * profile anyway since their existing hard requirement alone still under-gated them).
 	 */
+	/** Task 62: a gathering plan step may carry its own requirements; a quest name that isn't a RuneLite Quest fails loudly naming the plan. */
+	@Test
+	void gatheringStepNamingAnUnknownQuestFailsLoudlyNamingThePlan()
+	{
+		String gatheringJson = "{\"version\":1,\"plans\":[{\"item\":\"Kwuarm\",\"id\":263,\"title\":\"Run a herb farm loop for kwuarm\","
+			+ "\"requires\":{\"skills\":[],\"quests\":[],\"items\":[],\"notes\":null},\"ratePerHour\":null,"
+			+ "\"steps\":[{\"text\":\"Weiss patch.\",\"requires\":{\"skills\":[],\"quests\":[\"Not A Real Quest\"]}}],"
+			+ "\"alternatives\":[],\"wikiUrl\":\"https://oldschool.runescape.wiki/w/Kwuarm\"}]}";
+
+		IllegalStateException e = assertThrows(IllegalStateException.class,
+			() -> KnowledgeBase.fromJson(new Gson(), EMPTY_QUESTS_JSON, EMPTY_DIARIES_JSON, EMPTY_MILESTONES_JSON, EMPTY_PRIORITIES_JSON,
+				EMPTY_METHODS_JSON, EMPTY_MATERIALS_JSON, gatheringJson));
+
+		assertTrue(e.getMessage().contains("Kwuarm"), e.getMessage());
+		assertTrue(e.getMessage().contains("Not A Real Quest"), e.getMessage());
+	}
+
+	/** Task 62: a well-formed step loads with its text, skill and quest requirements. */
+	@Test
+	void gatheringStepWithSkillAndQuestRequirementsLoads()
+	{
+		String gatheringJson = "{\"version\":1,\"plans\":[{\"item\":\"Kwuarm\",\"id\":263,\"title\":\"Run a herb farm loop for kwuarm\","
+			+ "\"requires\":{\"skills\":[],\"quests\":[],\"items\":[],\"notes\":null},\"ratePerHour\":null,"
+			+ "\"steps\":[{\"text\":\"Guild patch.\",\"requires\":{\"skills\":[{\"skill\":\"Farming\",\"level\":65}],"
+			+ "\"quests\":[\"Making Friends with My Arm\"]}}],"
+			+ "\"alternatives\":[],\"wikiUrl\":\"https://oldschool.runescape.wiki/w/Kwuarm\"}]}";
+
+		KnowledgeBase kb = KnowledgeBase.fromJson(new Gson(), EMPTY_QUESTS_JSON, EMPTY_DIARIES_JSON, EMPTY_MILESTONES_JSON,
+			EMPTY_PRIORITIES_JSON, EMPTY_METHODS_JSON, EMPTY_MATERIALS_JSON, gatheringJson);
+
+		GatheringStep step = kb.getGatheringPlans().get(0).getSteps().get(0);
+		assertEquals("Guild patch.", step.getText());
+		assertEquals(Skill.FARMING, step.getRequires().getSkills().get(0).getSkill());
+		assertEquals(65, step.getRequires().getSkills().get(0).getLevel());
+		assertEquals(List.of("Making Friends with My Arm"), step.getRequires().getQuests());
+	}
+
 	@Test
 	void everyBundledMilestoneHasARecommendedProfileOrAQuestDiaryOrFortyPlusSkillRequirement()
 	{

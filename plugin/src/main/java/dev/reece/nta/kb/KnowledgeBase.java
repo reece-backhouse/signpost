@@ -10,6 +10,7 @@ import java.io.InputStreamReader;
 import java.io.UncheckedIOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -18,6 +19,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
+import net.runelite.api.Quest;
 import net.runelite.api.Skill;
 
 /**
@@ -39,6 +41,8 @@ public final class KnowledgeBase
 	private static final String EMPTY_METHODS_JSON = "{\"version\":1,\"generatedAt\":\"x\",\"methods\":[]}";
 	private static final String EMPTY_MATERIALS_JSON = "{\"version\":1,\"generatedAt\":\"x\",\"materials\":[]}";
 	private static final String EMPTY_GATHERING_JSON = "{\"version\":1,\"plans\":[]}";
+	/** Every RuneLite {@link Quest} by its exact name - what a gathering step's {@code requires.quests} must resolve to (task 62). */
+	private static final Set<String> QUEST_NAMES = Arrays.stream(Quest.values()).map(Quest::getName).collect(Collectors.toSet());
 
 	private static final String QUEST_POINT_SKILL = "Quest point";
 	private static final String KUDOS_SKILL = "Kudos";
@@ -665,8 +669,8 @@ public final class KnowledgeBase
 		List<GatheringAlternative> alternatives = dto.alternatives.stream()
 			.map(a -> toGatheringAlternative(a, context)).collect(Collectors.toList());
 
-		return new GatheringPlan(dto.item, dto.id, dto.title, requires, dto.ratePerHour, List.copyOf(dto.steps), List.copyOf(alternatives),
-			dto.wikiUrl);
+		return new GatheringPlan(dto.item, dto.id, dto.title, requires, dto.ratePerHour, toGatheringSteps(dto.steps, context),
+			List.copyOf(alternatives), dto.wikiUrl);
 	}
 
 	private static GatheringAlternative toGatheringAlternative(GatheringAlternativeDto dto, String context)
@@ -675,7 +679,37 @@ public final class KnowledgeBase
 		requireField(dto.steps, context, "alternatives[].steps");
 		requireField(dto.requires, context, "alternatives[].requires");
 		validateStepCount(dto.steps, context);
-		return new GatheringAlternative(dto.title, List.copyOf(dto.steps), toGatheringRequires(dto.requires, context));
+		return new GatheringAlternative(dto.title, toGatheringSteps(dto.steps, context), toGatheringRequires(dto.requires, context));
+	}
+
+	/** Task 62: each step's text must be non-blank and its requirements name real skills and RuneLite {@link Quest}s (exact name). */
+	private static List<GatheringStep> toGatheringSteps(List<GatheringStepDto> dtos, String context)
+	{
+		List<GatheringStep> steps = new ArrayList<>();
+		for (int i = 0; i < dtos.size(); i++)
+		{
+			GatheringStepDto dto = dtos.get(i);
+			String stepContext = context + " step " + (i + 1);
+			if (dto == null || dto.text == null || dto.text.isBlank())
+			{
+				throw new IllegalStateException("Malformed knowledge base data: " + stepContext + " has blank text");
+			}
+			requireField(dto.requires, stepContext, "requires");
+			requireField(dto.requires.skills, stepContext, "requires.skills");
+			requireField(dto.requires.quests, stepContext, "requires.quests");
+			List<SkillReq> skills = dto.requires.skills.stream()
+				.map(s -> new SkillReq(resolveSkill(s.skill, stepContext), s.level, false, false))
+				.collect(Collectors.toList());
+			for (String questName : dto.requires.quests)
+			{
+				if (!QUEST_NAMES.contains(questName))
+				{
+					throw new IllegalStateException("Malformed knowledge base data: " + stepContext + " requires unknown quest \"" + questName + "\"");
+				}
+			}
+			steps.add(new GatheringStep(dto.text, new GatheringRequires(skills, null, List.copyOf(dto.requires.quests), List.of(), null)));
+		}
+		return List.copyOf(steps);
 	}
 
 	private static GatheringRequires toGatheringRequires(GatheringRequiresDto dto, String context)
@@ -701,7 +735,7 @@ public final class KnowledgeBase
 	}
 
 	/** Fails loudly, naming the plan/alternative, when {@code steps} is empty or implausibly long (gathering-notes.md: curated plans run 2-8). */
-	private static void validateStepCount(List<String> steps, String context)
+	private static void validateStepCount(List<?> steps, String context)
 	{
 		if (steps.isEmpty() || steps.size() > 10)
 		{
@@ -1066,7 +1100,7 @@ public final class KnowledgeBase
 		String title;
 		GatheringRequiresDto requires;
 		Integer ratePerHour;
-		List<String> steps = new ArrayList<>();
+		List<GatheringStepDto> steps = new ArrayList<>();
 		List<GatheringAlternativeDto> alternatives = new ArrayList<>();
 		String wikiUrl;
 	}
@@ -1074,8 +1108,20 @@ public final class KnowledgeBase
 	private static final class GatheringAlternativeDto
 	{
 		String title;
-		List<String> steps = new ArrayList<>();
+		List<GatheringStepDto> steps = new ArrayList<>();
 		GatheringRequiresDto requires;
+	}
+
+	private static final class GatheringStepDto
+	{
+		String text;
+		GatheringStepRequiresDto requires;
+	}
+
+	private static final class GatheringStepRequiresDto
+	{
+		List<SkillDto> skills = new ArrayList<>();
+		List<String> quests = new ArrayList<>();
 	}
 
 	private static final class GatheringRequiresDto

@@ -6,11 +6,14 @@ import dev.reece.nta.engine.model.Route;
 import dev.reece.nta.engine.model.Shortfall;
 import dev.reece.nta.engine.model.ShortfallItem;
 import dev.reece.nta.kb.KnowledgeBase;
+import dev.reece.nta.kb.SkillReq;
 import dev.reece.nta.snapshot.Snapshot;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import net.runelite.api.Experience;
+import net.runelite.api.Quest;
+import net.runelite.api.QuestState;
 import net.runelite.api.Skill;
 import org.junit.jupiter.api.Test;
 
@@ -215,6 +218,33 @@ class ShortfallResolverTest
 		PlanOffer offer = shortfall.getItems().get(0).getPlans().get(0);
 		assertFalse(offer.isMeetsRequirements());
 		assertEquals(List.of("Agility 70 (have 60)"), offer.getMissing());
+	}
+
+	/** Task 62: a plan's offer keeps only the steps whose own skill/quest requirements the account meets, in order. */
+	@Test
+	void anOfferDropsTheStepsWhoseRequirementsTheAccountDoesNotMeet()
+	{
+		final int KWUARM = 263;
+		KnowledgeBase kb = new KbBuilder()
+			.method(Skill.HERBLORE, "Only method", 1, 10)
+			.material(KWUARM, 1)
+			.material("Kwuarm", KWUARM)
+			.gatheringPlan("Kwuarm", KWUARM)
+			.step("Falador patch.")
+			.step("Farming Guild patch.", List.of(new SkillReq(Skill.FARMING, 65, false, false)), List.of())
+			.step("Weiss patch.", List.of(), List.of(Quest.MAKING_FRIENDS_WITH_MY_ARM))
+			.build();
+		Route route = new Route(List.of(), 10, 0, Map.of());
+		Snapshot lowAccount = new SnapshotBuilder().skill(Skill.FARMING, 56).build();
+		Snapshot readyAccount = new SnapshotBuilder().skill(Skill.FARMING, 65)
+			.quest(Quest.MAKING_FRIENDS_WITH_MY_ARM, QuestState.FINISHED).build();
+
+		PlanOffer low = ShortfallResolver.resolve(Skill.HERBLORE, route, kb, lowAccount).getItems().get(0).getPlans().get(0);
+		PlanOffer ready = ShortfallResolver.resolve(Skill.HERBLORE, route, kb, readyAccount).getItems().get(0).getPlans().get(0);
+
+		assertEquals(List.of("Falador patch."), low.getSteps());
+		assertTrue(low.isMeetsRequirements(), "step gating must not flag the whole plan");
+		assertEquals(List.of("Falador patch.", "Farming Guild patch.", "Weiss patch."), ready.getSteps());
 	}
 
 	/** Task 60 (spec ruling 30): the fastest method stays primary; an iron who can't gather its materials also gets the best obtainable one. */

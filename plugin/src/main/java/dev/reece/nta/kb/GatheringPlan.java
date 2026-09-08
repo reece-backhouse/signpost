@@ -18,7 +18,7 @@ public class GatheringPlan
 	String title;
 	GatheringRequires requires;
 	Integer ratePerHour;
-	List<String> steps;
+	List<GatheringStep> steps;
 	List<GatheringAlternative> alternatives;
 	String wikiUrl;
 }

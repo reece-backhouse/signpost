@@ -843,7 +843,7 @@ public class GoalDetailPanel extends JPanel
 		container.add(iconRow(icon, title, null, indent));
 
 		int n = 1;
-		for (String step : plan.getSteps())
+		for (String step : offer.getSteps())
 		{
 			container.add(row(n + ". " + step, indent + 1));
 			n++;
@@ -862,7 +862,7 @@ public class GoalDetailPanel extends JPanel
 		if (plan.getAlternatives() != null && !plan.getAlternatives().isEmpty())
 		{
 			String key = shortfallItemName + "|" + plan.getId() + "|" + plan.getTitle();
-			container.add(alternativesToggle(key, plan.getAlternatives(), indent + 1));
+			container.add(alternativesToggle(key, plan.getAlternatives(), offer.getAlternativeSteps(), indent + 1));
 		}
 
 		return container;
@@ -870,12 +870,12 @@ public class GoalDetailPanel extends JPanel
 
 	/**
 	 * Task 52b-2: a collapsed "Alternatives (n)" toggle; expanding it lists each alternative's
-	 * title and numbered steps. Expansion persists per {@code key} across re-renders (same rule as
+	 * title and its offer-filtered steps (task 62), numbered after filtering. Expansion persists per {@code key} across re-renders (same rule as
 	 * {@code expandedAlternatives} above / SuggestPanel's Why? toggle) - clicking it re-renders the
 	 * whole panel from {@link #currentAdvice} since, unlike the collapsible section headers, a
 	 * fresh label is built on every render rather than one persistent label mutated in place.
 	 */
-	private JPanel alternativesToggle(String key, List<GatheringAlternative> alternatives, int indent)
+	private JPanel alternativesToggle(String key, List<GatheringAlternative> alternatives, List<List<String>> alternativeSteps, int indent)
 	{
 		JPanel panel = column();
 
@@ -890,11 +890,11 @@ public class GoalDetailPanel extends JPanel
 
 		if (expanded)
 		{
-			for (GatheringAlternative alt : alternatives)
+			for (int i = 0; i < alternatives.size(); i++)
 			{
-				panel.add(row(alt.getTitle(), indent + 1));
+				panel.add(row(alternatives.get(i).getTitle(), indent + 1));
 				int n = 1;
-				for (String step : alt.getSteps())
+				for (String step : alternativeSteps.get(i))
 				{
 					panel.add(row(n + ". " + step, indent + 2));
 					n++;

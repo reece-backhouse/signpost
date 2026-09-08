@@ -8,6 +8,6 @@ import lombok.Value;
 public class GatheringAlternative
 {
 	String title;
-	List<String> steps;
+	List<GatheringStep> steps;
 	GatheringRequires requires;
 }
