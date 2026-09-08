@@ -49,6 +49,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
+import net.runelite.api.Quest;
+import net.runelite.api.QuestState;
 import net.runelite.api.Skill;
 import net.runelite.client.game.SkillIconManager;
 import net.runelite.client.ui.PluginPanel;
@@ -112,7 +114,7 @@ class RenderSmokeTest
 
 		Advice advice = new Advice(base.getSnapshot(), statuses, base.getDiaryProgress(), base.getComputedAt(),
 			ranked, picked, base.getRest(), base.getAccountStage(), base.getLater(), base.getWhys(), explanations,
-			base.getReasons(), base.getOwnedManuallyNames(), base.getPrefs(), base.getFocus());
+			base.getReasons(), base.getOwnedManuallyNames(), base.getPrefs(), base.getFocus(), List.of());
 
 		Consumer<String> noop = id -> { };
 		SuggestPanel.Actions actions = new SuggestPanel.Actions(noop, noop, noop, noop, noop, noop, noop, () -> { }, noop, noop, () -> 7);
@@ -155,6 +157,8 @@ class RenderSmokeTest
 				// RL-011 AC1: a thin xp progress bar with "have/need" text, the detail view's component
 				assertTrue(containsLabelContaining(panel, "60/75"), "skill-target card must show have/need level text");
 				assertTrue(containsComponentOfType(panel, ProgressBar.class), "skill-target card must carry a ProgressBar");
+				layoutAtRealPanelWidth(panel);
+				assertNothingEndsPastTheRightEdge(panel);
 			});
 		}
 		catch (InvocationTargetException e)
@@ -494,6 +498,48 @@ class RenderSmokeTest
 		});
 	}
 
+	/**
+	 * RL-011 AC5: a goal completed since the previous advice shows a green "Done:" strip at the top
+	 * until the next user action, and stays listed under a collapsed "Achieved this session (N)".
+	 */
+	@Test
+	void completedGoalShowsADoneStripUntilTheNextActionAndAnAchievedSection() throws Exception
+	{
+		KnowledgeBase kb = new KbBuilder()
+			.quest(Quest.COOKS_ASSISTANT.getId(), "Cook's Assistant")
+			.quest(Quest.RUNE_MYSTERIES.getId(), "Rune Mysteries")
+			.build();
+		Engine engine = new Engine(new BoostTable());
+		Advice first = engine.run(new SnapshotBuilder().build(), kb, AccountData.empty(), Instant.now());
+		Snapshot finished = new SnapshotBuilder().quest(Quest.COOKS_ASSISTANT, QuestState.FINISHED).build();
+		Advice second = engine.run(finished, kb, AccountData.empty(), Instant.now(), first);
+		Advice third = engine.run(finished, kb, AccountData.empty(), Instant.now(), second);
+		assertEquals(1, second.getCompletedSinceLast().size(), "fixture must complete one goal");
+		assertTrue(third.getCompletedSinceLast().isEmpty(), "fixture's third run must complete nothing");
+
+		renderSuggest(second, panel ->
+		{
+			JLabel strip = findLabelNamed(panel, SuggestPanel.DONE_STRIP_NAME);
+			assertNotNull(strip, "a Done strip must render");
+			assertTrue(strip.getText().contains("Done: Cook's Assistant") && strip.isVisible(), strip.getText());
+			JLabel achieved = findLabelStartingWith(panel, "ACHIEVED THIS SESSION");
+			assertNotNull(achieved, "an Achieved this session header must render");
+			assertTrue(achieved.getText().contains("(1)") && achieved.getText().endsWith("[+]"), achieved.getText());
+			achieved.dispatchEvent(new MouseEvent(achieved, MouseEvent.MOUSE_CLICKED, System.currentTimeMillis(), 0, 1, 1, 1, false));
+			assertTrue(findLabelStartingWith(panel, "ACHIEVED THIS SESSION").getText().endsWith("[-]"), "header must expand");
+			assertEquals(2, countLabelsContaining(panel, "Cook's Assistant"), "strip plus one achieved row");
+			layoutAtRealPanelWidth(panel);
+			assertNothingEndsPastTheRightEdge(panel);
+
+			findButtonWithText(panel, "Not now").doClick();
+			assertFalse(findLabelNamed(panel, SuggestPanel.DONE_STRIP_NAME).isVisible(), "a user action hides the strip");
+
+			panel.render(third);
+			assertFalse(findLabelNamed(panel, SuggestPanel.DONE_STRIP_NAME).isVisible(), "a render with nothing new keeps the strip hidden");
+			assertTrue(findLabelStartingWith(panel, "ACHIEVED THIS SESSION").getText().contains("(1)"), "the session list is kept");
+		});
+	}
+
 	/** Builds a {@link SuggestPanel} with no-op actions, renders {@code advice} on the EDT and hands the panel to {@code check}; skips on a headless JVM. */
 	private static void renderSuggest(Advice advice, Consumer<SuggestPanel> check) throws Exception
 	{
@@ -740,7 +786,7 @@ class RenderSmokeTest
 
 		Advice advice = new Advice(base.getSnapshot(), base.getStatuses(), base.getDiaryProgress(), base.getComputedAt(),
 			base.getRanked(), base.getPicked(), base.getRest(), base.getAccountStage(), base.getLater(), base.getWhys(),
-			base.getExplanations(), base.getReasons(), base.getOwnedManuallyNames(), base.getPrefs(), focus);
+			base.getExplanations(), base.getReasons(), base.getOwnedManuallyNames(), base.getPrefs(), focus, List.of());
 
 		Consumer<String> noop = id -> { };
 		GoalDetailPanel.Actions actions = new GoalDetailPanel.Actions(noop, () -> { });
@@ -939,7 +985,7 @@ class RenderSmokeTest
 			List.of(herblorePlan, woodcuttingPlan), herblorePlan);
 		Advice advice = new Advice(base.getSnapshot(), base.getStatuses(), base.getDiaryProgress(), base.getComputedAt(),
 			base.getRanked(), base.getPicked(), base.getRest(), base.getAccountStage(), base.getLater(), base.getWhys(),
-			base.getExplanations(), base.getReasons(), base.getOwnedManuallyNames(), base.getPrefs(), focus);
+			base.getExplanations(), base.getReasons(), base.getOwnedManuallyNames(), base.getPrefs(), focus, List.of());
 
 		Consumer<String> noop = id -> { };
 		GoalDetailPanel.Actions actions = new GoalDetailPanel.Actions(noop, () -> { });
@@ -1332,7 +1378,7 @@ class RenderSmokeTest
 		FocusDetail focus = new FocusDetail(base.getFocus().getStatus(), base.getFocus().getNext(), route, null, 61, 70, List.of(plan), plan);
 		return new Advice(base.getSnapshot(), base.getStatuses(), base.getDiaryProgress(), base.getComputedAt(),
 			base.getRanked(), base.getPicked(), base.getRest(), base.getAccountStage(), base.getLater(), base.getWhys(),
-			base.getExplanations(), base.getReasons(), base.getOwnedManuallyNames(), base.getPrefs(), focus);
+			base.getExplanations(), base.getReasons(), base.getOwnedManuallyNames(), base.getPrefs(), focus, List.of());
 	}
 
 	private static JLabel findLabelWithText(Container container, String text)
@@ -1465,7 +1511,7 @@ class RenderSmokeTest
 		Advice withoutCraftFrom = new Advice(withCraftFrom.getSnapshot(), withCraftFrom.getStatuses(), withCraftFrom.getDiaryProgress(),
 			withCraftFrom.getComputedAt(), withCraftFrom.getRanked(), withCraftFrom.getPicked(), withCraftFrom.getRest(),
 			withCraftFrom.getAccountStage(), withCraftFrom.getLater(), withCraftFrom.getWhys(), withCraftFrom.getExplanations(),
-			withCraftFrom.getReasons(), withCraftFrom.getOwnedManuallyNames(), withCraftFrom.getPrefs(), focus);
+			withCraftFrom.getReasons(), withCraftFrom.getOwnedManuallyNames(), withCraftFrom.getPrefs(), focus, List.of());
 
 		Consumer<String> noop = id -> { };
 		GoalDetailPanel.Actions actions = new GoalDetailPanel.Actions(noop, () -> { });

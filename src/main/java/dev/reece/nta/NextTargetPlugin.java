@@ -262,7 +262,8 @@ public class NextTargetPlugin extends Plugin
 			// modify an AccountData in place (AccountDataMutations copies), so no defensive copy.
 			AccountData data = accountData;
 			long start = System.nanoTime();
-			Advice advice = currentEngine.run(snapshot, loadedKb, data != null ? data : AccountData.empty(), Instant.now());
+			// RL-011 AC5: the previous advice is what "completed since last" is measured against
+			Advice advice = currentEngine.run(snapshot, loadedKb, data != null ? data : AccountData.empty(), Instant.now(), cachedAdvice);
 			long ms = (System.nanoTime() - start) / 1_000_000;
 			log.info("engine: {} goals evaluated in {} ms", advice.getStatuses().size(), ms);
 			for (String line : AdviceDiagnostics.lines(advice))
@@ -521,7 +522,7 @@ public class NextTargetPlugin extends Plugin
 
 			Snapshot snapshot = cachedSnapshot;
 			KnowledgeBase loadedKb = kb;
-			return snapshot != null && loadedKb != null ? currentEngine.run(snapshot, loadedKb, updated, Instant.now()) : null;
+			return snapshot != null && loadedKb != null ? currentEngine.run(snapshot, loadedKb, updated, Instant.now(), cachedAdvice) : null;
 		}, advice ->
 		{
 			if (advice != null)
