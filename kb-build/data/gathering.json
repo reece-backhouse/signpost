@@ -660,7 +660,7 @@
     {
       "item": "Ranarr weed",
       "id": 257,
-      "title": "Run a multi-patch herb farm loop for ranarr weed",
+      "title": "Run a herb farm loop for ranarr weed",
       "requires": {
         "skills": [
           {
@@ -669,33 +669,120 @@
           }
         ],
         "quests": [
-          "Plague City (for the Ardougne Teleport spell)"
+          "Plague City"
         ],
         "items": [
           "Ranarr seed",
           "Spade",
-          "Ultracompost or supercompost (disease protection)"
+          "Rake",
+          "Ultracompost or supercompost",
+          "Magic secateurs (optional, +10% yield)"
         ],
-        "notes": "Ranarr seeds aren't sold in any shop; get them via Master Farmer pickpocketing (38 Thieving), monster drops, or seed packs. Herb patches accept a different herb per run, so this same 4-patch loop (Falador, Catherby, Ardougne, Farming Guild) can carry ranarr, toadflax, snapdragon, torstol, or any other herb simultaneously - just plant whichever herb you need in each patch on a given lap. Yield is ~3+ grimy herbs per patch per 80-minute cycle, not a steady hourly rate."
+        "notes": "Plague City unlocks the Ardougne Teleport spell. Herb seeds aren't sold in shops: pickpocket Master Farmers (38 Thieving), monster drops, or seed packs. Each patch can grow a different herb on the same run. Yield is per ~80-minute cycle, not per hour."
       },
       "ratePerHour": null,
       "steps": [
-        "Get Farming level 32 and stock up on ranarr seeds and ultracompost.",
-        "Teleport to Falador (Falador Teleport spell) and plant a ranarr seed in the herb patch after treating the soil with ultracompost.",
-        "Teleport to Catherby (Camelot Teleport spell) and plant a ranarr seed in its herb patch after treating the soil.",
-        "Teleport to Ardougne (Ardougne Teleport spell) and plant a ranarr seed in its herb patch after treating the soil.",
-        "If you have 45 Farming, walk from Catherby to the Farming Guild and plant a fourth ranarr seed in its disease-free herb patch.",
-        "Wait roughly 80 minutes (real time) for all the herbs to fully grow.",
-        "Return to each patch via the same teleports, pick the grimy ranarr weed from every patch, and immediately replant fresh seeds for the next cycle.",
-        "Clean the grimy ranarr weed with the Herblore skill before banking or using it."
+        {
+          "text": "Bring ranarr weed seeds, ultracompost (or supercompost), a spade and a rake; you need 32 Farming.",
+          "requires": {
+            "skills": [],
+            "quests": []
+          }
+        },
+        {
+          "text": "Falador: cast Falador Teleport (or use the Explorer's ring cabbage-patch teleport) and plant a ranarr weed seed in the herb patch just outside the south-east wall, after treating the soil with compost.",
+          "requires": {
+            "skills": [],
+            "quests": []
+          }
+        },
+        {
+          "text": "Catherby: cast Camelot Teleport and walk east past the bank to the herb patch; compost and plant.",
+          "requires": {
+            "skills": [],
+            "quests": []
+          }
+        },
+        {
+          "text": "Ardougne: cast Ardougne Teleport (Plague City) and walk north of the zoo to the herb patch; compost and plant.",
+          "requires": {
+            "skills": [],
+            "quests": []
+          }
+        },
+        {
+          "text": "Hosidius: teleport with Xeric's talisman (Xeric's Glade) or the Kourend Castle Teleport spell and walk to the farming patches south of Hosidius; compost and plant.",
+          "requires": {
+            "skills": [],
+            "quests": []
+          }
+        },
+        {
+          "text": "Port Phasmatys: use the Ectophial (Ghosts Ahoy) or fairy ring ALQ and plant in the herb patch west of the town; compost and plant.",
+          "requires": {
+            "skills": [],
+            "quests": []
+          }
+        },
+        {
+          "text": "Farming Guild (Kebos Lowlands): teleport with a Skills necklace or fairy ring CIR; the herb patch in the guild's mid tier needs 65 Farming and never gets diseased.",
+          "requires": {
+            "skills": [
+              {
+                "skill": "Farming",
+                "level": 65
+              }
+            ],
+            "quests": []
+          }
+        },
+        {
+          "text": "Troll Stronghold: cast Trollheim Teleport (61 Magic, Eadgar's Ruse) and climb to the roof herb patch, which never gets diseased.",
+          "requires": {
+            "skills": [],
+            "quests": [
+              "My Arm's Big Adventure"
+            ]
+          }
+        },
+        {
+          "text": "Weiss: use the icy basalt teleport to the disease-free herb patch.",
+          "requires": {
+            "skills": [],
+            "quests": [
+              "Making Friends with My Arm"
+            ]
+          }
+        },
+        {
+          "text": "Wait about 80 minutes for the herbs to grow (they can be checked between other activities).",
+          "requires": {
+            "skills": [],
+            "quests": []
+          }
+        },
+        {
+          "text": "Repeat the same teleports, harvest each patch (roughly 6-10 grimy ranarr weed per patch with compost), and replant immediately for the next cycle.",
+          "requires": {
+            "skills": [],
+            "quests": []
+          }
+        },
+        {
+          "text": "Clean the grimy ranarr weed with Herblore when you need them.",
+          "requires": {
+            "skills": [],
+            "quests": []
+          }
+        }
       ],
-      "wikiUrl": "https://oldschool.runescape.wiki/w/Ranarr_weed",
-      "alternatives": []
+      "alternatives": [],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Ranarr_weed"
     },
     {
       "item": "Toadflax",
       "id": 2998,
-      "title": "Run a multi-patch herb farm loop for toadflax",
+      "title": "Run a herb farm loop for toadflax",
       "requires": {
         "skills": [
           {
@@ -704,33 +791,120 @@
           }
         ],
         "quests": [
-          "Plague City (for the Ardougne Teleport spell)"
+          "Plague City"
         ],
         "items": [
           "Toadflax seed",
           "Spade",
-          "Ultracompost or supercompost (disease protection)"
+          "Rake",
+          "Ultracompost or supercompost",
+          "Magic secateurs (optional, +10% yield)"
         ],
-        "notes": "Toadflax seeds aren't sold in any shop; get them via Master Farmer pickpocketing (38 Thieving), monster drops, or seed packs. Herb patches accept a different herb per run, so this same 4-patch loop (Falador, Catherby, Ardougne, Farming Guild) can carry toadflax, ranarr, snapdragon, torstol, or any other herb simultaneously - just plant whichever herb you need in each patch on a given lap. Yield is ~3+ grimy herbs per patch per 80-minute cycle, not a steady hourly rate."
+        "notes": "Plague City unlocks the Ardougne Teleport spell. Herb seeds aren't sold in shops: pickpocket Master Farmers (38 Thieving), monster drops, or seed packs. Each patch can grow a different herb on the same run. Yield is per ~80-minute cycle, not per hour."
       },
       "ratePerHour": null,
       "steps": [
-        "Get Farming level 38 and stock up on toadflax seeds and ultracompost.",
-        "Teleport to Falador (Falador Teleport spell) and plant a toadflax seed in the herb patch after treating the soil with ultracompost.",
-        "Teleport to Catherby (Camelot Teleport spell) and plant a toadflax seed in its herb patch after treating the soil.",
-        "Teleport to Ardougne (Ardougne Teleport spell) and plant a toadflax seed in its herb patch after treating the soil.",
-        "If you have 45 Farming, walk from Catherby to the Farming Guild and plant a fourth toadflax seed in its disease-free herb patch.",
-        "Wait roughly 80 minutes (real time) for all the herbs to fully grow.",
-        "Return to each patch via the same teleports, pick the grimy toadflax from every patch, and immediately replant fresh seeds for the next cycle.",
-        "Clean the grimy toadflax with the Herblore skill before banking or using it."
+        {
+          "text": "Bring toadflax seeds, ultracompost (or supercompost), a spade and a rake; you need 38 Farming.",
+          "requires": {
+            "skills": [],
+            "quests": []
+          }
+        },
+        {
+          "text": "Falador: cast Falador Teleport (or use the Explorer's ring cabbage-patch teleport) and plant a toadflax seed in the herb patch just outside the south-east wall, after treating the soil with compost.",
+          "requires": {
+            "skills": [],
+            "quests": []
+          }
+        },
+        {
+          "text": "Catherby: cast Camelot Teleport and walk east past the bank to the herb patch; compost and plant.",
+          "requires": {
+            "skills": [],
+            "quests": []
+          }
+        },
+        {
+          "text": "Ardougne: cast Ardougne Teleport (Plague City) and walk north of the zoo to the herb patch; compost and plant.",
+          "requires": {
+            "skills": [],
+            "quests": []
+          }
+        },
+        {
+          "text": "Hosidius: teleport with Xeric's talisman (Xeric's Glade) or the Kourend Castle Teleport spell and walk to the farming patches south of Hosidius; compost and plant.",
+          "requires": {
+            "skills": [],
+            "quests": []
+          }
+        },
+        {
+          "text": "Port Phasmatys: use the Ectophial (Ghosts Ahoy) or fairy ring ALQ and plant in the herb patch west of the town; compost and plant.",
+          "requires": {
+            "skills": [],
+            "quests": []
+          }
+        },
+        {
+          "text": "Farming Guild (Kebos Lowlands): teleport with a Skills necklace or fairy ring CIR; the herb patch in the guild's mid tier needs 65 Farming and never gets diseased.",
+          "requires": {
+            "skills": [
+              {
+                "skill": "Farming",
+                "level": 65
+              }
+            ],
+            "quests": []
+          }
+        },
+        {
+          "text": "Troll Stronghold: cast Trollheim Teleport (61 Magic, Eadgar's Ruse) and climb to the roof herb patch, which never gets diseased.",
+          "requires": {
+            "skills": [],
+            "quests": [
+              "My Arm's Big Adventure"
+            ]
+          }
+        },
+        {
+          "text": "Weiss: use the icy basalt teleport to the disease-free herb patch.",
+          "requires": {
+            "skills": [],
+            "quests": [
+              "Making Friends with My Arm"
+            ]
+          }
+        },
+        {
+          "text": "Wait about 80 minutes for the herbs to grow (they can be checked between other activities).",
+          "requires": {
+            "skills": [],
+            "quests": []
+          }
+        },
+        {
+          "text": "Repeat the same teleports, harvest each patch (roughly 6-10 grimy toadflax per patch with compost), and replant immediately for the next cycle.",
+          "requires": {
+            "skills": [],
+            "quests": []
+          }
+        },
+        {
+          "text": "Clean the grimy toadflax with Herblore when you need them.",
+          "requires": {
+            "skills": [],
+            "quests": []
+          }
+        }
       ],
-      "wikiUrl": "https://oldschool.runescape.wiki/w/Toadflax",
-      "alternatives": []
+      "alternatives": [],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Toadflax"
     },
     {
       "item": "Snapdragon",
       "id": 3000,
-      "title": "Run a multi-patch herb farm loop for snapdragon",
+      "title": "Run a herb farm loop for snapdragon",
       "requires": {
         "skills": [
           {
@@ -739,33 +913,120 @@
           }
         ],
         "quests": [
-          "Plague City (for the Ardougne Teleport spell)"
+          "Plague City"
         ],
         "items": [
           "Snapdragon seed",
           "Spade",
-          "Ultracompost or supercompost (disease protection - strongly recommended for this herb)"
+          "Rake",
+          "Ultracompost or supercompost",
+          "Magic secateurs (optional, +10% yield)"
         ],
-        "notes": "Snapdragon seeds aren't sold in any shop; get them via Master Farmer pickpocketing (38 Thieving), monster drops, or seed packs. Herb patches accept a different herb per run, so this same 4-patch loop (Falador, Catherby, Ardougne, Farming Guild) can carry snapdragon, ranarr, toadflax, torstol, or any other herb simultaneously - just plant whichever herb you need in each patch on a given lap. Yield is ~3+ grimy herbs per patch per 80-minute cycle, not a steady hourly rate."
+        "notes": "Plague City unlocks the Ardougne Teleport spell. Herb seeds aren't sold in shops: pickpocket Master Farmers (38 Thieving), monster drops, or seed packs. Each patch can grow a different herb on the same run. Yield is per ~80-minute cycle, not per hour."
       },
       "ratePerHour": null,
       "steps": [
-        "Get Farming level 62 and stock up on snapdragon seeds and ultracompost.",
-        "Teleport to Falador (Falador Teleport spell) and plant a snapdragon seed in the herb patch after treating the soil with ultracompost.",
-        "Teleport to Catherby (Camelot Teleport spell) and plant a snapdragon seed in its herb patch after treating the soil.",
-        "Teleport to Ardougne (Ardougne Teleport spell) and plant a snapdragon seed in its herb patch after treating the soil.",
-        "If you have 45 Farming, walk from Catherby to the Farming Guild and plant a fourth snapdragon seed in its disease-free herb patch.",
-        "Wait roughly 80 minutes (real time) for all the herbs to fully grow.",
-        "Return to each patch via the same teleports, pick the grimy snapdragon from every patch, and immediately replant fresh seeds for the next cycle.",
-        "Clean the grimy snapdragon with the Herblore skill before banking or using it."
+        {
+          "text": "Bring snapdragon seeds, ultracompost (or supercompost), a spade and a rake; you need 62 Farming.",
+          "requires": {
+            "skills": [],
+            "quests": []
+          }
+        },
+        {
+          "text": "Falador: cast Falador Teleport (or use the Explorer's ring cabbage-patch teleport) and plant a snapdragon seed in the herb patch just outside the south-east wall, after treating the soil with compost.",
+          "requires": {
+            "skills": [],
+            "quests": []
+          }
+        },
+        {
+          "text": "Catherby: cast Camelot Teleport and walk east past the bank to the herb patch; compost and plant.",
+          "requires": {
+            "skills": [],
+            "quests": []
+          }
+        },
+        {
+          "text": "Ardougne: cast Ardougne Teleport (Plague City) and walk north of the zoo to the herb patch; compost and plant.",
+          "requires": {
+            "skills": [],
+            "quests": []
+          }
+        },
+        {
+          "text": "Hosidius: teleport with Xeric's talisman (Xeric's Glade) or the Kourend Castle Teleport spell and walk to the farming patches south of Hosidius; compost and plant.",
+          "requires": {
+            "skills": [],
+            "quests": []
+          }
+        },
+        {
+          "text": "Port Phasmatys: use the Ectophial (Ghosts Ahoy) or fairy ring ALQ and plant in the herb patch west of the town; compost and plant.",
+          "requires": {
+            "skills": [],
+            "quests": []
+          }
+        },
+        {
+          "text": "Farming Guild (Kebos Lowlands): teleport with a Skills necklace or fairy ring CIR; the herb patch in the guild's mid tier needs 65 Farming and never gets diseased.",
+          "requires": {
+            "skills": [
+              {
+                "skill": "Farming",
+                "level": 65
+              }
+            ],
+            "quests": []
+          }
+        },
+        {
+          "text": "Troll Stronghold: cast Trollheim Teleport (61 Magic, Eadgar's Ruse) and climb to the roof herb patch, which never gets diseased.",
+          "requires": {
+            "skills": [],
+            "quests": [
+              "My Arm's Big Adventure"
+            ]
+          }
+        },
+        {
+          "text": "Weiss: use the icy basalt teleport to the disease-free herb patch.",
+          "requires": {
+            "skills": [],
+            "quests": [
+              "Making Friends with My Arm"
+            ]
+          }
+        },
+        {
+          "text": "Wait about 80 minutes for the herbs to grow (they can be checked between other activities).",
+          "requires": {
+            "skills": [],
+            "quests": []
+          }
+        },
+        {
+          "text": "Repeat the same teleports, harvest each patch (roughly 6-10 grimy snapdragon per patch with compost), and replant immediately for the next cycle.",
+          "requires": {
+            "skills": [],
+            "quests": []
+          }
+        },
+        {
+          "text": "Clean the grimy snapdragon with Herblore when you need them.",
+          "requires": {
+            "skills": [],
+            "quests": []
+          }
+        }
       ],
-      "wikiUrl": "https://oldschool.runescape.wiki/w/Snapdragon",
-      "alternatives": []
+      "alternatives": [],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Snapdragon"
     },
     {
       "item": "Torstol",
       "id": 269,
-      "title": "Run a multi-patch herb farm loop for torstol",
+      "title": "Run a herb farm loop for torstol",
       "requires": {
         "skills": [
           {
@@ -774,33 +1035,120 @@
           }
         ],
         "quests": [
-          "Plague City (for the Ardougne Teleport spell)"
+          "Plague City"
         ],
         "items": [
           "Torstol seed",
           "Spade",
-          "Ultracompost or supercompost (disease protection)"
+          "Rake",
+          "Ultracompost or supercompost",
+          "Magic secateurs (optional, +10% yield)"
         ],
-        "notes": "Torstol is the highest-level herb and its seeds aren't sold in any shop; get them via Master Farmer pickpocketing (38 Thieving), monster drops, or seed packs. Herb patches accept a different herb per run, so this same 4-patch loop (Falador, Catherby, Ardougne, Farming Guild) can carry torstol, ranarr, toadflax, snapdragon, or any other herb simultaneously - just plant whichever herb you need in each patch on a given lap. Yield is ~3+ grimy herbs per patch per 80-minute cycle, not a steady hourly rate."
+        "notes": "Plague City unlocks the Ardougne Teleport spell. Herb seeds aren't sold in shops: pickpocket Master Farmers (38 Thieving), monster drops, or seed packs. Each patch can grow a different herb on the same run. Yield is per ~80-minute cycle, not per hour."
       },
       "ratePerHour": null,
       "steps": [
-        "Get Farming level 85 and stock up on torstol seeds and ultracompost.",
-        "Teleport to Falador (Falador Teleport spell) and plant a torstol seed in the herb patch after treating the soil with ultracompost.",
-        "Teleport to Catherby (Camelot Teleport spell) and plant a torstol seed in its herb patch after treating the soil.",
-        "Teleport to Ardougne (Ardougne Teleport spell) and plant a torstol seed in its herb patch after treating the soil.",
-        "If you have 45 Farming, walk from Catherby to the Farming Guild and plant a fourth torstol seed in its disease-free herb patch.",
-        "Wait roughly 80 minutes (real time) for all the herbs to fully grow.",
-        "Return to each patch via the same teleports, pick the grimy torstol from every patch, and immediately replant fresh seeds for the next cycle.",
-        "Clean the grimy torstol with the Herblore skill before banking or using it."
+        {
+          "text": "Bring torstol seeds, ultracompost (or supercompost), a spade and a rake; you need 85 Farming.",
+          "requires": {
+            "skills": [],
+            "quests": []
+          }
+        },
+        {
+          "text": "Falador: cast Falador Teleport (or use the Explorer's ring cabbage-patch teleport) and plant a torstol seed in the herb patch just outside the south-east wall, after treating the soil with compost.",
+          "requires": {
+            "skills": [],
+            "quests": []
+          }
+        },
+        {
+          "text": "Catherby: cast Camelot Teleport and walk east past the bank to the herb patch; compost and plant.",
+          "requires": {
+            "skills": [],
+            "quests": []
+          }
+        },
+        {
+          "text": "Ardougne: cast Ardougne Teleport (Plague City) and walk north of the zoo to the herb patch; compost and plant.",
+          "requires": {
+            "skills": [],
+            "quests": []
+          }
+        },
+        {
+          "text": "Hosidius: teleport with Xeric's talisman (Xeric's Glade) or the Kourend Castle Teleport spell and walk to the farming patches south of Hosidius; compost and plant.",
+          "requires": {
+            "skills": [],
+            "quests": []
+          }
+        },
+        {
+          "text": "Port Phasmatys: use the Ectophial (Ghosts Ahoy) or fairy ring ALQ and plant in the herb patch west of the town; compost and plant.",
+          "requires": {
+            "skills": [],
+            "quests": []
+          }
+        },
+        {
+          "text": "Farming Guild (Kebos Lowlands): teleport with a Skills necklace or fairy ring CIR; the herb patch in the guild's mid tier needs 65 Farming and never gets diseased.",
+          "requires": {
+            "skills": [
+              {
+                "skill": "Farming",
+                "level": 65
+              }
+            ],
+            "quests": []
+          }
+        },
+        {
+          "text": "Troll Stronghold: cast Trollheim Teleport (61 Magic, Eadgar's Ruse) and climb to the roof herb patch, which never gets diseased.",
+          "requires": {
+            "skills": [],
+            "quests": [
+              "My Arm's Big Adventure"
+            ]
+          }
+        },
+        {
+          "text": "Weiss: use the icy basalt teleport to the disease-free herb patch.",
+          "requires": {
+            "skills": [],
+            "quests": [
+              "Making Friends with My Arm"
+            ]
+          }
+        },
+        {
+          "text": "Wait about 80 minutes for the herbs to grow (they can be checked between other activities).",
+          "requires": {
+            "skills": [],
+            "quests": []
+          }
+        },
+        {
+          "text": "Repeat the same teleports, harvest each patch (roughly 6-10 grimy torstol per patch with compost), and replant immediately for the next cycle.",
+          "requires": {
+            "skills": [],
+            "quests": []
+          }
+        },
+        {
+          "text": "Clean the grimy torstol with Herblore when you need them.",
+          "requires": {
+            "skills": [],
+            "quests": []
+          }
+        }
       ],
-      "wikiUrl": "https://oldschool.runescape.wiki/w/Torstol",
-      "alternatives": []
+      "alternatives": [],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Torstol"
     },
     {
       "item": "Cadantine",
       "id": 265,
-      "title": "Herb run: grow cadantine at disease-free patches",
+      "title": "Run a herb farm loop for cadantine",
       "requires": {
         "skills": [
           {
@@ -808,24 +1156,113 @@
             "level": 67
           }
         ],
-        "quests": [],
+        "quests": [
+          "Plague City"
+        ],
         "items": [
           "Cadantine seed",
-          "Seed dibber",
           "Spade",
-          "Ultracompost (or supercompost)"
+          "Rake",
+          "Ultracompost or supercompost",
+          "Magic secateurs (optional, +10% yield)"
         ],
-        "notes": "Buy cadantine seeds from Draynor Village Farming shop (Olivia) or Hosidius Farming shop; disease-free patches need My Arm's Big Adventure (Trollheim), Hard/Elite Kourend diary or Fire of Nourishment (Weiss), and 65 Farming for the Farming Guild patch."
+        "notes": "Plague City unlocks the Ardougne Teleport spell. Herb seeds aren't sold in shops: pickpocket Master Farmers (38 Thieving), monster drops, or seed packs. Each patch can grow a different herb on the same run. Yield is per ~80-minute cycle, not per hour."
       },
-      "ratePerHour": 90,
+      "ratePerHour": null,
       "steps": [
-        "Buy cadantine seeds and ultracompost from a Farming supplies shop, e.g. Draynor Village.",
-        "Teleport to a disease-free herb patch such as the Farming Guild (skills necklace or farming cape), Trollheim (Trollheim Teleport), or Hosidius (Xeric's Talisman).",
-        "Rake the patch clear of weeds if needed, apply ultracompost, then plant a cadantine seed with a seed dibber.",
-        "Repeat planting at the other disease-free patches (Weiss, Farming Guild, Trollheim, Hosidius) to run several at once.",
-        "Wait roughly 80 minutes for the herbs to mature, doing other tasks in the meantime.",
-        "Return to each patch, harvest all grimy cadantine with a spade, and replant before leaving.",
-        "Bank the grimy herbs and repeat the cycle."
+        {
+          "text": "Bring cadantine seeds, ultracompost (or supercompost), a spade and a rake; you need 67 Farming.",
+          "requires": {
+            "skills": [],
+            "quests": []
+          }
+        },
+        {
+          "text": "Falador: cast Falador Teleport (or use the Explorer's ring cabbage-patch teleport) and plant a cadantine seed in the herb patch just outside the south-east wall, after treating the soil with compost.",
+          "requires": {
+            "skills": [],
+            "quests": []
+          }
+        },
+        {
+          "text": "Catherby: cast Camelot Teleport and walk east past the bank to the herb patch; compost and plant.",
+          "requires": {
+            "skills": [],
+            "quests": []
+          }
+        },
+        {
+          "text": "Ardougne: cast Ardougne Teleport (Plague City) and walk north of the zoo to the herb patch; compost and plant.",
+          "requires": {
+            "skills": [],
+            "quests": []
+          }
+        },
+        {
+          "text": "Hosidius: teleport with Xeric's talisman (Xeric's Glade) or the Kourend Castle Teleport spell and walk to the farming patches south of Hosidius; compost and plant.",
+          "requires": {
+            "skills": [],
+            "quests": []
+          }
+        },
+        {
+          "text": "Port Phasmatys: use the Ectophial (Ghosts Ahoy) or fairy ring ALQ and plant in the herb patch west of the town; compost and plant.",
+          "requires": {
+            "skills": [],
+            "quests": []
+          }
+        },
+        {
+          "text": "Farming Guild (Kebos Lowlands): teleport with a Skills necklace or fairy ring CIR; the herb patch in the guild's mid tier needs 65 Farming and never gets diseased.",
+          "requires": {
+            "skills": [
+              {
+                "skill": "Farming",
+                "level": 65
+              }
+            ],
+            "quests": []
+          }
+        },
+        {
+          "text": "Troll Stronghold: cast Trollheim Teleport (61 Magic, Eadgar's Ruse) and climb to the roof herb patch, which never gets diseased.",
+          "requires": {
+            "skills": [],
+            "quests": [
+              "My Arm's Big Adventure"
+            ]
+          }
+        },
+        {
+          "text": "Weiss: use the icy basalt teleport to the disease-free herb patch.",
+          "requires": {
+            "skills": [],
+            "quests": [
+              "Making Friends with My Arm"
+            ]
+          }
+        },
+        {
+          "text": "Wait about 80 minutes for the herbs to grow (they can be checked between other activities).",
+          "requires": {
+            "skills": [],
+            "quests": []
+          }
+        },
+        {
+          "text": "Repeat the same teleports, harvest each patch (roughly 6-10 grimy cadantine per patch with compost), and replant immediately for the next cycle.",
+          "requires": {
+            "skills": [],
+            "quests": []
+          }
+        },
+        {
+          "text": "Clean the grimy cadantine with Herblore when you need them.",
+          "requires": {
+            "skills": [],
+            "quests": []
+          }
+        }
       ],
       "alternatives": [],
       "wikiUrl": "https://oldschool.runescape.wiki/w/Cadantine"
@@ -833,7 +1270,7 @@
     {
       "item": "Lantadyme",
       "id": 2481,
-      "title": "Full 8-patch lantadyme herb run",
+      "title": "Run a herb farm loop for lantadyme",
       "requires": {
         "skills": [
           {
@@ -841,60 +1278,121 @@
             "level": 73
           }
         ],
-        "quests": [],
+        "quests": [
+          "Plague City"
+        ],
         "items": [
           "Lantadyme seed",
-          "Seed dibber",
           "Spade",
-          "Ultracompost",
-          "Rake (or magic secateurs)"
+          "Rake",
+          "Ultracompost or supercompost",
+          "Magic secateurs (optional, +10% yield)"
         ],
-        "notes": "A rake clears weeds before planting; magic secateurs (Hard Falador diary reward) boost yield by 10% and are worth carrying. Ectophial, Trollheim Teleport, Ardougne cloak, and Xeric's Talisman speed up the circuit."
+        "notes": "Plague City unlocks the Ardougne Teleport spell. Herb seeds aren't sold in shops: pickpocket Master Farmers (38 Thieving), monster drops, or seed packs. Each patch can grow a different herb on the same run. Yield is per ~80-minute cycle, not per hour."
       },
-      "ratePerHour": 88,
+      "ratePerHour": null,
       "steps": [
-        "Buy lantadyme seeds and ultracompost from a Farming shop such as Hosidius or Catherby.",
-        "Camelot Teleport (or Catherby Teleport) to the Catherby herb patch, rake, compost, and plant a seed.",
-        "Ardougne Teleport or use the Ardougne cloak to reach the Ardougne North patch and plant there.",
-        "Empty an Ectophial to Port Phasmatys and plant at the herb patch west of the undead farm.",
-        "Trollheim Teleport and use the agility shortcut downhill (or roof shortcut at 73 Agility) to reach the Trollheim patch and plant.",
-        "Use Xeric's Talisman or a skills necklace to reach Hosidius, Weiss, and the Farming Guild patches and plant at each.",
-        "Wait about 80 minutes, then revisit every patch in the same order to harvest grimy lantadyme with a spade and replant.",
-        "Bank the grimy herbs and start the next cycle."
-      ],
-      "alternatives": [
         {
-          "title": "Single closest patch only (low effort)",
-          "steps": [
-            "Teleport to the Farming Guild via skills necklace or farming cape.",
-            "Rake, apply ultracompost, and plant one lantadyme seed.",
-            "Wait 80 minutes, then return to harvest and replant.",
-            "Bank the grimy lantadyme and repeat."
-          ],
+          "text": "Bring lantadyme seeds, ultracompost (or supercompost), a spade and a rake; you need 73 Farming.",
+          "requires": {
+            "skills": [],
+            "quests": []
+          }
+        },
+        {
+          "text": "Falador: cast Falador Teleport (or use the Explorer's ring cabbage-patch teleport) and plant a lantadyme seed in the herb patch just outside the south-east wall, after treating the soil with compost.",
+          "requires": {
+            "skills": [],
+            "quests": []
+          }
+        },
+        {
+          "text": "Catherby: cast Camelot Teleport and walk east past the bank to the herb patch; compost and plant.",
+          "requires": {
+            "skills": [],
+            "quests": []
+          }
+        },
+        {
+          "text": "Ardougne: cast Ardougne Teleport (Plague City) and walk north of the zoo to the herb patch; compost and plant.",
+          "requires": {
+            "skills": [],
+            "quests": []
+          }
+        },
+        {
+          "text": "Hosidius: teleport with Xeric's talisman (Xeric's Glade) or the Kourend Castle Teleport spell and walk to the farming patches south of Hosidius; compost and plant.",
+          "requires": {
+            "skills": [],
+            "quests": []
+          }
+        },
+        {
+          "text": "Port Phasmatys: use the Ectophial (Ghosts Ahoy) or fairy ring ALQ and plant in the herb patch west of the town; compost and plant.",
+          "requires": {
+            "skills": [],
+            "quests": []
+          }
+        },
+        {
+          "text": "Farming Guild (Kebos Lowlands): teleport with a Skills necklace or fairy ring CIR; the herb patch in the guild's mid tier needs 65 Farming and never gets diseased.",
           "requires": {
             "skills": [
               {
                 "skill": "Farming",
-                "level": 73
+                "level": 65
               }
             ],
-            "quests": [],
-            "items": [
-              "Lantadyme seed",
-              "Seed dibber",
-              "Spade",
-              "Ultracompost"
-            ],
-            "notes": "Farming Guild patch needs 65 Farming to enter and is disease-free, so no plant cure is needed."
+            "quests": []
+          }
+        },
+        {
+          "text": "Troll Stronghold: cast Trollheim Teleport (61 Magic, Eadgar's Ruse) and climb to the roof herb patch, which never gets diseased.",
+          "requires": {
+            "skills": [],
+            "quests": [
+              "My Arm's Big Adventure"
+            ]
+          }
+        },
+        {
+          "text": "Weiss: use the icy basalt teleport to the disease-free herb patch.",
+          "requires": {
+            "skills": [],
+            "quests": [
+              "Making Friends with My Arm"
+            ]
+          }
+        },
+        {
+          "text": "Wait about 80 minutes for the herbs to grow (they can be checked between other activities).",
+          "requires": {
+            "skills": [],
+            "quests": []
+          }
+        },
+        {
+          "text": "Repeat the same teleports, harvest each patch (roughly 6-10 grimy lantadyme per patch with compost), and replant immediately for the next cycle.",
+          "requires": {
+            "skills": [],
+            "quests": []
+          }
+        },
+        {
+          "text": "Clean the grimy lantadyme with Herblore when you need them.",
+          "requires": {
+            "skills": [],
+            "quests": []
           }
         }
       ],
+      "alternatives": [],
       "wikiUrl": "https://oldschool.runescape.wiki/w/Lantadyme"
     },
     {
       "item": "Dwarf weed",
       "id": 267,
-      "title": "Full 8-patch dwarf weed herb run",
+      "title": "Run a herb farm loop for dwarf weed",
       "requires": {
         "skills": [
           {
@@ -902,26 +1400,113 @@
             "level": 79
           }
         ],
-        "quests": [],
+        "quests": [
+          "Plague City"
+        ],
         "items": [
           "Dwarf weed seed",
-          "Seed dibber",
           "Spade",
-          "Ultracompost",
-          "Rake (or magic secateurs)"
+          "Rake",
+          "Ultracompost or supercompost",
+          "Magic secateurs (optional, +10% yield)"
         ],
-        "notes": "Same herb-run circuit as other high-level herbs; disease-free patches (Trollheim, Hosidius with diary, Weiss, Farming Guild) avoid needing plant cure."
+        "notes": "Plague City unlocks the Ardougne Teleport spell. Herb seeds aren't sold in shops: pickpocket Master Farmers (38 Thieving), monster drops, or seed packs. Each patch can grow a different herb on the same run. Yield is per ~80-minute cycle, not per hour."
       },
-      "ratePerHour": 88,
+      "ratePerHour": null,
       "steps": [
-        "Buy dwarf weed seeds and ultracompost from a Farming supplies shop.",
-        "Camelot Teleport or Catherby Teleport to the Catherby patch, rake, compost, and plant a seed.",
-        "Cast Ardougne Teleport or use the Ardougne cloak to reach the Ardougne North patch and plant.",
-        "Empty an Ectophial to Port Phasmatys and plant at the patch west of the undead farm.",
-        "Trollheim Teleport and take the agility shortcut downhill to the Trollheim patch and plant.",
-        "Use a skills necklace or Xeric's Talisman to visit Hosidius, Weiss, and the Farming Guild patches and plant at each.",
-        "Wait about 80 minutes, then revisit every patch to harvest grimy dwarf weed with a spade and replant.",
-        "Bank the grimy herbs and repeat."
+        {
+          "text": "Bring dwarf weed seeds, ultracompost (or supercompost), a spade and a rake; you need 79 Farming.",
+          "requires": {
+            "skills": [],
+            "quests": []
+          }
+        },
+        {
+          "text": "Falador: cast Falador Teleport (or use the Explorer's ring cabbage-patch teleport) and plant a dwarf weed seed in the herb patch just outside the south-east wall, after treating the soil with compost.",
+          "requires": {
+            "skills": [],
+            "quests": []
+          }
+        },
+        {
+          "text": "Catherby: cast Camelot Teleport and walk east past the bank to the herb patch; compost and plant.",
+          "requires": {
+            "skills": [],
+            "quests": []
+          }
+        },
+        {
+          "text": "Ardougne: cast Ardougne Teleport (Plague City) and walk north of the zoo to the herb patch; compost and plant.",
+          "requires": {
+            "skills": [],
+            "quests": []
+          }
+        },
+        {
+          "text": "Hosidius: teleport with Xeric's talisman (Xeric's Glade) or the Kourend Castle Teleport spell and walk to the farming patches south of Hosidius; compost and plant.",
+          "requires": {
+            "skills": [],
+            "quests": []
+          }
+        },
+        {
+          "text": "Port Phasmatys: use the Ectophial (Ghosts Ahoy) or fairy ring ALQ and plant in the herb patch west of the town; compost and plant.",
+          "requires": {
+            "skills": [],
+            "quests": []
+          }
+        },
+        {
+          "text": "Farming Guild (Kebos Lowlands): teleport with a Skills necklace or fairy ring CIR; the herb patch in the guild's mid tier needs 65 Farming and never gets diseased.",
+          "requires": {
+            "skills": [
+              {
+                "skill": "Farming",
+                "level": 65
+              }
+            ],
+            "quests": []
+          }
+        },
+        {
+          "text": "Troll Stronghold: cast Trollheim Teleport (61 Magic, Eadgar's Ruse) and climb to the roof herb patch, which never gets diseased.",
+          "requires": {
+            "skills": [],
+            "quests": [
+              "My Arm's Big Adventure"
+            ]
+          }
+        },
+        {
+          "text": "Weiss: use the icy basalt teleport to the disease-free herb patch.",
+          "requires": {
+            "skills": [],
+            "quests": [
+              "Making Friends with My Arm"
+            ]
+          }
+        },
+        {
+          "text": "Wait about 80 minutes for the herbs to grow (they can be checked between other activities).",
+          "requires": {
+            "skills": [],
+            "quests": []
+          }
+        },
+        {
+          "text": "Repeat the same teleports, harvest each patch (roughly 6-10 grimy dwarf weed per patch with compost), and replant immediately for the next cycle.",
+          "requires": {
+            "skills": [],
+            "quests": []
+          }
+        },
+        {
+          "text": "Clean the grimy dwarf weed with Herblore when you need them.",
+          "requires": {
+            "skills": [],
+            "quests": []
+          }
+        }
       ],
       "alternatives": [],
       "wikiUrl": "https://oldschool.runescape.wiki/w/Dwarf_weed"
@@ -1832,7 +2417,7 @@
     {
       "item": "Harralander",
       "id": 255,
-      "title": "Run a multi-patch herb farm loop for harralander",
+      "title": "Run a herb farm loop for harralander",
       "requires": {
         "skills": [
           {
@@ -1841,33 +2426,120 @@
           }
         ],
         "quests": [
-          "Plague City (for the Ardougne Teleport spell)"
+          "Plague City"
         ],
         "items": [
           "Harralander seed",
           "Spade",
-          "Ultracompost or supercompost (disease protection)"
+          "Rake",
+          "Ultracompost or supercompost",
+          "Magic secateurs (optional, +10% yield)"
         ],
-        "notes": "Harralander seeds aren't sold in any shop; get them via Master Farmer pickpocketing (38 Thieving), monster drops, or seed packs. Herb patches accept a different herb per run, so this same 4-patch loop (Falador, Catherby, Ardougne, Farming Guild) can carry ranarr, toadflax, snapdragon, torstol, or any other herb simultaneously - just plant whichever herb you need in each patch on a given lap. Yield is ~3+ grimy herbs per patch per 80-minute cycle, not a steady hourly rate."
+        "notes": "Plague City unlocks the Ardougne Teleport spell. Herb seeds aren't sold in shops: pickpocket Master Farmers (38 Thieving), monster drops, or seed packs. Each patch can grow a different herb on the same run. Yield is per ~80-minute cycle, not per hour."
       },
       "ratePerHour": null,
       "steps": [
-        "Get Farming level 26 and stock up on harralander seeds and ultracompost.",
-        "Teleport to Falador (Falador Teleport spell) and plant a harralander seed in the herb patch after treating the soil with ultracompost.",
-        "Teleport to Catherby (Camelot Teleport spell) and plant a harralander seed in its herb patch after treating the soil.",
-        "Teleport to Ardougne (Ardougne Teleport spell) and plant a harralander seed in its herb patch after treating the soil.",
-        "If you have 45 Farming, walk from Catherby to the Farming Guild and plant a fourth harralander seed in its disease-free herb patch.",
-        "Wait roughly 80 minutes (real time) for all the herbs to fully grow.",
-        "Return to each patch via the same teleports, pick the grimy harralander from every patch, and immediately replant fresh seeds for the next cycle.",
-        "Clean the grimy harralander with the Herblore skill before banking or using it."
+        {
+          "text": "Bring harralander seeds, ultracompost (or supercompost), a spade and a rake; you need 26 Farming.",
+          "requires": {
+            "skills": [],
+            "quests": []
+          }
+        },
+        {
+          "text": "Falador: cast Falador Teleport (or use the Explorer's ring cabbage-patch teleport) and plant a harralander seed in the herb patch just outside the south-east wall, after treating the soil with compost.",
+          "requires": {
+            "skills": [],
+            "quests": []
+          }
+        },
+        {
+          "text": "Catherby: cast Camelot Teleport and walk east past the bank to the herb patch; compost and plant.",
+          "requires": {
+            "skills": [],
+            "quests": []
+          }
+        },
+        {
+          "text": "Ardougne: cast Ardougne Teleport (Plague City) and walk north of the zoo to the herb patch; compost and plant.",
+          "requires": {
+            "skills": [],
+            "quests": []
+          }
+        },
+        {
+          "text": "Hosidius: teleport with Xeric's talisman (Xeric's Glade) or the Kourend Castle Teleport spell and walk to the farming patches south of Hosidius; compost and plant.",
+          "requires": {
+            "skills": [],
+            "quests": []
+          }
+        },
+        {
+          "text": "Port Phasmatys: use the Ectophial (Ghosts Ahoy) or fairy ring ALQ and plant in the herb patch west of the town; compost and plant.",
+          "requires": {
+            "skills": [],
+            "quests": []
+          }
+        },
+        {
+          "text": "Farming Guild (Kebos Lowlands): teleport with a Skills necklace or fairy ring CIR; the herb patch in the guild's mid tier needs 65 Farming and never gets diseased.",
+          "requires": {
+            "skills": [
+              {
+                "skill": "Farming",
+                "level": 65
+              }
+            ],
+            "quests": []
+          }
+        },
+        {
+          "text": "Troll Stronghold: cast Trollheim Teleport (61 Magic, Eadgar's Ruse) and climb to the roof herb patch, which never gets diseased.",
+          "requires": {
+            "skills": [],
+            "quests": [
+              "My Arm's Big Adventure"
+            ]
+          }
+        },
+        {
+          "text": "Weiss: use the icy basalt teleport to the disease-free herb patch.",
+          "requires": {
+            "skills": [],
+            "quests": [
+              "Making Friends with My Arm"
+            ]
+          }
+        },
+        {
+          "text": "Wait about 80 minutes for the herbs to grow (they can be checked between other activities).",
+          "requires": {
+            "skills": [],
+            "quests": []
+          }
+        },
+        {
+          "text": "Repeat the same teleports, harvest each patch (roughly 6-10 grimy harralander per patch with compost), and replant immediately for the next cycle.",
+          "requires": {
+            "skills": [],
+            "quests": []
+          }
+        },
+        {
+          "text": "Clean the grimy harralander with Herblore when you need them.",
+          "requires": {
+            "skills": [],
+            "quests": []
+          }
+        }
       ],
-      "wikiUrl": "https://oldschool.runescape.wiki/w/Harralander",
-      "alternatives": []
+      "alternatives": [],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Harralander"
     },
     {
       "item": "Irit leaf",
       "id": 259,
-      "title": "Run a multi-patch herb farm loop for irit leaf",
+      "title": "Run a herb farm loop for irit leaf",
       "requires": {
         "skills": [
           {
@@ -1876,33 +2548,120 @@
           }
         ],
         "quests": [
-          "Plague City (for the Ardougne Teleport spell)"
+          "Plague City"
         ],
         "items": [
           "Irit seed",
           "Spade",
-          "Ultracompost or supercompost (disease protection)"
+          "Rake",
+          "Ultracompost or supercompost",
+          "Magic secateurs (optional, +10% yield)"
         ],
-        "notes": "Irit seeds aren't sold in any shop; get them via Master Farmer pickpocketing (38 Thieving), monster drops, or seed packs. Herb patches accept a different herb per run, so this same 4-patch loop (Falador, Catherby, Ardougne, Farming Guild) can carry ranarr, toadflax, snapdragon, torstol, or any other herb simultaneously - just plant whichever herb you need in each patch on a given lap. Yield is ~3+ grimy herbs per patch per 80-minute cycle, not a steady hourly rate."
+        "notes": "Plague City unlocks the Ardougne Teleport spell. Herb seeds aren't sold in shops: pickpocket Master Farmers (38 Thieving), monster drops, or seed packs. Each patch can grow a different herb on the same run. Yield is per ~80-minute cycle, not per hour."
       },
       "ratePerHour": null,
       "steps": [
-        "Get Farming level 44 and stock up on irit seeds and ultracompost.",
-        "Teleport to Falador (Falador Teleport spell) and plant a irit seed in the herb patch after treating the soil with ultracompost.",
-        "Teleport to Catherby (Camelot Teleport spell) and plant a irit seed in its herb patch after treating the soil.",
-        "Teleport to Ardougne (Ardougne Teleport spell) and plant a irit seed in its herb patch after treating the soil.",
-        "If you have 45 Farming, walk from Catherby to the Farming Guild and plant a fourth irit seed in its disease-free herb patch.",
-        "Wait roughly 80 minutes (real time) for all the herbs to fully grow.",
-        "Return to each patch via the same teleports, pick the grimy irit leaf from every patch, and immediately replant fresh seeds for the next cycle.",
-        "Clean the grimy irit leaf with the Herblore skill before banking or using it."
+        {
+          "text": "Bring irit leaf seeds, ultracompost (or supercompost), a spade and a rake; you need 44 Farming.",
+          "requires": {
+            "skills": [],
+            "quests": []
+          }
+        },
+        {
+          "text": "Falador: cast Falador Teleport (or use the Explorer's ring cabbage-patch teleport) and plant a irit leaf seed in the herb patch just outside the south-east wall, after treating the soil with compost.",
+          "requires": {
+            "skills": [],
+            "quests": []
+          }
+        },
+        {
+          "text": "Catherby: cast Camelot Teleport and walk east past the bank to the herb patch; compost and plant.",
+          "requires": {
+            "skills": [],
+            "quests": []
+          }
+        },
+        {
+          "text": "Ardougne: cast Ardougne Teleport (Plague City) and walk north of the zoo to the herb patch; compost and plant.",
+          "requires": {
+            "skills": [],
+            "quests": []
+          }
+        },
+        {
+          "text": "Hosidius: teleport with Xeric's talisman (Xeric's Glade) or the Kourend Castle Teleport spell and walk to the farming patches south of Hosidius; compost and plant.",
+          "requires": {
+            "skills": [],
+            "quests": []
+          }
+        },
+        {
+          "text": "Port Phasmatys: use the Ectophial (Ghosts Ahoy) or fairy ring ALQ and plant in the herb patch west of the town; compost and plant.",
+          "requires": {
+            "skills": [],
+            "quests": []
+          }
+        },
+        {
+          "text": "Farming Guild (Kebos Lowlands): teleport with a Skills necklace or fairy ring CIR; the herb patch in the guild's mid tier needs 65 Farming and never gets diseased.",
+          "requires": {
+            "skills": [
+              {
+                "skill": "Farming",
+                "level": 65
+              }
+            ],
+            "quests": []
+          }
+        },
+        {
+          "text": "Troll Stronghold: cast Trollheim Teleport (61 Magic, Eadgar's Ruse) and climb to the roof herb patch, which never gets diseased.",
+          "requires": {
+            "skills": [],
+            "quests": [
+              "My Arm's Big Adventure"
+            ]
+          }
+        },
+        {
+          "text": "Weiss: use the icy basalt teleport to the disease-free herb patch.",
+          "requires": {
+            "skills": [],
+            "quests": [
+              "Making Friends with My Arm"
+            ]
+          }
+        },
+        {
+          "text": "Wait about 80 minutes for the herbs to grow (they can be checked between other activities).",
+          "requires": {
+            "skills": [],
+            "quests": []
+          }
+        },
+        {
+          "text": "Repeat the same teleports, harvest each patch (roughly 6-10 grimy irit leaf per patch with compost), and replant immediately for the next cycle.",
+          "requires": {
+            "skills": [],
+            "quests": []
+          }
+        },
+        {
+          "text": "Clean the grimy irit leaf with Herblore when you need them.",
+          "requires": {
+            "skills": [],
+            "quests": []
+          }
+        }
       ],
-      "wikiUrl": "https://oldschool.runescape.wiki/w/Irit_leaf",
-      "alternatives": []
+      "alternatives": [],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Irit_leaf"
     },
     {
       "item": "Avantoe",
       "id": 261,
-      "title": "Run a multi-patch herb farm loop for avantoe",
+      "title": "Run a herb farm loop for avantoe",
       "requires": {
         "skills": [
           {
@@ -1911,33 +2670,120 @@
           }
         ],
         "quests": [
-          "Plague City (for the Ardougne Teleport spell)"
+          "Plague City"
         ],
         "items": [
           "Avantoe seed",
           "Spade",
-          "Ultracompost or supercompost (disease protection)"
+          "Rake",
+          "Ultracompost or supercompost",
+          "Magic secateurs (optional, +10% yield)"
         ],
-        "notes": "Avantoe seeds aren't sold in any shop; get them via Master Farmer pickpocketing (38 Thieving), monster drops, or seed packs. Herb patches accept a different herb per run, so this same 4-patch loop (Falador, Catherby, Ardougne, Farming Guild) can carry ranarr, toadflax, snapdragon, torstol, or any other herb simultaneously - just plant whichever herb you need in each patch on a given lap. Yield is ~3+ grimy herbs per patch per 80-minute cycle, not a steady hourly rate."
+        "notes": "Plague City unlocks the Ardougne Teleport spell. Herb seeds aren't sold in shops: pickpocket Master Farmers (38 Thieving), monster drops, or seed packs. Each patch can grow a different herb on the same run. Yield is per ~80-minute cycle, not per hour."
       },
       "ratePerHour": null,
       "steps": [
-        "Get Farming level 50 and stock up on avantoe seeds and ultracompost.",
-        "Teleport to Falador (Falador Teleport spell) and plant a avantoe seed in the herb patch after treating the soil with ultracompost.",
-        "Teleport to Catherby (Camelot Teleport spell) and plant a avantoe seed in its herb patch after treating the soil.",
-        "Teleport to Ardougne (Ardougne Teleport spell) and plant a avantoe seed in its herb patch after treating the soil.",
-        "If you have 45 Farming, walk from Catherby to the Farming Guild and plant a fourth avantoe seed in its disease-free herb patch.",
-        "Wait roughly 80 minutes (real time) for all the herbs to fully grow.",
-        "Return to each patch via the same teleports, pick the grimy avantoe from every patch, and immediately replant fresh seeds for the next cycle.",
-        "Clean the grimy avantoe with the Herblore skill before banking or using it."
+        {
+          "text": "Bring avantoe seeds, ultracompost (or supercompost), a spade and a rake; you need 50 Farming.",
+          "requires": {
+            "skills": [],
+            "quests": []
+          }
+        },
+        {
+          "text": "Falador: cast Falador Teleport (or use the Explorer's ring cabbage-patch teleport) and plant a avantoe seed in the herb patch just outside the south-east wall, after treating the soil with compost.",
+          "requires": {
+            "skills": [],
+            "quests": []
+          }
+        },
+        {
+          "text": "Catherby: cast Camelot Teleport and walk east past the bank to the herb patch; compost and plant.",
+          "requires": {
+            "skills": [],
+            "quests": []
+          }
+        },
+        {
+          "text": "Ardougne: cast Ardougne Teleport (Plague City) and walk north of the zoo to the herb patch; compost and plant.",
+          "requires": {
+            "skills": [],
+            "quests": []
+          }
+        },
+        {
+          "text": "Hosidius: teleport with Xeric's talisman (Xeric's Glade) or the Kourend Castle Teleport spell and walk to the farming patches south of Hosidius; compost and plant.",
+          "requires": {
+            "skills": [],
+            "quests": []
+          }
+        },
+        {
+          "text": "Port Phasmatys: use the Ectophial (Ghosts Ahoy) or fairy ring ALQ and plant in the herb patch west of the town; compost and plant.",
+          "requires": {
+            "skills": [],
+            "quests": []
+          }
+        },
+        {
+          "text": "Farming Guild (Kebos Lowlands): teleport with a Skills necklace or fairy ring CIR; the herb patch in the guild's mid tier needs 65 Farming and never gets diseased.",
+          "requires": {
+            "skills": [
+              {
+                "skill": "Farming",
+                "level": 65
+              }
+            ],
+            "quests": []
+          }
+        },
+        {
+          "text": "Troll Stronghold: cast Trollheim Teleport (61 Magic, Eadgar's Ruse) and climb to the roof herb patch, which never gets diseased.",
+          "requires": {
+            "skills": [],
+            "quests": [
+              "My Arm's Big Adventure"
+            ]
+          }
+        },
+        {
+          "text": "Weiss: use the icy basalt teleport to the disease-free herb patch.",
+          "requires": {
+            "skills": [],
+            "quests": [
+              "Making Friends with My Arm"
+            ]
+          }
+        },
+        {
+          "text": "Wait about 80 minutes for the herbs to grow (they can be checked between other activities).",
+          "requires": {
+            "skills": [],
+            "quests": []
+          }
+        },
+        {
+          "text": "Repeat the same teleports, harvest each patch (roughly 6-10 grimy avantoe per patch with compost), and replant immediately for the next cycle.",
+          "requires": {
+            "skills": [],
+            "quests": []
+          }
+        },
+        {
+          "text": "Clean the grimy avantoe with Herblore when you need them.",
+          "requires": {
+            "skills": [],
+            "quests": []
+          }
+        }
       ],
-      "wikiUrl": "https://oldschool.runescape.wiki/w/Avantoe",
-      "alternatives": []
+      "alternatives": [],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Avantoe"
     },
     {
       "item": "Kwuarm",
       "id": 263,
-      "title": "Run a multi-patch herb farm loop for kwuarm",
+      "title": "Run a herb farm loop for kwuarm",
       "requires": {
         "skills": [
           {
@@ -1946,28 +2792,115 @@
           }
         ],
         "quests": [
-          "Plague City (for the Ardougne Teleport spell)"
+          "Plague City"
         ],
         "items": [
           "Kwuarm seed",
           "Spade",
-          "Ultracompost or supercompost (disease protection)"
+          "Rake",
+          "Ultracompost or supercompost",
+          "Magic secateurs (optional, +10% yield)"
         ],
-        "notes": "Kwuarm seeds aren't sold in any shop; get them via Master Farmer pickpocketing (38 Thieving), monster drops, or seed packs. Herb patches accept a different herb per run, so this same 4-patch loop (Falador, Catherby, Ardougne, Farming Guild) can carry ranarr, toadflax, snapdragon, torstol, or any other herb simultaneously - just plant whichever herb you need in each patch on a given lap. Yield is ~3+ grimy herbs per patch per 80-minute cycle, not a steady hourly rate."
+        "notes": "Plague City unlocks the Ardougne Teleport spell. Herb seeds aren't sold in shops: pickpocket Master Farmers (38 Thieving), monster drops, or seed packs. Each patch can grow a different herb on the same run. Yield is per ~80-minute cycle, not per hour."
       },
       "ratePerHour": null,
       "steps": [
-        "Get Farming level 56 and stock up on kwuarm seeds and ultracompost.",
-        "Teleport to Falador (Falador Teleport spell) and plant a kwuarm seed in the herb patch after treating the soil with ultracompost.",
-        "Teleport to Catherby (Camelot Teleport spell) and plant a kwuarm seed in its herb patch after treating the soil.",
-        "Teleport to Ardougne (Ardougne Teleport spell) and plant a kwuarm seed in its herb patch after treating the soil.",
-        "If you have 45 Farming, walk from Catherby to the Farming Guild and plant a fourth kwuarm seed in its disease-free herb patch.",
-        "Wait roughly 80 minutes (real time) for all the herbs to fully grow.",
-        "Return to each patch via the same teleports, pick the grimy kwuarm from every patch, and immediately replant fresh seeds for the next cycle.",
-        "Clean the grimy kwuarm with the Herblore skill before banking or using it."
+        {
+          "text": "Bring kwuarm seeds, ultracompost (or supercompost), a spade and a rake; you need 56 Farming.",
+          "requires": {
+            "skills": [],
+            "quests": []
+          }
+        },
+        {
+          "text": "Falador: cast Falador Teleport (or use the Explorer's ring cabbage-patch teleport) and plant a kwuarm seed in the herb patch just outside the south-east wall, after treating the soil with compost.",
+          "requires": {
+            "skills": [],
+            "quests": []
+          }
+        },
+        {
+          "text": "Catherby: cast Camelot Teleport and walk east past the bank to the herb patch; compost and plant.",
+          "requires": {
+            "skills": [],
+            "quests": []
+          }
+        },
+        {
+          "text": "Ardougne: cast Ardougne Teleport (Plague City) and walk north of the zoo to the herb patch; compost and plant.",
+          "requires": {
+            "skills": [],
+            "quests": []
+          }
+        },
+        {
+          "text": "Hosidius: teleport with Xeric's talisman (Xeric's Glade) or the Kourend Castle Teleport spell and walk to the farming patches south of Hosidius; compost and plant.",
+          "requires": {
+            "skills": [],
+            "quests": []
+          }
+        },
+        {
+          "text": "Port Phasmatys: use the Ectophial (Ghosts Ahoy) or fairy ring ALQ and plant in the herb patch west of the town; compost and plant.",
+          "requires": {
+            "skills": [],
+            "quests": []
+          }
+        },
+        {
+          "text": "Farming Guild (Kebos Lowlands): teleport with a Skills necklace or fairy ring CIR; the herb patch in the guild's mid tier needs 65 Farming and never gets diseased.",
+          "requires": {
+            "skills": [
+              {
+                "skill": "Farming",
+                "level": 65
+              }
+            ],
+            "quests": []
+          }
+        },
+        {
+          "text": "Troll Stronghold: cast Trollheim Teleport (61 Magic, Eadgar's Ruse) and climb to the roof herb patch, which never gets diseased.",
+          "requires": {
+            "skills": [],
+            "quests": [
+              "My Arm's Big Adventure"
+            ]
+          }
+        },
+        {
+          "text": "Weiss: use the icy basalt teleport to the disease-free herb patch.",
+          "requires": {
+            "skills": [],
+            "quests": [
+              "Making Friends with My Arm"
+            ]
+          }
+        },
+        {
+          "text": "Wait about 80 minutes for the herbs to grow (they can be checked between other activities).",
+          "requires": {
+            "skills": [],
+            "quests": []
+          }
+        },
+        {
+          "text": "Repeat the same teleports, harvest each patch (roughly 6-10 grimy kwuarm per patch with compost), and replant immediately for the next cycle.",
+          "requires": {
+            "skills": [],
+            "quests": []
+          }
+        },
+        {
+          "text": "Clean the grimy kwuarm with Herblore when you need them.",
+          "requires": {
+            "skills": [],
+            "quests": []
+          }
+        }
       ],
-      "wikiUrl": "https://oldschool.runescape.wiki/w/Kwuarm",
-      "alternatives": []
+      "alternatives": [],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Kwuarm"
     }
   ]
 }

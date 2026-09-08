@@ -734,12 +734,12 @@ public final class KnowledgeBase
 		return new GatheringRequires(skills, combatLevel, List.copyOf(dto.quests), List.copyOf(dto.items), dto.notes);
 	}
 
-	/** Fails loudly, naming the plan/alternative, when {@code steps} is empty or implausibly long (gathering-notes.md: curated plans run 2-8). */
+	/** Fails loudly, naming the plan/alternative, when {@code steps} is empty or implausibly long (the 12-step herb farm loops are the longest curated plans). */
 	private static void validateStepCount(List<?> steps, String context)
 	{
-		if (steps.isEmpty() || steps.size() > 10)
+		if (steps.isEmpty() || steps.size() > 15)
 		{
-			throw new IllegalStateException("Malformed knowledge base data: " + context + " has " + steps.size() + " steps outside 1..10");
+			throw new IllegalStateException("Malformed knowledge base data: " + context + " has " + steps.size() + " steps outside 1..15");
 		}
 	}
 
