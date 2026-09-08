@@ -218,6 +218,19 @@ class EngineAdviceTest
 		assertEquals(List.of("10 Woodcutting"), levelled.getCompletedSinceLast().stream().map(Goal::getName).collect(Collectors.toList()));
 	}
 
+	// --- RL-012 AC3 (spec ruling 34): xpPerHour passes through as data. ---
+
+	@Test
+	void xpPerHourIsCarriedOnAdviceAndEmptyByDefault()
+	{
+		KnowledgeBase kb = fiveQuestKb();
+		Snapshot snapshot = new SnapshotBuilder().build();
+		assertTrue(engine.run(snapshot, kb, AccountData.empty(), now).getXpPerHour().isEmpty());
+
+		Advice advice = engine.run(snapshot, kb, AccountData.empty(), now, null, java.util.Map.of(Skill.HERBLORE, 38_000L));
+		assertEquals(java.util.Map.of(Skill.HERBLORE, 38_000L), advice.getXpPerHour());
+	}
+
 	// --- Task 42: accountStage / later (spec ruling 27). ---
 
 	@Test
