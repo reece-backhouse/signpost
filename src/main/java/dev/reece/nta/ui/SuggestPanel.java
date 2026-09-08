@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
+import java.util.function.IntSupplier;
 import java.util.stream.Collectors;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -87,6 +88,16 @@ public class SuggestPanel extends JPanel
 
 	private Advice currentAdvice;
 	private Set<String> lastGoalIds;
+	// RL-011 AC2: the previous render's card/row order, so a status line can sit where the acted-on
+	// goal used to be; pendingStatus is set by a click and becomes shownStatus on the next render,
+	// which is the only render that shows it.
+	private List<String> lastPickedIds = List.of();
+	private List<String> lastRestIds = List.of();
+	private String pendingStatusGoal;
+	private String pendingStatusText;
+	private String shownStatusText;
+	private int statusPickIndex = -1;
+	private int statusRestIndex = -1;
 	private int nextShown = PAGE_SIZE;
 	private boolean laterExpanded;
 	private boolean snoozedExpanded;
@@ -195,7 +206,45 @@ public class SuggestPanel extends JPanel
 		}
 		lastGoalIds = goalIds;
 		this.currentAdvice = advice;
+
+		shownStatusText = pendingStatusText;
+		statusPickIndex = pendingStatusGoal == null ? -1 : lastPickedIds.indexOf(pendingStatusGoal);
+		statusRestIndex = pendingStatusGoal == null ? -1 : lastRestIds.indexOf(pendingStatusGoal);
+		if (shownStatusText != null && statusPickIndex < 0 && statusRestIndex < 0)
+		{
+			statusPickIndex = 0;
+		}
+		pendingStatusGoal = null;
+		pendingStatusText = null;
+		lastPickedIds = ids(advice.getPicked());
+		lastRestIds = ids(advice.getRest());
 		rebuild();
+	}
+
+	private static List<String> ids(List<RankedGoal> goals)
+	{
+		return goals.stream().map(r -> r.getStatus().getGoal().getId()).collect(Collectors.toList());
+	}
+
+	/** RL-011 AC2: wraps {@code action} so the render it triggers shows {@code text} where the goal's card/row was. */
+	private Runnable withStatus(String goalId, String text, Consumer<String> action)
+	{
+		return () ->
+		{
+			pendingStatusGoal = goalId;
+			pendingStatusText = text;
+			action.accept(goalId);
+		};
+	}
+
+	private JLabel statusLine()
+	{
+		JLabel label = new JLabel(wrap(shownStatusText));
+		label.setFont(FontManager.getRunescapeSmallFont());
+		label.setForeground(ColorScheme.LIGHT_GRAY_COLOR);
+		label.setAlignmentX(Component.LEFT_ALIGNMENT);
+		label.setBorder(BorderFactory.createEmptyBorder(2, 0, 6, 0));
+		return label;
 	}
 
 	/** Removes every card and row (logged out). Must be called on the EDT. */
@@ -203,6 +252,11 @@ public class SuggestPanel extends JPanel
 	{
 		currentAdvice = null;
 		lastGoalIds = null;
+		lastPickedIds = List.of();
+		lastRestIds = List.of();
+		pendingStatusGoal = null;
+		pendingStatusText = null;
+		shownStatusText = null;
 		nextShown = PAGE_SIZE;
 		focusBannerPanel.setVisible(false);
 		for (JPanel content : List.of(pickOnePanel, nextListPanel, laterContent, snoozedContent, ignoredContent, ownedContent))
@@ -247,10 +301,18 @@ public class SuggestPanel extends JPanel
 		}
 
 		pickOnePanel.removeAll();
-		for (RankedGoal r : advice.getPicked())
+		List<RankedGoal> picked = advice.getPicked();
+		for (int i = 0; i <= picked.size(); i++)
 		{
-			pickOnePanel.add(buildCard(r, advice.getWhys(), advice.getReasons(), advice.getExplanations()));
-			pickOnePanel.add(Box.createVerticalStrut(6));
+			if (shownStatusText != null && statusPickIndex == Math.min(i, picked.size()))
+			{
+				pickOnePanel.add(statusLine());
+			}
+			if (i < picked.size())
+			{
+				pickOnePanel.add(buildCard(picked.get(i), advice.getWhys(), advice.getReasons(), advice.getExplanations()));
+				pickOnePanel.add(Box.createVerticalStrut(6));
+			}
 		}
 
 		rebuildNextSection();
@@ -313,9 +375,16 @@ public class SuggestPanel extends JPanel
 		Advice advice = currentAdvice;
 		List<RankedGoal> rest = advice.getRest();
 		int shown = Math.min(nextShown, rest.size());
-		for (int i = 0; i < shown; i++)
+		for (int i = 0; i <= shown; i++)
 		{
-			nextListPanel.add(buildRow(rest.get(i), advice.getWhys(), advice.getExplanations()));
+			if (shownStatusText != null && statusRestIndex >= 0 && Math.min(statusRestIndex, shown) == i)
+			{
+				nextListPanel.add(statusLine());
+			}
+			if (i < shown)
+			{
+				nextListPanel.add(buildRow(rest.get(i), advice.getWhys(), advice.getExplanations()));
+			}
 		}
 		showMoreButton.setVisible(shown < rest.size());
 		revalidate();
@@ -387,10 +456,10 @@ public class SuggestPanel extends JPanel
 
 		card.add(Box.createVerticalStrut(6));
 		JButton doThis = button("Do this", () -> actions.getDoThis().accept(goal.getId()));
-		JButton notNow = button("Not now", () -> actions.getNotNow().accept(goal.getId()));
-		JButton ignore = button("Ignore", () -> actions.getIgnore().accept(goal.getId()));
+		JButton notNow = button("Not now", notNow(goal.getId()));
+		JButton ignore = button("Ignore", ignore(goal.getId()));
 		card.add(ownableLabel(goal.getCategory()) != null
-			? actionRow(doThis, notNow, ignore, button(ownableLabel(goal.getCategory()), () -> actions.getMarkOwned().accept(goal.getId())))
+			? actionRow(doThis, notNow, ignore, button(ownableLabel(goal.getCategory()), markOwned(goal.getId())))
 			: actionRow(doThis, notNow, ignore));
 
 		return card;
@@ -415,17 +484,32 @@ public class SuggestPanel extends JPanel
 		row.add(Box.createVerticalStrut(4));
 
 		JButton doThis = button("Do this", () -> actions.getDoThis().accept(goal.getId()));
-		JButton notNow = button("Not now", () -> actions.getNotNow().accept(goal.getId()));
-		JButton ignore = button("Ignore", () -> actions.getIgnore().accept(goal.getId()));
+		JButton notNow = button("Not now", notNow(goal.getId()));
+		JButton ignore = button("Ignore", ignore(goal.getId()));
 		JButton pin = r.isPinned()
 			? button("Unpin", () -> actions.getUnpin().accept(goal.getId()))
-			: button("Pin", () -> actions.getPin().accept(goal.getId()));
+			: button("Pin", withStatus(goal.getId(), "Pinned: stays in Pick one until you unpin it", actions.getPin()));
 		String ownLabel = ownableLabel(goal.getCategory());
 		row.add(ownLabel != null
-			? actionRow(doThis, notNow, ignore, pin, button(ownLabel, () -> actions.getMarkOwned().accept(goal.getId())))
+			? actionRow(doThis, notNow, ignore, pin, button(ownLabel, markOwned(goal.getId())))
 			: actionRow(doThis, notNow, ignore, pin));
 
 		return row;
+	}
+
+	private Runnable notNow(String goalId)
+	{
+		return withStatus(goalId, "Not now: hidden for " + actions.getSnoozeDays().getAsInt() + " days or until something changes", actions.getNotNow());
+	}
+
+	private Runnable ignore(String goalId)
+	{
+		return withStatus(goalId, "Ignored: hidden until you restore it from Ignored", actions.getIgnore());
+	}
+
+	private Runnable markOwned(String goalId)
+	{
+		return withStatus(goalId, "Owned: marked done by hand, undo under Owned (manual)", actions.getMarkOwned());
 	}
 
 	/** Task 57: a {@link GoalCategory#SKILL_TARGET}'s skill (its one {@link SkillLevelGap}), for the card's icon; {@code null} for any other goal. */
@@ -837,5 +921,7 @@ public class SuggestPanel extends JPanel
 		Runnable clearFocus;
 		Consumer<String> markOwned;
 		Consumer<String> unmarkOwned;
+		/** RL-011 AC2: the configured snooze length, for the "Not now" status line. */
+		IntSupplier snoozeDays;
 	}
 }

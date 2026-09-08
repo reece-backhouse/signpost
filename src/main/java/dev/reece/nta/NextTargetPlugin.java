@@ -133,7 +133,8 @@ public class NextTargetPlugin extends Plugin
 			this::unignore,
 			this::clearFocus,
 			this::markOwned,
-			this::unmarkOwned);
+			this::unmarkOwned,
+			config::snoozeDays);
 		GoalDetailPanel.Actions detailActions = new GoalDetailPanel.Actions(this::focus, this::clearFocus);
 		panel = new NextTargetPanel(this::requestSnapshot, actions, detailActions, itemManager, skillIconManager);
 		BufferedImage icon = ImageUtil.loadImageResource(NextTargetPlugin.class, "icon.png");

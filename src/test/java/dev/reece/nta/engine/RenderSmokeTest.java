@@ -24,6 +24,7 @@ import dev.reece.nta.kb.KnowledgeBase;
 import dev.reece.nta.kb.MilestoneCategory;
 import dev.reece.nta.snapshot.Snapshot;
 import dev.reece.nta.store.AccountData;
+import dev.reece.nta.store.AccountDataMutations;
 import dev.reece.nta.ui.GoalDetailPanel;
 import dev.reece.nta.ui.GoalSearchField;
 import dev.reece.nta.ui.Icons;
@@ -114,7 +115,7 @@ class RenderSmokeTest
 			base.getReasons(), base.getOwnedManuallyNames(), base.getPrefs(), base.getFocus());
 
 		Consumer<String> noop = id -> { };
-		SuggestPanel.Actions actions = new SuggestPanel.Actions(noop, noop, noop, noop, noop, noop, noop, () -> { }, noop, noop);
+		SuggestPanel.Actions actions = new SuggestPanel.Actions(noop, noop, noop, noop, noop, noop, noop, () -> { }, noop, noop, () -> 7);
 
 		try
 		{
@@ -180,7 +181,7 @@ class RenderSmokeTest
 		Advice advice = new Engine(new BoostTable()).run(snapshot, new KbBuilder().build(), AccountData.empty(), computedAt);
 
 		Consumer<String> noop = id -> { };
-		SuggestPanel.Actions actions = new SuggestPanel.Actions(noop, noop, noop, noop, noop, noop, noop, () -> { }, noop, noop);
+		SuggestPanel.Actions actions = new SuggestPanel.Actions(noop, noop, noop, noop, noop, noop, noop, () -> { }, noop, noop, () -> 7);
 		GoalDetailPanel.Actions detailActions = new GoalDetailPanel.Actions(noop, () -> { });
 
 		try
@@ -296,7 +297,7 @@ class RenderSmokeTest
 		Advice fewerGoals = engine.run(snapshot, new KbBuilder().quest(1, "Quest 1").quest(2, "Quest 2").build(), AccountData.empty(), Instant.now());
 
 		Consumer<String> noop = id -> { };
-		SuggestPanel.Actions actions = new SuggestPanel.Actions(noop, noop, noop, noop, noop, noop, noop, () -> { }, noop, noop);
+		SuggestPanel.Actions actions = new SuggestPanel.Actions(noop, noop, noop, noop, noop, noop, noop, () -> { }, noop, noop, () -> 7);
 		int[] counts = new int[4];
 
 		try
@@ -354,7 +355,7 @@ class RenderSmokeTest
 		Advice owned = new Engine(new BoostTable()).run(snapshot, kb, ownedData, Instant.now());
 
 		Consumer<String> noop = id -> { };
-		SuggestPanel.Actions actions = new SuggestPanel.Actions(noop, noop, noop, noop, noop, noop, noop, () -> { }, noop, noop);
+		SuggestPanel.Actions actions = new SuggestPanel.Actions(noop, noop, noop, noop, noop, noop, noop, () -> { }, noop, noop, () -> 7);
 
 		try
 		{
@@ -393,6 +394,56 @@ class RenderSmokeTest
 	}
 
 	/**
+	 * RL-011 AC2: after "Not now" on a card, the render that drops the card shows a one-line grey
+	 * status where the card was, and the render after that shows nothing.
+	 */
+	@Test
+	void notNowLeavesAOneRenderStatusLineWhereTheCardWas() throws Exception
+	{
+		KnowledgeBase kb = new KbBuilder()
+			.milestone("m:barrows-gloves", MilestoneCategory.GEAR, "Barrows gloves", 8)
+			.ownedIf("Barrows gloves", 7462)
+			.skill(Skill.DEFENCE, 40)
+			.build();
+		Snapshot snapshot = new SnapshotBuilder().build();
+		Engine engine = new Engine(new BoostTable());
+		Advice before = engine.run(snapshot, kb, AccountData.empty(), Instant.now());
+		AccountData snoozed = AccountDataMutations.snooze(AccountData.empty(), "m:barrows-gloves", Instant.now().plus(7, ChronoUnit.DAYS), null);
+		Advice after = engine.run(snapshot, kb, snoozed, Instant.now());
+
+		Consumer<String> noop = id -> { };
+		SuggestPanel.Actions actions = new SuggestPanel.Actions(noop, noop, noop, noop, noop, noop, noop, () -> { }, noop, noop, () -> 7);
+
+		try
+		{
+			SwingUtilities.invokeAndWait(() ->
+			{
+				SuggestPanel panel = new SuggestPanel(actions, icons());
+				panel.render(before);
+				assertFalse(containsLabelContaining(panel, "Not now:"), "no status before any click");
+				findButtonWithText(panel, "Not now").doClick();
+
+				panel.render(after);
+				assertTrue(containsLabelContaining(panel, "Not now: hidden for 7 days or until something changes"),
+					"the render after the click must show the status line");
+				layoutAtRealPanelWidth(panel);
+				assertNothingEndsPastTheRightEdge(panel);
+
+				panel.render(after);
+				assertFalse(containsLabelContaining(panel, "Not now:"), "the status line lasts one render only");
+			});
+		}
+		catch (InvocationTargetException e)
+		{
+			if (e.getCause() instanceof HeadlessException)
+			{
+				Assumptions.abort("Headless environment cannot construct Swing components: " + e.getCause().getMessage());
+			}
+			throw e;
+		}
+	}
+
+	/**
 	 * Fix round 1: a collapsible section header (Later/Snoozed/Ignored) must toggle when the click
 	 * lands on the label the user actually sees ("LATER (0) [+]"), not just on the outer panel -
 	 * AWT delivers a click to the deepest component under the cursor and does not bubble it to
@@ -410,7 +461,7 @@ class RenderSmokeTest
 		Advice advice = new Engine(new BoostTable()).run(snapshot, kb, AccountData.empty(), Instant.now());
 
 		Consumer<String> noop = id -> { };
-		SuggestPanel.Actions actions = new SuggestPanel.Actions(noop, noop, noop, noop, noop, noop, noop, () -> { }, noop, noop);
+		SuggestPanel.Actions actions = new SuggestPanel.Actions(noop, noop, noop, noop, noop, noop, noop, () -> { }, noop, noop, () -> 7);
 
 		try
 		{
@@ -710,7 +761,7 @@ class RenderSmokeTest
 		assertNotNull(advice.getFocus(), "fixture must produce a focus");
 
 		Consumer<String> noop = id -> { };
-		SuggestPanel.Actions actions = new SuggestPanel.Actions(noop, noop, noop, noop, noop, noop, noop, () -> { }, noop, noop);
+		SuggestPanel.Actions actions = new SuggestPanel.Actions(noop, noop, noop, noop, noop, noop, noop, () -> { }, noop, noop, () -> 7);
 		GoalDetailPanel.Actions detailActions = new GoalDetailPanel.Actions(noop, () -> { });
 
 		try
@@ -1000,7 +1051,7 @@ class RenderSmokeTest
 		Advice advice = craftChainFixture();
 
 		Consumer<String> noop = id -> { };
-		SuggestPanel.Actions actions = new SuggestPanel.Actions(noop, noop, noop, noop, noop, noop, noop, () -> { }, noop, noop);
+		SuggestPanel.Actions actions = new SuggestPanel.Actions(noop, noop, noop, noop, noop, noop, noop, () -> { }, noop, noop, () -> 7);
 		GoalDetailPanel.Actions detailActions = new GoalDetailPanel.Actions(noop, () -> { });
 
 		try
@@ -1618,6 +1669,26 @@ class RenderSmokeTest
 			if (child instanceof Container)
 			{
 				JTextField found = findTextField((Container) child);
+				if (found != null)
+				{
+					return found;
+				}
+			}
+		}
+		return null;
+	}
+
+	private static JButton findButtonWithText(Container container, String text)
+	{
+		for (Component child : container.getComponents())
+		{
+			if (child instanceof JButton && text.equals(((JButton) child).getText()))
+			{
+				return (JButton) child;
+			}
+			if (child instanceof Container)
+			{
+				JButton found = findButtonWithText((Container) child, text);
 				if (found != null)
 				{
 					return found;
