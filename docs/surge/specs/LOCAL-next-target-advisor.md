@@ -171,6 +171,21 @@ option; cost-if-wrong noted.
     offered a lower-xp alternative when the KB lacks a plan for a gatherable
     herb; fix by curating gathering.json.
 
+31. **Ruling (RL-006/RL-007, 2026-09-08): milestones can be outfits, can
+    speed up a skill, and can depend on another milestone.** `ownedIfMin`
+    (default 1) is how many distinct `ownedIf` items must be held before a
+    milestone counts as owned, so a four-piece outfit is a goal until all
+    four are in the bank and the card says "2/4 pieces"; `speedsUp` names the
+    skill a method-linked untradeable accelerates, and the why line says
+    "speeds up Mining (your next Mining target)" when a skill target for that
+    skill is ranked. `prerequisite` names a milestone that must be owned
+    first: while it is still a goal the dependant carries a `PrerequisiteGap`
+    (so it is never ready and the prerequisite ranks ahead of it), and "Own
+    it" on the prerequisite counts as met; unknown ids and cycles fail at
+    load. Category `poh` is a built house room or furniture: never
+    auto-detected, finished only by "Own it", with a `notes` line saying so
+    - cost: none.
+
 Rulings from the grill (docs/surge/reviews/LOCAL-next-target-advisor.md):
 
 13. **Ruling: quest name resolver in kb-build is three-step** — (a) committed

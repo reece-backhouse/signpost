@@ -239,7 +239,7 @@ class EngineAdviceTest
 		KnowledgeBase kb = KnowledgeBase.load(new Gson());
 		Snapshot snapshot = midGameAccount().build();
 
-		Advice advice = engine.run(snapshot, kb, AccountData.empty(), now);
+		Advice advice = engine.run(snapshot, kb, midGameAccountData(), now);
 
 		assertEquals(2, advice.getAccountStage(), "sanity check on the account fixture itself");
 		assertEquals(106, snapshot.combatLevel(), "sanity check: combat ~105 as described in the user feedback");
@@ -304,7 +304,7 @@ class EngineAdviceTest
 			.bankItem(231, "Snape grass", 1000)
 			.build();
 
-		Advice advice = engine.run(snapshot, kb, AccountData.empty(), now);
+		Advice advice = engine.run(snapshot, kb, midGameAccountData(), now);
 
 		GoalStatus target = advice.getStatuses().stream()
 			.filter(s -> s.getGoal().getId().equals("skill:HERBLORE:70"))
@@ -371,7 +371,8 @@ class EngineAdviceTest
 			.bankItem(13646, "Farmer's strawhat", 1).bankItem(13642, "Farmer's jacket", 1).bankItem(13640, "Farmer's boro trousers", 1).bankItem(13644, "Farmer's boots", 1)
 			.bankItem(26850, "Hat of the Eye", 1).bankItem(26852, "Robe top of the Eye", 1).bankItem(26854, "Robe bottoms of the Eye", 1).bankItem(26856, "Boots of the Eye", 1)
 			.bankItem(10941, "Lumberjack hat", 1).bankItem(10939, "Lumberjack top", 1).bankItem(10940, "Lumberjack legs", 1).bankItem(10933, "Lumberjack boots", 1)
-			.bankItem(5554, "Rogue mask", 1).bankItem(5553, "Rogue top", 1).bankItem(5555, "Rogue trousers", 1).bankItem(5556, "Rogue gloves", 1).bankItem(5557, "Rogue boots", 1);
+			.bankItem(5554, "Rogue mask", 1).bankItem(5553, "Rogue top", 1).bankItem(5555, "Rogue trousers", 1).bankItem(5556, "Rogue gloves", 1).bankItem(5557, "Rogue boots", 1)
+			.bankItem(1409, "Iban's staff", 1); // RL-007: Underground Pass is long done.
 		Quest[] quests = Quest.values();
 		// 186 of 211 bundled quests finished (plus Perilous Moons and Priest in Peril explicitly
 		// above): short of the questsFinished >= 190 stage-3 threshold, but high enough that the
@@ -382,6 +383,16 @@ class EngineAdviceTest
 			builder.quest(quests[i], QuestState.FINISHED);
 		}
 		return builder;
+	}
+
+	/**
+	 * RL-007: the house rooms a 68 Construction account has long since built. POH milestones are only
+	 * ever finished by "Own it", so the fixture marks them owned the same way a player would.
+	 */
+	private static AccountData midGameAccountData()
+	{
+		return new AccountData(new HashMap<>(), null, new HashMap<>(), new HashSet<>(), new ArrayList<>(), null, new HashSet<>(Set.of(
+			"poh:house", "poh:costume-room", "poh:oak-armour-case", "poh:portal-chamber", "poh:superior-garden", "poh:restoration-pool")));
 	}
 
 	/** Five unfinished quests so ranking/pick3/rest have more than three candidates to split across. Real ids/names so each resolves to a real {@link net.runelite.api.Quest} constant. */

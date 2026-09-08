@@ -6218,6 +6218,1025 @@
         "Chance of double loot on every successful pickpocket with the full set worn"
       ],
       "wikiTitle": "Rogue equipment"
+    },
+    {
+      "category": "poh",
+      "gearTier": null,
+      "id": "poh:house",
+      "name": "Player-owned house",
+      "notes": [
+        "The plugin cannot see your house: press Own it once this is built."
+      ],
+      "obtainedFrom": null,
+      "ownedIf": [],
+      "ownedIfMin": 1,
+      "prerequisite": null,
+      "priority": 5,
+      "reason": "Every Construction unlock below starts here: buy a house in Rimmington from an estate agent for 1,000 coins (or finish the Daddy's Home miniquest for a free one).",
+      "recommended": null,
+      "requirements": {
+        "combatLevel": null,
+        "diaries": [],
+        "items": [
+          {
+            "id": 995,
+            "ids": [
+              995
+            ],
+            "name": "Coins",
+            "quantity": 1000,
+            "sources": [
+              "Estate agent"
+            ]
+          }
+        ],
+        "questPoints": null,
+        "quests": [],
+        "skills": []
+      },
+      "sources": [
+        "shop"
+      ],
+      "speedsUp": null,
+      "stage": 1,
+      "subcategory": "utility",
+      "unlocks": [
+        "House teleport and Construction training",
+        "Every house room and piece of furniture"
+      ],
+      "wikiTitle": "Player-owned house"
+    },
+    {
+      "category": "poh",
+      "gearTier": null,
+      "id": "poh:costume-room",
+      "name": "Costume room",
+      "notes": [
+        "The plugin cannot see your house: press Own it once this is built."
+      ],
+      "obtainedFrom": null,
+      "ownedIf": [],
+      "ownedIfMin": 1,
+      "prerequisite": "poh:house",
+      "priority": 6,
+      "reason": "Stores clue rewards, holiday items and every skilling outfit outside the bank, which is the cheapest bank space an ironman will ever buy; 42 Construction and 50,000 coins for the room.",
+      "recommended": null,
+      "requirements": {
+        "combatLevel": null,
+        "diaries": [],
+        "items": [
+          {
+            "id": 995,
+            "ids": [
+              995
+            ],
+            "name": "Coins",
+            "quantity": 50000,
+            "sources": [
+              "Room cost, paid at the house build interface"
+            ]
+          }
+        ],
+        "questPoints": null,
+        "quests": [],
+        "skills": [
+          {
+            "boostable": true,
+            "level": 42,
+            "skill": "Construction"
+          }
+        ]
+      },
+      "sources": [
+        "craft"
+      ],
+      "speedsUp": null,
+      "stage": 1,
+      "subcategory": "utility",
+      "unlocks": [
+        "Armour case, magic wardrobe, treasure chest, fancy dress box, toy box and cape rack storage"
+      ],
+      "wikiTitle": "Costume room"
+    },
+    {
+      "category": "poh",
+      "gearTier": null,
+      "id": "poh:oak-armour-case",
+      "name": "Oak armour case",
+      "notes": [
+        "The plugin cannot see your house: press Own it once this is built.",
+        "Hammer and saw in the inventory"
+      ],
+      "obtainedFrom": null,
+      "ownedIf": [],
+      "ownedIfMin": 1,
+      "prerequisite": "poh:costume-room",
+      "priority": 5,
+      "reason": "Holds up to 25 armour sets (Barrows, void, graceful, prospector and the rest) so they stop taking bank space; 46 Construction and 3 oak planks in the costume room.",
+      "recommended": null,
+      "requirements": {
+        "combatLevel": null,
+        "diaries": [],
+        "items": [
+          {
+            "id": 8778,
+            "ids": [
+              8778
+            ],
+            "name": "Oak plank",
+            "quantity": 3,
+            "sources": [
+              "Sawmill"
+            ]
+          }
+        ],
+        "questPoints": null,
+        "quests": [],
+        "skills": [
+          {
+            "boostable": true,
+            "level": 46,
+            "skill": "Construction"
+          }
+        ]
+      },
+      "sources": [
+        "craft"
+      ],
+      "speedsUp": null,
+      "stage": 1,
+      "subcategory": "utility",
+      "unlocks": [
+        "25 armour sets stored outside the bank"
+      ],
+      "wikiTitle": "Oak armour case"
+    },
+    {
+      "category": "poh",
+      "gearTier": null,
+      "id": "poh:portal-chamber",
+      "name": "Portal chamber with a Varrock portal",
+      "notes": [
+        "The plugin cannot see your house: press Own it once this is built.",
+        "Hammer and saw in the inventory"
+      ],
+      "obtainedFrom": null,
+      "ownedIf": [],
+      "ownedIfMin": 1,
+      "prerequisite": "poh:house",
+      "priority": 6,
+      "reason": "A house portal to Varrock costs 100 casts of runes once and then teleports you for free forever; 50 Construction and 100,000 coins for the room, 3 teak planks for the teak portal frame, then 25 Magic and 100 Varrock Teleports' worth of runes to direct it.",
+      "recommended": null,
+      "requirements": {
+        "combatLevel": null,
+        "diaries": [],
+        "items": [
+          {
+            "id": 995,
+            "ids": [
+              995
+            ],
+            "name": "Coins",
+            "quantity": 100000,
+            "sources": [
+              "Room cost, paid at the house build interface"
+            ]
+          },
+          {
+            "id": 8780,
+            "ids": [
+              8780
+            ],
+            "name": "Teak plank",
+            "quantity": 3,
+            "sources": [
+              "Sawmill"
+            ]
+          },
+          {
+            "id": 563,
+            "ids": [
+              563
+            ],
+            "name": "Law rune",
+            "quantity": 100,
+            "sources": [
+              "100 Varrock Teleports"
+            ]
+          },
+          {
+            "id": 556,
+            "ids": [
+              556
+            ],
+            "name": "Air rune",
+            "quantity": 300,
+            "sources": [
+              "100 Varrock Teleports"
+            ]
+          },
+          {
+            "id": 554,
+            "ids": [
+              554
+            ],
+            "name": "Fire rune",
+            "quantity": 100,
+            "sources": [
+              "100 Varrock Teleports"
+            ]
+          }
+        ],
+        "questPoints": null,
+        "quests": [],
+        "skills": [
+          {
+            "boostable": true,
+            "level": 50,
+            "skill": "Construction"
+          },
+          {
+            "boostable": true,
+            "level": 25,
+            "skill": "Magic"
+          }
+        ]
+      },
+      "sources": [
+        "craft"
+      ],
+      "speedsUp": null,
+      "stage": 1,
+      "subcategory": "utility",
+      "unlocks": [
+        "Three portal frames; each directed portal is a free, unlimited teleport",
+        "Varrock portal switches to the Grand Exchange with the medium Varrock Diary"
+      ],
+      "wikiTitle": "Portal chamber"
+    },
+    {
+      "category": "poh",
+      "gearTier": null,
+      "id": "poh:superior-garden",
+      "name": "Superior garden",
+      "notes": [
+        "The plugin cannot see your house: press Own it once this is built."
+      ],
+      "obtainedFrom": null,
+      "ownedIf": [],
+      "ownedIfMin": 1,
+      "prerequisite": "poh:house",
+      "priority": 6,
+      "reason": "The room that holds the pool, the spirit tree or fairy ring and the house teleport space, so every later Construction unlock needs it first; 65 Construction and 75,000 coins.",
+      "recommended": null,
+      "requirements": {
+        "combatLevel": null,
+        "diaries": [],
+        "items": [
+          {
+            "id": 995,
+            "ids": [
+              995
+            ],
+            "name": "Coins",
+            "quantity": 75000,
+            "sources": [
+              "Room cost, paid at the house build interface"
+            ]
+          }
+        ],
+        "questPoints": null,
+        "quests": [],
+        "skills": [
+          {
+            "boostable": true,
+            "level": 65,
+            "skill": "Construction"
+          }
+        ]
+      },
+      "sources": [
+        "craft"
+      ],
+      "speedsUp": null,
+      "stage": 2,
+      "subcategory": "utility",
+      "unlocks": [
+        "Pool space, teleport space (spirit tree, fairy ring, obelisk) and a nature/theme space"
+      ],
+      "wikiTitle": "Superior garden"
+    },
+    {
+      "category": "poh",
+      "gearTier": null,
+      "id": "poh:restoration-pool",
+      "name": "Restoration pool",
+      "notes": [
+        "The plugin cannot see your house: press Own it once this is built.",
+        "Hammer and saw in the inventory"
+      ],
+      "obtainedFrom": null,
+      "ownedIf": [],
+      "ownedIfMin": 1,
+      "prerequisite": "poh:superior-garden",
+      "priority": 7,
+      "reason": "Refills special attack energy at the house, so every boss and Slayer trip starts with a full spec bar; 65 Construction with 5 limestone bricks, 5 buckets of water, 1,000 soul runes and 1,000 body runes in the superior garden.",
+      "recommended": null,
+      "requirements": {
+        "combatLevel": null,
+        "diaries": [],
+        "items": [
+          {
+            "id": 3420,
+            "ids": [
+              3420
+            ],
+            "name": "Limestone brick",
+            "quantity": 5,
+            "sources": [
+              "Crafted from limestone with a chisel"
+            ]
+          },
+          {
+            "id": 1929,
+            "ids": [
+              1929
+            ],
+            "name": "Bucket of water",
+            "quantity": 5,
+            "sources": [
+              "Bucket at a water source"
+            ]
+          },
+          {
+            "id": 566,
+            "ids": [
+              566
+            ],
+            "name": "Soul rune",
+            "quantity": 1000,
+            "sources": [
+              "Runecrafted at the Soul Altar or bought"
+            ]
+          },
+          {
+            "id": 559,
+            "ids": [
+              559
+            ],
+            "name": "Body rune",
+            "quantity": 1000,
+            "sources": [
+              "Runecrafted at the Body Altar or bought"
+            ]
+          }
+        ],
+        "questPoints": null,
+        "quests": [],
+        "skills": [
+          {
+            "boostable": true,
+            "level": 65,
+            "skill": "Construction"
+          }
+        ]
+      },
+      "sources": [
+        "craft"
+      ],
+      "speedsUp": null,
+      "stage": 2,
+      "subcategory": "utility",
+      "unlocks": [
+        "Restores special attack energy",
+        "First tier of the pool: revitalisation (70) adds run energy, rejuvenation (80) prayer, fancy (85) hitpoints, ornate (90) everything"
+      ],
+      "wikiTitle": "Restoration pool"
+    },
+    {
+      "category": "poh",
+      "gearTier": null,
+      "id": "poh:portal-nexus",
+      "name": "Portal nexus",
+      "notes": [
+        "The plugin cannot see your house: press Own it once this is built.",
+        "Hammer and saw in the inventory",
+        "Each destination costs 1,000 times the teleport's runes when you direct it (not listed above)."
+      ],
+      "obtainedFrom": null,
+      "ownedIf": [],
+      "ownedIfMin": 1,
+      "prerequisite": "poh:portal-chamber",
+      "priority": 7,
+      "reason": "One marble nexus directed to up to four cities replaces a wall of portal chambers and every teleport tablet you would otherwise craft; 72 Construction, 200,000 coins for the room and 4 marble blocks for the nexus, then 1,000 casts of runes per destination.",
+      "recommended": null,
+      "requirements": {
+        "combatLevel": null,
+        "diaries": [],
+        "items": [
+          {
+            "id": 995,
+            "ids": [
+              995
+            ],
+            "name": "Coins",
+            "quantity": 200000,
+            "sources": [
+              "Room cost, paid at the house build interface"
+            ]
+          },
+          {
+            "id": 8786,
+            "ids": [
+              8786
+            ],
+            "name": "Marble block",
+            "quantity": 4,
+            "sources": [
+              "Keldagrim stonemason, 325,000 coins each"
+            ]
+          }
+        ],
+        "questPoints": null,
+        "quests": [],
+        "skills": [
+          {
+            "boostable": true,
+            "level": 72,
+            "skill": "Construction"
+          }
+        ]
+      },
+      "sources": [
+        "craft"
+      ],
+      "speedsUp": null,
+      "stage": 2,
+      "subcategory": "utility",
+      "unlocks": [
+        "Marble nexus: up to four destinations, each a free unlimited teleport",
+        "Gilded nexus (82) holds every destination, needs 2 more marble blocks and 2 gold leaves"
+      ],
+      "wikiTitle": "Portal nexus"
+    },
+    {
+      "category": "poh",
+      "gearTier": null,
+      "id": "poh:achievement-gallery",
+      "name": "Achievement gallery",
+      "notes": [
+        "The plugin cannot see your house: press Own it once this is built."
+      ],
+      "obtainedFrom": null,
+      "ownedIf": [],
+      "ownedIfMin": 1,
+      "prerequisite": "poh:house",
+      "priority": 5,
+      "reason": "The room the jewellery box (and the altar, mounted display and quest list) lives in; 80 Construction and 200,000 coins.",
+      "recommended": null,
+      "requirements": {
+        "combatLevel": null,
+        "diaries": [],
+        "items": [
+          {
+            "id": 995,
+            "ids": [
+              995
+            ],
+            "name": "Coins",
+            "quantity": 200000,
+            "sources": [
+              "Room cost, paid at the house build interface"
+            ]
+          }
+        ],
+        "questPoints": null,
+        "quests": [],
+        "skills": [
+          {
+            "boostable": true,
+            "level": 80,
+            "skill": "Construction"
+          }
+        ]
+      },
+      "sources": [
+        "craft"
+      ],
+      "speedsUp": null,
+      "stage": 3,
+      "subcategory": "utility",
+      "unlocks": [
+        "Jewellery box space, altar space and display spaces"
+      ],
+      "wikiTitle": "Achievement gallery"
+    },
+    {
+      "category": "poh",
+      "gearTier": null,
+      "id": "poh:basic-jewellery-box",
+      "name": "Basic jewellery box",
+      "notes": [
+        "The plugin cannot see your house: press Own it once this is built.",
+        "Hammer and saw in the inventory"
+      ],
+      "obtainedFrom": null,
+      "ownedIf": [],
+      "ownedIfMin": 1,
+      "prerequisite": "poh:achievement-gallery",
+      "priority": 7,
+      "reason": "Unlimited ring of dueling and games necklace teleports from the house (Ferox Enclave, Castle Wars, Wintertodt, Burthorpe and more), ending the charged-jewellery crafting loop; 81 Construction with a bolt of cloth, a steel bar, 3 rings of dueling(8) and 3 games necklaces(8).",
+      "recommended": null,
+      "requirements": {
+        "combatLevel": null,
+        "diaries": [],
+        "items": [
+          {
+            "id": 8790,
+            "ids": [
+              8790
+            ],
+            "name": "Bolt of cloth",
+            "quantity": 1,
+            "sources": [
+              "Sawmill operator"
+            ]
+          },
+          {
+            "id": 2353,
+            "ids": [
+              2353
+            ],
+            "name": "Steel bar",
+            "quantity": 1,
+            "sources": [
+              "Smelted"
+            ]
+          },
+          {
+            "id": 2552,
+            "ids": [
+              2552
+            ],
+            "name": "Ring of dueling(8)",
+            "quantity": 3,
+            "sources": [
+              "Enchant Level 2 Jewellery on an emerald ring"
+            ]
+          },
+          {
+            "id": 3853,
+            "ids": [
+              3853
+            ],
+            "name": "Games necklace(8)",
+            "quantity": 3,
+            "sources": [
+              "Enchant Level 1 Jewellery on a sapphire necklace"
+            ]
+          }
+        ],
+        "questPoints": null,
+        "quests": [],
+        "skills": [
+          {
+            "boostable": true,
+            "level": 81,
+            "skill": "Construction"
+          }
+        ]
+      },
+      "sources": [
+        "craft"
+      ],
+      "speedsUp": null,
+      "stage": 3,
+      "subcategory": "utility",
+      "unlocks": [
+        "Unlimited ring of dueling and games necklace teleports",
+        "Upgrades to the fancy (86) and ornate (91) jewellery boxes"
+      ],
+      "wikiTitle": "Basic jewellery box"
+    },
+    {
+      "category": "poh",
+      "gearTier": null,
+      "id": "poh:ornate-jewellery-box",
+      "name": "Ornate jewellery box",
+      "notes": [
+        "The plugin cannot see your house: press Own it once this is built.",
+        "Hammer and saw in the inventory",
+        "Build the fancy jewellery box (86 Construction, 1 gold leaf, 5 combat bracelets, 5 skills necklaces) first; the ornate upgrade then takes the remaining 2 gold leaves, 8 rings of wealth and 8 glories."
+      ],
+      "obtainedFrom": null,
+      "ownedIf": [],
+      "ownedIfMin": 1,
+      "prerequisite": "poh:basic-jewellery-box",
+      "priority": 6,
+      "reason": "Adds unlimited skills necklace, combat bracelet, ring of wealth and amulet of glory teleports on top of the basic box; 91 Construction, built by upgrading through the fancy box (86): 3 gold leaves, 5 combat bracelets(4), 5 skills necklaces(4), 8 rings of wealth (5) and 8 amulets of glory(4) in total.",
+      "recommended": null,
+      "requirements": {
+        "combatLevel": null,
+        "diaries": [],
+        "items": [
+          {
+            "id": 8784,
+            "ids": [
+              8784
+            ],
+            "name": "Gold leaf",
+            "quantity": 3,
+            "sources": [
+              "Sawmill operator, 130,000 coins each"
+            ]
+          },
+          {
+            "id": 11118,
+            "ids": [
+              11118
+            ],
+            "name": "Combat bracelet(4)",
+            "quantity": 5,
+            "sources": [
+              "Enchant Level 4 Jewellery on a dragonstone bracelet"
+            ]
+          },
+          {
+            "id": 11105,
+            "ids": [
+              11105
+            ],
+            "name": "Skills necklace(4)",
+            "quantity": 5,
+            "sources": [
+              "Enchant Level 4 Jewellery on a dragonstone necklace"
+            ]
+          },
+          {
+            "id": 11980,
+            "ids": [
+              11980
+            ],
+            "name": "Ring of wealth (5)",
+            "quantity": 8,
+            "sources": [
+              "Enchant Level 4 Jewellery on a dragonstone ring"
+            ]
+          },
+          {
+            "id": 1712,
+            "ids": [
+              1712
+            ],
+            "name": "Amulet of glory(4)",
+            "quantity": 8,
+            "sources": [
+              "Enchant Level 4 Jewellery on a dragonstone amulet"
+            ]
+          }
+        ],
+        "questPoints": null,
+        "quests": [],
+        "skills": [
+          {
+            "boostable": true,
+            "level": 91,
+            "skill": "Construction"
+          }
+        ]
+      },
+      "sources": [
+        "craft"
+      ],
+      "speedsUp": null,
+      "stage": 3,
+      "subcategory": "utility",
+      "unlocks": [
+        "Unlimited skills necklace, combat bracelet, ring of wealth and amulet of glory teleports (plus the basic box's)"
+      ],
+      "wikiTitle": "Ornate jewellery box"
+    },
+    {
+      "category": "poh",
+      "gearTier": null,
+      "id": "poh:spirit-tree",
+      "name": "Spirit tree (house)",
+      "notes": [
+        "The plugin cannot see your house: press Own it once this is built.",
+        "Uses the superior garden's teleport space, shared with the fairy ring; the spirit tree & fairy ring (95) has both."
+      ],
+      "obtainedFrom": null,
+      "ownedIf": [],
+      "ownedIfMin": 1,
+      "prerequisite": "poh:superior-garden",
+      "priority": 6,
+      "reason": "A spirit tree in the superior garden puts the whole spirit tree network one house teleport away; 75 Construction and 83 Farming (both boostable) plus a spirit sapling and a watering can.",
+      "recommended": null,
+      "requirements": {
+        "combatLevel": null,
+        "diaries": [],
+        "items": [
+          {
+            "id": 5375,
+            "ids": [
+              5375
+            ],
+            "name": "Spirit sapling",
+            "quantity": 1,
+            "sources": [
+              "Spirit seed (Farming) grown into a sapling in a plant pot"
+            ]
+          }
+        ],
+        "questPoints": null,
+        "quests": [],
+        "skills": [
+          {
+            "boostable": true,
+            "level": 75,
+            "skill": "Construction"
+          },
+          {
+            "boostable": true,
+            "level": 83,
+            "skill": "Farming"
+          }
+        ]
+      },
+      "sources": [
+        "craft"
+      ],
+      "speedsUp": null,
+      "stage": 2,
+      "subcategory": "utility",
+      "unlocks": [
+        "Spirit tree network from the house",
+        "Does not count towards your spirit tree patch limit"
+      ],
+      "wikiTitle": "Spirit tree (Construction)"
+    },
+    {
+      "category": "poh",
+      "gearTier": null,
+      "id": "poh:fairy-ring",
+      "name": "Fairy ring (house)",
+      "notes": [
+        "The plugin cannot see your house: press Own it once this is built.",
+        "Uses the superior garden's teleport space, shared with the spirit tree; the spirit tree & fairy ring (95) has both."
+      ],
+      "obtainedFrom": null,
+      "ownedIf": [],
+      "ownedIfMin": 1,
+      "prerequisite": "poh:superior-garden",
+      "priority": 6,
+      "reason": "A fairy ring in the superior garden puts every fairy ring code one house teleport away; 85 Construction, 10 mushrooms and a fairy enchantment (100 coins from Fairy Fixit after finishing Fairytale II).",
+      "recommended": null,
+      "requirements": {
+        "combatLevel": null,
+        "diaries": [],
+        "items": [
+          {
+            "id": 6004,
+            "ids": [
+              6004
+            ],
+            "name": "Mushroom",
+            "quantity": 10,
+            "sources": [
+              "Zanaris, Kourend Woodland or Isafdar spawns"
+            ]
+          },
+          {
+            "id": 20609,
+            "ids": [
+              20609
+            ],
+            "name": "Fairy enchantment",
+            "quantity": 1,
+            "sources": [
+              "Fairy Fixit's Fairy Enchantment, Zanaris, 100 coins"
+            ]
+          }
+        ],
+        "questPoints": null,
+        "quests": [
+          "Fairytale II - Cure a Queen"
+        ],
+        "skills": [
+          {
+            "boostable": true,
+            "level": 85,
+            "skill": "Construction"
+          }
+        ]
+      },
+      "sources": [
+        "craft"
+      ],
+      "speedsUp": null,
+      "stage": 3,
+      "subcategory": "utility",
+      "unlocks": [
+        "Fairy ring network from the house"
+      ],
+      "wikiTitle": "Fairy ring (Construction)"
+    },
+    {
+      "category": "prayer",
+      "gearTier": null,
+      "id": "milestone:chivalry",
+      "name": "Chivalry",
+      "notes": [
+        "The Knight Waves Training Ground (top of Camelot Castle, after King's Ransom) must be completed too; the plugin cannot see that, so press Own it if you have done it."
+      ],
+      "obtainedFrom": null,
+      "ownedIf": [],
+      "ownedIfMin": 1,
+      "prerequisite": null,
+      "priority": 6,
+      "reason": "The +15% Attack, +18% Strength, +20% Defence prayer that sits between Ultimate Strength and Piety, unlocked ten Prayer levels earlier; finish King's Ransom, then the Knight Waves Training Ground, with 60 Prayer and 65 Defence.",
+      "recommended": null,
+      "requirements": {
+        "combatLevel": null,
+        "diaries": [],
+        "items": [],
+        "questPoints": null,
+        "quests": [
+          "King's Ransom"
+        ],
+        "skills": [
+          {
+            "boostable": false,
+            "level": 60,
+            "skill": "Prayer"
+          },
+          {
+            "boostable": false,
+            "level": 65,
+            "skill": "Defence"
+          }
+        ]
+      },
+      "sources": [
+        "quest",
+        "reward"
+      ],
+      "speedsUp": null,
+      "stage": 1,
+      "subcategory": "melee",
+      "unlocks": [
+        "+15% Attack, +18% Strength, +20% Defence while active",
+        "Same Knight Waves run unlocks Piety at 70/70"
+      ],
+      "wikiTitle": "Chivalry"
+    },
+    {
+      "category": "spellbook",
+      "gearTier": null,
+      "id": "milestone:lunar-spellbook",
+      "name": "Lunar spellbook",
+      "notes": [],
+      "obtainedFrom": null,
+      "ownedIf": [],
+      "ownedIfMin": 1,
+      "prerequisite": null,
+      "priority": 7,
+      "reason": "NPC Contact, Spellbook Swap, Humidify, Fertile Soil and Plank Make live here, the utility book every ironman ends up on; unlocked by finishing Lunar Diplomacy, cast with 65 Magic and 40 Defence.",
+      "recommended": null,
+      "requirements": {
+        "combatLevel": null,
+        "diaries": [],
+        "items": [],
+        "questPoints": null,
+        "quests": [
+          "Lunar Diplomacy"
+        ],
+        "skills": [
+          {
+            "boostable": false,
+            "level": 65,
+            "skill": "Magic"
+          },
+          {
+            "boostable": false,
+            "level": 40,
+            "skill": "Defence"
+          }
+        ]
+      },
+      "sources": [
+        "quest"
+      ],
+      "speedsUp": null,
+      "stage": 2,
+      "subcategory": "magic",
+      "unlocks": [
+        "NPC Contact, Humidify, Fertile Soil, Plank Make, Spellbook Swap, Tan Leather",
+        "Dream Mentor adds the higher spells"
+      ],
+      "wikiTitle": "Lunar spellbook"
+    },
+    {
+      "category": "gear",
+      "gearTier": null,
+      "id": "milestone:iban-blast",
+      "name": "Iban Blast",
+      "notes": [],
+      "obtainedFrom": null,
+      "ownedIf": [
+        {
+          "id": 1409,
+          "ids": [
+            1409,
+            1410,
+            33330,
+            33333
+          ],
+          "name": "Iban's staff"
+        },
+        {
+          "id": 12658,
+          "ids": [
+            12658,
+            33332
+          ],
+          "name": "Iban's staff (u)"
+        }
+      ],
+      "ownedIfMin": 1,
+      "prerequisite": null,
+      "priority": 6,
+      "reason": "A 25 max hit spell at 50 Magic, the strongest thing on the standard book until trident, and the classic ironman answer to early Slayer and bosses; needs Iban's staff from Underground Pass and 50 Attack to wield it.",
+      "recommended": null,
+      "requirements": {
+        "combatLevel": null,
+        "diaries": [],
+        "items": [],
+        "questPoints": null,
+        "quests": [
+          "Underground Pass"
+        ],
+        "skills": [
+          {
+            "boostable": false,
+            "level": 50,
+            "skill": "Magic"
+          },
+          {
+            "boostable": false,
+            "level": 50,
+            "skill": "Attack"
+          }
+        ]
+      },
+      "sources": [
+        "quest"
+      ],
+      "speedsUp": null,
+      "stage": 1,
+      "subcategory": "magic",
+      "unlocks": [
+        "Iban Blast (max hit 25) autocast with Iban's staff",
+        "Iban's upgraded staff (u) from the Dark Mage for 200,000 coins"
+      ],
+      "wikiTitle": "Iban Blast"
+    },
+    {
+      "category": "spellbook",
+      "gearTier": null,
+      "id": "milestone:arceuus-spellbook",
+      "name": "Arceuus spellbook",
+      "notes": [
+        "Kourend favour was removed in 2023: speak to Tyss north of Arceuus to switch books at any level. Only the spells need A Kingdom Divided."
+      ],
+      "obtainedFrom": null,
+      "ownedIf": [],
+      "ownedIfMin": 1,
+      "prerequisite": null,
+      "priority": 6,
+      "reason": "Thralls, Death Charge, Demonic Offering and the Arceuus utility spells all need A Kingdom Divided; the book itself is free from Tyss by the Dark Altar now that Kourend favour is gone.",
+      "recommended": null,
+      "requirements": {
+        "combatLevel": null,
+        "diaries": [],
+        "items": [],
+        "questPoints": null,
+        "quests": [
+          "A Kingdom Divided"
+        ],
+        "skills": []
+      },
+      "sources": [
+        "quest"
+      ],
+      "speedsUp": null,
+      "stage": 2,
+      "subcategory": "magic",
+      "unlocks": [
+        "Resurrect thralls (38+ Magic), Death Charge, Vile Vigour, Demonic and Sinister Offering",
+        "Arceuus teleports need no quest at all"
+      ],
+      "wikiTitle": "Arceuus spellbook"
     }
   ],
   "version": 1

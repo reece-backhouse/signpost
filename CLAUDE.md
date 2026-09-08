@@ -19,7 +19,7 @@ achievements) and suggests what to focus on next, with routes to get there.
 - `kb-build/` — TypeScript (Node 22) scripts that generate the KB JSON from the OSRS wiki
   (`npm run build-kb -- quests|diaries|methods|materials|expand-milestones|gathering`)
   - `data/` inputs: RuneLite quest list, aliases, diary var map (from Quest Helper), RuneLite sources
-  - `milestones.json`, `priorities.json` and `data/gathering.json` are hand-curated (stage, recommended profile with gearOwnedMin, obtainedFrom; step-by-step gathering loops)
+  - `src/main/resources/kb/milestones.json`, `priorities.json` and `data/gathering.json` are hand-curated (stage, recommended profile with gearOwnedMin, obtainedFrom, ownedIfMin for outfits, speedsUp skill, prerequisite milestone, display notes, `poh` category for house rooms; step-by-step gathering loops); after adding a milestone run `expand-milestones` to fill variant ids and add its items to materials.json
 
 ## Conventions
 

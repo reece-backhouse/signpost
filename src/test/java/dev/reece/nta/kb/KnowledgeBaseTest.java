@@ -114,11 +114,11 @@ class KnowledgeBaseTest
 	}
 
 	@Test
-	void bundledMilestonesJsonLoadsSeventyTwoEntriesAndPassesValidation()
+	void bundledMilestonesJsonLoadsEightyEightEntriesAndPassesValidation()
 	{
 		KnowledgeBase kb = KnowledgeBase.load(new Gson());
 
-		assertEquals(72, kb.getMilestones().size());
+		assertEquals(88, kb.getMilestones().size());
 		for (MilestoneEntry entry : kb.getMilestones())
 		{
 			assertNotNull(kb.milestoneById(entry.getId()), entry.getId());
@@ -502,10 +502,12 @@ class KnowledgeBaseTest
 
 		// RL-006: a skilling untradeable's bar is the level its activity needs (Motherlode Mine 30,
 		// Tithe Farm 34, Tempoross 35), so any hard skill requirement counts for the "skilling" subcategory.
+		// RL-007: a bank-checked item requirement (the house's 1,000 coins) is a bar too.
 		List<String> offenders = kb.getMilestones().stream()
 			.filter(entry -> entry.getRecommended() == null)
 			.filter(entry -> entry.getQuests().isEmpty())
 			.filter(entry -> entry.getDiaries().isEmpty())
+			.filter(entry -> entry.getItems().isEmpty())
 			.filter(entry -> entry.getSkills().stream().noneMatch(s -> s.getLevel() >= 40 || "skilling".equals(entry.getSubcategory())))
 			.map(MilestoneEntry::getId)
 			.collect(java.util.stream.Collectors.toList());
