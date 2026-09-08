@@ -34,10 +34,8 @@ import javax.swing.SwingUtilities;
 import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.Client;
 import net.runelite.api.GameState;
-import net.runelite.api.InventoryID;
 import net.runelite.api.Item;
 import net.runelite.api.Skill;
-import net.runelite.api.VarPlayer;
 import net.runelite.api.events.GameStateChanged;
 import net.runelite.api.events.GameTick;
 import net.runelite.api.events.ItemContainerChanged;
@@ -45,6 +43,8 @@ import net.runelite.api.events.StatChanged;
 import net.runelite.api.events.VarbitChanged;
 import net.runelite.api.events.WidgetClosed;
 import net.runelite.api.gameval.InterfaceID;
+import net.runelite.api.gameval.InventoryID;
+import net.runelite.api.gameval.VarPlayerID;
 import net.runelite.client.RuneLite;
 import net.runelite.client.callback.ClientThread;
 import net.runelite.client.config.ConfigManager;
@@ -324,7 +324,7 @@ public class NextTargetPlugin extends Plugin
 	public void onItemContainerChanged(ItemContainerChanged event)
 	{
 		int containerId = event.getContainerId();
-		if (containerId == InventoryID.INVENTORY.getId() || containerId == InventoryID.EQUIPMENT.getId())
+		if (containerId == InventoryID.INV || containerId == InventoryID.WORN)
 		{
 			// The first post-login GameTick can fire before these containers are populated, so a
 			// login-time snapshot may wrongly see them empty; request a fresh one once they report -
@@ -337,7 +337,7 @@ public class NextTargetPlugin extends Plugin
 			return;
 		}
 
-		if (containerId != InventoryID.BANK.getId())
+		if (containerId != InventoryID.BANK)
 		{
 			return;
 		}
@@ -392,7 +392,7 @@ public class NextTargetPlugin extends Plugin
 
 		int varpId = event.getVarpId();
 		int varbitId = event.getVarbitId();
-		if (varpId == VarPlayer.QUEST_POINTS || loadedKb.diaryVarps().contains(varpId) || loadedKb.diaryVarbits().contains(varbitId))
+		if (varpId == VarPlayerID.QP || loadedKb.diaryVarps().contains(varpId) || loadedKb.diaryVarbits().contains(varbitId))
 		{
 			requestSnapshot();
 		}

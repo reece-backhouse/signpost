@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * Mirrors the account type values carried by {@code Varbits.ACCOUNT_TYPE} (varbit 1777).
+ * Mirrors the account type values carried by {@code VarbitID.IRONMAN} (varbit 1777).
  */
 @Slf4j
 @Getter

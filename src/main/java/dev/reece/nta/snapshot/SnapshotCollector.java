@@ -6,14 +6,13 @@ import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
 import net.runelite.api.Client;
-import net.runelite.api.InventoryID;
 import net.runelite.api.Item;
 import net.runelite.api.ItemContainer;
 import net.runelite.api.Quest;
 import net.runelite.api.QuestState;
 import net.runelite.api.Skill;
-import net.runelite.api.VarPlayer;
-import net.runelite.api.Varbits;
+import net.runelite.api.gameval.InventoryID;
+import net.runelite.api.gameval.VarPlayerID;
 import net.runelite.api.gameval.VarbitID;
 import net.runelite.client.game.ItemManager;
 
@@ -24,12 +23,12 @@ import net.runelite.client.game.ItemManager;
 public final class SnapshotCollector
 {
 	private static final int[] COMBAT_ACHIEVEMENT_TIER_VARBITS = {
-		Varbits.COMBAT_ACHIEVEMENT_TIER_EASY,
-		Varbits.COMBAT_ACHIEVEMENT_TIER_MEDIUM,
-		Varbits.COMBAT_ACHIEVEMENT_TIER_HARD,
-		Varbits.COMBAT_ACHIEVEMENT_TIER_ELITE,
-		Varbits.COMBAT_ACHIEVEMENT_TIER_MASTER,
-		Varbits.COMBAT_ACHIEVEMENT_TIER_GRANDMASTER,
+		VarbitID.CA_TIER_STATUS_EASY,
+		VarbitID.CA_TIER_STATUS_MEDIUM,
+		VarbitID.CA_TIER_STATUS_HARD,
+		VarbitID.CA_TIER_STATUS_ELITE,
+		VarbitID.CA_TIER_STATUS_MASTER,
+		VarbitID.CA_TIER_STATUS_GRANDMASTER,
 	};
 
 	private SnapshotCollector()
@@ -46,10 +45,6 @@ public final class SnapshotCollector
 		Map<Skill, SkillState> skills = new EnumMap<>(Skill.class);
 		for (Skill skill : Skill.values())
 		{
-			if (skill == Skill.OVERALL)
-			{
-				continue;
-			}
 			skills.put(skill, new SkillState(client.getRealSkillLevel(skill), client.getSkillExperience(skill)));
 		}
 
@@ -59,8 +54,8 @@ public final class SnapshotCollector
 			quests.put(quest, quest.getState(client));
 		}
 
-		Map<Integer, Integer> inventory = readContainer(client, InventoryID.INVENTORY);
-		Map<Integer, Integer> equipment = readContainer(client, InventoryID.EQUIPMENT);
+		Map<Integer, Integer> inventory = readContainer(client, InventoryID.INV);
+		Map<Integer, Integer> equipment = readContainer(client, InventoryID.WORN);
 
 		Map<Integer, String> itemNames = new HashMap<>();
 		collectItemNames(itemManager, itemNames, bank.getItems().keySet());
@@ -99,7 +94,7 @@ public final class SnapshotCollector
 
 		return Snapshot.builder()
 			.accountHash(client.getAccountHash())
-			.accountType(AccountType.fromVarbit(client.getVarbitValue(Varbits.ACCOUNT_TYPE)))
+			.accountType(AccountType.fromVarbit(client.getVarbitValue(VarbitID.IRONMAN)))
 			.skills(skills)
 			.quests(quests)
 			.bank(bank.getItems())
@@ -113,12 +108,12 @@ public final class SnapshotCollector
 			.combatAchievementTiers(combatAchievementTiers)
 			.bankKnown(bank.isKnown())
 			.bankAsOf(bank.getAsOf())
-			.questPoints(client.getVarpValue(VarPlayer.QUEST_POINTS))
+			.questPoints(client.getVarpValue(VarPlayerID.QP))
 			.kudos(client.getVarbitValue(VarbitID.VM_KUDOS))
 			.build();
 	}
 
-	private static Map<Integer, Integer> readContainer(Client client, InventoryID inventoryId)
+	private static Map<Integer, Integer> readContainer(Client client, int inventoryId)
 	{
 		ItemContainer container = client.getItemContainer(inventoryId);
 		if (container == null)
