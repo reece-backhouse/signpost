@@ -753,9 +753,8 @@ public class GoalDetailPanel extends JPanel
 		{
 			sb.append(' ').append(source.getDetail());
 		}
-		JLabel label = row(sb.toString(), indent);
-		label.setForeground(ColorScheme.LIGHT_GRAY_COLOR);
-		return label;
+		// task 61: materials.json "where" strings carry U+2013 en dashes the RuneScape font lacks
+		return row(sb.toString().replace('\u2013', '-'), indent, ColorScheme.LIGHT_GRAY_COLOR);
 	}
 
 	// --- Shortfall (ticket C7/E4), now under its skill row (task 57) ---

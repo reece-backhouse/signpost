@@ -43,6 +43,7 @@ import java.util.Map;
 import java.util.function.Consumer;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import net.runelite.api.Skill;
@@ -910,7 +911,7 @@ class RenderSmokeTest
 			.intermediate()
 			.material("Ranarr potion (unf)", ranarrUnf)
 			.source("craft", "Ranarr weed + Vial of water")
-			.source("shop", "Myths' Guild Herbalist 1 gp, stock 100, restocks slowly")
+			.source("shop", "Myths' Guild Herbalist 1 gp, stock 100 – restocks slowly")
 			.material("Ranarr weed", ranarr)
 			.source("drop", "Chaos druids in Taverley Dungeon; take the long way round past the poison spiders")
 			.material("Vial of water", vial)
@@ -994,6 +995,11 @@ class RenderSmokeTest
 				detail.render(advice);
 				assertTrue(containsLabelContaining(detail, "Prayer potion(3)"), "the skill row must be expanded so its route renders");
 				assertOnlyRenderableGlyphs(detail);
+
+				// task 61: the quest marker's text fallback (when the world-map icon isn't loadable) must be renderable too
+				JPanel fallback = new JPanel();
+				fallback.add(new JLabel(Icons.QUEST_GLYPH));
+				assertOnlyRenderableGlyphs(fallback);
 			});
 		}
 		catch (InvocationTargetException e)
@@ -1006,7 +1012,7 @@ class RenderSmokeTest
 		}
 	}
 
-	/** Task 59 B: no label text has a character above U+007F other than "×", "—" and "’" (the ones the RuneScape font renders). */
+	/** Task 59 B: no label text has a character above U+007F other than "×", "—", "…" and "·" (the ones the RuneScape font renders; "’" is bold-only). */
 	private static void assertOnlyRenderableGlyphs(Container container)
 	{
 		List<String> offenders = new ArrayList<>();
@@ -1024,7 +1030,7 @@ class RenderSmokeTest
 				for (int i = 0; i < text.length(); i++)
 				{
 					char c = text.charAt(i);
-					if (c > 0x7F && "×—’".indexOf(c) < 0)
+					if (c > 0x7F && "×—…·".indexOf(c) < 0)
 					{
 						offenders.add(String.format("U+%04X in '%s'", (int) c, text));
 						break;
@@ -1332,6 +1338,8 @@ class RenderSmokeTest
 				toggle.dispatchEvent(new MouseEvent(toggle, MouseEvent.MOUSE_CLICKED, System.currentTimeMillis(), 0, 1, 1, 1, false));
 
 				assertTrue(containsLabelContaining(panel, "shop: Myths"), "expanding the toggle must list the source");
+				// task 61: materials.json "where" strings carry U+2013 en dashes the RuneScape font lacks
+				assertTrue(containsLabelContaining(panel, "stock 100 - restocks"), "the source's en dash must render as a hyphen");
 				assertTrue(findLabelStartingWith(panel, "Sources (1)").getText().endsWith("[-]"), "toggle must read open after the click");
 				layoutAtRealPanelWidth(panel);
 				assertNothingEndsPastTheRightEdge(panel);
