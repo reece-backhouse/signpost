@@ -354,7 +354,7 @@ public class SuggestPanel extends JPanel
 		}
 		card.add(Box.createVerticalStrut(4));
 
-		JLabel categoryLabel = new JLabel(categoryLabel(goal.getCategory()) + " · stage " + goal.getStage());
+		JLabel categoryLabel = new JLabel(categoryLabel(goal.getCategory()) + " — stage " + goal.getStage());
 		categoryLabel.setFont(FontManager.getRunescapeSmallFont());
 		categoryLabel.setForeground(Icons.categoryColor(goal.getCategory()));
 		categoryLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -492,7 +492,7 @@ public class SuggestPanel extends JPanel
 
 		boolean expanded = expandedWhy.contains(goalId);
 
-		JLabel toggle = new JLabel("Why? " + (expanded ? "▼" : "▶"));
+		JLabel toggle = new JLabel("Why? " + (expanded ? "[-]" : "[+]"));
 		toggle.setFont(FontManager.getRunescapeSmallFont());
 		toggle.setForeground(ColorScheme.LIGHT_GRAY_COLOR);
 		toggle.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -696,7 +696,7 @@ public class SuggestPanel extends JPanel
 
 		void update(int count, boolean expanded)
 		{
-			label.setText(title.toUpperCase() + " (" + count + ")" + (expanded ? " ▼" : " ▶"));
+			label.setText(title.toUpperCase() + " (" + count + ")" + (expanded ? " [-]" : " [+]"));
 		}
 	}
 

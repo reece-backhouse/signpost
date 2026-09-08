@@ -345,7 +345,7 @@ public class GoalDetailPanel extends JPanel
 			east.add(badge);
 			east.add(Box.createHorizontalStrut(6));
 		}
-		JLabel arrow = new JLabel(expanded ? "▼" : "▶");
+		JLabel arrow = new JLabel(expanded ? "[-]" : "[+]");
 		arrow.setFont(FontManager.getRunescapeSmallFont());
 		arrow.setForeground(ColorScheme.LIGHT_GRAY_COLOR);
 		east.add(arrow);
@@ -419,7 +419,7 @@ public class GoalDetailPanel extends JPanel
 	private JPanel metToggle(List<Met> met)
 	{
 		JPanel panel = column();
-		JLabel toggle = toggleLabel("Met (" + met.size() + ") " + (metExpanded ? "▼" : "▶"), 0);
+		JLabel toggle = toggleLabel("Met (" + met.size() + ") " + (metExpanded ? "[-]" : "[+]"), 0);
 		clickable(() ->
 		{
 			metExpanded = !metExpanded;
@@ -430,7 +430,7 @@ public class GoalDetailPanel extends JPanel
 		{
 			for (Met m : met)
 			{
-				panel.add(row("✓ " + m.getLabel(), 1, ColorScheme.PROGRESS_COMPLETE_COLOR));
+				panel.add(row(m.getLabel(), 1, ColorScheme.PROGRESS_COMPLETE_COLOR));
 			}
 		}
 		return panel;
@@ -542,7 +542,7 @@ public class GoalDetailPanel extends JPanel
 				// re-opens that row when clicked.
 				SkillLevelGap g = next.getSkillGap();
 				JLabel icon = icons.skill(g.getSkill());
-				JLabel text = label("Train " + g.getSkill().getName() + " " + focus.getFromLevel() + "→" + focus.getToLevel() + " (route above)",
+				JLabel text = label("Train " + g.getSkill().getName() + " " + focus.getFromLevel() + "-" + focus.getToLevel() + " (route above)",
 					textWidth(0, icon, null));
 				JPanel head = iconRow(icon, text, null, 0);
 				clickable(() ->
@@ -574,7 +574,7 @@ public class GoalDetailPanel extends JPanel
 
 	/**
 	 * A route step (task 49, now task 57 with icons): the OUTPUT item's icon on the left, "Prayer
-	 * potion(3) ×340" over "61→66, +29,750 xp" (or, for a 0-xp craft, "from Ranarr weed ×340, ..."),
+	 * potion(3) ×340" over "61-66, +29,750 xp" (or, for a 0-xp craft, "from Ranarr weed ×340, ..."),
 	 * and the materials used as a strip of icons on the right (tooltip = name and count). Icons and
 	 * names open the wiki. Crafts nest one level deeper with a "craft " prefix.
 	 */
@@ -593,7 +593,7 @@ public class GoalDetailPanel extends JPanel
 		text.add(line1);
 		String line2 = step.getXpGained() == 0
 			? "from " + materialsList(step)
-			: step.getFromLevel() + "→" + step.getToLevel() + ", +" + thousands(step.getXpGained()) + " xp";
+			: step.getFromLevel() + "-" + step.getToLevel() + ", +" + thousands(step.getXpGained()) + " xp";
 		JLabel line2Label = label(line2, width);
 		line2Label.setForeground(ColorScheme.LIGHT_GRAY_COLOR);
 		text.add(line2Label);
@@ -778,7 +778,7 @@ public class GoalDetailPanel extends JPanel
 		JPanel panel = column();
 
 		boolean expanded = expandedAlternatives.contains(key);
-		JLabel toggle = toggleLabel("Alternatives (" + alternatives.size() + ") " + (expanded ? "▼" : "▶"), indent);
+		JLabel toggle = toggleLabel("Alternatives (" + alternatives.size() + ") " + (expanded ? "[-]" : "[+]"), indent);
 		clickable(() ->
 		{
 			if (expandedAlternatives.contains(key))

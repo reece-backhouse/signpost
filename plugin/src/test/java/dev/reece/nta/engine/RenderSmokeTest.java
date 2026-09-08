@@ -103,7 +103,7 @@ class RenderSmokeTest
 		List<RankedGoal> picked = List.of(skillRanked);
 
 		Map<String, List<String>> explanations = new HashMap<>(base.getExplanations());
-		explanations.put(skillGoal.getId(), List.of("Needed for Song of the Elves (75 Woodcutting)", "Bank covers 60→75"));
+		explanations.put(skillGoal.getId(), List.of("Needed for Song of the Elves (75 Woodcutting)", "Bank covers 60-75"));
 
 		Advice advice = new Advice(base.getSnapshot(), statuses, base.getDiaryProgress(), base.getComputedAt(),
 			ranked, picked, base.getRest(), base.getAccountStage(), base.getLater(), base.getWhys(), explanations,
@@ -123,7 +123,7 @@ class RenderSmokeTest
 
 				JLabel whyToggle = findLabelStartingWith(panel, "Why?");
 				assertNotNull(whyToggle, "a Why? toggle must exist on a card");
-				assertTrue(whyToggle.getText().endsWith("▶"), "collapsed by default, got: " + whyToggle.getText());
+				assertTrue(whyToggle.getText().endsWith("[+]"), "collapsed by default, got: " + whyToggle.getText());
 				assertFalse(containsLabelContaining(panel, "Bank covers 60"),
 					"explanation line must not be present before the toggle is clicked");
 
@@ -135,7 +135,7 @@ class RenderSmokeTest
 				// post-click label must be re-found rather than re-read off the stale reference.
 				JLabel whyToggleAfterClick = findLabelStartingWith(panel, "Why?");
 				assertNotNull(whyToggleAfterClick, "a Why? toggle must still exist after the click");
-				assertTrue(whyToggleAfterClick.getText().endsWith("▼"),
+				assertTrue(whyToggleAfterClick.getText().endsWith("[-]"),
 					"clicking the toggle must expand it, got: " + whyToggleAfterClick.getText());
 				assertTrue(containsLabelContaining(panel, "Bank covers 60"),
 					"explanation line must be present in the tree after expanding");
@@ -387,7 +387,7 @@ class RenderSmokeTest
 
 	/**
 	 * Fix round 1: a collapsible section header (Later/Snoozed/Ignored) must toggle when the click
-	 * lands on the label the user actually sees ("LATER (0) ▶"), not just on the outer panel -
+	 * lands on the label the user actually sees ("LATER (0) [+]"), not just on the outer panel -
 	 * AWT delivers a click to the deepest component under the cursor and does not bubble it to
 	 * ancestors.
 	 */
@@ -414,12 +414,12 @@ class RenderSmokeTest
 
 				JLabel laterLabel = findLabelStartingWith(panel, "LATER");
 				assertNotNull(laterLabel, "Later section header label must exist");
-				assertTrue(laterLabel.getText().endsWith("▶"), "collapsed by default, got: " + laterLabel.getText());
+				assertTrue(laterLabel.getText().endsWith("[+]"), "collapsed by default, got: " + laterLabel.getText());
 
 				laterLabel.dispatchEvent(new MouseEvent(laterLabel, MouseEvent.MOUSE_CLICKED,
 					System.currentTimeMillis(), 0, 1, 1, 1, false));
 
-				assertTrue(laterLabel.getText().endsWith("▼"),
+				assertTrue(laterLabel.getText().endsWith("[-]"),
 					"clicking the header's own label must toggle expansion, got: " + laterLabel.getText());
 			});
 		}
@@ -823,7 +823,7 @@ class RenderSmokeTest
 					System.currentTimeMillis(), 0, 1, 1, 1, false));
 
 				assertTrue(containsLabelContaining(panel, "Chop willow trees ×13,875"), "clicking the Woodcutting label must expand its route");
-				assertTrue(containsLabelContaining(panel, "60→75, +936,679 xp"), "route step must show levels and xp");
+				assertTrue(containsLabelContaining(panel, "60-75, +936,679 xp"), "route step must show levels and xp");
 				assertFalse(containsLabelContaining(panel, "Prayer potion(3) ×2"), "expanding Woodcutting must collapse Herblore");
 				assertTrue(containsComponentNamed(panel, Icons.PLACEHOLDER_NAME),
 					"a route output must render an item-icon label (placeholder without an ItemManager)");
@@ -965,6 +965,76 @@ class RenderSmokeTest
 	{
 		String text = c instanceof JLabel ? " '" + ((JLabel) c).getText() + "'" : "";
 		return c.getClass().getSimpleName() + text;
+	}
+
+	/**
+	 * Task 59 B: RuneLite's RuneScape font has no glyph for the arrows and triangles the panels
+	 * used ("61→62", "▶"/"▼"), which painted as boxes and bars. Every label in both panels, with
+	 * the detail's skill row expanded, must use only ASCII plus the few symbols the font does have.
+	 */
+	@Test
+	void panelsUseOnlyGlyphsTheRunescapeFontHas() throws Exception
+	{
+		Advice advice = craftChainFixture();
+
+		Consumer<String> noop = id -> { };
+		SuggestPanel.Actions actions = new SuggestPanel.Actions(noop, noop, noop, noop, noop, noop, noop, () -> { }, noop, noop);
+		GoalDetailPanel.Actions detailActions = new GoalDetailPanel.Actions(noop, () -> { });
+
+		try
+		{
+			SwingUtilities.invokeAndWait(() ->
+			{
+				SuggestPanel suggest = new SuggestPanel(actions, icons());
+				suggest.render(advice);
+				assertOnlyRenderableGlyphs(suggest);
+
+				GoalDetailPanel detail = new GoalDetailPanel(detailActions, icons());
+				detail.render(advice);
+				assertTrue(containsLabelContaining(detail, "Prayer potion(3)"), "the skill row must be expanded so its route renders");
+				assertOnlyRenderableGlyphs(detail);
+			});
+		}
+		catch (InvocationTargetException e)
+		{
+			if (e.getCause() instanceof HeadlessException)
+			{
+				Assumptions.abort("Headless environment cannot construct Swing components: " + e.getCause().getMessage());
+			}
+			throw e;
+		}
+	}
+
+	/** Task 59 B: no label text has a character above U+007F other than "×", "—" and "’" (the ones the RuneScape font renders). */
+	private static void assertOnlyRenderableGlyphs(Container container)
+	{
+		List<String> offenders = new ArrayList<>();
+		collectUnrenderableGlyphs(container, offenders);
+		assertTrue(offenders.isEmpty(), "labels with glyphs the RuneScape font lacks:\n" + String.join("\n", offenders));
+	}
+
+	private static void collectUnrenderableGlyphs(Container container, List<String> offenders)
+	{
+		for (Component child : container.getComponents())
+		{
+			if (child instanceof JLabel)
+			{
+				String text = ((JLabel) child).getText();
+				for (int i = 0; i < text.length(); i++)
+				{
+					char c = text.charAt(i);
+					if (c > 0x7F && "×—’".indexOf(c) < 0)
+					{
+						offenders.add(String.format("U+%04X in '%s'", (int) c, text));
+						break;
+					}
+				}
+			}
+			if (child instanceof Container)
+			{
+				collectUnrenderableGlyphs((Container) child, offenders);
+			}
+		}
 	}
 
 	/** Task 57: item images need an {@link net.runelite.client.game.ItemManager} (client-backed, so null here - placeholder path); skill icons come from the real resource-backed manager. */
