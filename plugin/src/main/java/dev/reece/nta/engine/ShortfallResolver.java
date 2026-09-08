@@ -51,7 +51,7 @@ public final class ShortfallResolver
 			.filter(candidate -> obtainable(candidate, route, skill, kb, snapshot))
 			.findFirst()
 			.orElse(null);
-		Shortfall alternative = obtainable == null || obtainable.equals(primary)
+		Shortfall alternative = obtainable == null || obtainable == primary
 			? null
 			: shortfallFor(obtainable, skill, route, kb, snapshot, null);
 		return shortfallFor(primary, skill, route, kb, snapshot, alternative);

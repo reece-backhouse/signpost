@@ -290,9 +290,9 @@ class ShortfallResolverTest
 		assertNull(covered.getAlternative());
 	}
 
-	/** The live case from the Task 60 brief: a GIM at Herblore 62 heading for 70 with nothing banked gets a method it can gather for. */
+	/** The live case from the Task 60 brief, on the bundled KB after the Kwuarm farm loop landed: every Weapon poison material is plannable. */
 	@Test
-	void anIronAtHerbloreSixtyTwoOnTheRealKbGetsAnAlternativeWhoseMaterialsAllHavePlans()
+	void anIronAtHerbloreSixtyTwoOnTheRealKbKeepsWeaponPoisonWithNoAlternative()
 	{
 		KnowledgeBase kb = KnowledgeBase.load(new Gson());
 		long fromXp = Experience.getXpForLevel(62);
@@ -301,24 +301,89 @@ class ShortfallResolverTest
 
 		Shortfall shortfall = ShortfallResolver.resolve(Skill.HERBLORE, route, kb, new SnapshotBuilder().iron().build());
 
-		// The fastest method at 62 is never hidden, whatever the KB's plan coverage.
-		assertEquals(RoutePlanner.candidatesAt(Skill.HERBLORE, 62, kb).get(0), shortfall.getMethod());
+		assertEquals("Weapon poison", shortfall.getMethod().getName());
+		// Kwuarm potion (unf) crafts from Kwuarm (farm loop plan) + Vial of water (plan); Dragon scale dust has a plan.
+		assertNull(shortfall.getAlternative(), "the primary is itself obtainable");
 		assertEquals(toXp - fromXp, shortfall.getXpShort());
 		assertTrue(shortfall.getActionsNeeded() > 0);
-		// Either the primary is itself obtainable (no alternative), or the alternative is fully gatherable.
-		// With the bundled KB at the time of writing: primary Weapon poison, alternative Prayer potion(3).
+	}
+
+	/** Real-data alternative path: at 55 the fastest method is Goading potion (Aldarium, no plan); Super strength is fully plannable. */
+	@Test
+	void anIronAtHerbloreFiftyFiveOnTheRealKbIsOfferedSuperStrengthAsTheAlternative()
+	{
+		KnowledgeBase kb = KnowledgeBase.load(new Gson());
+		long fromXp = Experience.getXpForLevel(55);
+		long toXp = Experience.getXpForLevel(60);
+		Route route = new Route(List.of(), toXp - fromXp, fromXp, Map.of());
+
+		Shortfall shortfall = ShortfallResolver.resolve(Skill.HERBLORE, route, kb, new SnapshotBuilder().iron().build());
+
+		assertEquals("Goading potion(3)", shortfall.getMethod().getName());
 		Shortfall alternative = shortfall.getAlternative();
-		if (alternative != null)
+		assertEquals("Super strength(3)", alternative.getMethod().getName());
+		assertFalse(alternative.getItems().isEmpty());
+		for (ShortfallItem item : alternative.getItems())
 		{
-			assertFalse(alternative.getItems().isEmpty());
-			for (ShortfallItem item : alternative.getItems())
-			{
-				assertFalse(item.getPlans().isEmpty(), item.getItem().getName() + " has no gathering plan");
-			}
-			assertEquals(toXp - fromXp, alternative.getXpShort());
-			assertTrue(alternative.getActionsNeeded() > 0);
-			assertNull(alternative.getAlternative());
+			assertFalse(item.getPlans().isEmpty(), item.getItem().getName() + " has no gathering plan");
 		}
+		assertEquals(toXp - fromXp, alternative.getXpShort());
+		assertTrue(alternative.getActionsNeeded() > 0);
+		assertNull(alternative.getAlternative());
+	}
+
+	@Test
+	void aBankThatCoversThePrimarysNeedMakesItObtainableWithoutAnyPlan()
+	{
+		KnowledgeBase kb = weaponPoisonVsPrayerPotionKb(false);
+		long finalXp = Experience.getXpForLevel(62);
+		Snapshot iron = new SnapshotBuilder().iron().build();
+
+		// ceil(1000 / 137.5) = 8 Kwuarm potion (unf): exactly enough covers Weapon poison, one short does not.
+		Shortfall covered = ShortfallResolver.resolve(Skill.HERBLORE, new Route(List.of(), 1000, finalXp, Map.of(KWUARM_UNF, 8)), kb, iron);
+		Shortfall oneShort = ShortfallResolver.resolve(Skill.HERBLORE, new Route(List.of(), 1000, finalXp, Map.of(KWUARM_UNF, 7)), kb, iron);
+
+		assertEquals("Weapon poison", covered.getMethod().getName());
+		assertNull(covered.getAlternative());
+		assertEquals("Prayer potion(3)", oneShort.getAlternative().getMethod().getName());
+	}
+
+	@Test
+	void aCraftChainIsNotFollowedPastOneLevel()
+	{
+		final int TOP = 600;
+		final int MID = 601;
+		final int RAW = 602;
+		final int PLANNED = 603;
+		KnowledgeBase kb = new KbBuilder()
+			.method(Skill.HERBLORE, "Fast", 1, 100)
+			.material(TOP, 1)
+			.method(Skill.HERBLORE, "Slow", 1, 10)
+			.material(PLANNED, 1)
+			.method(Skill.HERBLORE, "Make top", 1, 0)
+			.material(MID, 1)
+			.output(TOP, 1)
+			.intermediate()
+			.method(Skill.HERBLORE, "Make mid", 1, 0)
+			.material(RAW, 1)
+			.output(MID, 1)
+			.intermediate()
+			.material("Top", TOP)
+			.source("craft", "Make top")
+			.material("Mid", MID)
+			.source("craft", "Make mid")
+			.material("Raw", RAW)
+			.material("Planned", PLANNED)
+			.gatheringPlan("Raw", RAW)
+			.gatheringPlan("Planned", PLANNED)
+			.build();
+		Route route = new Route(List.of(), 1000, 0, Map.of());
+
+		Shortfall shortfall = ShortfallResolver.resolve(Skill.HERBLORE, route, kb, new SnapshotBuilder().iron().build());
+
+		assertEquals("Fast", shortfall.getMethod().getName());
+		// Top -> Mid is followed; Mid -> Raw (whose plan would rescue it) is not.
+		assertEquals("Slow", shortfall.getAlternative().getMethod().getName());
 	}
 
 	private static final int KWUARM_UNF = 500;
@@ -327,7 +392,8 @@ class ShortfallResolverTest
 	private static final int RANARR = 503;
 	private static final int SNAPE_GRASS = 504;
 
-	/** Weapon poison (137.5 xp, kwuarm unf crafted from a drop-only kwuarm) vs Prayer potion (87.5 xp, ranarr + snape grass, both with plans). */
+	/** Weapon poison (137.5 xp, kwuarm unf crafted only from a drop-only kwuarm, no GE anywhere so {@code kwuarmInShop} is the sole
+	 * non-iron route) vs Prayer potion (87.5 xp, ranarr + snape grass, both with plans). */
 	private static KnowledgeBase weaponPoisonVsPrayerPotionKb(boolean kwuarmInShop)
 	{
 		KbBuilder kb = new KbBuilder()
@@ -347,10 +413,8 @@ class ShortfallResolverTest
 			.output(RANARR_UNF, 1)
 			.intermediate()
 			.material("Kwuarm potion (unf)", KWUARM_UNF)
-			.source("GE", "Grand Exchange")
 			.source("craft", "Kwuarm potion (unf)")
 			.material("Kwuarm", KWUARM)
-			.source("GE", "Grand Exchange")
 			.source("drop", "Sorceress's Garden");
 		if (kwuarmInShop)
 		{
