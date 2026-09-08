@@ -336,6 +336,24 @@ class ShortfallResolverTest
 		assertTrue(bought.getUnobtainable().isEmpty(), "a normal account buys Kwuarm from the shop");
 	}
 
+	/** Task 61 review: a leaf reached twice (here, the same material listed twice) is named once, in first-seen order. */
+	@Test
+	void unobtainableNamesAreDeduplicated()
+	{
+		final int KWUARM = 263;
+		KnowledgeBase kb = new KbBuilder()
+			.method(Skill.HERBLORE, "Double kwuarm", 1, 10)
+			.material(KWUARM, 1)
+			.material(KWUARM, 1)
+			.material("Kwuarm", KWUARM)
+			.source("drop", "Chaos druids")
+			.build();
+
+		Shortfall shortfall = ShortfallResolver.resolve(Skill.HERBLORE, new Route(List.of(), 10, 0, Map.of()), kb, new SnapshotBuilder().iron().build());
+
+		assertEquals(List.of("Kwuarm"), shortfall.getUnobtainable());
+	}
+
 	/** The live case from the Task 60 brief, on the bundled KB after the Kwuarm farm loop landed: every Weapon poison material is plannable. */
 	@Test
 	void anIronAtHerbloreSixtyTwoOnTheRealKbKeepsWeaponPoisonWithNoAlternative()

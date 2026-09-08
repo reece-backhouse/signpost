@@ -734,7 +734,6 @@ public class GoalDetailPanel extends JPanel
 		return null;
 	}
 
-	/** "29,750" - always comma-grouped, whatever the JVM's default locale. */
 	/** ": <method> ×<actions>" for a shortfall header, or ":" when the engine named no method. */
 	private static String methodAndActions(Shortfall shortfall)
 	{

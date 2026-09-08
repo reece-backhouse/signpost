@@ -18,8 +18,10 @@ import dev.reece.nta.snapshot.AccountType;
 import dev.reece.nta.snapshot.SkillState;
 import dev.reece.nta.snapshot.Snapshot;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import net.runelite.api.Quest;
 import net.runelite.api.QuestState;
 import net.runelite.api.Skill;
@@ -77,11 +79,11 @@ public final class ShortfallResolver
 			unobtainable(items, skill, simulatedBank, kb, snapshot));
 	}
 
-	/** Task 61: the names of the materials {@link #obtainable} rejects - descending into a craft chain to name its leaves. */
+	/** Task 61: the names of the materials {@link #obtainable} rejects - descending into a craft chain to name its leaves, each once. */
 	private static List<String> unobtainable(List<ShortfallItem> items, Skill skill, Map<Integer, Integer> simulatedBank,
 		KnowledgeBase kb, Snapshot snapshot)
 	{
-		List<String> names = new ArrayList<>();
+		Set<String> names = new LinkedHashSet<>();
 		for (ShortfallItem item : items)
 		{
 			if (obtainable(item.getItem(), item.getNeed(), simulatedBank, skill, kb, snapshot, false))
