@@ -89,7 +89,7 @@ public final class SnapshotCollector
 		Map<Integer, Boolean> combatAchievementTiers = new HashMap<>();
 		for (int varbitId : COMBAT_ACHIEVEMENT_TIER_VARBITS)
 		{
-			combatAchievementTiers.put(varbitId, client.getVarbitValue(varbitId) != 0);
+			combatAchievementTiers.put(varbitId, isCombatAchievementTierComplete(client.getVarbitValue(varbitId)));
 		}
 
 		return Snapshot.builder()
@@ -140,6 +140,18 @@ public final class SnapshotCollector
 	public static boolean isRealItem(Item item)
 	{
 		return item.getId() > 0 && item.getQuantity() > 0;
+	}
+
+	/**
+	 * A combat achievement tier counts as complete only once its rewards are claimed. Evidence:
+	 * RuneLite's {@code Varbits.COMBAT_ACHIEVEMENT_TIER_*} javadoc documents these varbits as
+	 * "2 = completed", and Gielinor Compass reads them as {@code >= 2}; value 1 is the
+	 * tasks-done-but-unclaimed state the old {@code != 0} check wrongly counted as done.
+	 * Dev-client observation of the 0/1/2 values on a live account is still pending (RL-002 AC3).
+	 */
+	static boolean isCombatAchievementTierComplete(int status)
+	{
+		return status >= 2;
 	}
 
 	private static void collectItemNames(ItemManager itemManager, Map<Integer, String> itemNames, Iterable<Integer> ids)
