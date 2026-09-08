@@ -6,14 +6,13 @@ import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
 import net.runelite.api.Client;
-import net.runelite.api.InventoryID;
 import net.runelite.api.Item;
 import net.runelite.api.ItemContainer;
 import net.runelite.api.Quest;
 import net.runelite.api.QuestState;
 import net.runelite.api.Skill;
-import net.runelite.api.VarPlayer;
-import net.runelite.api.Varbits;
+import net.runelite.api.gameval.InventoryID;
+import net.runelite.api.gameval.VarPlayerID;
 import net.runelite.api.gameval.VarbitID;
 import net.runelite.client.game.ItemManager;
 
@@ -24,32 +23,34 @@ import net.runelite.client.game.ItemManager;
 public final class SnapshotCollector
 {
 	private static final int[] COMBAT_ACHIEVEMENT_TIER_VARBITS = {
-		Varbits.COMBAT_ACHIEVEMENT_TIER_EASY,
-		Varbits.COMBAT_ACHIEVEMENT_TIER_MEDIUM,
-		Varbits.COMBAT_ACHIEVEMENT_TIER_HARD,
-		Varbits.COMBAT_ACHIEVEMENT_TIER_ELITE,
-		Varbits.COMBAT_ACHIEVEMENT_TIER_MASTER,
-		Varbits.COMBAT_ACHIEVEMENT_TIER_GRANDMASTER,
+		VarbitID.CA_TIER_STATUS_EASY,
+		VarbitID.CA_TIER_STATUS_MEDIUM,
+		VarbitID.CA_TIER_STATUS_HARD,
+		VarbitID.CA_TIER_STATUS_ELITE,
+		VarbitID.CA_TIER_STATUS_MASTER,
+		VarbitID.CA_TIER_STATUS_GRANDMASTER,
 	};
 
 	private SnapshotCollector()
 	{
 	}
 
-	public static Snapshot collect(Client client, ItemManager itemManager, CachedBank bank, KnowledgeBase kb)
+	/** {@code countGroupStorage} is the "Count group storage" toggle (RL-003 AC5): off, the cached storage is left out of the snapshot (kept in memory and on disk). */
+	public static Snapshot collect(Client client, ItemManager itemManager, CachedBank bank, CachedBank groupStorage, boolean countGroupStorage,
+		KnowledgeBase kb)
 	{
 		if (!client.isClientThread())
 		{
 			throw new IllegalStateException("SnapshotCollector.collect must run on the client thread");
 		}
+		if (!countGroupStorage)
+		{
+			groupStorage = CachedBank.unknown();
+		}
 
 		Map<Skill, SkillState> skills = new EnumMap<>(Skill.class);
 		for (Skill skill : Skill.values())
 		{
-			if (skill == Skill.OVERALL)
-			{
-				continue;
-			}
 			skills.put(skill, new SkillState(client.getRealSkillLevel(skill), client.getSkillExperience(skill)));
 		}
 
@@ -59,11 +60,12 @@ public final class SnapshotCollector
 			quests.put(quest, quest.getState(client));
 		}
 
-		Map<Integer, Integer> inventory = readContainer(client, InventoryID.INVENTORY);
-		Map<Integer, Integer> equipment = readContainer(client, InventoryID.EQUIPMENT);
+		Map<Integer, Integer> inventory = readContainer(client, InventoryID.INV);
+		Map<Integer, Integer> equipment = readContainer(client, InventoryID.WORN);
 
 		Map<Integer, String> itemNames = new HashMap<>();
 		collectItemNames(itemManager, itemNames, bank.getItems().keySet());
+		collectItemNames(itemManager, itemNames, groupStorage.getItems().keySet());
 		collectItemNames(itemManager, itemNames, inventory.keySet());
 		collectItemNames(itemManager, itemNames, equipment.keySet());
 
@@ -94,12 +96,12 @@ public final class SnapshotCollector
 		Map<Integer, Boolean> combatAchievementTiers = new HashMap<>();
 		for (int varbitId : COMBAT_ACHIEVEMENT_TIER_VARBITS)
 		{
-			combatAchievementTiers.put(varbitId, client.getVarbitValue(varbitId) != 0);
+			combatAchievementTiers.put(varbitId, isCombatAchievementTierComplete(client.getVarbitValue(varbitId)));
 		}
 
 		return Snapshot.builder()
 			.accountHash(client.getAccountHash())
-			.accountType(AccountType.fromVarbit(client.getVarbitValue(Varbits.ACCOUNT_TYPE)))
+			.accountType(AccountType.fromVarbit(client.getVarbitValue(VarbitID.IRONMAN)))
 			.skills(skills)
 			.quests(quests)
 			.bank(bank.getItems())
@@ -113,12 +115,16 @@ public final class SnapshotCollector
 			.combatAchievementTiers(combatAchievementTiers)
 			.bankKnown(bank.isKnown())
 			.bankAsOf(bank.getAsOf())
-			.questPoints(client.getVarpValue(VarPlayer.QUEST_POINTS))
+			.groupStorage(groupStorage.getItems())
+			.groupStorageKnown(groupStorage.isKnown())
+			.groupStorageAsOf(groupStorage.getAsOf())
+			.groupStorageEnabled(countGroupStorage)
+			.questPoints(client.getVarpValue(VarPlayerID.QP))
 			.kudos(client.getVarbitValue(VarbitID.VM_KUDOS))
 			.build();
 	}
 
-	private static Map<Integer, Integer> readContainer(Client client, InventoryID inventoryId)
+	private static Map<Integer, Integer> readContainer(Client client, int inventoryId)
 	{
 		ItemContainer container = client.getItemContainer(inventoryId);
 		if (container == null)
@@ -145,6 +151,18 @@ public final class SnapshotCollector
 	public static boolean isRealItem(Item item)
 	{
 		return item.getId() > 0 && item.getQuantity() > 0;
+	}
+
+	/**
+	 * A combat achievement tier counts as complete only once its rewards are claimed. Evidence:
+	 * RuneLite's {@code Varbits.COMBAT_ACHIEVEMENT_TIER_*} javadoc documents these varbits as
+	 * "2 = completed", and Gielinor Compass reads them as {@code >= 2}; value 1 is the
+	 * tasks-done-but-unclaimed state the old {@code != 0} check wrongly counted as done.
+	 * Dev-client observation of the 0/1/2 values on a live account is still pending (RL-002 AC3).
+	 */
+	static boolean isCombatAchievementTierComplete(int status)
+	{
+		return status >= 2;
 	}
 
 	private static void collectItemNames(ItemManager itemManager, Map<Integer, String> itemNames, Iterable<Integer> ids)

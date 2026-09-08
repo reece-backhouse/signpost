@@ -23,6 +23,7 @@ import dev.reece.nta.engine.model.RouteStep;
 import dev.reece.nta.engine.model.Shortfall;
 import dev.reece.nta.engine.model.ShortfallItem;
 import dev.reece.nta.engine.model.SkillLevelGap;
+import dev.reece.nta.engine.Eta;
 import dev.reece.nta.engine.model.SkillPlan;
 import dev.reece.nta.kb.GatheringAlternative;
 import dev.reece.nta.kb.GatheringPlan;
@@ -36,7 +37,6 @@ import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Graphics;
 import java.awt.Insets;
 import java.awt.LayoutManager;
 import java.awt.event.MouseAdapter;
@@ -344,6 +344,12 @@ public class GoalDetailPanel extends JPanel
 		if (g.isRecommended())
 		{
 			text.append(recommendedTag());
+		}
+		// RL-012 AC3/AC4 (spec ruling 34): time left at the observed rate, over the xp the bank steps don't cover
+		String eta = Eta.text(Eta.remainingXp(plan.getRoute(), plan.getToXp() - plan.getFromXp()), currentAdvice.getXpPerHour().get(g.getSkill()));
+		if (eta != null)
+		{
+			text.append(" <span style='color:" + Icons.hex(ColorScheme.LIGHT_GRAY_COLOR) + "'>").append(eta).append("</span>");
 		}
 		JPanel east = new NoStretchPanel();
 		east.setLayout(new BoxLayout(east, BoxLayout.X_AXIS));
@@ -677,6 +683,13 @@ public class GoalDetailPanel extends JPanel
 		if (!step.getMaterialsUsed().isEmpty())
 		{
 			text.add(materialChips(step));
+			String note = groupStorageNote(step);
+			if (note != null)
+			{
+				JLabel line3 = label(note, width);
+				line3.setForeground(ColorScheme.LIGHT_GRAY_COLOR);
+				text.add(line3);
+			}
 		}
 
 		container.add(iconRow(icon, text, null, indent));
@@ -685,6 +698,25 @@ public class GoalDetailPanel extends JPanel
 			container.add(stepRows(craft, "craft ", indent + 1));
 		}
 		return container;
+	}
+
+	/**
+	 * RL-003 AC3: "in group storage: Ranarr weed 200, Vial of water 100" from the step's
+	 * {@link RouteStep#getFromGroupStorage()}, or null when empty. Walks the method's own material
+	 * list so the order is stable.
+	 */
+	private static String groupStorageNote(RouteStep step)
+	{
+		List<String> parts = new ArrayList<>();
+		for (ItemQuantity material : step.getMethod().getMaterials())
+		{
+			int share = material.getId() == null ? 0 : step.getFromGroupStorage().getOrDefault(material.getId(), 0);
+			if (share > 0)
+			{
+				parts.add(material.getName() + " " + thousands(share));
+			}
+		}
+		return parts.isEmpty() ? null : "in group storage: " + String.join(", ", parts);
 	}
 
 	private static String stepName(RouteStep step)
@@ -775,8 +807,10 @@ public class GoalDetailPanel extends JPanel
 			? "<span style='color:" + Icons.hex(ColorScheme.PROGRESS_ERROR_COLOR) + "'>short " + shortQty + "</span>"
 			: "<span style='color:" + Icons.hex(ColorScheme.PROGRESS_COMPLETE_COLOR) + "'>covered</span>";
 		// task 59: lead with the shortage; the label's grey foreground colours everything but the span
+		int inGroupStorage = item.getInGroupStorage();
 		JLabel text = htmlLabel(SuggestPanel.escape(item.getItem().getName()) + ": " + shortText
-			+ " (have " + item.getHave() + ", need " + item.getNeed() + ")", textWidth(indent, icon, null));
+			+ " (have " + item.getHave() + ", need " + item.getNeed()
+			+ (inGroupStorage > 0 ? "; in group storage: " + inGroupStorage : "") + ")", textWidth(indent, icon, null));
 		text.setForeground(ColorScheme.LIGHT_GRAY_COLOR);
 		Icons.linkToWiki(text, wikiUrl);
 		container.add(iconRow(icon, text, null, indent));
@@ -983,45 +1017,6 @@ public class GoalDetailPanel extends JPanel
 		{
 			target.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 			target.addMouseListener(listener);
-		}
-	}
-
-	/** Task 57: a 4px level-progress bar (has no look-and-feel dependency, unlike {@code JProgressBar}). */
-	private static final class ProgressBar extends JComponent
-	{
-		private final double fraction;
-		private final Color color;
-
-		ProgressBar(double fraction, Color color)
-		{
-			this.fraction = Math.max(0, Math.min(1, fraction));
-			this.color = color;
-			setAlignmentX(Component.LEFT_ALIGNMENT);
-		}
-
-		@Override
-		public Dimension getPreferredSize()
-		{
-			Insets in = getInsets();
-			return new Dimension(40 + in.left + in.right, 4 + in.top + in.bottom);
-		}
-
-		@Override
-		public Dimension getMaximumSize()
-		{
-			return new Dimension(Integer.MAX_VALUE, getPreferredSize().height);
-		}
-
-		@Override
-		protected void paintComponent(Graphics g)
-		{
-			Insets in = getInsets();
-			int w = getWidth() - in.left - in.right;
-			int h = getHeight() - in.top - in.bottom;
-			g.setColor(ColorScheme.MEDIUM_GRAY_COLOR);
-			g.fillRect(in.left, in.top, w, h);
-			g.setColor(color);
-			g.fillRect(in.left, in.top, (int) Math.round(w * fraction), h);
 		}
 	}
 

@@ -79,6 +79,13 @@ public final class WhyBuilder
 			clauses.add("bank unknown");
 		}
 
+		// RL-003: unseen group storage counts as empty (never blocks "Ready now"), so say it was never
+		// seen - unless the toggle is off, when there is nothing to open.
+		if (clauses.size() < MAX_CLAUSES && s.getAccountType().isGroup() && s.isGroupStorageEnabled() && !s.isGroupStorageKnown())
+		{
+			clauses.add("group storage not seen");
+		}
+
 		if (clauses.size() < MAX_CLAUSES && hasRecommendedGaps(gaps))
 		{
 			clauses.add(recommendedClause(gaps));
@@ -134,7 +141,7 @@ public final class WhyBuilder
 	/**
 	 * Spec ruling 29: the "Why?" behind a suggestion, one line each, in order - a skill target's
 	 * parents and bank coverage; recommended gear met (with names); stats met; what is missing
-	 * (with have/need); a stage warning; "Ready now". Every line is at most 90 characters, never
+	 * (with have/need); a bank-unknown note; a stage warning; "Ready now". Every line is at most 90 characters, never
 	 * ends with a period; at most six lines, always at least one.
 	 */
 	public List<String> explain(RankedGoal r, KnowledgeBase kb, Snapshot s, int accountStage)
@@ -181,6 +188,12 @@ public final class WhyBuilder
 		if (!skillTarget && !status.getGaps().isEmpty())
 		{
 			lines.add(listLine("Missing: ", missingItems(status), MAX_MISSING));
+		}
+
+		// RL-011 AC4: an item requirement with no bank to check against counts as missing
+		if (status.isBankUnknown())
+		{
+			lines.add("Bank not seen yet, materials assumed missing");
 		}
 
 		if (goal.getStage() > accountStage)
@@ -415,9 +428,7 @@ public final class WhyBuilder
 	{
 		for (OwnedItem owned : entry.getOwnedIf())
 		{
-			if (s.getInventory().getOrDefault(owned.getId(), 0) > 0
-				|| s.getEquipment().getOrDefault(owned.getId(), 0) > 0
-				|| s.getBank().getOrDefault(owned.getId(), 0) > 0)
+			if (GapEngine.anyIdHeld(owned.getIds(), s))
 			{
 				return true;
 			}

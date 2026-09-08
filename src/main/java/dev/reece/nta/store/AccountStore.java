@@ -69,9 +69,20 @@ public class AccountStore
 		}
 	}
 
-	/** Gson leaves a collection field null when the JSON omits it (hand-edited or truncated file); {@link AccountData#copy()} and every mutation assume non-null. */
+	/**
+	 * Gson leaves a collection field null when the JSON omits it (hand-edited or truncated file); {@link AccountData#copy()} and every mutation assume non-null.
+	 * A version-1 file (RL-003) has no group storage: it upgrades to {@link AccountData#CURRENT_VERSION} with an empty, unseen map.
+	 */
 	private static AccountData withDefaults(AccountData data)
 	{
+		if (data.getGroupStorage() == null)
+		{
+			data.setGroupStorage(new HashMap<>());
+		}
+		if (data.getVersion() < AccountData.CURRENT_VERSION)
+		{
+			data.setVersion(AccountData.CURRENT_VERSION);
+		}
 		if (data.getBank() == null)
 		{
 			data.setBank(new HashMap<>());

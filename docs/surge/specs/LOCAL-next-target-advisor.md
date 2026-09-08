@@ -171,20 +171,71 @@ option; cost-if-wrong noted.
     offered a lower-xp alternative when the KB lacks a plan for a gatherable
     herb; fix by curating gathering.json.
 
-31. **Ruling (RL-006/RL-007, 2026-09-08): milestones can be outfits, can
-    speed up a skill, and can depend on another milestone.** `ownedIfMin`
-    (default 1) is how many distinct `ownedIf` items must be held before a
-    milestone counts as owned, so a four-piece outfit is a goal until all
-    four are in the bank and the card says "2/4 pieces"; `speedsUp` names the
-    skill a method-linked untradeable accelerates, and the why line says
-    "speeds up Mining (your next Mining target)" when a skill target for that
-    skill is ranked. `prerequisite` names a milestone that must be owned
-    first: while it is still a goal the dependant carries a `PrerequisiteGap`
-    (so it is never ready and the prerequisite ranks ahead of it), and "Own
-    it" on the prerequisite counts as met; unknown ids and cycles fail at
-    load. Category `poh` is a built house room or furniture: never
-    auto-detected, finished only by "Own it", with a `notes` line saying so
-    - cost: none.
+31. **Ruling (ticket RL-011, 2026-09-08): `Advice.completedSinceLast`.**
+    `Engine.run` takes the previous `Advice` (nullable) and lists every goal
+    it had a status for that the new run has none for, except goals in
+    `ownedManually` (marked done by hand, not completed) and skill targets
+    whose level the snapshot has not reached (a target also disappears when
+    its parent is hidden or the account stage moves on). The plugin passes
+    its cached advice on both run paths; the panel accumulates the names for
+    the session ("Achieved this session") and shows the newest as a "Done:"
+    strip until the next user action. The engine stays pure - the previous
+    advice is just another input — cost: none.
+
+34. **Ruling (ticket RL-012, 2026-09-08): ETA from the observed xp rate.**
+    The plugin keeps a per-skill in-memory ring of (time, xp) samples from
+    `StatChanged`, bounded to the last 30 minutes and never persisted.
+    Leading samples with no gain (the login baseline, idle boost drains) are
+    skipped so the window starts at the first sample that gained xp; the
+    rate is ready once that window spans >= 5 minutes of training with >= 2
+    samples and xp gained first-to-last, and is that first-to-last slope in
+    xp/h. A mid-session AFK gap still dilutes it (same as the XP Tracker). `Engine.run` takes `Map<Skill, Long> xpPerHour` as plain data and
+    carries it on `Advice.xpPerHour`; `Eta.text` turns the xp still to
+    train - the route's `uncoveredXp` when a route exists, else the raw gap -
+    into "about 45 min at 38k/h" (minutes rounded up, hours split out past
+    60, rate to the nearest thousand). The detail view's skill row and the
+    skill-target card append it; nothing shows without a ready rate or with
+    no xp left. A rate becoming ready triggers one re-snapshot so the ETA
+    appears mid-session without a level-up — cost: the ETA otherwise
+    refreshes only on the next engine run (level-up, bank close, Refresh).
+
+35. **Ruling (RL-003, 2026-09-08): group ironman shared storage is one
+    ownership pool with the bank.** The plugin caches `InventoryID.INV_GROUP_TEMP`
+    on `ItemContainerChanged` exactly like the bank and persists it (with
+    `groupStorageAsOf`) when `InterfaceID.SHARED_BANK` closes, only on
+    GROUP/HARDCORE_GROUP/UNRANKED_GROUP accounts and only while the "Count
+    group storage" toggle (default on) is set; off stops the read and the
+    ownership contribution but keeps the cached copy (`ConfigChanged` on the
+    key requests a snapshot; the header then reads "Group storage: off").
+    `GapEngine.anyIdHeld`, the item sums and `NextStepPicker.bankAll` add the
+    storage to the bank; `GroupStorageShares.apply` (called once per
+    `SkillPlan` in `Engine.computeSkillPlans`) spends the storage first across
+    the route's steps and crafts in planner order and sets each shortfall
+    line's share to min(have, left) without consuming, since those lines
+    restate one have; the detail view only prints `RouteStep.fromGroupStorage`
+    and `ShortfallItem.inGroupStorage`. Unlike the bank, unseen storage is
+    treated as empty - it never makes a goal's readiness unknown - and the
+    why line says "group storage not seen" instead. `AccountData.version`
+    is 2; a version-1 file upgrades on load with an empty, unseen map - cost:
+    a GIM who never opens the shared storage is still told to grind what a
+    teammate banked, exactly as before this ruling.
+
+36. **Ruling (RL-006, 2026-09-08): milestones can be outfits and can speed
+    up a skill.** `ownedIfMin` (default 1) is how many distinct `ownedIf`
+    items must be held before a milestone counts as owned, so a four-piece
+    outfit is a goal until all four are in the bank and the card says "2/4
+    pieces"; `speedsUp` names the skill a method-linked untradeable
+    accelerates, and the why line says "speeds up Mining (your next Mining
+    target)" when a skill target for that skill is ranked - cost: none.
+
+37. **Ruling (RL-007, 2026-09-08): a milestone can depend on another
+    milestone.** `prerequisite` names a milestone that must be owned first:
+    while it is still a goal the dependant carries a `PrerequisiteGap`, is
+    never ready, and the ranker places it after its prerequisite whatever the
+    scores say; "Own it" on the prerequisite counts as met; unknown ids and
+    cycles fail at load. Category `poh` is a built house room or furniture:
+    never auto-detected, finished only by "Own it", with a `notes` line
+    saying so - cost: none.
 
 Rulings from the grill (docs/surge/reviews/LOCAL-next-target-advisor.md):
 

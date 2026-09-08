@@ -33,6 +33,12 @@ public class Snapshot
 	Map<Integer, Boolean> combatAchievementTiers;
 	boolean bankKnown;
 	Instant bankAsOf;
+	/** RL-003: the group ironman shared storage, cached like the bank; empty (and not known) on any other account type or when the "Count group storage" toggle is off. */
+	Map<Integer, Integer> groupStorage;
+	boolean groupStorageKnown;
+	Instant groupStorageAsOf;
+	/** RL-003 AC5: false when the "Count group storage" toggle is off - the header then says "off" rather than "not seen". */
+	boolean groupStorageEnabled;
 	int questPoints;
 	int kudos;
 
@@ -53,6 +59,10 @@ public class Snapshot
 		Map<Integer, Boolean> combatAchievementTiers,
 		boolean bankKnown,
 		Instant bankAsOf,
+		Map<Integer, Integer> groupStorage,
+		boolean groupStorageKnown,
+		Instant groupStorageAsOf,
+		boolean groupStorageEnabled,
 		int questPoints,
 		int kudos)
 	{
@@ -71,6 +81,10 @@ public class Snapshot
 		this.combatAchievementTiers = copyOf(combatAchievementTiers);
 		this.bankKnown = bankKnown;
 		this.bankAsOf = bankAsOf;
+		this.groupStorage = copyOf(groupStorage);
+		this.groupStorageKnown = groupStorageKnown;
+		this.groupStorageAsOf = groupStorageAsOf;
+		this.groupStorageEnabled = groupStorageEnabled;
 		this.questPoints = questPoints;
 		this.kudos = kudos;
 	}
@@ -89,6 +103,16 @@ public class Snapshot
 			.bank(cachedBank.getItems())
 			.bankKnown(cachedBank.isKnown())
 			.bankAsOf(cachedBank.getAsOf())
+			.build();
+	}
+
+	/** Returns a copy of this snapshot with the group storage fields replaced from {@code cached}. */
+	public Snapshot withGroupStorage(CachedBank cached)
+	{
+		return toBuilder()
+			.groupStorage(cached.getItems())
+			.groupStorageKnown(cached.isKnown())
+			.groupStorageAsOf(cached.getAsOf())
 			.build();
 	}
 

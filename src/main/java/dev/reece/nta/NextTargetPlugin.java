@@ -11,6 +11,7 @@ import dev.reece.nta.engine.GapFingerprint;
 import dev.reece.nta.engine.model.Advice;
 import dev.reece.nta.engine.model.GoalStatus;
 import dev.reece.nta.kb.KnowledgeBase;
+import dev.reece.nta.snapshot.AccountType;
 import dev.reece.nta.snapshot.CachedBank;
 import dev.reece.nta.snapshot.DiaryTier;
 import dev.reece.nta.snapshot.Snapshot;
@@ -34,21 +35,24 @@ import javax.swing.SwingUtilities;
 import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.Client;
 import net.runelite.api.GameState;
-import net.runelite.api.InventoryID;
 import net.runelite.api.Item;
 import net.runelite.api.Skill;
-import net.runelite.api.VarPlayer;
 import net.runelite.api.events.GameStateChanged;
 import net.runelite.api.events.GameTick;
 import net.runelite.api.events.ItemContainerChanged;
 import net.runelite.api.events.StatChanged;
 import net.runelite.api.events.VarbitChanged;
 import net.runelite.api.events.WidgetClosed;
+import net.runelite.api.events.WidgetLoaded;
 import net.runelite.api.gameval.InterfaceID;
+import net.runelite.api.gameval.InventoryID;
+import net.runelite.api.gameval.VarPlayerID;
+import net.runelite.api.gameval.VarbitID;
 import net.runelite.client.RuneLite;
 import net.runelite.client.callback.ClientThread;
 import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.Subscribe;
+import net.runelite.client.events.ConfigChanged;
 import net.runelite.client.game.ItemManager;
 import net.runelite.client.game.SkillIconManager;
 import net.runelite.client.plugins.Plugin;
@@ -87,6 +91,8 @@ public class NextTargetPlugin extends Plugin
 	private NextTargetConfig config;
 
 	private final Map<Skill, Integer> lastLevel = new EnumMap<>(Skill.class);
+	/** RL-012: per-skill xp samples from {@link #onStatChanged}; session-only, cleared with {@link #lastLevel}. */
+	private final XpRateTracker xpRates = new XpRateTracker();
 
 	private EngineRunner runner;
 	private Engine engine;
@@ -95,6 +101,7 @@ public class NextTargetPlugin extends Plugin
 	private NavigationButton navButton;
 
 	private volatile CachedBank cachedBank = CachedBank.unknown();
+	private volatile CachedBank cachedGroupStorage = CachedBank.unknown();
 	private volatile AccountData accountData;
 	private volatile long accountHash;
 	private volatile boolean accountLoaded;
@@ -118,10 +125,12 @@ public class NextTargetPlugin extends Plugin
 		engine = new Engine(new BoostTable());
 		store = new AccountStore(new File(RuneLite.RUNELITE_DIR, "next-target").toPath(), gson);
 		cachedBank = CachedBank.unknown();
+		cachedGroupStorage = CachedBank.unknown();
 		kb = null;
 		cachedSnapshot = null;
 		cachedAdvice = null;
 		lastLevel.clear();
+		xpRates.clear();
 
 		SuggestPanel.Actions actions = new SuggestPanel.Actions(
 			this::focus,
@@ -133,7 +142,8 @@ public class NextTargetPlugin extends Plugin
 			this::unignore,
 			this::clearFocus,
 			this::markOwned,
-			this::unmarkOwned);
+			this::unmarkOwned,
+			config::snoozeDays);
 		GoalDetailPanel.Actions detailActions = new GoalDetailPanel.Actions(this::focus, this::clearFocus);
 		panel = new NextTargetPanel(this::requestSnapshot, actions, detailActions, itemManager, skillIconManager);
 		BufferedImage icon = ImageUtil.loadImageResource(NextTargetPlugin.class, "icon.png");
@@ -169,6 +179,7 @@ public class NextTargetPlugin extends Plugin
 		runner.shutdown();
 		accountData = null;
 		cachedBank = CachedBank.unknown();
+		cachedGroupStorage = CachedBank.unknown();
 		accountLoaded = false;
 		firstTickPending = false;
 		snapshotRequested = false;
@@ -178,6 +189,7 @@ public class NextTargetPlugin extends Plugin
 		cachedSnapshot = null;
 		cachedAdvice = null;
 		lastLevel.clear();
+		xpRates.clear();
 	}
 
 	/**
@@ -204,6 +216,7 @@ public class NextTargetPlugin extends Plugin
 			containersPending = false;
 			cachedSnapshot = null;
 			cachedAdvice = null;
+			xpRates.clear();
 			// accountData/cachedBank are only ever written on the executor; clearing them there
 			// keeps FIFO order with the load queued by the next LOGGED_IN (final-review I6). The
 			// panel is emptied so no stale card button can fire against the next account.
@@ -211,6 +224,7 @@ public class NextTargetPlugin extends Plugin
 			{
 				accountData = null;
 				cachedBank = CachedBank.unknown();
+				cachedGroupStorage = CachedBank.unknown();
 			});
 			SwingUtilities.invokeLater(panel::showLoggedOut);
 		}
@@ -228,6 +242,7 @@ public class NextTargetPlugin extends Plugin
 			AccountData data = store.load(hash);
 			accountData = data;
 			cachedBank = data.toCachedBank();
+			cachedGroupStorage = data.toCachedGroupStorage();
 			accountLoaded = true;
 			firstTickPending = true;
 		});
@@ -245,7 +260,7 @@ public class NextTargetPlugin extends Plugin
 		firstTickPending = false;
 		snapshotRequested = false;
 
-		Snapshot snapshot = SnapshotCollector.collect(client, itemManager, cachedBank, loadedKb);
+		Snapshot snapshot = SnapshotCollector.collect(client, itemManager, cachedBank, cachedGroupStorage, config.countGroupStorage(), loadedKb);
 		cachedSnapshot = snapshot;
 		if (!snapshot.getInventory().isEmpty() || !snapshot.getEquipment().isEmpty())
 		{
@@ -261,7 +276,10 @@ public class NextTargetPlugin extends Plugin
 			// modify an AccountData in place (AccountDataMutations copies), so no defensive copy.
 			AccountData data = accountData;
 			long start = System.nanoTime();
-			Advice advice = currentEngine.run(snapshot, loadedKb, data != null ? data : AccountData.empty(), Instant.now());
+			// RL-011 AC5: the previous advice is what "completed since last" is measured against;
+			// RL-012: the observed xp rates are read here so the eta reflects the run's own moment
+			Instant now = Instant.now();
+			Advice advice = currentEngine.run(snapshot, loadedKb, data != null ? data : AccountData.empty(), now, cachedAdvice, xpRates.rates(now));
 			long ms = (System.nanoTime() - start) / 1_000_000;
 			log.info("engine: {} goals evaluated in {} ms", advice.getStatuses().size(), ms);
 			for (String line : AdviceDiagnostics.lines(advice))
@@ -324,7 +342,7 @@ public class NextTargetPlugin extends Plugin
 	public void onItemContainerChanged(ItemContainerChanged event)
 	{
 		int containerId = event.getContainerId();
-		if (containerId == InventoryID.INVENTORY.getId() || containerId == InventoryID.EQUIPMENT.getId())
+		if (containerId == InventoryID.INV || containerId == InventoryID.WORN)
 		{
 			// The first post-login GameTick can fire before these containers are populated, so a
 			// login-time snapshot may wrongly see them empty; request a fresh one once they report -
@@ -337,11 +355,20 @@ public class NextTargetPlugin extends Plugin
 			return;
 		}
 
-		if (containerId != InventoryID.BANK.getId())
+		if (containerId == InventoryID.BANK)
 		{
-			return;
+			cachedBank = readContainer(event);
 		}
+		else if (containerId == InventoryID.INV_GROUP_TEMP && countsGroupStorage())
+		{
+			// RL-003: the group ironman shared storage, cached exactly like the bank and persisted
+			// when its interface closes (onWidgetClosed). Only group ironman types subscribe.
+			cachedGroupStorage = readContainer(event);
+		}
+	}
 
+	private static CachedBank readContainer(ItemContainerChanged event)
+	{
 		Map<Integer, Integer> items = new HashMap<>();
 		for (Item item : event.getItemContainer().getItems())
 		{
@@ -350,23 +377,62 @@ public class NextTargetPlugin extends Plugin
 				items.merge(item.getId(), item.getQuantity(), Integer::sum);
 			}
 		}
-		cachedBank = new CachedBank(items, Instant.now(), true);
+		return new CachedBank(items, Instant.now(), true);
+	}
+
+	/** Client thread. True only for a group ironman account with the "Count group storage" toggle on (RL-003 AC5). */
+	private boolean countsGroupStorage()
+	{
+		return config.countGroupStorage() && AccountType.fromVarbit(client.getVarbitValue(VarbitID.IRONMAN)).isGroup();
 	}
 
 	@Subscribe
 	public void onWidgetClosed(WidgetClosed event)
 	{
-		if (event.getGroupId() != InterfaceID.BANKMAIN)
+		if (event.getGroupId() == InterfaceID.BANKMAIN)
 		{
-			return;
+			CachedBank bank = cachedBank;
+			Map<Integer, Integer> items = new HashMap<>(bank.getItems());
+			Instant asOf = bank.getAsOf();
+			mutateAccountData(data -> AccountDataMutations.bank(data, items, asOf));
+			requestSnapshot();
 		}
+		else if (event.getGroupId() == InterfaceID.SHARED_BANK && countsGroupStorage())
+		{
+			CachedBank storage = cachedGroupStorage;
+			if (!storage.isKnown())
+			{
+				return;
+			}
+			Map<Integer, Integer> items = new HashMap<>(storage.getItems());
+			Instant asOf = storage.getAsOf();
+			mutateAccountData(data -> AccountDataMutations.groupStorage(data, items, asOf));
+			requestSnapshot();
+		}
+	}
 
-		CachedBank bank = cachedBank;
-		Map<Integer, Integer> items = new HashMap<>(bank.getItems());
-		Instant asOf = bank.getAsOf();
-		mutateAccountData(data -> AccountDataMutations.bank(data, items, asOf));
+	/**
+	 * RL-011 AC6: the diary journal ({@code JOURNALSCROLL}) loading means the player just opened a
+	 * diary's task list, which is when the game refreshes the per-task varbits - re-snapshot so
+	 * the panel's diary progress follows.
+	 */
+	@Subscribe
+	public void onWidgetLoaded(WidgetLoaded event)
+	{
+		if (event.getGroupId() == InterfaceID.JOURNALSCROLL)
+		{
+			requestSnapshot();
+		}
+	}
 
-		requestSnapshot();
+	/** RL-003 AC5: the "Count group storage" toggle takes effect on the next tick rather than the next bank close or level-up. */
+	@Subscribe
+	public void onConfigChanged(ConfigChanged event)
+	{
+		if ("nexttarget".equals(event.getGroup()) && "countGroupStorage".equals(event.getKey()))
+		{
+			requestSnapshot();
+		}
 	}
 
 	@Subscribe
@@ -374,8 +440,10 @@ public class NextTargetPlugin extends Plugin
 	{
 		Skill skill = event.getSkill();
 		int level = event.getLevel();
+		// RL-012: a rate becoming ready is a one-shot re-run so the eta appears without a level-up
+		boolean rateReady = xpRates.record(skill, event.getXp(), Instant.now());
 		Integer previous = lastLevel.put(skill, level);
-		if (previous == null || previous != level)
+		if (previous == null || previous != level || rateReady)
 		{
 			requestSnapshot();
 		}
@@ -392,7 +460,7 @@ public class NextTargetPlugin extends Plugin
 
 		int varpId = event.getVarpId();
 		int varbitId = event.getVarbitId();
-		if (varpId == VarPlayer.QUEST_POINTS || loadedKb.diaryVarps().contains(varpId) || loadedKb.diaryVarbits().contains(varbitId))
+		if (varpId == VarPlayerID.QP || loadedKb.diaryVarps().contains(varpId) || loadedKb.diaryVarbits().contains(varbitId))
 		{
 			requestSnapshot();
 		}
@@ -520,7 +588,8 @@ public class NextTargetPlugin extends Plugin
 
 			Snapshot snapshot = cachedSnapshot;
 			KnowledgeBase loadedKb = kb;
-			return snapshot != null && loadedKb != null ? currentEngine.run(snapshot, loadedKb, updated, Instant.now()) : null;
+			Instant now = Instant.now();
+			return snapshot != null && loadedKb != null ? currentEngine.run(snapshot, loadedKb, updated, now, cachedAdvice, xpRates.rates(now)) : null;
 		}, advice ->
 		{
 			if (advice != null)

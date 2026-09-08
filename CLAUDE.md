@@ -15,7 +15,7 @@ achievements) and suggests what to focus on next, with routes to get there.
   - `engine/` pure logic: GapEngine, StageEstimator, Ranker, SuggestSelector, WhyBuilder,
     RoutePlanner, ShortfallResolver, NextStepPicker, Engine (one `Advice` per snapshot)
   - `store/` per-account JSON persistence (`~/.runelite/next-target/<accountHash>.json`)
-  - `ui/` Swing: header, search, SuggestPanel (pick one of three, Why? per goal), GoalDetailPanel (route, shortfall with gathering plans)
+  - `ui/` Swing: header, search, SuggestPanel (pick one of three, Why? per goal, post-action status line, empty-state reasons, Done strip + Achieved this session), GoalDetailPanel (route, shortfall with gathering plans)
 - `kb-build/` — TypeScript (Node 22) scripts that generate the KB JSON from the OSRS wiki
   (`npm run build-kb -- quests|diaries|methods|materials|expand-milestones|gathering`)
   - `data/` inputs: RuneLite quest list, aliases, diary var map (from Quest Helper), RuneLite sources
@@ -55,6 +55,9 @@ file when done. On macOS JDK 17 the `run` task needs `--add-exports java.desktop
 - Skill targets ("70 Herblore") are synthesised from upcoming goals' skill gaps; only bank-covered
   targets can be picked, uncovered ones never outrank their parent goal.
 - Diagnostics: each engine run logs the top three picks and the Moons/GWD watch lines at INFO.
+- Group ironman shared storage (`INV_GROUP_TEMP`, persisted when `SHARED_BANK` closes) is summed with
+  the bank for ownership, routes and shortfalls (ruling 35); unseen storage counts as empty, not unknown.
+  Config "Count group storage" (default on) gates the read. `AccountData.version` is 2.
 
 ## Surge Engineering Workflow
 

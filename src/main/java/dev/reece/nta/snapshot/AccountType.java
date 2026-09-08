@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * Mirrors the account type values carried by {@code Varbits.ACCOUNT_TYPE} (varbit 1777).
+ * Mirrors the account type values carried by {@code VarbitID.IRONMAN} (varbit 1777).
  */
 @Slf4j
 @Getter
@@ -31,6 +31,12 @@ public enum AccountType
 	public boolean isIron()
 	{
 		return id >= 1 && id <= 6;
+	}
+
+	/** True for the three group ironman flavours (ids 4..6) - the only accounts with a shared group storage (RL-003). */
+	public boolean isGroup()
+	{
+		return id >= 4 && id <= 6;
 	}
 
 	public static AccountType fromVarbit(int value)

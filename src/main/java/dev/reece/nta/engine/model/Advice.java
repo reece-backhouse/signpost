@@ -7,6 +7,7 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 import lombok.Value;
+import net.runelite.api.Skill;
 
 /**
  * One completed run of the engine over a {@link Snapshot}: every unfinished-goal status, per-tier
@@ -44,6 +45,18 @@ public class Advice
 	PrefsView prefs;
 	/** The player's active focus goal drill-down (ticket E, spec ruling 26), or {@code null} when no goal is focused or the focused goal is no longer present (e.g. completed) among {@code statuses}. */
 	FocusDetail focus;
+	/**
+	 * RL-011 AC5 (spec ruling 31): goals the previous {@link Advice} listed that this run no
+	 * longer does because they were completed - not marked owned by hand, and for a skill target
+	 * only when its level was actually reached. Empty when there was no previous advice.
+	 */
+	List<Goal> completedSinceLast;
+	/**
+	 * RL-012 (spec ruling 34): each skill's observed training rate in xp per hour, measured by the
+	 * plugin from {@code StatChanged} and passed in as data; a skill is absent until its rate is
+	 * ready. The panels turn it into "about 45 min at 38k/h" via {@link dev.reece.nta.engine.Eta}.
+	 */
+	Map<Skill, Long> xpPerHour;
 
 	public Advice(
 		Snapshot snapshot,
@@ -60,7 +73,31 @@ public class Advice
 		Map<String, String> reasons,
 		Map<String, String> ownedManuallyNames,
 		PrefsView prefs,
-		FocusDetail focus)
+		FocusDetail focus,
+		List<Goal> completedSinceLast)
+	{
+		this(snapshot, statuses, diaryProgress, computedAt, ranked, picked, rest, accountStage, later, whys, explanations, reasons,
+			ownedManuallyNames, prefs, focus, completedSinceLast, Map.of());
+	}
+
+	public Advice(
+		Snapshot snapshot,
+		List<GoalStatus> statuses,
+		Map<DiaryTier, DiaryTierProgress> diaryProgress,
+		Instant computedAt,
+		List<RankedGoal> ranked,
+		List<RankedGoal> picked,
+		List<RankedGoal> rest,
+		int accountStage,
+		List<RankedGoal> later,
+		Map<String, String> whys,
+		Map<String, List<String>> explanations,
+		Map<String, String> reasons,
+		Map<String, String> ownedManuallyNames,
+		PrefsView prefs,
+		FocusDetail focus,
+		List<Goal> completedSinceLast,
+		Map<Skill, Long> xpPerHour)
 	{
 		this.snapshot = snapshot;
 		this.statuses = List.copyOf(statuses);
@@ -77,5 +114,7 @@ public class Advice
 		this.ownedManuallyNames = Map.copyOf(ownedManuallyNames);
 		this.prefs = prefs;
 		this.focus = focus;
+		this.completedSinceLast = List.copyOf(completedSinceLast);
+		this.xpPerHour = Map.copyOf(xpPerHour);
 	}
 }
