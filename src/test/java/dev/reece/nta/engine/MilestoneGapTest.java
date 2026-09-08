@@ -4,6 +4,7 @@ import dev.reece.nta.engine.model.DiaryTierGap;
 import dev.reece.nta.engine.model.Gap;
 import dev.reece.nta.engine.model.GoalStatus;
 import dev.reece.nta.engine.model.ItemGap;
+import dev.reece.nta.engine.model.PrerequisiteGap;
 import dev.reece.nta.engine.model.SkillLevelGap;
 import dev.reece.nta.kb.KnowledgeBase;
 import dev.reece.nta.kb.MilestoneCategory;
@@ -11,6 +12,7 @@ import dev.reece.nta.snapshot.DiaryTier;
 import dev.reece.nta.snapshot.Snapshot;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 import net.runelite.api.Skill;
 import org.junit.jupiter.api.Test;
 
@@ -105,6 +107,51 @@ class MilestoneGapTest
 
 		assertTrue(hasGoal(engine.evaluate(twoPieces, kb), "milestone:prospector-outfit"), "two of four pieces is not owned");
 		assertFalse(hasGoal(engine.evaluate(fullSet, kb), "milestone:prospector-outfit"), "all four pieces held should finish the outfit");
+	}
+
+	/**
+	 * RL-007 AC2/AC5: a POH room is never auto-detected (still a goal at 99 Construction); a goal whose
+	 * prerequisite isn't owned carries a {@link PrerequisiteGap} and isn't ready; "Own it" on the
+	 * prerequisite removes it and makes the dependant ready; milestone notes reach the status.
+	 */
+	@Test
+	void pohMilestoneWithUnownedPrerequisiteHasAPrerequisiteGapUntilThePrerequisiteIsMarkedOwned()
+	{
+		KnowledgeBase kb = new KbBuilder()
+			.milestone("poh:portal-chamber", MilestoneCategory.POH, "Portal chamber", 6).skill(Skill.CONSTRUCTION, 50)
+			.milestone("poh:portal-nexus", MilestoneCategory.POH, "Portal nexus", 6).skill(Skill.CONSTRUCTION, 72)
+			.prerequisite("poh:portal-chamber").milestoneNote("Mark the room owned once built.")
+			.build();
+		Snapshot snapshot = new SnapshotBuilder().skill(Skill.CONSTRUCTION, 99).build();
+
+		List<GoalStatus> statuses = engine.evaluate(snapshot, kb);
+		GoalStatus nexus = goalFor(statuses, "poh:portal-nexus");
+		PrerequisiteGap gap = (PrerequisiteGap) onlyGap(nexus);
+		assertEquals("poh:portal-chamber", gap.getGoalId());
+		assertEquals("Portal chamber", gap.getName());
+		assertFalse(nexus.isReady());
+		assertEquals(List.of("Mark the room owned once built."), nexus.getNotes());
+		assertTrue(goalFor(statuses, "poh:portal-chamber").isReady(), "the room itself: requirements met, still a goal until owned");
+
+		List<GoalStatus> chamberOwned = engine.evaluate(snapshot, kb, DiaryProgress.compute(snapshot, kb), Set.of("poh:portal-chamber"));
+		assertFalse(hasGoal(chamberOwned, "poh:portal-chamber"));
+		assertTrue(goalFor(chamberOwned, "poh:portal-nexus").isReady(), "owned prerequisite counts as met: " + goalFor(chamberOwned, "poh:portal-nexus"));
+	}
+
+	/** RL-007 AC2: with the portal chamber unowned, the nexus is not ready and the chamber is what ranks first. */
+	@Test
+	void prerequisiteGoalRanksBeforeItsDependantWhileUnowned()
+	{
+		KnowledgeBase kb = new KbBuilder()
+			.milestone("poh:portal-nexus", MilestoneCategory.POH, "Portal nexus", 8).skill(Skill.CONSTRUCTION, 72).prerequisite("poh:portal-chamber")
+			.milestone("poh:portal-chamber", MilestoneCategory.POH, "Portal chamber", 6).skill(Skill.CONSTRUCTION, 50)
+			.build();
+		Snapshot snapshot = new SnapshotBuilder().skill(Skill.CONSTRUCTION, 99).build();
+
+		List<String> ranked = new Ranker().rank(engine.evaluate(snapshot, kb), Set.of(), List.of(), 2).stream()
+			.map(r -> r.getStatus().getGoal().getId()).collect(Collectors.toList());
+
+		assertEquals(List.of("poh:portal-chamber", "poh:portal-nexus"), ranked);
 	}
 
 	/** Ticket 55: a manual override finishes a slayer target even below the required level. */

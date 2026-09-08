@@ -11,6 +11,7 @@ import dev.reece.nta.engine.model.GoalRef;
 import dev.reece.nta.engine.model.GoalStatus;
 import dev.reece.nta.engine.model.ItemGap;
 import dev.reece.nta.engine.model.KudosGap;
+import dev.reece.nta.engine.model.PrerequisiteGap;
 import dev.reece.nta.engine.model.Met;
 import dev.reece.nta.engine.model.QuestPointsGap;
 import dev.reece.nta.engine.model.QuestPrereqGap;
@@ -272,6 +273,10 @@ public final class WhyBuilder
 			else if (gap instanceof DiaryTierGap)
 			{
 				items.add(((DiaryTierGap) gap).getTier().name().toLowerCase().replace('_', ' ') + " diary");
+			}
+			else if (gap instanceof PrerequisiteGap)
+			{
+				items.add(((PrerequisiteGap) gap).getName() + " first");
 			}
 			else if (gap instanceof DiaryTaskGap)
 			{

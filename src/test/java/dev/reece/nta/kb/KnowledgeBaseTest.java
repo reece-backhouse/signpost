@@ -464,6 +464,37 @@ class KnowledgeBaseTest
 		assertEquals(List.of("Making Friends with My Arm"), step.getRequires().getQuests());
 	}
 
+	// --- RL-007: milestone prerequisite (another milestone that must be owned first). ---
+
+	@Test
+	void milestonePrerequisiteResolvingToAKnownMilestoneLoadsAndAnUnknownOneFailsLoudly()
+	{
+		String room = String.format(MILESTONE_TEMPLATE, "").replace("milestone:test", "poh:portal-chamber");
+		String nexus = String.format(MILESTONE_TEMPLATE, ",\"prerequisite\":\"poh:portal-chamber\"");
+		KnowledgeBase kb = KnowledgeBase.fromJson(new Gson(), EMPTY_QUESTS_JSON, EMPTY_DIARIES_JSON,
+			"{\"version\":1,\"milestones\":[" + room + "," + nexus + "]}", EMPTY_PRIORITIES_JSON);
+		assertEquals("poh:portal-chamber", kb.milestoneById("milestone:test").getPrerequisite());
+
+		String orphan = String.format(MILESTONE_TEMPLATE, ",\"prerequisite\":\"poh:nope\"");
+		IllegalStateException e = assertThrows(IllegalStateException.class,
+			() -> KnowledgeBase.fromJson(new Gson(), EMPTY_QUESTS_JSON, EMPTY_DIARIES_JSON,
+				"{\"version\":1,\"milestones\":[" + orphan + "]}", EMPTY_PRIORITIES_JSON));
+		assertTrue(e.getMessage().contains("milestone:test"), e.getMessage());
+		assertTrue(e.getMessage().contains("poh:nope"), e.getMessage());
+	}
+
+	@Test
+	void milestonePrerequisiteCycleFailsLoudly()
+	{
+		String a = String.format(MILESTONE_TEMPLATE, ",\"prerequisite\":\"milestone:b\"").replace("milestone:test", "milestone:a");
+		String b = String.format(MILESTONE_TEMPLATE, ",\"prerequisite\":\"milestone:a\"").replace("milestone:test", "milestone:b");
+
+		IllegalStateException e = assertThrows(IllegalStateException.class,
+			() -> KnowledgeBase.fromJson(new Gson(), EMPTY_QUESTS_JSON, EMPTY_DIARIES_JSON,
+				"{\"version\":1,\"milestones\":[" + a + "," + b + "]}", EMPTY_PRIORITIES_JSON));
+		assertTrue(e.getMessage().contains("prerequisite"), e.getMessage());
+	}
+
 	@Test
 	void everyBundledMilestoneHasARecommendedProfileOrAQuestDiaryOrFortyPlusSkillRequirement()
 	{

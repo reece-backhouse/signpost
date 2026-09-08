@@ -8,6 +8,7 @@ import dev.reece.nta.engine.model.GearGap;
 import dev.reece.nta.engine.model.GoalStatus;
 import dev.reece.nta.engine.model.ItemGap;
 import dev.reece.nta.engine.model.KudosGap;
+import dev.reece.nta.engine.model.PrerequisiteGap;
 import dev.reece.nta.engine.model.QuestPointsGap;
 import dev.reece.nta.engine.model.QuestPrereqGap;
 import dev.reece.nta.engine.model.SkillLevelGap;
@@ -88,6 +89,10 @@ public final class GapFingerprint
 			List<String> ids = ((GearGap) gap).getAcceptable().stream().map(OwnedItem::getId).map(String::valueOf).collect(Collectors.toList());
 			Collections.sort(ids);
 			return "gear:[" + String.join(",", ids) + "]";
+		}
+		if (gap instanceof PrerequisiteGap)
+		{
+			return "prereq:" + ((PrerequisiteGap) gap).getGoalId();
 		}
 		throw new IllegalStateException("Unknown gap type: " + gap.getClass());
 	}

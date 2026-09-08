@@ -8,6 +8,7 @@ import dev.reece.nta.engine.model.Goal;
 import dev.reece.nta.engine.model.GoalCategory;
 import dev.reece.nta.engine.model.GoalStatus;
 import dev.reece.nta.engine.model.ItemGap;
+import dev.reece.nta.engine.model.PrerequisiteGap;
 import dev.reece.nta.engine.model.KudosGap;
 import dev.reece.nta.engine.model.QuestPointsGap;
 import dev.reece.nta.engine.model.QuestPrereqGap;
@@ -108,6 +109,17 @@ class GapFingerprintTest
 	private static SkillLevelGap skillGap(Skill skill, int have, int need)
 	{
 		return new SkillLevelGap(skill, have, need, 0, false, null, false);
+	}
+
+	/** RL-007: a prerequisite gap is keyed by the prerequisite's id, so a different prerequisite is a different fingerprint. */
+	@Test
+	void prerequisiteGapIsKeyedByThePrerequisiteGoalId()
+	{
+		GoalStatus chamber = status(List.of(new PrerequisiteGap("poh:portal-chamber", "Portal chamber")));
+		GoalStatus garden = status(List.of(new PrerequisiteGap("poh:superior-garden", "Superior garden")));
+
+		assertEquals("prereq:poh:portal-chamber", GapFingerprint.of(chamber));
+		assertNotEquals(GapFingerprint.of(chamber), GapFingerprint.of(garden));
 	}
 
 	private static GoalStatus status(List<Gap> gaps)

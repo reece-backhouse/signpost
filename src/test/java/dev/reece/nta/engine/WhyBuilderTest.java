@@ -7,6 +7,7 @@ import dev.reece.nta.engine.model.Goal;
 import dev.reece.nta.engine.model.GoalCategory;
 import dev.reece.nta.engine.model.GoalStatus;
 import dev.reece.nta.engine.model.ItemGap;
+import dev.reece.nta.engine.model.PrerequisiteGap;
 import dev.reece.nta.engine.model.RankedGoal;
 import dev.reece.nta.engine.model.SkillLevelGap;
 import dev.reece.nta.kb.KnowledgeBase;
@@ -194,6 +195,16 @@ class WhyBuilderTest
 
 		assertEquals("Ready now; speeds up Mining (your next Mining target)", whyBuilder.why(rank(status), bagKb, snap, Set.of(Skill.MINING)));
 		assertEquals("Ready now; speeds up Mining", whyBuilder.why(rank(status), bagKb, snap, Set.of(Skill.HERBLORE)));
+	}
+
+	/** RL-007: a prerequisite gap counts as one requirement away and is named in the Missing line. */
+	@Test
+	void prerequisiteGapIsOneRequirementAwayAndNamedAsMissing()
+	{
+		GoalStatus status = status("poh:portal-nexus", GoalCategory.MILESTONE, List.of(new PrerequisiteGap("poh:portal-chamber", "Portal chamber")), false, false);
+
+		assertEquals("1 requirement away", whyBuilder.why(rank(status), kb, snap));
+		assertEquals(List.of("Missing: Portal chamber first"), whyBuilder.explain(rank(status), kb, snap, 2));
 	}
 
 	private static GoalStatus status(String id, GoalCategory category, List<Gap> gaps, boolean ready, boolean bankUnknown)

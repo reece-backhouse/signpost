@@ -164,6 +164,20 @@ final class KbBuilder
 		return this;
 	}
 
+	/** Sets the milestone that must be owned before the currently open one (RL-007). */
+	KbBuilder prerequisite(String milestoneId)
+	{
+		currentMilestone.prerequisite = milestoneId;
+		return this;
+	}
+
+	/** Adds a display-only note to the currently open milestone (RL-007). */
+	KbBuilder milestoneNote(String note)
+	{
+		currentMilestone.notes.add(note);
+		return this;
+	}
+
 	/** Adds unlock entries to the currently open milestone. */
 	KbBuilder unlocks(String... entries)
 	{
@@ -497,7 +511,8 @@ final class KbBuilder
 					m.recommendedGearOwnedMin);
 			milestones.add(new MilestoneEntry(m.id, m.category, m.subcategory, m.name, m.name, m.priority, "test", List.copyOf(m.unlocks),
 				List.copyOf(m.skills), List.copyOf(m.quests), diaryRefs, null, null, List.copyOf(m.items), List.copyOf(m.ownedIf),
-				m.gearTier, List.of(), m.stage, recommended, m.obtainedFrom, m.ownedIfMin, m.speedsUp));
+				m.gearTier, List.of(), m.stage, recommended, m.obtainedFrom, m.ownedIfMin, m.speedsUp,
+				m.prerequisite, List.copyOf(m.notes)));
 		}
 
 		Map<Integer, String> materialNames = new LinkedHashMap<>();
@@ -602,6 +617,8 @@ final class KbBuilder
 		String obtainedFrom;
 		int ownedIfMin = 1;
 		Skill speedsUp;
+		String prerequisite;
+		final List<String> notes = new ArrayList<>();
 
 		MilestoneSpec(String id, MilestoneCategory category, String name, int priority)
 		{

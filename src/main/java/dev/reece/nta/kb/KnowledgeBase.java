@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.HashSet;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -405,15 +406,37 @@ public final class KnowledgeBase
 		}
 	}
 
-	/** Fails loudly, naming the milestone and the unresolved id, if any {@code obtainedFrom} doesn't name another known milestone. */
+	/**
+	 * Fails loudly, naming the milestone and the unresolved id, if any {@code obtainedFrom} or
+	 * {@code prerequisite} (RL-007) doesn't name another known milestone, or a prerequisite chain loops.
+	 */
 	private static void validateObtainedFromResolves(List<MilestoneEntry> milestones, Set<String> milestoneIds)
 	{
+		Map<String, String> prerequisiteOf = new HashMap<>();
 		for (MilestoneEntry milestone : milestones)
 		{
 			if (milestone.getObtainedFrom() != null && !milestoneIds.contains(milestone.getObtainedFrom()))
 			{
 				throw new IllegalStateException("Malformed knowledge base data: milestone \"" + milestone.getId()
 					+ "\" has unknown obtainedFrom \"" + milestone.getObtainedFrom() + "\"");
+			}
+			if (milestone.getPrerequisite() != null && !milestoneIds.contains(milestone.getPrerequisite()))
+			{
+				throw new IllegalStateException("Malformed knowledge base data: milestone \"" + milestone.getId()
+					+ "\" has unknown prerequisite \"" + milestone.getPrerequisite() + "\"");
+			}
+			prerequisiteOf.put(milestone.getId(), milestone.getPrerequisite());
+		}
+		for (MilestoneEntry milestone : milestones)
+		{
+			Set<String> seen = new HashSet<>();
+			for (String id = milestone.getId(); id != null; id = prerequisiteOf.get(id))
+			{
+				if (!seen.add(id))
+				{
+					throw new IllegalStateException("Malformed knowledge base data: milestone \"" + milestone.getId()
+						+ "\" has a prerequisite cycle through \"" + id + "\"");
+				}
 			}
 		}
 	}
@@ -543,7 +566,8 @@ public final class KnowledgeBase
 		return new MilestoneEntry(dto.id, category, dto.subcategory, dto.name, dto.wikiTitle, dto.priority, dto.reason,
 			List.copyOf(dto.unlocks), skills, List.copyOf(dto.requirements.quests), diaries, dto.requirements.combatLevel,
 			dto.requirements.questPoints, items, ownedIf, dto.gearTier, List.copyOf(dto.sources), stage, recommended, dto.obtainedFrom,
-			ownedIfMin, dto.speedsUp == null ? null : resolveSkill(dto.speedsUp, context));
+			ownedIfMin, dto.speedsUp == null ? null : resolveSkill(dto.speedsUp, context), dto.prerequisite,
+			dto.notes == null ? List.of() : List.copyOf(dto.notes));
 	}
 
 	/** {@code dto} is {@code null} for a milestone with no {@code recommended} profile (the common case). */
@@ -766,6 +790,8 @@ public final class KnowledgeBase
 				return MilestoneCategory.SLAYER_TARGET;
 			case "boss":
 				return MilestoneCategory.BOSS;
+			case "poh":
+				return MilestoneCategory.POH;
 			default:
 				throw new IllegalStateException("Malformed knowledge base data: " + context + " has unknown category \"" + raw + "\"");
 		}
@@ -1001,6 +1027,8 @@ public final class KnowledgeBase
 		String obtainedFrom;
 		Integer ownedIfMin;
 		String speedsUp;
+		String prerequisite;
+		List<String> notes = new ArrayList<>();
 	}
 
 	private static final class RecommendedDto

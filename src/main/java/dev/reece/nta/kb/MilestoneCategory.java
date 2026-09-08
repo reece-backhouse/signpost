@@ -12,5 +12,7 @@ public enum MilestoneCategory
 	PRAYER,
 	SPELLBOOK,
 	SLAYER_TARGET,
-	BOSS
+	BOSS,
+	/** RL-007: a built player-owned-house room or piece of furniture - never auto-detected, finished only by "Own it". */
+	POH
 }

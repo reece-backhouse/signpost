@@ -19,6 +19,10 @@ import net.runelite.api.Skill;
  * {@code ownedIfMin} (RL-006) is how many distinct {@code ownedIf} items must be held before the
  * milestone counts as owned - 1 for a single item with variants, the set size for an outfit; {@code
  * speedsUp} (RL-006) is the skill a method-linked untradeable accelerates, {@code null} when none.
+ * {@code prerequisite} (RL-007) is the id of a milestone that must be owned first (a portal nexus
+ * needs its portal chamber); {@code null} when none, always a known, acyclic milestone id
+ * (validated at load). {@code notes} (RL-007) are display-only lines, never evaluated - e.g. that a
+ * {@link MilestoneCategory#POH} room is only ever finished by "Own it".
  */
 @Value
 public class MilestoneEntry
@@ -45,4 +49,6 @@ public class MilestoneEntry
 	String obtainedFrom;
 	int ownedIfMin;
 	Skill speedsUp;
+	String prerequisite;
+	List<String> notes;
 }

@@ -15,6 +15,7 @@ import dev.reece.nta.engine.model.KudosGap;
 import dev.reece.nta.engine.model.Met;
 import dev.reece.nta.engine.model.NextStep;
 import dev.reece.nta.engine.model.PlanOffer;
+import dev.reece.nta.engine.model.PrerequisiteGap;
 import dev.reece.nta.engine.model.QuestPointsGap;
 import dev.reece.nta.engine.model.QuestPrereqGap;
 import dev.reece.nta.engine.model.Route;
@@ -541,6 +542,10 @@ public class GoalDetailPanel extends JPanel
 		if (gap instanceof DiaryTierGap)
 		{
 			return tierName(((DiaryTierGap) gap).getTier()) + " Diary not complete";
+		}
+		if (gap instanceof PrerequisiteGap)
+		{
+			return "Needs " + ((PrerequisiteGap) gap).getName() + " first";
 		}
 		return gap.getClass().getSimpleName();
 	}

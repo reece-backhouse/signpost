@@ -10,6 +10,7 @@ import dev.reece.nta.engine.model.Goal;
 import dev.reece.nta.engine.model.GoalStatus;
 import dev.reece.nta.engine.model.ItemGap;
 import dev.reece.nta.engine.model.KudosGap;
+import dev.reece.nta.engine.model.PrerequisiteGap;
 import dev.reece.nta.engine.model.QuestPointsGap;
 import dev.reece.nta.engine.model.QuestPrereqGap;
 import dev.reece.nta.engine.model.RankedGoal;
@@ -145,6 +146,10 @@ public final class AdviceDiagnostics
 		{
 			ItemGap g = (ItemGap) gap;
 			return g.getName() + " " + (g.getHave() == null ? "?" : g.getHave()) + "/" + g.getNeed();
+		}
+		if (gap instanceof PrerequisiteGap)
+		{
+			return "prereq:" + ((PrerequisiteGap) gap).getGoalId();
 		}
 		return gap.getClass().getSimpleName();
 	}

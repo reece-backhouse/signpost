@@ -12,6 +12,7 @@ import dev.reece.nta.engine.model.ItemGap;
 import dev.reece.nta.engine.model.ItemSource;
 import dev.reece.nta.engine.model.KudosGap;
 import dev.reece.nta.engine.model.Met;
+import dev.reece.nta.engine.model.PrerequisiteGap;
 import dev.reece.nta.engine.model.QuestPointsGap;
 import dev.reece.nta.engine.model.QuestPrereqGap;
 import dev.reece.nta.engine.model.SkillLevelGap;
@@ -341,7 +342,8 @@ public final class GapEngine
 	 * Completion is category-specific (ruling: see task-25 brief): {@code gear} - any
 	 * {@code ownedIf} id held (bank ∪ inventory ∪ equipment, by id); {@code slayer_target} - the
 	 * entry's Slayer skill requirement is met; {@code unlock}/{@code prayer}/{@code spellbook} -
-	 * every requirement is met (no gaps); {@code boss} - never done.
+	 * every requirement is met (no gaps); {@code boss} and {@code poh} - never done (RL-007: a house
+	 * room only via "Own it"). A {@code prerequisite} milestone still open is a {@link PrerequisiteGap}.
 	 */
 	private Optional<GoalStatus> milestoneGoalStatus(MilestoneEntry entry, Snapshot snapshot, KnowledgeBase kb, Set<String> ownedManually)
 	{
@@ -394,6 +396,21 @@ public final class GapEngine
 			addRecommendedGaps(gaps, met, entry.getRecommended(), snapshot);
 		}
 
+		// RL-007: a prerequisite milestone that is still a goal itself (not owned, not done) is a gap
+		// on the dependant; the prerequisite's own status decides, so "Own it" on it counts as met.
+		if (entry.getPrerequisite() != null)
+		{
+			MilestoneEntry prerequisite = kb.milestoneById(entry.getPrerequisite());
+			if (milestoneGoalStatus(prerequisite, snapshot, kb, ownedManually).isPresent())
+			{
+				gaps.add(new PrerequisiteGap(prerequisite.getId(), prerequisite.getName()));
+			}
+			else
+			{
+				met.add(new Met(Met.Kind.PREREQUISITE, prerequisite.getName()));
+			}
+		}
+
 		OwnedState ownedState = entry.getCategory() == MilestoneCategory.GEAR
 			? ownedState(entry, snapshot, ownedManually)
 			: null;
@@ -408,6 +425,7 @@ public final class GapEngine
 				done = slayerLevelMet(entry, snapshot);
 				break;
 			case BOSS:
+			case POH: // RL-007: a built room is never client-visible; only "Own it" finishes it.
 				done = false;
 				break;
 			default: // UNLOCK, PRAYER, SPELLBOOK
@@ -427,7 +445,7 @@ public final class GapEngine
 		Goal goal = new Goal(entry.getId(), mapMilestoneCategory(entry.getCategory()), entry.getName(),
 			WikiUrls.forTitle(entry.getWikiTitle()), priority, entry.getStage());
 		boolean bankUnknown = anyBankUnknown(gaps) || ownedState == OwnedState.UNKNOWN;
-		return Optional.of(new GoalStatus(goal, List.copyOf(gaps), gaps.isEmpty(), bankUnknown, List.of(), List.copyOf(met), List.of(), null, 0));
+		return Optional.of(new GoalStatus(goal, List.copyOf(gaps), gaps.isEmpty(), bankUnknown, entry.getNotes(), List.copyOf(met), List.of(), null, 0));
 	}
 
 	/**
@@ -670,7 +688,7 @@ public final class GapEngine
 				return GoalCategory.SLAYER_TARGET;
 			case BOSS:
 				return GoalCategory.BOSS;
-			default: // GEAR, UNLOCK, PRAYER, SPELLBOOK
+			default: // GEAR, UNLOCK, PRAYER, SPELLBOOK, POH
 				return GoalCategory.MILESTONE;
 		}
 	}
