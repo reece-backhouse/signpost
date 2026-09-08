@@ -19,6 +19,7 @@ import dev.reece.nta.engine.model.QuestPointsGap;
 import dev.reece.nta.engine.model.QuestPrereqGap;
 import dev.reece.nta.engine.model.Route;
 import dev.reece.nta.engine.model.RouteStep;
+import dev.reece.nta.engine.model.Shortfall;
 import dev.reece.nta.engine.model.ShortfallItem;
 import dev.reece.nta.engine.model.SkillLevelGap;
 import dev.reece.nta.engine.model.SkillPlan;
@@ -424,18 +425,30 @@ public class GoalDetailPanel extends JPanel
 		}
 		if (plan.getShortfall() != null)
 		{
-			String method = plan.getShortfall().getMethod() == null ? "" : " for " + plan.getShortfall().getMethod().getName();
-			String xp = route == null ? "" : " ~" + thousands(route.getUncoveredXp()) + " xp";
-			JLabel still = row((anySteps ? "Then still short" : "Short") + xp + method + ":", indent);
-			still.setForeground(ColorScheme.LIGHT_GRAY_COLOR);
-			panel.add(still);
+			Shortfall shortfall = plan.getShortfall();
+			Shortfall alternative = shortfall.getAlternative();
+			panel.add(row((anySteps ? "Then still short" : "Short") + " ~" + thousands(shortfall.getXpShort()) + " xp"
+				+ methodAndActions(shortfall), indent, ColorScheme.LIGHT_GRAY_COLOR));
+			if (alternative != null && !shortfall.getUnobtainable().isEmpty())
+			{
+				panel.add(row(String.join(", ", shortfall.getUnobtainable()) + ": no gathering plan", indent, ColorScheme.LIGHT_GRAY_COLOR));
+			}
 			// task 59: the engine unions an ingredient's plans into its parent (ruling 28), so the
 			// same plan reaches the tree twice; render it at its first (topmost) occurrence only.
+			// task 61: the set is shared with the alternative below for the same reason.
 			Set<String> shownPlans = new HashSet<>();
 			String keyPrefix = lastGoalId + "|" + plan.getSkill().name() + "|";
-			for (ShortfallItem item : plan.getShortfall().getItems())
+			for (ShortfallItem item : shortfall.getItems())
 			{
 				panel.add(shortfallItemRows(item, indent, keyPrefix, shownPlans));
+			}
+			if (alternative != null)
+			{
+				panel.add(row("Or, everything gatherable" + methodAndActions(alternative), indent, ColorScheme.PROGRESS_COMPLETE_COLOR));
+				for (ShortfallItem item : alternative.getItems())
+				{
+					panel.add(shortfallItemRows(item, indent, keyPrefix + "alt|", shownPlans));
+				}
 			}
 		}
 		else if (!anySteps)
@@ -722,6 +735,12 @@ public class GoalDetailPanel extends JPanel
 	}
 
 	/** "29,750" - always comma-grouped, whatever the JVM's default locale. */
+	/** ": <method> ×<actions>" for a shortfall header, or ":" when the engine named no method. */
+	private static String methodAndActions(Shortfall shortfall)
+	{
+		return shortfall.getMethod() == null ? ":" : ": " + shortfall.getMethod().getName() + " ×" + thousands(shortfall.getActionsNeeded());
+	}
+
 	private static String thousands(long n)
 	{
 		return String.format(Locale.ENGLISH, "%,d", n);
@@ -734,9 +753,8 @@ public class GoalDetailPanel extends JPanel
 		{
 			sb.append(' ').append(source.getDetail());
 		}
-		JLabel label = row(sb.toString(), indent);
-		label.setForeground(ColorScheme.LIGHT_GRAY_COLOR);
-		return label;
+		// task 61: materials.json "where" strings carry U+2013 en dashes the RuneScape font lacks
+		return row(sb.toString().replace('\u2013', '-'), indent, ColorScheme.LIGHT_GRAY_COLOR);
 	}
 
 	// --- Shortfall (ticket C7/E4), now under its skill row (task 57) ---

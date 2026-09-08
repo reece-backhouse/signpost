@@ -320,6 +320,22 @@ class ShortfallResolverTest
 		assertNull(covered.getAlternative());
 	}
 
+	/** Task 61: the primary names the materials with no known source - the craft-chain leaf, not the intermediate it makes. */
+	@Test
+	void namesTheUnobtainableLeafMaterialsOfThePrimary()
+	{
+		KnowledgeBase kb = weaponPoisonVsPrayerPotionKb(false);
+		Route route = new Route(List.of(), 1000, Experience.getXpForLevel(62), Map.of());
+
+		Shortfall shortfall = ShortfallResolver.resolve(Skill.HERBLORE, route, kb, new SnapshotBuilder().iron().build());
+
+		assertEquals(List.of("Kwuarm"), shortfall.getUnobtainable(), "Kwuarm potion (unf) crafts from Kwuarm (drop only) + Vial of water (plan)");
+		assertTrue(shortfall.getAlternative().getUnobtainable().isEmpty(), "the alternative is fully obtainable by construction");
+
+		Shortfall bought = ShortfallResolver.resolve(Skill.HERBLORE, route, weaponPoisonVsPrayerPotionKb(true), new SnapshotBuilder().build());
+		assertTrue(bought.getUnobtainable().isEmpty(), "a normal account buys Kwuarm from the shop");
+	}
+
 	/** The live case from the Task 60 brief, on the bundled KB after the Kwuarm farm loop landed: every Weapon poison material is plannable. */
 	@Test
 	void anIronAtHerbloreSixtyTwoOnTheRealKbKeepsWeaponPoisonWithNoAlternative()
