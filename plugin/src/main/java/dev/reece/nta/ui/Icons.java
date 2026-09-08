@@ -36,7 +36,8 @@ public class Icons
 	public static final String ITEM_ICON_NAME = "item-icon";
 	public static final String PLACEHOLDER_NAME = "item-icon-placeholder";
 	private static final int ITEM_SIZE = 24;
-	private static final String QUEST_GLYPH = "◆";
+	/** Text fallback for {@link #quest} when the world-map icon isn't loadable; ASCII, since the RuneScape font has no marker glyphs (task 61). */
+	public static final String QUEST_GLYPH = "Q";
 
 	private final ItemManager itemManager;
 	private final SkillIconManager skillIconManager;
