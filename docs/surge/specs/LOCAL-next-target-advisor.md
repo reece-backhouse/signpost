@@ -182,6 +182,23 @@ option; cost-if-wrong noted.
     strip until the next user action. The engine stays pure - the previous
     advice is just another input — cost: none.
 
+34. **Ruling (ticket RL-012, 2026-09-08): ETA from the observed xp rate.**
+    The plugin keeps a per-skill in-memory ring of (time, xp) samples from
+    `StatChanged`, bounded to the last 30 minutes and never persisted.
+    Leading samples with no gain (the login baseline, idle boost drains) are
+    skipped so the window starts at the first sample that gained xp; the
+    rate is ready once that window spans >= 5 minutes of training with >= 2
+    samples and xp gained first-to-last, and is that first-to-last slope in
+    xp/h. A mid-session AFK gap still dilutes it (same as the XP Tracker). `Engine.run` takes `Map<Skill, Long> xpPerHour` as plain data and
+    carries it on `Advice.xpPerHour`; `Eta.text` turns the xp still to
+    train - the route's `uncoveredXp` when a route exists, else the raw gap -
+    into "about 45 min at 38k/h" (minutes rounded up, hours split out past
+    60, rate to the nearest thousand). The detail view's skill row and the
+    skill-target card append it; nothing shows without a ready rate or with
+    no xp left. A rate becoming ready triggers one re-snapshot so the ETA
+    appears mid-session without a level-up — cost: the ETA otherwise
+    refreshes only on the next engine run (level-up, bank close, Refresh).
+
 35. **Ruling (RL-003, 2026-09-08): group ironman shared storage is one
     ownership pool with the bank.** The plugin caches `InventoryID.INV_GROUP_TEMP`
     on `ItemContainerChanged` exactly like the bank and persists it (with

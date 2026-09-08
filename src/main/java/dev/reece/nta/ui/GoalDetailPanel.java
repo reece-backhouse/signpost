@@ -22,6 +22,7 @@ import dev.reece.nta.engine.model.RouteStep;
 import dev.reece.nta.engine.model.Shortfall;
 import dev.reece.nta.engine.model.ShortfallItem;
 import dev.reece.nta.engine.model.SkillLevelGap;
+import dev.reece.nta.engine.Eta;
 import dev.reece.nta.engine.model.SkillPlan;
 import dev.reece.nta.kb.GatheringAlternative;
 import dev.reece.nta.kb.GatheringPlan;
@@ -351,6 +352,12 @@ public class GoalDetailPanel extends JPanel
 		if (g.isRecommended())
 		{
 			text.append(recommendedTag());
+		}
+		// RL-012 AC3/AC4 (spec ruling 34): time left at the observed rate, over the xp the bank steps don't cover
+		String eta = Eta.text(Eta.remainingXp(plan.getRoute(), plan.getToXp() - plan.getFromXp()), currentAdvice.getXpPerHour().get(g.getSkill()));
+		if (eta != null)
+		{
+			text.append(" <span style='color:" + Icons.hex(ColorScheme.LIGHT_GRAY_COLOR) + "'>").append(eta).append("</span>");
 		}
 		JPanel east = new NoStretchPanel();
 		east.setLayout(new BoxLayout(east, BoxLayout.X_AXIS));

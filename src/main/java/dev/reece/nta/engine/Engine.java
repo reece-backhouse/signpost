@@ -70,6 +70,12 @@ public class Engine
 	/** As {@link #run(Snapshot, KnowledgeBase, AccountData, Instant)}, also reporting which of {@code previous}'s goals were completed since (RL-011 AC5, spec ruling 31); {@code previous} may be {@code null}. */
 	public Advice run(Snapshot snapshot, KnowledgeBase kb, AccountData data, Instant now, Advice previous)
 	{
+		return run(snapshot, kb, data, now, previous, Map.of());
+	}
+
+	/** As above, also carrying the plugin's observed {@code xpPerHour} per skill through to {@link Advice#getXpPerHour()} (RL-012, spec ruling 34). */
+	public Advice run(Snapshot snapshot, KnowledgeBase kb, AccountData data, Instant now, Advice previous, Map<Skill, Long> xpPerHour)
+	{
 		Map<DiaryTier, DiaryTierProgress> diaryProgress = DiaryProgress.compute(snapshot, kb);
 		List<GoalStatus> base = gapEngine.evaluate(snapshot, kb, diaryProgress, data.getOwnedManually());
 		PrefsView basePrefs = prefsResolver.resolve(data, base, now);
@@ -115,7 +121,7 @@ public class Engine
 		}
 
 		return new Advice(snapshot, statuses, diaryProgress, now, ranked, picked, rest, accountStage, later, whys, explanations, reasons,
-			ownedManuallyNames, prefs, focus, completedSince(previous, statuses, snapshot, data.getOwnedManually()));
+			ownedManuallyNames, prefs, focus, completedSince(previous, statuses, snapshot, data.getOwnedManually()), xpPerHour);
 	}
 
 	/**
