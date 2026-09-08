@@ -61,6 +61,38 @@ class AccountStoreTest
 		assertEquals(data, store.load(1234L));
 	}
 
+	/** RL-003 AC6: a version-1 file (no version field, no group storage) upgrades on load to version 2 with empty, unseen group storage. */
+	@Test
+	void versionOneFileUpgradesToVersionTwoWithEmptyGroupStorage() throws Exception
+	{
+		Files.createDirectories(dir);
+		Files.writeString(dir.resolve("7.json"), "{\"bank\":{\"995\":10},\"bankAsOf\":\"2026-09-01T12:00:00Z\",\"focusGoalId\":\"quest:1\"}");
+
+		AccountData data = store.load(7L);
+
+		assertEquals(2, data.getVersion());
+		assertEquals(Map.of(), data.getGroupStorage());
+		assertEquals(null, data.getGroupStorageAsOf());
+		assertEquals(false, data.toCachedGroupStorage().isKnown());
+		assertEquals(Map.of(995, 10), data.getBank());
+		assertEquals("quest:1", data.getFocusGoalId());
+	}
+
+	/** RL-003 AC1: group storage round-trips with its asOf; an account that never saw it writes no groupStorageAsOf. */
+	@Test
+	void groupStorageRoundTripsAndUnseenStorageWritesNoAsOf() throws Exception
+	{
+		AccountData seen = AccountDataMutations.groupStorage(AccountData.empty(), Map.of(4151, 2), Instant.parse("2026-09-08T10:00:00Z"));
+		store.save(8L, seen);
+		assertEquals(seen, store.load(8L));
+		assertEquals(Map.of(4151, 2), store.load(8L).getGroupStorage());
+
+		store.save(9L, AccountData.empty());
+		String json = Files.readString(dir.resolve("9.json"));
+		assertEquals(false, json.contains("groupStorageAsOf"), json);
+		assertEquals(true, json.contains("\"version\":2"), json);
+	}
+
 	@Test
 	void loadOfMissingFileReturnsEmpty()
 	{

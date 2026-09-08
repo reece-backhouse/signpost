@@ -100,4 +100,13 @@ public final class AccountDataMutations
 		copy.setBankAsOf(asOf);
 		return copy;
 	}
+
+	/** RL-003: the group ironman shared storage, written on interface close exactly like {@link #bank}. */
+	public static AccountData groupStorage(AccountData data, Map<Integer, Integer> items, Instant asOf)
+	{
+		AccountData copy = data.copy();
+		copy.setGroupStorage(new HashMap<>(items));
+		copy.setGroupStorageAsOf(asOf);
+		return copy;
+	}
 }
