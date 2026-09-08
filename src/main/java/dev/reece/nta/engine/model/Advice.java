@@ -44,6 +44,12 @@ public class Advice
 	PrefsView prefs;
 	/** The player's active focus goal drill-down (ticket E, spec ruling 26), or {@code null} when no goal is focused or the focused goal is no longer present (e.g. completed) among {@code statuses}. */
 	FocusDetail focus;
+	/**
+	 * RL-011 AC5 (spec ruling 31): goals the previous {@link Advice} listed that this run no
+	 * longer does because they were completed - not marked owned by hand, and for a skill target
+	 * only when its level was actually reached. Empty when there was no previous advice.
+	 */
+	List<Goal> completedSinceLast;
 
 	public Advice(
 		Snapshot snapshot,
@@ -60,7 +66,8 @@ public class Advice
 		Map<String, String> reasons,
 		Map<String, String> ownedManuallyNames,
 		PrefsView prefs,
-		FocusDetail focus)
+		FocusDetail focus,
+		List<Goal> completedSinceLast)
 	{
 		this.snapshot = snapshot;
 		this.statuses = List.copyOf(statuses);
@@ -77,5 +84,6 @@ public class Advice
 		this.ownedManuallyNames = Map.copyOf(ownedManuallyNames);
 		this.prefs = prefs;
 		this.focus = focus;
+		this.completedSinceLast = List.copyOf(completedSinceLast);
 	}
 }

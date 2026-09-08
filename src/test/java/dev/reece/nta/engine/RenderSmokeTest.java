@@ -24,10 +24,12 @@ import dev.reece.nta.kb.KnowledgeBase;
 import dev.reece.nta.kb.MilestoneCategory;
 import dev.reece.nta.snapshot.Snapshot;
 import dev.reece.nta.store.AccountData;
+import dev.reece.nta.store.AccountDataMutations;
 import dev.reece.nta.ui.GoalDetailPanel;
 import dev.reece.nta.ui.GoalSearchField;
 import dev.reece.nta.ui.Icons;
 import dev.reece.nta.ui.NextTargetPanel;
+import dev.reece.nta.ui.ProgressBar;
 import dev.reece.nta.ui.SuggestPanel;
 import java.awt.Component;
 import java.awt.Container;
@@ -47,6 +49,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
+import net.runelite.api.Quest;
+import net.runelite.api.QuestState;
 import net.runelite.api.Skill;
 import net.runelite.client.game.SkillIconManager;
 import net.runelite.client.ui.PluginPanel;
@@ -110,10 +114,10 @@ class RenderSmokeTest
 
 		Advice advice = new Advice(base.getSnapshot(), statuses, base.getDiaryProgress(), base.getComputedAt(),
 			ranked, picked, base.getRest(), base.getAccountStage(), base.getLater(), base.getWhys(), explanations,
-			base.getReasons(), base.getOwnedManuallyNames(), base.getPrefs(), base.getFocus());
+			base.getReasons(), base.getOwnedManuallyNames(), base.getPrefs(), base.getFocus(), List.of());
 
 		Consumer<String> noop = id -> { };
-		SuggestPanel.Actions actions = new SuggestPanel.Actions(noop, noop, noop, noop, noop, noop, noop, () -> { }, noop, noop);
+		SuggestPanel.Actions actions = new SuggestPanel.Actions(noop, noop, noop, noop, noop, noop, noop, () -> { }, noop, noop, () -> 7);
 
 		try
 		{
@@ -150,6 +154,11 @@ class RenderSmokeTest
 				assertTrue(containsLabelContaining(panel, "+2 more"), "capped parents must show a +N more suffix");
 				assertTrue(containsLabelContaining(panel, "materials in bank"), "bank-covered skill target must show the badge");
 				assertTrue(containsIconOnlyLabel(panel), "task 57: the skill-target card must carry the skill's icon");
+				// RL-011 AC1: a thin xp progress bar with "have/need" text, the detail view's component
+				assertTrue(containsLabelContaining(panel, "60/75"), "skill-target card must show have/need level text");
+				assertTrue(containsComponentOfType(panel, ProgressBar.class), "skill-target card must carry a ProgressBar");
+				layoutAtRealPanelWidth(panel);
+				assertNothingEndsPastTheRightEdge(panel);
 			});
 		}
 		catch (InvocationTargetException e)
@@ -176,7 +185,7 @@ class RenderSmokeTest
 		Advice advice = new Engine(new BoostTable()).run(snapshot, new KbBuilder().build(), AccountData.empty(), computedAt);
 
 		Consumer<String> noop = id -> { };
-		SuggestPanel.Actions actions = new SuggestPanel.Actions(noop, noop, noop, noop, noop, noop, noop, () -> { }, noop, noop);
+		SuggestPanel.Actions actions = new SuggestPanel.Actions(noop, noop, noop, noop, noop, noop, noop, () -> { }, noop, noop, () -> 7);
 		GoalDetailPanel.Actions detailActions = new GoalDetailPanel.Actions(noop, () -> { });
 
 		try
@@ -292,7 +301,7 @@ class RenderSmokeTest
 		Advice fewerGoals = engine.run(snapshot, new KbBuilder().quest(1, "Quest 1").quest(2, "Quest 2").build(), AccountData.empty(), Instant.now());
 
 		Consumer<String> noop = id -> { };
-		SuggestPanel.Actions actions = new SuggestPanel.Actions(noop, noop, noop, noop, noop, noop, noop, () -> { }, noop, noop);
+		SuggestPanel.Actions actions = new SuggestPanel.Actions(noop, noop, noop, noop, noop, noop, noop, () -> { }, noop, noop, () -> 7);
 		int[] counts = new int[4];
 
 		try
@@ -350,7 +359,7 @@ class RenderSmokeTest
 		Advice owned = new Engine(new BoostTable()).run(snapshot, kb, ownedData, Instant.now());
 
 		Consumer<String> noop = id -> { };
-		SuggestPanel.Actions actions = new SuggestPanel.Actions(noop, noop, noop, noop, noop, noop, noop, () -> { }, noop, noop);
+		SuggestPanel.Actions actions = new SuggestPanel.Actions(noop, noop, noop, noop, noop, noop, noop, () -> { }, noop, noop, () -> 7);
 
 		try
 		{
@@ -389,6 +398,173 @@ class RenderSmokeTest
 	}
 
 	/**
+	 * RL-011 AC2: after "Not now" on a card, the render that drops the card shows a one-line grey
+	 * status where the card was, and the render after that shows nothing.
+	 */
+	@Test
+	void notNowLeavesAOneRenderStatusLineWhereTheCardWas() throws Exception
+	{
+		KnowledgeBase kb = new KbBuilder()
+			.milestone("m:barrows-gloves", MilestoneCategory.GEAR, "Barrows gloves", 8)
+			.ownedIf("Barrows gloves", 7462)
+			.skill(Skill.DEFENCE, 40)
+			.build();
+		Snapshot snapshot = new SnapshotBuilder().build();
+		Engine engine = new Engine(new BoostTable());
+		Advice before = engine.run(snapshot, kb, AccountData.empty(), Instant.now());
+		AccountData snoozed = AccountDataMutations.snooze(AccountData.empty(), "m:barrows-gloves", Instant.now().plus(7, ChronoUnit.DAYS), null);
+		Advice after = engine.run(snapshot, kb, snoozed, Instant.now());
+
+		Consumer<String> noop = id -> { };
+		SuggestPanel.Actions actions = new SuggestPanel.Actions(noop, noop, noop, noop, noop, noop, noop, () -> { }, noop, noop, () -> 7);
+
+		try
+		{
+			SwingUtilities.invokeAndWait(() ->
+			{
+				SuggestPanel panel = new SuggestPanel(actions, icons());
+				panel.render(before);
+				assertFalse(containsLabelContaining(panel, "Not now:"), "no status before any click");
+				findButtonWithText(panel, "Not now").doClick();
+
+				panel.render(after);
+				assertTrue(containsLabelContaining(panel, "Not now: hidden for 7 days or until something changes"),
+					"the render after the click must show the status line");
+				layoutAtRealPanelWidth(panel);
+				assertNothingEndsPastTheRightEdge(panel);
+
+				panel.render(after);
+				assertFalse(containsLabelContaining(panel, "Not now:"), "the status line lasts one render only");
+			});
+		}
+		catch (InvocationTargetException e)
+		{
+			if (e.getCause() instanceof HeadlessException)
+			{
+				Assumptions.abort("Headless environment cannot construct Swing components: " + e.getCause().getMessage());
+			}
+			throw e;
+		}
+	}
+
+	/** RL-011 AC3, first empty state: no cards and the bank has never been seen. */
+	@Test
+	void emptyPickThreeWithUnknownBankSaysToOpenTheBank() throws Exception
+	{
+		Snapshot snapshot = new SnapshotBuilder().bankUnknown().build();
+		Advice advice = new Engine(new BoostTable()).run(snapshot, new KbBuilder().build(), AccountData.empty(), Instant.now());
+		assertTrue(advice.getPicked().isEmpty(), "fixture must have an empty pick-3");
+
+		renderSuggest(advice, panel ->
+		{
+			assertTrue(containsLabelContaining(panel, "Bank not seen yet: open your bank once"), "bank-unknown empty state text");
+			layoutAtRealPanelWidth(panel);
+			assertNothingEndsPastTheRightEdge(panel);
+		});
+	}
+
+	/** RL-011 AC3, second empty state: every remaining goal is Later; the text names the closest and links to the Later section. */
+	@Test
+	void emptyPickThreeWithOnlyLaterGoalsNamesTheClosestAndOpensLater() throws Exception
+	{
+		KnowledgeBase kb = new KbBuilder().milestone("boss:test", MilestoneCategory.BOSS, "Test Boss", 5).stage(4).build();
+		Advice advice = new Engine(new BoostTable()).run(new SnapshotBuilder().build(), kb, AccountData.empty(), Instant.now());
+		assertTrue(advice.getPicked().isEmpty(), "fixture must have an empty pick-3");
+		assertEquals(1, advice.getLater().size(), "fixture must have one later goal");
+
+		renderSuggest(advice, panel ->
+		{
+			assertTrue(containsLabelContaining(panel, "Everything left is a stage above yours; the closest is Test Boss (Later)"), "later empty state text");
+			JLabel link = findLabelStartingWith(panel, "Show Later");
+			assertNotNull(link, "a link to the Later section must render");
+			link.dispatchEvent(new MouseEvent(link, MouseEvent.MOUSE_CLICKED, System.currentTimeMillis(), 0, 1, 1, 1, false));
+			assertTrue(findLabelStartingWith(panel, "LATER").getText().endsWith("[-]"), "the link must expand the Later section");
+			layoutAtRealPanelWidth(panel);
+			assertNothingEndsPastTheRightEdge(panel);
+		});
+	}
+
+	/** RL-011 AC3, third empty state: nothing ranked at all. */
+	@Test
+	void emptyPickThreeWithNothingLeftSaysSo() throws Exception
+	{
+		Advice advice = new Engine(new BoostTable()).run(new SnapshotBuilder().build(), new KbBuilder().build(), AccountData.empty(), Instant.now());
+
+		renderSuggest(advice, panel ->
+		{
+			assertTrue(containsLabelContaining(panel, "Nothing to suggest: all known goals done or hidden"), "nothing-left empty state text");
+			layoutAtRealPanelWidth(panel);
+			assertNothingEndsPastTheRightEdge(panel);
+		});
+	}
+
+	/**
+	 * RL-011 AC5: a goal completed since the previous advice shows a green "Done:" strip at the top
+	 * until the next user action, and stays listed under a collapsed "Achieved this session (N)".
+	 */
+	@Test
+	void completedGoalShowsADoneStripUntilTheNextActionAndAnAchievedSection() throws Exception
+	{
+		KnowledgeBase kb = new KbBuilder()
+			.quest(Quest.COOKS_ASSISTANT.getId(), "Cook's Assistant")
+			.quest(Quest.RUNE_MYSTERIES.getId(), "Rune Mysteries")
+			.build();
+		Engine engine = new Engine(new BoostTable());
+		Advice first = engine.run(new SnapshotBuilder().build(), kb, AccountData.empty(), Instant.now());
+		Snapshot finished = new SnapshotBuilder().quest(Quest.COOKS_ASSISTANT, QuestState.FINISHED).build();
+		Advice second = engine.run(finished, kb, AccountData.empty(), Instant.now(), first);
+		Advice third = engine.run(finished, kb, AccountData.empty(), Instant.now(), second);
+		assertEquals(1, second.getCompletedSinceLast().size(), "fixture must complete one goal");
+		assertTrue(third.getCompletedSinceLast().isEmpty(), "fixture's third run must complete nothing");
+
+		renderSuggest(second, panel ->
+		{
+			JLabel strip = findLabelNamed(panel, SuggestPanel.DONE_STRIP_NAME);
+			assertNotNull(strip, "a Done strip must render");
+			assertTrue(strip.getText().contains("Done: Cook's Assistant") && strip.isVisible(), strip.getText());
+			JLabel achieved = findLabelStartingWith(panel, "ACHIEVED THIS SESSION");
+			assertNotNull(achieved, "an Achieved this session header must render");
+			assertTrue(achieved.getText().contains("(1)") && achieved.getText().endsWith("[+]"), achieved.getText());
+			achieved.dispatchEvent(new MouseEvent(achieved, MouseEvent.MOUSE_CLICKED, System.currentTimeMillis(), 0, 1, 1, 1, false));
+			assertTrue(findLabelStartingWith(panel, "ACHIEVED THIS SESSION").getText().endsWith("[-]"), "header must expand");
+			assertEquals(2, countLabelsContaining(panel, "Cook's Assistant"), "strip plus one achieved row");
+			layoutAtRealPanelWidth(panel);
+			assertNothingEndsPastTheRightEdge(panel);
+
+			findButtonWithText(panel, "Not now").doClick();
+			assertFalse(findLabelNamed(panel, SuggestPanel.DONE_STRIP_NAME).isVisible(), "a user action hides the strip");
+
+			panel.render(third);
+			assertFalse(findLabelNamed(panel, SuggestPanel.DONE_STRIP_NAME).isVisible(), "a render with nothing new keeps the strip hidden");
+			assertTrue(findLabelStartingWith(panel, "ACHIEVED THIS SESSION").getText().contains("(1)"), "the session list is kept");
+		});
+	}
+
+	/** Builds a {@link SuggestPanel} with no-op actions, renders {@code advice} on the EDT and hands the panel to {@code check}; skips on a headless JVM. */
+	private static void renderSuggest(Advice advice, Consumer<SuggestPanel> check) throws Exception
+	{
+		Consumer<String> noop = id -> { };
+		SuggestPanel.Actions actions = new SuggestPanel.Actions(noop, noop, noop, noop, noop, noop, noop, () -> { }, noop, noop, () -> 7);
+		try
+		{
+			SwingUtilities.invokeAndWait(() ->
+			{
+				SuggestPanel panel = new SuggestPanel(actions, icons());
+				panel.render(advice);
+				check.accept(panel);
+			});
+		}
+		catch (InvocationTargetException e)
+		{
+			if (e.getCause() instanceof HeadlessException)
+			{
+				Assumptions.abort("Headless environment cannot construct Swing components: " + e.getCause().getMessage());
+			}
+			throw e;
+		}
+	}
+
+	/**
 	 * Fix round 1: a collapsible section header (Later/Snoozed/Ignored) must toggle when the click
 	 * lands on the label the user actually sees ("LATER (0) [+]"), not just on the outer panel -
 	 * AWT delivers a click to the deepest component under the cursor and does not bubble it to
@@ -406,7 +582,7 @@ class RenderSmokeTest
 		Advice advice = new Engine(new BoostTable()).run(snapshot, kb, AccountData.empty(), Instant.now());
 
 		Consumer<String> noop = id -> { };
-		SuggestPanel.Actions actions = new SuggestPanel.Actions(noop, noop, noop, noop, noop, noop, noop, () -> { }, noop, noop);
+		SuggestPanel.Actions actions = new SuggestPanel.Actions(noop, noop, noop, noop, noop, noop, noop, () -> { }, noop, noop, () -> 7);
 
 		try
 		{
@@ -610,7 +786,7 @@ class RenderSmokeTest
 
 		Advice advice = new Advice(base.getSnapshot(), base.getStatuses(), base.getDiaryProgress(), base.getComputedAt(),
 			base.getRanked(), base.getPicked(), base.getRest(), base.getAccountStage(), base.getLater(), base.getWhys(),
-			base.getExplanations(), base.getReasons(), base.getOwnedManuallyNames(), base.getPrefs(), focus);
+			base.getExplanations(), base.getReasons(), base.getOwnedManuallyNames(), base.getPrefs(), focus, List.of());
 
 		Consumer<String> noop = id -> { };
 		GoalDetailPanel.Actions actions = new GoalDetailPanel.Actions(noop, () -> { });
@@ -706,7 +882,7 @@ class RenderSmokeTest
 		assertNotNull(advice.getFocus(), "fixture must produce a focus");
 
 		Consumer<String> noop = id -> { };
-		SuggestPanel.Actions actions = new SuggestPanel.Actions(noop, noop, noop, noop, noop, noop, noop, () -> { }, noop, noop);
+		SuggestPanel.Actions actions = new SuggestPanel.Actions(noop, noop, noop, noop, noop, noop, noop, () -> { }, noop, noop, () -> 7);
 		GoalDetailPanel.Actions detailActions = new GoalDetailPanel.Actions(noop, () -> { });
 
 		try
@@ -809,7 +985,7 @@ class RenderSmokeTest
 			List.of(herblorePlan, woodcuttingPlan), herblorePlan);
 		Advice advice = new Advice(base.getSnapshot(), base.getStatuses(), base.getDiaryProgress(), base.getComputedAt(),
 			base.getRanked(), base.getPicked(), base.getRest(), base.getAccountStage(), base.getLater(), base.getWhys(),
-			base.getExplanations(), base.getReasons(), base.getOwnedManuallyNames(), base.getPrefs(), focus);
+			base.getExplanations(), base.getReasons(), base.getOwnedManuallyNames(), base.getPrefs(), focus, List.of());
 
 		Consumer<String> noop = id -> { };
 		GoalDetailPanel.Actions actions = new GoalDetailPanel.Actions(noop, () -> { });
@@ -996,7 +1172,7 @@ class RenderSmokeTest
 		Advice advice = craftChainFixture();
 
 		Consumer<String> noop = id -> { };
-		SuggestPanel.Actions actions = new SuggestPanel.Actions(noop, noop, noop, noop, noop, noop, noop, () -> { }, noop, noop);
+		SuggestPanel.Actions actions = new SuggestPanel.Actions(noop, noop, noop, noop, noop, noop, noop, () -> { }, noop, noop, () -> 7);
 		GoalDetailPanel.Actions detailActions = new GoalDetailPanel.Actions(noop, () -> { });
 
 		try
@@ -1202,7 +1378,7 @@ class RenderSmokeTest
 		FocusDetail focus = new FocusDetail(base.getFocus().getStatus(), base.getFocus().getNext(), route, null, 61, 70, List.of(plan), plan);
 		return new Advice(base.getSnapshot(), base.getStatuses(), base.getDiaryProgress(), base.getComputedAt(),
 			base.getRanked(), base.getPicked(), base.getRest(), base.getAccountStage(), base.getLater(), base.getWhys(),
-			base.getExplanations(), base.getReasons(), base.getOwnedManuallyNames(), base.getPrefs(), focus);
+			base.getExplanations(), base.getReasons(), base.getOwnedManuallyNames(), base.getPrefs(), focus, List.of());
 	}
 
 	private static JLabel findLabelWithText(Container container, String text)
@@ -1335,7 +1511,7 @@ class RenderSmokeTest
 		Advice withoutCraftFrom = new Advice(withCraftFrom.getSnapshot(), withCraftFrom.getStatuses(), withCraftFrom.getDiaryProgress(),
 			withCraftFrom.getComputedAt(), withCraftFrom.getRanked(), withCraftFrom.getPicked(), withCraftFrom.getRest(),
 			withCraftFrom.getAccountStage(), withCraftFrom.getLater(), withCraftFrom.getWhys(), withCraftFrom.getExplanations(),
-			withCraftFrom.getReasons(), withCraftFrom.getOwnedManuallyNames(), withCraftFrom.getPrefs(), focus);
+			withCraftFrom.getReasons(), withCraftFrom.getOwnedManuallyNames(), withCraftFrom.getPrefs(), focus, List.of());
 
 		Consumer<String> noop = id -> { };
 		GoalDetailPanel.Actions actions = new GoalDetailPanel.Actions(noop, () -> { });
@@ -1555,6 +1731,18 @@ class RenderSmokeTest
 		return false;
 	}
 
+	private static boolean containsComponentOfType(Container container, Class<?> type)
+	{
+		for (Component child : container.getComponents())
+		{
+			if (type.isInstance(child) || (child instanceof Container && containsComponentOfType((Container) child, type)))
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+
 	private static boolean containsComponentNamed(Container container, String name)
 	{
 		for (Component child : container.getComponents())
@@ -1602,6 +1790,26 @@ class RenderSmokeTest
 			if (child instanceof Container)
 			{
 				JTextField found = findTextField((Container) child);
+				if (found != null)
+				{
+					return found;
+				}
+			}
+		}
+		return null;
+	}
+
+	private static JButton findButtonWithText(Container container, String text)
+	{
+		for (Component child : container.getComponents())
+		{
+			if (child instanceof JButton && text.equals(((JButton) child).getText()))
+			{
+				return (JButton) child;
+			}
+			if (child instanceof Container)
+			{
+				JButton found = findButtonWithText((Container) child, text);
 				if (found != null)
 				{
 					return found;

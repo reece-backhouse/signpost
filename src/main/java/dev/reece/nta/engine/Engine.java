@@ -4,6 +4,8 @@ import dev.reece.nta.engine.model.Advice;
 import dev.reece.nta.engine.model.DiaryTaskGap;
 import dev.reece.nta.engine.model.FocusDetail;
 import dev.reece.nta.engine.model.Gap;
+import dev.reece.nta.engine.model.Goal;
+import dev.reece.nta.engine.model.GoalCategory;
 import dev.reece.nta.engine.model.GoalStatus;
 import dev.reece.nta.engine.model.NextStep;
 import dev.reece.nta.engine.model.NextStepType;
@@ -25,6 +27,7 @@ import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 import lombok.Value;
 import net.runelite.api.Experience;
@@ -60,6 +63,12 @@ public class Engine
 	}
 
 	public Advice run(Snapshot snapshot, KnowledgeBase kb, AccountData data, Instant now)
+	{
+		return run(snapshot, kb, data, now, null);
+	}
+
+	/** As {@link #run(Snapshot, KnowledgeBase, AccountData, Instant)}, also reporting which of {@code previous}'s goals were completed since (RL-011 AC5, spec ruling 31); {@code previous} may be {@code null}. */
+	public Advice run(Snapshot snapshot, KnowledgeBase kb, AccountData data, Instant now, Advice previous)
 	{
 		Map<DiaryTier, DiaryTierProgress> diaryProgress = DiaryProgress.compute(snapshot, kb);
 		List<GoalStatus> base = gapEngine.evaluate(snapshot, kb, diaryProgress, data.getOwnedManually());
@@ -106,7 +115,41 @@ public class Engine
 		}
 
 		return new Advice(snapshot, statuses, diaryProgress, now, ranked, picked, rest, accountStage, later, whys, explanations, reasons,
-			ownedManuallyNames, prefs, focus);
+			ownedManuallyNames, prefs, focus, completedSince(previous, statuses, snapshot, data.getOwnedManually()));
+	}
+
+	/**
+	 * Spec ruling 31: a goal {@code previous} listed that {@code current} no longer does counts as
+	 * completed unless it was marked owned by hand, or it is a skill target whose level the player
+	 * has not reached (a target also disappears when its parent is hidden or the stage moves on).
+	 */
+	static List<Goal> completedSince(Advice previous, List<GoalStatus> current, Snapshot snapshot, Set<String> ownedManually)
+	{
+		if (previous == null)
+		{
+			return List.of();
+		}
+		Set<String> currentIds = current.stream().map(s -> s.getGoal().getId()).collect(Collectors.toSet());
+		List<Goal> completed = new ArrayList<>();
+		for (GoalStatus old : previous.getStatuses())
+		{
+			Goal goal = old.getGoal();
+			if (currentIds.contains(goal.getId()) || ownedManually.contains(goal.getId()))
+			{
+				continue;
+			}
+			if (goal.getCategory() == GoalCategory.SKILL_TARGET)
+			{
+				SkillLevelGap gap = (SkillLevelGap) old.getGaps().get(0);
+				SkillState state = snapshot.getSkills().get(gap.getSkill());
+				if (state == null || state.getLevel() < gap.getNeed())
+				{
+					continue;
+				}
+			}
+			completed.add(goal);
+		}
+		return completed;
 	}
 
 	/** Thin overload for callers with no account data (e.g. existing tests): behaves as {@link #run} with an empty {@link AccountData} and the current time. */

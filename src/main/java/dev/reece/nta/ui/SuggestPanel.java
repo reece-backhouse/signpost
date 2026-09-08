@@ -19,11 +19,13 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
+import java.util.function.IntSupplier;
 import java.util.stream.Collectors;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -34,6 +36,7 @@ import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.SwingUtilities;
 import lombok.Value;
+import net.runelite.api.Experience;
 import net.runelite.api.Skill;
 import net.runelite.client.ui.ColorScheme;
 import net.runelite.client.ui.FontManager;
@@ -58,6 +61,9 @@ public class SuggestPanel extends JPanel
 	private static final int CARD_PADDING = 6;
 	// task 57: the coloured category accent down a card's left edge
 	private static final int CARD_ACCENT_WIDTH = 4;
+	// RL-011: a card's text wraps to the card's interior, not the panel width, so the card's
+	// preferred width never ends past the panel edge (the overflow walker's rule).
+	private static final int CARD_WRAP_WIDTH = WRAP_WIDTH - CARD_ACCENT_WIDTH - 2 * (CARD_BORDER_THICKNESS + CARD_PADDING);
 	// the narrowest a button row is ever actually laid out in: a card's interior (the sidebar
 	// minus its scrollbar, minus the card's own border and padding on both sides). List rows have
 	// no card border, so they always get at least this much room - using the card's tighter figure
@@ -67,9 +73,13 @@ public class SuggestPanel extends JPanel
 	// ponytail: char-count heuristic for the milestone reason's 3-line cap; tune if a real font's
 	// wrapping at WRAP_WIDTH turns out to differ noticeably from this.
 	private static final int REASON_MAX_CHARS = 140;
+	/** Component name of the RL-011 AC5 "Done:" strip, for tests. */
+	public static final String DONE_STRIP_NAME = "done-strip";
 
 	private final Actions actions;
 	private final Icons icons;
+	// RL-011 AC5: "Done: X" shown from the render that reports a completion until the next action
+	private final JLabel doneStrip = new JLabel();
 	private final JPanel focusBannerPanel = new JPanel();
 	private final JLabel focusLabel = new JLabel();
 	private final JPanel pickOnePanel = new JPanel();
@@ -83,14 +93,29 @@ public class SuggestPanel extends JPanel
 	private final JPanel ignoredContent = new JPanel();
 	private final Header ownedHeader;
 	private final JPanel ownedContent = new JPanel();
+	private final Header achievedHeader;
+	private final JPanel achievedContent = new JPanel();
+	/** RL-011 AC5: every goal completed since the panel was last cleared (login), id to name. */
+	private final Map<String, String> achieved = new LinkedHashMap<>();
 
 	private Advice currentAdvice;
 	private Set<String> lastGoalIds;
+	// RL-011 AC2: the previous render's card/row order, so a status line can sit where the acted-on
+	// goal used to be; pendingStatus is set by a click and becomes shownStatus on the next render,
+	// which is the only render that shows it.
+	private List<String> lastPickedIds = List.of();
+	private List<String> lastRestIds = List.of();
+	private String pendingStatusGoal;
+	private String pendingStatusText;
+	private String shownStatusText;
+	private int statusPickIndex = -1;
+	private int statusRestIndex = -1;
 	private int nextShown = PAGE_SIZE;
 	private boolean laterExpanded;
 	private boolean snoozedExpanded;
 	private boolean ignoredExpanded;
 	private boolean ownedExpanded;
+	private boolean achievedExpanded;
 	// task 52b: which goals' "Why?" explanation is expanded, keyed by goal id - never cleared on
 	// re-render (same rule as laterExpanded/snoozedExpanded/ignoredExpanded above), so a re-render
 	// with the same goal set keeps whatever the user had open.
@@ -104,12 +129,22 @@ public class SuggestPanel extends JPanel
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		setAlignmentX(Component.LEFT_ALIGNMENT);
 
+		doneStrip.setName(DONE_STRIP_NAME);
+		doneStrip.setFont(FontManager.getRunescapeBoldFont());
+		doneStrip.setForeground(ColorScheme.PROGRESS_COMPLETE_COLOR);
+		doneStrip.setAlignmentX(Component.LEFT_ALIGNMENT);
+		doneStrip.setBorder(BorderFactory.createCompoundBorder(
+			BorderFactory.createMatteBorder(0, CARD_ACCENT_WIDTH, 0, 0, ColorScheme.PROGRESS_COMPLETE_COLOR),
+			BorderFactory.createEmptyBorder(4, CARD_PADDING, 4, 0)));
+		doneStrip.setVisible(false);
+		add(doneStrip);
+
 		focusBannerPanel.setLayout(new BoxLayout(focusBannerPanel, BoxLayout.X_AXIS));
 		focusBannerPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
 		focusBannerPanel.setVisible(false);
 		focusBannerPanel.add(focusLabel);
 		focusBannerPanel.add(Box.createHorizontalStrut(6));
-		focusBannerPanel.add(button("Clear focus", actions.getClearFocus()));
+		focusBannerPanel.add(action("Clear focus", actions.getClearFocus()));
 		add(focusBannerPanel);
 
 		add(sectionLabel("Pick one"));
@@ -172,6 +207,17 @@ public class SuggestPanel extends JPanel
 		ownedContent.setAlignmentX(Component.LEFT_ALIGNMENT);
 		ownedContent.setVisible(false);
 		add(ownedContent);
+
+		achievedHeader = new Header("Achieved this session", () ->
+		{
+			achievedExpanded = !achievedExpanded;
+			rebuild();
+		});
+		add(achievedHeader);
+		achievedContent.setLayout(new BoxLayout(achievedContent, BoxLayout.Y_AXIS));
+		achievedContent.setAlignmentX(Component.LEFT_ALIGNMENT);
+		achievedContent.setVisible(false);
+		add(achievedContent);
 	}
 
 	/**
@@ -194,7 +240,115 @@ public class SuggestPanel extends JPanel
 		}
 		lastGoalIds = goalIds;
 		this.currentAdvice = advice;
+
+		shownStatusText = pendingStatusText;
+		statusPickIndex = pendingStatusGoal == null ? -1 : lastPickedIds.indexOf(pendingStatusGoal);
+		statusRestIndex = pendingStatusGoal == null ? -1 : lastRestIds.indexOf(pendingStatusGoal);
+		if (shownStatusText != null && statusPickIndex < 0 && statusRestIndex < 0)
+		{
+			statusPickIndex = 0;
+		}
+		pendingStatusGoal = null;
+		pendingStatusText = null;
+		lastPickedIds = ids(advice.getPicked());
+		lastRestIds = ids(advice.getRest());
+
+		if (!advice.getCompletedSinceLast().isEmpty())
+		{
+			for (Goal goal : advice.getCompletedSinceLast())
+			{
+				achieved.put(goal.getId(), goal.getName());
+			}
+			doneStrip.setText(wrap("Done: " + advice.getCompletedSinceLast().stream().map(Goal::getName).collect(Collectors.joining(", ")), WRAP_WIDTH - CARD_ACCENT_WIDTH - CARD_PADDING));
+			doneStrip.setVisible(true);
+		}
 		rebuild();
+	}
+
+	private static List<String> ids(List<RankedGoal> goals)
+	{
+		return goals.stream().map(r -> r.getStatus().getGoal().getId()).collect(Collectors.toList());
+	}
+
+	/** RL-011 AC2: wraps {@code action} so the render it triggers shows {@code text} where the goal's card/row was. */
+	private Runnable withStatus(String goalId, String text, Consumer<String> action)
+	{
+		return () ->
+		{
+			pendingStatusGoal = goalId;
+			pendingStatusText = text;
+			action.accept(goalId);
+		};
+	}
+
+	/**
+	 * RL-011 AC3: why "Pick one" is empty, the first that applies - bank never seen; everything
+	 * left is Later (naming the closest); nothing ranked at all - plus a link that expands the
+	 * Later section (or Snoozed when there is nothing Later but something snoozed).
+	 */
+	private JPanel emptyState(Advice advice)
+	{
+		JPanel panel = GoalDetailPanel.column();
+		String text;
+		if (!advice.getSnapshot().isBankKnown())
+		{
+			text = "Bank not seen yet: open your bank once";
+		}
+		else if (!advice.getLater().isEmpty())
+		{
+			text = "Everything left is a stage above yours; the closest is " + advice.getLater().get(0).getStatus().getGoal().getName() + " (Later)";
+		}
+		else
+		{
+			text = "Nothing to suggest: all known goals done or hidden";
+		}
+		JLabel label = new JLabel(wrap(text));
+		label.setFont(FontManager.getRunescapeSmallFont());
+		label.setForeground(ColorScheme.LIGHT_GRAY_COLOR);
+		label.setAlignmentX(Component.LEFT_ALIGNMENT);
+		panel.add(label);
+
+		int laterCount = advice.getLater().size();
+		int snoozedCount = advice.getPrefs().getSnoozedActive().size();
+		if (laterCount > 0)
+		{
+			panel.add(link("Show Later (" + laterCount + ")", () -> laterExpanded = true));
+		}
+		else if (snoozedCount > 0)
+		{
+			panel.add(link("Show Snoozed (" + snoozedCount + ")", () -> snoozedExpanded = true));
+		}
+		return panel;
+	}
+
+	/** A small underlined-looking clickable label that runs {@code onClick} then rebuilds. */
+	private JLabel link(String text, Runnable onClick)
+	{
+		JLabel label = new JLabel(text);
+		label.setFont(FontManager.getRunescapeSmallFont());
+		label.setForeground(ColorScheme.BRAND_ORANGE);
+		label.setAlignmentX(Component.LEFT_ALIGNMENT);
+		label.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		label.addMouseListener(new MouseAdapter()
+		{
+			@Override
+			public void mouseClicked(MouseEvent e)
+			{
+				onClick.run();
+				rebuild();
+			}
+		});
+		return label;
+	}
+
+	private JLabel statusLine()
+	{
+		JLabel label = new JLabel(wrap(shownStatusText));
+		label.setFont(FontManager.getRunescapeSmallFont());
+		label.setForeground(ColorScheme.LIGHT_GRAY_COLOR);
+		label.setAlignmentX(Component.LEFT_ALIGNMENT);
+		label.setBorder(BorderFactory.createEmptyBorder(2, 0, 6, 0));
+		return label;
 	}
 
 	/** Removes every card and row (logged out). Must be called on the EDT. */
@@ -202,9 +356,16 @@ public class SuggestPanel extends JPanel
 	{
 		currentAdvice = null;
 		lastGoalIds = null;
+		lastPickedIds = List.of();
+		lastRestIds = List.of();
+		pendingStatusGoal = null;
+		pendingStatusText = null;
+		shownStatusText = null;
+		achieved.clear();
+		doneStrip.setVisible(false);
 		nextShown = PAGE_SIZE;
 		focusBannerPanel.setVisible(false);
-		for (JPanel content : List.of(pickOnePanel, nextListPanel, laterContent, snoozedContent, ignoredContent, ownedContent))
+		for (JPanel content : List.of(pickOnePanel, nextListPanel, laterContent, snoozedContent, ignoredContent, ownedContent, achievedContent))
 		{
 			content.removeAll();
 		}
@@ -246,10 +407,22 @@ public class SuggestPanel extends JPanel
 		}
 
 		pickOnePanel.removeAll();
-		for (RankedGoal r : advice.getPicked())
+		List<RankedGoal> picked = advice.getPicked();
+		for (int i = 0; i <= picked.size(); i++)
 		{
-			pickOnePanel.add(buildCard(r, advice.getWhys(), advice.getReasons(), advice.getExplanations()));
-			pickOnePanel.add(Box.createVerticalStrut(6));
+			if (shownStatusText != null && statusPickIndex == Math.min(i, picked.size()))
+			{
+				pickOnePanel.add(statusLine());
+			}
+			if (i < picked.size())
+			{
+				pickOnePanel.add(buildCard(picked.get(i), advice.getWhys(), advice.getReasons(), advice.getExplanations()));
+				pickOnePanel.add(Box.createVerticalStrut(6));
+			}
+		}
+		if (picked.isEmpty())
+		{
+			pickOnePanel.add(emptyState(advice));
 		}
 
 		rebuildNextSection();
@@ -302,6 +475,21 @@ public class SuggestPanel extends JPanel
 			}
 		}
 
+		achievedHeader.update(achieved.size(), achievedExpanded);
+		achievedContent.removeAll();
+		achievedContent.setVisible(achievedExpanded);
+		if (achievedExpanded)
+		{
+			for (String name : achieved.values())
+			{
+				JLabel label = new JLabel(wrap(name));
+				label.setFont(FontManager.getRunescapeSmallFont());
+				label.setAlignmentX(Component.LEFT_ALIGNMENT);
+				label.setBorder(BorderFactory.createEmptyBorder(2, 0, 2, 0));
+				achievedContent.add(label);
+			}
+		}
+
 		revalidate();
 		repaint();
 	}
@@ -312,9 +500,16 @@ public class SuggestPanel extends JPanel
 		Advice advice = currentAdvice;
 		List<RankedGoal> rest = advice.getRest();
 		int shown = Math.min(nextShown, rest.size());
-		for (int i = 0; i < shown; i++)
+		for (int i = 0; i <= shown; i++)
 		{
-			nextListPanel.add(buildRow(rest.get(i), advice.getWhys(), advice.getExplanations()));
+			if (shownStatusText != null && statusRestIndex >= 0 && Math.min(statusRestIndex, shown) == i)
+			{
+				nextListPanel.add(statusLine());
+			}
+			if (i < shown)
+			{
+				nextListPanel.add(buildRow(rest.get(i), advice.getWhys(), advice.getExplanations()));
+			}
 		}
 		showMoreButton.setVisible(shown < rest.size());
 		revalidate();
@@ -366,7 +561,7 @@ public class SuggestPanel extends JPanel
 			card.add(skillTargetDetail(r.getStatus()));
 		}
 
-		JLabel whyLabel = new JLabel(wrap(whys.getOrDefault(goal.getId(), "")));
+		JLabel whyLabel = new JLabel(wrap(whys.getOrDefault(goal.getId(), ""), CARD_WRAP_WIDTH));
 		whyLabel.setFont(FontManager.getRunescapeFont());
 		whyLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
 		card.add(whyLabel);
@@ -375,21 +570,21 @@ public class SuggestPanel extends JPanel
 		if (reason != null && !reason.isEmpty())
 		{
 			card.add(Box.createVerticalStrut(4));
-			JLabel reasonLabel = new JLabel(wrap(truncateReason(reason)));
+			JLabel reasonLabel = new JLabel(wrap(truncateReason(reason), CARD_WRAP_WIDTH));
 			reasonLabel.setFont(FontManager.getRunescapeSmallFont().deriveFont(Font.ITALIC));
 			reasonLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
 			card.add(reasonLabel);
 		}
 
 		card.add(Box.createVerticalStrut(4));
-		card.add(buildWhyToggle(goal.getId(), explanations));
+		card.add(buildWhyToggle(goal.getId(), explanations, CARD_WRAP_WIDTH));
 
 		card.add(Box.createVerticalStrut(6));
-		JButton doThis = button("Do this", () -> actions.getDoThis().accept(goal.getId()));
-		JButton notNow = button("Not now", () -> actions.getNotNow().accept(goal.getId()));
-		JButton ignore = button("Ignore", () -> actions.getIgnore().accept(goal.getId()));
+		JButton doThis = action("Do this", () -> actions.getDoThis().accept(goal.getId()));
+		JButton notNow = action("Not now", notNow(goal.getId()));
+		JButton ignore = action("Ignore", ignore(goal.getId()));
 		card.add(ownableLabel(goal.getCategory()) != null
-			? actionRow(doThis, notNow, ignore, button(ownableLabel(goal.getCategory()), () -> actions.getMarkOwned().accept(goal.getId())))
+			? actionRow(doThis, notNow, ignore, action(ownableLabel(goal.getCategory()), markOwned(goal.getId())))
 			: actionRow(doThis, notNow, ignore));
 
 		return card;
@@ -410,25 +605,47 @@ public class SuggestPanel extends JPanel
 		label.setAlignmentX(Component.LEFT_ALIGNMENT);
 		row.add(label);
 		row.add(Box.createVerticalStrut(4));
-		row.add(buildWhyToggle(goal.getId(), explanations));
+		row.add(buildWhyToggle(goal.getId(), explanations, WRAP_WIDTH));
 		row.add(Box.createVerticalStrut(4));
 
-		JButton doThis = button("Do this", () -> actions.getDoThis().accept(goal.getId()));
-		JButton notNow = button("Not now", () -> actions.getNotNow().accept(goal.getId()));
-		JButton ignore = button("Ignore", () -> actions.getIgnore().accept(goal.getId()));
+		JButton doThis = action("Do this", () -> actions.getDoThis().accept(goal.getId()));
+		JButton notNow = action("Not now", notNow(goal.getId()));
+		JButton ignore = action("Ignore", ignore(goal.getId()));
 		JButton pin = r.isPinned()
-			? button("Unpin", () -> actions.getUnpin().accept(goal.getId()))
-			: button("Pin", () -> actions.getPin().accept(goal.getId()));
+			? action("Unpin", () -> actions.getUnpin().accept(goal.getId()))
+			: action("Pin", withStatus(goal.getId(), "Pinned: stays in Pick one until you unpin it", actions.getPin()));
 		String ownLabel = ownableLabel(goal.getCategory());
 		row.add(ownLabel != null
-			? actionRow(doThis, notNow, ignore, pin, button(ownLabel, () -> actions.getMarkOwned().accept(goal.getId())))
+			? actionRow(doThis, notNow, ignore, pin, action(ownLabel, markOwned(goal.getId())))
 			: actionRow(doThis, notNow, ignore, pin));
 
 		return row;
 	}
 
+	private Runnable notNow(String goalId)
+	{
+		return withStatus(goalId, "Not now: hidden for " + actions.getSnoozeDays().getAsInt() + " days or until something changes", actions.getNotNow());
+	}
+
+	private Runnable ignore(String goalId)
+	{
+		return withStatus(goalId, "Ignored: hidden until you restore it from Ignored", actions.getIgnore());
+	}
+
+	private Runnable markOwned(String goalId)
+	{
+		return withStatus(goalId, "Owned: marked done by hand, undo under Owned (manual)", actions.getMarkOwned());
+	}
+
 	/** Task 57: a {@link GoalCategory#SKILL_TARGET}'s skill (its one {@link SkillLevelGap}), for the card's icon; {@code null} for any other goal. */
 	private static Skill targetSkill(GoalStatus status)
+	{
+		SkillLevelGap gap = skillGap(status);
+		return gap == null ? null : gap.getSkill();
+	}
+
+	/** A {@link GoalCategory#SKILL_TARGET}'s one {@link SkillLevelGap}; {@code null} for any other goal. */
+	private static SkillLevelGap skillGap(GoalStatus status)
 	{
 		if (status.getGoal().getCategory() != GoalCategory.SKILL_TARGET)
 		{
@@ -438,7 +655,7 @@ public class SuggestPanel extends JPanel
 		{
 			if (gap instanceof SkillLevelGap)
 			{
-				return ((SkillLevelGap) gap).getSkill();
+				return (SkillLevelGap) gap;
 			}
 		}
 		return null;
@@ -458,11 +675,27 @@ public class SuggestPanel extends JPanel
 		{
 			String names = parents.stream().limit(MAX_PARENTS).map(GoalRef::getName).collect(Collectors.joining(", "));
 			int more = parents.size() - MAX_PARENTS;
-			JLabel parentsLabel = new JLabel(wrap("for " + names + (more > 0 ? ", +" + more + " more" : "")));
+			JLabel parentsLabel = new JLabel(wrap("for " + names + (more > 0 ? ", +" + more + " more" : ""), CARD_WRAP_WIDTH));
 			parentsLabel.setFont(FontManager.getRunescapeSmallFont());
 			parentsLabel.setForeground(ColorScheme.LIGHT_GRAY_COLOR);
 			parentsLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
 			panel.add(parentsLabel);
+		}
+
+		SkillLevelGap gap = skillGap(status);
+		if (gap != null)
+		{
+			JLabel levels = new JLabel(gap.getHave() + "/" + gap.getNeed());
+			levels.setFont(FontManager.getRunescapeSmallFont());
+			levels.setForeground(ColorScheme.LIGHT_GRAY_COLOR);
+			levels.setAlignmentX(Component.LEFT_ALIGNMENT);
+			panel.add(levels);
+			// RL-011 AC1: fraction of the target level's xp already earned
+			long targetXp = Experience.getXpForLevel(gap.getNeed());
+			ProgressBar bar = new ProgressBar((targetXp - gap.getXpDelta()) / (double) targetXp,
+				status.isBankCovered() ? ColorScheme.PROGRESS_COMPLETE_COLOR : ColorScheme.BRAND_ORANGE);
+			bar.setBorder(BorderFactory.createEmptyBorder(2, 0, 2, 0));
+			panel.add(bar);
 		}
 
 		if (status.isBankCovered())
@@ -480,11 +713,11 @@ public class SuggestPanel extends JPanel
 
 	/**
 	 * Task 52b: a collapsed-by-default "Why?" toggle; expanding it lists {@code explanations}'
-	 * lines for {@code goalId} in the small grey font, wrapped to the card width. Expansion state
+	 * lines for {@code goalId} in the small grey font, wrapped to {@code width}. Expansion state
 	 * persists per goal id in {@link #expandedWhy} across re-renders (same rule as the collapsible
 	 * section headers).
 	 */
-	private JPanel buildWhyToggle(String goalId, Map<String, List<String>> explanations)
+	private JPanel buildWhyToggle(String goalId, Map<String, List<String>> explanations, int width)
 	{
 		JPanel panel = new JPanel();
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
@@ -520,7 +753,7 @@ public class SuggestPanel extends JPanel
 			panel.add(Box.createVerticalStrut(2));
 			for (String line : explanations.getOrDefault(goalId, List.of()))
 			{
-				JLabel lineLabel = new JLabel(wrap(line));
+				JLabel lineLabel = new JLabel(wrap(line, width));
 				lineLabel.setFont(FontManager.getRunescapeSmallFont());
 				lineLabel.setForeground(ColorScheme.LIGHT_GRAY_COLOR);
 				lineLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -531,14 +764,14 @@ public class SuggestPanel extends JPanel
 		return panel;
 	}
 
-	private JPanel bringBackRow(String goalId, Advice advice, String buttonLabel, Consumer<String> action)
+	private JPanel bringBackRow(String goalId, Advice advice, String buttonLabel, Consumer<String> onClick)
 	{
 		JPanel row = new JPanel(new BorderLayout(4, 0));
 		row.setAlignmentX(Component.LEFT_ALIGNMENT);
 		JLabel label = new JLabel(nameFor(goalId, advice));
 		label.setFont(FontManager.getRunescapeSmallFont());
 		row.add(label, BorderLayout.CENTER);
-		row.add(button(buttonLabel, () -> action.accept(goalId)), BorderLayout.EAST);
+		row.add(action(buttonLabel, () -> onClick.accept(goalId)), BorderLayout.EAST);
 		return row;
 	}
 
@@ -550,7 +783,7 @@ public class SuggestPanel extends JPanel
 		JLabel label = new JLabel(name);
 		label.setFont(FontManager.getRunescapeSmallFont());
 		row.add(label, BorderLayout.CENTER);
-		row.add(button("Unmark", () -> actions.getUnmarkOwned().accept(goalId)), BorderLayout.EAST);
+		row.add(action("Unmark", () -> actions.getUnmarkOwned().accept(goalId)), BorderLayout.EAST);
 		return row;
 	}
 
@@ -749,6 +982,16 @@ public class SuggestPanel extends JPanel
 		return row;
 	}
 
+	/** RL-011 AC5: this panel's own buttons all count as a user action, which hides the Done strip. */
+	private JButton action(String text, Runnable onClick)
+	{
+		return button(text, () ->
+		{
+			doneStrip.setVisible(false);
+			onClick.run();
+		});
+	}
+
 	/** Every button's factory: full margin so text always has room, no focus paint that eats into it. */
 	static JButton button(String text, Runnable onClick)
 	{
@@ -813,5 +1056,7 @@ public class SuggestPanel extends JPanel
 		Runnable clearFocus;
 		Consumer<String> markOwned;
 		Consumer<String> unmarkOwned;
+		/** RL-011 AC2: the configured snooze length, for the "Not now" status line. */
+		IntSupplier snoozeDays;
 	}
 }

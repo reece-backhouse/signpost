@@ -171,6 +171,17 @@ option; cost-if-wrong noted.
     offered a lower-xp alternative when the KB lacks a plan for a gatherable
     herb; fix by curating gathering.json.
 
+31. **Ruling (ticket RL-011, 2026-09-08): `Advice.completedSinceLast`.**
+    `Engine.run` takes the previous `Advice` (nullable) and lists every goal
+    it had a status for that the new run has none for, except goals in
+    `ownedManually` (marked done by hand, not completed) and skill targets
+    whose level the snapshot has not reached (a target also disappears when
+    its parent is hidden or the account stage moves on). The plugin passes
+    its cached advice on both run paths; the panel accumulates the names for
+    the session ("Achieved this session") and shows the newest as a "Done:"
+    strip until the next user action. The engine stays pure - the previous
+    advice is just another input — cost: none.
+
 Rulings from the grill (docs/surge/reviews/LOCAL-next-target-advisor.md):
 
 13. **Ruling: quest name resolver in kb-build is three-step** — (a) committed
