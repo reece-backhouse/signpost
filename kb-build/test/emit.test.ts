@@ -20,7 +20,7 @@ describe('emitJson', () => {
 describe('writeKb', () => {
   const outPath = join(import.meta.dirname, '..', '..', 'plugin', 'src', 'main', 'resources', 'kb', 'test-fixture.json');
 
-  it('writes version, generatedAt, and payload to plugin/src/main/resources/kb/<name>.json', () => {
+  it('writes version, generatedAt, and payload to src/main/resources/kb/<name>.json', () => {
     writeKb('test-fixture', { quests: [] }, '2026-01-01T00:00:00Z');
     const written = JSON.parse(readFileSync(outPath, 'utf8'));
     expect(written).toEqual({ version: 1, generatedAt: '2026-01-01T00:00:00Z', quests: [] });

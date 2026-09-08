@@ -1,7 +1,8 @@
-plugin/build/
-plugin/.gradle/
-plugin/.idea/
+build/
+.gradle/
+.idea/
 *.iml
 kb-build/node_modules/
 kb-build/dist/
+.superpowers/
 .DS_Store

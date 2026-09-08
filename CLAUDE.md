@@ -1,4 +1,4 @@
-# Next Target Advisor — RuneLite plugin
+# Signpost — RuneLite plugin
 
 Personal RuneLite plugin: reads account state (quests, skills, bank, diaries,
 achievements) and suggests what to focus on next, with routes to get there.
@@ -7,7 +7,9 @@ achievements) and suggests what to focus on next, with routes to get there.
 
 - `tickets/` — product tickets with acceptance criteria (source of truth for scope)
 - `docs/surge/index.md` — Surge Engineering Workflow artifacts (spec, grill, plan)
-- `plugin/` — the RuneLite plugin (Java 11, Gradle, RuneLite 1.12.38 pinned)
+- repo root — the RuneLite plugin (Java 11, Gradle, `runeLiteVersion = latest.release` as the Plugin Hub
+  requires; the KB quest test fails when a new RuneLite release adds a `Quest` constant, so rebuild the KB)
+  Hub metadata: `runelite-plugin.properties`, `icon.png`, `LICENSE`, `README.md`; submission steps in `docs/plugin-hub.md`.
   - `snapshot/` client-thread reads → immutable `Snapshot`
   - `kb/` knowledge base model + loader (bundled JSON under `src/main/resources/kb/`)
   - `engine/` pure logic: GapEngine, StageEstimator, Ranker, SuggestSelector, WhyBuilder,
@@ -29,12 +31,12 @@ achievements) and suggests what to focus on next, with routes to get there.
   executor with a generation guard; the panel updates on the EDT.
 - No network calls from the plugin (`NoNetworkTest` scans imports). Wiki links via `LinkBrowser`.
 - Fail loud: malformed KB data throws at load, naming the entry and field.
-- Tests: `cd plugin && ./gradlew test`; `cd kb-build && npm run typecheck && npm test`.
+- Tests: `./gradlew test`; `cd kb-build && npm run typecheck && npm test`.
 - Commits: `type: scope subject`, imperative, files added individually, no AI attribution.
 
 ## Running the dev client
 
-`cd plugin && ./gradlew run` launches RuneLite with the plugin loaded (`--developer-mode`).
+`./gradlew run` launches RuneLite with the plugin loaded (`--developer-mode`).
 Jagex accounts: install RuneLite launcher ≥ 2.6.3, `launchctl setenv RUNELITE_ARGS
 --insecure-write-credentials` (or add it in `RuneLite --configure`), launch once via the
 Jagex launcher, then the dev client reads `~/.runelite/credentials.properties`. Delete that

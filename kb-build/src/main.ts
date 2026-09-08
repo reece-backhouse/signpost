@@ -11,7 +11,7 @@ import { parseQuestreq } from './questreq.js';
 import { bucket, fetchPriceMapping, fetchRevisions } from './wiki.js';
 
 const dataDir = join(import.meta.dirname, '..', 'data');
-const kbDir = join(import.meta.dirname, '..', '..', 'plugin', 'src', 'main', 'resources', 'kb');
+const kbDir = join(import.meta.dirname, '..', '..', 'src', 'main', 'resources', 'kb');
 
 // Ruling 6: the nine planned skills with a `Module:Skill calc/<Skill>` wiki module.
 const METHOD_SKILLS = [
@@ -140,7 +140,7 @@ function logMethodsSummary(methods: Method[]): void {
   }
 }
 
-/** Reads plugin/src/main/resources/kb/<name>.json, already-built by this pipeline. */
+/** Reads src/main/resources/kb/<name>.json, already-built by this pipeline. */
 function readKb<T>(name: string): T & { generatedAt: string } {
   const path = join(kbDir, `${name}.json`);
   if (!existsSync(path)) {

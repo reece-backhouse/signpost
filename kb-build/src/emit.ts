@@ -23,7 +23,7 @@ export function emitJson(obj: unknown): string {
 
 const KB_DIR = join(import.meta.dirname, '..', '..', 'plugin', 'src', 'main', 'resources', 'kb');
 
-/** Writes `{ version: 1, generatedAt, ...payload }` to plugin/src/main/resources/kb/<name>.json. */
+/** Writes `{ version: 1, generatedAt, ...payload }` to src/main/resources/kb/<name>.json. */
 export function writeKb(name: string, payload: unknown, generatedAt: string): void {
   const outPath = join(KB_DIR, `${name}.json`);
   mkdirSync(dirname(outPath), { recursive: true });
