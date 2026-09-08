@@ -443,6 +443,81 @@ class RenderSmokeTest
 		}
 	}
 
+	/** RL-011 AC3, first empty state: no cards and the bank has never been seen. */
+	@Test
+	void emptyPickThreeWithUnknownBankSaysToOpenTheBank() throws Exception
+	{
+		Snapshot snapshot = new SnapshotBuilder().bankUnknown().build();
+		Advice advice = new Engine(new BoostTable()).run(snapshot, new KbBuilder().build(), AccountData.empty(), Instant.now());
+		assertTrue(advice.getPicked().isEmpty(), "fixture must have an empty pick-3");
+
+		renderSuggest(advice, panel ->
+		{
+			assertTrue(containsLabelContaining(panel, "Bank not seen yet: open your bank once"), "bank-unknown empty state text");
+			layoutAtRealPanelWidth(panel);
+			assertNothingEndsPastTheRightEdge(panel);
+		});
+	}
+
+	/** RL-011 AC3, second empty state: every remaining goal is Later; the text names the closest and links to the Later section. */
+	@Test
+	void emptyPickThreeWithOnlyLaterGoalsNamesTheClosestAndOpensLater() throws Exception
+	{
+		KnowledgeBase kb = new KbBuilder().milestone("boss:test", MilestoneCategory.BOSS, "Test Boss", 5).stage(4).build();
+		Advice advice = new Engine(new BoostTable()).run(new SnapshotBuilder().build(), kb, AccountData.empty(), Instant.now());
+		assertTrue(advice.getPicked().isEmpty(), "fixture must have an empty pick-3");
+		assertEquals(1, advice.getLater().size(), "fixture must have one later goal");
+
+		renderSuggest(advice, panel ->
+		{
+			assertTrue(containsLabelContaining(panel, "Everything left is a stage above yours; the closest is Test Boss (Later)"), "later empty state text");
+			JLabel link = findLabelStartingWith(panel, "Show Later");
+			assertNotNull(link, "a link to the Later section must render");
+			link.dispatchEvent(new MouseEvent(link, MouseEvent.MOUSE_CLICKED, System.currentTimeMillis(), 0, 1, 1, 1, false));
+			assertTrue(findLabelStartingWith(panel, "LATER").getText().endsWith("[-]"), "the link must expand the Later section");
+			layoutAtRealPanelWidth(panel);
+			assertNothingEndsPastTheRightEdge(panel);
+		});
+	}
+
+	/** RL-011 AC3, third empty state: nothing ranked at all. */
+	@Test
+	void emptyPickThreeWithNothingLeftSaysSo() throws Exception
+	{
+		Advice advice = new Engine(new BoostTable()).run(new SnapshotBuilder().build(), new KbBuilder().build(), AccountData.empty(), Instant.now());
+
+		renderSuggest(advice, panel ->
+		{
+			assertTrue(containsLabelContaining(panel, "Nothing to suggest: all known goals done or hidden"), "nothing-left empty state text");
+			layoutAtRealPanelWidth(panel);
+			assertNothingEndsPastTheRightEdge(panel);
+		});
+	}
+
+	/** Builds a {@link SuggestPanel} with no-op actions, renders {@code advice} on the EDT and hands the panel to {@code check}; skips on a headless JVM. */
+	private static void renderSuggest(Advice advice, Consumer<SuggestPanel> check) throws Exception
+	{
+		Consumer<String> noop = id -> { };
+		SuggestPanel.Actions actions = new SuggestPanel.Actions(noop, noop, noop, noop, noop, noop, noop, () -> { }, noop, noop, () -> 7);
+		try
+		{
+			SwingUtilities.invokeAndWait(() ->
+			{
+				SuggestPanel panel = new SuggestPanel(actions, icons());
+				panel.render(advice);
+				check.accept(panel);
+			});
+		}
+		catch (InvocationTargetException e)
+		{
+			if (e.getCause() instanceof HeadlessException)
+			{
+				Assumptions.abort("Headless environment cannot construct Swing components: " + e.getCause().getMessage());
+			}
+			throw e;
+		}
+	}
+
 	/**
 	 * Fix round 1: a collapsible section header (Later/Snoozed/Ignored) must toggle when the click
 	 * lands on the label the user actually sees ("LATER (0) [+]"), not just on the outer panel -

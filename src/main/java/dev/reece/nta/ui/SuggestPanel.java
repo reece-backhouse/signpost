@@ -237,6 +237,66 @@ public class SuggestPanel extends JPanel
 		};
 	}
 
+	/**
+	 * RL-011 AC3: why "Pick one" is empty, the first that applies - bank never seen; everything
+	 * left is Later (naming the closest); nothing ranked at all - plus a link that expands the
+	 * Later section (or Snoozed when there is nothing Later but something snoozed).
+	 */
+	private JPanel emptyState(Advice advice)
+	{
+		JPanel panel = GoalDetailPanel.column();
+		String text;
+		if (!advice.getSnapshot().isBankKnown())
+		{
+			text = "Bank not seen yet: open your bank once";
+		}
+		else if (!advice.getLater().isEmpty())
+		{
+			text = "Everything left is a stage above yours; the closest is " + advice.getLater().get(0).getStatus().getGoal().getName() + " (Later)";
+		}
+		else
+		{
+			text = "Nothing to suggest: all known goals done or hidden";
+		}
+		JLabel label = new JLabel(wrap(text));
+		label.setFont(FontManager.getRunescapeSmallFont());
+		label.setForeground(ColorScheme.LIGHT_GRAY_COLOR);
+		label.setAlignmentX(Component.LEFT_ALIGNMENT);
+		panel.add(label);
+
+		int laterCount = advice.getLater().size();
+		int snoozedCount = advice.getPrefs().getSnoozedActive().size();
+		if (laterCount > 0)
+		{
+			panel.add(link("Show Later (" + laterCount + ")", () -> laterExpanded = true));
+		}
+		else if (snoozedCount > 0)
+		{
+			panel.add(link("Show Snoozed (" + snoozedCount + ")", () -> snoozedExpanded = true));
+		}
+		return panel;
+	}
+
+	/** A small underlined-looking clickable label that runs {@code onClick} then rebuilds. */
+	private JLabel link(String text, Runnable onClick)
+	{
+		JLabel label = new JLabel(text);
+		label.setFont(FontManager.getRunescapeSmallFont());
+		label.setForeground(ColorScheme.BRAND_ORANGE);
+		label.setAlignmentX(Component.LEFT_ALIGNMENT);
+		label.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		label.addMouseListener(new MouseAdapter()
+		{
+			@Override
+			public void mouseClicked(MouseEvent e)
+			{
+				onClick.run();
+				rebuild();
+			}
+		});
+		return label;
+	}
+
 	private JLabel statusLine()
 	{
 		JLabel label = new JLabel(wrap(shownStatusText));
@@ -313,6 +373,10 @@ public class SuggestPanel extends JPanel
 				pickOnePanel.add(buildCard(picked.get(i), advice.getWhys(), advice.getReasons(), advice.getExplanations()));
 				pickOnePanel.add(Box.createVerticalStrut(6));
 			}
+		}
+		if (picked.isEmpty())
+		{
+			pickOnePanel.add(emptyState(advice));
 		}
 
 		rebuildNextSection();
