@@ -4,7 +4,6 @@ import dev.reece.nta.engine.model.Advice;
 import dev.reece.nta.engine.model.GoalStatus;
 import dev.reece.nta.snapshot.Snapshot;
 import java.awt.BorderLayout;
-import java.awt.CardLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridLayout;
@@ -43,18 +42,17 @@ public class NextTargetPanel extends PluginPanel
 	private final SuggestPanel suggestPanel;
 	private final GoalDetailPanel goalDetailPanel;
 	private final GoalSearchField goalSearchField;
-	private final JPanel body = new JPanel(new CardLayout());
-
-	private static final String SUGGEST_CARD = "suggest";
-	private static final String DETAIL_CARD = "detail";
+	// task 57: not a CardLayout - that sizes both views to the TALLER one (the Suggest list), and
+	// the detail view's BoxLayout then stretched every section to fill the gap. The active view is
+	// swapped in at NORTH so it only ever takes its own preferred height.
+	private final JPanel body = new JPanel(new BorderLayout());
 
 	public NextTargetPanel(Runnable onRefresh, SuggestPanel.Actions actions, GoalDetailPanel.Actions detailActions)
 	{
 		suggestPanel = new SuggestPanel(actions);
 		goalDetailPanel = new GoalDetailPanel(detailActions);
 		goalSearchField = new GoalSearchField(detailActions.getFocus());
-		body.add(suggestPanel, SUGGEST_CARD);
-		body.add(goalDetailPanel, DETAIL_CARD);
+		show(suggestPanel);
 
 		setLayout(new BorderLayout());
 
@@ -125,7 +123,7 @@ public class NextTargetPanel extends PluginPanel
 		goalsLabel.setText("");
 		goalSearchField.clear();
 		suggestPanel.clear();
-		((CardLayout) body.getLayout()).show(body, SUGGEST_CARD);
+		show(suggestPanel);
 		revalidate();
 		repaint();
 	}
@@ -170,16 +168,27 @@ public class NextTargetPanel extends PluginPanel
 
 		goalSearchField.render(advice);
 
-		CardLayout cardLayout = (CardLayout) body.getLayout();
 		if (advice.getFocus() != null)
 		{
 			goalDetailPanel.render(advice);
-			cardLayout.show(body, DETAIL_CARD);
+			show(goalDetailPanel);
 		}
 		else
 		{
 			suggestPanel.render(advice);
-			cardLayout.show(body, SUGGEST_CARD);
+			show(suggestPanel);
 		}
+	}
+
+	private void show(JPanel view)
+	{
+		if (view.getParent() == body)
+		{
+			return;
+		}
+		body.removeAll();
+		body.add(view, BorderLayout.NORTH);
+		body.revalidate();
+		body.repaint();
 	}
 }

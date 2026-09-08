@@ -30,7 +30,9 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Font;
+import java.awt.Dimension;
 import java.awt.Insets;
+import java.awt.LayoutManager;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -70,11 +72,11 @@ public class GoalDetailPanel extends JPanel
 	private final JButton wikiButton = new JButton("Wiki");
 	private final JLabel whyLabel = new JLabel();
 	private final JLabel reasonLabel = new JLabel();
-	private final JPanel explanationPanel = new JPanel();
-	private final JPanel missingPanel = new JPanel();
-	private final JPanel nextPanel = new JPanel();
-	private final JPanel shortSection = new JPanel();
-	private final JPanel shortPanel = new JPanel();
+	private final JPanel explanationPanel = column();
+	private final JPanel missingPanel = column();
+	private final JPanel nextPanel = column();
+	private final JPanel shortSection = column();
+	private final JPanel shortPanel = column();
 
 	private Advice currentAdvice;
 	private String currentWikiUrl;
@@ -90,9 +92,8 @@ public class GoalDetailPanel extends JPanel
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		setAlignmentX(Component.LEFT_ALIGNMENT);
 
-		JPanel titleRow = new JPanel();
+		JPanel titleRow = new NoStretchPanel();
 		titleRow.setLayout(new BoxLayout(titleRow, BoxLayout.X_AXIS));
-		titleRow.setAlignmentX(Component.LEFT_ALIGNMENT);
 		titleLabel.setFont(FontManager.getRunescapeBoldFont());
 		titleRow.add(titleLabel);
 		titleRow.add(javax.swing.Box.createHorizontalGlue());
@@ -122,26 +123,16 @@ public class GoalDetailPanel extends JPanel
 		reasonLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
 		add(reasonLabel);
 
-		explanationPanel.setLayout(new BoxLayout(explanationPanel, BoxLayout.Y_AXIS));
-		explanationPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
 		explanationPanel.setBorder(BorderFactory.createEmptyBorder(4, 0, 0, 0));
 		add(explanationPanel);
 
 		add(SuggestPanel.sectionLabel("Missing"));
-		missingPanel.setLayout(new BoxLayout(missingPanel, BoxLayout.Y_AXIS));
-		missingPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
 		add(missingPanel);
 
 		add(SuggestPanel.sectionLabel("Do this next"));
-		nextPanel.setLayout(new BoxLayout(nextPanel, BoxLayout.Y_AXIS));
-		nextPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
 		add(nextPanel);
 
-		shortSection.setLayout(new BoxLayout(shortSection, BoxLayout.Y_AXIS));
-		shortSection.setAlignmentX(Component.LEFT_ALIGNMENT);
 		shortSection.add(SuggestPanel.sectionLabel("Short"));
-		shortPanel.setLayout(new BoxLayout(shortPanel, BoxLayout.Y_AXIS));
-		shortPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
 		shortSection.add(shortPanel);
 		add(shortSection);
 	}
@@ -323,9 +314,7 @@ public class GoalDetailPanel extends JPanel
 
 	private JPanel nextStepContent(FocusDetail focus)
 	{
-		JPanel panel = new JPanel();
-		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-		panel.setAlignmentX(Component.LEFT_ALIGNMENT);
+		JPanel panel = column();
 
 		NextStep next = focus.getNext();
 		switch (next.getType())
@@ -334,8 +323,7 @@ public class GoalDetailPanel extends JPanel
 			{
 				QuestPrereqGap g = next.getQuestGap();
 				String verb = g.getState() == QuestState.IN_PROGRESS ? "Finish " : "Start ";
-				JPanel questRow = new JPanel(new BorderLayout(4, 0));
-				questRow.setAlignmentX(Component.LEFT_ALIGNMENT);
+				JPanel questRow = borderRow();
 				questRow.add(new JLabel(verb + g.getQuest().getName()), BorderLayout.CENTER);
 				questRow.add(SuggestPanel.button("Wiki", () -> LinkBrowser.browse(g.getWikiUrl())), BorderLayout.EAST);
 				panel.add(questRow);
@@ -374,9 +362,7 @@ public class GoalDetailPanel extends JPanel
 
 	private JPanel routeStepRows(RouteStep step, int indent)
 	{
-		JPanel container = new JPanel();
-		container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
-		container.setAlignmentX(Component.LEFT_ALIGNMENT);
+		JPanel container = column();
 		container.add(twoLineLinkRow(
 			step.getMethod().getName() + " ×" + step.getCount(),
 			step.getFromLevel() + "→" + step.getToLevel() + ", +" + step.getXpGained() + " xp",
@@ -418,9 +404,7 @@ public class GoalDetailPanel extends JPanel
 
 	private JPanel shortfallContent(Shortfall shortfall)
 	{
-		JPanel panel = new JPanel();
-		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-		panel.setAlignmentX(Component.LEFT_ALIGNMENT);
+		JPanel panel = column();
 		for (ShortfallItem item : shortfall.getItems())
 		{
 			panel.add(shortfallItemRows(item, 0));
@@ -430,9 +414,7 @@ public class GoalDetailPanel extends JPanel
 
 	private JPanel shortfallItemRows(ShortfallItem item, int indent)
 	{
-		JPanel container = new JPanel();
-		container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
-		container.setAlignmentX(Component.LEFT_ALIGNMENT);
+		JPanel container = column();
 		int shortQty = Math.max(0, item.getNeed() - item.getHave());
 		container.add(linkRow(item.getItem().getName() + ": have " + item.getHave() + ", need " + item.getNeed() + ", short " + shortQty,
 			item.getWikiUrl(), indent));
@@ -462,9 +444,7 @@ public class GoalDetailPanel extends JPanel
 	{
 		GatheringPlan plan = offer.getPlan();
 
-		JPanel container = new JPanel();
-		container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
-		container.setAlignmentX(Component.LEFT_ALIGNMENT);
+		JPanel container = column();
 
 		if (!first)
 		{
@@ -512,9 +492,7 @@ public class GoalDetailPanel extends JPanel
 	 */
 	private JPanel alternativesToggle(String key, List<GatheringAlternative> alternatives, int indent)
 	{
-		JPanel panel = new JPanel();
-		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-		panel.setAlignmentX(Component.LEFT_ALIGNMENT);
+		JPanel panel = column();
 
 		boolean expanded = expandedAlternatives.contains(key);
 		JLabel toggle = new JLabel("Alternatives (" + alternatives.size() + ") " + (expanded ? "▼" : "▶"));
@@ -561,8 +539,7 @@ public class GoalDetailPanel extends JPanel
 	/** A {@link #row} with a "Wiki" button on the right when {@code wikiUrl} is known (ticket F3: methods and materials link to the wiki). */
 	private static JPanel linkRow(String text, String wikiUrl, int indent)
 	{
-		JPanel row = new JPanel(new BorderLayout(4, 0));
-		row.setAlignmentX(Component.LEFT_ALIGNMENT);
+		JPanel row = borderRow();
 		row.add(row(text, indent), BorderLayout.CENTER);
 		if (wikiUrl != null)
 		{
@@ -579,8 +556,7 @@ public class GoalDetailPanel extends JPanel
 		titleLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
 		titleLabel.setBorder(BorderFactory.createEmptyBorder(2, indent * 12, 2, 0));
 
-		JPanel row = new JPanel(new BorderLayout(4, 0));
-		row.setAlignmentX(Component.LEFT_ALIGNMENT);
+		JPanel row = borderRow();
 		row.add(titleLabel, BorderLayout.CENTER);
 		if (wikiUrl != null)
 		{
@@ -592,20 +568,56 @@ public class GoalDetailPanel extends JPanel
 	/** Task 49: a route step as two lines - the method and count on top, levels/xp below - with the "Wiki" button spanning both. */
 	private static JPanel twoLineLinkRow(String line1, String line2, String wikiUrl, int indent)
 	{
-		JPanel text = new JPanel();
-		text.setLayout(new BoxLayout(text, BoxLayout.Y_AXIS));
-		text.setAlignmentX(Component.LEFT_ALIGNMENT);
+		JPanel text = column();
 		text.add(row(line1, indent));
 		text.add(row(line2, indent));
 
-		JPanel row = new JPanel(new BorderLayout(4, 0));
-		row.setAlignmentX(Component.LEFT_ALIGNMENT);
+		JPanel row = borderRow();
 		row.add(text, BorderLayout.CENTER);
 		if (wikiUrl != null)
 		{
 			row.add(SuggestPanel.button("Wiki", () -> LinkBrowser.browse(wikiUrl)), BorderLayout.EAST);
 		}
 		return row;
+	}
+
+	/**
+	 * Task 57: a panel whose maximum height is always its preferred height, so a parent
+	 * {@link BoxLayout} with spare vertical room never stretches it (the whitespace between sections
+	 * the user saw). {@link JLabel} already behaves this way; a plain {@link JPanel} does not.
+	 */
+	private static class NoStretchPanel extends JPanel
+	{
+		NoStretchPanel()
+		{
+			setAlignmentX(Component.LEFT_ALIGNMENT);
+		}
+
+		NoStretchPanel(LayoutManager layout)
+		{
+			super(layout);
+			setAlignmentX(Component.LEFT_ALIGNMENT);
+		}
+
+		@Override
+		public Dimension getMaximumSize()
+		{
+			return new Dimension(Integer.MAX_VALUE, getPreferredSize().height);
+		}
+	}
+
+	/** A left-aligned vertical stack that never stretches. */
+	static JPanel column()
+	{
+		JPanel panel = new NoStretchPanel();
+		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+		return panel;
+	}
+
+	/** A left-aligned {@link BorderLayout}{@code (4, 0)} row that never stretches. */
+	static JPanel borderRow()
+	{
+		return new NoStretchPanel(new BorderLayout(4, 0));
 	}
 
 	private static JLabel row(String text, int indent)

@@ -596,9 +596,7 @@ public class SuggestPanel extends JPanel
 	/** A section header: a small caps-style label with a thin separator underneath, not collapsible. */
 	static JPanel sectionLabel(String text)
 	{
-		JPanel panel = new JPanel();
-		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-		panel.setAlignmentX(Component.LEFT_ALIGNMENT);
+		JPanel panel = GoalDetailPanel.column();
 		panel.setBorder(BorderFactory.createEmptyBorder(8, 0, 4, 0));
 
 		JLabel label = new JLabel(text.toUpperCase());

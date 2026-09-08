@@ -598,6 +598,92 @@ class RenderSmokeTest
 		}
 	}
 
+	/**
+	 * Task 57: the detail view must take only its own preferred height inside a body taller than
+	 * it (the sidebar viewport), never stretching its sections apart - the whitespace the user saw
+	 * with the old {@link java.awt.CardLayout}, which sized both views to the taller Suggest list.
+	 */
+	@Test
+	void goalDetailViewDoesNotStretchToFillATallBody() throws Exception
+	{
+		int ranarrUnf = 200;
+		KnowledgeBase kb = new KbBuilder()
+			.quest(0, "Test Quest").skill(Skill.HERBLORE, 20)
+			.method(Skill.HERBLORE, "Prayer potion(3)", 1, 4)
+			.material(ranarrUnf, 1)
+			.material("Ranarr potion (unf)", ranarrUnf)
+			.source("GE", "Grand Exchange")
+			.build();
+		// the header formats bankAsOf, which SnapshotBuilder.bankItem leaves null
+		Snapshot snapshot = new SnapshotBuilder().bankItem(ranarrUnf, "Ranarr potion (unf)", 2).build()
+			.toBuilder().bankAsOf(Instant.now()).build();
+		AccountData data = new AccountData(new HashMap<>(), null, new HashMap<>(), new HashSet<>(), new ArrayList<>(), "quest:0", new HashSet<>());
+		Advice advice = new Engine(new BoostTable()).run(snapshot, kb, data, Instant.now());
+		assertNotNull(advice.getFocus(), "fixture must produce a focus");
+
+		Consumer<String> noop = id -> { };
+		SuggestPanel.Actions actions = new SuggestPanel.Actions(noop, noop, noop, noop, noop, noop, noop, () -> { }, noop, noop);
+		GoalDetailPanel.Actions detailActions = new GoalDetailPanel.Actions(noop, () -> { });
+
+		try
+		{
+			SwingUtilities.invokeAndWait(() ->
+			{
+				NextTargetPanel panel = new NextTargetPanel(() -> { }, actions, detailActions);
+				panel.render(advice);
+				GoalDetailPanel detail = findDetailPanel(panel);
+				assertNotNull(detail, "detail view must be in the tree when advice has a focus");
+
+				int width = PluginPanel.PANEL_WIDTH - PluginPanel.SCROLLBAR_WIDTH;
+				panel.setSize(width, 3000);
+				layoutRecursively(panel);
+
+				assertEquals(detail.getPreferredSize().height, detail.getHeight(),
+					"detail view laid out in a 3000px body must keep its preferred height, not stretch");
+				int childrenPreferred = 0;
+				for (Component child : detail.getComponents())
+				{
+					if (child.isVisible())
+					{
+						assertEquals(child.getPreferredSize().height, child.getHeight(),
+							"section " + child.getClass().getSimpleName() + " must not be stretched");
+						childrenPreferred += child.getPreferredSize().height;
+					}
+				}
+				assertTrue(detail.getHeight() < 2 * childrenPreferred,
+					"detail height " + detail.getHeight() + " must be close to the sum of its sections " + childrenPreferred);
+			});
+		}
+		catch (InvocationTargetException e)
+		{
+			if (e.getCause() instanceof HeadlessException)
+			{
+				Assumptions.abort("Headless environment cannot construct Swing components: " + e.getCause().getMessage());
+			}
+			throw e;
+		}
+	}
+
+	private static GoalDetailPanel findDetailPanel(Container container)
+	{
+		for (Component child : container.getComponents())
+		{
+			if (child instanceof GoalDetailPanel)
+			{
+				return (GoalDetailPanel) child;
+			}
+			if (child instanceof Container)
+			{
+				GoalDetailPanel found = findDetailPanel((Container) child);
+				if (found != null)
+				{
+					return found;
+				}
+			}
+		}
+		return null;
+	}
+
 	private static JTextField findTextField(Container container)
 	{
 		for (Component child : container.getComponents())
