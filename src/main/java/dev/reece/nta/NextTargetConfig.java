@@ -18,4 +18,15 @@ public interface NextTargetConfig extends Config
 	{
 		return 7;
 	}
+
+	@ConfigItem(
+		keyName = "countGroupStorage",
+		name = "Count group storage",
+		description = "Group ironman: treat items in the group's shared storage as owned for readiness, routes and shortfalls. Off stops reading it; the last seen copy is kept.",
+		position = 1
+	)
+	default boolean countGroupStorage()
+	{
+		return true;
+	}
 }

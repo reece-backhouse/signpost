@@ -27,6 +27,7 @@ import dev.reece.nta.kb.GatheringAlternative;
 import dev.reece.nta.kb.GatheringPlan;
 import dev.reece.nta.kb.ItemQuantity;
 import dev.reece.nta.kb.MethodEntry;
+import dev.reece.nta.snapshot.Snapshot;
 import dev.reece.nta.kb.OwnedItem;
 import dev.reece.nta.snapshot.DiaryTier;
 import java.awt.BorderLayout;
@@ -672,6 +673,13 @@ public class GoalDetailPanel extends JPanel
 		if (!step.getMaterialsUsed().isEmpty())
 		{
 			text.add(materialChips(step));
+			String note = groupStorageNote(step);
+			if (note != null)
+			{
+				JLabel line3 = label(note, width);
+				line3.setForeground(ColorScheme.LIGHT_GRAY_COLOR);
+				text.add(line3);
+			}
 		}
 
 		container.add(iconRow(icon, text, null, indent));
@@ -680,6 +688,30 @@ public class GoalDetailPanel extends JPanel
 			container.add(stepRows(craft, "craft ", indent + 1));
 		}
 		return container;
+	}
+
+	/**
+	 * RL-003 AC3: "in group storage: Ranarr weed 200, Vial of water 100" for the step's materials
+	 * the shared storage holds, or null when none. Walks the method's own material list so the
+	 * order is stable ({@code materialsUsed} is an unordered {@code Map.copyOf}).
+	 */
+	private String groupStorageNote(RouteStep step)
+	{
+		Snapshot snapshot = currentAdvice.getSnapshot();
+		List<String> parts = new ArrayList<>();
+		for (ItemQuantity material : step.getMethod().getMaterials())
+		{
+			if (material.getId() == null)
+			{
+				continue;
+			}
+			int share = snapshot.groupStorageShare(material.getId(), step.getMaterialsUsed().getOrDefault(material.getId(), 0));
+			if (share > 0)
+			{
+				parts.add(material.getName() + " " + thousands(share));
+			}
+		}
+		return parts.isEmpty() ? null : "in group storage: " + String.join(", ", parts);
 	}
 
 	private static String stepName(RouteStep step)
@@ -770,8 +802,11 @@ public class GoalDetailPanel extends JPanel
 			? "<span style='color:" + Icons.hex(ColorScheme.PROGRESS_ERROR_COLOR) + "'>short " + shortQty + "</span>"
 			: "<span style='color:" + Icons.hex(ColorScheme.PROGRESS_COMPLETE_COLOR) + "'>covered</span>";
 		// task 59: lead with the shortage; the label's grey foreground colours everything but the span
+		// RL-003 AC3: how much of "have" the group ironman shared storage accounts for
+		int inGroupStorage = item.getItem().getId() == null ? 0 : currentAdvice.getSnapshot().groupStorageShare(item.getItem().getId(), item.getHave());
 		JLabel text = htmlLabel(SuggestPanel.escape(item.getItem().getName()) + ": " + shortText
-			+ " (have " + item.getHave() + ", need " + item.getNeed() + ")", textWidth(indent, icon, null));
+			+ " (have " + item.getHave() + ", need " + item.getNeed()
+			+ (inGroupStorage > 0 ? "; in group storage: " + inGroupStorage : "") + ")", textWidth(indent, icon, null));
 		text.setForeground(ColorScheme.LIGHT_GRAY_COLOR);
 		Icons.linkToWiki(text, wikiUrl);
 		container.add(iconRow(icon, text, null, indent));

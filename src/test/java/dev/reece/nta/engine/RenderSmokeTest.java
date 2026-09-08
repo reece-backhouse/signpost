@@ -22,6 +22,7 @@ import dev.reece.nta.kb.ItemQuantity;
 import dev.reece.nta.kb.MethodEntry;
 import dev.reece.nta.kb.KnowledgeBase;
 import dev.reece.nta.kb.MilestoneCategory;
+import dev.reece.nta.snapshot.AccountType;
 import dev.reece.nta.snapshot.Snapshot;
 import dev.reece.nta.store.AccountData;
 import dev.reece.nta.ui.GoalDetailPanel;
@@ -187,6 +188,110 @@ class RenderSmokeTest
 				panel.render(advice);
 				assertTrue(containsLabelContaining(panel, "stale"),
 					"bank line must show the stale hint when bankAsOf is over 60 minutes before computedAt");
+			});
+		}
+		catch (InvocationTargetException e)
+		{
+			if (e.getCause() instanceof HeadlessException)
+			{
+				Assumptions.abort("Headless environment cannot construct Swing components: " + e.getCause().getMessage());
+			}
+			throw e;
+		}
+	}
+
+	/** RL-003 AC4: the header's group storage line beside the bank line - as-of time when seen, "not seen" when not, absent for non-group accounts. */
+	@Test
+	void headerShowsGroupStorageLineOnlyForGroupIronman() throws Exception
+	{
+		Instant asOf = Instant.parse("2026-09-08T10:00:00Z");
+		KnowledgeBase kb = new KbBuilder().build();
+		Snapshot seen = new SnapshotBuilder().accountType(AccountType.GROUP).build().toBuilder()
+			.bankAsOf(asOf).groupStorageKnown(true).groupStorageAsOf(asOf).build();
+		Snapshot unseen = new SnapshotBuilder().accountType(AccountType.GROUP).build().toBuilder().bankAsOf(asOf).build();
+		Snapshot normal = new SnapshotBuilder().build().toBuilder().bankAsOf(asOf).build();
+		Engine engine = new Engine(new BoostTable());
+		Advice seenAdvice = engine.run(seen, kb, AccountData.empty(), asOf);
+		Advice unseenAdvice = engine.run(unseen, kb, AccountData.empty(), asOf);
+		Advice normalAdvice = engine.run(normal, kb, AccountData.empty(), asOf);
+
+		Consumer<String> noop = id -> { };
+		SuggestPanel.Actions actions = new SuggestPanel.Actions(noop, noop, noop, noop, noop, noop, noop, () -> { }, noop, noop);
+		GoalDetailPanel.Actions detailActions = new GoalDetailPanel.Actions(noop, () -> { });
+
+		try
+		{
+			SwingUtilities.invokeAndWait(() ->
+			{
+				NextTargetPanel panel = new NextTargetPanel(() -> { }, actions, detailActions, null, new SkillIconManager());
+				panel.render(seenAdvice);
+				assertTrue(containsLabelContaining(panel, "Group storage: as of "), "seen storage shows its as-of time");
+				panel.render(unseenAdvice);
+				assertTrue(containsLabelContaining(panel, "Group storage: not seen"), "unseen storage says so");
+				panel.render(normalAdvice);
+				assertFalse(containsLabelContaining(panel, "Group storage"), "a non-group account has no group storage line");
+				assertOnlyRenderableGlyphs(panel);
+			});
+		}
+		catch (InvocationTargetException e)
+		{
+			if (e.getCause() instanceof HeadlessException)
+			{
+				Assumptions.abort("Headless environment cannot construct Swing components: " + e.getCause().getMessage());
+			}
+			throw e;
+		}
+	}
+
+	/** RL-003 AC3: a route step or shortfall line whose quantity comes partly from group storage says how much. */
+	@Test
+	void detailSaysHowMuchOfAStepOrShortfallComesFromGroupStorage() throws Exception
+	{
+		int ranarrUnf = 200;
+		int ranarr = 201;
+		int vial = 202;
+		KnowledgeBase kb = new KbBuilder()
+			.quest(0, "Test Quest").skill(Skill.HERBLORE, 20)
+			.method(Skill.HERBLORE, "Prayer potion(3)", 1, 4)
+			.material(ranarrUnf, 1)
+			.method(Skill.HERBLORE, "Ranarr potion (unf)", 1, 0)
+			.material(ranarr, 1)
+			.material(vial, 1)
+			.output(ranarrUnf, 1)
+			.intermediate()
+			.material("Ranarr potion (unf)", ranarrUnf)
+			.source("craft", "Ranarr weed + Vial of water")
+			.material("Ranarr weed", ranarr)
+			.source("drop", "Chaos druids")
+			.material("Vial of water", vial)
+			.source("shop", "Any general store")
+			.build();
+		Snapshot snapshot = new SnapshotBuilder()
+			.accountType(AccountType.GROUP)
+			.groupStorageItem(ranarrUnf, "Ranarr potion (unf)", 2)
+			.groupStorageItem(ranarr, "Ranarr weed", 3)
+			.groupStorageItem(vial, "Vial of water", 100)
+			.build();
+		AccountData data = new AccountData(new HashMap<>(), null, new HashMap<>(), new HashSet<>(), new ArrayList<>(), "quest:0", new HashSet<>());
+		Advice advice = new Engine(new BoostTable()).run(snapshot, kb, data, Instant.now());
+		assertNotNull(advice.getFocus(), "fixture must produce a focus");
+		assertNotNull(advice.getFocus().getNextSkillPlan().getShortfall(), "fixture must leave Herblore short");
+
+		Consumer<String> noop = id -> { };
+		GoalDetailPanel.Actions actions = new GoalDetailPanel.Actions(noop, () -> { });
+		try
+		{
+			SwingUtilities.invokeAndWait(() ->
+			{
+				GoalDetailPanel panel = new GoalDetailPanel(actions, icons());
+				panel.render(advice);
+				assertTrue(containsLabelContaining(panel, "in group storage: Ranarr weed 3, Vial of water 3"),
+					"the craft step's materials came from group storage");
+				assertTrue(containsLabelContaining(panel, "in group storage: 97"),
+					"the vial shortfall line's have (97 left after the craft) sits in group storage");
+				layoutAtRealPanelWidth(panel);
+				assertNothingEndsPastTheRightEdge(panel);
+				assertOnlyRenderableGlyphs(panel);
 			});
 		}
 		catch (InvocationTargetException e)

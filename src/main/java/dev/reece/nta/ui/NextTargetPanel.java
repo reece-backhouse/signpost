@@ -39,6 +39,7 @@ public class NextTargetPanel extends PluginPanel
 	private final JLabel questsLabel = new JLabel();
 	private final JLabel totalLevelLabel = new JLabel();
 	private final JLabel bankLabel = new JLabel();
+	private final JLabel groupStorageLabel = new JLabel();
 	private final JLabel goalsLabel = new JLabel();
 	private final JLabel kbFooterLabel = new JLabel("KB: not loaded");
 	private final SuggestPanel suggestPanel;
@@ -67,6 +68,7 @@ public class NextTargetPanel extends PluginPanel
 		header.add(questsLabel);
 		header.add(totalLevelLabel);
 		header.add(bankLabel);
+		header.add(groupStorageLabel);
 		header.add(goalsLabel);
 		header.add(Box.createVerticalStrut(8));
 
@@ -125,6 +127,7 @@ public class NextTargetPanel extends PluginPanel
 		questsLabel.setText("");
 		totalLevelLabel.setText("");
 		bankLabel.setText("");
+		groupStorageLabel.setText("");
 		goalsLabel.setText("");
 		goalSearchField.clear();
 		suggestPanel.clear();
@@ -165,6 +168,24 @@ public class NextTargetPanel extends PluginPanel
 			boolean stale = Duration.between(snapshot.getBankAsOf(), advice.getComputedAt()).toMinutes() >= 60;
 			bankLabel.setText(stale ? "Bank as of " + time + " (stale, open your bank to refresh)" : "Bank as of " + time);
 			bankLabel.setForeground(stale ? ColorScheme.PROGRESS_ERROR_COLOR : ColorScheme.TEXT_COLOR);
+		}
+
+		// RL-003 AC4: the group ironman shared storage line, same freshness rule as the bank; blank for every other account type.
+		if (!snapshot.getAccountType().isGroup())
+		{
+			groupStorageLabel.setText("");
+		}
+		else if (!snapshot.isGroupStorageKnown())
+		{
+			groupStorageLabel.setText("Group storage: not seen - open it once");
+			groupStorageLabel.setForeground(ColorScheme.TEXT_COLOR);
+		}
+		else
+		{
+			String time = BANK_TIME_FORMAT.withZone(ZoneId.systemDefault()).format(snapshot.getGroupStorageAsOf());
+			boolean stale = Duration.between(snapshot.getGroupStorageAsOf(), advice.getComputedAt()).toMinutes() >= 60;
+			groupStorageLabel.setText("Group storage: as of " + time + (stale ? " (stale, open it to refresh)" : ""));
+			groupStorageLabel.setForeground(stale ? ColorScheme.PROGRESS_ERROR_COLOR : ColorScheme.TEXT_COLOR);
 		}
 
 		long ready = advice.getStatuses().stream().filter(GoalStatus::isReady).count();

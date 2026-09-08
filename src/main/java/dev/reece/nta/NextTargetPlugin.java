@@ -11,6 +11,7 @@ import dev.reece.nta.engine.GapFingerprint;
 import dev.reece.nta.engine.model.Advice;
 import dev.reece.nta.engine.model.GoalStatus;
 import dev.reece.nta.kb.KnowledgeBase;
+import dev.reece.nta.snapshot.AccountType;
 import dev.reece.nta.snapshot.CachedBank;
 import dev.reece.nta.snapshot.DiaryTier;
 import dev.reece.nta.snapshot.Snapshot;
@@ -45,6 +46,7 @@ import net.runelite.api.events.WidgetClosed;
 import net.runelite.api.gameval.InterfaceID;
 import net.runelite.api.gameval.InventoryID;
 import net.runelite.api.gameval.VarPlayerID;
+import net.runelite.api.gameval.VarbitID;
 import net.runelite.client.RuneLite;
 import net.runelite.client.callback.ClientThread;
 import net.runelite.client.config.ConfigManager;
@@ -95,6 +97,7 @@ public class NextTargetPlugin extends Plugin
 	private NavigationButton navButton;
 
 	private volatile CachedBank cachedBank = CachedBank.unknown();
+	private volatile CachedBank cachedGroupStorage = CachedBank.unknown();
 	private volatile AccountData accountData;
 	private volatile long accountHash;
 	private volatile boolean accountLoaded;
@@ -118,6 +121,7 @@ public class NextTargetPlugin extends Plugin
 		engine = new Engine(new BoostTable());
 		store = new AccountStore(new File(RuneLite.RUNELITE_DIR, "next-target").toPath(), gson);
 		cachedBank = CachedBank.unknown();
+		cachedGroupStorage = CachedBank.unknown();
 		kb = null;
 		cachedSnapshot = null;
 		cachedAdvice = null;
@@ -169,6 +173,7 @@ public class NextTargetPlugin extends Plugin
 		runner.shutdown();
 		accountData = null;
 		cachedBank = CachedBank.unknown();
+		cachedGroupStorage = CachedBank.unknown();
 		accountLoaded = false;
 		firstTickPending = false;
 		snapshotRequested = false;
@@ -211,6 +216,7 @@ public class NextTargetPlugin extends Plugin
 			{
 				accountData = null;
 				cachedBank = CachedBank.unknown();
+				cachedGroupStorage = CachedBank.unknown();
 			});
 			SwingUtilities.invokeLater(panel::showLoggedOut);
 		}
@@ -228,6 +234,7 @@ public class NextTargetPlugin extends Plugin
 			AccountData data = store.load(hash);
 			accountData = data;
 			cachedBank = data.toCachedBank();
+			cachedGroupStorage = data.toCachedGroupStorage();
 			accountLoaded = true;
 			firstTickPending = true;
 		});
@@ -245,7 +252,8 @@ public class NextTargetPlugin extends Plugin
 		firstTickPending = false;
 		snapshotRequested = false;
 
-		Snapshot snapshot = SnapshotCollector.collect(client, itemManager, cachedBank, CachedBank.unknown(), loadedKb);
+		Snapshot snapshot = SnapshotCollector.collect(client, itemManager, cachedBank,
+			config.countGroupStorage() ? cachedGroupStorage : CachedBank.unknown(), loadedKb);
 		cachedSnapshot = snapshot;
 		if (!snapshot.getInventory().isEmpty() || !snapshot.getEquipment().isEmpty())
 		{
@@ -337,11 +345,20 @@ public class NextTargetPlugin extends Plugin
 			return;
 		}
 
-		if (containerId != InventoryID.BANK)
+		if (containerId == InventoryID.BANK)
 		{
-			return;
+			cachedBank = readContainer(event);
 		}
+		else if (containerId == InventoryID.INV_GROUP_TEMP && countsGroupStorage())
+		{
+			// RL-003: the group ironman shared storage, cached exactly like the bank and persisted
+			// when its interface closes (onWidgetClosed). Only group ironman types subscribe.
+			cachedGroupStorage = readContainer(event);
+		}
+	}
 
+	private static CachedBank readContainer(ItemContainerChanged event)
+	{
 		Map<Integer, Integer> items = new HashMap<>();
 		for (Item item : event.getItemContainer().getItems())
 		{
@@ -350,23 +367,38 @@ public class NextTargetPlugin extends Plugin
 				items.merge(item.getId(), item.getQuantity(), Integer::sum);
 			}
 		}
-		cachedBank = new CachedBank(items, Instant.now(), true);
+		return new CachedBank(items, Instant.now(), true);
+	}
+
+	/** Client thread. True only for a group ironman account with the "Count group storage" toggle on (RL-003 AC5). */
+	private boolean countsGroupStorage()
+	{
+		return config.countGroupStorage() && AccountType.fromVarbit(client.getVarbitValue(VarbitID.IRONMAN)).isGroup();
 	}
 
 	@Subscribe
 	public void onWidgetClosed(WidgetClosed event)
 	{
-		if (event.getGroupId() != InterfaceID.BANKMAIN)
+		if (event.getGroupId() == InterfaceID.BANKMAIN)
 		{
-			return;
+			CachedBank bank = cachedBank;
+			Map<Integer, Integer> items = new HashMap<>(bank.getItems());
+			Instant asOf = bank.getAsOf();
+			mutateAccountData(data -> AccountDataMutations.bank(data, items, asOf));
+			requestSnapshot();
 		}
-
-		CachedBank bank = cachedBank;
-		Map<Integer, Integer> items = new HashMap<>(bank.getItems());
-		Instant asOf = bank.getAsOf();
-		mutateAccountData(data -> AccountDataMutations.bank(data, items, asOf));
-
-		requestSnapshot();
+		else if (event.getGroupId() == InterfaceID.SHARED_BANK && countsGroupStorage())
+		{
+			CachedBank storage = cachedGroupStorage;
+			if (!storage.isKnown())
+			{
+				return;
+			}
+			Map<Integer, Integer> items = new HashMap<>(storage.getItems());
+			Instant asOf = storage.getAsOf();
+			mutateAccountData(data -> AccountDataMutations.groupStorage(data, items, asOf));
+			requestSnapshot();
+		}
 	}
 
 	@Subscribe
