@@ -360,7 +360,18 @@ class EngineAdviceTest
 			// zero/low-requirement milestones don't crowd out the GWD-vs-Moons comparison under test.
 			.inventoryItem(6570, "Fire cape", 1)
 			.inventoryItem(11865, "Slayer helmet (i)", 1)
-			.inventoryItem(10551, "Fighter torso", 1);
+			.inventoryItem(10551, "Fighter torso", 1)
+			// RL-006: the skilling untradeables and outfits a 68+ all-skills account has long since bought.
+			.bankItem(12019, "Coal bag", 1).bankItem(12020, "Gem bag", 1).bankItem(13226, "Herb sack", 1).bankItem(13639, "Seed box", 1)
+			.bankItem(12791, "Rune pouch", 1).bankItem(13116, "Bonecrusher", 1).bankItem(25781, "Ash sanctifier", 1).bankItem(24882, "Plank sack", 1)
+			.bankItem(25582, "Fish barrel", 1).bankItem(25580, "Tackle box", 1)
+			.bankItem(12013, "Prospector helmet", 1).bankItem(12014, "Prospector jacket", 1).bankItem(12015, "Prospector legs", 1).bankItem(12016, "Prospector boots", 1)
+			.bankItem(20708, "Pyromancer hood", 1).bankItem(20704, "Pyromancer garb", 1).bankItem(20706, "Pyromancer robe", 1).bankItem(20710, "Pyromancer boots", 1)
+			.bankItem(13258, "Angler hat", 1).bankItem(13259, "Angler top", 1).bankItem(13260, "Angler waders", 1).bankItem(13261, "Angler boots", 1)
+			.bankItem(13646, "Farmer's strawhat", 1).bankItem(13642, "Farmer's jacket", 1).bankItem(13640, "Farmer's boro trousers", 1).bankItem(13644, "Farmer's boots", 1)
+			.bankItem(26850, "Hat of the Eye", 1).bankItem(26852, "Robe top of the Eye", 1).bankItem(26854, "Robe bottoms of the Eye", 1).bankItem(26856, "Boots of the Eye", 1)
+			.bankItem(10941, "Lumberjack hat", 1).bankItem(10939, "Lumberjack top", 1).bankItem(10940, "Lumberjack legs", 1).bankItem(10933, "Lumberjack boots", 1)
+			.bankItem(5554, "Rogue mask", 1).bankItem(5553, "Rogue top", 1).bankItem(5555, "Rogue trousers", 1).bankItem(5556, "Rogue gloves", 1).bankItem(5557, "Rogue boots", 1);
 		Quest[] quests = Quest.values();
 		// 186 of 211 bundled quests finished (plus Perilous Moons and Priest in Peril explicitly
 		// above): short of the questsFinished >= 190 stage-3 threshold, but high enough that the

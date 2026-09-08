@@ -5198,6 +5198,1026 @@
         "Tumeken's shadow"
       ],
       "wikiTitle": "Tombs of Amascut"
+    },
+    {
+      "category": "gear",
+      "gearTier": null,
+      "id": "milestone:coal-bag",
+      "name": "Coal bag",
+      "obtainedFrom": null,
+      "ownedIf": [
+        {
+          "id": 12019,
+          "ids": [
+            12019,
+            24480
+          ],
+          "name": "Coal bag"
+        }
+      ],
+      "ownedIfMin": 1,
+      "priority": 7,
+      "reason": "Holds 27 coal on top of your inventory, so every Motherlode Mine and Blast Furnace trip carries twice the coal; bought from Prospector Percy for 100 golden nuggets.",
+      "recommended": null,
+      "requirements": {
+        "combatLevel": null,
+        "diaries": [],
+        "items": [
+          {
+            "id": 12012,
+            "ids": [
+              12012
+            ],
+            "name": "Golden nugget",
+            "quantity": 100,
+            "sources": [
+              "Motherlode Mine pay-dirt"
+            ]
+          }
+        ],
+        "questPoints": null,
+        "quests": [],
+        "skills": [
+          {
+            "boostable": false,
+            "level": 30,
+            "skill": "Mining"
+          }
+        ]
+      },
+      "sources": [
+        "shop"
+      ],
+      "speedsUp": "Mining",
+      "stage": 1,
+      "subcategory": "skilling",
+      "unlocks": [
+        "27 extra coal per trip (36 with a Smithing cape)",
+        "Coal is drawn from the bag automatically when smelting"
+      ],
+      "wikiTitle": "Coal bag"
+    },
+    {
+      "category": "gear",
+      "gearTier": null,
+      "id": "milestone:gem-bag",
+      "name": "Gem bag",
+      "obtainedFrom": null,
+      "ownedIf": [
+        {
+          "id": 12020,
+          "ids": [
+            12020,
+            24481
+          ],
+          "name": "Gem bag"
+        }
+      ],
+      "ownedIfMin": 1,
+      "priority": 5,
+      "reason": "Stores 60 of each uncut gem (up to diamond) so Motherlode Mine and gem-rock trips stop filling your inventory; bought from Prospector Percy for 100 golden nuggets.",
+      "recommended": null,
+      "requirements": {
+        "combatLevel": null,
+        "diaries": [],
+        "items": [
+          {
+            "id": 12012,
+            "ids": [
+              12012
+            ],
+            "name": "Golden nugget",
+            "quantity": 100,
+            "sources": [
+              "Motherlode Mine pay-dirt"
+            ]
+          }
+        ],
+        "questPoints": null,
+        "quests": [],
+        "skills": [
+          {
+            "boostable": false,
+            "level": 30,
+            "skill": "Mining"
+          }
+        ]
+      },
+      "sources": [
+        "shop"
+      ],
+      "speedsUp": "Mining",
+      "stage": 1,
+      "subcategory": "skilling",
+      "unlocks": [
+        "300 uncut gems stored outside the inventory"
+      ],
+      "wikiTitle": "Gem bag"
+    },
+    {
+      "category": "gear",
+      "gearTier": null,
+      "id": "milestone:herb-sack",
+      "name": "Herb sack",
+      "obtainedFrom": null,
+      "ownedIf": [
+        {
+          "id": 13226,
+          "ids": [
+            13226,
+            24478
+          ],
+          "name": "Herb sack"
+        },
+        {
+          "id": 33135,
+          "ids": [
+            33135,
+            33137
+          ],
+          "name": "Silklined herb sack"
+        }
+      ],
+      "ownedIfMin": 1,
+      "priority": 6,
+      "reason": "Stores 30 of each grimy herb so herb runs and herb-dropping Slayer tasks never fill the inventory; 750 Slayer reward points or 250 Tithe Farm points, needs 58 Herblore to buy.",
+      "recommended": null,
+      "requirements": {
+        "combatLevel": null,
+        "diaries": [],
+        "items": [],
+        "questPoints": null,
+        "quests": [],
+        "skills": [
+          {
+            "boostable": false,
+            "level": 58,
+            "skill": "Herblore"
+          }
+        ]
+      },
+      "sources": [
+        "shop",
+        "minigame"
+      ],
+      "speedsUp": "Farming",
+      "stage": 2,
+      "subcategory": "skilling",
+      "unlocks": [
+        "450 grimy herbs stored outside the inventory",
+        "Upgradeable to the silklined herb sack (100 of each)"
+      ],
+      "wikiTitle": "Herb sack"
+    },
+    {
+      "category": "gear",
+      "gearTier": null,
+      "id": "milestone:seed-box",
+      "name": "Seed box",
+      "obtainedFrom": null,
+      "ownedIf": [
+        {
+          "id": 13639,
+          "ids": [
+            13639,
+            24482
+          ],
+          "name": "Seed box"
+        }
+      ],
+      "ownedIfMin": 1,
+      "priority": 5,
+      "reason": "Stores six seed types in one slot and plants straight from the box on a patch, saving up to five inventory slots on every farm run; 250 Tithe Farm points.",
+      "recommended": null,
+      "requirements": {
+        "combatLevel": null,
+        "diaries": [],
+        "items": [],
+        "questPoints": null,
+        "quests": [],
+        "skills": [
+          {
+            "boostable": false,
+            "level": 34,
+            "skill": "Farming"
+          }
+        ]
+      },
+      "sources": [
+        "minigame"
+      ],
+      "speedsUp": "Farming",
+      "stage": 1,
+      "subcategory": "skilling",
+      "unlocks": [
+        "Six seed stacks in one inventory slot",
+        "Use the box on a patch to plant directly"
+      ],
+      "wikiTitle": "Seed box"
+    },
+    {
+      "category": "gear",
+      "gearTier": null,
+      "id": "milestone:rune-pouch",
+      "name": "Rune pouch",
+      "obtainedFrom": null,
+      "ownedIf": [
+        {
+          "id": 12791,
+          "ids": [
+            12791,
+            24416
+          ],
+          "name": "Rune pouch"
+        },
+        {
+          "id": 27281,
+          "ids": [
+            27281,
+            27509
+          ],
+          "name": "Divine rune pouch"
+        }
+      ],
+      "ownedIfMin": 1,
+      "priority": 7,
+      "reason": "Carries three rune types in one slot for every spell you cast, from teleports to Slayer barrages; 750 Slayer reward points, a rune pouch note for 75 Last Man Standing points, or Mage Training Arena pizazz points.",
+      "recommended": {
+        "combatLevel": null,
+        "gearOwnedAny": [],
+        "skills": [
+          {
+            "level": 50,
+            "skill": "Slayer"
+          }
+        ]
+      },
+      "requirements": {
+        "combatLevel": null,
+        "diaries": [],
+        "items": [],
+        "questPoints": null,
+        "quests": [],
+        "skills": []
+      },
+      "sources": [
+        "shop",
+        "minigame"
+      ],
+      "speedsUp": "Magic",
+      "stage": 1,
+      "subcategory": "skilling",
+      "unlocks": [
+        "Three rune stacks (16,000 each) in one inventory slot",
+        "Upgradeable to the divine rune pouch with a thread of Elidinis"
+      ],
+      "wikiTitle": "Rune pouch"
+    },
+    {
+      "category": "gear",
+      "gearTier": null,
+      "id": "milestone:bonecrusher",
+      "name": "Bonecrusher",
+      "obtainedFrom": null,
+      "ownedIf": [
+        {
+          "id": 13116,
+          "ids": [
+            13116
+          ],
+          "name": "Bonecrusher"
+        },
+        {
+          "id": 22986,
+          "ids": [
+            22986
+          ],
+          "name": "Bonecrusher necklace"
+        }
+      ],
+      "ownedIfMin": 1,
+      "priority": 6,
+      "reason": "Crushes every bone your kills drop for half the Prayer xp (full with the elite diary) without touching the inventory, turning Slayer and bossing into passive Prayer training; claim it from a ghost disciple after the hard Morytania Diary.",
+      "recommended": null,
+      "requirements": {
+        "combatLevel": null,
+        "diaries": [
+          {
+            "area": "MORYTANIA",
+            "tier": "HARD"
+          }
+        ],
+        "items": [],
+        "questPoints": null,
+        "quests": [],
+        "skills": []
+      },
+      "sources": [
+        "reward"
+      ],
+      "speedsUp": "Prayer",
+      "stage": 2,
+      "subcategory": "skilling",
+      "unlocks": [
+        "Passive Prayer xp from bone drops while it is charged with ecto-tokens",
+        "Combines with a dragonbone necklace into the bonecrusher necklace"
+      ],
+      "wikiTitle": "Bonecrusher"
+    },
+    {
+      "category": "gear",
+      "gearTier": null,
+      "id": "milestone:ash-sanctifier",
+      "name": "Ash sanctifier",
+      "obtainedFrom": null,
+      "ownedIf": [
+        {
+          "id": 25781,
+          "ids": [
+            25781
+          ],
+          "name": "Ash sanctifier"
+        }
+      ],
+      "ownedIfMin": 1,
+      "priority": 5,
+      "reason": "Scatters the demonic ashes your kills drop for half the Prayer xp (full with the elite diary) without touching the inventory, so demon Slayer tasks train Prayer on the side; claim it from Tyss after the hard Kourend & Kebos Diary.",
+      "recommended": null,
+      "requirements": {
+        "combatLevel": null,
+        "diaries": [
+          {
+            "area": "KOUREND",
+            "tier": "HARD"
+          }
+        ],
+        "items": [],
+        "questPoints": null,
+        "quests": [],
+        "skills": []
+      },
+      "sources": [
+        "reward"
+      ],
+      "speedsUp": "Prayer",
+      "stage": 2,
+      "subcategory": "skilling",
+      "unlocks": [
+        "Passive Prayer xp from demonic ashes while it is charged with death runes"
+      ],
+      "wikiTitle": "Ash sanctifier"
+    },
+    {
+      "category": "gear",
+      "gearTier": null,
+      "id": "milestone:plank-sack",
+      "name": "Plank sack",
+      "obtainedFrom": null,
+      "ownedIf": [
+        {
+          "id": 24882,
+          "ids": [
+            24882
+          ],
+          "name": "Plank sack"
+        }
+      ],
+      "ownedIfMin": 1,
+      "priority": 5,
+      "reason": "Holds 28 weightless planks that furniture is built straight from, so Mahogany Homes contracts and Hallowed Sepulchre runs need half the banking; 350 carpenter points from the Mahogany Homes reward shop.",
+      "recommended": {
+        "combatLevel": null,
+        "gearOwnedAny": [],
+        "skills": [
+          {
+            "level": 50,
+            "skill": "Construction"
+          }
+        ]
+      },
+      "requirements": {
+        "combatLevel": null,
+        "diaries": [],
+        "items": [],
+        "questPoints": null,
+        "quests": [],
+        "skills": []
+      },
+      "sources": [
+        "minigame"
+      ],
+      "speedsUp": "Construction",
+      "stage": 1,
+      "subcategory": "skilling",
+      "unlocks": [
+        "28 planks of any type outside the inventory"
+      ],
+      "wikiTitle": "Plank sack"
+    },
+    {
+      "category": "gear",
+      "gearTier": null,
+      "id": "milestone:fish-barrel",
+      "name": "Fish barrel",
+      "obtainedFrom": "milestone:tempoross",
+      "ownedIf": [
+        {
+          "id": 25582,
+          "ids": [
+            25582,
+            25584
+          ],
+          "name": "Fish barrel"
+        }
+      ],
+      "ownedIfMin": 1,
+      "priority": 6,
+      "reason": "Stores 28 raw fish so every fishing trip is two inventories long; fished from the Tempoross reward pool (1/400 per permit) or bought from Flakes 'n' Flotsam for 6,000 spirit flakes.",
+      "recommended": null,
+      "requirements": {
+        "combatLevel": null,
+        "diaries": [],
+        "items": [],
+        "questPoints": null,
+        "quests": [],
+        "skills": [
+          {
+            "boostable": false,
+            "level": 35,
+            "skill": "Fishing"
+          }
+        ]
+      },
+      "sources": [
+        "minigame",
+        "shop"
+      ],
+      "speedsUp": "Fishing",
+      "stage": 1,
+      "subcategory": "skilling",
+      "unlocks": [
+        "28 raw fish stored outside the inventory, emptied at a bank"
+      ],
+      "wikiTitle": "Fish barrel"
+    },
+    {
+      "category": "gear",
+      "gearTier": null,
+      "id": "milestone:tackle-box",
+      "name": "Tackle box",
+      "obtainedFrom": "milestone:tempoross",
+      "ownedIf": [
+        {
+          "id": 25580,
+          "ids": [
+            25580
+          ],
+          "name": "Tackle box"
+        }
+      ],
+      "ownedIfMin": 1,
+      "priority": 4,
+      "reason": "Stores every fishing rod, harpoon, net and bait stack in one slot so you carry the right tool for any spot; fished from the Tempoross reward pool or bought from Flakes 'n' Flotsam for 6,000 spirit flakes.",
+      "recommended": null,
+      "requirements": {
+        "combatLevel": null,
+        "diaries": [],
+        "items": [],
+        "questPoints": null,
+        "quests": [],
+        "skills": [
+          {
+            "boostable": false,
+            "level": 35,
+            "skill": "Fishing"
+          }
+        ]
+      },
+      "sources": [
+        "minigame",
+        "shop"
+      ],
+      "speedsUp": "Fishing",
+      "stage": 1,
+      "subcategory": "skilling",
+      "unlocks": [
+        "All fishing equipment and bait in one inventory slot"
+      ],
+      "wikiTitle": "Tackle box"
+    },
+    {
+      "category": "gear",
+      "gearTier": null,
+      "id": "milestone:prospector-outfit",
+      "name": "Prospector outfit",
+      "obtainedFrom": null,
+      "ownedIf": [
+        {
+          "id": 12013,
+          "ids": [
+            12013,
+            25549,
+            29472
+          ],
+          "name": "Prospector helmet"
+        },
+        {
+          "id": 12014,
+          "ids": [
+            12014,
+            25551,
+            29474
+          ],
+          "name": "Prospector jacket"
+        },
+        {
+          "id": 12015,
+          "ids": [
+            12015,
+            25553,
+            29476
+          ],
+          "name": "Prospector legs"
+        },
+        {
+          "id": 12016,
+          "ids": [
+            12016,
+            25555,
+            29478
+          ],
+          "name": "Prospector boots"
+        }
+      ],
+      "ownedIfMin": 4,
+      "priority": 6,
+      "reason": "Full set gives +2.5% Mining xp for every ore you will ever mine and the helmet is a hard Falador Diary task; 180 golden nuggets from Prospector Percy (helmet 40, jacket 60, legs 50, boots 30).",
+      "recommended": null,
+      "requirements": {
+        "combatLevel": null,
+        "diaries": [],
+        "items": [
+          {
+            "id": 12012,
+            "ids": [
+              12012
+            ],
+            "name": "Golden nugget",
+            "quantity": 180,
+            "sources": [
+              "Motherlode Mine pay-dirt"
+            ]
+          }
+        ],
+        "questPoints": null,
+        "quests": [],
+        "skills": [
+          {
+            "boostable": false,
+            "level": 30,
+            "skill": "Mining"
+          }
+        ]
+      },
+      "sources": [
+        "shop"
+      ],
+      "speedsUp": "Mining",
+      "stage": 1,
+      "subcategory": "skilling",
+      "unlocks": [
+        "+2.5% Mining experience with the full set worn",
+        "Prospector helmet is required for the hard Falador Diary"
+      ],
+      "wikiTitle": "Prospector kit"
+    },
+    {
+      "category": "gear",
+      "gearTier": null,
+      "id": "milestone:pyromancer-outfit",
+      "name": "Pyromancer outfit",
+      "obtainedFrom": "milestone:wintertodt",
+      "ownedIf": [
+        {
+          "id": 20708,
+          "ids": [
+            20708
+          ],
+          "name": "Pyromancer hood"
+        },
+        {
+          "id": 20704,
+          "ids": [
+            20704
+          ],
+          "name": "Pyromancer garb"
+        },
+        {
+          "id": 20706,
+          "ids": [
+            20706
+          ],
+          "name": "Pyromancer robe"
+        },
+        {
+          "id": 20710,
+          "ids": [
+            20710
+          ],
+          "name": "Pyromancer boots"
+        }
+      ],
+      "ownedIfMin": 4,
+      "priority": 6,
+      "reason": "Full set gives +2.5% Firemaking xp and warm clothing that cuts Wintertodt damage, so get it early in the grind you are already doing; each piece is a Wintertodt supply crate drop.",
+      "recommended": null,
+      "requirements": {
+        "combatLevel": null,
+        "diaries": [],
+        "items": [],
+        "questPoints": null,
+        "quests": [],
+        "skills": [
+          {
+            "boostable": false,
+            "level": 50,
+            "skill": "Firemaking"
+          }
+        ]
+      },
+      "sources": [
+        "minigame"
+      ],
+      "speedsUp": "Firemaking",
+      "stage": 1,
+      "subcategory": "skilling",
+      "unlocks": [
+        "+2.5% Firemaking experience with the full set worn",
+        "Counts as warm clothing at the Wintertodt"
+      ],
+      "wikiTitle": "Pyromancer outfit"
+    },
+    {
+      "category": "gear",
+      "gearTier": null,
+      "id": "milestone:angler-outfit",
+      "name": "Angler's outfit",
+      "obtainedFrom": null,
+      "ownedIf": [
+        {
+          "id": 13258,
+          "ids": [
+            13258,
+            25592,
+            31252
+          ],
+          "name": "Angler hat"
+        },
+        {
+          "id": 13259,
+          "ids": [
+            13259,
+            25594
+          ],
+          "name": "Angler top"
+        },
+        {
+          "id": 13260,
+          "ids": [
+            13260,
+            25596
+          ],
+          "name": "Angler waders"
+        },
+        {
+          "id": 13261,
+          "ids": [
+            13261,
+            25598
+          ],
+          "name": "Angler boots"
+        }
+      ],
+      "ownedIfMin": 4,
+      "priority": 6,
+      "reason": "Full set gives +2.5% Fishing xp for every fish to 99 and is needed to fish minnows; each piece is a 1/12 Fishing Trawler reward, or from the Tempoross reward pool, and it upgrades to the spirit angler's outfit.",
+      "recommended": null,
+      "requirements": {
+        "combatLevel": null,
+        "diaries": [],
+        "items": [],
+        "questPoints": null,
+        "quests": [],
+        "skills": [
+          {
+            "boostable": false,
+            "level": 34,
+            "skill": "Fishing"
+          }
+        ]
+      },
+      "sources": [
+        "minigame"
+      ],
+      "speedsUp": "Fishing",
+      "stage": 1,
+      "subcategory": "skilling",
+      "unlocks": [
+        "+2.5% Fishing experience with the full set worn",
+        "Required to fish minnows at the Fishing Guild platform"
+      ],
+      "wikiTitle": "Angler's outfit"
+    },
+    {
+      "category": "gear",
+      "gearTier": null,
+      "id": "milestone:farmers-outfit",
+      "name": "Farmer's outfit",
+      "obtainedFrom": null,
+      "ownedIf": [
+        {
+          "id": 13646,
+          "ids": [
+            13646,
+            13647
+          ],
+          "name": "Farmer's strawhat"
+        },
+        {
+          "id": 13642,
+          "ids": [
+            13642,
+            13643
+          ],
+          "name": "Farmer's jacket"
+        },
+        {
+          "id": 13640,
+          "ids": [
+            13640,
+            13641
+          ],
+          "name": "Farmer's boro trousers"
+        },
+        {
+          "id": 13644,
+          "ids": [
+            13644,
+            13645
+          ],
+          "name": "Farmer's boots"
+        }
+      ],
+      "ownedIfMin": 4,
+      "priority": 5,
+      "reason": "Full set gives +2.5% Farming xp on every tree and herb run for the rest of the account; 400 Tithe Farm points (strawhat 75, jacket or shirt 150, boro trousers 125, boots 50).",
+      "recommended": null,
+      "requirements": {
+        "combatLevel": null,
+        "diaries": [],
+        "items": [],
+        "questPoints": null,
+        "quests": [],
+        "skills": [
+          {
+            "boostable": false,
+            "level": 34,
+            "skill": "Farming"
+          }
+        ]
+      },
+      "sources": [
+        "minigame"
+      ],
+      "speedsUp": "Farming",
+      "stage": 1,
+      "subcategory": "skilling",
+      "unlocks": [
+        "+2.5% Farming experience with the full set worn"
+      ],
+      "wikiTitle": "Farmer's outfit"
+    },
+    {
+      "category": "gear",
+      "gearTier": null,
+      "id": "milestone:raiments-of-the-eye",
+      "name": "Raiments of the Eye",
+      "obtainedFrom": null,
+      "ownedIf": [
+        {
+          "id": 26850,
+          "ids": [
+            26850,
+            26858,
+            26864,
+            26870
+          ],
+          "name": "Hat of the Eye"
+        },
+        {
+          "id": 26852,
+          "ids": [
+            26852,
+            26860,
+            26866,
+            26872
+          ],
+          "name": "Robe top of the Eye"
+        },
+        {
+          "id": 26854,
+          "ids": [
+            26854,
+            26862,
+            26868,
+            26874
+          ],
+          "name": "Robe bottoms of the Eye"
+        },
+        {
+          "id": 26856,
+          "ids": [
+            26856
+          ],
+          "name": "Boots of the Eye"
+        }
+      ],
+      "ownedIfMin": 4,
+      "priority": 7,
+      "reason": "Full set gives 60% more runes per essence, the single biggest Runecraft speed-up an ironman can get; 1,350 abyssal pearls from the Guardians of the Rift reward shop (hat 400, top 350, bottoms 350, boots 250).",
+      "recommended": null,
+      "requirements": {
+        "combatLevel": null,
+        "diaries": [],
+        "items": [],
+        "questPoints": null,
+        "quests": [
+          "Temple of the Eye"
+        ],
+        "skills": [
+          {
+            "boostable": false,
+            "level": 27,
+            "skill": "Runecraft"
+          }
+        ]
+      },
+      "sources": [
+        "minigame",
+        "shop"
+      ],
+      "speedsUp": "Runecraft",
+      "stage": 1,
+      "subcategory": "skilling",
+      "unlocks": [
+        "+60% bonus runes per essence with the full set worn (10% per piece)",
+        "Hat can be attuned to work as any imbued tiara"
+      ],
+      "wikiTitle": "Raiments of the Eye"
+    },
+    {
+      "category": "gear",
+      "gearTier": null,
+      "id": "milestone:lumberjack-outfit",
+      "name": "Lumberjack outfit",
+      "obtainedFrom": null,
+      "ownedIf": [
+        {
+          "id": 10941,
+          "ids": [
+            10941
+          ],
+          "name": "Lumberjack hat"
+        },
+        {
+          "id": 10939,
+          "ids": [
+            10939
+          ],
+          "name": "Lumberjack top"
+        },
+        {
+          "id": 10940,
+          "ids": [
+            10940
+          ],
+          "name": "Lumberjack legs"
+        },
+        {
+          "id": 10933,
+          "ids": [
+            10933
+          ],
+          "name": "Lumberjack boots"
+        }
+      ],
+      "ownedIfMin": 4,
+      "priority": 5,
+      "reason": "Full set gives +2.5% Woodcutting xp for every log to 99; drops from undead lumberjacks in Temple Trekking (needs In Aid of the Myreque) or bought from the Forestry shop for anima-infused bark and noted logs.",
+      "recommended": null,
+      "requirements": {
+        "combatLevel": null,
+        "diaries": [],
+        "items": [],
+        "questPoints": null,
+        "quests": [],
+        "skills": [
+          {
+            "boostable": false,
+            "level": 44,
+            "skill": "Woodcutting"
+          }
+        ]
+      },
+      "sources": [
+        "minigame",
+        "shop"
+      ],
+      "speedsUp": "Woodcutting",
+      "stage": 1,
+      "subcategory": "skilling",
+      "unlocks": [
+        "+2.5% Woodcutting experience with the full set worn",
+        "Upgradeable to the Forestry outfit at the Forestry shop"
+      ],
+      "wikiTitle": "Lumberjack outfit"
+    },
+    {
+      "category": "gear",
+      "gearTier": null,
+      "id": "milestone:rogue-equipment",
+      "name": "Rogue equipment",
+      "obtainedFrom": null,
+      "ownedIf": [
+        {
+          "id": 5554,
+          "ids": [
+            5554
+          ],
+          "name": "Rogue mask"
+        },
+        {
+          "id": 5553,
+          "ids": [
+            5553
+          ],
+          "name": "Rogue top"
+        },
+        {
+          "id": 5555,
+          "ids": [
+            5555
+          ],
+          "name": "Rogue trousers"
+        },
+        {
+          "id": 5556,
+          "ids": [
+            5556
+          ],
+          "name": "Rogue gloves"
+        },
+        {
+          "id": 5557,
+          "ids": [
+            5557
+          ],
+          "name": "Rogue boots"
+        }
+      ],
+      "ownedIfMin": 5,
+      "priority": 6,
+      "reason": "Full set doubles pickpocket loot, turning every Thieving hour into two; each piece comes from a rogue's equipment crate for cracking the wall safes after the Rogues' Den maze (50 Thieving and 50 Agility).",
+      "recommended": null,
+      "requirements": {
+        "combatLevel": null,
+        "diaries": [],
+        "items": [],
+        "questPoints": null,
+        "quests": [],
+        "skills": [
+          {
+            "boostable": false,
+            "level": 50,
+            "skill": "Thieving"
+          },
+          {
+            "boostable": false,
+            "level": 50,
+            "skill": "Agility"
+          }
+        ]
+      },
+      "sources": [
+        "minigame"
+      ],
+      "speedsUp": "Thieving",
+      "stage": 1,
+      "subcategory": "skilling",
+      "unlocks": [
+        "Chance of double loot on every successful pickpocket with the full set worn"
+      ],
+      "wikiTitle": "Rogue equipment"
     }
   ],
   "version": 1

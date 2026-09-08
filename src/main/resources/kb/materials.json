@@ -5450,6 +5450,102 @@
     },
     {
       "generic": false,
+      "id": 13261,
+      "name": "Angler boots",
+      "sources": [
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "N/A gp, stock 1000",
+          "type": "shop",
+          "where": "Alry the Angler's Angling Accessories"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/12",
+          "type": "drop",
+          "where": "Fishing Trawler"
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Angler_boots"
+    },
+    {
+      "generic": false,
+      "id": 13258,
+      "name": "Angler hat",
+      "sources": [
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "N/A gp, stock 1000",
+          "type": "shop",
+          "where": "Alry the Angler's Angling Accessories"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/12",
+          "type": "drop",
+          "where": "Fishing Trawler"
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Angler_hat"
+    },
+    {
+      "generic": false,
+      "id": 13259,
+      "name": "Angler top",
+      "sources": [
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "N/A gp, stock 1000",
+          "type": "shop",
+          "where": "Alry the Angler's Angling Accessories"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/12",
+          "type": "drop",
+          "where": "Fishing Trawler"
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Angler_top"
+    },
+    {
+      "generic": false,
+      "id": 13260,
+      "name": "Angler waders",
+      "sources": [
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "N/A gp, stock 1000",
+          "type": "shop",
+          "where": "Alry the Angler's Angling Accessories"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/12",
+          "type": "drop",
+          "where": "Fishing Trawler"
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Angler_waders"
+    },
+    {
+      "generic": false,
       "id": 13441,
       "name": "Anglerfish",
       "sources": [
@@ -6765,6 +6861,13 @@
         }
       ],
       "wikiUrl": "https://oldschool.runescape.wiki/w/Asgarnian_hops"
+    },
+    {
+      "generic": false,
+      "id": 25781,
+      "name": "Ash sanctifier",
+      "sources": [],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Ash_sanctifier"
     },
     {
       "generic": false,
@@ -12412,6 +12515,20 @@
     },
     {
       "generic": false,
+      "id": 13116,
+      "name": "Bonecrusher",
+      "sources": [],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Bonecrusher"
+    },
+    {
+      "generic": false,
+      "id": 22986,
+      "name": "Bonecrusher necklace",
+      "sources": [],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Bonecrusher_necklace"
+    },
+    {
+      "generic": false,
       "id": 526,
       "name": "Bones",
       "sources": [
@@ -13073,6 +13190,22 @@
         }
       ],
       "wikiUrl": "https://oldschool.runescape.wiki/w/Boots_of_lightness"
+    },
+    {
+      "generic": false,
+      "id": 26856,
+      "name": "Boots of the Eye",
+      "sources": [
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "N/A gp, stock 100",
+          "type": "shop",
+          "where": "Temple Supplies"
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Boots_of_the_Eye"
     },
     {
       "generic": false,
@@ -25750,6 +25883,22 @@
     },
     {
       "generic": false,
+      "id": 12019,
+      "name": "Coal bag",
+      "sources": [
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "80 gp, stock 1",
+          "type": "shop",
+          "where": "Prospector Percy's Nugget Shop"
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Coal_bag"
+    },
+    {
+      "generic": false,
       "id": 2026,
       "name": "Cocktail glass",
       "sources": [
@@ -38029,6 +38178,70 @@
     },
     {
       "generic": false,
+      "id": 13644,
+      "name": "Farmer's boots",
+      "sources": [
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "40 gp, stock ∞",
+          "type": "shop",
+          "where": "Farmer Gricoller's Rewards"
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Farmer's_boots"
+    },
+    {
+      "generic": false,
+      "id": 13640,
+      "name": "Farmer's boro trousers",
+      "sources": [
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "100 gp, stock ∞",
+          "type": "shop",
+          "where": "Farmer Gricoller's Rewards"
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Farmer's_boro_trousers"
+    },
+    {
+      "generic": false,
+      "id": 13642,
+      "name": "Farmer's jacket",
+      "sources": [
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "120 gp, stock ∞",
+          "type": "shop",
+          "where": "Farmer Gricoller's Rewards"
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Farmer's_jacket"
+    },
+    {
+      "generic": false,
+      "id": 13646,
+      "name": "Farmer's strawhat",
+      "sources": [
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "60 gp, stock ∞",
+          "type": "shop",
+          "where": "Farmer Gricoller's Rewards"
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Farmer's_strawhat"
+    },
+    {
+      "generic": false,
       "id": 3367,
       "name": "Fat snail",
       "sources": [
@@ -39088,6 +39301,30 @@
         }
       ],
       "wikiUrl": "https://oldschool.runescape.wiki/w/Fire_Wave"
+    },
+    {
+      "generic": false,
+      "id": 25582,
+      "name": "Fish barrel",
+      "sources": [
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "N/A gp, stock ∞",
+          "type": "shop",
+          "where": "Flakes 'n' Flotsam"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/400",
+          "type": "drop",
+          "where": "Reward pool"
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Fish_barrel"
     },
     {
       "generic": false,
@@ -40553,6 +40790,22 @@
       "wikiUrl": "https://oldschool.runescape.wiki/w/Garlic"
     },
     {
+      "generic": false,
+      "id": 12020,
+      "name": "Gem bag",
+      "sources": [
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "80 gp, stock 1",
+          "type": "shop",
+          "where": "Prospector Percy's Nugget Shop"
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Gem_bag"
+    },
+    {
       "generic": true,
       "id": null,
       "name": "Geomancy",
@@ -41836,6 +42089,13 @@
         }
       ],
       "wikiUrl": "https://oldschool.runescape.wiki/w/Gold_tiara"
+    },
+    {
+      "generic": false,
+      "id": 12012,
+      "name": "Golden nugget",
+      "sources": [],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Golden_nugget"
     },
     {
       "generic": true,
@@ -45658,6 +45918,22 @@
     },
     {
       "generic": false,
+      "id": 26850,
+      "name": "Hat of the Eye",
+      "sources": [
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "N/A gp, stock 100",
+          "type": "shop",
+          "where": "Temple Supplies"
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Hat_of_the_Eye"
+    },
+    {
+      "generic": false,
       "id": 53,
       "name": "Headless arrow",
       "sources": [
@@ -45863,6 +46139,30 @@
         }
       ],
       "wikiUrl": "https://oldschool.runescape.wiki/w/Hemp_yarn"
+    },
+    {
+      "generic": false,
+      "id": 13226,
+      "name": "Herb sack",
+      "sources": [
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "N/A gp, stock ∞",
+          "type": "shop",
+          "where": "Farmer Gricoller's Rewards"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "N/A gp, stock ∞",
+          "type": "shop",
+          "where": "Slayer Rewards"
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Herb_sack"
     },
     {
       "generic": false,
@@ -55638,6 +55938,102 @@
         }
       ],
       "wikiUrl": "https://oldschool.runescape.wiki/w/Low_Level_Alchemy"
+    },
+    {
+      "generic": false,
+      "id": 10933,
+      "name": "Lumberjack boots",
+      "sources": [
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "N/A gp, stock ∞",
+          "type": "shop",
+          "where": "Forestry Shop"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/4",
+          "type": "drop",
+          "where": "Undead Lumberjack"
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Lumberjack_boots"
+    },
+    {
+      "generic": false,
+      "id": 10941,
+      "name": "Lumberjack hat",
+      "sources": [
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "N/A gp, stock ∞",
+          "type": "shop",
+          "where": "Forestry Shop"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/4",
+          "type": "drop",
+          "where": "Undead Lumberjack"
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Lumberjack_hat"
+    },
+    {
+      "generic": false,
+      "id": 10940,
+      "name": "Lumberjack legs",
+      "sources": [
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "N/A gp, stock ∞",
+          "type": "shop",
+          "where": "Forestry Shop"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/4",
+          "type": "drop",
+          "where": "Undead Lumberjack"
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Lumberjack_legs"
+    },
+    {
+      "generic": false,
+      "id": 10939,
+      "name": "Lumberjack top",
+      "sources": [
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "N/A gp, stock ∞",
+          "type": "shop",
+          "where": "Forestry Shop"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/4",
+          "type": "drop",
+          "where": "Undead Lumberjack"
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Lumberjack_top"
     },
     {
       "generic": true,
@@ -69232,6 +69628,22 @@
     },
     {
       "generic": false,
+      "id": 24882,
+      "name": "Plank sack",
+      "sources": [
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "N/A gp, stock ∞",
+          "type": "shop",
+          "where": "Mahogany Homes Reward Shop"
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Plank_sack"
+    },
+    {
+      "generic": false,
       "id": 6036,
       "name": "Plant cure",
       "sources": [
@@ -71927,6 +72339,34 @@
     },
     {
       "generic": false,
+      "id": 12016,
+      "name": "Prospector boots",
+      "sources": [],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Prospector_boots"
+    },
+    {
+      "generic": false,
+      "id": 12013,
+      "name": "Prospector helmet",
+      "sources": [],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Prospector_helmet"
+    },
+    {
+      "generic": false,
+      "id": 12014,
+      "name": "Prospector jacket",
+      "sources": [],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Prospector_jacket"
+    },
+    {
+      "generic": false,
+      "id": 12015,
+      "name": "Prospector legs",
+      "sources": [],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Prospector_legs"
+    },
+    {
+      "generic": false,
       "id": 1853,
       "name": "Prototype dart tip",
       "sources": [
@@ -72020,6 +72460,70 @@
         }
       ],
       "wikiUrl": "https://oldschool.runescape.wiki/w/Pyre_logs"
+    },
+    {
+      "generic": false,
+      "id": 20710,
+      "name": "Pyromancer boots",
+      "sources": [
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/150",
+          "type": "drop",
+          "where": "Reward Cart"
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Pyromancer_boots"
+    },
+    {
+      "generic": false,
+      "id": 20704,
+      "name": "Pyromancer garb",
+      "sources": [
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/150",
+          "type": "drop",
+          "where": "Reward Cart"
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Pyromancer_garb"
+    },
+    {
+      "generic": false,
+      "id": 20708,
+      "name": "Pyromancer hood",
+      "sources": [
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/150",
+          "type": "drop",
+          "where": "Reward Cart"
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Pyromancer_hood"
+    },
+    {
+      "generic": false,
+      "id": 20706,
+      "name": "Pyromancer robe",
+      "sources": [
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/150",
+          "type": "drop",
+          "where": "Reward Cart"
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Pyromancer_robe"
     },
     {
       "generic": false,
@@ -79464,6 +79968,38 @@
     },
     {
       "generic": false,
+      "id": 26854,
+      "name": "Robe bottoms of the Eye",
+      "sources": [
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "N/A gp, stock 100",
+          "type": "shop",
+          "where": "Temple Supplies"
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Robe_bottoms_of_the_Eye"
+    },
+    {
+      "generic": false,
+      "id": 26852,
+      "name": "Robe top of the Eye",
+      "sources": [
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "N/A gp, stock 100",
+          "type": "shop",
+          "where": "Temple Supplies"
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Robe_top_of_the_Eye"
+    },
+    {
+      "generic": false,
       "id": 7639,
       "name": "Rod of Ivandis",
       "sources": [
@@ -79493,6 +80029,86 @@
         }
       ],
       "wikiUrl": "https://oldschool.runescape.wiki/w/Roe"
+    },
+    {
+      "generic": false,
+      "id": 5557,
+      "name": "Rogue boots",
+      "sources": [
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "Once",
+          "type": "drop",
+          "where": "Rogue's equipment crate"
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Rogue_boots"
+    },
+    {
+      "generic": false,
+      "id": 5556,
+      "name": "Rogue gloves",
+      "sources": [
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "Once",
+          "type": "drop",
+          "where": "Rogue's equipment crate"
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Rogue_gloves"
+    },
+    {
+      "generic": false,
+      "id": 5554,
+      "name": "Rogue mask",
+      "sources": [
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "Once",
+          "type": "drop",
+          "where": "Rogue's equipment crate"
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Rogue_mask"
+    },
+    {
+      "generic": false,
+      "id": 5553,
+      "name": "Rogue top",
+      "sources": [
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "Once",
+          "type": "drop",
+          "where": "Rogue's equipment crate"
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Rogue_top"
+    },
+    {
+      "generic": false,
+      "id": 5555,
+      "name": "Rogue trousers",
+      "sources": [
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "Once",
+          "type": "drop",
+          "where": "Rogue's equipment crate"
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Rogue_trousers"
     },
     {
       "generic": false,
@@ -86804,6 +87420,22 @@
     },
     {
       "generic": false,
+      "id": 13639,
+      "name": "Seed box",
+      "sources": [
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "N/A gp, stock ∞",
+          "type": "shop",
+          "where": "Farmer Gricoller's Rewards"
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Seed_box"
+    },
+    {
+      "generic": false,
       "id": 5343,
       "name": "Seed dibber",
       "sources": [
@@ -89079,6 +89711,13 @@
         }
       ],
       "wikiUrl": "https://oldschool.runescape.wiki/w/Silk"
+    },
+    {
+      "generic": false,
+      "id": 33135,
+      "name": "Silklined herb sack",
+      "sources": [],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Silklined_herb_sack"
     },
     {
       "generic": true,
@@ -98926,6 +99565,30 @@
         }
       ],
       "wikiUrl": "https://oldschool.runescape.wiki/w/Swordtip_squid"
+    },
+    {
+      "generic": false,
+      "id": 25580,
+      "name": "Tackle box",
+      "sources": [
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "N/A gp, stock ∞",
+          "type": "shop",
+          "where": "Flakes 'n' Flotsam"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/400",
+          "type": "drop",
+          "where": "Reward pool"
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Tackle_box"
     },
     {
       "generic": true,
