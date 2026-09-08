@@ -13,7 +13,7 @@ repositories {
 	mavenCentral()
 }
 
-def runeLiteVersion = '1.12.38'
+def runeLiteVersion = 'latest.release'
 def pluginMainClass = 'dev.reece.nta.NextTargetPluginTest'
 
 dependencies {
@@ -29,7 +29,7 @@ dependencies {
 }
 
 group = 'dev.reece'
-version = '0.1.0'
+version = '1.0.0'
 
 tasks.withType(JavaCompile).configureEach {
 	options.encoding = 'UTF-8'

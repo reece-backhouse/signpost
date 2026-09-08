@@ -59,9 +59,9 @@ import net.runelite.client.util.ImageUtil;
 
 @Slf4j
 @PluginDescriptor(
-	name = "Next Target Advisor",
-	description = "Suggests what to focus on next",
-	tags = {"quest", "diary", "skilling"}
+	name = "Signpost",
+	description = "Points your account at its next best goal, with a Why and a bank-aware route",
+	tags = {"goal", "quest", "diary", "boss", "skilling", "ironman", "planner", "advisor"}
 )
 public class NextTargetPlugin extends Plugin
 {
