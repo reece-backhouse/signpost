@@ -55,6 +55,9 @@ file when done. On macOS JDK 17 the `run` task needs `--add-exports java.desktop
 - Skill targets ("70 Herblore") are synthesised from upcoming goals' skill gaps; only bank-covered
   targets can be picked, uncovered ones never outrank their parent goal.
 - Diagnostics: each engine run logs the top three picks and the Moons/GWD watch lines at INFO.
+- Group ironman shared storage (`INV_GROUP_TEMP`, persisted when `SHARED_BANK` closes) is summed with
+  the bank for ownership, routes and shortfalls (ruling 31); unseen storage counts as empty, not unknown.
+  Config "Count group storage" (default on) gates the read. `AccountData.version` is 2.
 
 ## Surge Engineering Workflow
 

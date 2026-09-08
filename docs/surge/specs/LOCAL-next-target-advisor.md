@@ -171,6 +171,22 @@ option; cost-if-wrong noted.
     offered a lower-xp alternative when the KB lacks a plan for a gatherable
     herb; fix by curating gathering.json.
 
+31. **Ruling (RL-003, 2026-09-08): group ironman shared storage is one
+    ownership pool with the bank.** The plugin caches `InventoryID.INV_GROUP_TEMP`
+    on `ItemContainerChanged` exactly like the bank and persists it (with
+    `groupStorageAsOf`) when `InterfaceID.SHARED_BANK` closes, only on
+    GROUP/HARDCORE_GROUP/UNRANKED_GROUP accounts and only while the "Count
+    group storage" toggle (default on) is set; off stops the read and the
+    ownership contribution but keeps the cached copy. `GapEngine.anyIdHeld`,
+    the item sums and `NextStepPicker.bankAll` add the storage to the bank;
+    `Snapshot.groupStorageShare` gives the per-item breakdown the detail view
+    prints as "in group storage: N". Unlike the bank, unseen storage is
+    treated as empty - it never makes a goal's readiness unknown - and the
+    why line says "group storage not seen" instead. `AccountData.version`
+    is 2; a version-1 file upgrades on load with an empty, unseen map - cost:
+    a GIM who never opens the shared storage is still told to grind what a
+    teammate banked, exactly as before this ruling.
+
 Rulings from the grill (docs/surge/reviews/LOCAL-next-target-advisor.md):
 
 13. **Ruling: quest name resolver in kb-build is three-step** — (a) committed
