@@ -182,6 +182,21 @@ option; cost-if-wrong noted.
     strip until the next user action. The engine stays pure - the previous
     advice is just another input — cost: none.
 
+34. **Ruling (ticket RL-012, 2026-09-08): ETA from the observed xp rate.**
+    The plugin keeps a per-skill in-memory ring of (time, xp) samples from
+    `StatChanged`, bounded to the last 30 minutes and never persisted. A
+    skill's rate is ready after the window spans >= 5 minutes with >= 2
+    samples and xp gained first-to-last; it is that first-to-last slope in
+    xp/h. `Engine.run` takes `Map<Skill, Long> xpPerHour` as plain data and
+    carries it on `Advice.xpPerHour`; `Eta.text` turns the xp still to
+    train - the route's `uncoveredXp` when a route exists, else the raw gap -
+    into "about 45 min at 38k/h" (minutes rounded up, hours split out past
+    60, rate to the nearest thousand). The detail view's skill row and the
+    skill-target card append it; nothing shows without a ready rate or with
+    no xp left. A rate becoming ready triggers one re-snapshot so the ETA
+    appears mid-session without a level-up — cost: the ETA otherwise
+    refreshes only on the next engine run (level-up, bank close, Refresh).
+
 Rulings from the grill (docs/surge/reviews/LOCAL-next-target-advisor.md):
 
 13. **Ruling: quest name resolver in kb-build is three-step** — (a) committed
