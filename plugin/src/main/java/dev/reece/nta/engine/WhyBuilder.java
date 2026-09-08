@@ -172,10 +172,10 @@ public final class WhyBuilder
 	{
 		if (route.getUncoveredXp() == 0)
 		{
-			return "Bank covers " + gap.getHave() + "\u2192" + gap.getNeed();
+			return "Bank covers " + gap.getHave() + "-" + gap.getNeed();
 		}
 		int reached = Experience.getLevelForXp((int) Math.min(route.getFinalXp(), Integer.MAX_VALUE));
-		String covers = reached > gap.getHave() ? gap.getHave() + "\u2192" + reached : "nothing";
+		String covers = reached > gap.getHave() ? gap.getHave() + "-" + reached : "nothing";
 		return "Bank covers " + covers + "; short " + route.getUncoveredXp() + " xp";
 	}
 

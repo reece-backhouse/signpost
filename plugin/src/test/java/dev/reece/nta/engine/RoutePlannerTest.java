@@ -73,6 +73,40 @@ class RoutePlannerTest
 		assertEquals(10_000 - 18, route.getSimulatedBank().get(10));
 	}
 
+	/**
+	 * Task 59 C: a method the route comes back to after a better one runs dry (here one action of
+	 * "Rich" at level 2, then "Cheap" again) is merged into its FIRST step, not listed twice -
+	 * count, xp and materials summed, fromLevel the first's, toLevel the last's.
+	 */
+	@Test
+	void sameMethodStepsSeparatedByAnotherMethodMergeIntoTheFirstOccurrence()
+	{
+		KnowledgeBase kb = new KbBuilder()
+			.method(Skill.HERBLORE, "Cheap", 1, 10)
+			.material(20, 1)
+			.method(Skill.HERBLORE, "Rich", 2, 100)
+			.material(21, 1)
+			.build();
+		Map<Integer, Integer> bank = new HashMap<>();
+		bank.put(20, 1000);
+		bank.put(21, 1);
+
+		Route route = RoutePlanner.route(Skill.HERBLORE, 0, Experience.getXpForLevel(4), bank, kb);
+
+		assertEquals(2, route.getSteps().size(), "steps: " + route.getSteps());
+		RouteStep cheap = route.getSteps().get(0);
+		assertEquals("Cheap", cheap.getMethod().getName());
+		assertEquals(18, cheap.getCount(), "9 actions to level 2, then 9 more from level 3");
+		assertEquals(1, cheap.getFromLevel());
+		assertEquals(4, cheap.getToLevel());
+		assertEquals(180, cheap.getXpGained());
+		assertEquals(18, (int) cheap.getMaterialsUsed().get(20));
+		RouteStep rich = route.getSteps().get(1);
+		assertEquals("Rich", rich.getMethod().getName());
+		assertEquals(1, rich.getCount());
+		assertEquals(280, route.getFinalXp());
+	}
+
 	@Test
 	void whenXpPerActionIsTiedTheLowerLevelReqMethodWins()
 	{

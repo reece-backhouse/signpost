@@ -49,7 +49,7 @@ class WhyBuilderExplainTest
 			"Needed for Song of the Elves (70 Herblore)",
 			"Needed for Second (70 Herblore)",
 			"Needed for Third (74 Herblore)",
-			"Bank covers 61→70"), whyBuilder.explain(rank(status), kb, snap, 1));
+			"Bank covers 61-70"), whyBuilder.explain(rank(status), kb, snap, 1));
 	}
 
 	@Test
@@ -61,7 +61,7 @@ class WhyBuilderExplainTest
 		GoalStatus some = skillTarget(List.of(new GoalRef("quest:137", "Song of the Elves", 70)), partial, 1);
 		GoalStatus none = skillTarget(List.of(new GoalRef("quest:137", "Song of the Elves", 70)), empty, 1);
 
-		assertEquals("Bank covers 61→68; short " + (Experience.getXpForLevel(70) - reached) + " xp", whyBuilder.explain(rank(some), kb, snap, 1).get(1));
+		assertEquals("Bank covers 61-68; short " + (Experience.getXpForLevel(70) - reached) + " xp", whyBuilder.explain(rank(some), kb, snap, 1).get(1));
 		assertEquals("Bank covers nothing; short " + (Experience.getXpForLevel(70) - Experience.getXpForLevel(61)) + " xp",
 			whyBuilder.explain(rank(none), kb, snap, 1).get(1));
 	}

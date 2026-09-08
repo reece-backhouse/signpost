@@ -103,7 +103,7 @@ class RenderSmokeTest
 		List<RankedGoal> picked = List.of(skillRanked);
 
 		Map<String, List<String>> explanations = new HashMap<>(base.getExplanations());
-		explanations.put(skillGoal.getId(), List.of("Needed for Song of the Elves (75 Woodcutting)", "Bank covers 60→75"));
+		explanations.put(skillGoal.getId(), List.of("Needed for Song of the Elves (75 Woodcutting)", "Bank covers 60-75"));
 
 		Advice advice = new Advice(base.getSnapshot(), statuses, base.getDiaryProgress(), base.getComputedAt(),
 			ranked, picked, base.getRest(), base.getAccountStage(), base.getLater(), base.getWhys(), explanations,
@@ -123,7 +123,7 @@ class RenderSmokeTest
 
 				JLabel whyToggle = findLabelStartingWith(panel, "Why?");
 				assertNotNull(whyToggle, "a Why? toggle must exist on a card");
-				assertTrue(whyToggle.getText().endsWith("▶"), "collapsed by default, got: " + whyToggle.getText());
+				assertTrue(whyToggle.getText().endsWith("[+]"), "collapsed by default, got: " + whyToggle.getText());
 				assertFalse(containsLabelContaining(panel, "Bank covers 60"),
 					"explanation line must not be present before the toggle is clicked");
 
@@ -135,7 +135,7 @@ class RenderSmokeTest
 				// post-click label must be re-found rather than re-read off the stale reference.
 				JLabel whyToggleAfterClick = findLabelStartingWith(panel, "Why?");
 				assertNotNull(whyToggleAfterClick, "a Why? toggle must still exist after the click");
-				assertTrue(whyToggleAfterClick.getText().endsWith("▼"),
+				assertTrue(whyToggleAfterClick.getText().endsWith("[-]"),
 					"clicking the toggle must expand it, got: " + whyToggleAfterClick.getText());
 				assertTrue(containsLabelContaining(panel, "Bank covers 60"),
 					"explanation line must be present in the tree after expanding");
@@ -387,7 +387,7 @@ class RenderSmokeTest
 
 	/**
 	 * Fix round 1: a collapsible section header (Later/Snoozed/Ignored) must toggle when the click
-	 * lands on the label the user actually sees ("LATER (0) ▶"), not just on the outer panel -
+	 * lands on the label the user actually sees ("LATER (0) [+]"), not just on the outer panel -
 	 * AWT delivers a click to the deepest component under the cursor and does not bubble it to
 	 * ancestors.
 	 */
@@ -414,12 +414,12 @@ class RenderSmokeTest
 
 				JLabel laterLabel = findLabelStartingWith(panel, "LATER");
 				assertNotNull(laterLabel, "Later section header label must exist");
-				assertTrue(laterLabel.getText().endsWith("▶"), "collapsed by default, got: " + laterLabel.getText());
+				assertTrue(laterLabel.getText().endsWith("[+]"), "collapsed by default, got: " + laterLabel.getText());
 
 				laterLabel.dispatchEvent(new MouseEvent(laterLabel, MouseEvent.MOUSE_CLICKED,
 					System.currentTimeMillis(), 0, 1, 1, 1, false));
 
-				assertTrue(laterLabel.getText().endsWith("▼"),
+				assertTrue(laterLabel.getText().endsWith("[-]"),
 					"clicking the header's own label must toggle expansion, got: " + laterLabel.getText());
 			});
 		}
@@ -823,7 +823,7 @@ class RenderSmokeTest
 					System.currentTimeMillis(), 0, 1, 1, 1, false));
 
 				assertTrue(containsLabelContaining(panel, "Chop willow trees ×13,875"), "clicking the Woodcutting label must expand its route");
-				assertTrue(containsLabelContaining(panel, "60→75, +936,679 xp"), "route step must show levels and xp");
+				assertTrue(containsLabelContaining(panel, "60-75, +936,679 xp"), "route step must show levels and xp");
 				assertFalse(containsLabelContaining(panel, "Prayer potion(3) ×2"), "expanding Woodcutting must collapse Herblore");
 				assertTrue(containsComponentNamed(panel, Icons.PLACEHOLDER_NAME),
 					"a route output must render an item-icon label (placeholder without an ItemManager)");
@@ -848,6 +848,526 @@ class RenderSmokeTest
 			}
 			throw e;
 		}
+	}
+
+	/**
+	 * Task 59 A: a real-engine focus whose expanded Herblore row nests a route with a craft
+	 * sub-step, then a shortfall whose item has a craft chain (Ranarr weed + Vial of water) with a
+	 * gathering plan and long source lines - every descendant, laid out at the real sidebar
+	 * width, must end inside the panel. Before the fix every nested label wrapped at the full
+	 * panel width regardless of its indent and icon column, so its text painted past the edge.
+	 */
+	@Test
+	void everyDetailRowEndsInsideThePanelWhenNestedUnderAnExpandedSkillRow() throws Exception
+	{
+		Advice advice = craftChainFixture();
+
+		Consumer<String> noop = id -> { };
+		GoalDetailPanel.Actions actions = new GoalDetailPanel.Actions(noop, () -> { });
+
+		try
+		{
+			SwingUtilities.invokeAndWait(() ->
+			{
+				GoalDetailPanel panel = new GoalDetailPanel(actions, icons());
+				panel.render(advice);
+				layoutAtRealPanelWidth(panel);
+				assertTrue(containsLabelContaining(panel, "Ranarr weed"), "the craft chain ingredient must render");
+				assertTrue(containsLabelContaining(panel, "Gather Ranarr weed"), "the ingredient's gathering plan must render");
+				assertNothingEndsPastTheRightEdge(panel);
+			});
+		}
+		catch (InvocationTargetException e)
+		{
+			if (e.getCause() instanceof HeadlessException)
+			{
+				Assumptions.abort("Headless environment cannot construct Swing components: " + e.getCause().getMessage());
+			}
+			throw e;
+		}
+	}
+
+	/**
+	 * Task 59: a focused quest needing Herblore 20 - the bank brews a few Prayer potions (crafting
+	 * some unfinished potions first), then falls short; the unfinished potion is craftable from
+	 * Ranarr weed + Vial of water, and Ranarr weed has a curated gathering plan (which the engine
+	 * also unions into the parent item, spec ruling 28).
+	 */
+	private static Advice craftChainFixture()
+	{
+		int ranarrUnf = 200;
+		int ranarr = 201;
+		int vial = 202;
+		KnowledgeBase kb = new KbBuilder()
+			.quest(0, "Test Quest").skill(Skill.HERBLORE, 20)
+			.method(Skill.HERBLORE, "Prayer potion(3)", 1, 4)
+			.material(ranarrUnf, 1)
+			.method(Skill.HERBLORE, "Ranarr potion (unf)", 1, 0)
+			.material(ranarr, 1)
+			.material(vial, 1)
+			.output(ranarrUnf, 1)
+			.intermediate()
+			.material("Ranarr potion (unf)", ranarrUnf)
+			.source("craft", "Ranarr weed + Vial of water")
+			.source("shop", "Myths' Guild Herbalist 1 gp, stock 100, restocks slowly")
+			.material("Ranarr weed", ranarr)
+			.source("drop", "Chaos druids in Taverley Dungeon; take the long way round past the poison spiders")
+			.material("Vial of water", vial)
+			.source("shop", "Any general store")
+			.gatheringPlan("Ranarr weed", ranarr)
+			.build();
+		Snapshot snapshot = new SnapshotBuilder()
+			.bankItem(ranarrUnf, "Ranarr potion (unf)", 2)
+			.bankItem(ranarr, "Ranarr weed", 3)
+			.bankItem(vial, "Vial of water", 3)
+			.build();
+		AccountData data = new AccountData(new HashMap<>(), null, new HashMap<>(), new HashSet<>(), new ArrayList<>(), "quest:0", new HashSet<>());
+		Advice advice = new Engine(new BoostTable()).run(snapshot, kb, data, Instant.now());
+		assertNotNull(advice.getFocus(), "fixture must produce a focus");
+		SkillPlan herblore = advice.getFocus().getNextSkillPlan();
+		assertNotNull(herblore, "fixture must produce a next skill plan");
+		assertNotNull(herblore.getShortfall(), "fixture must leave Herblore short");
+		assertFalse(herblore.getRoute().getSteps().get(0).getCrafts().isEmpty(), "fixture route must craft unfinished potions first");
+		assertFalse(herblore.getShortfall().getItems().get(0).getCraftFrom().isEmpty(), "fixture shortfall must carry a craft chain");
+		return advice;
+	}
+
+	/** Task 59 A: every visible descendant's right edge, in {@code root}'s coordinates, is within {@code root}'s width. */
+	private static void assertNothingEndsPastTheRightEdge(Container root)
+	{
+		List<String> offenders = new ArrayList<>();
+		collectPastTheRightEdge(root, root, offenders);
+		assertTrue(offenders.isEmpty(), "past the panel's width " + root.getWidth() + ":\n" + String.join("\n", offenders));
+	}
+
+	private static void collectPastTheRightEdge(Container container, Container root, List<String> offenders)
+	{
+		for (Component child : container.getComponents())
+		{
+			if (!child.isVisible())
+			{
+				continue;
+			}
+			int right = SwingUtilities.convertPoint(child, child.getWidth(), 0, root).x;
+			int preferredRight = SwingUtilities.convertPoint(child, child.getPreferredSize().width, 0, root).x;
+			if (right > root.getWidth() || preferredRight > root.getWidth())
+			{
+				offenders.add(describe(child) + " ends at x=" + right + " (preferred " + preferredRight + ")");
+			}
+			if (child instanceof Container)
+			{
+				collectPastTheRightEdge((Container) child, root, offenders);
+			}
+		}
+	}
+
+	private static String describe(Component c)
+	{
+		String text = c instanceof JLabel ? " '" + ((JLabel) c).getText() + "'" : "";
+		return c.getClass().getSimpleName() + text;
+	}
+
+	/**
+	 * Task 59 B: RuneLite's RuneScape font has no glyph for the arrows and triangles the panels
+	 * used ("61→62", "▶"/"▼"), which painted as boxes and bars. Every label in both panels, with
+	 * the detail's skill row expanded, must use only ASCII plus the few symbols the font does have.
+	 */
+	@Test
+	void panelsUseOnlyGlyphsTheRunescapeFontHas() throws Exception
+	{
+		Advice advice = craftChainFixture();
+
+		Consumer<String> noop = id -> { };
+		SuggestPanel.Actions actions = new SuggestPanel.Actions(noop, noop, noop, noop, noop, noop, noop, () -> { }, noop, noop);
+		GoalDetailPanel.Actions detailActions = new GoalDetailPanel.Actions(noop, () -> { });
+
+		try
+		{
+			SwingUtilities.invokeAndWait(() ->
+			{
+				SuggestPanel suggest = new SuggestPanel(actions, icons());
+				suggest.render(advice);
+				assertOnlyRenderableGlyphs(suggest);
+
+				GoalDetailPanel detail = new GoalDetailPanel(detailActions, icons());
+				detail.render(advice);
+				assertTrue(containsLabelContaining(detail, "Prayer potion(3)"), "the skill row must be expanded so its route renders");
+				assertOnlyRenderableGlyphs(detail);
+			});
+		}
+		catch (InvocationTargetException e)
+		{
+			if (e.getCause() instanceof HeadlessException)
+			{
+				Assumptions.abort("Headless environment cannot construct Swing components: " + e.getCause().getMessage());
+			}
+			throw e;
+		}
+	}
+
+	/** Task 59 B: no label text has a character above U+007F other than "×", "—" and "’" (the ones the RuneScape font renders). */
+	private static void assertOnlyRenderableGlyphs(Container container)
+	{
+		List<String> offenders = new ArrayList<>();
+		collectUnrenderableGlyphs(container, offenders);
+		assertTrue(offenders.isEmpty(), "labels with glyphs the RuneScape font lacks:\n" + String.join("\n", offenders));
+	}
+
+	private static void collectUnrenderableGlyphs(Container container, List<String> offenders)
+	{
+		for (Component child : container.getComponents())
+		{
+			if (child instanceof JLabel)
+			{
+				String text = ((JLabel) child).getText();
+				for (int i = 0; i < text.length(); i++)
+				{
+					char c = text.charAt(i);
+					if (c > 0x7F && "×—’".indexOf(c) < 0)
+					{
+						offenders.add(String.format("U+%04X in '%s'", (int) c, text));
+						break;
+					}
+				}
+			}
+			if (child instanceof Container)
+			{
+				collectUnrenderableGlyphs((Container) child, offenders);
+			}
+		}
+	}
+
+	/** Task 59 C2: a route step whose method is typed "Cleaning grimy herbs" reads "Clean Kwuarm", not the bare herb name. */
+	@Test
+	void cleaningStepRendersAsCleanPlusTheHerbName() throws Exception
+	{
+		Advice advice = foldableRouteFixture();
+		Consumer<String> noop = id -> { };
+		GoalDetailPanel.Actions actions = new GoalDetailPanel.Actions(noop, () -> { });
+		try
+		{
+			SwingUtilities.invokeAndWait(() ->
+			{
+				GoalDetailPanel panel = new GoalDetailPanel(actions, icons());
+				panel.render(advice);
+				assertTrue(containsLabelContaining(panel, "Clean Kwuarm ×40"), "a cleaning step must read 'Clean <herb>'");
+			});
+		}
+		catch (InvocationTargetException e)
+		{
+			if (e.getCause() instanceof HeadlessException)
+			{
+				Assumptions.abort("Headless environment cannot construct Swing components: " + e.getCause().getMessage());
+			}
+			throw e;
+		}
+	}
+
+	/**
+	 * Task 59 C3: steps worth under 2% of the route's xp fold into one collapsed "+ N small steps"
+	 * toggle at the end of the route; clicking it lists them. A 0-xp craft is never folded.
+	 */
+	@Test
+	void smallRouteStepsFoldIntoAToggleAtTheEndOfTheRoute() throws Exception
+	{
+		Advice advice = foldableRouteFixture();
+		Consumer<String> noop = id -> { };
+		GoalDetailPanel.Actions actions = new GoalDetailPanel.Actions(noop, () -> { });
+		try
+		{
+			SwingUtilities.invokeAndWait(() ->
+			{
+				GoalDetailPanel panel = new GoalDetailPanel(actions, icons());
+				panel.render(advice);
+				assertTrue(containsLabelContaining(panel, "Prayer potion(3) ×340"), "the big step must render");
+				assertTrue(containsLabelContaining(panel, "craft Ranarr potion (unf) ×100"), "a 0-xp craft is never folded");
+				assertFalse(containsLabelContaining(panel, "Attack potion(3) ×2"), "a step under 2% of the route's xp must be folded");
+				JLabel toggle = findLabelStartingWith(panel, "+ 1 small step");
+				assertNotNull(toggle, "a collapsed small-steps toggle must render at the end of the route");
+				assertTrue(toggle.getText().contains("(+50 xp)") && toggle.getText().endsWith("[+]"), "toggle text: " + toggle.getText());
+
+				toggle.dispatchEvent(new MouseEvent(toggle, MouseEvent.MOUSE_CLICKED, System.currentTimeMillis(), 0, 1, 1, 1, false));
+
+				assertTrue(containsLabelContaining(panel, "Attack potion(3) ×2"), "expanding the toggle must list the small step");
+				JLabel expanded = findLabelStartingWith(panel, "+ 1 small step");
+				assertNotNull(expanded);
+				assertTrue(expanded.getText().endsWith("[-]"), "toggle text after click: " + expanded.getText());
+			});
+		}
+		catch (InvocationTargetException e)
+		{
+			if (e.getCause() instanceof HeadlessException)
+			{
+				Assumptions.abort("Headless environment cannot construct Swing components: " + e.getCause().getMessage());
+			}
+			throw e;
+		}
+	}
+
+	/**
+	 * Task 59 C4: a step's materials are a strip of chips (item icon + "×N") on a line under its
+	 * text rather than an east strip of bare icons, so the text column gets the full row width;
+	 * a 0-xp craft drops its "from ..." line (the chips carry it). Nothing ends past the edge.
+	 */
+	@Test
+	void stepMaterialsRenderAsChipsUnderTheStepText() throws Exception
+	{
+		Advice advice = foldableRouteFixture();
+		Consumer<String> noop = id -> { };
+		GoalDetailPanel.Actions actions = new GoalDetailPanel.Actions(noop, () -> { });
+		try
+		{
+			SwingUtilities.invokeAndWait(() ->
+			{
+				GoalDetailPanel panel = new GoalDetailPanel(actions, icons());
+				panel.render(advice);
+				assertNotNull(findLabelWithText(panel, "×340"), "the brewing step's unfinished potions must render as a ×N chip");
+				assertNotNull(findLabelWithText(panel, "×100"), "the craft's ingredients must render as ×N chips");
+				assertFalse(containsLabelContaining(panel, "from Ranarr weed"), "the craft's 'from ...' line is replaced by its chips");
+				layoutAtRealPanelWidth(panel);
+				assertNothingEndsPastTheRightEdge(panel);
+				assertOnlyRenderableGlyphs(panel);
+			});
+		}
+		catch (InvocationTargetException e)
+		{
+			if (e.getCause() instanceof HeadlessException)
+			{
+				Assumptions.abort("Headless environment cannot construct Swing components: " + e.getCause().getMessage());
+			}
+			throw e;
+		}
+	}
+
+	/**
+	 * Task 59 C: {@link #craftChainFixture()}'s focus with its Herblore plan replaced by a
+	 * hand-built covered route - brewing 340 Prayer potions (crafting 100 unfinished ones first),
+	 * cleaning 40 Kwuarm (a "Cleaning grimy herbs" method), and 2 Attack potions worth 50 xp of
+	 * the route's 34,800 (under 2%).
+	 */
+	private static Advice foldableRouteFixture()
+	{
+		Advice base = craftChainFixture();
+		int unf = 200;
+		int ranarr = 201;
+		int vial = 202;
+		int prayerPot = 203;
+		int grimyKwuarm = 204;
+		int kwuarm = 205;
+		int guamUnf = 206;
+		int attackPot = 207;
+		MethodEntry makeUnf = new MethodEntry(Skill.HERBLORE, "Ranarr potion (unf)", "Ranarr potion (unf)", 30, 0,
+			List.of(new ItemQuantity("Ranarr weed", ranarr, 1), new ItemQuantity("Vial of water", vial, 1)),
+			List.of(new ItemQuantity("Ranarr potion (unf)", unf, 1)), List.of(), true, false, null, true, true);
+		MethodEntry brew = new MethodEntry(Skill.HERBLORE, "Prayer potion(3)", "Prayer potion(3)", 38, 87.5,
+			List.of(new ItemQuantity("Ranarr potion (unf)", unf, 1)), List.of(new ItemQuantity("Prayer potion(3)", prayerPot, 1)),
+			List.of(), true, false, null, false, true);
+		MethodEntry clean = new MethodEntry(Skill.HERBLORE, "Kwuarm", "Kwuarm", 54, 11.3,
+			List.of(new ItemQuantity("Grimy kwuarm", grimyKwuarm, 1)), List.of(new ItemQuantity("Kwuarm", kwuarm, 1)),
+			List.of("Cleaning grimy herbs"), true, false, null, false, true);
+		MethodEntry attack = new MethodEntry(Skill.HERBLORE, "Attack potion(3)", "Attack potion(3)", 3, 25,
+			List.of(new ItemQuantity("Guam potion (unf)", guamUnf, 1)), List.of(new ItemQuantity("Attack potion(3)", attackPot, 1)),
+			List.of(), true, false, null, false, true);
+		RouteStep craft = new RouteStep(makeUnf, 100, 61, 61, 0L, Map.of(ranarr, 100, vial, 100), List.of());
+		RouteStep brewStep = new RouteStep(brew, 340, 61, 66, 29_750L, Map.of(unf, 340), List.of(craft));
+		RouteStep cleanStep = new RouteStep(clean, 40, 66, 66, 5_000L, Map.of(grimyKwuarm, 40), List.of());
+		RouteStep attackStep = new RouteStep(attack, 2, 66, 66, 50L, Map.of(guamUnf, 2), List.of());
+		long fromXp = 302_288L;
+		long toXp = 737_627L;
+		Route route = new Route(List.of(brewStep, cleanStep, attackStep), 0L, toXp, Map.of());
+		SkillPlan plan = new SkillPlan(Skill.HERBLORE, 61, 70, fromXp, toXp, false, route, null, true, "quest");
+		FocusDetail focus = new FocusDetail(base.getFocus().getStatus(), base.getFocus().getNext(), route, null, 61, 70, List.of(plan), plan);
+		return new Advice(base.getSnapshot(), base.getStatuses(), base.getDiaryProgress(), base.getComputedAt(),
+			base.getRanked(), base.getPicked(), base.getRest(), base.getAccountStage(), base.getLater(), base.getWhys(),
+			base.getExplanations(), base.getReasons(), base.getOwnedManuallyNames(), base.getPrefs(), focus);
+	}
+
+	private static JLabel findLabelWithText(Container container, String text)
+	{
+		for (Component child : container.getComponents())
+		{
+			if (child instanceof JLabel && text.equals(((JLabel) child).getText()))
+			{
+				return (JLabel) child;
+			}
+			if (child instanceof Container)
+			{
+				JLabel found = findLabelWithText((Container) child, text);
+				if (found != null)
+				{
+					return found;
+				}
+			}
+		}
+		return null;
+	}
+
+	/** Task 59 D1: the shortfall header says how much xp is still uncovered, from the route, and for which method. */
+	@Test
+	void shortfallHeaderNamesTheUncoveredXpAndTheMethod() throws Exception
+	{
+		Advice advice = craftChainFixture();
+		SkillPlan herblore = advice.getFocus().getNextSkillPlan();
+		String expected = "Then still short ~" + String.format(java.util.Locale.ENGLISH, "%,d", herblore.getRoute().getUncoveredXp())
+			+ " xp for Prayer potion(3):";
+		Consumer<String> noop = id -> { };
+		GoalDetailPanel.Actions actions = new GoalDetailPanel.Actions(noop, () -> { });
+		try
+		{
+			SwingUtilities.invokeAndWait(() ->
+			{
+				GoalDetailPanel panel = new GoalDetailPanel(actions, icons());
+				panel.render(advice);
+				assertTrue(containsLabelContaining(panel, expected), "shortfall header must read '" + expected + "'");
+			});
+		}
+		catch (InvocationTargetException e)
+		{
+			if (e.getCause() instanceof HeadlessException)
+			{
+				Assumptions.abort("Headless environment cannot construct Swing components: " + e.getCause().getMessage());
+			}
+			throw e;
+		}
+	}
+
+	/** Task 59 D2: a shortfall item line leads with the shortage - "<name>: short N (have h, need n)" - not the have/need bookkeeping. */
+	@Test
+	void shortfallItemLineLeadsWithTheShortage() throws Exception
+	{
+		Advice advice = craftChainFixture();
+		ShortfallItem item = advice.getFocus().getNextSkillPlan().getShortfall().getItems().get(0);
+		String parens = "(have " + item.getHave() + ", need " + item.getNeed() + ")";
+		Consumer<String> noop = id -> { };
+		GoalDetailPanel.Actions actions = new GoalDetailPanel.Actions(noop, () -> { });
+		try
+		{
+			SwingUtilities.invokeAndWait(() ->
+			{
+				GoalDetailPanel panel = new GoalDetailPanel(actions, icons());
+				panel.render(advice);
+				assertTrue(containsLabelContaining(panel, "short " + (item.getNeed() - item.getHave()) + "</span> " + parens),
+					"item line must read '<name>: short N " + parens + "'");
+				assertFalse(containsLabelContaining(panel, ": have " + item.getHave() + ", need "), "the old 'have h, need n, short' order must be gone");
+			});
+		}
+		catch (InvocationTargetException e)
+		{
+			if (e.getCause() instanceof HeadlessException)
+			{
+				Assumptions.abort("Headless environment cannot construct Swing components: " + e.getCause().getMessage());
+			}
+			throw e;
+		}
+	}
+
+	/**
+	 * Task 59 D3: the engine unions an ingredient's gathering plan into its parent item (spec
+	 * ruling 28), so the same plan reached the tree twice - under the parent and again under the
+	 * craft-from ingredient. It must render once, at its first occurrence.
+	 */
+	@Test
+	void aGatheringPlanRendersOncePerSkillPlanEvenWhenTheEngineUnionsItIntoTheParent() throws Exception
+	{
+		Advice advice = craftChainFixture();
+		Consumer<String> noop = id -> { };
+		GoalDetailPanel.Actions actions = new GoalDetailPanel.Actions(noop, () -> { });
+		try
+		{
+			SwingUtilities.invokeAndWait(() ->
+			{
+				GoalDetailPanel panel = new GoalDetailPanel(actions, icons());
+				panel.render(advice);
+				assertEquals(1, countLabelsContaining(panel, "Gather Ranarr weed"), "the Ranarr weed plan must render exactly once");
+			});
+		}
+		catch (InvocationTargetException e)
+		{
+			if (e.getCause() instanceof HeadlessException)
+			{
+				Assumptions.abort("Headless environment cannot construct Swing components: " + e.getCause().getMessage());
+			}
+			throw e;
+		}
+	}
+
+	/**
+	 * Task 59 D4: an item's shop/drop/spawn sources collapse under a "Sources (n)" toggle, closed by
+	 * default; its "craft:" source line is dropped when craft-from rows already show the recipe,
+	 * and stays visible outside the toggle when they don't.
+	 */
+	@Test
+	void shortfallSourcesCollapseUnderAToggleAndTheCraftLineShowsOnlyWithoutCraftFromRows() throws Exception
+	{
+		Advice withCraftFrom = craftChainFixture();
+		SkillPlan herblore = withCraftFrom.getFocus().getNextSkillPlan();
+		ShortfallItem item = herblore.getShortfall().getItems().get(0);
+		ShortfallItem noCraftFrom = new ShortfallItem(item.getItem(), item.getHave(), item.getNeed(), item.getSources(), List.of(),
+			item.getWikiUrl(), item.getPlans());
+		Shortfall shortfall = new Shortfall(herblore.getShortfall().getMethod(), List.of(noCraftFrom));
+		SkillPlan plan = new SkillPlan(herblore.getSkill(), herblore.getFromLevel(), herblore.getToLevel(), herblore.getFromXp(),
+			herblore.getToXp(), herblore.isRecommended(), herblore.getRoute(), shortfall, false, herblore.getSource());
+		FocusDetail focus = new FocusDetail(withCraftFrom.getFocus().getStatus(), withCraftFrom.getFocus().getNext(), plan.getRoute(),
+			shortfall, plan.getFromLevel(), plan.getToLevel(), List.of(plan), plan);
+		Advice withoutCraftFrom = new Advice(withCraftFrom.getSnapshot(), withCraftFrom.getStatuses(), withCraftFrom.getDiaryProgress(),
+			withCraftFrom.getComputedAt(), withCraftFrom.getRanked(), withCraftFrom.getPicked(), withCraftFrom.getRest(),
+			withCraftFrom.getAccountStage(), withCraftFrom.getLater(), withCraftFrom.getWhys(), withCraftFrom.getExplanations(),
+			withCraftFrom.getReasons(), withCraftFrom.getOwnedManuallyNames(), withCraftFrom.getPrefs(), focus);
+
+		Consumer<String> noop = id -> { };
+		GoalDetailPanel.Actions actions = new GoalDetailPanel.Actions(noop, () -> { });
+		try
+		{
+			SwingUtilities.invokeAndWait(() ->
+			{
+				GoalDetailPanel panel = new GoalDetailPanel(actions, icons());
+				panel.render(withCraftFrom);
+				assertFalse(containsLabelContaining(panel, "shop: Myths"), "sources must be collapsed by default");
+				assertFalse(containsLabelContaining(panel, "craft: Ranarr weed"), "the craft line is redundant next to craft-from rows");
+				JLabel toggle = findLabelStartingWith(panel, "Sources (1)");
+				assertNotNull(toggle, "the parent item's shop source must sit under a 'Sources (1)' toggle");
+				assertTrue(toggle.getText().endsWith("[+]"), "closed by default: " + toggle.getText());
+
+				toggle.dispatchEvent(new MouseEvent(toggle, MouseEvent.MOUSE_CLICKED, System.currentTimeMillis(), 0, 1, 1, 1, false));
+
+				assertTrue(containsLabelContaining(panel, "shop: Myths"), "expanding the toggle must list the source");
+				assertTrue(findLabelStartingWith(panel, "Sources (1)").getText().endsWith("[-]"), "toggle must read open after the click");
+				layoutAtRealPanelWidth(panel);
+				assertNothingEndsPastTheRightEdge(panel);
+				assertOnlyRenderableGlyphs(panel);
+
+				GoalDetailPanel bare = new GoalDetailPanel(actions, icons());
+				bare.render(withoutCraftFrom);
+				assertTrue(containsLabelContaining(bare, "craft: Ranarr weed"), "with no craft-from rows the craft line stays visible");
+				assertFalse(containsLabelContaining(bare, "shop: Myths"), "the shop source still sits in the closed toggle");
+				assertNotNull(findLabelStartingWith(bare, "Sources (1)"), "the craft line is outside the toggle, not counted in it");
+			});
+		}
+		catch (InvocationTargetException e)
+		{
+			if (e.getCause() instanceof HeadlessException)
+			{
+				Assumptions.abort("Headless environment cannot construct Swing components: " + e.getCause().getMessage());
+			}
+			throw e;
+		}
+	}
+
+	private static int countLabelsContaining(Container container, String substring)
+	{
+		int n = 0;
+		for (Component child : container.getComponents())
+		{
+			if (child instanceof JLabel && ((JLabel) child).getText().contains(substring))
+			{
+				n++;
+			}
+			if (child instanceof Container)
+			{
+				n += countLabelsContaining((Container) child, substring);
+			}
+		}
+		return n;
 	}
 
 	/** Task 57: item images need an {@link net.runelite.client.game.ItemManager} (client-backed, so null here - placeholder path); skill icons come from the real resource-backed manager. */

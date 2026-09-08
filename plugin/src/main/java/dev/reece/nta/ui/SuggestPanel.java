@@ -53,7 +53,7 @@ import net.runelite.client.ui.PluginPanel;
 public class SuggestPanel extends JPanel
 {
 	private static final int PAGE_SIZE = 10;
-	private static final int WRAP_WIDTH = PluginPanel.PANEL_WIDTH - 30;
+	static final int WRAP_WIDTH = PluginPanel.PANEL_WIDTH - 30;
 	private static final int CARD_BORDER_THICKNESS = 1;
 	private static final int CARD_PADDING = 6;
 	// task 57: the coloured category accent down a card's left edge
@@ -354,7 +354,7 @@ public class SuggestPanel extends JPanel
 		}
 		card.add(Box.createVerticalStrut(4));
 
-		JLabel categoryLabel = new JLabel(categoryLabel(goal.getCategory()) + " · stage " + goal.getStage());
+		JLabel categoryLabel = new JLabel(categoryLabel(goal.getCategory()) + " — stage " + goal.getStage());
 		categoryLabel.setFont(FontManager.getRunescapeSmallFont());
 		categoryLabel.setForeground(Icons.categoryColor(goal.getCategory()));
 		categoryLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -492,7 +492,7 @@ public class SuggestPanel extends JPanel
 
 		boolean expanded = expandedWhy.contains(goalId);
 
-		JLabel toggle = new JLabel("Why? " + (expanded ? "▼" : "▶"));
+		JLabel toggle = new JLabel("Why? " + (expanded ? "[-]" : "[+]"));
 		toggle.setFont(FontManager.getRunescapeSmallFont());
 		toggle.setForeground(ColorScheme.LIGHT_GRAY_COLOR);
 		toggle.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -696,7 +696,7 @@ public class SuggestPanel extends JPanel
 
 		void update(int count, boolean expanded)
 		{
-			label.setText(title.toUpperCase() + " (" + count + ")" + (expanded ? " ▼" : " ▶"));
+			label.setText(title.toUpperCase() + " (" + count + ")" + (expanded ? " [-]" : " [+]"));
 		}
 	}
 
@@ -762,13 +762,30 @@ public class SuggestPanel extends JPanel
 	/** Wraps {@code text} to the panel width via HTML, escaping the few characters that would otherwise break the markup. */
 	static String wrap(String text)
 	{
-		return wrapHtml(escape(text));
+		return wrap(text, WRAP_WIDTH);
 	}
 
-	/** As {@link #wrap}, for markup that is already escaped (task 57: colour spans). */
+	/** As {@link #wrap(String)}, to {@code width} pixels (task 59: a nested detail row has less room than the panel). */
+	static String wrap(String text, int width)
+	{
+		return wrapHtml(escape(text), width);
+	}
+
+	/** As {@link #wrap(String)}, for markup that is already escaped (task 57: colour spans). */
 	static String wrapHtml(String rawHtml)
 	{
-		return "<html><div style='width:" + WRAP_WIDTH + "px'>" + rawHtml + "</div></html>";
+		return wrapHtml(rawHtml, WRAP_WIDTH);
+	}
+
+	/**
+	 * As {@link #wrapHtml(String)}, to {@code width} pixels. The CSS unit is {@code pt}, not
+	 * {@code px}: Swing's stylesheet ({@code javax.swing.text.html.CSS}) scales {@code px} by 1.3
+	 * while its {@code pt} is the same pixel every other Swing size uses, so {@code width:195px}
+	 * laid the text out 253 pixels wide (task 59: the text painted past the panel edge).
+	 */
+	static String wrapHtml(String rawHtml, int width)
+	{
+		return "<html><div style='width:" + width + "pt'>" + rawHtml + "</div></html>";
 	}
 
 	/** Already-escaped markup as a single unwrapped HTML label text (natural width). */

@@ -10,7 +10,10 @@ import lombok.Value;
  * from {@code fromLevel} to {@code toLevel} (capped at 99). {@code crafts} are the 0-xp
  * intermediate methods (see {@link MethodEntry#isIntermediate()}) run first, from the simulated
  * bank alone, to afford {@code method}'s materials - e.g. making unfinished potions before brewing
- * them. Consecutive steps of the same method are merged into one (see {@link RoutePlanner}).
+ * them. Every run of the same method across the route is merged into its first step - count,
+ * xp, materials and crafts summed, {@code fromLevel} the first run's, {@code toLevel} the last's
+ * - so a method the planner returns to after a better one runs dry is listed once (task 59, see
+ * {@link dev.reece.nta.engine.RoutePlanner}).
  */
 @Value
 public class RouteStep

@@ -25,6 +25,7 @@ import dev.reece.nta.engine.model.SkillPlan;
 import dev.reece.nta.kb.GatheringAlternative;
 import dev.reece.nta.kb.GatheringPlan;
 import dev.reece.nta.kb.ItemQuantity;
+import dev.reece.nta.kb.MethodEntry;
 import dev.reece.nta.kb.OwnedItem;
 import dev.reece.nta.snapshot.DiaryTier;
 import java.awt.BorderLayout;
@@ -38,6 +39,7 @@ import java.awt.Insets;
 import java.awt.LayoutManager;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -79,6 +81,10 @@ import net.runelite.client.util.LinkBrowser;
 public class GoalDetailPanel extends JPanel
 {
 	private static final int INDENT_PX = 12;
+	/** The {@link BorderLayout} hgap between an {@link #iconRow}'s icon column and its text. */
+	private static final int ICON_GAP = 4;
+	/** The Bucket type of a herb-cleaning method, whose name is just the herb ("Kwuarm"); rendered as "Clean Kwuarm" (task 59). */
+	private static final String CLEANING_TYPE = "Cleaning grimy herbs";
 	/** Component-name prefix of a skill row's label ("skill-row:HERBLORE"), for tests to click. */
 	public static final String SKILL_ROW_NAME = "skill-row:";
 
@@ -88,6 +94,8 @@ public class GoalDetailPanel extends JPanel
 	private final JLabel titleLabel = new JLabel();
 	private final JLabel categoryStageLabel = new JLabel();
 	private final JButton wikiButton = new JButton("Wiki");
+	// task 59: the title wraps to the room left beside the Wiki/Back buttons, never past the edge
+	private final int titleWidth;
 	private final JLabel whyLabel = new JLabel();
 	private final JLabel reasonLabel = new JLabel();
 	private final JPanel explanationPanel = column();
@@ -105,6 +113,10 @@ public class GoalDetailPanel extends JPanel
 	// name + plan id + plan title - never cleared, same persistence rule as SuggestPanel's Why?
 	// toggle (52b-1).
 	private final Set<String> expandedAlternatives = new HashSet<>();
+	// task 59: which routes' folded "+ N small steps" toggle is open, keyed by goal id + skill.
+	private final Set<String> expandedSmallSteps = new HashSet<>();
+	// task 59: which shortfall items' "Sources (n)" toggle is open, keyed by goal id + skill + item name.
+	private final Set<String> expandedSources = new HashSet<>();
 
 	public GoalDetailPanel(Actions actions, Icons icons)
 	{
@@ -129,8 +141,10 @@ public class GoalDetailPanel extends JPanel
 			}
 		});
 		titleRow.add(wikiButton);
-		titleRow.add(SuggestPanel.button("Back", actions.getClearFocus()));
+		JButton backButton = SuggestPanel.button("Back", actions.getClearFocus());
+		titleRow.add(backButton);
 		add(titleRow);
+		titleWidth = SuggestPanel.WRAP_WIDTH - wikiButton.getPreferredSize().width - backButton.getPreferredSize().width - 2 * ICON_GAP;
 
 		categoryStageLabel.setFont(FontManager.getRunescapeSmallFont());
 		categoryStageLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -178,7 +192,7 @@ public class GoalDetailPanel extends JPanel
 			metExpanded = false;
 		}
 
-		titleLabel.setText(goal.getName());
+		titleLabel.setText(SuggestPanel.wrap(goal.getName(), titleWidth));
 		categoryStageLabel.setText(SuggestPanel.categoryLabel(goal.getCategory()) + " — stage " + goal.getStage());
 		categoryStageLabel.setForeground(Icons.categoryColor(goal.getCategory()));
 		currentWikiUrl = goal.getWikiUrl();
@@ -252,9 +266,10 @@ public class GoalDetailPanel extends JPanel
 		if (gap instanceof QuestPrereqGap)
 		{
 			QuestPrereqGap g = (QuestPrereqGap) gap;
-			JLabel text = row(questGapText(g), 0, gapColor(gap));
+			JLabel icon = icons.quest(g.getState());
+			JLabel text = label(questGapText(g), textWidth(indent, icon, null), gapColor(gap));
 			Icons.linkToWiki(text, g.getWikiUrl());
-			missingPanel.add(iconRow(icons.quest(g.getState()), text, null, indent));
+			missingPanel.add(iconRow(icon, text, null, indent));
 			return;
 		}
 		if (gap instanceof GearGap)
@@ -264,7 +279,8 @@ public class GoalDetailPanel extends JPanel
 			for (OwnedItem item : g.getAcceptable())
 			{
 				JLabel icon = icons.item(item.getId());
-				JLabel name = htmlRow("<span style='color:" + Icons.hex(gapColor(gap)) + "'>" + SuggestPanel.escape(item.getName()) + "</span>" + recommendedTag(), 0);
+				JLabel name = htmlLabel("<span style='color:" + Icons.hex(gapColor(gap)) + "'>" + SuggestPanel.escape(item.getName()) + "</span>" + recommendedTag(),
+					textWidth(indent + 1, icon, null));
 				Icons.linkToWiki(icon, Icons.itemWikiUrl(item.getName()));
 				Icons.linkToWiki(name, Icons.itemWikiUrl(item.getName()));
 				missingPanel.add(iconRow(icon, name, null, indent + 1));
@@ -275,7 +291,7 @@ public class GoalDetailPanel extends JPanel
 		{
 			ItemGap g = (ItemGap) gap;
 			JLabel icon = icons.item(g.getItemId());
-			JLabel itemText = row(gapText(gap), 0, gapColor(gap));
+			JLabel itemText = label(gapText(gap), textWidth(indent, icon, null), gapColor(gap));
 			Icons.linkToWiki(icon, g.getWikiUrl());
 			Icons.linkToWiki(itemText, g.getWikiUrl());
 			missingPanel.add(iconRow(icon, itemText, null, indent));
@@ -327,11 +343,6 @@ public class GoalDetailPanel extends JPanel
 		{
 			text.append(recommendedTag());
 		}
-		JLabel label = new JLabel(SuggestPanel.html(text.toString()));
-		label.setName(SKILL_ROW_NAME + g.getSkill().name());
-		label.setFont(FontManager.getRunescapeSmallFont());
-		label.setBorder(BorderFactory.createEmptyBorder(2, 4, 2, 0));
-
 		JPanel east = new NoStretchPanel();
 		east.setLayout(new BoxLayout(east, BoxLayout.X_AXIS));
 		if (plan.isCovered())
@@ -342,12 +353,15 @@ public class GoalDetailPanel extends JPanel
 			east.add(badge);
 			east.add(Box.createHorizontalStrut(6));
 		}
-		JLabel arrow = new JLabel(expanded ? "▼" : "▶");
+		JLabel arrow = new JLabel(expanded ? "[-]" : "[+]");
 		arrow.setFont(FontManager.getRunescapeSmallFont());
 		arrow.setForeground(ColorScheme.LIGHT_GRAY_COLOR);
 		east.add(arrow);
 
 		JLabel icon = icons.skill(g.getSkill());
+		JLabel label = htmlLabel(text.toString(), textWidth(indent, icon, east) - 4);
+		label.setName(SKILL_ROW_NAME + g.getSkill().name());
+		label.setBorder(BorderFactory.createEmptyBorder(2, 4, 2, 0));
 		JPanel head = iconRow(icon, label, east, indent);
 
 		ProgressBar bar = new ProgressBar(g.getHave() / (double) g.getNeed(), color);
@@ -384,20 +398,44 @@ public class GoalDetailPanel extends JPanel
 		boolean anySteps = route != null && !route.getSteps().isEmpty();
 		if (anySteps)
 		{
+			// task 59: steps worth under 2% of the route's xp fold into one toggle at the end;
+			// 0-xp crafts never reach here (they nest under their parent step).
+			long totalXp = 0;
 			for (RouteStep step : route.getSteps())
 			{
-				panel.add(stepRows(step, "", indent));
+				totalXp += step.getXpGained();
+			}
+			List<RouteStep> small = new ArrayList<>();
+			for (RouteStep step : route.getSteps())
+			{
+				if (step.getXpGained() > 0 && step.getXpGained() * 50 < totalXp)
+				{
+					small.add(step);
+				}
+				else
+				{
+					panel.add(stepRows(step, "", indent));
+				}
+			}
+			if (!small.isEmpty())
+			{
+				panel.add(smallStepsToggle(lastGoalId + "|" + plan.getSkill().name(), small, indent));
 			}
 		}
 		if (plan.getShortfall() != null)
 		{
 			String method = plan.getShortfall().getMethod() == null ? "" : " for " + plan.getShortfall().getMethod().getName();
-			JLabel still = row((anySteps ? "Then still short" : "Short") + method + ":", indent);
+			String xp = route == null ? "" : " ~" + thousands(route.getUncoveredXp()) + " xp";
+			JLabel still = row((anySteps ? "Then still short" : "Short") + xp + method + ":", indent);
 			still.setForeground(ColorScheme.LIGHT_GRAY_COLOR);
 			panel.add(still);
+			// task 59: the engine unions an ingredient's plans into its parent (ruling 28), so the
+			// same plan reaches the tree twice; render it at its first (topmost) occurrence only.
+			Set<String> shownPlans = new HashSet<>();
+			String keyPrefix = lastGoalId + "|" + plan.getSkill().name() + "|";
 			for (ShortfallItem item : plan.getShortfall().getItems())
 			{
-				panel.add(shortfallItemRows(item, indent));
+				panel.add(shortfallItemRows(item, indent, keyPrefix, shownPlans));
 			}
 		}
 		else if (!anySteps)
@@ -409,11 +447,39 @@ public class GoalDetailPanel extends JPanel
 		return panel;
 	}
 
+	/** Task 59: the folded small steps of a route as a collapsed "+ N small steps (+X xp)" toggle; expanded, each step in full. */
+	private JPanel smallStepsToggle(String key, List<RouteStep> small, int indent)
+	{
+		JPanel panel = column();
+		boolean expanded = expandedSmallSteps.contains(key);
+		long xp = 0;
+		for (RouteStep step : small)
+		{
+			xp += step.getXpGained();
+		}
+		JLabel toggle = toggleLabel("+ " + small.size() + (small.size() == 1 ? " small step" : " small steps")
+			+ " (+" + thousands(xp) + " xp) " + (expanded ? "[-]" : "[+]"), indent);
+		clickable(() ->
+		{
+			flip(expandedSmallSteps, key);
+			render(currentAdvice);
+		}, toggle);
+		panel.add(toggle);
+		if (expanded)
+		{
+			for (RouteStep step : small)
+			{
+				panel.add(stepRows(step, "", indent));
+			}
+		}
+		return panel;
+	}
+
 	/** Task 57: a collapsed "Met (n)" toggle under the gaps; expanded, each satisfied requirement in green (spec ruling 29). */
 	private JPanel metToggle(List<Met> met)
 	{
 		JPanel panel = column();
-		JLabel toggle = toggleLabel("Met (" + met.size() + ") " + (metExpanded ? "▼" : "▶"), 0);
+		JLabel toggle = toggleLabel("Met (" + met.size() + ") " + (metExpanded ? "[-]" : "[+]"), 0);
 		clickable(() ->
 		{
 			metExpanded = !metExpanded;
@@ -424,7 +490,7 @@ public class GoalDetailPanel extends JPanel
 		{
 			for (Met m : met)
 			{
-				panel.add(row("✓ " + m.getLabel(), 1, ColorScheme.PROGRESS_COMPLETE_COLOR));
+				panel.add(row(m.getLabel(), 1, ColorScheme.PROGRESS_COMPLETE_COLOR));
 			}
 		}
 		return panel;
@@ -524,9 +590,10 @@ public class GoalDetailPanel extends JPanel
 			{
 				QuestPrereqGap g = next.getQuestGap();
 				String verb = g.getState() == QuestState.IN_PROGRESS ? "Finish " : "Start ";
-				JLabel text = row(verb + g.getQuest().getName(), 0);
+				JLabel icon = icons.quest(g.getState());
+				JLabel text = label(verb + g.getQuest().getName(), textWidth(0, icon, null));
 				Icons.linkToWiki(text, g.getWikiUrl());
-				panel.add(iconRow(icons.quest(g.getState()), text, null, 0));
+				panel.add(iconRow(icon, text, null, 0));
 				break;
 			}
 			case SKILL:
@@ -535,7 +602,8 @@ public class GoalDetailPanel extends JPanel
 				// re-opens that row when clicked.
 				SkillLevelGap g = next.getSkillGap();
 				JLabel icon = icons.skill(g.getSkill());
-				JLabel text = row("Train " + g.getSkill().getName() + " " + focus.getFromLevel() + "→" + focus.getToLevel() + " (route above)", 0);
+				JLabel text = label("Train " + g.getSkill().getName() + " " + focus.getFromLevel() + "-" + focus.getToLevel() + " (route above)",
+					textWidth(0, icon, null));
 				JPanel head = iconRow(icon, text, null, 0);
 				clickable(() ->
 				{
@@ -565,10 +633,10 @@ public class GoalDetailPanel extends JPanel
 	}
 
 	/**
-	 * A route step (task 49, now task 57 with icons): the OUTPUT item's icon on the left, "Prayer
-	 * potion(3) ×340" over "61→66, +29,750 xp" (or, for a 0-xp craft, "from Ranarr weed ×340, ..."),
-	 * and the materials used as a strip of icons on the right (tooltip = name and count). Icons and
-	 * names open the wiki. Crafts nest one level deeper with a "craft " prefix.
+	 * A route step (task 49, now task 57 with icons, task 59 with chips): the OUTPUT item's icon on
+	 * the left, "Prayer potion(3) ×340" over "61-66, +29,750 xp" (a 0-xp craft has no second
+	 * line), then the materials used as a line of chips - item icon and "×N" - under the text.
+	 * Icons and names open the wiki. Crafts nest one level deeper with a "craft " prefix.
 	 */
 	private JPanel stepRows(RouteStep step, String prefix, int indent)
 	{
@@ -577,18 +645,23 @@ public class GoalDetailPanel extends JPanel
 		JLabel icon = icons.item(output == null ? null : output.getId());
 		Icons.linkToWiki(icon, output == null ? step.getMethod().wikiUrl() : Icons.itemWikiUrl(output.getName()));
 
+		int width = textWidth(indent, icon, null);
 		JPanel text = column();
-		JLabel line1 = row(prefix + step.getMethod().getName() + " ×" + thousands(step.getCount()), 0);
+		JLabel line1 = label(prefix + stepName(step) + " ×" + thousands(step.getCount()), width);
 		Icons.linkToWiki(line1, step.getMethod().wikiUrl());
 		text.add(line1);
-		String line2 = step.getXpGained() == 0
-			? "from " + materialsList(step)
-			: step.getFromLevel() + "→" + step.getToLevel() + ", +" + thousands(step.getXpGained()) + " xp";
-		JLabel line2Label = row(line2, 0);
-		line2Label.setForeground(ColorScheme.LIGHT_GRAY_COLOR);
-		text.add(line2Label);
+		if (step.getXpGained() > 0)
+		{
+			JLabel line2 = label(step.getFromLevel() + "-" + step.getToLevel() + ", +" + thousands(step.getXpGained()) + " xp", width);
+			line2.setForeground(ColorScheme.LIGHT_GRAY_COLOR);
+			text.add(line2);
+		}
+		if (!step.getMaterialsUsed().isEmpty())
+		{
+			text.add(materialChips(step));
+		}
 
-		container.add(iconRow(icon, text, materialIcons(step), indent));
+		container.add(iconRow(icon, text, null, indent));
 		for (RouteStep craft : step.getCrafts())
 		{
 			container.add(stepRows(craft, "craft ", indent + 1));
@@ -596,7 +669,14 @@ public class GoalDetailPanel extends JPanel
 		return container;
 	}
 
-	private JPanel materialIcons(RouteStep step)
+	private static String stepName(RouteStep step)
+	{
+		MethodEntry method = step.getMethod();
+		return (method.getTypes().contains(CLEANING_TYPE) ? "Clean " : "") + method.getName();
+	}
+
+	/** Task 59: one chip per material used - its icon (wiki-linked, tooltip = name) and a small grey "×N" - left-aligned on one line. */
+	private JPanel materialChips(RouteStep step)
 	{
 		Map<Integer, ItemQuantity> byId = new LinkedHashMap<>();
 		for (ItemQuantity material : step.getMethod().getMaterials())
@@ -606,6 +686,8 @@ public class GoalDetailPanel extends JPanel
 				byId.put(material.getId(), material);
 			}
 		}
+		// ponytail: one BoxLayout line; bundled methods use at most three materials, so it never
+		// needs to wrap - switch to a wrapping layout if a wider recipe ever shows up.
 		JPanel strip = new NoStretchPanel();
 		strip.setLayout(new BoxLayout(strip, BoxLayout.X_AXIS));
 		for (Map.Entry<Integer, Integer> used : step.getMaterialsUsed().entrySet())
@@ -614,8 +696,15 @@ public class GoalDetailPanel extends JPanel
 			String name = material == null ? "item " + used.getKey() : material.getName();
 			JLabel icon = icons.item(used.getKey());
 			Icons.linkToWiki(icon, Icons.itemWikiUrl(name));
-			icon.setToolTipText(name + " ×" + used.getValue());
+			icon.setToolTipText(name);
+			JLabel count = new JLabel("×" + thousands(used.getValue()));
+			count.setFont(FontManager.getRunescapeSmallFont());
+			count.setForeground(ColorScheme.LIGHT_GRAY_COLOR);
+			count.setToolTipText(name);
 			strip.add(icon);
+			strip.add(Box.createHorizontalStrut(2));
+			strip.add(count);
+			strip.add(Box.createHorizontalStrut(8));
 		}
 		return strip;
 	}
@@ -638,25 +727,6 @@ public class GoalDetailPanel extends JPanel
 		return String.format(Locale.ENGLISH, "%,d", n);
 	}
 
-	private static String materialsList(RouteStep step)
-	{
-		Map<Integer, String> names = new LinkedHashMap<>();
-		for (ItemQuantity material : step.getMethod().getMaterials())
-		{
-			names.put(material.getId(), material.getName());
-		}
-		StringBuilder sb = new StringBuilder();
-		for (Map.Entry<Integer, Integer> used : step.getMaterialsUsed().entrySet())
-		{
-			if (sb.length() > 0)
-			{
-				sb.append(", ");
-			}
-			sb.append(names.getOrDefault(used.getKey(), "item " + used.getKey())).append(" ×").append(used.getValue());
-		}
-		return sb.toString();
-	}
-
 	private static JLabel sourceRow(ItemSource source, int indent)
 	{
 		StringBuilder sb = new StringBuilder(source.getType()).append(": ").append(source.getWhere());
@@ -671,7 +741,7 @@ public class GoalDetailPanel extends JPanel
 
 	// --- Shortfall (ticket C7/E4), now under its skill row (task 57) ---
 
-	private JPanel shortfallItemRows(ShortfallItem item, int indent)
+	private JPanel shortfallItemRows(ShortfallItem item, int indent, String keyPrefix, Set<String> shownPlans)
 	{
 		JPanel container = column();
 		int shortQty = Math.max(0, item.getNeed() - item.getHave());
@@ -682,24 +752,66 @@ public class GoalDetailPanel extends JPanel
 		String shortText = shortQty > 0
 			? "<span style='color:" + Icons.hex(ColorScheme.PROGRESS_ERROR_COLOR) + "'>short " + shortQty + "</span>"
 			: "<span style='color:" + Icons.hex(ColorScheme.PROGRESS_COMPLETE_COLOR) + "'>covered</span>";
-		JLabel text = htmlRow(SuggestPanel.escape(item.getItem().getName())
-			+ ": have " + item.getHave() + ", need " + item.getNeed() + ", " + shortText, 0);
+		// task 59: lead with the shortage; the label's grey foreground colours everything but the span
+		JLabel text = htmlLabel(SuggestPanel.escape(item.getItem().getName()) + ": " + shortText
+			+ " (have " + item.getHave() + ", need " + item.getNeed() + ")", textWidth(indent, icon, null));
+		text.setForeground(ColorScheme.LIGHT_GRAY_COLOR);
 		Icons.linkToWiki(text, wikiUrl);
 		container.add(iconRow(icon, text, null, indent));
 
 		for (int i = 0; i < item.getPlans().size(); i++)
 		{
-			container.add(planOfferRows(item.getItem().getName(), item.getPlans().get(i), i == 0, indent + 1));
+			PlanOffer offer = item.getPlans().get(i);
+			if (shownPlans.add(offer.getPlan().getId() + "|" + offer.getPlan().getTitle()))
+			{
+				container.add(planOfferRows(item.getItem().getName(), offer, i == 0, indent + 1));
+			}
 		}
+		// task 59: sources collapse under a toggle; the "craft:" line stays out of it, shown only
+		// when no craft-from rows below already spell the recipe out.
+		List<ItemSource> collapsed = new ArrayList<>();
 		for (ItemSource source : item.getSources())
 		{
-			container.add(sourceRow(source, indent + 1));
+			if (!"craft".equals(source.getType()))
+			{
+				collapsed.add(source);
+			}
+			else if (item.getCraftFrom().isEmpty())
+			{
+				container.add(sourceRow(source, indent + 1));
+			}
+		}
+		if (!collapsed.isEmpty())
+		{
+			container.add(sourcesToggle(keyPrefix + item.getItem().getName(), collapsed, indent + 1));
 		}
 		for (ShortfallItem craftFrom : item.getCraftFrom())
 		{
-			container.add(shortfallItemRows(craftFrom, indent + 1));
+			container.add(shortfallItemRows(craftFrom, indent + 1, keyPrefix, shownPlans));
 		}
 		return container;
+	}
+
+	/** Task 59: a collapsed "Sources (n)" toggle; expanded, one grey line per source. Persists per {@code key} like the other toggles. */
+	private JPanel sourcesToggle(String key, List<ItemSource> sources, int indent)
+	{
+		JPanel panel = column();
+		boolean expanded = expandedSources.contains(key);
+		JLabel toggle = toggleLabel("Sources (" + sources.size() + ") " + (expanded ? "[-]" : "[+]"), indent);
+		clickable(() ->
+		{
+			flip(expandedSources, key);
+			render(currentAdvice);
+		}, toggle);
+		panel.add(toggle);
+		if (expanded)
+		{
+			for (ItemSource source : sources)
+			{
+				panel.add(sourceRow(source, indent + 1));
+			}
+		}
+		return panel;
 	}
 
 	/**
@@ -725,7 +837,7 @@ public class GoalDetailPanel extends JPanel
 
 		JLabel icon = icons.item(plan.getId());
 		Icons.linkToWiki(icon, plan.getWikiUrl());
-		JLabel title = row(plan.getTitle(), 0);
+		JLabel title = label(plan.getTitle(), textWidth(indent, icon, null));
 		title.setFont(FontManager.getRunescapeBoldFont());
 		Icons.linkToWiki(title, plan.getWikiUrl());
 		container.add(iconRow(icon, title, null, indent));
@@ -768,17 +880,10 @@ public class GoalDetailPanel extends JPanel
 		JPanel panel = column();
 
 		boolean expanded = expandedAlternatives.contains(key);
-		JLabel toggle = toggleLabel("Alternatives (" + alternatives.size() + ") " + (expanded ? "▼" : "▶"), indent);
+		JLabel toggle = toggleLabel("Alternatives (" + alternatives.size() + ") " + (expanded ? "[-]" : "[+]"), indent);
 		clickable(() ->
 		{
-			if (expandedAlternatives.contains(key))
-			{
-				expandedAlternatives.remove(key);
-			}
-			else
-			{
-				expandedAlternatives.add(key);
-			}
+			flip(expandedAlternatives, key);
 			render(currentAdvice);
 		}, toggle);
 		panel.add(toggle);
@@ -802,7 +907,11 @@ public class GoalDetailPanel extends JPanel
 
 	// --- building blocks ---
 
-	/** An icon on the left, {@code center} filling the row, and an optional {@code east} strip; indented {@code indent} levels. */
+	/**
+	 * An icon on the left, {@code center} filling the row, and an optional {@code east} strip;
+	 * indented {@code indent} levels. Wrap {@code center}'s text to {@link #textWidth(int, JLabel,
+	 * JComponent)} - the row hands it only what the indent, icon column and strip leave.
+	 */
 	private static JPanel iconRow(JLabel icon, JComponent center, JComponent east, int indent)
 	{
 		JPanel row = borderRow();
@@ -826,6 +935,15 @@ public class GoalDetailPanel extends JPanel
 		toggle.setAlignmentX(Component.LEFT_ALIGNMENT);
 		toggle.setBorder(BorderFactory.createEmptyBorder(2, indent * INDENT_PX, 2, 0));
 		return toggle;
+	}
+
+	/** Toggles {@code key}'s membership of a persistent expanded-toggle set. */
+	private static void flip(Set<String> expanded, String key)
+	{
+		if (!expanded.remove(key))
+		{
+			expanded.add(key);
+		}
 	}
 
 	/** Runs {@code action} on a click on any of {@code targets} (hand cursor on each). */
@@ -924,21 +1042,47 @@ public class GoalDetailPanel extends JPanel
 		return new NoStretchPanel(new BorderLayout(4, 0));
 	}
 
-	private static JLabel row(String text, int indent)
+	/**
+	 * Task 59: the wrap width of a row's text after {@code indent} levels - the panel's wrap width
+	 * less the indent, so a nested label's fixed HTML width never paints past the panel edge.
+	 */
+	private static int textWidth(int indent)
 	{
-		JLabel label = new JLabel(SuggestPanel.wrap(text));
-		label.setFont(FontManager.getRunescapeSmallFont());
-		label.setAlignmentX(Component.LEFT_ALIGNMENT);
-		label.setBorder(BorderFactory.createEmptyBorder(2, indent * INDENT_PX, 2, 0));
+		return SuggestPanel.WRAP_WIDTH - indent * INDENT_PX;
+	}
+
+	/** As {@link #textWidth(int)} for text inside an {@link #iconRow}: also less the icon column, its gap and any {@code east} strip. */
+	private static int textWidth(int indent, JLabel icon, JComponent east)
+	{
+		return textWidth(indent) - icon.getPreferredSize().width - ICON_GAP - (east == null ? 0 : east.getPreferredSize().width + ICON_GAP);
+	}
+
+	/** A small-font label wrapped to {@code width} pixels; no indent of its own (its row provides that). */
+	private static JLabel label(String text, int width)
+	{
+		return htmlLabel(SuggestPanel.escape(text), width);
+	}
+
+	private static JLabel label(String text, int width, Color color)
+	{
+		JLabel label = label(text, width);
+		label.setForeground(color);
 		return label;
 	}
 
-	/** As {@link #row}, but {@code rawHtml} is already-escaped markup (colour spans), wrapped to the panel width. */
-	private static JLabel htmlRow(String rawHtml, int indent)
+	/** As {@link #label}, but {@code rawHtml} is already-escaped markup (colour spans). */
+	private static JLabel htmlLabel(String rawHtml, int width)
 	{
-		JLabel label = new JLabel(SuggestPanel.wrapHtml(rawHtml));
+		JLabel label = new JLabel(SuggestPanel.wrapHtml(rawHtml, width));
 		label.setFont(FontManager.getRunescapeSmallFont());
 		label.setAlignmentX(Component.LEFT_ALIGNMENT);
+		return label;
+	}
+
+	/** A standalone row indented {@code indent} levels and wrapped to the width that leaves. */
+	private static JLabel row(String text, int indent)
+	{
+		JLabel label = label(text, textWidth(indent));
 		label.setBorder(BorderFactory.createEmptyBorder(2, indent * INDENT_PX, 2, 0));
 		return label;
 	}
