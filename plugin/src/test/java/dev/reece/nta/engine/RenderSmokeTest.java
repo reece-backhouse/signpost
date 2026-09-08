@@ -1202,6 +1202,174 @@ class RenderSmokeTest
 		return null;
 	}
 
+	/** Task 59 D1: the shortfall header says how much xp is still uncovered, from the route, and for which method. */
+	@Test
+	void shortfallHeaderNamesTheUncoveredXpAndTheMethod() throws Exception
+	{
+		Advice advice = craftChainFixture();
+		SkillPlan herblore = advice.getFocus().getNextSkillPlan();
+		String expected = "Then still short ~" + String.format(java.util.Locale.ENGLISH, "%,d", herblore.getRoute().getUncoveredXp())
+			+ " xp for Prayer potion(3):";
+		Consumer<String> noop = id -> { };
+		GoalDetailPanel.Actions actions = new GoalDetailPanel.Actions(noop, () -> { });
+		try
+		{
+			SwingUtilities.invokeAndWait(() ->
+			{
+				GoalDetailPanel panel = new GoalDetailPanel(actions, icons());
+				panel.render(advice);
+				assertTrue(containsLabelContaining(panel, expected), "shortfall header must read '" + expected + "'");
+			});
+		}
+		catch (InvocationTargetException e)
+		{
+			if (e.getCause() instanceof HeadlessException)
+			{
+				Assumptions.abort("Headless environment cannot construct Swing components: " + e.getCause().getMessage());
+			}
+			throw e;
+		}
+	}
+
+	/** Task 59 D2: a shortfall item line leads with the shortage - "<name>: short N (have h, need n)" - not the have/need bookkeeping. */
+	@Test
+	void shortfallItemLineLeadsWithTheShortage() throws Exception
+	{
+		Advice advice = craftChainFixture();
+		ShortfallItem item = advice.getFocus().getNextSkillPlan().getShortfall().getItems().get(0);
+		String parens = "(have " + item.getHave() + ", need " + item.getNeed() + ")";
+		Consumer<String> noop = id -> { };
+		GoalDetailPanel.Actions actions = new GoalDetailPanel.Actions(noop, () -> { });
+		try
+		{
+			SwingUtilities.invokeAndWait(() ->
+			{
+				GoalDetailPanel panel = new GoalDetailPanel(actions, icons());
+				panel.render(advice);
+				assertTrue(containsLabelContaining(panel, "short " + (item.getNeed() - item.getHave()) + "</span> " + parens),
+					"item line must read '<name>: short N " + parens + "'");
+				assertFalse(containsLabelContaining(panel, ": have " + item.getHave() + ", need "), "the old 'have h, need n, short' order must be gone");
+			});
+		}
+		catch (InvocationTargetException e)
+		{
+			if (e.getCause() instanceof HeadlessException)
+			{
+				Assumptions.abort("Headless environment cannot construct Swing components: " + e.getCause().getMessage());
+			}
+			throw e;
+		}
+	}
+
+	/**
+	 * Task 59 D3: the engine unions an ingredient's gathering plan into its parent item (spec
+	 * ruling 28), so the same plan reached the tree twice - under the parent and again under the
+	 * craft-from ingredient. It must render once, at its first occurrence.
+	 */
+	@Test
+	void aGatheringPlanRendersOncePerSkillPlanEvenWhenTheEngineUnionsItIntoTheParent() throws Exception
+	{
+		Advice advice = craftChainFixture();
+		Consumer<String> noop = id -> { };
+		GoalDetailPanel.Actions actions = new GoalDetailPanel.Actions(noop, () -> { });
+		try
+		{
+			SwingUtilities.invokeAndWait(() ->
+			{
+				GoalDetailPanel panel = new GoalDetailPanel(actions, icons());
+				panel.render(advice);
+				assertEquals(1, countLabelsContaining(panel, "Gather Ranarr weed"), "the Ranarr weed plan must render exactly once");
+			});
+		}
+		catch (InvocationTargetException e)
+		{
+			if (e.getCause() instanceof HeadlessException)
+			{
+				Assumptions.abort("Headless environment cannot construct Swing components: " + e.getCause().getMessage());
+			}
+			throw e;
+		}
+	}
+
+	/**
+	 * Task 59 D4: an item's shop/drop/spawn sources collapse under a "Sources (n)" toggle, closed by
+	 * default; its "craft:" source line is dropped when craft-from rows already show the recipe,
+	 * and stays visible outside the toggle when they don't.
+	 */
+	@Test
+	void shortfallSourcesCollapseUnderAToggleAndTheCraftLineShowsOnlyWithoutCraftFromRows() throws Exception
+	{
+		Advice withCraftFrom = craftChainFixture();
+		SkillPlan herblore = withCraftFrom.getFocus().getNextSkillPlan();
+		ShortfallItem item = herblore.getShortfall().getItems().get(0);
+		ShortfallItem noCraftFrom = new ShortfallItem(item.getItem(), item.getHave(), item.getNeed(), item.getSources(), List.of(),
+			item.getWikiUrl(), item.getPlans());
+		Shortfall shortfall = new Shortfall(herblore.getShortfall().getMethod(), List.of(noCraftFrom));
+		SkillPlan plan = new SkillPlan(herblore.getSkill(), herblore.getFromLevel(), herblore.getToLevel(), herblore.getFromXp(),
+			herblore.getToXp(), herblore.isRecommended(), herblore.getRoute(), shortfall, false, herblore.getSource());
+		FocusDetail focus = new FocusDetail(withCraftFrom.getFocus().getStatus(), withCraftFrom.getFocus().getNext(), plan.getRoute(),
+			shortfall, plan.getFromLevel(), plan.getToLevel(), List.of(plan), plan);
+		Advice withoutCraftFrom = new Advice(withCraftFrom.getSnapshot(), withCraftFrom.getStatuses(), withCraftFrom.getDiaryProgress(),
+			withCraftFrom.getComputedAt(), withCraftFrom.getRanked(), withCraftFrom.getPicked(), withCraftFrom.getRest(),
+			withCraftFrom.getAccountStage(), withCraftFrom.getLater(), withCraftFrom.getWhys(), withCraftFrom.getExplanations(),
+			withCraftFrom.getReasons(), withCraftFrom.getOwnedManuallyNames(), withCraftFrom.getPrefs(), focus);
+
+		Consumer<String> noop = id -> { };
+		GoalDetailPanel.Actions actions = new GoalDetailPanel.Actions(noop, () -> { });
+		try
+		{
+			SwingUtilities.invokeAndWait(() ->
+			{
+				GoalDetailPanel panel = new GoalDetailPanel(actions, icons());
+				panel.render(withCraftFrom);
+				assertFalse(containsLabelContaining(panel, "shop: Myths"), "sources must be collapsed by default");
+				assertFalse(containsLabelContaining(panel, "craft: Ranarr weed"), "the craft line is redundant next to craft-from rows");
+				JLabel toggle = findLabelStartingWith(panel, "Sources (1)");
+				assertNotNull(toggle, "the parent item's shop source must sit under a 'Sources (1)' toggle");
+				assertTrue(toggle.getText().endsWith("[+]"), "closed by default: " + toggle.getText());
+
+				toggle.dispatchEvent(new MouseEvent(toggle, MouseEvent.MOUSE_CLICKED, System.currentTimeMillis(), 0, 1, 1, 1, false));
+
+				assertTrue(containsLabelContaining(panel, "shop: Myths"), "expanding the toggle must list the source");
+				assertTrue(findLabelStartingWith(panel, "Sources (1)").getText().endsWith("[-]"), "toggle must read open after the click");
+				layoutAtRealPanelWidth(panel);
+				assertNothingEndsPastTheRightEdge(panel);
+				assertOnlyRenderableGlyphs(panel);
+
+				GoalDetailPanel bare = new GoalDetailPanel(actions, icons());
+				bare.render(withoutCraftFrom);
+				assertTrue(containsLabelContaining(bare, "craft: Ranarr weed"), "with no craft-from rows the craft line stays visible");
+				assertFalse(containsLabelContaining(bare, "shop: Myths"), "the shop source still sits in the closed toggle");
+				assertNotNull(findLabelStartingWith(bare, "Sources (1)"), "the craft line is outside the toggle, not counted in it");
+			});
+		}
+		catch (InvocationTargetException e)
+		{
+			if (e.getCause() instanceof HeadlessException)
+			{
+				Assumptions.abort("Headless environment cannot construct Swing components: " + e.getCause().getMessage());
+			}
+			throw e;
+		}
+	}
+
+	private static int countLabelsContaining(Container container, String substring)
+	{
+		int n = 0;
+		for (Component child : container.getComponents())
+		{
+			if (child instanceof JLabel && ((JLabel) child).getText().contains(substring))
+			{
+				n++;
+			}
+			if (child instanceof Container)
+			{
+				n += countLabelsContaining((Container) child, substring);
+			}
+		}
+		return n;
+	}
+
 	/** Task 57: item images need an {@link net.runelite.client.game.ItemManager} (client-backed, so null here - placeholder path); skill icons come from the real resource-backed manager. */
 	private static Icons icons()
 	{

@@ -115,6 +115,8 @@ public class GoalDetailPanel extends JPanel
 	private final Set<String> expandedAlternatives = new HashSet<>();
 	// task 59: which routes' folded "+ N small steps" toggle is open, keyed by goal id + skill.
 	private final Set<String> expandedSmallSteps = new HashSet<>();
+	// task 59: which shortfall items' "Sources (n)" toggle is open, keyed by goal id + skill + item name.
+	private final Set<String> expandedSources = new HashSet<>();
 
 	public GoalDetailPanel(Actions actions, Icons icons)
 	{
@@ -423,12 +425,17 @@ public class GoalDetailPanel extends JPanel
 		if (plan.getShortfall() != null)
 		{
 			String method = plan.getShortfall().getMethod() == null ? "" : " for " + plan.getShortfall().getMethod().getName();
-			JLabel still = row((anySteps ? "Then still short" : "Short") + method + ":", indent);
+			String xp = route == null ? "" : " ~" + thousands(route.getUncoveredXp()) + " xp";
+			JLabel still = row((anySteps ? "Then still short" : "Short") + xp + method + ":", indent);
 			still.setForeground(ColorScheme.LIGHT_GRAY_COLOR);
 			panel.add(still);
+			// task 59: the engine unions an ingredient's plans into its parent (ruling 28), so the
+			// same plan reaches the tree twice; render it at its first (topmost) occurrence only.
+			Set<String> shownPlans = new HashSet<>();
+			String keyPrefix = lastGoalId + "|" + plan.getSkill().name() + "|";
 			for (ShortfallItem item : plan.getShortfall().getItems())
 			{
-				panel.add(shortfallItemRows(item, indent));
+				panel.add(shortfallItemRows(item, indent, keyPrefix, shownPlans));
 			}
 		}
 		else if (!anySteps)
@@ -734,7 +741,7 @@ public class GoalDetailPanel extends JPanel
 
 	// --- Shortfall (ticket C7/E4), now under its skill row (task 57) ---
 
-	private JPanel shortfallItemRows(ShortfallItem item, int indent)
+	private JPanel shortfallItemRows(ShortfallItem item, int indent, String keyPrefix, Set<String> shownPlans)
 	{
 		JPanel container = column();
 		int shortQty = Math.max(0, item.getNeed() - item.getHave());
@@ -745,24 +752,66 @@ public class GoalDetailPanel extends JPanel
 		String shortText = shortQty > 0
 			? "<span style='color:" + Icons.hex(ColorScheme.PROGRESS_ERROR_COLOR) + "'>short " + shortQty + "</span>"
 			: "<span style='color:" + Icons.hex(ColorScheme.PROGRESS_COMPLETE_COLOR) + "'>covered</span>";
-		JLabel text = htmlLabel(SuggestPanel.escape(item.getItem().getName())
-			+ ": have " + item.getHave() + ", need " + item.getNeed() + ", " + shortText, textWidth(indent, icon, null));
+		// task 59: lead with the shortage; the label's grey foreground colours everything but the span
+		JLabel text = htmlLabel(SuggestPanel.escape(item.getItem().getName()) + ": " + shortText
+			+ " (have " + item.getHave() + ", need " + item.getNeed() + ")", textWidth(indent, icon, null));
+		text.setForeground(ColorScheme.LIGHT_GRAY_COLOR);
 		Icons.linkToWiki(text, wikiUrl);
 		container.add(iconRow(icon, text, null, indent));
 
 		for (int i = 0; i < item.getPlans().size(); i++)
 		{
-			container.add(planOfferRows(item.getItem().getName(), item.getPlans().get(i), i == 0, indent + 1));
+			PlanOffer offer = item.getPlans().get(i);
+			if (shownPlans.add(offer.getPlan().getId() + "|" + offer.getPlan().getTitle()))
+			{
+				container.add(planOfferRows(item.getItem().getName(), offer, i == 0, indent + 1));
+			}
 		}
+		// task 59: sources collapse under a toggle; the "craft:" line stays out of it, shown only
+		// when no craft-from rows below already spell the recipe out.
+		List<ItemSource> collapsed = new ArrayList<>();
 		for (ItemSource source : item.getSources())
 		{
-			container.add(sourceRow(source, indent + 1));
+			if (!"craft".equals(source.getType()))
+			{
+				collapsed.add(source);
+			}
+			else if (item.getCraftFrom().isEmpty())
+			{
+				container.add(sourceRow(source, indent + 1));
+			}
+		}
+		if (!collapsed.isEmpty())
+		{
+			container.add(sourcesToggle(keyPrefix + item.getItem().getName(), collapsed, indent + 1));
 		}
 		for (ShortfallItem craftFrom : item.getCraftFrom())
 		{
-			container.add(shortfallItemRows(craftFrom, indent + 1));
+			container.add(shortfallItemRows(craftFrom, indent + 1, keyPrefix, shownPlans));
 		}
 		return container;
+	}
+
+	/** Task 59: a collapsed "Sources (n)" toggle; expanded, one grey line per source. Persists per {@code key} like the other toggles. */
+	private JPanel sourcesToggle(String key, List<ItemSource> sources, int indent)
+	{
+		JPanel panel = column();
+		boolean expanded = expandedSources.contains(key);
+		JLabel toggle = toggleLabel("Sources (" + sources.size() + ") " + (expanded ? "[-]" : "[+]"), indent);
+		clickable(() ->
+		{
+			flip(expandedSources, key);
+			render(currentAdvice);
+		}, toggle);
+		panel.add(toggle);
+		if (expanded)
+		{
+			for (ItemSource source : sources)
+			{
+				panel.add(sourceRow(source, indent + 1));
+			}
+		}
+		return panel;
 	}
 
 	/**
