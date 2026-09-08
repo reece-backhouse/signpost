@@ -68,7 +68,31 @@ public final class ShortfallResolver
 		{
 			items.add(shortfallItem(material, actionsNeeded, skill, simulatedBank, kb, snapshot));
 		}
-		return new Shortfall(method, List.copyOf(items), route.getUncoveredXp(), actionsNeeded, alternative);
+		return new Shortfall(method, List.copyOf(items), route.getUncoveredXp(), actionsNeeded, alternative,
+			unobtainable(items, skill, simulatedBank, kb, snapshot));
+	}
+
+	/** Task 61: the names of the materials {@link #obtainable} rejects - descending into a craft chain to name its leaves. */
+	private static List<String> unobtainable(List<ShortfallItem> items, Skill skill, Map<Integer, Integer> simulatedBank,
+		KnowledgeBase kb, Snapshot snapshot)
+	{
+		List<String> names = new ArrayList<>();
+		for (ShortfallItem item : items)
+		{
+			if (obtainable(item.getItem(), item.getNeed(), simulatedBank, skill, kb, snapshot, false))
+			{
+				continue;
+			}
+			if (item.getCraftFrom().isEmpty())
+			{
+				names.add(item.getItem().getName());
+			}
+			else
+			{
+				names.addAll(unobtainable(item.getCraftFrom(), skill, simulatedBank, kb, snapshot));
+			}
+		}
+		return List.copyOf(names);
 	}
 
 	private static long actionsNeeded(Route route, MethodEntry method)
