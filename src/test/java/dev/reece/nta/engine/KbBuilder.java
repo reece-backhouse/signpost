@@ -150,6 +150,20 @@ final class KbBuilder
 		return this;
 	}
 
+	/** Sets how many distinct ownedIf items the currently open milestone needs before it counts as owned (RL-006 outfits); defaults to 1. */
+	KbBuilder ownedIfMin(int min)
+	{
+		currentMilestone.ownedIfMin = min;
+		return this;
+	}
+
+	/** Sets the skill the currently open milestone speeds up (RL-006 method-linked untradeables). */
+	KbBuilder speedsUp(Skill skill)
+	{
+		currentMilestone.speedsUp = skill;
+		return this;
+	}
+
 	/** Adds unlock entries to the currently open milestone. */
 	KbBuilder unlocks(String... entries)
 	{
@@ -483,7 +497,7 @@ final class KbBuilder
 					m.recommendedGearOwnedMin);
 			milestones.add(new MilestoneEntry(m.id, m.category, m.subcategory, m.name, m.name, m.priority, "test", List.copyOf(m.unlocks),
 				List.copyOf(m.skills), List.copyOf(m.quests), diaryRefs, null, null, List.copyOf(m.items), List.copyOf(m.ownedIf),
-				m.gearTier, List.of(), m.stage, recommended, m.obtainedFrom));
+				m.gearTier, List.of(), m.stage, recommended, m.obtainedFrom, m.ownedIfMin, m.speedsUp));
 		}
 
 		Map<Integer, String> materialNames = new LinkedHashMap<>();
@@ -586,6 +600,8 @@ final class KbBuilder
 		Integer recommendedCombatLevel;
 		Integer recommendedGearOwnedMin;
 		String obtainedFrom;
+		int ownedIfMin = 1;
+		Skill speedsUp;
 
 		MilestoneSpec(String id, MilestoneCategory category, String name, int priority)
 		{

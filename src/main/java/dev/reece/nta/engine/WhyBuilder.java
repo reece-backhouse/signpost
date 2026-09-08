@@ -28,6 +28,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import net.runelite.api.Experience;
+import net.runelite.api.Skill;
 
 /**
  * Deterministic, template-only "why" text for a {@link RankedGoal} (ticket D3): one to three
@@ -52,6 +53,16 @@ public final class WhyBuilder
 
 	public String why(RankedGoal r, KnowledgeBase kb, Snapshot s)
 	{
+		return why(r, kb, s, Set.of());
+	}
+
+	/**
+	 * As {@link #why(RankedGoal, KnowledgeBase, Snapshot)}; {@code targetSkills} are the skills with
+	 * a ranked {@link GoalCategory#SKILL_TARGET}, so a method-linked untradeable (RL-006
+	 * {@code speedsUp}) can say "speeds up Mining (your next Mining target)".
+	 */
+	public String why(RankedGoal r, KnowledgeBase kb, Snapshot s, Set<Skill> targetSkills)
+	{
 		GoalStatus status = r.getStatus();
 		Goal goal = status.getGoal();
 		List<Gap> gaps = status.getGaps();
@@ -73,6 +84,22 @@ public final class WhyBuilder
 		}
 
 		MilestoneEntry entry = kb.milestoneById(goal.getId());
+
+		// RL-006: an outfit (ownedIfMin > 1) with some pieces held says "2/4 pieces".
+		if (clauses.size() < MAX_CLAUSES && entry != null && entry.getOwnedIfMin() > 1)
+		{
+			int held = GapEngine.ownedIfHeld(entry, s);
+			if (held > 0)
+			{
+				clauses.add(held + "/" + entry.getOwnedIf().size() + " pieces");
+			}
+		}
+
+		if (clauses.size() < MAX_CLAUSES && entry != null && entry.getSpeedsUp() != null)
+		{
+			String skill = entry.getSpeedsUp().getName();
+			clauses.add("speeds up " + skill + (targetSkills.contains(entry.getSpeedsUp()) ? " (your next " + skill + " target)" : ""));
+		}
 
 		if (clauses.size() < MAX_CLAUSES && entry != null && isUnlockCategory(goal.getCategory()) && !entry.getUnlocks().isEmpty())
 		{

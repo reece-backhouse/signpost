@@ -87,6 +87,26 @@ class MilestoneGapTest
 		assertFalse(hasGoal(statuses, "milestone:test-gear"), "manually-owned gear milestone should not be emitted: " + statuses);
 	}
 
+	/** RL-006: an outfit milestone with {@code ownedIfMin} = set size is owned only once every piece is held. */
+	@Test
+	void outfitMilestoneWithOwnedIfMinIsDoneOnlyWhenEnoughDistinctPiecesAreHeld()
+	{
+		KnowledgeBase kb = new KbBuilder()
+			.milestone("milestone:prospector-outfit", MilestoneCategory.GEAR, "Prospector outfit", 6)
+			.ownedIf("Prospector helmet", 12013, 25549)
+			.ownedIf("Prospector jacket", 12014)
+			.ownedIf("Prospector legs", 12015)
+			.ownedIf("Prospector boots", 12016)
+			.ownedIfMin(4)
+			.build();
+		Snapshot twoPieces = new SnapshotBuilder().bankItem(25549, "Golden prospector helmet", 1).bankItem(12014, "Prospector jacket", 1).build();
+		Snapshot fullSet = new SnapshotBuilder().bankItem(12013, "Prospector helmet", 1).bankItem(12014, "Prospector jacket", 1)
+			.bankItem(12015, "Prospector legs", 1).equipmentItem(12016, "Prospector boots", 1).build();
+
+		assertTrue(hasGoal(engine.evaluate(twoPieces, kb), "milestone:prospector-outfit"), "two of four pieces is not owned");
+		assertFalse(hasGoal(engine.evaluate(fullSet, kb), "milestone:prospector-outfit"), "all four pieces held should finish the outfit");
+	}
+
 	/** Ticket 55: a manual override finishes a slayer target even below the required level. */
 	@Test
 	void slayerTargetDoneWhenManuallyMarkedOwnedEvenBelowRequiredLevel()

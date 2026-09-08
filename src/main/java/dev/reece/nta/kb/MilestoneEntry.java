@@ -2,6 +2,7 @@ package dev.reece.nta.kb;
 
 import java.util.List;
 import lombok.Value;
+import net.runelite.api.Skill;
 
 /**
  * One curated milestone (gear upgrade, unlock, prayer, spellbook, slayer target, or boss), from
@@ -15,6 +16,9 @@ import lombok.Value;
  * (task 46) is the {@code id} of the boss milestone this entry's gear drops from, {@code null} when
  * it isn't a drop from a curated boss (e.g. a non-drop gear milestone, or the boss entry itself);
  * always resolves to a known milestone id (validated at {@link KnowledgeBase} load time).
+ * {@code ownedIfMin} (RL-006) is how many distinct {@code ownedIf} items must be held before the
+ * milestone counts as owned - 1 for a single item with variants, the set size for an outfit; {@code
+ * speedsUp} (RL-006) is the skill a method-linked untradeable accelerates, {@code null} when none.
  */
 @Value
 public class MilestoneEntry
@@ -39,4 +43,6 @@ public class MilestoneEntry
 	int stage;
 	RecommendedProfile recommended;
 	String obtainedFrom;
+	int ownedIfMin;
+	Skill speedsUp;
 }

@@ -606,18 +606,26 @@ public final class GapEngine
 	 */
 	static boolean isOwned(MilestoneEntry entry, Snapshot snapshot, Set<String> ownedManually)
 	{
-		if (ownedManually.contains(entry.getId()))
-		{
-			return true;
-		}
+		return ownedManually.contains(entry.getId())
+			|| (!entry.getOwnedIf().isEmpty() && ownedIfHeld(entry, snapshot) >= entry.getOwnedIfMin());
+	}
+
+	/**
+	 * How many distinct {@code ownedIf} items of {@code entry} are held (any variant id, any
+	 * container) - RL-006: an outfit is owned only once {@code ownedIfMin} of its pieces are, and the
+	 * "2/4 pieces" why-clause shows the count.
+	 */
+	static int ownedIfHeld(MilestoneEntry entry, Snapshot snapshot)
+	{
+		int held = 0;
 		for (OwnedItem owned : entry.getOwnedIf())
 		{
 			if (anyIdHeld(owned.getIds(), snapshot))
 			{
-				return true;
+				held++;
 			}
 		}
-		return false;
+		return held;
 	}
 
 	/**

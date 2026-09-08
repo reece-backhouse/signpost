@@ -14,6 +14,7 @@ import dev.reece.nta.kb.MilestoneCategory;
 import dev.reece.nta.kb.OwnedItem;
 import dev.reece.nta.snapshot.Snapshot;
 import java.util.List;
+import java.util.Set;
 import net.runelite.api.Skill;
 import org.junit.jupiter.api.Test;
 
@@ -159,6 +160,40 @@ class WhyBuilderTest
 
 		assertEquals("A".repeat(139) + "…", result);
 		assertEquals(140, result.length());
+	}
+
+	/** RL-006: a partly owned outfit says how many pieces are held. */
+	@Test
+	void piecesClauseCountsHeldOutfitPiecesAgainstOwnedIfMin()
+	{
+		KnowledgeBase outfitKb = new KbBuilder()
+			.milestone("milestone:prospector-outfit", MilestoneCategory.GEAR, "Prospector outfit", 6)
+			.ownedIf("Prospector helmet", 12013)
+			.ownedIf("Prospector jacket", 12014)
+			.ownedIf("Prospector legs", 12015)
+			.ownedIf("Prospector boots", 12016)
+			.ownedIfMin(4)
+			.build();
+		Snapshot twoPieces = new SnapshotBuilder().bankItem(12013, "Prospector helmet", 1).bankItem(12016, "Prospector boots", 1).build();
+		GoalStatus status = status("milestone:prospector-outfit", GoalCategory.MILESTONE, List.of(), true, false);
+
+		assertEquals("Ready now; 2/4 pieces", whyBuilder.why(rank(status), outfitKb, twoPieces));
+		assertEquals("Ready now", whyBuilder.why(rank(status), outfitKb, snap), "no pieces held: no clause");
+	}
+
+	/** RL-006: a method-linked untradeable names the skill it speeds up, and the skill target for it when one is ranked. */
+	@Test
+	void speedsUpClauseNamesTheSkillAndItsNextTargetWhenOneExists()
+	{
+		KnowledgeBase bagKb = new KbBuilder()
+			.milestone("milestone:coal-bag", MilestoneCategory.GEAR, "Coal bag", 7)
+			.ownedIf("Coal bag", 12019)
+			.speedsUp(Skill.MINING)
+			.build();
+		GoalStatus status = status("milestone:coal-bag", GoalCategory.MILESTONE, List.of(), true, false);
+
+		assertEquals("Ready now; speeds up Mining (your next Mining target)", whyBuilder.why(rank(status), bagKb, snap, Set.of(Skill.MINING)));
+		assertEquals("Ready now; speeds up Mining", whyBuilder.why(rank(status), bagKb, snap, Set.of(Skill.HERBLORE)));
 	}
 
 	private static GoalStatus status(String id, GoalCategory category, List<Gap> gaps, boolean ready, boolean bankUnknown)

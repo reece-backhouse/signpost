@@ -2,7 +2,9 @@ package dev.reece.nta.kb;
 
 import com.google.gson.Gson;
 import dev.reece.nta.snapshot.DiaryTier;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import net.runelite.api.Quest;
 import net.runelite.api.Skill;
 import org.junit.jupiter.api.Test;
@@ -243,6 +245,47 @@ class KnowledgeBaseTest
 
 		assertTrue(kb.diaryVarps().contains(1176));
 		assertTrue(kb.diaryVarps().contains(2085));
+	}
+
+	// --- RL-006: skilling untradeables and outfits. ---
+
+	@Test
+	void milestoneOwnedIfMinLargerThanItsOwnedIfListFailsLoudly()
+	{
+		String milestonesJson = "{\"version\":1,\"milestones\":[{\"id\":\"milestone:test\",\"category\":\"gear\","
+			+ "\"name\":\"T\",\"wikiTitle\":\"T\",\"priority\":5,\"unlocks\":[],\"sources\":[],\"stage\":1,\"ownedIfMin\":2,"
+			+ "\"requirements\":{\"skills\":[],\"quests\":[],\"diaries\":[],\"items\":[]},"
+			+ "\"ownedIf\":[{\"name\":\"A\",\"id\":1,\"ids\":[1]}]}]}";
+
+		IllegalStateException e = assertThrows(IllegalStateException.class,
+			() -> KnowledgeBase.fromJson(new Gson(), EMPTY_QUESTS_JSON, EMPTY_DIARIES_JSON, milestonesJson, EMPTY_PRIORITIES_JSON));
+
+		assertTrue(e.getMessage().contains("milestone:test"), e.getMessage());
+		assertTrue(e.getMessage().contains("ownedIfMin"), e.getMessage());
+	}
+
+	/** RL-006 AC5: every ownedIf item is a materials.json entry whose id is one of its variant ids, and no two milestones claim the same item id. */
+	@Test
+	void everyBundledOwnedIfItemResolvesInMaterialsAndNoTwoMilestonesShareAnItemId()
+	{
+		KnowledgeBase kb = KnowledgeBase.load(new Gson());
+		Map<Integer, String> claimedBy = new HashMap<>();
+
+		for (MilestoneEntry entry : kb.getMilestones())
+		{
+			for (OwnedItem owned : entry.getOwnedIf())
+			{
+				MaterialEntry material = kb.materialByName(owned.getName());
+				assertNotNull(material, entry.getId() + " ownedIf \"" + owned.getName() + "\" has no materials.json entry");
+				assertTrue(owned.getIds().contains(material.getId()),
+					entry.getId() + " ownedIf \"" + owned.getName() + "\" ids " + owned.getIds() + " lack materials id " + material.getId());
+				for (int id : owned.getIds())
+				{
+					String other = claimedBy.put(id, entry.getId());
+					assertTrue(other == null || other.equals(entry.getId()), "item id " + id + " is ownedIf for both " + other + " and " + entry.getId());
+				}
+			}
+		}
 	}
 
 	// --- Task 41: milestone stage and recommended profile (spec ruling 27). ---

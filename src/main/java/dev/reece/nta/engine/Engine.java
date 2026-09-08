@@ -4,6 +4,7 @@ import dev.reece.nta.engine.model.Advice;
 import dev.reece.nta.engine.model.DiaryTaskGap;
 import dev.reece.nta.engine.model.FocusDetail;
 import dev.reece.nta.engine.model.Gap;
+import dev.reece.nta.engine.model.GoalCategory;
 import dev.reece.nta.engine.model.GoalStatus;
 import dev.reece.nta.engine.model.NextStep;
 import dev.reece.nta.engine.model.NextStepType;
@@ -25,6 +26,7 @@ import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 import lombok.Value;
 import net.runelite.api.Experience;
@@ -77,13 +79,19 @@ public class Engine
 		List<RankedGoal> later = ranked.stream().filter(RankedGoal::isLater).collect(Collectors.toList());
 		List<RankedGoal> rest = restAll.stream().filter(r -> !r.isLater()).collect(Collectors.toList());
 
+		// RL-006: the skills that have a ranked skill target, so "speeds up Mining" can point at it.
+		Set<Skill> targetSkills = ranked.stream()
+			.filter(r -> r.getStatus().getGoal().getCategory() == GoalCategory.SKILL_TARGET)
+			.map(r -> ((SkillLevelGap) r.getStatus().getGaps().get(0)).getSkill())
+			.collect(Collectors.toSet());
+
 		Map<String, String> whys = new LinkedHashMap<>();
 		Map<String, List<String>> explanations = new LinkedHashMap<>();
 		Map<String, String> reasons = new LinkedHashMap<>();
 		for (RankedGoal r : ranked)
 		{
 			String goalId = r.getStatus().getGoal().getId();
-			whys.put(goalId, whyBuilder.why(r, kb, snapshot));
+			whys.put(goalId, whyBuilder.why(r, kb, snapshot, targetSkills));
 			explanations.put(goalId, whyBuilder.explain(r, kb, snapshot, accountStage));
 
 			MilestoneEntry entry = kb.milestoneById(goalId);

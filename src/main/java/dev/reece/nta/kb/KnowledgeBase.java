@@ -517,6 +517,12 @@ public final class KnowledgeBase
 		{
 			throw new IllegalStateException("Malformed knowledge base data: " + context + " is category gear but has no ownedIf entries");
 		}
+		int ownedIfMin = dto.ownedIfMin == null ? 1 : dto.ownedIfMin;
+		if (ownedIfMin < 1 || ownedIfMin > Math.max(1, ownedIf.size()))
+		{
+			throw new IllegalStateException("Malformed knowledge base data: " + context + " has ownedIfMin " + ownedIfMin
+				+ " outside 1.." + ownedIf.size() + " (its ownedIf count)");
+		}
 
 		int stage;
 		if (dto.stage == null)
@@ -536,7 +542,8 @@ public final class KnowledgeBase
 
 		return new MilestoneEntry(dto.id, category, dto.subcategory, dto.name, dto.wikiTitle, dto.priority, dto.reason,
 			List.copyOf(dto.unlocks), skills, List.copyOf(dto.requirements.quests), diaries, dto.requirements.combatLevel,
-			dto.requirements.questPoints, items, ownedIf, dto.gearTier, List.copyOf(dto.sources), stage, recommended, dto.obtainedFrom);
+			dto.requirements.questPoints, items, ownedIf, dto.gearTier, List.copyOf(dto.sources), stage, recommended, dto.obtainedFrom,
+			ownedIfMin, dto.speedsUp == null ? null : resolveSkill(dto.speedsUp, context));
 	}
 
 	/** {@code dto} is {@code null} for a milestone with no {@code recommended} profile (the common case). */
@@ -992,6 +999,8 @@ public final class KnowledgeBase
 		Integer stage;
 		RecommendedDto recommended;
 		String obtainedFrom;
+		Integer ownedIfMin;
+		String speedsUp;
 	}
 
 	private static final class RecommendedDto
