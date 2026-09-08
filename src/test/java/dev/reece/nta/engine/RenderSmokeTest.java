@@ -157,6 +157,7 @@ class RenderSmokeTest
 				// RL-011 AC1: a thin xp progress bar with "have/need" text, the detail view's component
 				assertTrue(containsLabelContaining(panel, "60/75"), "skill-target card must show have/need level text");
 				assertTrue(containsComponentOfType(panel, ProgressBar.class), "skill-target card must carry a ProgressBar");
+				assertFalse(containsLabelContaining(panel, "about "), "RL-012: no rate observed, so no eta on the card");
 				layoutAtRealPanelWidth(panel);
 				assertNothingEndsPastTheRightEdge(panel);
 			});
@@ -169,6 +170,34 @@ class RenderSmokeTest
 			}
 			throw e;
 		}
+	}
+
+	/** RL-012 AC3/AC4: the skill-target card appends "about N min at Rk/h" from the route's uncovered xp once a rate is observed. */
+	@Test
+	void skillTargetCardShowsAnEtaAtTheObservedRate() throws Exception
+	{
+		KnowledgeBase kb = new KbBuilder().quest(0, "Test Quest").build();
+		Advice base = new Engine(new BoostTable()).run(new SnapshotBuilder().build(), kb, AccountData.empty(), Instant.now());
+
+		Goal skillGoal = new Goal("skill:woodcutting:75", GoalCategory.SKILL_TARGET, "75 Woodcutting", null, 0, 1);
+		SkillLevelGap skillGap = new SkillLevelGap(Skill.WOODCUTTING, 60, 75, 500_000L, false, null, false);
+		Route bankRoute = new Route(List.of(), 200_000L, 800_000L, Map.of());
+		GoalStatus skillStatus = new GoalStatus(skillGoal, List.of(skillGap), false, false, List.of(), List.of(),
+			List.of(new GoalRef("quest:0", "Test Quest", 75)), bankRoute, 0);
+		RankedGoal skillRanked = new RankedGoal(skillStatus, 10.0, false, false);
+		List<GoalStatus> statuses = new ArrayList<>(base.getStatuses());
+		statuses.add(skillStatus);
+		Advice advice = new Advice(base.getSnapshot(), statuses, base.getDiaryProgress(), base.getComputedAt(),
+			List.of(skillRanked), List.of(skillRanked), List.of(), base.getAccountStage(), List.of(), base.getWhys(), base.getExplanations(),
+			base.getReasons(), base.getOwnedManuallyNames(), base.getPrefs(), null, List.of(), Map.of(Skill.WOODCUTTING, 100_000L));
+
+		renderSuggest(advice, panel ->
+		{
+			assertTrue(containsLabelContaining(panel, "about 2 h at 100k/h"),
+				"card must show the eta from the route's uncovered 200,000 xp at 100k/h");
+			layoutAtRealPanelWidth(panel);
+			assertNothingEndsPastTheRightEdge(panel);
+		});
 	}
 
 	/**
@@ -983,9 +1012,11 @@ class RenderSmokeTest
 		FocusDetail focus = new FocusDetail(base.getFocus().getStatus(), base.getFocus().getNext(), herblorePlan.getRoute(),
 			herblorePlan.getShortfall(), herblorePlan.getFromLevel(), herblorePlan.getToLevel(),
 			List.of(herblorePlan, woodcuttingPlan), herblorePlan);
+		// RL-012 AC3/AC4: a rate for both skills; only the uncovered Herblore plan has xp left to train
 		Advice advice = new Advice(base.getSnapshot(), base.getStatuses(), base.getDiaryProgress(), base.getComputedAt(),
 			base.getRanked(), base.getPicked(), base.getRest(), base.getAccountStage(), base.getLater(), base.getWhys(),
-			base.getExplanations(), base.getReasons(), base.getOwnedManuallyNames(), base.getPrefs(), focus, List.of());
+			base.getExplanations(), base.getReasons(), base.getOwnedManuallyNames(), base.getPrefs(), focus, List.of(),
+			Map.of(Skill.HERBLORE, 38_000L, Skill.WOODCUTTING, 50_000L));
 
 		Consumer<String> noop = id -> { };
 		GoalDetailPanel.Actions actions = new GoalDetailPanel.Actions(noop, () -> { });
@@ -1005,6 +1036,10 @@ class RenderSmokeTest
 				assertNotNull(herbloreRow, "Herblore skill row must exist");
 				assertNotNull(woodcuttingRow, "Woodcutting skill row must exist");
 				assertTrue(woodcuttingRow.getText().contains("Woodcutting 1/75"), "skill row shows have/need: " + woodcuttingRow.getText());
+				assertTrue(herbloreRow.getText().contains("about ") && herbloreRow.getText().contains(" min at 38k/h"),
+					"RL-012: uncovered skill row appends the eta at the observed rate: " + herbloreRow.getText());
+				assertFalse(woodcuttingRow.getText().contains("about "),
+					"RL-012 AC4: a bank-covered row has no xp left after its bank steps, so no eta: " + woodcuttingRow.getText());
 				assertTrue(containsLabelContaining(panel, "materials in bank"), "covered Woodcutting plan must show the badge");
 
 				// next skill plan (Herblore) starts expanded: its route step and shortfall plan are in the tree; Woodcutting's route is not

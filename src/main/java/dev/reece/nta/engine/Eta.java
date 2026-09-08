@@ -26,7 +26,9 @@ public final class Eta
 			return null;
 		}
 		long minutes = (remainingXp * 60 + xpPerHour - 1) / xpPerHour;
-		String time = minutes < 60 ? minutes + " min" : (minutes / 60) + " h " + (minutes % 60) + " min";
+		String time = minutes < 60 ? minutes + " min"
+			: minutes % 60 == 0 ? (minutes / 60) + " h"
+			: (minutes / 60) + " h " + (minutes % 60) + " min";
 		String rate = xpPerHour < 1000 ? xpPerHour + "/h" : ((xpPerHour + 500) / 1000) + "k/h";
 		return "about " + time + " at " + rate;
 	}

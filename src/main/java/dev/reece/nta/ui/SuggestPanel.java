@@ -1,5 +1,6 @@
 package dev.reece.nta.ui;
 
+import dev.reece.nta.engine.Eta;
 import dev.reece.nta.engine.model.Advice;
 import dev.reece.nta.engine.model.Gap;
 import dev.reece.nta.engine.model.Goal;
@@ -416,7 +417,7 @@ public class SuggestPanel extends JPanel
 			}
 			if (i < picked.size())
 			{
-				pickOnePanel.add(buildCard(picked.get(i), advice.getWhys(), advice.getReasons(), advice.getExplanations()));
+				pickOnePanel.add(buildCard(picked.get(i), advice.getWhys(), advice.getReasons(), advice.getExplanations(), advice.getXpPerHour()));
 				pickOnePanel.add(Box.createVerticalStrut(6));
 			}
 		}
@@ -517,7 +518,7 @@ public class SuggestPanel extends JPanel
 	}
 
 	private JPanel buildCard(RankedGoal r, Map<String, String> whys, Map<String, String> reasons,
-		Map<String, List<String>> explanations)
+		Map<String, List<String>> explanations, Map<Skill, Long> xpPerHour)
 	{
 		Goal goal = r.getStatus().getGoal();
 
@@ -558,7 +559,7 @@ public class SuggestPanel extends JPanel
 
 		if (goal.getCategory() == GoalCategory.SKILL_TARGET)
 		{
-			card.add(skillTargetDetail(r.getStatus()));
+			card.add(skillTargetDetail(r.getStatus(), xpPerHour));
 		}
 
 		JLabel whyLabel = new JLabel(wrap(whys.getOrDefault(goal.getId(), ""), CARD_WRAP_WIDTH));
@@ -663,8 +664,8 @@ public class SuggestPanel extends JPanel
 
 	private static final int MAX_PARENTS = 3;
 
-	/** Task 52b: a {@link GoalCategory#SKILL_TARGET} card's parent goals line (capped at {@value #MAX_PARENTS}, matching {@link dev.reece.nta.engine.WhyBuilder#explain}) and, when {@link GoalStatus#isBankCovered()}, a small "materials in bank" badge. */
-	private static JPanel skillTargetDetail(GoalStatus status)
+	/** Task 52b: a {@link GoalCategory#SKILL_TARGET} card's parent goals line (capped at {@value #MAX_PARENTS}, matching {@link dev.reece.nta.engine.WhyBuilder#explain}), the level progress bar with its eta at the observed rate (RL-012) and, when {@link GoalStatus#isBankCovered()}, a small "materials in bank" badge. */
+	private static JPanel skillTargetDetail(GoalStatus status, Map<Skill, Long> xpPerHour)
 	{
 		JPanel panel = new JPanel();
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
@@ -696,6 +697,16 @@ public class SuggestPanel extends JPanel
 				status.isBankCovered() ? ColorScheme.PROGRESS_COMPLETE_COLOR : ColorScheme.BRAND_ORANGE);
 			bar.setBorder(BorderFactory.createEmptyBorder(2, 0, 2, 0));
 			panel.add(bar);
+			// RL-012 AC3/AC4 (spec ruling 34): time left at the observed rate, over the xp the bank route doesn't cover
+			String eta = Eta.text(Eta.remainingXp(status.getBankRoute(), gap.getXpDelta()), xpPerHour.get(gap.getSkill()));
+			if (eta != null)
+			{
+				JLabel etaLabel = new JLabel(eta);
+				etaLabel.setFont(FontManager.getRunescapeSmallFont());
+				etaLabel.setForeground(ColorScheme.LIGHT_GRAY_COLOR);
+				etaLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+				panel.add(etaLabel);
+			}
 		}
 
 		if (status.isBankCovered())

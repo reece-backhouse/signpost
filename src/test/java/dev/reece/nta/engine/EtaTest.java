@@ -17,6 +17,7 @@ class EtaTest
 		assertEquals("about 45 min at 38k/h", Eta.text(28_400, 38_250L));
 		assertEquals("about 1 min at 900/h", Eta.text(1, 900L));
 		assertEquals("about 2 h 30 min at 100k/h", Eta.text(250_000, 100_000L));
+		assertEquals("about 2 h at 100k/h", Eta.text(200_000, 100_000L));
 	}
 
 	@Test

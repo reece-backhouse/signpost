@@ -88,6 +88,8 @@ public class NextTargetPlugin extends Plugin
 	private NextTargetConfig config;
 
 	private final Map<Skill, Integer> lastLevel = new EnumMap<>(Skill.class);
+	/** RL-012: per-skill xp samples from {@link #onStatChanged}; session-only, cleared with {@link #lastLevel}. */
+	private final XpRateTracker xpRates = new XpRateTracker();
 
 	private EngineRunner runner;
 	private Engine engine;
@@ -123,6 +125,7 @@ public class NextTargetPlugin extends Plugin
 		cachedSnapshot = null;
 		cachedAdvice = null;
 		lastLevel.clear();
+		xpRates.clear();
 
 		SuggestPanel.Actions actions = new SuggestPanel.Actions(
 			this::focus,
@@ -180,6 +183,7 @@ public class NextTargetPlugin extends Plugin
 		cachedSnapshot = null;
 		cachedAdvice = null;
 		lastLevel.clear();
+		xpRates.clear();
 	}
 
 	/**
@@ -206,6 +210,7 @@ public class NextTargetPlugin extends Plugin
 			containersPending = false;
 			cachedSnapshot = null;
 			cachedAdvice = null;
+			xpRates.clear();
 			// accountData/cachedBank are only ever written on the executor; clearing them there
 			// keeps FIFO order with the load queued by the next LOGGED_IN (final-review I6). The
 			// panel is emptied so no stale card button can fire against the next account.
@@ -263,8 +268,10 @@ public class NextTargetPlugin extends Plugin
 			// modify an AccountData in place (AccountDataMutations copies), so no defensive copy.
 			AccountData data = accountData;
 			long start = System.nanoTime();
-			// RL-011 AC5: the previous advice is what "completed since last" is measured against
-			Advice advice = currentEngine.run(snapshot, loadedKb, data != null ? data : AccountData.empty(), Instant.now(), cachedAdvice);
+			// RL-011 AC5: the previous advice is what "completed since last" is measured against;
+			// RL-012: the observed xp rates are read here so the eta reflects the run's own moment
+			Instant now = Instant.now();
+			Advice advice = currentEngine.run(snapshot, loadedKb, data != null ? data : AccountData.empty(), now, cachedAdvice, xpRates.rates(now));
 			long ms = (System.nanoTime() - start) / 1_000_000;
 			log.info("engine: {} goals evaluated in {} ms", advice.getStatuses().size(), ms);
 			for (String line : AdviceDiagnostics.lines(advice))
@@ -391,8 +398,12 @@ public class NextTargetPlugin extends Plugin
 	{
 		Skill skill = event.getSkill();
 		int level = event.getLevel();
+		Instant now = Instant.now();
+		boolean rateWasReady = xpRates.rates(now).containsKey(skill);
+		xpRates.record(skill, event.getXp(), now);
 		Integer previous = lastLevel.put(skill, level);
-		if (previous == null || previous != level)
+		// RL-012: a rate becoming ready is a one-shot re-run so the eta appears without a level-up
+		if (previous == null || previous != level || (!rateWasReady && xpRates.rates(now).containsKey(skill)))
 		{
 			requestSnapshot();
 		}
@@ -537,7 +548,8 @@ public class NextTargetPlugin extends Plugin
 
 			Snapshot snapshot = cachedSnapshot;
 			KnowledgeBase loadedKb = kb;
-			return snapshot != null && loadedKb != null ? currentEngine.run(snapshot, loadedKb, updated, Instant.now(), cachedAdvice) : null;
+			Instant now = Instant.now();
+			return snapshot != null && loadedKb != null ? currentEngine.run(snapshot, loadedKb, updated, now, cachedAdvice, xpRates.rates(now)) : null;
 		}, advice ->
 		{
 			if (advice != null)
