@@ -850,6 +850,123 @@ class RenderSmokeTest
 		}
 	}
 
+	/**
+	 * Task 59 A: a real-engine focus whose expanded Herblore row nests a route with a craft
+	 * sub-step, then a shortfall whose item has a craft chain (Ranarr weed + Vial of water) with a
+	 * gathering plan and long source lines - every descendant, laid out at the real sidebar
+	 * width, must end inside the panel. Before the fix every nested label wrapped at the full
+	 * panel width regardless of its indent and icon column, so its text painted past the edge.
+	 */
+	@Test
+	void everyDetailRowEndsInsideThePanelWhenNestedUnderAnExpandedSkillRow() throws Exception
+	{
+		Advice advice = craftChainFixture();
+
+		Consumer<String> noop = id -> { };
+		GoalDetailPanel.Actions actions = new GoalDetailPanel.Actions(noop, () -> { });
+
+		try
+		{
+			SwingUtilities.invokeAndWait(() ->
+			{
+				GoalDetailPanel panel = new GoalDetailPanel(actions, icons());
+				panel.render(advice);
+				layoutAtRealPanelWidth(panel);
+				assertTrue(containsLabelContaining(panel, "Ranarr weed"), "the craft chain ingredient must render");
+				assertTrue(containsLabelContaining(panel, "Gather Ranarr weed"), "the ingredient's gathering plan must render");
+				assertNothingEndsPastTheRightEdge(panel);
+			});
+		}
+		catch (InvocationTargetException e)
+		{
+			if (e.getCause() instanceof HeadlessException)
+			{
+				Assumptions.abort("Headless environment cannot construct Swing components: " + e.getCause().getMessage());
+			}
+			throw e;
+		}
+	}
+
+	/**
+	 * Task 59: a focused quest needing Herblore 20 - the bank brews a few Prayer potions (crafting
+	 * some unfinished potions first), then falls short; the unfinished potion is craftable from
+	 * Ranarr weed + Vial of water, and Ranarr weed has a curated gathering plan (which the engine
+	 * also unions into the parent item, spec ruling 28).
+	 */
+	private static Advice craftChainFixture()
+	{
+		int ranarrUnf = 200;
+		int ranarr = 201;
+		int vial = 202;
+		KnowledgeBase kb = new KbBuilder()
+			.quest(0, "Test Quest").skill(Skill.HERBLORE, 20)
+			.method(Skill.HERBLORE, "Prayer potion(3)", 1, 4)
+			.material(ranarrUnf, 1)
+			.method(Skill.HERBLORE, "Ranarr potion (unf)", 1, 0)
+			.material(ranarr, 1)
+			.material(vial, 1)
+			.output(ranarrUnf, 1)
+			.intermediate()
+			.material("Ranarr potion (unf)", ranarrUnf)
+			.source("craft", "Ranarr weed + Vial of water")
+			.source("shop", "Myths' Guild Herbalist 1 gp, stock 100, restocks slowly")
+			.material("Ranarr weed", ranarr)
+			.source("drop", "Chaos druids in Taverley Dungeon; take the long way round past the poison spiders")
+			.material("Vial of water", vial)
+			.source("shop", "Any general store")
+			.gatheringPlan("Ranarr weed", ranarr)
+			.build();
+		Snapshot snapshot = new SnapshotBuilder()
+			.bankItem(ranarrUnf, "Ranarr potion (unf)", 2)
+			.bankItem(ranarr, "Ranarr weed", 3)
+			.bankItem(vial, "Vial of water", 3)
+			.build();
+		AccountData data = new AccountData(new HashMap<>(), null, new HashMap<>(), new HashSet<>(), new ArrayList<>(), "quest:0", new HashSet<>());
+		Advice advice = new Engine(new BoostTable()).run(snapshot, kb, data, Instant.now());
+		assertNotNull(advice.getFocus(), "fixture must produce a focus");
+		SkillPlan herblore = advice.getFocus().getNextSkillPlan();
+		assertNotNull(herblore, "fixture must produce a next skill plan");
+		assertNotNull(herblore.getShortfall(), "fixture must leave Herblore short");
+		assertFalse(herblore.getRoute().getSteps().get(0).getCrafts().isEmpty(), "fixture route must craft unfinished potions first");
+		assertFalse(herblore.getShortfall().getItems().get(0).getCraftFrom().isEmpty(), "fixture shortfall must carry a craft chain");
+		return advice;
+	}
+
+	/** Task 59 A: every visible descendant's right edge, in {@code root}'s coordinates, is within {@code root}'s width. */
+	private static void assertNothingEndsPastTheRightEdge(Container root)
+	{
+		List<String> offenders = new ArrayList<>();
+		collectPastTheRightEdge(root, root, offenders);
+		assertTrue(offenders.isEmpty(), "past the panel's width " + root.getWidth() + ":\n" + String.join("\n", offenders));
+	}
+
+	private static void collectPastTheRightEdge(Container container, Container root, List<String> offenders)
+	{
+		for (Component child : container.getComponents())
+		{
+			if (!child.isVisible())
+			{
+				continue;
+			}
+			int right = SwingUtilities.convertPoint(child, child.getWidth(), 0, root).x;
+			int preferredRight = SwingUtilities.convertPoint(child, child.getPreferredSize().width, 0, root).x;
+			if (right > root.getWidth() || preferredRight > root.getWidth())
+			{
+				offenders.add(describe(child) + " ends at x=" + right + " (preferred " + preferredRight + ")");
+			}
+			if (child instanceof Container)
+			{
+				collectPastTheRightEdge((Container) child, root, offenders);
+			}
+		}
+	}
+
+	private static String describe(Component c)
+	{
+		String text = c instanceof JLabel ? " '" + ((JLabel) c).getText() + "'" : "";
+		return c.getClass().getSimpleName() + text;
+	}
+
 	/** Task 57: item images need an {@link net.runelite.client.game.ItemManager} (client-backed, so null here - placeholder path); skill icons come from the real resource-backed manager. */
 	private static Icons icons()
 	{
