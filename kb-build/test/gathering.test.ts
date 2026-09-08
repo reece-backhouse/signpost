@@ -48,6 +48,33 @@ describe('resolveGatheringPlans', () => {
     expect(plans).toEqual([expect.objectContaining({ item: 'Steel cannonball', id: 2 })]);
   });
 
+  it('normalises bare-string steps to the object form with empty requires', () => {
+    const plans = resolveGatheringPlans(
+      [draft({ steps: ['Go to the patch.'], alternatives: [{ title: 'Alt', steps: ['Alt step.'], requires: { skills: [], quests: [], items: [] } }] })],
+      [material('Snape grass', 231)],
+    );
+
+    expect(plans[0]!.steps).toEqual([{ text: 'Go to the patch.', requires: { skills: [], quests: [] } }]);
+    expect(plans[0]!.alternatives[0]!.steps).toEqual([{ text: 'Alt step.', requires: { skills: [], quests: [] } }]);
+  });
+
+  it('keeps object-form steps and fills in whichever requires list is missing', () => {
+    const plans = resolveGatheringPlans(
+      [draft({ steps: [
+        { text: 'Guild patch.', requires: { skills: [{ skill: 'Farming', level: 65 }] } },
+        { text: 'Weiss patch.', requires: { quests: ['Making Friends with My Arm'] } },
+        { text: 'Plain.' },
+      ] })],
+      [material('Snape grass', 231)],
+    );
+
+    expect(plans[0]!.steps).toEqual([
+      { text: 'Guild patch.', requires: { skills: [{ skill: 'Farming', level: 65 }], quests: [] } },
+      { text: 'Weiss patch.', requires: { skills: [], quests: ['Making Friends with My Arm'] } },
+      { text: 'Plain.', requires: { skills: [], quests: [] } },
+    ]);
+  });
+
   it('treats a materials.json entry with a null id as unresolved', () => {
     expect(() => resolveGatheringPlans([draft({ item: 'Blue dragon scales' })], [material('Blue dragon scales', null)]))
       .toThrow(/Blue dragon scales/);

@@ -12,10 +12,23 @@ export interface GatheringRequires {
   notes?: string;
 }
 
-export interface GatheringAlternative {
+/** A plan step as emitted: the plugin drops it when the account misses any of `requires` (task 62). */
+export interface GatheringStep {
+  text: string;
+  requires: { skills: GatheringSkillReq[]; quests: string[] };
+}
+
+/** A plan step as curated: a bare string, or an object whose `requires` lists may be omitted. */
+export type GatheringStepInput = string | { text: string; requires?: { skills?: GatheringSkillReq[]; quests?: string[] } };
+
+export interface GatheringAlternativeDraft {
   title: string;
-  steps: string[];
+  steps: GatheringStepInput[];
   requires: GatheringRequires;
+}
+
+export interface GatheringAlternative extends Omit<GatheringAlternativeDraft, 'steps'> {
+  steps: GatheringStep[];
 }
 
 /** One curated `data/gathering.json` plan before `id` resolution (ruling 28). */
@@ -25,14 +38,27 @@ export interface GatheringPlanDraft {
   title: string;
   requires: GatheringRequires;
   ratePerHour: number | null;
-  steps: string[];
-  alternatives: GatheringAlternative[];
+  steps: GatheringStepInput[];
+  alternatives: GatheringAlternativeDraft[];
   wikiUrl: string;
 }
 
-/** As {@link GatheringPlanDraft}, with `id` resolved (never null) - the emitted `gathering.json` shape. */
-export interface GatheringPlan extends Omit<GatheringPlanDraft, 'id'> {
+/**
+ * As {@link GatheringPlanDraft}, with `id` resolved (never null) and every step in object form -
+ * the emitted `gathering.json` shape.
+ */
+export interface GatheringPlan extends Omit<GatheringPlanDraft, 'id' | 'steps' | 'alternatives'> {
   id: number;
+  steps: GatheringStep[];
+  alternatives: GatheringAlternative[];
+}
+
+/** Normalises a curated step to the emitted object form, so the plugin maps one shape. */
+export function normaliseStep(step: GatheringStepInput): GatheringStep {
+  if (typeof step === 'string') {
+    return { text: step, requires: { skills: [], quests: [] } };
+  }
+  return { text: step.text, requires: { skills: step.requires?.skills ?? [], quests: step.requires?.quests ?? [] } };
 }
 
 /**
@@ -79,7 +105,8 @@ export function addMissingGatheringMaterials(
 
 /**
  * Validates every draft plan's `item` resolves to a `materials.json` entry by exact name (after the
- * "Cannonballs" -> "Steel cannonball" rename) and fills in its `id`. Throws, naming every unresolved
+ * "Cannonballs" -> "Steel cannonball" rename), fills in its `id`, and normalises every step (plan and
+ * alternative) to the object form. Throws, naming every unresolved
  * item, rather than silently dropping one (ruling 28: fail loud).
  */
 export function resolveGatheringPlans(draftPlans: GatheringPlanDraft[], materials: Material[]): GatheringPlan[] {
@@ -93,7 +120,13 @@ export function resolveGatheringPlans(draftPlans: GatheringPlanDraft[], material
       unresolved.push(item);
       return null;
     }
-    return { ...draft, item, id: material.id };
+    return {
+      ...draft,
+      item,
+      id: material.id,
+      steps: draft.steps.map(normaliseStep),
+      alternatives: draft.alternatives.map((alt) => ({ ...alt, steps: alt.steps.map(normaliseStep) })),
+    };
   });
 
   if (unresolved.length > 0) {
