@@ -1827,6 +1827,146 @@
       ],
       "title": "Smith steel cannonballs near Falador or Keldagrim",
       "wikiUrl": "https://oldschool.runescape.wiki/w/Cannonball"
+    },
+    {
+      "alternatives": [],
+      "id": 255,
+      "item": "Harralander",
+      "ratePerHour": null,
+      "requires": {
+        "items": [
+          "Harralander seed",
+          "Spade",
+          "Ultracompost or supercompost (disease protection)"
+        ],
+        "notes": "Harralander seeds aren't sold in any shop; get them via Master Farmer pickpocketing (38 Thieving), monster drops, or seed packs. Herb patches accept a different herb per run, so this same 4-patch loop (Falador, Catherby, Ardougne, Farming Guild) can carry ranarr, toadflax, snapdragon, torstol, or any other herb simultaneously - just plant whichever herb you need in each patch on a given lap. Yield is ~3+ grimy herbs per patch per 80-minute cycle, not a steady hourly rate.",
+        "quests": [
+          "Plague City (for the Ardougne Teleport spell)"
+        ],
+        "skills": [
+          {
+            "level": 26,
+            "skill": "Farming"
+          }
+        ]
+      },
+      "steps": [
+        "Get Farming level 26 and stock up on harralander seeds and ultracompost.",
+        "Teleport to Falador (Falador Teleport spell) and plant a harralander seed in the herb patch after treating the soil with ultracompost.",
+        "Teleport to Catherby (Camelot Teleport spell) and plant a harralander seed in its herb patch after treating the soil.",
+        "Teleport to Ardougne (Ardougne Teleport spell) and plant a harralander seed in its herb patch after treating the soil.",
+        "If you have 45 Farming, walk from Catherby to the Farming Guild and plant a fourth harralander seed in its disease-free herb patch.",
+        "Wait roughly 80 minutes (real time) for all the herbs to fully grow.",
+        "Return to each patch via the same teleports, pick the grimy harralander from every patch, and immediately replant fresh seeds for the next cycle.",
+        "Clean the grimy harralander with the Herblore skill before banking or using it."
+      ],
+      "title": "Run a multi-patch herb farm loop for harralander",
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Harralander"
+    },
+    {
+      "alternatives": [],
+      "id": 259,
+      "item": "Irit leaf",
+      "ratePerHour": null,
+      "requires": {
+        "items": [
+          "Irit seed",
+          "Spade",
+          "Ultracompost or supercompost (disease protection)"
+        ],
+        "notes": "Irit seeds aren't sold in any shop; get them via Master Farmer pickpocketing (38 Thieving), monster drops, or seed packs. Herb patches accept a different herb per run, so this same 4-patch loop (Falador, Catherby, Ardougne, Farming Guild) can carry ranarr, toadflax, snapdragon, torstol, or any other herb simultaneously - just plant whichever herb you need in each patch on a given lap. Yield is ~3+ grimy herbs per patch per 80-minute cycle, not a steady hourly rate.",
+        "quests": [
+          "Plague City (for the Ardougne Teleport spell)"
+        ],
+        "skills": [
+          {
+            "level": 44,
+            "skill": "Farming"
+          }
+        ]
+      },
+      "steps": [
+        "Get Farming level 44 and stock up on irit seeds and ultracompost.",
+        "Teleport to Falador (Falador Teleport spell) and plant a irit seed in the herb patch after treating the soil with ultracompost.",
+        "Teleport to Catherby (Camelot Teleport spell) and plant a irit seed in its herb patch after treating the soil.",
+        "Teleport to Ardougne (Ardougne Teleport spell) and plant a irit seed in its herb patch after treating the soil.",
+        "If you have 45 Farming, walk from Catherby to the Farming Guild and plant a fourth irit seed in its disease-free herb patch.",
+        "Wait roughly 80 minutes (real time) for all the herbs to fully grow.",
+        "Return to each patch via the same teleports, pick the grimy irit leaf from every patch, and immediately replant fresh seeds for the next cycle.",
+        "Clean the grimy irit leaf with the Herblore skill before banking or using it."
+      ],
+      "title": "Run a multi-patch herb farm loop for irit leaf",
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Irit_leaf"
+    },
+    {
+      "alternatives": [],
+      "id": 261,
+      "item": "Avantoe",
+      "ratePerHour": null,
+      "requires": {
+        "items": [
+          "Avantoe seed",
+          "Spade",
+          "Ultracompost or supercompost (disease protection)"
+        ],
+        "notes": "Avantoe seeds aren't sold in any shop; get them via Master Farmer pickpocketing (38 Thieving), monster drops, or seed packs. Herb patches accept a different herb per run, so this same 4-patch loop (Falador, Catherby, Ardougne, Farming Guild) can carry ranarr, toadflax, snapdragon, torstol, or any other herb simultaneously - just plant whichever herb you need in each patch on a given lap. Yield is ~3+ grimy herbs per patch per 80-minute cycle, not a steady hourly rate.",
+        "quests": [
+          "Plague City (for the Ardougne Teleport spell)"
+        ],
+        "skills": [
+          {
+            "level": 50,
+            "skill": "Farming"
+          }
+        ]
+      },
+      "steps": [
+        "Get Farming level 50 and stock up on avantoe seeds and ultracompost.",
+        "Teleport to Falador (Falador Teleport spell) and plant a avantoe seed in the herb patch after treating the soil with ultracompost.",
+        "Teleport to Catherby (Camelot Teleport spell) and plant a avantoe seed in its herb patch after treating the soil.",
+        "Teleport to Ardougne (Ardougne Teleport spell) and plant a avantoe seed in its herb patch after treating the soil.",
+        "If you have 45 Farming, walk from Catherby to the Farming Guild and plant a fourth avantoe seed in its disease-free herb patch.",
+        "Wait roughly 80 minutes (real time) for all the herbs to fully grow.",
+        "Return to each patch via the same teleports, pick the grimy avantoe from every patch, and immediately replant fresh seeds for the next cycle.",
+        "Clean the grimy avantoe with the Herblore skill before banking or using it."
+      ],
+      "title": "Run a multi-patch herb farm loop for avantoe",
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Avantoe"
+    },
+    {
+      "alternatives": [],
+      "id": 263,
+      "item": "Kwuarm",
+      "ratePerHour": null,
+      "requires": {
+        "items": [
+          "Kwuarm seed",
+          "Spade",
+          "Ultracompost or supercompost (disease protection)"
+        ],
+        "notes": "Kwuarm seeds aren't sold in any shop; get them via Master Farmer pickpocketing (38 Thieving), monster drops, or seed packs. Herb patches accept a different herb per run, so this same 4-patch loop (Falador, Catherby, Ardougne, Farming Guild) can carry ranarr, toadflax, snapdragon, torstol, or any other herb simultaneously - just plant whichever herb you need in each patch on a given lap. Yield is ~3+ grimy herbs per patch per 80-minute cycle, not a steady hourly rate.",
+        "quests": [
+          "Plague City (for the Ardougne Teleport spell)"
+        ],
+        "skills": [
+          {
+            "level": 56,
+            "skill": "Farming"
+          }
+        ]
+      },
+      "steps": [
+        "Get Farming level 56 and stock up on kwuarm seeds and ultracompost.",
+        "Teleport to Falador (Falador Teleport spell) and plant a kwuarm seed in the herb patch after treating the soil with ultracompost.",
+        "Teleport to Catherby (Camelot Teleport spell) and plant a kwuarm seed in its herb patch after treating the soil.",
+        "Teleport to Ardougne (Ardougne Teleport spell) and plant a kwuarm seed in its herb patch after treating the soil.",
+        "If you have 45 Farming, walk from Catherby to the Farming Guild and plant a fourth kwuarm seed in its disease-free herb patch.",
+        "Wait roughly 80 minutes (real time) for all the herbs to fully grow.",
+        "Return to each patch via the same teleports, pick the grimy kwuarm from every patch, and immediately replant fresh seeds for the next cycle.",
+        "Clean the grimy kwuarm with the Herblore skill before banking or using it."
+      ],
+      "title": "Run a multi-patch herb farm loop for kwuarm",
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Kwuarm"
     }
   ],
   "version": 1
