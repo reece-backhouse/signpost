@@ -184,10 +184,12 @@ option; cost-if-wrong noted.
 
 34. **Ruling (ticket RL-012, 2026-09-08): ETA from the observed xp rate.**
     The plugin keeps a per-skill in-memory ring of (time, xp) samples from
-    `StatChanged`, bounded to the last 30 minutes and never persisted. A
-    skill's rate is ready after the window spans >= 5 minutes with >= 2
-    samples and xp gained first-to-last; it is that first-to-last slope in
-    xp/h. `Engine.run` takes `Map<Skill, Long> xpPerHour` as plain data and
+    `StatChanged`, bounded to the last 30 minutes and never persisted.
+    Leading samples with no gain (the login baseline, idle boost drains) are
+    skipped so the window starts at the first sample that gained xp; the
+    rate is ready once that window spans >= 5 minutes of training with >= 2
+    samples and xp gained first-to-last, and is that first-to-last slope in
+    xp/h. A mid-session AFK gap still dilutes it (same as the XP Tracker). `Engine.run` takes `Map<Skill, Long> xpPerHour` as plain data and
     carries it on `Advice.xpPerHour`; `Eta.text` turns the xp still to
     train - the route's `uncoveredXp` when a route exists, else the raw gap -
     into "about 45 min at 38k/h" (minutes rounded up, hours split out past

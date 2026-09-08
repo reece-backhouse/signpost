@@ -398,12 +398,10 @@ public class NextTargetPlugin extends Plugin
 	{
 		Skill skill = event.getSkill();
 		int level = event.getLevel();
-		Instant now = Instant.now();
-		boolean rateWasReady = xpRates.rates(now).containsKey(skill);
-		xpRates.record(skill, event.getXp(), now);
-		Integer previous = lastLevel.put(skill, level);
 		// RL-012: a rate becoming ready is a one-shot re-run so the eta appears without a level-up
-		if (previous == null || previous != level || (!rateWasReady && xpRates.rates(now).containsKey(skill)))
+		boolean rateReady = xpRates.record(skill, event.getXp(), Instant.now());
+		Integer previous = lastLevel.put(skill, level);
+		if (previous == null || previous != level || rateReady)
 		{
 			requestSnapshot();
 		}

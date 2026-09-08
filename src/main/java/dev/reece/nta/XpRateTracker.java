@@ -10,10 +10,12 @@ import net.runelite.api.Skill;
 
 /**
  * RL-012 AC1/AC2: an in-memory ring of (time, xp) samples per skill fed from {@code StatChanged},
- * bounded to the last {@link #WINDOW}; nothing is persisted. A skill's rate is ready once the
- * window spans at least {@link #MIN_SPAN} and holds at least two samples with xp gained between
- * the first and the last; it is that plain first-to-last slope in xp per hour. Written on the client thread,
- * read on the engine executor - hence synchronized.
+ * bounded to the last {@link #WINDOW}; nothing is persisted. Leading samples with no gain (the
+ * login baseline, boost drains while idle) are skipped: the window starts at the first sample
+ * that gained xp, so it measures training time only. A skill's rate is then ready once that window
+ * spans at least {@link #MIN_SPAN} and holds at least two samples with xp gained between the
+ * first and the last; it is that plain first-to-last slope in xp per hour. Written on the client
+ * thread, read on the engine executor - hence synchronized.
  */
 public class XpRateTracker
 {
@@ -24,15 +26,18 @@ public class XpRateTracker
 
 	private final Map<Skill, Deque<long[]>> samples = new EnumMap<>(Skill.class);
 
-	public synchronized void record(Skill skill, long xp, Instant now)
+	/** Records one sample; returns true when this sample is what made {@code skill}'s rate ready. */
+	public synchronized boolean record(Skill skill, long xp, Instant now)
 	{
 		Deque<long[]> ring = samples.computeIfAbsent(skill, s -> new ArrayDeque<>());
-		ring.addLast(new long[]{now.toEpochMilli(), xp});
 		trim(ring, now);
+		boolean wasReady = rate(ring) != null;
+		ring.addLast(new long[]{now.toEpochMilli(), xp});
 		while (ring.size() > MAX_SAMPLES)
 		{
 			ring.pollFirst();
 		}
+		return !wasReady && rate(ring) != null;
 	}
 
 	/** Every skill whose rate is ready as of {@code now}, in xp per hour. */
@@ -68,12 +73,25 @@ public class XpRateTracker
 
 	private static Long rate(Deque<long[]> ring)
 	{
-		if (ring.size() < 2)
+		// skip idle lead-in: the window starts at the first sample that gained xp over the one before,
+		// so the login baseline and idle boost drains never count as time (one xp drop of gain is lost).
+		// ponytail: a mid-session AFK gap still dilutes the slope; split on gaps if it matters
+		long[] first = null;
+		long[] previous = null;
+		for (long[] sample : ring)
+		{
+			if (previous != null && sample[1] > previous[1])
+			{
+				first = sample;
+				break;
+			}
+			previous = sample;
+		}
+		long[] last = ring.peekLast();
+		if (first == null || first == last)
 		{
 			return null;
 		}
-		long[] first = ring.peekFirst();
-		long[] last = ring.peekLast();
 		long spanMs = last[0] - first[0];
 		if (spanMs < MIN_SPAN.toMillis() || last[1] <= first[1])
 		{
