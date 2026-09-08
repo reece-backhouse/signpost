@@ -105,11 +105,16 @@ public final class NextStepPicker
 		return state == null ? 0 : state.getXp();
 	}
 
-	/** Bank &cup; inventory &cup; equipment by item id - the materials a {@link RoutePlanner} route may draw on. Shared with {@link SkillTargetSynthesiser}. */
+	/**
+	 * Bank &cup; inventory &cup; equipment &cup; group storage by item id - the materials a
+	 * {@link RoutePlanner} route may draw on (RL-003: the shared storage is one pool with the bank;
+	 * {@link Snapshot#groupStorageShare} gives the per-item breakdown). Shared with {@link SkillTargetSynthesiser}.
+	 */
 	static Map<Integer, Integer> bankAll(Snapshot snapshot)
 	{
 		Map<Integer, Integer> result = new LinkedHashMap<>();
 		mergeInto(result, snapshot.getBank());
+		mergeInto(result, snapshot.getGroupStorage());
 		mergeInto(result, snapshot.getInventory());
 		mergeInto(result, snapshot.getEquipment());
 		return result;

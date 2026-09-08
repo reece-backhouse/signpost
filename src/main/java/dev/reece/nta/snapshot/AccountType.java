@@ -33,6 +33,12 @@ public enum AccountType
 		return id >= 1 && id <= 6;
 	}
 
+	/** True for the three group ironman flavours (ids 4..6) - the only accounts with a shared group storage (RL-003). */
+	public boolean isGroup()
+	{
+		return id >= 4 && id <= 6;
+	}
+
 	public static AccountType fromVarbit(int value)
 	{
 		for (AccountType type : values())

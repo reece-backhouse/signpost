@@ -67,6 +67,12 @@ public final class WhyBuilder
 			clauses.add("bank unknown");
 		}
 
+		// RL-003: unseen group storage counts as empty (never blocks "Ready now"), so say it was never seen.
+		if (clauses.size() < MAX_CLAUSES && s.getAccountType().isGroup() && !s.isGroupStorageKnown())
+		{
+			clauses.add("group storage not seen");
+		}
+
 		if (clauses.size() < MAX_CLAUSES && hasRecommendedGaps(gaps))
 		{
 			clauses.add(recommendedClause(gaps));
@@ -383,9 +389,7 @@ public final class WhyBuilder
 	{
 		for (OwnedItem owned : entry.getOwnedIf())
 		{
-			if (s.getInventory().getOrDefault(owned.getId(), 0) > 0
-				|| s.getEquipment().getOrDefault(owned.getId(), 0) > 0
-				|| s.getBank().getOrDefault(owned.getId(), 0) > 0)
+			if (GapEngine.anyIdHeld(owned.getIds(), s))
 			{
 				return true;
 			}

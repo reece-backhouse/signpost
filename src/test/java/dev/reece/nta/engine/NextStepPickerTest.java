@@ -152,4 +152,19 @@ class NextStepPickerTest
 		Goal goal = new Goal("quest:0", GoalCategory.QUEST, "Test Goal", "https://example.test", 5, 1);
 		return new GoalStatus(goal, gaps, gaps.isEmpty(), false, List.of());
 	}
+
+	/** RL-003 AC3: the simulated bank every route and shortfall draws on sums bank, containers and group storage. */
+	@Test
+	void bankAllSumsGroupStorageIntoThePool()
+	{
+		Snapshot snapshot = new SnapshotBuilder()
+			.bankItem(10, "Ranarr weed", 3)
+			.inventoryItem(10, "Ranarr weed", 2)
+			.groupStorageItem(10, "Ranarr weed", 7)
+			.groupStorageItem(11, "Vial of water", 5)
+			.build();
+
+		assertEquals(12, NextStepPicker.bankAll(snapshot).get(10));
+		assertEquals(5, NextStepPicker.bankAll(snapshot).get(11));
+	}
 }

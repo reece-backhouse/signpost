@@ -7,6 +7,7 @@ import dev.reece.nta.engine.model.ItemGap;
 import dev.reece.nta.engine.model.SkillLevelGap;
 import dev.reece.nta.kb.KnowledgeBase;
 import dev.reece.nta.kb.MilestoneCategory;
+import dev.reece.nta.snapshot.AccountType;
 import dev.reece.nta.snapshot.DiaryTier;
 import dev.reece.nta.snapshot.Snapshot;
 import java.util.List;
@@ -70,6 +71,39 @@ class MilestoneGapTest
 		GoalStatus status = goalFor(engine.evaluate(snapshot, kb), "milestone:test-gear");
 
 		assertTrue(status.isBankUnknown());
+	}
+
+	/** RL-003 AC2: gear held only in the group ironman shared storage counts as owned. */
+	@Test
+	void gearMilestoneDoneWhenOwnedIfIdIsHeldOnlyInGroupStorage()
+	{
+		KnowledgeBase kb = new KbBuilder()
+			.milestone("milestone:test-gear", MilestoneCategory.GEAR, "Test Gear", 5)
+			.ownedIf("Item A", 100)
+			.build();
+		Snapshot snapshot = new SnapshotBuilder().accountType(AccountType.GROUP).groupStorageItem(100, "Item A", 1).build();
+
+		assertFalse(hasGoal(engine.evaluate(snapshot, kb), "milestone:test-gear"), "gear in group storage is owned");
+	}
+
+	/** RL-003 AC2: "Ready now" flips from false to true when recommended gear moves from nowhere into group storage. */
+	@Test
+	void bossReadyFlipsTrueWhenRecommendedGearAppearsInGroupStorage()
+	{
+		KnowledgeBase kb = new KbBuilder()
+			.milestone("milestone:test-boss", MilestoneCategory.BOSS, "Test Boss", 5)
+			.recommendedGear("Item A", 100)
+			.recommendedGearOwnedMin(1)
+			.build();
+		Snapshot without = new SnapshotBuilder().accountType(AccountType.GROUP).groupStorageKnown().build();
+		Snapshot with = new SnapshotBuilder().accountType(AccountType.GROUP).groupStorageItem(100, "Item A", 1).build();
+
+		GoalStatus before = goalFor(engine.evaluate(without, kb), "milestone:test-boss");
+		GoalStatus after = goalFor(engine.evaluate(with, kb), "milestone:test-boss");
+
+		assertFalse(before.isReady(), "nothing owned: " + before);
+		assertFalse(before.isBankUnknown(), "unseen group storage is treated as empty, never as unknown");
+		assertTrue(after.isReady(), "gear in group storage satisfies gearOwnedMin: " + after);
 	}
 
 	/** Ticket 55: a manual "Own it" override finishes a gear milestone even though nothing owned-if is held. */

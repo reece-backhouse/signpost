@@ -559,7 +559,7 @@ public final class GapEngine
 		gaps.add(new ItemGap(req.getName(), have, req.getQuantity(), sources, mustObtain, wikiUrlFor(kb, req.getName()), req.getId()));
 	}
 
-	/** Sums bank + inventory + equipment across every id in {@code itemIds} (a requirement item's wiki-variant ids). */
+	/** Sums bank + inventory + equipment + group storage across every id in {@code itemIds} (a requirement item's wiki-variant ids). */
 	private static Integer sumHaveByIds(Snapshot snapshot, List<Integer> itemIds)
 	{
 		if (!snapshot.isBankKnown())
@@ -571,7 +571,8 @@ public final class GapEngine
 		{
 			sum += snapshot.getBank().getOrDefault(itemId, 0)
 				+ snapshot.getInventory().getOrDefault(itemId, 0)
-				+ snapshot.getEquipment().getOrDefault(itemId, 0);
+				+ snapshot.getEquipment().getOrDefault(itemId, 0)
+				+ snapshot.getGroupStorage().getOrDefault(itemId, 0);
 		}
 		return sum;
 	}
@@ -621,9 +622,11 @@ public final class GapEngine
 	}
 
 	/**
-	 * Whether any of {@code itemIds} is held (bank &cup; inventory &cup; equipment) in any quantity.
-	 * Shared with {@link dev.reece.nta.engine.StageEstimator}'s gear-milestone-owned check, since
-	 * both need the exact same "any variant id, any container" rule.
+	 * Whether any of {@code itemIds} is held (bank &cup; inventory &cup; equipment &cup; group
+	 * storage) in any quantity. Shared with {@link dev.reece.nta.engine.StageEstimator}'s
+	 * gear-milestone-owned check and {@link WhyBuilder}'s biggest-upgrade check, since all need the
+	 * exact same "any variant id, any container" rule. Unseen group storage is simply empty (spec
+	 * ruling 31): it never makes ownership unknown the way an unseen bank does.
 	 */
 	static boolean anyIdHeld(List<Integer> itemIds, Snapshot snapshot)
 	{
@@ -631,6 +634,7 @@ public final class GapEngine
 		{
 			if (snapshot.getInventory().getOrDefault(itemId, 0) > 0
 				|| snapshot.getEquipment().getOrDefault(itemId, 0) > 0
+				|| snapshot.getGroupStorage().getOrDefault(itemId, 0) > 0
 				|| (snapshot.isBankKnown() && snapshot.getBank().getOrDefault(itemId, 0) > 0))
 			{
 				return true;
@@ -821,7 +825,8 @@ public final class GapEngine
 		}
 		return sumByName(snapshot.getBank(), snapshot.getItemNames(), itemName)
 			+ sumByName(snapshot.getInventory(), snapshot.getItemNames(), itemName)
-			+ sumByName(snapshot.getEquipment(), snapshot.getItemNames(), itemName);
+			+ sumByName(snapshot.getEquipment(), snapshot.getItemNames(), itemName)
+			+ sumByName(snapshot.getGroupStorage(), snapshot.getItemNames(), itemName);
 	}
 
 	private static int sumByName(Map<Integer, Integer> container, Map<Integer, String> itemNames, String name)

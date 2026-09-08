@@ -12,6 +12,7 @@ import dev.reece.nta.engine.model.SkillLevelGap;
 import dev.reece.nta.kb.KnowledgeBase;
 import dev.reece.nta.kb.MilestoneCategory;
 import dev.reece.nta.kb.OwnedItem;
+import dev.reece.nta.snapshot.AccountType;
 import dev.reece.nta.snapshot.Snapshot;
 import java.util.List;
 import net.runelite.api.Skill;
@@ -58,6 +59,19 @@ class WhyBuilderTest
 		GoalStatus status = status("g1", GoalCategory.QUEST, List.of(new ItemGap("Rune", null, 1, List.of(), false)), false, true);
 
 		assertEquals("0 requirements away; bank unknown", whyBuilder.why(rank(status), kb, snap));
+	}
+
+	/** RL-003 AC4: a group ironman whose shared storage has not been seen is told so; readiness is unaffected. */
+	@Test
+	void groupStorageNotSeenClauseOnlyForGroupIronmanWithUnseenStorage()
+	{
+		GoalStatus status = status("g1", GoalCategory.QUEST, List.of(), true, false);
+		Snapshot unseen = new SnapshotBuilder().accountType(AccountType.GROUP).build();
+		Snapshot seen = new SnapshotBuilder().accountType(AccountType.GROUP).groupStorageKnown().build();
+
+		assertEquals("Ready now; group storage not seen", whyBuilder.why(rank(status), kb, unseen));
+		assertEquals("Ready now", whyBuilder.why(rank(status), kb, seen));
+		assertEquals("Ready now", whyBuilder.why(rank(status), kb, snap), "a non-group account has no group storage to see");
 	}
 
 	@Test
