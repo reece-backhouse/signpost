@@ -9,18 +9,23 @@ import dev.reece.nta.engine.model.GoalStatus;
 import dev.reece.nta.engine.model.PlanOffer;
 import dev.reece.nta.engine.model.RankedGoal;
 import dev.reece.nta.engine.model.Route;
+import dev.reece.nta.engine.model.RouteStep;
 import dev.reece.nta.engine.model.Shortfall;
 import dev.reece.nta.engine.model.ShortfallItem;
 import dev.reece.nta.engine.model.SkillLevelGap;
+import dev.reece.nta.engine.model.SkillPlan;
 import dev.reece.nta.kb.GatheringAlternative;
 import dev.reece.nta.kb.GatheringPlan;
 import dev.reece.nta.kb.GatheringRequires;
+import dev.reece.nta.kb.ItemQuantity;
+import dev.reece.nta.kb.MethodEntry;
 import dev.reece.nta.kb.KnowledgeBase;
 import dev.reece.nta.kb.MilestoneCategory;
 import dev.reece.nta.snapshot.Snapshot;
 import dev.reece.nta.store.AccountData;
 import dev.reece.nta.ui.GoalDetailPanel;
 import dev.reece.nta.ui.GoalSearchField;
+import dev.reece.nta.ui.Icons;
 import dev.reece.nta.ui.NextTargetPanel;
 import dev.reece.nta.ui.SuggestPanel;
 import java.awt.Component;
@@ -41,6 +46,7 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import net.runelite.api.Skill;
+import net.runelite.client.game.SkillIconManager;
 import net.runelite.client.ui.PluginPanel;
 import org.junit.jupiter.api.Assumptions;
 import org.junit.jupiter.api.Test;
@@ -110,7 +116,7 @@ class RenderSmokeTest
 		{
 			SwingUtilities.invokeAndWait(() ->
 			{
-				SuggestPanel panel = new SuggestPanel(actions);
+				SuggestPanel panel = new SuggestPanel(actions, icons());
 				panel.render(advice);
 				layoutAtRealPanelWidth(panel);
 				assertNoButtonNarrowerThanItsPreferredWidth(panel);
@@ -173,7 +179,7 @@ class RenderSmokeTest
 		{
 			SwingUtilities.invokeAndWait(() ->
 			{
-				NextTargetPanel panel = new NextTargetPanel(() -> { }, actions, detailActions);
+				NextTargetPanel panel = new NextTargetPanel(() -> { }, actions, detailActions, null, new SkillIconManager());
 				panel.render(advice);
 				assertTrue(containsLabelContaining(panel, "stale"),
 					"bank line must show the stale hint when bankAsOf is over 60 minutes before computedAt");
@@ -204,9 +210,29 @@ class RenderSmokeTest
 	 */
 	private static void layoutAtRealPanelWidth(Container container)
 	{
+		// task 57: a panel with no parent returns from revalidate() before invalidating, so after a
+		// re-render (a toggle click) every BoxLayout still holds the sizes it cached the first time.
+		// Invalidate the whole tree by hand first so the measurements below reflect the current content.
+		invalidateRecursively(container);
 		int width = PluginPanel.PANEL_WIDTH - PluginPanel.SCROLLBAR_WIDTH;
 		container.setSize(width, container.getPreferredSize().height);
 		layoutRecursively(container);
+	}
+
+	private static void invalidateRecursively(Container container)
+	{
+		container.invalidate();
+		for (Component child : container.getComponents())
+		{
+			if (child instanceof Container)
+			{
+				invalidateRecursively((Container) child);
+			}
+			else
+			{
+				child.invalidate();
+			}
+		}
 	}
 
 	private static void layoutRecursively(Container container)
@@ -269,7 +295,7 @@ class RenderSmokeTest
 		{
 			SwingUtilities.invokeAndWait(() ->
 			{
-				SuggestPanel panel = new SuggestPanel(actions);
+				SuggestPanel panel = new SuggestPanel(actions, icons());
 				panel.render(first);
 				counts[0] = panel.shownNextCount();
 				panel.showMore();
@@ -326,7 +352,7 @@ class RenderSmokeTest
 		{
 			SwingUtilities.invokeAndWait(() ->
 			{
-				SuggestPanel panel = new SuggestPanel(actions);
+				SuggestPanel panel = new SuggestPanel(actions, icons());
 				panel.render(unowned);
 				layoutAtRealPanelWidth(panel);
 				assertNoButtonNarrowerThanItsPreferredWidth(panel);
@@ -382,7 +408,7 @@ class RenderSmokeTest
 		{
 			SwingUtilities.invokeAndWait(() ->
 			{
-				SuggestPanel panel = new SuggestPanel(actions);
+				SuggestPanel panel = new SuggestPanel(actions, icons());
 				panel.render(advice);
 
 				JLabel laterLabel = findLabelStartingWith(panel, "LATER");
@@ -474,7 +500,7 @@ class RenderSmokeTest
 		{
 			SwingUtilities.invokeAndWait(() ->
 			{
-				GoalDetailPanel panel = new GoalDetailPanel(actions);
+				GoalDetailPanel panel = new GoalDetailPanel(actions, icons());
 				panel.render(advice);
 			});
 		}
@@ -522,8 +548,13 @@ class RenderSmokeTest
 		ShortfallItem itemWithPlan = new ShortfallItem(baseItem.getItem(), baseItem.getHave(), baseItem.getNeed(),
 			baseItem.getSources(), baseItem.getCraftFrom(), baseItem.getWikiUrl(), List.of(offer));
 		Shortfall shortfall = new Shortfall(base.getFocus().getShortfall().getMethod(), List.of(itemWithPlan));
+		// task 57: the shortfall renders under its skill's row, so it must be on the SkillPlan too
+		SkillPlan basePlan = base.getFocus().getNextSkillPlan();
+		assertNotNull(basePlan, "fixture must produce a next skill plan");
+		SkillPlan planWithShortfall = new SkillPlan(basePlan.getSkill(), basePlan.getFromLevel(), basePlan.getToLevel(), basePlan.getFromXp(),
+			basePlan.getToXp(), basePlan.isRecommended(), basePlan.getRoute(), shortfall, false, basePlan.getSource());
 		FocusDetail focus = new FocusDetail(base.getFocus().getStatus(), base.getFocus().getNext(), base.getFocus().getRoute(), shortfall,
-			base.getFocus().getFromLevel(), base.getFocus().getToLevel(), base.getFocus().getSkillPlans(), base.getFocus().getNextSkillPlan());
+			base.getFocus().getFromLevel(), base.getFocus().getToLevel(), List.of(planWithShortfall), planWithShortfall);
 
 		Advice advice = new Advice(base.getSnapshot(), base.getStatuses(), base.getDiaryProgress(), base.getComputedAt(),
 			base.getRanked(), base.getPicked(), base.getRest(), base.getAccountStage(), base.getLater(), base.getWhys(),
@@ -536,7 +567,7 @@ class RenderSmokeTest
 		{
 			SwingUtilities.invokeAndWait(() ->
 			{
-				GoalDetailPanel panel = new GoalDetailPanel(actions);
+				GoalDetailPanel panel = new GoalDetailPanel(actions, icons());
 				panel.render(advice);
 				layoutAtRealPanelWidth(panel);
 				assertNoButtonNarrowerThanItsPreferredWidth(panel);
@@ -629,7 +660,7 @@ class RenderSmokeTest
 		{
 			SwingUtilities.invokeAndWait(() ->
 			{
-				NextTargetPanel panel = new NextTargetPanel(() -> { }, actions, detailActions);
+				NextTargetPanel panel = new NextTargetPanel(() -> { }, actions, detailActions, null, new SkillIconManager());
 				panel.render(advice);
 				GoalDetailPanel detail = findDetailPanel(panel);
 				assertNotNull(detail, "detail view must be in the tree when advice has a focus");
@@ -662,6 +693,167 @@ class RenderSmokeTest
 			}
 			throw e;
 		}
+	}
+
+	/**
+	 * Task 57: every skill gap under "Missing" is a row that expands into its {@link SkillPlan}'s
+	 * route. Two plans - Herblore (the next step: uncovered, with a shortfall carrying a gathering
+	 * plan) and Woodcutting (covered, one route step whose output has an item id): the next plan's
+	 * row starts expanded and the other collapsed; clicking the collapsed row's label swaps them;
+	 * the route output renders an item-icon label (the placeholder path, since no ItemManager is
+	 * given); no button is squeezed and nothing stretches.
+	 */
+	@Test
+	void skillRowsExpandOneAtATimeIntoTheirRoutesWithItemIcons() throws Exception
+	{
+		int ranarrUnf = 200;
+		KnowledgeBase kb = new KbBuilder()
+			.quest(0, "Test Quest").skill(Skill.HERBLORE, 20).skill(Skill.WOODCUTTING, 75)
+			.method(Skill.HERBLORE, "Prayer potion(3)", 1, 4)
+			.material(ranarrUnf, 1)
+			.material("Ranarr potion (unf)", ranarrUnf)
+			.source("GE", "Grand Exchange")
+			.build();
+		Snapshot snapshot = new SnapshotBuilder().bankItem(ranarrUnf, "Ranarr potion (unf)", 2).build();
+		AccountData data = new AccountData(new HashMap<>(), null, new HashMap<>(), new HashSet<>(), new ArrayList<>(), "quest:0", new HashSet<>());
+		Advice base = new Engine(new BoostTable()).run(snapshot, kb, data, Instant.now());
+		assertNotNull(base.getFocus(), "fixture must produce a focus");
+		assertEquals(2, base.getFocus().getSkillPlans().size(), "fixture must produce one plan per skill gap");
+
+		SkillPlan herblore = null;
+		for (SkillPlan plan : base.getFocus().getSkillPlans())
+		{
+			if (plan.getSkill() == Skill.HERBLORE)
+			{
+				herblore = plan;
+			}
+		}
+		assertNotNull(herblore, "fixture must plan Herblore");
+		assertNotNull(herblore.getShortfall(), "Herblore must be uncovered (bank has 2 of the unf potions)");
+		ShortfallItem baseItem = herblore.getShortfall().getItems().get(0);
+		GatheringRequires requires = new GatheringRequires(List.of(), null, List.of(), List.of(), null);
+		GatheringPlan plan = new GatheringPlan("Ranarr potion (unf)", ranarrUnf, "Farm ranarr weeds", requires, 120,
+			List.of("Plant ranarr seeds at Falador farm", "Harvest and return"), List.of(),
+			"https://oldschool.runescape.wiki/w/Ranarr_weed");
+		ShortfallItem itemWithPlan = new ShortfallItem(baseItem.getItem(), baseItem.getHave(), baseItem.getNeed(),
+			baseItem.getSources(), baseItem.getCraftFrom(), baseItem.getWikiUrl(), List.of(new PlanOffer(plan, true, List.of())));
+		SkillPlan herblorePlan = new SkillPlan(Skill.HERBLORE, herblore.getFromLevel(), herblore.getToLevel(), herblore.getFromXp(),
+			herblore.getToXp(), false, herblore.getRoute(), new Shortfall(herblore.getShortfall().getMethod(), List.of(itemWithPlan)),
+			false, "quest");
+
+		int willowLogs = 1519;
+		int axe = 1351;
+		MethodEntry chopWillows = new MethodEntry(Skill.WOODCUTTING, "Chop willow trees", "Chop willow trees", 30, 67.5,
+			List.of(new ItemQuantity("Axe", axe, 0)), List.of(new ItemQuantity("Willow logs", willowLogs, 1)),
+			List.of(), false, false, null, false, true);
+		RouteStep chop = new RouteStep(chopWillows, 13_875, 60, 75, 936_679L, Map.of(axe, 1), List.of());
+		SkillPlan woodcuttingPlan = new SkillPlan(Skill.WOODCUTTING, 60, 75, 273_742L, 1_210_421L, false,
+			new Route(List.of(chop), 0L, 1_210_421L, Map.of()), null, true, "quest");
+
+		FocusDetail focus = new FocusDetail(base.getFocus().getStatus(), base.getFocus().getNext(), herblorePlan.getRoute(),
+			herblorePlan.getShortfall(), herblorePlan.getFromLevel(), herblorePlan.getToLevel(),
+			List.of(herblorePlan, woodcuttingPlan), herblorePlan);
+		Advice advice = new Advice(base.getSnapshot(), base.getStatuses(), base.getDiaryProgress(), base.getComputedAt(),
+			base.getRanked(), base.getPicked(), base.getRest(), base.getAccountStage(), base.getLater(), base.getWhys(),
+			base.getExplanations(), base.getReasons(), base.getOwnedManuallyNames(), base.getPrefs(), focus);
+
+		Consumer<String> noop = id -> { };
+		GoalDetailPanel.Actions actions = new GoalDetailPanel.Actions(noop, () -> { });
+
+		try
+		{
+			SwingUtilities.invokeAndWait(() ->
+			{
+				GoalDetailPanel panel = new GoalDetailPanel(actions, icons());
+				panel.render(advice);
+				layoutAtRealPanelWidth(panel);
+				assertNoButtonNarrowerThanItsPreferredWidth(panel);
+
+				// by name, not text: the Why? explanation above "Missing" also says "Woodcutting 1/75"
+				JLabel herbloreRow = findLabelNamed(panel, GoalDetailPanel.SKILL_ROW_NAME + "HERBLORE");
+				JLabel woodcuttingRow = findLabelNamed(panel, GoalDetailPanel.SKILL_ROW_NAME + "WOODCUTTING");
+				assertNotNull(herbloreRow, "Herblore skill row must exist");
+				assertNotNull(woodcuttingRow, "Woodcutting skill row must exist");
+				assertTrue(woodcuttingRow.getText().contains("Woodcutting 1/75"), "skill row shows have/need: " + woodcuttingRow.getText());
+				assertTrue(containsLabelContaining(panel, "materials in bank"), "covered Woodcutting plan must show the badge");
+
+				// next skill plan (Herblore) starts expanded: its route step and shortfall plan are in the tree; Woodcutting's route is not
+				assertTrue(containsLabelContaining(panel, "Prayer potion(3) ×2"), "expanded Herblore row must show its route step");
+				assertTrue(containsLabelContaining(panel, "Farm ranarr weeds"), "expanded Herblore row must show its shortfall's gathering plan");
+				assertTrue(containsLabelContaining(panel, "1. Plant ranarr seeds"), "gathering plan steps must be numbered");
+				assertFalse(containsLabelContaining(panel, "Chop willow trees"), "collapsed Woodcutting row must not show its route");
+
+				woodcuttingRow.dispatchEvent(new MouseEvent(woodcuttingRow, MouseEvent.MOUSE_CLICKED,
+					System.currentTimeMillis(), 0, 1, 1, 1, false));
+
+				assertTrue(containsLabelContaining(panel, "Chop willow trees ×13,875"), "clicking the Woodcutting label must expand its route");
+				assertTrue(containsLabelContaining(panel, "60→75, +936,679 xp"), "route step must show levels and xp");
+				assertFalse(containsLabelContaining(panel, "Prayer potion(3) ×2"), "expanding Woodcutting must collapse Herblore");
+				assertTrue(containsComponentNamed(panel, Icons.PLACEHOLDER_NAME),
+					"a route output must render an item-icon label (placeholder without an ItemManager)");
+
+				layoutAtRealPanelWidth(panel);
+				assertNoButtonNarrowerThanItsPreferredWidth(panel);
+				for (Component child : panel.getComponents())
+				{
+					if (child.isVisible())
+					{
+						assertEquals(child.getPreferredSize().height, child.getHeight(),
+							"section " + child.getClass().getSimpleName() + " must not be stretched");
+					}
+				}
+			});
+		}
+		catch (InvocationTargetException e)
+		{
+			if (e.getCause() instanceof HeadlessException)
+			{
+				Assumptions.abort("Headless environment cannot construct Swing components: " + e.getCause().getMessage());
+			}
+			throw e;
+		}
+	}
+
+	/** Task 57: item images need an {@link net.runelite.client.game.ItemManager} (client-backed, so null here - placeholder path); skill icons come from the real resource-backed manager. */
+	private static Icons icons()
+	{
+		return new Icons(null, new SkillIconManager());
+	}
+
+	private static JLabel findLabelNamed(Container container, String name)
+	{
+		for (Component child : container.getComponents())
+		{
+			if (child instanceof JLabel && name.equals(child.getName()))
+			{
+				return (JLabel) child;
+			}
+			if (child instanceof Container)
+			{
+				JLabel found = findLabelNamed((Container) child, name);
+				if (found != null)
+				{
+					return found;
+				}
+			}
+		}
+		return null;
+	}
+
+	private static boolean containsComponentNamed(Container container, String name)
+	{
+		for (Component child : container.getComponents())
+		{
+			if (name.equals(child.getName()))
+			{
+				return true;
+			}
+			if (child instanceof Container && containsComponentNamed((Container) child, name))
+			{
+				return true;
+			}
+		}
+		return false;
 	}
 
 	private static GoalDetailPanel findDetailPanel(Container container)

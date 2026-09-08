@@ -64,6 +64,7 @@ public class SuggestPanel extends JPanel
 	private static final int REASON_MAX_CHARS = 140;
 
 	private final Actions actions;
+	private final Icons icons;
 	private final JPanel focusBannerPanel = new JPanel();
 	private final JLabel focusLabel = new JLabel();
 	private final JPanel pickOnePanel = new JPanel();
@@ -90,9 +91,10 @@ public class SuggestPanel extends JPanel
 	// with the same goal set keeps whatever the user had open.
 	private final Set<String> expandedWhy = new HashSet<>();
 
-	public SuggestPanel(Actions actions)
+	public SuggestPanel(Actions actions, Icons icons)
 	{
 		this.actions = actions;
+		this.icons = icons;
 
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -725,8 +727,24 @@ public class SuggestPanel extends JPanel
 	/** Wraps {@code text} to the panel width via HTML, escaping the few characters that would otherwise break the markup. */
 	static String wrap(String text)
 	{
-		String escaped = text.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;");
-		return "<html><div style='width:" + WRAP_WIDTH + "px'>" + escaped + "</div></html>";
+		return wrapHtml(escape(text));
+	}
+
+	/** As {@link #wrap}, for markup that is already escaped (task 57: colour spans). */
+	static String wrapHtml(String rawHtml)
+	{
+		return "<html><div style='width:" + WRAP_WIDTH + "px'>" + rawHtml + "</div></html>";
+	}
+
+	/** Already-escaped markup as a single unwrapped HTML label text (natural width). */
+	static String html(String rawHtml)
+	{
+		return "<html>" + rawHtml + "</html>";
+	}
+
+	static String escape(String text)
+	{
+		return text.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;");
 	}
 
 	/** The plugin action methods a card/row button calls into; every mutation goes through these. */

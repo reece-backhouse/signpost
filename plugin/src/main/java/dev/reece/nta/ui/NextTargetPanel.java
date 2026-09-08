@@ -21,6 +21,8 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import net.runelite.api.Quest;
 import net.runelite.api.QuestState;
+import net.runelite.client.game.ItemManager;
+import net.runelite.client.game.SkillIconManager;
 import net.runelite.client.ui.ColorScheme;
 import net.runelite.client.ui.PluginPanel;
 
@@ -47,10 +49,13 @@ public class NextTargetPanel extends PluginPanel
 	// swapped in at NORTH so it only ever takes its own preferred height.
 	private final JPanel body = new JPanel(new BorderLayout());
 
-	public NextTargetPanel(Runnable onRefresh, SuggestPanel.Actions actions, GoalDetailPanel.Actions detailActions)
+	/** {@code itemManager}/{@code skillIconManager} are for icons only (task 57); either may be null (tests), which renders placeholders. */
+	public NextTargetPanel(Runnable onRefresh, SuggestPanel.Actions actions, GoalDetailPanel.Actions detailActions,
+		ItemManager itemManager, SkillIconManager skillIconManager)
 	{
-		suggestPanel = new SuggestPanel(actions);
-		goalDetailPanel = new GoalDetailPanel(detailActions);
+		Icons icons = new Icons(itemManager, skillIconManager);
+		suggestPanel = new SuggestPanel(actions, icons);
+		goalDetailPanel = new GoalDetailPanel(detailActions, icons);
 		goalSearchField = new GoalSearchField(detailActions.getFocus());
 		show(suggestPanel);
 

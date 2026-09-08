@@ -50,6 +50,7 @@ import net.runelite.client.callback.ClientThread;
 import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.game.ItemManager;
+import net.runelite.client.game.SkillIconManager;
 import net.runelite.client.plugins.Plugin;
 import net.runelite.client.plugins.PluginDescriptor;
 import net.runelite.client.ui.ClientToolbar;
@@ -72,6 +73,9 @@ public class NextTargetPlugin extends Plugin
 
 	@Inject
 	private ItemManager itemManager;
+
+	@Inject
+	private SkillIconManager skillIconManager;
 
 	@Inject
 	private ClientToolbar clientToolbar;
@@ -131,7 +135,7 @@ public class NextTargetPlugin extends Plugin
 			this::markOwned,
 			this::unmarkOwned);
 		GoalDetailPanel.Actions detailActions = new GoalDetailPanel.Actions(this::focus, this::clearFocus);
-		panel = new NextTargetPanel(this::requestSnapshot, actions, detailActions);
+		panel = new NextTargetPanel(this::requestSnapshot, actions, detailActions, itemManager, skillIconManager);
 		BufferedImage icon = ImageUtil.loadImageResource(NextTargetPlugin.class, "icon.png");
 		navButton = NavigationButton.builder()
 			.tooltip("Next Target Advisor")
