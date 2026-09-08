@@ -35,10 +35,29 @@ class SnapshotTest
 		assertTrue(snapshot.getCombatAchievementTiers().isEmpty());
 		assertFalse(snapshot.isBankKnown());
 		assertNull(snapshot.getBankAsOf());
+		assertTrue(snapshot.getGroupStorage().isEmpty());
+		assertFalse(snapshot.isGroupStorageKnown());
+		assertNull(snapshot.getGroupStorageAsOf());
 		assertEquals(0, snapshot.getQuestPoints());
 		assertEquals(0, snapshot.getKudos());
 
 		assertThrows(UnsupportedOperationException.class, () -> snapshot.getSkills().put(Skill.ATTACK, new SkillState(1, 0)));
+	}
+
+	/** RL-003: group storage rides on the snapshot exactly like the bank, and the UI asks how much of a quantity it holds. */
+	@Test
+	void withGroupStorageCopiesTheCachedContainerAndShareCapsAtWhatItHolds()
+	{
+		Instant asOf = Instant.parse("2026-09-08T10:00:00Z");
+		Snapshot snapshot = Snapshot.builder().accountHash(1L).accountType(AccountType.GROUP).build()
+			.withGroupStorage(new CachedBank(Map.of(4151, 200), asOf, true));
+
+		assertTrue(snapshot.isGroupStorageKnown());
+		assertEquals(asOf, snapshot.getGroupStorageAsOf());
+		assertEquals(Map.of(4151, 200), snapshot.getGroupStorage());
+		assertEquals(200, snapshot.groupStorageShare(4151, 500));
+		assertEquals(50, snapshot.groupStorageShare(4151, 50));
+		assertEquals(0, snapshot.groupStorageShare(995, 50));
 	}
 
 	@Test

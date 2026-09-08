@@ -33,7 +33,9 @@ final class SnapshotBuilder
 	private final Map<Integer, Integer> karamjaVarbits = new HashMap<>();
 	private final Map<Integer, Integer> diaryCountVarbits = new HashMap<>();
 	private final Map<Integer, Boolean> combatAchievementTiers = new HashMap<>();
+	private final Map<Integer, Integer> groupStorage = new HashMap<>();
 	private boolean bankKnown = true;
+	private boolean groupStorageKnown;
 	private int questPoints;
 	private int kudos;
 
@@ -103,6 +105,21 @@ final class SnapshotBuilder
 		return this;
 	}
 
+	/** RL-003: an item in the group ironman shared storage; marks the storage as seen. */
+	SnapshotBuilder groupStorageItem(int id, String name, int qty)
+	{
+		groupStorage.merge(id, qty, Integer::sum);
+		itemNames.put(id, name);
+		groupStorageKnown = true;
+		return this;
+	}
+
+	SnapshotBuilder groupStorageKnown()
+	{
+		groupStorageKnown = true;
+		return this;
+	}
+
 	SnapshotBuilder bankUnknown()
 	{
 		bankKnown = false;
@@ -168,6 +185,8 @@ final class SnapshotBuilder
 			.diaryCountVarbits(diaryCountVarbits)
 			.combatAchievementTiers(combatAchievementTiers)
 			.bankKnown(bankKnown)
+			.groupStorage(groupStorage)
+			.groupStorageKnown(groupStorageKnown)
 			.questPoints(questPoints)
 			.kudos(kudos)
 			.build();

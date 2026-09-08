@@ -35,7 +35,7 @@ public final class SnapshotCollector
 	{
 	}
 
-	public static Snapshot collect(Client client, ItemManager itemManager, CachedBank bank, KnowledgeBase kb)
+	public static Snapshot collect(Client client, ItemManager itemManager, CachedBank bank, CachedBank groupStorage, KnowledgeBase kb)
 	{
 		if (!client.isClientThread())
 		{
@@ -59,6 +59,7 @@ public final class SnapshotCollector
 
 		Map<Integer, String> itemNames = new HashMap<>();
 		collectItemNames(itemManager, itemNames, bank.getItems().keySet());
+		collectItemNames(itemManager, itemNames, groupStorage.getItems().keySet());
 		collectItemNames(itemManager, itemNames, inventory.keySet());
 		collectItemNames(itemManager, itemNames, equipment.keySet());
 
@@ -108,6 +109,9 @@ public final class SnapshotCollector
 			.combatAchievementTiers(combatAchievementTiers)
 			.bankKnown(bank.isKnown())
 			.bankAsOf(bank.getAsOf())
+			.groupStorage(groupStorage.getItems())
+			.groupStorageKnown(groupStorage.isKnown())
+			.groupStorageAsOf(groupStorage.getAsOf())
 			.questPoints(client.getVarpValue(VarPlayerID.QP))
 			.kudos(client.getVarbitValue(VarbitID.VM_KUDOS))
 			.build();

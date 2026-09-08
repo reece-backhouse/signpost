@@ -245,7 +245,7 @@ public class NextTargetPlugin extends Plugin
 		firstTickPending = false;
 		snapshotRequested = false;
 
-		Snapshot snapshot = SnapshotCollector.collect(client, itemManager, cachedBank, loadedKb);
+		Snapshot snapshot = SnapshotCollector.collect(client, itemManager, cachedBank, CachedBank.unknown(), loadedKb);
 		cachedSnapshot = snapshot;
 		if (!snapshot.getInventory().isEmpty() || !snapshot.getEquipment().isEmpty())
 		{
