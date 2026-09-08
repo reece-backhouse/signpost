@@ -1,5 +1,6 @@
 package dev.reece.nta.engine;
 
+import com.google.gson.Gson;
 import dev.reece.nta.engine.model.PlanOffer;
 import dev.reece.nta.engine.model.Route;
 import dev.reece.nta.engine.model.Shortfall;
@@ -9,6 +10,7 @@ import dev.reece.nta.snapshot.Snapshot;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import net.runelite.api.Experience;
 import net.runelite.api.Skill;
 import org.junit.jupiter.api.Test;
 
@@ -213,6 +215,161 @@ class ShortfallResolverTest
 		PlanOffer offer = shortfall.getItems().get(0).getPlans().get(0);
 		assertFalse(offer.isMeetsRequirements());
 		assertEquals(List.of("Agility 70 (have 60)"), offer.getMissing());
+	}
+
+	/** Task 60 (spec ruling 30): the fastest method stays primary; an iron who can't gather its materials also gets the best obtainable one. */
+	@Test
+	void anIronKeepsTheFastestMethodAndGetsTheObtainableOneAsAlternative()
+	{
+		KnowledgeBase kb = weaponPoisonVsPrayerPotionKb(false);
+		Route route = new Route(List.of(), 1000, Experience.getXpForLevel(62), Map.of());
+
+		Shortfall shortfall = ShortfallResolver.resolve(Skill.HERBLORE, route, kb, new SnapshotBuilder().iron().build());
+
+		assertEquals("Weapon poison", shortfall.getMethod().getName());
+		assertEquals("Prayer potion(3)", shortfall.getAlternative().getMethod().getName());
+		assertEquals(2, shortfall.getAlternative().getItems().size());
+		assertNull(shortfall.getAlternative().getAlternative());
+	}
+
+	@Test
+	void aNormalAccountKeepsTheHigherXpMethodWhenItsMaterialsCanBeBought()
+	{
+		KnowledgeBase kb = weaponPoisonVsPrayerPotionKb(true);
+		Route route = new Route(List.of(), 1000, Experience.getXpForLevel(62), Map.of());
+
+		Shortfall shortfall = ShortfallResolver.resolve(Skill.HERBLORE, route, kb, new SnapshotBuilder().build());
+
+		assertEquals("Weapon poison", shortfall.getMethod().getName());
+		assertNull(shortfall.getAlternative(), "the primary is itself obtainable");
+	}
+
+	@Test
+	void offersNoAlternativeWhenNoCandidateIsObtainable()
+	{
+		KnowledgeBase kb = new KbBuilder()
+			.method(Skill.HERBLORE, "High", 1, 100)
+			.material(1, 1)
+			.method(Skill.HERBLORE, "Low", 1, 10)
+			.material(2, 1)
+			.material("Drop only A", 1)
+			.source("drop", "Boss A")
+			.material("Drop only B", 2)
+			.source("drop", "Boss B")
+			.build();
+		Route route = new Route(List.of(), 1000, 0, Map.of());
+
+		Shortfall shortfall = ShortfallResolver.resolve(Skill.HERBLORE, route, kb, new SnapshotBuilder().iron().build());
+
+		assertEquals("High", shortfall.getMethod().getName());
+		assertNull(shortfall.getAlternative());
+	}
+
+	@Test
+	void carriesTheXpShortAndActionsNeededForTheChosenMethod()
+	{
+		KnowledgeBase kb = weaponPoisonVsPrayerPotionKb(false);
+		Route route = new Route(List.of(), 1000, Experience.getXpForLevel(62), Map.of());
+
+		Shortfall shortfall = ShortfallResolver.resolve(Skill.HERBLORE, route, kb, new SnapshotBuilder().iron().build());
+
+		assertEquals(1000, shortfall.getXpShort());
+		assertEquals(8, shortfall.getActionsNeeded(), "ceil(1000 / 137.5)");
+		assertEquals(8, itemNamed(shortfall.getItems(), "Kwuarm potion (unf)").getNeed());
+		Shortfall alternative = shortfall.getAlternative();
+		assertEquals(1000, alternative.getXpShort());
+		assertEquals(12, alternative.getActionsNeeded(), "ceil(1000 / 87.5)");
+		assertEquals(12, itemNamed(alternative.getItems(), "Snape grass").getNeed());
+
+		Shortfall covered = ShortfallResolver.resolve(Skill.HERBLORE, new Route(List.of(), 0, 1000, Map.of()), kb,
+			new SnapshotBuilder().build());
+		assertNull(covered.getMethod());
+		assertTrue(covered.getItems().isEmpty());
+		assertEquals(0, covered.getXpShort());
+		assertEquals(0, covered.getActionsNeeded());
+		assertNull(covered.getAlternative());
+	}
+
+	/** The live case from the Task 60 brief: a GIM at Herblore 62 heading for 70 with nothing banked gets a method it can gather for. */
+	@Test
+	void anIronAtHerbloreSixtyTwoOnTheRealKbGetsAnAlternativeWhoseMaterialsAllHavePlans()
+	{
+		KnowledgeBase kb = KnowledgeBase.load(new Gson());
+		long fromXp = Experience.getXpForLevel(62);
+		long toXp = Experience.getXpForLevel(70);
+		Route route = new Route(List.of(), toXp - fromXp, fromXp, Map.of());
+
+		Shortfall shortfall = ShortfallResolver.resolve(Skill.HERBLORE, route, kb, new SnapshotBuilder().iron().build());
+
+		// The fastest method at 62 is never hidden, whatever the KB's plan coverage.
+		assertEquals(RoutePlanner.candidatesAt(Skill.HERBLORE, 62, kb).get(0), shortfall.getMethod());
+		assertEquals(toXp - fromXp, shortfall.getXpShort());
+		assertTrue(shortfall.getActionsNeeded() > 0);
+		// Either the primary is itself obtainable (no alternative), or the alternative is fully gatherable.
+		// With the bundled KB at the time of writing: primary Weapon poison, alternative Prayer potion(3).
+		Shortfall alternative = shortfall.getAlternative();
+		if (alternative != null)
+		{
+			assertFalse(alternative.getItems().isEmpty());
+			for (ShortfallItem item : alternative.getItems())
+			{
+				assertFalse(item.getPlans().isEmpty(), item.getItem().getName() + " has no gathering plan");
+			}
+			assertEquals(toXp - fromXp, alternative.getXpShort());
+			assertTrue(alternative.getActionsNeeded() > 0);
+			assertNull(alternative.getAlternative());
+		}
+	}
+
+	private static final int KWUARM_UNF = 500;
+	private static final int KWUARM = 501;
+	private static final int RANARR_UNF = 502;
+	private static final int RANARR = 503;
+	private static final int SNAPE_GRASS = 504;
+
+	/** Weapon poison (137.5 xp, kwuarm unf crafted from a drop-only kwuarm) vs Prayer potion (87.5 xp, ranarr + snape grass, both with plans). */
+	private static KnowledgeBase weaponPoisonVsPrayerPotionKb(boolean kwuarmInShop)
+	{
+		KbBuilder kb = new KbBuilder()
+			.method(Skill.HERBLORE, "Weapon poison", 60, 137.5)
+			.material(KWUARM_UNF, 1)
+			.method(Skill.HERBLORE, "Kwuarm potion (unf)", 55, 0)
+			.material(KWUARM, 1)
+			.material(VIAL_OF_WATER, 1)
+			.output(KWUARM_UNF, 1)
+			.intermediate()
+			.method(Skill.HERBLORE, "Prayer potion(3)", 38, 87.5)
+			.material(RANARR_UNF, 1)
+			.material(SNAPE_GRASS, 1)
+			.method(Skill.HERBLORE, "Ranarr potion (unf)", 30, 0)
+			.material(RANARR, 1)
+			.material(VIAL_OF_WATER, 1)
+			.output(RANARR_UNF, 1)
+			.intermediate()
+			.material("Kwuarm potion (unf)", KWUARM_UNF)
+			.source("GE", "Grand Exchange")
+			.source("craft", "Kwuarm potion (unf)")
+			.material("Kwuarm", KWUARM)
+			.source("GE", "Grand Exchange")
+			.source("drop", "Sorceress's Garden");
+		if (kwuarmInShop)
+		{
+			kb.source("shop", "Herblore shop");
+		}
+		return kb
+			.material("Ranarr potion (unf)", RANARR_UNF)
+			.source("GE", "Grand Exchange")
+			.source("craft", "Ranarr potion (unf)")
+			.material("Ranarr weed", RANARR)
+			.source("GE", "Grand Exchange")
+			.material("Snape grass", SNAPE_GRASS)
+			.source("spawn", "Waterbirth Island")
+			.material("Vial of water", VIAL_OF_WATER)
+			.source("shop", "Herblore shop")
+			.gatheringPlan("Ranarr weed", RANARR)
+			.gatheringPlan("Snape grass", SNAPE_GRASS)
+			.gatheringPlan("Vial of water", VIAL_OF_WATER)
+			.build();
 	}
 
 	private static ShortfallItem itemNamed(List<ShortfallItem> items, String name)

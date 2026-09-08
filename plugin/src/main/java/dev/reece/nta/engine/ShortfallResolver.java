@@ -44,9 +44,23 @@ public final class ShortfallResolver
 		{
 			return new Shortfall(null, List.of());
 		}
-		MethodEntry method = candidates.get(0);
+		// Spec ruling 30: the fastest method is always the primary; when its materials are not all
+		// obtainable, the best fully-obtainable candidate is offered as an alternative.
+		MethodEntry primary = candidates.get(0);
+		MethodEntry obtainable = candidates.stream()
+			.filter(candidate -> obtainable(candidate, route, skill, kb, snapshot))
+			.findFirst()
+			.orElse(null);
+		Shortfall alternative = obtainable == null || obtainable.equals(primary)
+			? null
+			: shortfallFor(obtainable, skill, route, kb, snapshot, null);
+		return shortfallFor(primary, skill, route, kb, snapshot, alternative);
+	}
 
-		long actionsNeeded = (long) Math.ceil(route.getUncoveredXp() / method.getXpPerAction());
+	private static Shortfall shortfallFor(MethodEntry method, Skill skill, Route route, KnowledgeBase kb, Snapshot snapshot,
+		Shortfall alternative)
+	{
+		long actionsNeeded = actionsNeeded(route, method);
 		Map<Integer, Integer> simulatedBank = route.getSimulatedBank();
 
 		List<ShortfallItem> items = new ArrayList<>();
@@ -54,7 +68,81 @@ public final class ShortfallResolver
 		{
 			items.add(shortfallItem(material, actionsNeeded, skill, simulatedBank, kb, snapshot));
 		}
-		return new Shortfall(method, List.copyOf(items));
+		return new Shortfall(method, List.copyOf(items), route.getUncoveredXp(), actionsNeeded, alternative);
+	}
+
+	private static long actionsNeeded(Route route, MethodEntry method)
+	{
+		return (long) Math.ceil(route.getUncoveredXp() / method.getXpPerAction());
+	}
+
+	/** Spec ruling 30: every material of {@code method} is obtainable for the full {@code need} this candidate implies. */
+	private static boolean obtainable(MethodEntry method, Route route, Skill skill, KnowledgeBase kb, Snapshot snapshot)
+	{
+		long actions = actionsNeeded(route, method);
+		for (ItemQuantity material : method.getMaterials())
+		{
+			int need = (int) Math.ceil(actions * material.getQuantity());
+			if (!obtainable(material, need, route.getSimulatedBank(), skill, kb, snapshot, true))
+			{
+				return false;
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * A material is obtainable when the simulated bank covers {@code need}, it has a curated gathering
+	 * plan, a non-iron account can buy it (shop/GE), or ({@code viaCraft}, one level only) it has a
+	 * craft source whose intermediate's ingredients are all obtainable by the same rules.
+	 */
+	private static boolean obtainable(ItemQuantity material, int need, Map<Integer, Integer> simulatedBank, Skill skill,
+		KnowledgeBase kb, Snapshot snapshot, boolean viaCraft)
+	{
+		int have = simulatedBank.getOrDefault(material.getId(), 0);
+		if (have >= need)
+		{
+			return true;
+		}
+		if (!kb.gatheringFor(material.getId()).isEmpty() || !kb.gatheringForName(material.getName()).isEmpty())
+		{
+			return true;
+		}
+		MaterialEntry entry = kb.materialById(material.getId());
+		if (entry == null)
+		{
+			return false;
+		}
+		boolean iron = snapshot.getAccountType().isIron();
+		boolean hasCraft = false;
+		for (ItemSource source : entry.getSources())
+		{
+			String type = source.getType();
+			if (!iron && ("shop".equals(type) || "GE".equals(type)))
+			{
+				return true;
+			}
+			hasCraft |= "craft".equals(type);
+		}
+		if (!viaCraft || !hasCraft)
+		{
+			return false;
+		}
+		MethodEntry intermediate = findIntermediateProducing(material.getId(), skill, kb);
+		if (intermediate == null)
+		{
+			return false;
+		}
+		long craftActions = (long) Math.ceil((need - have) / outputQuantity(intermediate, material.getId()));
+		for (ItemQuantity ingredient : intermediate.getMaterials())
+		{
+			int ingredientNeed = (int) Math.ceil(craftActions * ingredient.getQuantity());
+			if (!obtainable(ingredient, ingredientNeed, simulatedBank, skill, kb, snapshot, false))
+			{
+				return false;
+			}
+		}
+		return true;
 	}
 
 	private static ShortfallItem shortfallItem(ItemQuantity material, long actionsNeeded, Skill skill, Map<Integer, Integer> simulatedBank,
