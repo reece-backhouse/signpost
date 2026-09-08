@@ -143,6 +143,30 @@ class GapEngineTest
 		assertEquals("https://oldschool.runescape.wiki/w/Bucket", gap.getWikiUrl());
 	}
 
+	/** Ticket 58: a name-only quest item matched against a materials entry gets that entry's item id, so the UI can show its icon. */
+	@Test
+	void itemGapCarriesTheMaterialsItemId()
+	{
+		KnowledgeBase kb = new KbBuilder().quest(CLOCK_TOWER_ID, "Clock Tower").item("Steel full helm", 1).material("Steel full helm", 1157).build();
+		Snapshot snapshot = new SnapshotBuilder().build();
+
+		ItemGap gap = (ItemGap) onlyGap(onlyGoal(engine.evaluate(snapshot, kb)));
+
+		assertEquals(1157, gap.getItemId());
+	}
+
+	/** Ticket 58: a quest item name with no materials entry at all keeps a null item id, no icon. */
+	@Test
+	void itemGapItemIdIsNullWhenNoMaterialEntryMatchesTheName()
+	{
+		KnowledgeBase kb = new KbBuilder().quest(CLOCK_TOWER_ID, "Clock Tower").item("Mystery trinket", 1).build();
+		Snapshot snapshot = new SnapshotBuilder().build();
+
+		ItemGap gap = (ItemGap) onlyGap(onlyGoal(engine.evaluate(snapshot, kb)));
+
+		assertNull(gap.getItemId());
+	}
+
 	/** Final-review I5 on the bundled data: no quest or diary item requirement anywhere resolves to a generic material as an ItemGap. */
 	@Test
 	void noBundledGoalHasAnItemGapForAGenericName()

@@ -271,11 +271,19 @@ public class GoalDetailPanel extends JPanel
 			}
 			return;
 		}
+		if (gap instanceof ItemGap && ((ItemGap) gap).getItemId() != null)
+		{
+			ItemGap g = (ItemGap) gap;
+			JLabel icon = icons.item(g.getItemId());
+			JLabel itemText = row(gapText(gap), 0, gapColor(gap));
+			Icons.linkToWiki(icon, g.getWikiUrl());
+			Icons.linkToWiki(itemText, g.getWikiUrl());
+			missingPanel.add(iconRow(icon, itemText, null, indent));
+			return;
+		}
 		JLabel text = row(gapText(gap), indent, gapColor(gap));
 		if (gap instanceof ItemGap)
 		{
-			// ponytail: ItemGap carries no item id, so a missing item gets a wiki-linked name but no
-			// icon; add itemId to ItemGap in the engine if the icon is wanted here.
 			Icons.linkToWiki(text, ((ItemGap) gap).getWikiUrl());
 		}
 		missingPanel.add(text);

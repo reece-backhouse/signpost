@@ -556,7 +556,7 @@ public final class GapEngine
 			.collect(Collectors.toList());
 		List<ItemSource> sources = sourcesFor(rawSources, snapshot.getAccountType());
 		boolean mustObtain = mustObtain(rawSources, snapshot.getAccountType());
-		gaps.add(new ItemGap(req.getName(), have, req.getQuantity(), sources, mustObtain, wikiUrlFor(kb, req.getName())));
+		gaps.add(new ItemGap(req.getName(), have, req.getQuantity(), sources, mustObtain, wikiUrlFor(kb, req.getName()), req.getId()));
 	}
 
 	/** Sums bank + inventory + equipment across every id in {@code itemIds} (a requirement item's wiki-variant ids). */
@@ -710,7 +710,8 @@ public final class GapEngine
 		Integer have = sumHave(snapshot, name);
 		if (have == null || have < need)
 		{
-			gaps.add(new ItemGap(name, have, need, List.of(), false, material == null ? null : material.getWikiUrl()));
+			gaps.add(new ItemGap(name, have, need, List.of(), false, material == null ? null : material.getWikiUrl(),
+				material == null ? null : material.getId()));
 		}
 		else
 		{

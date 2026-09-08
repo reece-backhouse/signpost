@@ -10,7 +10,10 @@ import lombok.Value;
  * zero. {@code sources} is always empty in S3 (filled in S5); {@code mustObtain} is true only when
  * the account is an iron type and every known source was filtered out by
  * {@link dev.reece.nta.engine.GapEngine#sourcesFor}. {@code wikiUrl} is the item's wiki page (ticket
- * F3) when the knowledge base knows the material, else {@code null}.
+ * F3) when the knowledge base knows the material, else {@code null}. {@code itemId} (ticket 58) is
+ * the resolved OSRS item id - a milestone requirement's own id, or a quest/diary item's matched
+ * {@link dev.reece.nta.kb.MaterialEntry#getId()} - else {@code null} when nothing resolves it, so
+ * the UI can show an icon and link the wiki page precisely.
  */
 @Value
 @EqualsAndHashCode(callSuper = false)
@@ -22,13 +25,19 @@ public class ItemGap extends Gap
 	List<ItemSource> sources;
 	boolean mustObtain;
 	String wikiUrl;
+	Integer itemId;
 
 	public ItemGap(String name, Integer have, int need, List<ItemSource> sources, boolean mustObtain)
 	{
-		this(name, have, need, sources, mustObtain, null);
+		this(name, have, need, sources, mustObtain, null, null);
 	}
 
 	public ItemGap(String name, Integer have, int need, List<ItemSource> sources, boolean mustObtain, String wikiUrl)
+	{
+		this(name, have, need, sources, mustObtain, wikiUrl, null);
+	}
+
+	public ItemGap(String name, Integer have, int need, List<ItemSource> sources, boolean mustObtain, String wikiUrl, Integer itemId)
 	{
 		this.name = name;
 		this.have = have;
@@ -36,5 +45,6 @@ public class ItemGap extends Gap
 		this.sources = sources;
 		this.mustObtain = mustObtain;
 		this.wikiUrl = wikiUrl;
+		this.itemId = itemId;
 	}
 }

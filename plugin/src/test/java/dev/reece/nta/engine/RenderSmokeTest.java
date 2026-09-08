@@ -515,6 +515,41 @@ class RenderSmokeTest
 		}
 	}
 
+	/** Ticket 58: a missing quest item whose {@link dev.reece.nta.engine.model.ItemGap} carries a resolved item id renders an icon row under "Missing", not just a wiki-linked name. */
+	@Test
+	void goalDetailPanelRendersAnIconForAMissingItemWithAResolvedItemId() throws Exception
+	{
+		KnowledgeBase kb = new KbBuilder()
+			.quest(0, "Test Quest").item("Steel full helm", 1).material("Steel full helm", 1157)
+			.build();
+		Snapshot snapshot = new SnapshotBuilder().build();
+		AccountData data = new AccountData(new HashMap<>(), null, new HashMap<>(), new HashSet<>(), new ArrayList<>(), "quest:0", new HashSet<>());
+		Advice advice = new Engine(new BoostTable()).run(snapshot, kb, data, Instant.now());
+		assertNotNull(advice.getFocus(), "fixture must produce a focus for the render to exercise the detail panel");
+
+		Consumer<String> noop = id -> { };
+		GoalDetailPanel.Actions actions = new GoalDetailPanel.Actions(noop, () -> { });
+
+		try
+		{
+			SwingUtilities.invokeAndWait(() ->
+			{
+				GoalDetailPanel panel = new GoalDetailPanel(actions, icons());
+				panel.render(advice);
+				assertTrue(containsComponentNamed(panel, Icons.PLACEHOLDER_NAME),
+					"a missing item with a resolved item id must render an item-icon label (placeholder without an ItemManager)");
+			});
+		}
+		catch (InvocationTargetException e)
+		{
+			if (e.getCause() instanceof HeadlessException)
+			{
+				Assumptions.abort("Headless environment cannot construct Swing components: " + e.getCause().getMessage());
+			}
+			throw e;
+		}
+	}
+
 	/**
 	 * Task 52b-2, spec ruling 28: as {@link #constructsAndRendersGoalDetailPanelWithARouteAndAShortfallWithoutThrowing},
 	 * but the real engine-produced shortfall item's {@code plans} is replaced with a hand-built
