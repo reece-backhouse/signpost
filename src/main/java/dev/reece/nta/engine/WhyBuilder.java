@@ -112,7 +112,7 @@ public final class WhyBuilder
 	/**
 	 * Spec ruling 29: the "Why?" behind a suggestion, one line each, in order - a skill target's
 	 * parents and bank coverage; recommended gear met (with names); stats met; what is missing
-	 * (with have/need); a stage warning; "Ready now". Every line is at most 90 characters, never
+	 * (with have/need); a bank-unknown note; a stage warning; "Ready now". Every line is at most 90 characters, never
 	 * ends with a period; at most six lines, always at least one.
 	 */
 	public List<String> explain(RankedGoal r, KnowledgeBase kb, Snapshot s, int accountStage)
@@ -159,6 +159,12 @@ public final class WhyBuilder
 		if (!skillTarget && !status.getGaps().isEmpty())
 		{
 			lines.add(listLine("Missing: ", missingItems(status), MAX_MISSING));
+		}
+
+		// RL-011 AC4: an item requirement with no bank to check against counts as missing
+		if (status.isBankUnknown())
+		{
+			lines.add("Bank not seen yet, materials assumed missing");
 		}
 
 		if (goal.getStage() > accountStage)

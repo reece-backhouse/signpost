@@ -626,7 +626,7 @@ public final class GapEngine
 	 * storage) in any quantity. Shared with {@link dev.reece.nta.engine.StageEstimator}'s
 	 * gear-milestone-owned check and {@link WhyBuilder}'s biggest-upgrade check, since all need the
 	 * exact same "any variant id, any container" rule. Unseen group storage is simply empty (spec
-	 * ruling 31): it never makes ownership unknown the way an unseen bank does.
+	 * ruling 35): it never makes ownership unknown the way an unseen bank does.
 	 */
 	static boolean anyIdHeld(List<Integer> itemIds, Snapshot snapshot)
 	{

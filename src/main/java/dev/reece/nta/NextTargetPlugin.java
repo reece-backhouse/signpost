@@ -43,6 +43,7 @@ import net.runelite.api.events.ItemContainerChanged;
 import net.runelite.api.events.StatChanged;
 import net.runelite.api.events.VarbitChanged;
 import net.runelite.api.events.WidgetClosed;
+import net.runelite.api.events.WidgetLoaded;
 import net.runelite.api.gameval.InterfaceID;
 import net.runelite.api.gameval.InventoryID;
 import net.runelite.api.gameval.VarPlayerID;
@@ -137,7 +138,8 @@ public class NextTargetPlugin extends Plugin
 			this::unignore,
 			this::clearFocus,
 			this::markOwned,
-			this::unmarkOwned);
+			this::unmarkOwned,
+			config::snoozeDays);
 		GoalDetailPanel.Actions detailActions = new GoalDetailPanel.Actions(this::focus, this::clearFocus);
 		panel = new NextTargetPanel(this::requestSnapshot, actions, detailActions, itemManager, skillIconManager);
 		BufferedImage icon = ImageUtil.loadImageResource(NextTargetPlugin.class, "icon.png");
@@ -269,7 +271,8 @@ public class NextTargetPlugin extends Plugin
 			// modify an AccountData in place (AccountDataMutations copies), so no defensive copy.
 			AccountData data = accountData;
 			long start = System.nanoTime();
-			Advice advice = currentEngine.run(snapshot, loadedKb, data != null ? data : AccountData.empty(), Instant.now());
+			// RL-011 AC5: the previous advice is what "completed since last" is measured against
+			Advice advice = currentEngine.run(snapshot, loadedKb, data != null ? data : AccountData.empty(), Instant.now(), cachedAdvice);
 			long ms = (System.nanoTime() - start) / 1_000_000;
 			log.info("engine: {} goals evaluated in {} ms", advice.getStatuses().size(), ms);
 			for (String line : AdviceDiagnostics.lines(advice))
@@ -397,6 +400,20 @@ public class NextTargetPlugin extends Plugin
 			Map<Integer, Integer> items = new HashMap<>(storage.getItems());
 			Instant asOf = storage.getAsOf();
 			mutateAccountData(data -> AccountDataMutations.groupStorage(data, items, asOf));
+			requestSnapshot();
+		}
+	}
+
+	/**
+	 * RL-011 AC6: the diary journal ({@code JOURNALSCROLL}) loading means the player just opened a
+	 * diary's task list, which is when the game refreshes the per-task varbits - re-snapshot so
+	 * the panel's diary progress follows.
+	 */
+	@Subscribe
+	public void onWidgetLoaded(WidgetLoaded event)
+	{
+		if (event.getGroupId() == InterfaceID.JOURNALSCROLL)
+		{
 			requestSnapshot();
 		}
 	}
@@ -552,7 +569,7 @@ public class NextTargetPlugin extends Plugin
 
 			Snapshot snapshot = cachedSnapshot;
 			KnowledgeBase loadedKb = kb;
-			return snapshot != null && loadedKb != null ? currentEngine.run(snapshot, loadedKb, updated, Instant.now()) : null;
+			return snapshot != null && loadedKb != null ? currentEngine.run(snapshot, loadedKb, updated, Instant.now(), cachedAdvice) : null;
 		}, advice ->
 		{
 			if (advice != null)

@@ -142,6 +142,17 @@ class WhyBuilderExplainTest
 		assertEquals(List.of("Missing: combat 100 (have 90)"), whyBuilder.explain(rank(stageThree), kb, snap, 3), "not above the account: no stage line");
 	}
 
+	/** RL-011 AC4: a goal whose item requirements can't be checked because the bank was never seen says so. */
+	@Test
+	void bankUnknownGoalGetsTheMaterialsAssumedMissingNote()
+	{
+		Goal goal = new Goal("quest:1", GoalCategory.QUEST, "quest:1", "https://x", 5, 1);
+		List<Gap> gaps = List.of(new ItemGap("Rope", null, 1, List.of(), false));
+		GoalStatus status = new GoalStatus(goal, gaps, false, true, List.of(), List.of(), List.of(), null, 0);
+
+		assertEquals(List.of("Missing: Rope", "Bank not seen yet, materials assumed missing"), whyBuilder.explain(rank(status), kb, snap, 1));
+	}
+
 	@Test
 	void laterGoalWithNoGapsIsNotReadyNow()
 	{

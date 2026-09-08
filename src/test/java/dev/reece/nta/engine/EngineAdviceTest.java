@@ -1,5 +1,6 @@
 package dev.reece.nta.engine;
 
+import dev.reece.nta.engine.model.Goal;
 import dev.reece.nta.engine.model.GoalCategory;
 import dev.reece.nta.snapshot.AccountType;
 import dev.reece.nta.engine.model.GoalStatus;
@@ -10,6 +11,7 @@ import dev.reece.nta.kb.KnowledgeBase;
 import dev.reece.nta.kb.MilestoneCategory;
 import dev.reece.nta.snapshot.Snapshot;
 import dev.reece.nta.store.AccountData;
+import dev.reece.nta.store.AccountDataMutations;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -178,6 +180,42 @@ class EngineAdviceTest
 
 		assertEquals("test", advice.getReasons().get("m:barrows-gloves"));
 		assertFalse(advice.getReasons().containsKey("quest:0"), "quests have no curated reason text");
+	}
+
+	// --- RL-011 AC5 (spec ruling 31): completedSinceLast. ---
+
+	@Test
+	void completedSinceLastListsGoalsGoneSinceThePreviousAdviceButNotOnesMarkedOwned()
+	{
+		int cooks = Quest.COOKS_ASSISTANT.getId();
+		KnowledgeBase kb = new KbBuilder()
+			.quest(cooks, "Cook's Assistant")
+			.milestone("m:barrows-gloves", MilestoneCategory.GEAR, "Barrows gloves", 8)
+			.ownedIf("Barrows gloves", 7462)
+			.build();
+		Advice first = engine.run(new SnapshotBuilder().build(), kb, AccountData.empty(), now);
+		assertTrue(first.getCompletedSinceLast().isEmpty(), "no previous advice: nothing completed");
+
+		Snapshot finished = new SnapshotBuilder().quest(Quest.COOKS_ASSISTANT, QuestState.FINISHED).build();
+		AccountData owned = AccountDataMutations.markOwned(AccountData.empty(), "m:barrows-gloves");
+		Advice second = engine.run(finished, kb, owned, now, first);
+
+		assertEquals(List.of("quest:" + cooks), second.getCompletedSinceLast().stream().map(Goal::getId).collect(Collectors.toList()));
+		assertEquals("Cook's Assistant", second.getCompletedSinceLast().get(0).getName());
+	}
+
+	@Test
+	void completedSinceLastCountsASkillTargetOnlyWhenItsLevelWasReached()
+	{
+		KnowledgeBase kb = new KbBuilder().quest(0, "Animal Magnetism").skill(Skill.WOODCUTTING, 10).build();
+		Advice first = engine.run(new SnapshotBuilder().build(), kb, AccountData.empty(), now);
+		assertTrue(first.getStatuses().stream().anyMatch(s -> s.getGoal().getCategory() == GoalCategory.SKILL_TARGET), "fixture must synthesise a skill target");
+
+		Advice parentIgnored = engine.run(new SnapshotBuilder().build(), kb, AccountDataMutations.ignore(AccountData.empty(), "quest:0"), now, first);
+		assertTrue(parentIgnored.getCompletedSinceLast().isEmpty(), "a target dropped because its parent was hidden is not completed");
+
+		Advice levelled = engine.run(new SnapshotBuilder().skill(Skill.WOODCUTTING, 10).build(), kb, AccountData.empty(), now, first);
+		assertEquals(List.of("10 Woodcutting"), levelled.getCompletedSinceLast().stream().map(Goal::getName).collect(Collectors.toList()));
 	}
 
 	// --- Task 42: accountStage / later (spec ruling 27). ---
