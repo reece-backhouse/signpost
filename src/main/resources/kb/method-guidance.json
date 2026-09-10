@@ -1,0 +1,388 @@
+{
+  "Attack potion(3)": {
+    "location": "any bank",
+    "bring": []
+  },
+  "Antipoison(3)": {
+    "location": "any bank",
+    "bring": []
+  },
+  "Strength potion(3)": {
+    "location": "any bank",
+    "bring": []
+  },
+  "Energy potion(3)": {
+    "location": "any bank",
+    "bring": []
+  },
+  "Prayer potion(3)": {
+    "location": "any bank",
+    "bring": []
+  },
+  "Super attack(3)": {
+    "location": "any bank",
+    "bring": []
+  },
+  "Super energy(3)": {
+    "location": "any bank",
+    "bring": []
+  },
+  "Super strength(3)": {
+    "location": "any bank",
+    "bring": []
+  },
+  "Super restore(3)": {
+    "location": "any bank",
+    "bring": []
+  },
+  "Super defence(3)": {
+    "location": "any bank",
+    "bring": []
+  },
+  "Ranging potion(3)": {
+    "location": "any bank",
+    "bring": []
+  },
+  "Saradomin brew(3)": {
+    "location": "any bank",
+    "bring": []
+  },
+  "Bones": {
+    "location": "any bank",
+    "bring": []
+  },
+  "Big bones": {
+    "location": "any bank",
+    "bring": []
+  },
+  "Dragon bones": {
+    "location": "any bank",
+    "bring": []
+  },
+  "Dagannoth bones": {
+    "location": "any bank",
+    "bring": []
+  },
+  "Superior dragon bones": {
+    "location": "any bank",
+    "bring": []
+  },
+  "Blessed bone shards": {
+    "location": "Libation bowl at the Teomat, Varlamore",
+    "bring": []
+  },
+  "Ensouled giant head": {
+    "location": "Dark Altar, north of Arceuus",
+    "bring": []
+  },
+  "Ensouled dragon head": {
+    "location": "Dark Altar, north of Arceuus",
+    "bring": []
+  },
+  "Beer glass": {
+    "location": "any bank",
+    "bring": [
+      {
+        "name": "Glassblowing pipe",
+        "id": 1785
+      }
+    ]
+  },
+  "Vial": {
+    "location": "any bank",
+    "bring": [
+      {
+        "name": "Glassblowing pipe",
+        "id": 1785
+      }
+    ]
+  },
+  "Unpowered orb": {
+    "location": "any bank",
+    "bring": [
+      {
+        "name": "Glassblowing pipe",
+        "id": 1785
+      }
+    ]
+  },
+  "Empty light orb": {
+    "location": "any bank",
+    "bring": [
+      {
+        "name": "Glassblowing pipe",
+        "id": 1785
+      }
+    ]
+  },
+  "Air battlestaff": {
+    "location": "any bank",
+    "bring": []
+  },
+  "Fire battlestaff": {
+    "location": "any bank",
+    "bring": []
+  },
+  "Water battlestaff": {
+    "location": "any bank",
+    "bring": []
+  },
+  "Earth battlestaff": {
+    "location": "any bank",
+    "bring": []
+  },
+  "Sapphire": {
+    "location": "any bank",
+    "bring": [
+      {
+        "name": "Chisel",
+        "id": 1755
+      }
+    ]
+  },
+  "Emerald": {
+    "location": "any bank",
+    "bring": [
+      {
+        "name": "Chisel",
+        "id": 1755
+      }
+    ]
+  },
+  "Headless arrow": {
+    "location": "any bank",
+    "bring": []
+  },
+  "Broad arrows": {
+    "location": "any bank",
+    "bring": []
+  },
+  "Maple longbow (u)": {
+    "location": "any bank",
+    "bring": [
+      {
+        "name": "Knife",
+        "id": 946
+      }
+    ]
+  },
+  "Maple longbow": {
+    "location": "any bank",
+    "bring": [
+      {
+        "name": "Knife",
+        "id": 946
+      }
+    ]
+  },
+  "Yew longbow (u)": {
+    "location": "any bank",
+    "bring": [
+      {
+        "name": "Knife",
+        "id": 946
+      }
+    ]
+  },
+  "Yew longbow": {
+    "location": "any bank",
+    "bring": [
+      {
+        "name": "Knife",
+        "id": 946
+      }
+    ]
+  },
+  "Magic longbow (u)": {
+    "location": "any bank",
+    "bring": [
+      {
+        "name": "Knife",
+        "id": 946
+      }
+    ]
+  },
+  "Magic longbow": {
+    "location": "any bank",
+    "bring": [
+      {
+        "name": "Knife",
+        "id": 946
+      }
+    ]
+  },
+  "Gold bar": {
+    "location": "Edgeville furnace",
+    "bring": []
+  },
+  "Iron bar": {
+    "location": "Edgeville furnace",
+    "bring": [],
+    "locations": {
+      "CONSTRUCTION:Iron bar": "Your player-owned house, in building mode",
+      "SMITHING:Iron bar (smelting & smithing)": "Edgeville furnace, then Varrock west-bank anvils",
+      "SMITHING:Iron bar (Blast Furnace)": "Blast Furnace, Keldagrim"
+    }
+  },
+  "Steel bar": {
+    "location": "Edgeville furnace",
+    "bring": [],
+    "locations": {
+      "CONSTRUCTION:Steel bar": "Your player-owned house, in building mode",
+      "SMITHING:Steel bar (smelting & smithing)": "Edgeville furnace, then Varrock west-bank anvils",
+      "SMITHING:Steel bar (Blast Furnace)": "Blast Furnace, Keldagrim"
+    }
+  },
+  "Mithril bar": {
+    "location": "Edgeville furnace",
+    "bring": [],
+    "locations": {
+      "SMITHING:Mithril bar (smelting & smithing)": "Edgeville furnace, then Varrock west-bank anvils",
+      "SMITHING:Mithril bar (Blast Furnace)": "Blast Furnace, Keldagrim"
+    }
+  },
+  "Adamantite bar": {
+    "location": "Edgeville furnace",
+    "bring": [],
+    "locations": {
+      "SMITHING:Adamantite bar (smelting & smithing)": "Edgeville furnace, then Varrock west-bank anvils",
+      "SMITHING:Adamantite bar (Blast Furnace)": "Blast Furnace, Keldagrim"
+    }
+  },
+  "Runite bar": {
+    "location": "Edgeville furnace",
+    "bring": [],
+    "locations": {
+      "SMITHING:Runite bar (smelting & smithing)": "Edgeville furnace, then Varrock west-bank anvils",
+      "SMITHING:Runite bar (Blast Furnace)": "Blast Furnace, Keldagrim"
+    }
+  },
+  "Steel platebody": {
+    "location": "Varrock west-bank anvils",
+    "bring": [
+      {
+        "name": "Hammer",
+        "id": 2347
+      }
+    ]
+  },
+  "Mithril platebody": {
+    "location": "Varrock west-bank anvils",
+    "bring": [
+      {
+        "name": "Hammer",
+        "id": 2347
+      }
+    ]
+  },
+  "Trout": {
+    "location": "Rogues' Den fire, beneath the Burthorpe pub",
+    "bring": []
+  },
+  "Salmon": {
+    "location": "Rogues' Den fire, beneath the Burthorpe pub",
+    "bring": []
+  },
+  "Tuna": {
+    "location": "Rogues' Den fire, beneath the Burthorpe pub",
+    "bring": []
+  },
+  "Lobster": {
+    "location": "Rogues' Den fire, beneath the Burthorpe pub",
+    "bring": []
+  },
+  "Swordfish": {
+    "location": "Rogues' Den fire, beneath the Burthorpe pub",
+    "bring": []
+  },
+  "Monkfish": {
+    "location": "Rogues' Den fire, beneath the Burthorpe pub",
+    "bring": []
+  },
+  "Shark": {
+    "location": "Rogues' Den fire, beneath the Burthorpe pub",
+    "bring": []
+  },
+  "Jug of wine": {
+    "location": "any bank",
+    "bring": []
+  },
+  "Crude wooden chair": {
+    "location": "Your player-owned house, in building mode",
+    "bring": [
+      {
+        "name": "Hammer",
+        "id": 2347
+      },
+      {
+        "name": "Saw",
+        "id": 8794
+      }
+    ]
+  },
+  "Oak chair": {
+    "location": "Your player-owned house, in building mode",
+    "bring": [
+      {
+        "name": "Hammer",
+        "id": 2347
+      },
+      {
+        "name": "Saw",
+        "id": 8794
+      }
+    ]
+  },
+  "Oak dining table": {
+    "location": "Your player-owned house, in building mode",
+    "bring": [
+      {
+        "name": "Hammer",
+        "id": 2347
+      },
+      {
+        "name": "Saw",
+        "id": 8794
+      }
+    ]
+  },
+  "Oak larder": {
+    "location": "Your player-owned house, in building mode",
+    "bring": [
+      {
+        "name": "Hammer",
+        "id": 2347
+      },
+      {
+        "name": "Saw",
+        "id": 8794
+      }
+    ]
+  },
+  "Mahogany table": {
+    "location": "Your player-owned house, in building mode",
+    "bring": [
+      {
+        "name": "Hammer",
+        "id": 2347
+      },
+      {
+        "name": "Saw",
+        "id": 8794
+      }
+    ]
+  },
+  "Oak door": {
+    "location": "Your player-owned house, in building mode",
+    "bring": [
+      {
+        "name": "Hammer",
+        "id": 2347
+      },
+      {
+        "name": "Saw",
+        "id": 8794
+      }
+    ]
+  }
+}

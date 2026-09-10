@@ -1,0 +1,1888 @@
+{
+  "version": 1,
+  "ladders": [
+    {
+      "style": "melee",
+      "tier": "budget",
+      "slots": {
+        "head": [
+          {
+            "name": "Helm of neitiznot",
+            "id": 10828,
+            "variants": [
+              10828,
+              23591,
+              28070
+            ],
+            "provider": "milestone:helm-of-neitiznot",
+            "geOnly": false
+          }
+        ],
+        "body": [
+          {
+            "name": "Rune platebody",
+            "id": 1127,
+            "variants": [
+              1127,
+              2615,
+              2623,
+              20421,
+              23209,
+              23212,
+              23215,
+              23218,
+              23221
+            ],
+            "provider": "milestone:rune-platebody",
+            "geOnly": false
+          },
+          {
+            "name": "Fighter torso",
+            "id": 10551,
+            "variants": [
+              10551,
+              20513,
+              24175,
+              33520,
+              33522
+            ],
+            "provider": "milestone:fighter-torso",
+            "geOnly": false
+          }
+        ],
+        "legs": [
+          {
+            "name": "Rune platelegs",
+            "id": 1079,
+            "variants": [
+              1079,
+              2617,
+              2625,
+              20422
+            ],
+            "provider": "milestone:rune-platelegs",
+            "geOnly": false
+          }
+        ],
+        "weapon": [
+          {
+            "name": "Dragon scimitar",
+            "id": 4587,
+            "variants": [
+              4587,
+              20000,
+              20406,
+              28031
+            ],
+            "provider": "milestone:dragon-scimitar",
+            "geOnly": false
+          }
+        ],
+        "offhand": [
+          {
+            "name": "Rune defender",
+            "id": 8850,
+            "variants": [
+              8850,
+              20461,
+              23230,
+              24142,
+              27009,
+              27185
+            ],
+            "provider": "milestone:rune-defender",
+            "geOnly": false
+          }
+        ],
+        "cape": [
+          {
+            "name": "Fire cape",
+            "id": 6570,
+            "variants": [
+              6570,
+              20445,
+              24223
+            ],
+            "provider": "milestone:fire-cape",
+            "geOnly": false
+          }
+        ],
+        "neck": [
+          {
+            "name": "Amulet of glory",
+            "id": 1704,
+            "variants": [
+              1704,
+              1706,
+              1708,
+              1710,
+              1712,
+              10354,
+              10356,
+              10358,
+              10360,
+              10362,
+              11964,
+              11966,
+              11976,
+              11978,
+              19707,
+              20586
+            ],
+            "provider": "milestone:amulet-of-glory",
+            "geOnly": false
+          }
+        ],
+        "hands": [
+          {
+            "name": "Barrows gloves",
+            "id": 7462,
+            "variants": [
+              7462
+            ],
+            "provider": "milestone:barrows-gloves",
+            "geOnly": false
+          }
+        ],
+        "feet": [
+          {
+            "name": "Climbing boots",
+            "id": 3105,
+            "variants": [
+              3105,
+              20578,
+              23413
+            ],
+            "provider": "milestone:climbing-boots",
+            "geOnly": false
+          }
+        ]
+      }
+    },
+    {
+      "style": "melee",
+      "tier": "midgame",
+      "slots": {
+        "head": [
+          {
+            "name": "Neitiznot faceguard",
+            "id": 24271,
+            "variants": [
+              24271
+            ],
+            "provider": "milestone:neitiznot-faceguard",
+            "geOnly": false
+          }
+        ],
+        "body": [
+          {
+            "name": "Bandos chestplate",
+            "id": 11832,
+            "variants": [
+              11832
+            ],
+            "provider": "milestone:bandos-armour",
+            "geOnly": false,
+            "replaces": [
+              10551,
+              29022
+            ]
+          }
+        ],
+        "legs": [
+          {
+            "name": "Verac's plateskirt",
+            "id": 4759,
+            "variants": [
+              4759,
+              4994,
+              4995,
+              4996,
+              4997,
+              4998,
+              23635
+            ],
+            "provider": "boss:barrows",
+            "geOnly": false
+          },
+          {
+            "name": "Bandos tassets",
+            "id": 11834,
+            "variants": [
+              11834
+            ],
+            "provider": "milestone:bandos-armour",
+            "geOnly": false,
+            "replaces": [
+              4759,
+              29025
+            ]
+          }
+        ],
+        "weapon": [
+          {
+            "name": "Abyssal whip",
+            "id": 4151,
+            "variants": [
+              4151,
+              12773,
+              12774,
+              20405,
+              26482
+            ],
+            "provider": "slayer:abyssal-demons",
+            "geOnly": false,
+            "replaces": [
+              4587
+            ]
+          }
+        ],
+        "offhand": [
+          {
+            "name": "Dragon defender",
+            "id": 12954,
+            "variants": [
+              12954,
+              19722,
+              20463,
+              24143,
+              27008
+            ],
+            "provider": "milestone:dragon-defender",
+            "geOnly": false
+          }
+        ],
+        "cape": [
+          {
+            "name": "Fire cape",
+            "id": 6570,
+            "variants": [
+              6570,
+              20445,
+              24223
+            ],
+            "provider": "milestone:fire-cape",
+            "geOnly": false
+          }
+        ],
+        "neck": [
+          {
+            "name": "Amulet of fury",
+            "id": 6585,
+            "variants": [
+              6585,
+              12436,
+              23640
+            ],
+            "provider": "milestone:amulet-of-fury",
+            "geOnly": false
+          }
+        ],
+        "hands": [
+          {
+            "name": "Barrows gloves",
+            "id": 7462,
+            "variants": [
+              7462
+            ],
+            "provider": "milestone:barrows-gloves",
+            "geOnly": false
+          }
+        ],
+        "feet": [
+          {
+            "name": "Dragon boots",
+            "id": 11840,
+            "variants": [
+              11840,
+              22234,
+              28055
+            ],
+            "provider": "milestone:dragon-boots",
+            "geOnly": false
+          }
+        ]
+      }
+    },
+    {
+      "style": "ranged",
+      "tier": "budget",
+      "slots": {
+        "head": [
+          {
+            "name": "Archer helm",
+            "id": 3749,
+            "variants": [
+              3749,
+              20572
+            ],
+            "provider": "milestone:archer-helm",
+            "geOnly": false
+          }
+        ],
+        "body": [
+          {
+            "name": "Green d'hide body",
+            "id": 1135,
+            "variants": [
+              1135,
+              7370,
+              7372
+            ],
+            "provider": "milestone:green-dhide-body",
+            "geOnly": false
+          }
+        ],
+        "legs": [
+          {
+            "name": "Green d'hide chaps",
+            "id": 1099,
+            "variants": [
+              1099,
+              7378,
+              7380
+            ],
+            "provider": "milestone:green-dhide-chaps",
+            "geOnly": false
+          }
+        ],
+        "weapon": [
+          {
+            "name": "Rune crossbow",
+            "id": 9185,
+            "variants": [
+              9185,
+              23601,
+              26486
+            ],
+            "provider": "milestone:rune-crossbow",
+            "geOnly": false
+          }
+        ],
+        "offhand": [
+          {
+            "name": "Book of law",
+            "id": 12610,
+            "variants": [
+              12610,
+              26492
+            ],
+            "provider": "milestone:book-of-law",
+            "geOnly": false
+          }
+        ],
+        "cape": [
+          {
+            "name": "Ava's accumulator",
+            "id": 10499,
+            "variants": [
+              10499,
+              23609
+            ],
+            "provider": "milestone:avas-accumulator",
+            "geOnly": false
+          }
+        ],
+        "neck": [
+          {
+            "name": "Amulet of glory",
+            "id": 1704,
+            "variants": [
+              1704,
+              1706,
+              1708,
+              1710,
+              1712,
+              10354,
+              10356,
+              10358,
+              10360,
+              10362,
+              11964,
+              11966,
+              11976,
+              11978,
+              19707,
+              20586
+            ],
+            "provider": "milestone:amulet-of-glory",
+            "geOnly": false
+          }
+        ],
+        "hands": [
+          {
+            "name": "Combat bracelet",
+            "id": 11126,
+            "variants": [
+              11126,
+              11118,
+              11120,
+              11122,
+              11124,
+              11972,
+              11974
+            ],
+            "provider": "milestone:combat-bracelet",
+            "geOnly": false
+          }
+        ],
+        "feet": [
+          {
+            "name": "Snakeskin boots",
+            "id": 6328,
+            "variants": [
+              6328,
+              20580
+            ],
+            "provider": "milestone:snakeskin-boots",
+            "geOnly": false
+          }
+        ]
+      }
+    },
+    {
+      "style": "ranged",
+      "tier": "midgame",
+      "slots": {
+        "head": [
+          {
+            "name": "Karil's coif",
+            "id": 4732,
+            "variants": [
+              4732,
+              4928,
+              4929,
+              4930,
+              4931,
+              4932
+            ],
+            "provider": "boss:barrows",
+            "geOnly": false
+          }
+        ],
+        "body": [
+          {
+            "name": "Black d'hide body",
+            "id": 2503,
+            "variants": [
+              2503,
+              12381,
+              12385,
+              20423
+            ],
+            "provider": "milestone:black-dhide-body",
+            "geOnly": false
+          },
+          {
+            "name": "Karil's leathertop",
+            "id": 4736,
+            "variants": [
+              4736,
+              4940,
+              4941,
+              4942,
+              4943,
+              4944,
+              23632
+            ],
+            "provider": "boss:barrows",
+            "geOnly": false
+          }
+        ],
+        "legs": [
+          {
+            "name": "Black d'hide chaps",
+            "id": 2497,
+            "variants": [
+              2497,
+              12383,
+              12387,
+              20424,
+              25493
+            ],
+            "provider": "milestone:black-dhide-chaps",
+            "geOnly": false
+          },
+          {
+            "name": "Karil's leatherskirt",
+            "id": 4738,
+            "variants": [
+              4738,
+              4946,
+              4947,
+              4948,
+              4949,
+              4950
+            ],
+            "provider": "boss:barrows",
+            "geOnly": false
+          }
+        ],
+        "weapon": [
+          {
+            "name": "Toxic blowpipe (empty)",
+            "id": 12924,
+            "variants": [
+              12924,
+              12926
+            ],
+            "provider": "milestone:toxic-blowpipe",
+            "geOnly": false
+          }
+        ],
+        "offhand": [
+          {
+            "name": "Book of law",
+            "id": 12610,
+            "variants": [
+              12610,
+              26492
+            ],
+            "provider": "milestone:book-of-law",
+            "geOnly": false
+          }
+        ],
+        "cape": [
+          {
+            "name": "Ava's assembler",
+            "id": 22109,
+            "variants": [
+              21898,
+              21914,
+              21916,
+              22109,
+              24135,
+              24222,
+              27359,
+              27361,
+              27363,
+              27365,
+              27374,
+              27376
+            ],
+            "provider": "milestone:avas-assembler",
+            "geOnly": false
+          }
+        ],
+        "neck": [
+          {
+            "name": "Amulet of fury",
+            "id": 6585,
+            "variants": [
+              6585,
+              12436,
+              23640
+            ],
+            "provider": "milestone:amulet-of-fury",
+            "geOnly": false
+          },
+          {
+            "name": "Necklace of anguish",
+            "id": 19547,
+            "variants": [
+              19547,
+              22249,
+              27172
+            ],
+            "provider": "milestone:zenyte-jewellery",
+            "geOnly": false,
+            "replaces": [
+              1704,
+              6585
+            ]
+          }
+        ],
+        "hands": [
+          {
+            "name": "Barrows gloves",
+            "id": 7462,
+            "variants": [
+              7462
+            ],
+            "provider": "milestone:barrows-gloves",
+            "geOnly": false
+          }
+        ],
+        "feet": [
+          {
+            "name": "Guthix d'hide boots",
+            "id": 19927,
+            "variants": [
+              19927,
+              19933,
+              19936,
+              19930,
+              19924,
+              19921
+            ],
+            "provider": "milestone:blessed-dhide-boots",
+            "geOnly": false
+          }
+        ]
+      }
+    },
+    {
+      "style": "magic",
+      "tier": "budget",
+      "slots": {
+        "head": [
+          {
+            "name": "Mystic hat",
+            "id": 4089,
+            "variants": [
+              4089,
+              4099,
+              4109,
+              20562,
+              23047,
+              26531
+            ],
+            "provider": "milestone:mystic-robes",
+            "geOnly": false
+          }
+        ],
+        "body": [
+          {
+            "name": "Mystic robe top",
+            "id": 4091,
+            "variants": [
+              4091,
+              4101,
+              4111,
+              20425,
+              23050,
+              26533,
+              27158,
+              27160
+            ],
+            "provider": "milestone:mystic-robes",
+            "geOnly": false
+          }
+        ],
+        "legs": [
+          {
+            "name": "Mystic robe bottom",
+            "id": 4093,
+            "variants": [
+              4093,
+              4103,
+              4113,
+              20426,
+              23053,
+              26535,
+              27159,
+              27161
+            ],
+            "provider": "milestone:mystic-robes",
+            "geOnly": false
+          }
+        ],
+        "weapon": [
+          {
+            "name": "Iban's staff",
+            "id": 1409,
+            "variants": [
+              1409,
+              1410,
+              12658,
+              33330,
+              33332,
+              33333
+            ],
+            "provider": "milestone:iban-blast",
+            "geOnly": false
+          }
+        ],
+        "offhand": [
+          {
+            "name": "Book of darkness",
+            "id": 12612,
+            "variants": [
+              12612,
+              26490
+            ],
+            "provider": "milestone:book-of-darkness",
+            "geOnly": false
+          }
+        ],
+        "cape": [
+          {
+            "name": "Guthix cape",
+            "id": 2413,
+            "variants": [
+              2413,
+              2412,
+              2414
+            ],
+            "provider": "milestone:god-cape",
+            "geOnly": false
+          }
+        ],
+        "neck": [
+          {
+            "name": "Amulet of magic",
+            "id": 1727,
+            "variants": [
+              1727,
+              10366
+            ],
+            "provider": "milestone:amulet-of-magic",
+            "geOnly": false
+          },
+          {
+            "name": "Amulet of glory",
+            "id": 1704,
+            "variants": [
+              1704,
+              1706,
+              1708,
+              1710,
+              1712,
+              10354,
+              10356,
+              10358,
+              10360,
+              10362,
+              11964,
+              11966,
+              11976,
+              11978,
+              19707,
+              20586
+            ],
+            "provider": "milestone:amulet-of-glory",
+            "geOnly": false
+          }
+        ],
+        "hands": [
+          {
+            "name": "Combat bracelet",
+            "id": 11126,
+            "variants": [
+              11126,
+              11118,
+              11120,
+              11122,
+              11124,
+              11972,
+              11974
+            ],
+            "provider": "milestone:combat-bracelet",
+            "geOnly": false
+          }
+        ],
+        "feet": [
+          {
+            "name": "Mystic boots",
+            "id": 4097,
+            "variants": [
+              4097,
+              4107,
+              4117,
+              20579,
+              23059,
+              26539
+            ],
+            "provider": "milestone:mystic-robes",
+            "geOnly": false
+          }
+        ]
+      }
+    },
+    {
+      "style": "magic",
+      "tier": "midgame",
+      "slots": {
+        "head": [
+          {
+            "name": "Ahrim's hood",
+            "id": 4708,
+            "variants": [
+              4708,
+              4856,
+              4857,
+              4858,
+              4859,
+              4860
+            ],
+            "provider": "boss:barrows",
+            "geOnly": false
+          }
+        ],
+        "body": [
+          {
+            "name": "Ahrim's robetop",
+            "id": 4712,
+            "variants": [
+              4712,
+              4868,
+              4869,
+              4870,
+              4871,
+              4872,
+              20598
+            ],
+            "provider": "boss:barrows",
+            "geOnly": false
+          }
+        ],
+        "legs": [
+          {
+            "name": "Ahrim's robeskirt",
+            "id": 4714,
+            "variants": [
+              4714,
+              4874,
+              4875,
+              4876,
+              4877,
+              4878,
+              20599
+            ],
+            "provider": "boss:barrows",
+            "geOnly": false
+          }
+        ],
+        "weapon": [
+          {
+            "name": "Trident of the seas",
+            "id": 11907,
+            "variants": [
+              11907,
+              11905,
+              11908,
+              22288,
+              22290,
+              33322,
+              33323,
+              33326,
+              33328,
+              33434
+            ],
+            "provider": "slayer:kraken",
+            "geOnly": false,
+            "replaces": [
+              1409
+            ]
+          }
+        ],
+        "offhand": [
+          {
+            "name": "Mage's book",
+            "id": 6889,
+            "variants": [
+              6889,
+              23652
+            ],
+            "provider": "milestone:mages-book",
+            "geOnly": false
+          }
+        ],
+        "cape": [
+          {
+            "name": "Imbued guthix cape",
+            "id": 21793,
+            "variants": [
+              21793,
+              21791,
+              21795,
+              23603,
+              23605,
+              23607,
+              24236,
+              24240,
+              24244,
+              24248,
+              24249,
+              24250,
+              29613,
+              29615,
+              29617
+            ],
+            "provider": "milestone:imbued-god-cape",
+            "geOnly": false
+          }
+        ],
+        "neck": [
+          {
+            "name": "Amulet of fury",
+            "id": 6585,
+            "variants": [
+              6585,
+              12436,
+              23640
+            ],
+            "provider": "milestone:amulet-of-fury",
+            "geOnly": false
+          },
+          {
+            "name": "Occult necklace",
+            "id": 12002,
+            "variants": [
+              12002,
+              19720,
+              23654
+            ],
+            "provider": "slayer:smoke-devils",
+            "geOnly": false,
+            "replaces": [
+              1727,
+              1704,
+              6585
+            ]
+          }
+        ],
+        "hands": [
+          {
+            "name": "Tormented bracelet",
+            "id": 19544,
+            "variants": [
+              19544,
+              23444,
+              27171
+            ],
+            "provider": "milestone:zenyte-jewellery",
+            "geOnly": false
+          }
+        ],
+        "feet": [
+          {
+            "name": "Infinity boots",
+            "id": 6920,
+            "variants": [
+              6920,
+              27170
+            ],
+            "provider": "milestone:infinity-boots",
+            "geOnly": false
+          }
+        ]
+      }
+    }
+  ],
+  "equipment": [
+    {
+      "id": 13239,
+      "name": "Primordial boots",
+      "style": "melee",
+      "slot": "feet",
+      "benefit": "Higher melee strength and accuracy than dragon boots.",
+      "variants": [
+        13239
+      ],
+      "replaces": [
+        11840
+      ]
+    },
+    {
+      "id": 13235,
+      "name": "Eternal boots",
+      "style": "magic",
+      "slot": "feet",
+      "benefit": "Magic damage and accuracy for the magic boot slot.",
+      "variants": [
+        13235,
+        23644
+      ],
+      "replaces": [
+        6920
+      ]
+    },
+    {
+      "id": 2577,
+      "name": "Ranger boots",
+      "style": "ranged",
+      "slot": "feet",
+      "benefit": "Ranged accuracy above snakeskin and blessed boots.",
+      "variants": [
+        2577
+      ],
+      "replaces": [
+        6328,
+        19927
+      ]
+    },
+    {
+      "id": 13237,
+      "name": "Pegasian boots",
+      "style": "ranged",
+      "slot": "feet",
+      "benefit": "Higher ranged accuracy than ranger or blessed boots.",
+      "variants": [
+        13237
+      ],
+      "replaces": [
+        2577,
+        19927
+      ]
+    },
+    {
+      "id": 22954,
+      "name": "Devout boots",
+      "style": "hybrid",
+      "slot": "feet",
+      "benefit": "Prayer bonus for prayer-sustain loadouts.",
+      "variants": [
+        22954
+      ],
+      "replaces": []
+    },
+    {
+      "id": 19553,
+      "name": "Amulet of torture",
+      "style": "melee",
+      "slot": "neck",
+      "benefit": "Melee strength and accuracy above fury.",
+      "variants": [
+        19553,
+        20366,
+        27173
+      ],
+      "replaces": [
+        6585
+      ]
+    },
+    {
+      "id": 29801,
+      "name": "Amulet of rancour",
+      "style": "melee",
+      "slot": "neck",
+      "benefit": "Higher melee strength and accuracy than torture.",
+      "variants": [
+        29801,
+        29804
+      ],
+      "replaces": [
+        19553
+      ]
+    },
+    {
+      "id": 22981,
+      "name": "Ferocious gloves",
+      "style": "melee",
+      "slot": "hands",
+      "benefit": "Melee strength and accuracy above Barrows gloves.",
+      "variants": [
+        22981
+      ],
+      "replaces": [
+        7462
+      ]
+    },
+    {
+      "id": 23971,
+      "name": "Crystal helm",
+      "style": "ranged",
+      "slot": "head",
+      "benefit": "Boosts crystal bow and Bowfa accuracy and damage; preserve the crystal set synergy.",
+      "variants": [
+        23971,
+        23973,
+        27705,
+        27707,
+        27717,
+        27719,
+        27729,
+        27731,
+        27741,
+        27743,
+        27753,
+        27755,
+        27765,
+        27767,
+        27777,
+        27779,
+        33031,
+        33033
+      ],
+      "replaces": []
+    },
+    {
+      "id": 23975,
+      "name": "Crystal body",
+      "style": "ranged",
+      "slot": "body",
+      "benefit": "Boosts crystal bow and Bowfa accuracy and damage; preserve the crystal set synergy.",
+      "variants": [
+        23975,
+        23977,
+        27697,
+        27699,
+        27709,
+        27711,
+        27721,
+        27723,
+        27733,
+        27735,
+        27745,
+        27747,
+        27757,
+        27759,
+        27769,
+        27771,
+        33023,
+        33025
+      ],
+      "replaces": []
+    },
+    {
+      "id": 23979,
+      "name": "Crystal legs",
+      "style": "ranged",
+      "slot": "legs",
+      "benefit": "Boosts crystal bow and Bowfa accuracy and damage; preserve the crystal set synergy.",
+      "variants": [
+        23979,
+        23981,
+        27701,
+        27703,
+        27713,
+        27715,
+        27725,
+        27727,
+        27737,
+        27739,
+        27749,
+        27751,
+        27761,
+        27763,
+        27773,
+        27775,
+        33027,
+        33029
+      ],
+      "replaces": []
+    },
+    {
+      "id": 25865,
+      "name": "Bow of Faerdhinen",
+      "style": "ranged",
+      "slot": "weapon",
+      "benefit": "Accurate sustained ranged damage with a crystal armour damage and accuracy bonus.",
+      "variants": [
+        25862,
+        25865,
+        25867,
+        25869,
+        25884,
+        25886,
+        25888,
+        25890,
+        25892,
+        25894,
+        25896,
+        33021
+      ],
+      "replaces": []
+    },
+    {
+      "id": 23995,
+      "name": "Blade of Saeldor",
+      "style": "melee",
+      "slot": "weapon",
+      "benefit": "Fast one-handed slash weapon; marginal alongside a capable existing slash option.",
+      "variants": [
+        23995,
+        23997,
+        24551,
+        24553,
+        25870,
+        25872,
+        25874,
+        25876,
+        25878,
+        25880,
+        25882
+      ],
+      "replaces": [
+        4151
+      ]
+    },
+    {
+      "id": 12006,
+      "name": "Abyssal tentacle",
+      "style": "melee",
+      "slot": "weapon",
+      "benefit": "Fast one-handed slash upgrade over the whip.",
+      "variants": [
+        12006,
+        26484
+      ],
+      "replaces": [
+        4151
+      ]
+    },
+    {
+      "id": 29796,
+      "name": "Noxious halberd",
+      "style": "melee",
+      "slot": "weapon",
+      "benefit": "High-strength two-handed slash weapon with extended reach.",
+      "variants": [
+        29796,
+        33178
+      ],
+      "replaces": [
+        4151
+      ]
+    },
+    {
+      "id": 29577,
+      "name": "Burning claws",
+      "style": "melee",
+      "slot": "weapon",
+      "benefit": "Low-cost special attacks with burn damage; not dragon claws.",
+      "variants": [
+        29577,
+        33200
+      ],
+      "replaces": []
+    },
+    {
+      "id": 25979,
+      "name": "Keris partisan",
+      "style": "melee",
+      "slot": "weapon",
+      "benefit": "Stab weapon with a kalphite damage bonus.",
+      "variants": [
+        25979
+      ],
+      "replaces": []
+    },
+    {
+      "id": 25981,
+      "name": "Keris partisan of breaching",
+      "style": "melee",
+      "slot": "weapon",
+      "benefit": "Kalphite accuracy and damage for Kephri; a usable raid-entry stab option.",
+      "variants": [
+        25981
+      ],
+      "replaces": [
+        25979
+      ]
+    },
+    {
+      "id": 29591,
+      "name": "Scorching bow",
+      "style": "ranged",
+      "slot": "weapon",
+      "benefit": "Ranged demonbane damage and binding special attack; a specialist bow.",
+      "variants": [
+        29591
+      ],
+      "replaces": []
+    },
+    {
+      "id": 21009,
+      "name": "Dragon sword",
+      "style": "melee",
+      "slot": "weapon",
+      "benefit": "Accessible one-handed stab weapon.",
+      "variants": [
+        21009,
+        21206,
+        28029
+      ],
+      "replaces": []
+    },
+    {
+      "id": 11889,
+      "name": "Zamorakian hasta",
+      "style": "melee",
+      "slot": "weapon",
+      "benefit": "Versatile one-handed stab and crush weapon.",
+      "variants": [
+        11889
+      ],
+      "replaces": [
+        21009
+      ]
+    },
+    {
+      "id": 26219,
+      "name": "Osmumten's fang",
+      "style": "melee",
+      "slot": "weapon",
+      "benefit": "Highly accurate stab attacks against high-defence targets.",
+      "variants": [
+        26219,
+        27246
+      ],
+      "replaces": [
+        21009
+      ]
+    },
+    {
+      "id": 22324,
+      "name": "Ghrazi rapier",
+      "style": "melee",
+      "slot": "weapon",
+      "benefit": "Fast one-handed stab weapon for lower-defence targets.",
+      "variants": [
+        22324,
+        25734
+      ],
+      "replaces": [
+        21009
+      ]
+    },
+    {
+      "id": 22978,
+      "name": "Dragon hunter lance",
+      "style": "melee",
+      "slot": "weapon",
+      "benefit": "Dragonbane melee damage for dragons and Olm.",
+      "variants": [
+        22978
+      ],
+      "replaces": [
+        21009
+      ]
+    },
+    {
+      "id": 21902,
+      "name": "Dragon crossbow",
+      "style": "ranged",
+      "slot": "weapon",
+      "benefit": "Crossbow supporting dragon bolts.",
+      "variants": [
+        21902,
+        28053,
+        33460
+      ],
+      "replaces": [
+        9185
+      ]
+    },
+    {
+      "id": 21012,
+      "name": "Dragon hunter crossbow",
+      "style": "ranged",
+      "slot": "weapon",
+      "benefit": "Dragonbane ranged damage with enchanted bolts.",
+      "variants": [
+        21012,
+        25916,
+        25918
+      ],
+      "replaces": [
+        21902
+      ]
+    },
+    {
+      "id": 11785,
+      "name": "Armadyl crossbow",
+      "style": "ranged",
+      "slot": "weapon",
+      "benefit": "High-accuracy crossbow supporting dragon bolts.",
+      "variants": [
+        11785
+      ],
+      "replaces": [
+        21902
+      ]
+    },
+    {
+      "id": 26374,
+      "name": "Zaryte crossbow",
+      "style": "ranged",
+      "slot": "weapon",
+      "benefit": "Enchanted-bolt special attack and high crossbow accuracy.",
+      "variants": [
+        26374
+      ],
+      "replaces": [
+        11785
+      ]
+    },
+    {
+      "id": 20997,
+      "name": "Twisted bow",
+      "style": "ranged",
+      "slot": "weapon",
+      "benefit": "Exceptional damage against high-magic targets; not a universal replacement for other bows.",
+      "variants": [
+        20997
+      ],
+      "replaces": []
+    },
+    {
+      "id": 12899,
+      "name": "Trident of the swamp",
+      "style": "magic",
+      "slot": "weapon",
+      "benefit": "Higher powered-staff damage than the trident of the seas.",
+      "variants": [
+        12899,
+        12900,
+        22292,
+        22294,
+        33314,
+        33316,
+        33318,
+        33320
+      ],
+      "replaces": [
+        11907,
+        1409
+      ]
+    },
+    {
+      "id": 22323,
+      "name": "Sanguinesti staff",
+      "style": "magic",
+      "slot": "weapon",
+      "benefit": "Powered staff damage with passive healing.",
+      "variants": [
+        22323,
+        22481,
+        25731,
+        25733
+      ],
+      "replaces": [
+        12899
+      ]
+    },
+    {
+      "id": 27277,
+      "name": "Tumeken's shadow",
+      "style": "magic",
+      "slot": "weapon",
+      "benefit": "Multiplies equipment magic bonuses for very high magic damage.",
+      "variants": [
+        27275,
+        27277
+      ],
+      "replaces": [
+        12899
+      ]
+    },
+    {
+      "id": 29028,
+      "name": "Blood moon helm",
+      "style": "melee",
+      "slot": "head",
+      "benefit": "Melee strength with magic defence; enables the dual macuahuitl set effect.",
+      "variants": [
+        29028,
+        29047,
+        29073
+      ],
+      "replaces": []
+    },
+    {
+      "id": 29022,
+      "name": "Blood moon chestplate",
+      "style": "melee",
+      "slot": "body",
+      "benefit": "Melee strength with magic defence; enables the dual macuahuitl set effect.",
+      "variants": [
+        29022,
+        29043,
+        29067
+      ],
+      "replaces": []
+    },
+    {
+      "id": 29025,
+      "name": "Blood moon tassets",
+      "style": "melee",
+      "slot": "legs",
+      "benefit": "Melee strength with magic defence; enables the dual macuahuitl set effect.",
+      "variants": [
+        29025,
+        29045,
+        29070
+      ],
+      "replaces": []
+    },
+    {
+      "id": 29019,
+      "name": "Blue moon helm",
+      "style": "magic",
+      "slot": "head",
+      "benefit": "Magic damage and melee switching; enables the Blue moon spear set effect.",
+      "variants": [
+        29019,
+        29041,
+        29064
+      ],
+      "replaces": []
+    },
+    {
+      "id": 29013,
+      "name": "Blue moon chestplate",
+      "style": "magic",
+      "slot": "body",
+      "benefit": "Magic damage and melee switching; enables the Blue moon spear set effect.",
+      "variants": [
+        29013,
+        29037,
+        29058
+      ],
+      "replaces": []
+    },
+    {
+      "id": 29016,
+      "name": "Blue moon tassets",
+      "style": "magic",
+      "slot": "legs",
+      "benefit": "Magic damage and melee switching; enables the Blue moon spear set effect.",
+      "variants": [
+        29016,
+        29039,
+        29061
+      ],
+      "replaces": []
+    },
+    {
+      "id": 29010,
+      "name": "Eclipse moon helm",
+      "style": "ranged",
+      "slot": "head",
+      "benefit": "Ranged accuracy and melee strength for the atlatl burn set effect.",
+      "variants": [
+        29010,
+        29035,
+        29055
+      ],
+      "replaces": []
+    },
+    {
+      "id": 29004,
+      "name": "Eclipse moon chestplate",
+      "style": "ranged",
+      "slot": "body",
+      "benefit": "Ranged accuracy and melee strength for the atlatl burn set effect.",
+      "variants": [
+        29004,
+        29031,
+        29049
+      ],
+      "replaces": []
+    },
+    {
+      "id": 29007,
+      "name": "Eclipse moon tassets",
+      "style": "ranged",
+      "slot": "legs",
+      "benefit": "Ranged accuracy and melee strength for the atlatl burn set effect.",
+      "variants": [
+        29007,
+        29033,
+        29052
+      ],
+      "replaces": []
+    },
+    {
+      "id": 28997,
+      "name": "Dual macuahuitl",
+      "style": "melee",
+      "slot": "weapon",
+      "benefit": "Multi-hit crush attacks with Blood moon set synergy.",
+      "variants": [
+        28997
+      ],
+      "replaces": []
+    },
+    {
+      "id": 28988,
+      "name": "Blue moon spear",
+      "style": "magic",
+      "slot": "weapon",
+      "benefit": "Autocasts combat magic and enables Blue moon melee switching.",
+      "variants": [
+        28988
+      ],
+      "replaces": []
+    },
+    {
+      "id": 29000,
+      "name": "Eclipse atlatl",
+      "style": "ranged",
+      "slot": "weapon",
+      "benefit": "Fast ranged attacks scaling with melee strength and Eclipse set synergy.",
+      "variants": [
+        29000
+      ],
+      "replaces": []
+    },
+    {
+      "id": 26382,
+      "name": "Torva full helm",
+      "style": "melee",
+      "slot": "head",
+      "benefit": "Increases melee offensive bonuses in the head slot.",
+      "variants": [
+        26382,
+        28254
+      ],
+      "replaces": [
+        24271
+      ]
+    },
+    {
+      "id": 26384,
+      "name": "Torva platebody",
+      "style": "melee",
+      "slot": "body",
+      "benefit": "Increases melee offensive bonuses in the body slot.",
+      "variants": [
+        26384,
+        28256
+      ],
+      "replaces": [
+        11832
+      ]
+    },
+    {
+      "id": 26386,
+      "name": "Torva platelegs",
+      "style": "melee",
+      "slot": "legs",
+      "benefit": "Increases melee offensive bonuses in the legs slot.",
+      "variants": [
+        26386,
+        28258
+      ],
+      "replaces": [
+        11834
+      ]
+    },
+    {
+      "id": 21018,
+      "name": "Ancestral hat",
+      "style": "magic",
+      "slot": "head",
+      "benefit": "Increases magic offensive bonuses in the head slot.",
+      "variants": [
+        21018,
+        24664
+      ],
+      "replaces": [
+        4708
+      ]
+    },
+    {
+      "id": 21021,
+      "name": "Ancestral robe top",
+      "style": "magic",
+      "slot": "body",
+      "benefit": "Increases magic offensive bonuses in the body slot.",
+      "variants": [
+        21021,
+        24666
+      ],
+      "replaces": [
+        4712
+      ]
+    },
+    {
+      "id": 21024,
+      "name": "Ancestral robe bottom",
+      "style": "magic",
+      "slot": "legs",
+      "benefit": "Increases magic offensive bonuses in the legs slot.",
+      "variants": [
+        21024,
+        24668
+      ],
+      "replaces": [
+        4714
+      ]
+    },
+    {
+      "id": 11826,
+      "name": "Armadyl helmet",
+      "style": "ranged",
+      "slot": "head",
+      "benefit": "Increases ranged offensive bonuses in the head slot.",
+      "variants": [
+        11826
+      ],
+      "replaces": [
+        4732
+      ]
+    },
+    {
+      "id": 11828,
+      "name": "Armadyl chestplate",
+      "style": "ranged",
+      "slot": "body",
+      "benefit": "Increases ranged offensive bonuses in the body slot.",
+      "variants": [
+        11828
+      ],
+      "replaces": [
+        4736
+      ]
+    },
+    {
+      "id": 11830,
+      "name": "Armadyl chainskirt",
+      "style": "ranged",
+      "slot": "legs",
+      "benefit": "Increases ranged offensive bonuses in the legs slot.",
+      "variants": [
+        11830
+      ],
+      "replaces": [
+        4738
+      ]
+    },
+    {
+      "id": 27226,
+      "name": "Masori mask",
+      "style": "ranged",
+      "slot": "head",
+      "benefit": "Ranged strength for non-crystal weapons; does not replace crystal armour with Bowfa.",
+      "variants": [
+        27226
+      ],
+      "replaces": []
+    },
+    {
+      "id": 27235,
+      "name": "Masori mask (f)",
+      "style": "ranged",
+      "slot": "head",
+      "benefit": "Adds Armadyl-level defence to Masori ranged strength; preserve crystal/Bowfa synergy.",
+      "variants": [
+        27235
+      ],
+      "replaces": [
+        27226,
+        11826
+      ]
+    },
+    {
+      "id": 27229,
+      "name": "Masori body",
+      "style": "ranged",
+      "slot": "body",
+      "benefit": "Ranged strength for non-crystal weapons; does not replace crystal armour with Bowfa.",
+      "variants": [
+        27229
+      ],
+      "replaces": []
+    },
+    {
+      "id": 27238,
+      "name": "Masori body (f)",
+      "style": "ranged",
+      "slot": "body",
+      "benefit": "Adds Armadyl-level defence to Masori ranged strength; preserve crystal/Bowfa synergy.",
+      "variants": [
+        27238
+      ],
+      "replaces": [
+        27229,
+        11828
+      ]
+    },
+    {
+      "id": 27232,
+      "name": "Masori chaps",
+      "style": "ranged",
+      "slot": "legs",
+      "benefit": "Ranged strength for non-crystal weapons; does not replace crystal armour with Bowfa.",
+      "variants": [
+        27232
+      ],
+      "replaces": []
+    },
+    {
+      "id": 27241,
+      "name": "Masori chaps (f)",
+      "style": "ranged",
+      "slot": "legs",
+      "benefit": "Adds Armadyl-level defence to Masori ranged strength; preserve crystal/Bowfa synergy.",
+      "variants": [
+        27241
+      ],
+      "replaces": [
+        27232,
+        11830
+      ]
+    },
+    {
+      "id": 22322,
+      "name": "Avernic defender",
+      "style": "melee",
+      "slot": "offhand",
+      "benefit": "Melee strength and accuracy above dragon defender.",
+      "variants": [
+        22322,
+        22441,
+        24186,
+        27550,
+        27551,
+        27552,
+        27553
+      ],
+      "replaces": [
+        12954
+      ]
+    },
+    {
+      "id": 21295,
+      "name": "Infernal cape",
+      "style": "melee",
+      "slot": "cape",
+      "benefit": "Higher melee strength than the fire cape.",
+      "variants": [
+        21287,
+        21295,
+        24224,
+        33500,
+        33502
+      ],
+      "replaces": [
+        6570
+      ]
+    },
+    {
+      "id": 1275,
+      "name": "Rune pickaxe",
+      "style": "utility",
+      "slot": "tool",
+      "benefit": "Mining tool for Zalcano.",
+      "variants": [
+        1275
+      ],
+      "replaces": []
+    },
+    {
+      "id": 11920,
+      "name": "Dragon pickaxe",
+      "style": "utility",
+      "slot": "tool",
+      "benefit": "Faster mining than a rune pickaxe.",
+      "variants": [
+        11920,
+        12797,
+        13243,
+        23677,
+        25376
+      ],
+      "replaces": [
+        1275
+      ]
+    },
+    {
+      "id": 23680,
+      "name": "Crystal pickaxe",
+      "style": "utility",
+      "slot": "tool",
+      "benefit": "Improved mining success while charged.",
+      "variants": [
+        23680,
+        23682
+      ],
+      "replaces": [
+        11920
+      ]
+    }
+  ]
+}

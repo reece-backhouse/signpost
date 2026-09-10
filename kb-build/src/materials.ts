@@ -80,7 +80,7 @@ export interface ReferencedItemsInput {
   milestones: MilestoneLike[];
 }
 
-/** Unions item names referenced anywhere in the KB (ruling 7): method materials/outputs, quest rewards, diary task items, milestone requirement/ownedIf items. */
+/** Unions item names referenced anywhere in the KB: method materials/outputs, quest rewards, diary task items, milestone requirement/ownedIf items. */
 export function collectReferencedItems(kb: ReferencedItemsInput): string[] {
   const names = new Set<string>();
 
@@ -149,17 +149,6 @@ export function resolveItemIds(names: string[], mapping: PriceMappingEntry[], it
   return resolved;
 }
 
-function groupByLowerKey<T>(rows: T[], keyOf: (row: T) => string): Map<string, T[]> {
-  const groups = new Map<string, T[]>();
-  for (const row of rows) {
-    const key = keyOf(row).toLowerCase();
-    const group = groups.get(key);
-    if (group) group.push(row);
-    else groups.set(key, [row]);
-  }
-  return groups;
-}
-
 /** Converts a Bucket drop rarity like "1/128" or "Always" to a 0-1 probability for sorting by commonness. */
 function rarityToProbability(rarity: string): number {
   const fraction = /^(\d+(?:\.\d+)?)\s*\/\s*(\d+(?:\.\d+)?)$/.exec(rarity.trim());
@@ -205,9 +194,9 @@ export function buildMaterials(input: BuildMaterialsInput): Material[] {
   const { names, resolved, mapping, storelineRows, droplineRows, loclineRows, methods } = input;
 
   const mappingByName = new Set(mapping.map((entry) => entry.name.toLowerCase()));
-  const storeByItem = groupByLowerKey(storelineRows, (row) => row.sold_item);
-  const dropsByItem = groupByLowerKey(droplineRows, (row) => row.item_name);
-  const spawnsByItem = groupByLowerKey(loclineRows, (row) => row.page_name);
+  const storeByItem = Map.groupBy(storelineRows, (row) => row.sold_item.toLowerCase());
+  const dropsByItem = Map.groupBy(droplineRows, (row) => row.item_name.toLowerCase());
+  const spawnsByItem = Map.groupBy(loclineRows, (row) => row.page_name.toLowerCase());
   const craftsByOutput = new Map<string, Method[]>();
   for (const method of methods) {
     for (const output of method.outputs) {

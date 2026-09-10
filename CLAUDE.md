@@ -1,12 +1,10 @@
 # Signpost — RuneLite plugin
 
-Personal RuneLite plugin: reads account state (quests, skills, bank, diaries,
+RuneLite plugin: reads account state (quests, skills, bank, diaries,
 achievements) and suggests what to focus on next, with routes to get there.
 
 ## Layout
 
-- `tickets/` — product tickets with acceptance criteria (source of truth for scope)
-- `docs/surge/index.md` — Surge Engineering Workflow artifacts (spec, grill, plan)
 - repo root — the RuneLite plugin (Java 11, Gradle, `runeLiteVersion = latest.release` as the Plugin Hub
   requires; the KB quest test fails when a new RuneLite release adds a `Quest` constant, so rebuild the KB)
   Hub metadata: `runelite-plugin.properties`, `icon.png`, `LICENSE`, `README.md`; submission steps in `docs/plugin-hub.md`.
@@ -19,7 +17,7 @@ achievements) and suggests what to focus on next, with routes to get there.
 - `kb-build/` — TypeScript (Node 22) scripts that generate the KB JSON from the OSRS wiki
   (`npm run build-kb -- quests|diaries|methods|materials|expand-milestones|gathering`)
   - `data/` inputs: RuneLite quest list, aliases, diary var map (from Quest Helper), RuneLite sources
-  - `src/main/resources/kb/milestones.json`, `priorities.json` and `data/gathering.json` are hand-curated (stage, recommended profile with gearOwnedMin, obtainedFrom, ownedIfMin for outfits, speedsUp skill, prerequisite milestone, display notes, `poh` category for house rooms; step-by-step gathering loops); after adding a milestone run `expand-milestones` to fill variant ids and add its items to materials.json
+  - `src/main/resources/kb/milestones.json`, `priorities.json` and `data/gathering.json` are hand-curated (stage, recommended gear-role groups, obtainedFrom, ownedIfMin for outfits, speedsUp skill, prerequisite milestone, display notes, `poh` category for house rooms; step-by-step gathering loops); after adding a milestone run `expand-milestones` to fill variant ids and add its items to materials.json
 
 ## Conventions
 
@@ -49,17 +47,19 @@ file when done. On macOS JDK 17 the `run` task needs `--add-exports java.desktop
 - Diary per-task bits come from Quest Helper's declaration order; the game's per-tier COUNT
   varbit is trusted when it disagrees (Desert Medium's Pollnivneach task uses an unknown
   ironman variable).
-- Milestone readiness = entry requirements + curated `recommended` profile (skills, gear with a
-  minimum owned count); a boss is "Ready now" only when both are met. Stage 1–4 per milestone;
-  the account stage needs two pieces of a stage's gear; goals more than one stage above are "Later".
+- Milestone readiness = entry requirements + curated `recommended` profile (skills and every
+  required gear role). `GearCatalog`/`GearComparison` share actual-item variants and role-aware
+  replacement coverage across readiness, boss rewards, standalone gear and ladders; coverage
+  never supplies crafting ingredients. Armour completion counts distinct pieces, not variants.
+  Stage 1–4 per milestone; the account stage needs two pieces of a stage's gear; goals more than
+  one stage above are "Later".
+- `GoalObjective` ranks known remaining gains (major/useful/situational) and concrete unfinished
+  CAs independently of entry readiness. Situational-only goals do not enter the ready-primary
+  tier. Partial/offline snapshots use `confirmedAbsentItems`; unseen items are not inferred missing.
+  The progression regression fixture is `src/test/resources/fixtures/progression-account.json`.
 - Skill targets ("70 Herblore") are synthesised from upcoming goals' skill gaps; only bank-covered
   targets can be picked, uncovered ones never outrank their parent goal.
 - Diagnostics: each engine run logs the top three picks and the Moons/GWD watch lines at INFO.
 - Group ironman shared storage (`INV_GROUP_TEMP`, persisted when `SHARED_BANK` closes) is summed with
-  the bank for ownership, routes and shortfalls (ruling 35); unseen storage counts as empty, not unknown.
+  the bank for ownership, routes and shortfalls; unseen storage counts as empty, not unknown.
   Config "Count group storage" (default on) gates the read. `AccountData.version` is 2.
-
-## Surge Engineering Workflow
-
-- `/surge:start <slug>` to begin; artifacts under `docs/surge/` (see `docs/surge/index.md`).
-- Spec → grill → plan → implement (TDD, subagents) → review.

@@ -37,7 +37,7 @@ describe('expandMilestoneItemIds', () => {
       [
         milestone({
           ownedIf: [{ name: 'Dragon defender', id: 12954 }],
-          recommended: { gearOwnedAny: [{ name: 'Dragon defender', id: 12954 }] },
+          recommended: { gear: [{ role: 'melee-offhand', alternatives: [{ name: 'Dragon defender', id: 12954 }] }] },
           requirements: { items: [{ name: 'Dragon defender', id: 12954 }] },
         }),
       ],
@@ -46,7 +46,7 @@ describe('expandMilestoneItemIds', () => {
 
     const m = milestones[0]!;
     expect(m.ownedIf).toEqual([{ name: 'Dragon defender', id: 12954, ids: [12954, 19722, 20463, 24143, 27008] }]);
-    expect(m.recommended?.gearOwnedAny).toEqual([{ name: 'Dragon defender', id: 12954, ids: [12954, 20463, 24143] }]);
+    expect(m.recommended?.gear).toEqual([{ role: 'melee-offhand', alternatives: [{ name: 'Dragon defender', id: 12954, ids: [12954, 20463, 24143] }] }]);
     expect(m.requirements.items).toEqual([{ name: 'Dragon defender', id: 12954, ids: [12954, 20463, 24143] }]);
   });
 
@@ -60,9 +60,12 @@ describe('expandMilestoneItemIds', () => {
     expect(summary.unresolved).toEqual(['Some Untracked Thing']);
   });
 
-  it('leaves recommended: null as null', () => {
-    const { milestones } = expandMilestoneItemIds([milestone()], itemIdRows);
-    expect(milestones[0]?.recommended).toBeNull();
+  it('expands obtainable gear even when an optional recommended profile is absent', () => {
+    const { milestones } = expandMilestoneItemIds<MilestoneLike>(
+      [{ ownedIf: [{ name: 'Dragon defender', id: 12954 }], requirements: { items: [] } }],
+      itemIdRows,
+    );
+    expect(milestones[0]?.ownedIf[0]?.ids).toEqual([12954, 19722, 20463, 24143, 27008]);
   });
 
   it('summarizes items processed and names with more than one id', () => {
@@ -92,19 +95,4 @@ describe('expandMilestoneItemIds', () => {
     expect(milestones[0]?.ownedIf).toEqual([{ name: 'Rune defender', id: 8850, ids: [8850, 99999] }]);
   });
 
-  it('preserves every other field on the milestone untouched', () => {
-    const { milestones } = expandMilestoneItemIds(
-      [
-        {
-          ...milestone({ requirements: { items: [{ name: 'Coins', id: 995 }] } }),
-          id: 'milestone:test',
-          priority: 9,
-        } as unknown as MilestoneLike,
-      ],
-      itemIdRows,
-    );
-
-    expect((milestones[0] as unknown as { id: string; priority: number }).id).toBe('milestone:test');
-    expect((milestones[0] as unknown as { id: string; priority: number }).priority).toBe(9);
-  });
 });

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-07T15:57:10Z",
+  "generatedAt": "2026-09-09T13:54:31Z",
   "quests": [
     {
       "id": 0,
@@ -38,6 +38,15 @@
       ],
       "prereqsStarted": [],
       "questPoints": 1,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Crafting": 1000,
+          "Fletching": 1000,
+          "Slayer": 1000,
+          "Woodcutting": 2500
+        }
+      },
       "skills": [
         {
           "boostable": false,
@@ -94,6 +103,13 @@
       ],
       "prereqsStarted": [],
       "questPoints": 1,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Mining": 3000,
+          "Prayer": 3000
+        }
+      },
       "skills": [
         {
           "boostable": false,
@@ -121,6 +137,13 @@
       ],
       "prereqsStarted": [],
       "questPoints": 1,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Hunter": 1500,
+          "Runecraft": 500
+        }
+      },
       "skills": [
         {
           "boostable": false,
@@ -140,6 +163,10 @@
       "prereqs": [],
       "prereqsStarted": [],
       "questPoints": null,
+      "rewards": {
+        "lamps": [],
+        "xp": {}
+      },
       "skills": [],
       "source": "questreq",
       "wikiTitle": "Alfred Grimhand's Barcrawl"
@@ -161,6 +188,10 @@
       "prereqs": [],
       "prereqsStarted": [],
       "questPoints": null,
+      "rewards": {
+        "lamps": [],
+        "xp": {}
+      },
       "skills": [],
       "source": "questreq",
       "wikiTitle": "Bear Your Soul"
@@ -173,6 +204,10 @@
       "prereqs": [],
       "prereqsStarted": [],
       "questPoints": 1,
+      "rewards": {
+        "lamps": [],
+        "xp": {}
+      },
       "skills": [
         {
           "boostable": false,
@@ -195,6 +230,14 @@
       ],
       "prereqsStarted": [],
       "questPoints": 2,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Defence": 5000,
+          "Mining": 5000,
+          "Smithing": 5000
+        }
+      },
       "skills": [
         {
           "boostable": false,
@@ -226,6 +269,14 @@
       "prereqs": [],
       "prereqsStarted": [],
       "questPoints": 2,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Cooking": 1470,
+          "Fletching": 262,
+          "Ranged": 735
+        }
+      },
       "skills": [
         {
           "boostable": true,
@@ -259,6 +310,12 @@
       ],
       "prereqsStarted": [],
       "questPoints": 3,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Thieving": 1250
+        }
+      },
       "skills": [],
       "source": "questreq",
       "wikiTitle": "Biohazard"
@@ -271,6 +328,10 @@
       "prereqs": [],
       "prereqsStarted": [],
       "questPoints": 3,
+      "rewards": {
+        "lamps": [],
+        "xp": {}
+      },
       "skills": [
         {
           "boostable": false,
@@ -296,7 +357,11 @@
         "The Dig Site"
       ],
       "prereqsStarted": [],
-      "questPoints": null,
+      "questPoints": 1,
+      "rewards": {
+        "lamps": [],
+        "xp": {}
+      },
       "skills": [
         {
           "boostable": false,
@@ -319,6 +384,14 @@
       ],
       "prereqsStarted": [],
       "questPoints": 2,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Agility": 7000,
+          "Crafting": 7000,
+          "Smithing": 7000
+        }
+      },
       "skills": [
         {
           "boostable": false,
@@ -358,6 +431,69 @@
       ],
       "prereqsStarted": [],
       "questPoints": 1,
+      "rewards": {
+        "lamps": [
+          {
+            "minLevel": 0,
+            "skills": [
+              "Attack",
+              "Strength",
+              "Defence",
+              "Ranged",
+              "Prayer",
+              "Magic",
+              "Runecraft",
+              "Construction",
+              "Hitpoints",
+              "Agility",
+              "Herblore",
+              "Thieving",
+              "Crafting",
+              "Fletching",
+              "Slayer",
+              "Hunter",
+              "Mining",
+              "Smithing",
+              "Fishing",
+              "Cooking",
+              "Firemaking",
+              "Woodcutting",
+              "Farming"
+            ],
+            "xp": 500
+          },
+          {
+            "minLevel": 0,
+            "skills": [
+              "Attack",
+              "Strength",
+              "Defence",
+              "Ranged",
+              "Prayer",
+              "Magic",
+              "Runecraft",
+              "Construction",
+              "Hitpoints",
+              "Agility",
+              "Herblore",
+              "Thieving",
+              "Crafting",
+              "Fletching",
+              "Slayer",
+              "Hunter",
+              "Mining",
+              "Smithing",
+              "Fishing",
+              "Cooking",
+              "Firemaking",
+              "Woodcutting",
+              "Farming"
+            ],
+            "xp": 500
+          }
+        ],
+        "xp": {}
+      },
       "skills": [],
       "source": "questreq",
       "wikiTitle": "Client of Kourend"
@@ -370,6 +506,10 @@
       "prereqs": [],
       "prereqsStarted": [],
       "questPoints": 1,
+      "rewards": {
+        "lamps": [],
+        "xp": {}
+      },
       "skills": [],
       "source": "questreq",
       "wikiTitle": "Clock Tower"
@@ -423,6 +563,14 @@
       "prereqs": [],
       "prereqsStarted": [],
       "questPoints": 1,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Agility": 5000,
+          "Construction": 1500,
+          "Crafting": 2000
+        }
+      },
       "skills": [
         {
           "boostable": true,
@@ -475,6 +623,37 @@
       ],
       "prereqsStarted": [],
       "questPoints": 1,
+      "rewards": {
+        "lamps": [
+          {
+            "minLevel": 0,
+            "skills": [
+              "Attack",
+              "Strength",
+              "Defence",
+              "Hitpoints",
+              "Ranged",
+              "Magic"
+            ],
+            "xp": 7000
+          },
+          {
+            "minLevel": 0,
+            "skills": [
+              "Attack",
+              "Strength",
+              "Defence",
+              "Hitpoints",
+              "Ranged",
+              "Magic"
+            ],
+            "xp": 7000
+          }
+        ],
+        "xp": {
+          "Thieving": 7000
+        }
+      },
       "skills": [],
       "source": "questreq",
       "wikiTitle": "Contact!"
@@ -487,6 +666,12 @@
       "prereqs": [],
       "prereqsStarted": [],
       "questPoints": 1,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Cooking": 300
+        }
+      },
       "skills": [],
       "source": "questreq",
       "wikiTitle": "Cook's Assistant"
@@ -499,6 +684,10 @@
       "prereqs": [],
       "prereqsStarted": [],
       "questPoints": 2,
+      "rewards": {
+        "lamps": [],
+        "xp": {}
+      },
       "skills": [],
       "source": "questreq",
       "wikiTitle": "The Corsair Curse"
@@ -514,6 +703,12 @@
       ],
       "prereqsStarted": [],
       "questPoints": 2,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Thieving": 1000
+        }
+      },
       "skills": [
         {
           "boostable": true,
@@ -557,6 +752,10 @@
       ],
       "prereqsStarted": [],
       "questPoints": null,
+      "rewards": {
+        "lamps": [],
+        "xp": {}
+      },
       "skills": [
         {
           "boostable": false,
@@ -591,6 +790,10 @@
       "prereqs": [],
       "prereqsStarted": [],
       "questPoints": null,
+      "rewards": {
+        "lamps": [],
+        "xp": {}
+      },
       "skills": [],
       "source": "questreq",
       "wikiTitle": "Daddy's Home"
@@ -614,6 +817,102 @@
       ],
       "prereqsStarted": [],
       "questPoints": 2,
+      "rewards": {
+        "lamps": [
+          {
+            "minLevel": 30,
+            "skills": [
+              "Attack",
+              "Strength",
+              "Defence",
+              "Ranged",
+              "Prayer",
+              "Magic",
+              "Runecraft",
+              "Construction",
+              "Hitpoints",
+              "Agility",
+              "Herblore",
+              "Thieving",
+              "Crafting",
+              "Fletching",
+              "Slayer",
+              "Hunter",
+              "Mining",
+              "Smithing",
+              "Fishing",
+              "Cooking",
+              "Firemaking",
+              "Woodcutting",
+              "Farming"
+            ],
+            "xp": 2000
+          },
+          {
+            "minLevel": 30,
+            "skills": [
+              "Attack",
+              "Strength",
+              "Defence",
+              "Ranged",
+              "Prayer",
+              "Magic",
+              "Runecraft",
+              "Construction",
+              "Hitpoints",
+              "Agility",
+              "Herblore",
+              "Thieving",
+              "Crafting",
+              "Fletching",
+              "Slayer",
+              "Hunter",
+              "Mining",
+              "Smithing",
+              "Fishing",
+              "Cooking",
+              "Firemaking",
+              "Woodcutting",
+              "Farming"
+            ],
+            "xp": 2000
+          },
+          {
+            "minLevel": 30,
+            "skills": [
+              "Attack",
+              "Strength",
+              "Defence",
+              "Ranged",
+              "Prayer",
+              "Magic",
+              "Runecraft",
+              "Construction",
+              "Hitpoints",
+              "Agility",
+              "Herblore",
+              "Thieving",
+              "Crafting",
+              "Fletching",
+              "Slayer",
+              "Hunter",
+              "Mining",
+              "Smithing",
+              "Fishing",
+              "Cooking",
+              "Firemaking",
+              "Woodcutting",
+              "Farming"
+            ],
+            "xp": 2000
+          }
+        ],
+        "xp": {
+          "Agility": 7000,
+          "Construction": 2000,
+          "Thieving": 6000
+        }
+      },
       "skills": [
         {
           "boostable": true,
@@ -678,6 +977,12 @@
       "prereqs": [],
       "prereqsStarted": [],
       "questPoints": 1,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Attack": 3000
+        }
+      },
       "skills": [],
       "source": "questreq",
       "wikiTitle": "Death Plateau"
@@ -697,6 +1002,13 @@
       ],
       "prereqsStarted": [],
       "questPoints": 1,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Ranged": 2000,
+          "Thieving": 2000
+        }
+      },
       "skills": [
         {
           "boostable": true,
@@ -722,6 +1034,10 @@
       "prereqs": [],
       "prereqsStarted": [],
       "questPoints": 3,
+      "rewards": {
+        "lamps": [],
+        "xp": {}
+      },
       "skills": [],
       "source": "questreq",
       "wikiTitle": "Demon Slayer"
@@ -736,6 +1052,12 @@
       ],
       "prereqsStarted": [],
       "questPoints": 1,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Agility": 1500
+        }
+      },
       "skills": [
         {
           "boostable": false,
@@ -761,7 +1083,13 @@
         "Waterfall Quest"
       ],
       "prereqsStarted": [],
-      "questPoints": null,
+      "questPoints": 3,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Magic": 20006
+        }
+      },
       "skills": [
         {
           "boostable": true,
@@ -804,6 +1132,14 @@
       ],
       "prereqsStarted": [],
       "questPoints": 1,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Fletching": 5000,
+          "Runecraft": 5000,
+          "Smithing": 6500
+        }
+      },
       "skills": [
         {
           "boostable": true,
@@ -837,6 +1173,13 @@
       ],
       "prereqsStarted": [],
       "questPoints": 2,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Herblore": 2000,
+          "Mining": 15300
+        }
+      },
       "skills": [
         {
           "boostable": true,
@@ -868,6 +1211,12 @@
       "prereqs": [],
       "prereqsStarted": [],
       "questPoints": 1,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Mining": 1300
+        }
+      },
       "skills": [
         {
           "boostable": true,
@@ -886,7 +1235,14 @@
       "prereqNotes": [],
       "prereqs": [],
       "prereqsStarted": [],
-      "questPoints": null,
+      "questPoints": 2,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Defence": 18650,
+          "Strength": 18650
+        }
+      },
       "skills": [
         {
           "boostable": false,
@@ -959,6 +1315,64 @@
       ],
       "prereqsStarted": [],
       "questPoints": 5,
+      "rewards": {
+        "lamps": [
+          {
+            "minLevel": 0,
+            "skills": [
+              "Magic",
+              "Ranged",
+              "Strength",
+              "Attack",
+              "Defence",
+              "Hitpoints"
+            ],
+            "xp": 25000
+          },
+          {
+            "minLevel": 0,
+            "skills": [
+              "Magic",
+              "Ranged",
+              "Strength",
+              "Attack",
+              "Defence",
+              "Hitpoints"
+            ],
+            "xp": 25000
+          },
+          {
+            "minLevel": 0,
+            "skills": [
+              "Magic",
+              "Ranged",
+              "Strength",
+              "Attack",
+              "Defence",
+              "Hitpoints"
+            ],
+            "xp": 25000
+          },
+          {
+            "minLevel": 0,
+            "skills": [
+              "Magic",
+              "Ranged",
+              "Strength",
+              "Attack",
+              "Defence",
+              "Hitpoints"
+            ],
+            "xp": 25000
+          }
+        ],
+        "xp": {
+          "Agility": 50000,
+          "Mining": 60000,
+          "Smithing": 80000,
+          "Thieving": 50000
+        }
+      },
       "skills": [
         {
           "boostable": false,
@@ -1034,6 +1448,13 @@
       ],
       "prereqsStarted": [],
       "questPoints": 2,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Hitpoints": 15000,
+          "Magic": 10000
+        }
+      },
       "skills": [
         {
           "boostable": false,
@@ -1070,6 +1491,12 @@
       "prereqs": [],
       "prereqsStarted": [],
       "questPoints": 4,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Herblore": 250
+        }
+      },
       "skills": [],
       "source": "questreq",
       "wikiTitle": "Druidic Ritual"
@@ -1087,6 +1514,12 @@
       "prereqs": [],
       "prereqsStarted": [],
       "questPoints": 1,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Crafting": 750
+        }
+      },
       "skills": [],
       "source": "questreq",
       "wikiTitle": "Dwarf Cannon"
@@ -1102,6 +1535,12 @@
       ],
       "prereqsStarted": [],
       "questPoints": 1,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Herblore": 11000
+        }
+      },
       "skills": [
         {
           "boostable": true,
@@ -1130,6 +1569,12 @@
       "prereqs": [],
       "prereqsStarted": [],
       "questPoints": 2,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Hunter": 2500
+        }
+      },
       "skills": [
         {
           "boostable": true,
@@ -1149,6 +1594,13 @@
       "prereqs": [],
       "prereqsStarted": [],
       "questPoints": 1,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Crafting": 5000,
+          "Smithing": 5000
+        }
+      },
       "skills": [
         {
           "boostable": true,
@@ -1197,6 +1649,13 @@
       ],
       "prereqsStarted": [],
       "questPoints": 1,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Crafting": 7500,
+          "Smithing": 7500
+        }
+      },
       "skills": [
         {
           "boostable": true,
@@ -1263,6 +1722,15 @@
       "prereqs": [],
       "prereqsStarted": [],
       "questPoints": 2,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Crafting": 7000,
+          "Firemaking": 7000,
+          "Magic": 7000,
+          "Mining": 7000
+        }
+      },
       "skills": [
         {
           "boostable": false,
@@ -1317,6 +1785,10 @@
       ],
       "prereqsStarted": [],
       "questPoints": null,
+      "rewards": {
+        "lamps": [],
+        "xp": {}
+      },
       "skills": [],
       "source": "questreq",
       "wikiTitle": "The Enchanted Key"
@@ -1342,6 +1814,15 @@
       "prereqs": [],
       "prereqsStarted": [],
       "questPoints": 1,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Crafting": 2000,
+          "Farming": 3000,
+          "Firemaking": 4000,
+          "Woodcutting": 1500
+        }
+      },
       "skills": [
         {
           "boostable": false,
@@ -1381,6 +1862,12 @@
       ],
       "prereqsStarted": [],
       "questPoints": null,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Runecraft": 1000
+        }
+      },
       "skills": [],
       "source": "questreq",
       "wikiTitle": "Enter the Abyss"
@@ -1393,6 +1880,10 @@
       "prereqs": [],
       "prereqsStarted": [],
       "questPoints": 4,
+      "rewards": {
+        "lamps": [],
+        "xp": {}
+      },
       "skills": [],
       "source": "questreq",
       "wikiTitle": "Ernest the Chicken"
@@ -1436,6 +1927,15 @@
       ],
       "prereqsStarted": [],
       "questPoints": 2,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Construction": 250,
+          "Magic": 12000,
+          "Runecraft": 6000,
+          "Woodcutting": 2500
+        }
+      },
       "skills": [
         {
           "boostable": false,
@@ -1491,6 +1991,14 @@
       ],
       "prereqsStarted": [],
       "questPoints": 2,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Attack": 2000,
+          "Farming": 3500,
+          "Magic": 1000
+        }
+      },
       "skills": [],
       "source": "questreq",
       "wikiTitle": "Fairytale I - Growing Pains"
@@ -1523,6 +2031,43 @@
       ],
       "prereqsStarted": [],
       "questPoints": 2,
+      "rewards": {
+        "lamps": [
+          {
+            "minLevel": 30,
+            "skills": [
+              "Attack",
+              "Strength",
+              "Defence",
+              "Ranged",
+              "Prayer",
+              "Magic",
+              "Runecraft",
+              "Construction",
+              "Hitpoints",
+              "Agility",
+              "Herblore",
+              "Thieving",
+              "Crafting",
+              "Fletching",
+              "Slayer",
+              "Hunter",
+              "Mining",
+              "Smithing",
+              "Fishing",
+              "Cooking",
+              "Firemaking",
+              "Woodcutting",
+              "Farming"
+            ],
+            "xp": 2500
+          }
+        ],
+        "xp": {
+          "Herblore": 3500,
+          "Thieving": 2500
+        }
+      },
       "skills": [
         {
           "boostable": true,
@@ -1554,6 +2099,10 @@
       "prereqs": [],
       "prereqsStarted": [],
       "questPoints": 1,
+      "rewards": {
+        "lamps": [],
+        "xp": {}
+      },
       "skills": [
         {
           "boostable": true,
@@ -1593,6 +2142,10 @@
       ],
       "prereqsStarted": [],
       "questPoints": null,
+      "rewards": {
+        "lamps": [],
+        "xp": {}
+      },
       "skills": [],
       "source": "questreq",
       "wikiTitle": "Family Pest"
@@ -1605,6 +2158,12 @@
       "prereqs": [],
       "prereqsStarted": [],
       "questPoints": 1,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Thieving": 15000
+        }
+      },
       "skills": [
         {
           "boostable": false,
@@ -1624,6 +2183,13 @@
       "prereqs": [],
       "prereqsStarted": [],
       "questPoints": 2,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Attack": 12175,
+          "Thieving": 2175
+        }
+      },
       "skills": [],
       "source": "questreq",
       "wikiTitle": "Fight Arena"
@@ -1653,6 +2219,12 @@
       "prereqs": [],
       "prereqsStarted": [],
       "questPoints": 1,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Fishing": 2437
+        }
+      },
       "skills": [
         {
           "boostable": false,
@@ -1696,6 +2268,13 @@
       ],
       "prereqsStarted": [],
       "questPoints": 2,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Cooking": 5000,
+          "Farming": 5000
+        }
+      },
       "skills": [
         {
           "boostable": true,
@@ -1728,6 +2307,13 @@
       ],
       "prereqsStarted": [],
       "questPoints": 1,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Mining": 500,
+          "Smithing": 500
+        }
+      },
       "skills": [],
       "source": "questreq",
       "wikiTitle": "The Forsaken Tower"
@@ -1781,7 +2367,15 @@
         "Heroes' Quest"
       ],
       "prereqsStarted": [],
-      "questPoints": null,
+      "questPoints": 2,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Crafting": 50000,
+          "Runecraft": 30000,
+          "Slayer": 50000
+        }
+      },
       "skills": [
         {
           "boostable": false,
@@ -1836,6 +2430,14 @@
       ],
       "prereqsStarted": [],
       "questPoints": 1,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Construction": 5000,
+          "Crafting": 5000,
+          "Woodcutting": 10000
+        }
+      },
       "skills": [
         {
           "boostable": true,
@@ -1866,7 +2468,22 @@
       "prereqNotes": [],
       "prereqs": [],
       "prereqsStarted": [],
-      "questPoints": null,
+      "questPoints": 3,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Agility": 2812,
+          "Attack": 2812,
+          "Crafting": 2812,
+          "Defence": 2812,
+          "Fishing": 2812,
+          "Fletching": 2812,
+          "Hitpoints": 2812,
+          "Strength": 2812,
+          "Thieving": 2812,
+          "Woodcutting": 2812
+        }
+      },
       "skills": [],
       "source": "questreq",
       "wikiTitle": "The Fremennik Trials"
@@ -1890,6 +2507,12 @@
       ],
       "prereqsStarted": [],
       "questPoints": 2,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Farming": 5000
+        }
+      },
       "skills": [
         {
           "boostable": false,
@@ -1917,6 +2540,12 @@
       ],
       "prereqsStarted": [],
       "questPoints": null,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Slayer": 2000
+        }
+      },
       "skills": [],
       "source": "questreq",
       "wikiTitle": "The General's Shadow"
@@ -1929,6 +2558,12 @@
       "prereqs": [],
       "prereqsStarted": [],
       "questPoints": 1,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Cooking": 1525
+        }
+      },
       "skills": [],
       "source": "questreq",
       "wikiTitle": "Gertrude's Cat"
@@ -1978,6 +2613,13 @@
       "prereqs": [],
       "prereqsStarted": [],
       "questPoints": 1,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Construction": 3200,
+          "Crafting": 4000
+        }
+      },
       "skills": [
         {
           "boostable": false,
@@ -2034,7 +2676,13 @@
         "The Restless Ghost"
       ],
       "prereqsStarted": [],
-      "questPoints": null,
+      "questPoints": 2,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Prayer": 2400
+        }
+      },
       "skills": [
         {
           "boostable": true,
@@ -2060,6 +2708,17 @@
       "prereqs": [],
       "prereqsStarted": [],
       "questPoints": 2,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Crafting": 2500,
+          "Firemaking": 1500,
+          "Magic": 1500,
+          "Mining": 2500,
+          "Smithing": 2500,
+          "Thieving": 1500
+        }
+      },
       "skills": [
         {
           "boostable": false,
@@ -2097,6 +2756,12 @@
       "prereqs": [],
       "prereqsStarted": [],
       "questPoints": 5,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Crafting": 200
+        }
+      },
       "skills": [],
       "source": "questreq",
       "wikiTitle": "Goblin Diplomacy"
@@ -2109,6 +2774,13 @@
       "prereqs": [],
       "prereqsStarted": [],
       "questPoints": 1,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Crafting": 1000,
+          "Thieving": 1000
+        }
+      },
       "skills": [
         {
           "boostable": true,
@@ -2134,6 +2806,14 @@
       "prereqs": [],
       "prereqsStarted": [],
       "questPoints": 5,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Agility": 7900,
+          "Attack": 18400,
+          "Magic": 2150
+        }
+      },
       "skills": [
         {
           "boostable": true,
@@ -2166,6 +2846,14 @@
       ],
       "prereqsStarted": [],
       "questPoints": 2,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Construction": 2000,
+          "Crafting": 3000,
+          "Prayer": 6000
+        }
+      },
       "skills": [
         {
           "boostable": false,
@@ -2213,6 +2901,17 @@
       ],
       "prereqsStarted": [],
       "questPoints": 1,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Agility": 25000,
+          "Farming": 10000,
+          "Herblore": 15000,
+          "Hitpoints": 5000,
+          "Thieving": 25000,
+          "Woodcutting": 60000
+        }
+      },
       "skills": [
         {
           "boostable": true,
@@ -2277,6 +2976,13 @@
       "prereqs": [],
       "prereqsStarted": [],
       "questPoints": 1,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Crafting": 9000,
+          "Thieving": 1000
+        }
+      },
       "skills": [
         {
           "boostable": false,
@@ -2304,6 +3010,12 @@
       ],
       "prereqsStarted": [],
       "questPoints": 2,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Strength": 22000
+        }
+      },
       "skills": [
         {
           "boostable": true,
@@ -2323,6 +3035,12 @@
       "prereqs": [],
       "prereqsStarted": [],
       "questPoints": 1,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Thieving": 1500
+        }
+      },
       "skills": [],
       "source": "questreq",
       "wikiTitle": "Hazeel Cult"
@@ -2340,7 +3058,24 @@
         "Shield of Arrav"
       ],
       "prereqsStarted": [],
-      "questPoints": null,
+      "questPoints": 1,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Attack": 3075,
+          "Cooking": 2825,
+          "Defence": 3075,
+          "Firemaking": 1575,
+          "Fishing": 2725,
+          "Herblore": 1325,
+          "Hitpoints": 3075,
+          "Mining": 2575,
+          "Ranged": 2075,
+          "Smithing": 2275,
+          "Strength": 3075,
+          "Woodcutting": 1575
+        }
+      },
       "skills": [
         {
           "boostable": false,
@@ -2391,6 +3126,13 @@
       ],
       "prereqsStarted": [],
       "questPoints": 2,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Defence": 15300,
+          "Prayer": 11000
+        }
+      },
       "skills": [
         {
           "boostable": false,
@@ -2445,6 +3187,14 @@
       ],
       "prereqsStarted": [],
       "questPoints": 2,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Magic": 4662,
+          "Ranged": 4662,
+          "Strength": 4662
+        }
+      },
       "skills": [
         {
           "boostable": true,
@@ -2466,6 +3216,14 @@
       ],
       "prereqsStarted": [],
       "questPoints": 2,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Agility": 4000,
+          "Thieving": 4500,
+          "Woodcutting": 4000
+        }
+      },
       "skills": [],
       "source": "questreq",
       "wikiTitle": "Icthlarin's Little Helper"
@@ -2491,6 +3249,12 @@
       "prereqs": [],
       "prereqsStarted": [],
       "questPoints": 1,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Magic": 875
+        }
+      },
       "skills": [],
       "source": "questreq",
       "wikiTitle": "Imp Catcher"
@@ -2541,7 +3305,16 @@
         "In Search of the Myreque"
       ],
       "prereqsStarted": [],
-      "questPoints": null,
+      "questPoints": 2,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Attack": 2000,
+          "Crafting": 2000,
+          "Defence": 2000,
+          "Strength": 2000
+        }
+      },
       "skills": [
         {
           "boostable": true,
@@ -2591,6 +3364,10 @@
       "prereqs": [],
       "prereqsStarted": [],
       "questPoints": null,
+      "rewards": {
+        "lamps": [],
+        "xp": {}
+      },
       "skills": [],
       "source": "questreq",
       "wikiTitle": "In Search of Knowledge"
@@ -2605,6 +3382,16 @@
       ],
       "prereqsStarted": [],
       "questPoints": 2,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Attack": 600,
+          "Crafting": 600,
+          "Defence": 600,
+          "Hitpoints": 600,
+          "Strength": 600
+        }
+      },
       "skills": [
         {
           "boostable": true,
@@ -2626,6 +3413,12 @@
       ],
       "prereqsStarted": [],
       "questPoints": 1,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Herblore": 775
+        }
+      },
       "skills": [
         {
           "boostable": false,
@@ -2654,6 +3447,69 @@
       ],
       "prereqsStarted": [],
       "questPoints": 2,
+      "rewards": {
+        "lamps": [
+          {
+            "minLevel": 40,
+            "skills": [
+              "Attack",
+              "Strength",
+              "Defence",
+              "Ranged",
+              "Prayer",
+              "Magic",
+              "Runecraft",
+              "Construction",
+              "Hitpoints",
+              "Agility",
+              "Herblore",
+              "Thieving",
+              "Crafting",
+              "Fletching",
+              "Slayer",
+              "Hunter",
+              "Mining",
+              "Smithing",
+              "Fishing",
+              "Cooking",
+              "Firemaking",
+              "Woodcutting",
+              "Farming"
+            ],
+            "xp": 10000
+          },
+          {
+            "minLevel": 40,
+            "skills": [
+              "Attack",
+              "Strength",
+              "Defence",
+              "Ranged",
+              "Prayer",
+              "Magic",
+              "Runecraft",
+              "Construction",
+              "Hitpoints",
+              "Agility",
+              "Herblore",
+              "Thieving",
+              "Crafting",
+              "Fletching",
+              "Slayer",
+              "Hunter",
+              "Mining",
+              "Smithing",
+              "Fishing",
+              "Cooking",
+              "Firemaking",
+              "Woodcutting",
+              "Farming"
+            ],
+            "xp": 10000
+          }
+        ],
+        "xp": {}
+      },
       "skills": [
         {
           "boostable": false,
@@ -2727,6 +3583,43 @@
       ],
       "prereqsStarted": [],
       "questPoints": 1,
+      "rewards": {
+        "lamps": [
+          {
+            "minLevel": 50,
+            "skills": [
+              "Attack",
+              "Strength",
+              "Defence",
+              "Ranged",
+              "Prayer",
+              "Magic",
+              "Runecraft",
+              "Construction",
+              "Hitpoints",
+              "Agility",
+              "Herblore",
+              "Thieving",
+              "Crafting",
+              "Fletching",
+              "Slayer",
+              "Hunter",
+              "Mining",
+              "Smithing",
+              "Fishing",
+              "Cooking",
+              "Firemaking",
+              "Woodcutting",
+              "Farming"
+            ],
+            "xp": 5000
+          }
+        ],
+        "xp": {
+          "Defence": 33000,
+          "Magic": 5000
+        }
+      },
       "skills": [
         {
           "boostable": false,
@@ -2752,6 +3645,12 @@
       "prereqs": [],
       "prereqsStarted": [],
       "questPoints": 1,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Smithing": 12725
+        }
+      },
       "skills": [
         {
           "boostable": true,
@@ -2791,6 +3690,12 @@
       ],
       "prereqsStarted": [],
       "questPoints": null,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Slayer": 5000
+        }
+      },
       "skills": [
         {
           "boostable": false,
@@ -2816,6 +3721,83 @@
       ],
       "prereqsStarted": [],
       "questPoints": 4,
+      "rewards": {
+        "lamps": [
+          {
+            "minLevel": 0,
+            "skills": [
+              "Attack",
+              "Defence",
+              "Strength",
+              "Hitpoints",
+              "Prayer",
+              "Magic",
+              "Woodcutting",
+              "Crafting",
+              "Smithing",
+              "Herblore",
+              "Agility",
+              "Thieving"
+            ],
+            "xp": 30000
+          },
+          {
+            "minLevel": 0,
+            "skills": [
+              "Attack",
+              "Defence",
+              "Strength",
+              "Hitpoints",
+              "Prayer",
+              "Magic",
+              "Woodcutting",
+              "Crafting",
+              "Smithing",
+              "Herblore",
+              "Agility",
+              "Thieving"
+            ],
+            "xp": 30000
+          },
+          {
+            "minLevel": 0,
+            "skills": [
+              "Attack",
+              "Defence",
+              "Strength",
+              "Hitpoints",
+              "Prayer",
+              "Magic",
+              "Woodcutting",
+              "Crafting",
+              "Smithing",
+              "Herblore",
+              "Agility",
+              "Thieving"
+            ],
+            "xp": 30000
+          },
+          {
+            "minLevel": 0,
+            "skills": [
+              "Attack",
+              "Defence",
+              "Strength",
+              "Hitpoints",
+              "Prayer",
+              "Magic",
+              "Woodcutting",
+              "Crafting",
+              "Smithing",
+              "Herblore",
+              "Agility",
+              "Thieving"
+            ],
+            "xp": 30000
+          }
+        ],
+        "xp": {}
+      },
       "skills": [
         {
           "boostable": false,
@@ -2895,6 +3877,10 @@
       "prereqs": [],
       "prereqsStarted": [],
       "questPoints": 3,
+      "rewards": {
+        "lamps": [],
+        "xp": {}
+      },
       "skills": [
         {
           "boostable": true,
@@ -2923,6 +3909,12 @@
       ],
       "prereqsStarted": [],
       "questPoints": 1,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Mining": 3000
+        }
+      },
       "skills": [
         {
           "boostable": true,
@@ -2964,6 +3956,13 @@
       ],
       "prereqsStarted": [],
       "questPoints": 2,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Magic": 5000,
+          "Runecraft": 5000
+        }
+      },
       "skills": [
         {
           "boostable": false,
@@ -3019,6 +4018,10 @@
       "prereqs": [],
       "prereqsStarted": [],
       "questPoints": null,
+      "rewards": {
+        "lamps": [],
+        "xp": {}
+      },
       "skills": [
         {
           "boostable": false,
@@ -3045,6 +4048,10 @@
       ],
       "prereqsStarted": [],
       "questPoints": null,
+      "rewards": {
+        "lamps": [],
+        "xp": {}
+      },
       "skills": [
         {
           "boostable": false,
@@ -3106,6 +4113,15 @@
       ],
       "prereqsStarted": [],
       "questPoints": 2,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Agility": 50000,
+          "Construction": 10000,
+          "Firemaking": 40000,
+          "Mining": 50000
+        }
+      },
       "skills": [
         {
           "boostable": true,
@@ -3159,6 +4175,43 @@
       ],
       "prereqsStarted": [],
       "questPoints": 3,
+      "rewards": {
+        "lamps": [
+          {
+            "minLevel": 20,
+            "skills": [
+              "Attack",
+              "Strength",
+              "Defence",
+              "Ranged",
+              "Prayer",
+              "Magic",
+              "Runecraft",
+              "Construction",
+              "Hitpoints",
+              "Agility",
+              "Herblore",
+              "Thieving",
+              "Crafting",
+              "Fletching",
+              "Slayer",
+              "Hunter",
+              "Mining",
+              "Smithing",
+              "Fishing",
+              "Cooking",
+              "Firemaking",
+              "Woodcutting",
+              "Farming"
+            ],
+            "xp": 1000
+          }
+        ],
+        "xp": {
+          "Crafting": 1000,
+          "Prayer": 1000
+        }
+      },
       "skills": [],
       "source": "questreq",
       "wikiTitle": "Making History"
@@ -3188,6 +4241,40 @@
       "prereqs": [],
       "prereqsStarted": [],
       "questPoints": 6,
+      "rewards": {
+        "lamps": [
+          {
+            "minLevel": 20,
+            "skills": [
+              "Attack",
+              "Strength",
+              "Defence",
+              "Ranged",
+              "Prayer",
+              "Magic",
+              "Runecraft",
+              "Construction",
+              "Hitpoints",
+              "Agility",
+              "Herblore",
+              "Thieving",
+              "Crafting",
+              "Fletching",
+              "Slayer",
+              "Hunter",
+              "Mining",
+              "Smithing",
+              "Fishing",
+              "Cooking",
+              "Firemaking",
+              "Woodcutting",
+              "Farming"
+            ],
+            "xp": 1000
+          }
+        ],
+        "xp": {}
+      },
       "skills": [],
       "source": "questreq",
       "wikiTitle": "Merlin's Crystal"
@@ -3209,6 +4296,12 @@
       "prereqs": [],
       "prereqsStarted": [],
       "questPoints": 1,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Crafting": 600
+        }
+      },
       "skills": [],
       "source": "questreq",
       "wikiTitle": "Misthalin Mystery"
@@ -3224,6 +4317,10 @@
       ],
       "prereqsStarted": [],
       "questPoints": 3,
+      "rewards": {
+        "lamps": [],
+        "xp": {}
+      },
       "skills": [],
       "source": "questreq",
       "wikiTitle": "Monkey Madness I"
@@ -3250,7 +4347,16 @@
         "Watchtower"
       ],
       "prereqsStarted": [],
-      "questPoints": null,
+      "questPoints": 4,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Agility": 60000,
+          "Hunter": 50000,
+          "Slayer": 80000,
+          "Thieving": 50000
+        }
+      },
       "skills": [
         {
           "boostable": false,
@@ -3300,6 +4406,12 @@
       "prereqs": [],
       "prereqsStarted": [],
       "questPoints": 1,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Woodcutting": 2000
+        }
+      },
       "skills": [],
       "source": "questreq",
       "wikiTitle": "Monk's Friend"
@@ -3312,6 +4424,13 @@
       "prereqs": [],
       "prereqsStarted": [],
       "questPoints": 2,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Attack": 1000,
+          "Prayer": 2000
+        }
+      },
       "skills": [
         {
           "boostable": true,
@@ -3372,6 +4491,13 @@
       ],
       "prereqsStarted": [],
       "questPoints": 2,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Hitpoints": 25000,
+          "Thieving": 40000
+        }
+      },
       "skills": [
         {
           "boostable": false,
@@ -3404,6 +4530,12 @@
       ],
       "prereqsStarted": [],
       "questPoints": 2,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Agility": 60000
+        }
+      },
       "skills": [],
       "source": "questreq",
       "wikiTitle": "Mourning's End Part II"
@@ -3416,6 +4548,12 @@
       "prereqs": [],
       "prereqsStarted": [],
       "questPoints": 3,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Crafting": 1406
+        }
+      },
       "skills": [],
       "source": "questreq",
       "wikiTitle": "Murder Mystery"
@@ -3465,6 +4603,13 @@
       ],
       "prereqsStarted": [],
       "questPoints": 1,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Farming": 5000,
+          "Herblore": 10000
+        }
+      },
       "skills": [
         {
           "boostable": true,
@@ -3493,6 +4638,14 @@
       ],
       "prereqsStarted": [],
       "questPoints": 2,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Crafting": 3000,
+          "Defence": 2000,
+          "Hitpoints": 2000
+        }
+      },
       "skills": [
         {
           "boostable": true,
@@ -3527,6 +4680,59 @@
       ],
       "prereqsStarted": [],
       "questPoints": 2,
+      "rewards": {
+        "lamps": [
+          {
+            "minLevel": 50,
+            "skills": [
+              "Attack",
+              "Strength",
+              "Defence",
+              "Ranged",
+              "Magic",
+              "Hitpoints"
+            ],
+            "xp": 20000
+          },
+          {
+            "minLevel": 50,
+            "skills": [
+              "Attack",
+              "Strength",
+              "Defence",
+              "Ranged",
+              "Magic",
+              "Hitpoints"
+            ],
+            "xp": 20000
+          },
+          {
+            "minLevel": 50,
+            "skills": [
+              "Attack",
+              "Strength",
+              "Defence",
+              "Ranged",
+              "Magic",
+              "Hitpoints"
+            ],
+            "xp": 20000
+          },
+          {
+            "minLevel": 50,
+            "skills": [
+              "Attack",
+              "Strength",
+              "Defence",
+              "Ranged",
+              "Magic",
+              "Hitpoints"
+            ],
+            "xp": 20000
+          }
+        ],
+        "xp": {}
+      },
       "skills": [],
       "source": "questreq",
       "wikiTitle": "A Night at the Theatre"
@@ -3539,6 +4745,12 @@
       "prereqs": [],
       "prereqsStarted": [],
       "questPoints": 2,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Crafting": 2250
+        }
+      },
       "skills": [],
       "source": "questreq",
       "wikiTitle": "Observatory Quest"
@@ -3561,7 +4773,13 @@
         "The Fremennik Trials"
       ],
       "prereqsStarted": [],
-      "questPoints": null,
+      "questPoints": 1,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Defence": 12000
+        }
+      },
       "skills": [
         {
           "boostable": true,
@@ -3590,6 +4808,69 @@
       ],
       "prereqsStarted": [],
       "questPoints": 2,
+      "rewards": {
+        "lamps": [
+          {
+            "minLevel": 30,
+            "skills": [
+              "Attack",
+              "Strength",
+              "Defence",
+              "Ranged",
+              "Prayer",
+              "Magic",
+              "Runecraft",
+              "Construction",
+              "Hitpoints",
+              "Agility",
+              "Herblore",
+              "Thieving",
+              "Crafting",
+              "Fletching",
+              "Slayer",
+              "Hunter",
+              "Mining",
+              "Smithing",
+              "Fishing",
+              "Cooking",
+              "Firemaking",
+              "Woodcutting",
+              "Farming"
+            ],
+            "xp": 10000
+          },
+          {
+            "minLevel": 30,
+            "skills": [
+              "Attack",
+              "Strength",
+              "Defence",
+              "Ranged",
+              "Prayer",
+              "Magic",
+              "Runecraft",
+              "Construction",
+              "Hitpoints",
+              "Agility",
+              "Herblore",
+              "Thieving",
+              "Crafting",
+              "Fletching",
+              "Slayer",
+              "Hunter",
+              "Mining",
+              "Smithing",
+              "Fishing",
+              "Cooking",
+              "Firemaking",
+              "Woodcutting",
+              "Farming"
+            ],
+            "xp": 10000
+          }
+        ],
+        "xp": {}
+      },
       "skills": [
         {
           "boostable": false,
@@ -3640,6 +4921,10 @@
       "prereqs": [],
       "prereqsStarted": [],
       "questPoints": 2,
+      "rewards": {
+        "lamps": [],
+        "xp": {}
+      },
       "skills": [],
       "source": "questreq",
       "wikiTitle": "Pirate's Treasure"
@@ -3689,6 +4974,12 @@
       "prereqs": [],
       "prereqsStarted": [],
       "questPoints": 1,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Mining": 2425
+        }
+      },
       "skills": [],
       "source": "questreq",
       "wikiTitle": "Plague City"
@@ -3701,6 +4992,12 @@
       "prereqs": [],
       "prereqsStarted": [],
       "questPoints": 1,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Slayer": 1000
+        }
+      },
       "skills": [],
       "source": "questreq",
       "wikiTitle": "A Porcine of Interest"
@@ -3713,6 +5010,12 @@
       "prereqs": [],
       "prereqsStarted": [],
       "questPoints": 1,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Prayer": 1406
+        }
+      },
       "skills": [],
       "source": "questreq",
       "wikiTitle": "Priest in Peril"
@@ -3762,6 +5065,10 @@
       "prereqs": [],
       "prereqsStarted": [],
       "questPoints": 3,
+      "rewards": {
+        "lamps": [],
+        "xp": {}
+      },
       "skills": [],
       "source": "questreq",
       "wikiTitle": "Prince Ali Rescue"
@@ -3776,6 +5083,12 @@
       ],
       "prereqsStarted": [],
       "questPoints": 1,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Thieving": 2000
+        }
+      },
       "skills": [
         {
           "boostable": false,
@@ -3800,6 +5113,13 @@
       "prereqs": [],
       "prereqsStarted": [],
       "questPoints": 1,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Cooking": 500,
+          "Prayer": 500
+        }
+      },
       "skills": [],
       "source": "questreq",
       "wikiTitle": "Rag and Bone Man I"
@@ -3850,6 +5170,12 @@
         "Zogre Flesh Eaters"
       ],
       "questPoints": null,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Prayer": 5000
+        }
+      },
       "skills": [
         {
           "boostable": false,
@@ -3916,6 +5242,12 @@
         "The Giant Dwarf"
       ],
       "questPoints": 2,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Thieving": 4500
+        }
+      },
       "skills": [],
       "source": "questreq",
       "wikiTitle": "Ratcatchers"
@@ -4059,6 +5391,10 @@
       ],
       "prereqsStarted": [],
       "questPoints": 10,
+      "rewards": {
+        "lamps": [],
+        "xp": {}
+      },
       "skills": [],
       "source": "questreq",
       "wikiTitle": "Recipe for Disaster"
@@ -4074,6 +5410,14 @@
       ],
       "prereqsStarted": [],
       "questPoints": 1,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Agility": 1000,
+          "Herblore": 1000,
+          "Prayer": 1000
+        }
+      },
       "skills": [],
       "source": "questreq",
       "wikiTitle": "Recruitment Drive"
@@ -4087,7 +5431,13 @@
         "Underground Pass"
       ],
       "prereqsStarted": [],
-      "questPoints": null,
+      "questPoints": 3,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Agility": 13750
+        }
+      },
       "skills": [
         {
           "boostable": true,
@@ -4113,6 +5463,12 @@
       "prereqs": [],
       "prereqsStarted": [],
       "questPoints": 1,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Prayer": 1125
+        }
+      },
       "skills": [],
       "source": "questreq",
       "wikiTitle": "The Restless Ghost"
@@ -4129,7 +5485,11 @@
       "prereqNotes": [],
       "prereqs": [],
       "prereqsStarted": [],
-      "questPoints": null,
+      "questPoints": 5,
+      "rewards": {
+        "lamps": [],
+        "xp": {}
+      },
       "skills": [],
       "source": "questreq",
       "wikiTitle": "Romeo & Juliet"
@@ -4145,6 +5505,12 @@
       ],
       "prereqsStarted": [],
       "questPoints": 1,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Strength": 10000
+        }
+      },
       "skills": [
         {
           "boostable": true,
@@ -4165,7 +5531,15 @@
         "Throne of Miscellania"
       ],
       "prereqsStarted": [],
-      "questPoints": null,
+      "questPoints": 1,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Agility": 5000,
+          "Hitpoints": 5000,
+          "Slayer": 5000
+        }
+      },
       "skills": [
         {
           "boostable": true,
@@ -4207,6 +5581,14 @@
       ],
       "prereqsStarted": [],
       "questPoints": 2,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Farming": 7000,
+          "Fishing": 7000,
+          "Prayer": 7000
+        }
+      },
       "skills": [
         {
           "boostable": true,
@@ -4255,6 +5637,10 @@
       "prereqs": [],
       "prereqsStarted": [],
       "questPoints": 1,
+      "rewards": {
+        "lamps": [],
+        "xp": {}
+      },
       "skills": [],
       "source": "questreq",
       "wikiTitle": "Rune Mysteries"
@@ -4274,6 +5660,12 @@
       ],
       "prereqsStarted": [],
       "questPoints": 1,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Strength": 6625
+        }
+      },
       "skills": [
         {
           "boostable": false,
@@ -4293,6 +5685,12 @@
       "prereqs": [],
       "prereqsStarted": [],
       "questPoints": 1,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Fishing": 7175
+        }
+      },
       "skills": [
         {
           "boostable": true,
@@ -4324,6 +5722,13 @@
       ],
       "prereqsStarted": [],
       "questPoints": 3,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Crafting": 2000,
+          "Herblore": 2000
+        }
+      },
       "skills": [
         {
           "boostable": false,
@@ -4375,6 +5780,10 @@
       ],
       "prereqsStarted": [],
       "questPoints": 1,
+      "rewards": {
+        "lamps": [],
+        "xp": {}
+      },
       "skills": [
         {
           "boostable": true,
@@ -4394,6 +5803,10 @@
       "prereqs": [],
       "prereqsStarted": [],
       "questPoints": 4,
+      "rewards": {
+        "lamps": [],
+        "xp": {}
+      },
       "skills": [],
       "source": "questreq",
       "wikiTitle": "Sheep Herder"
@@ -4411,6 +5824,10 @@
       "prereqs": [],
       "prereqsStarted": [],
       "questPoints": 1,
+      "rewards": {
+        "lamps": [],
+        "xp": {}
+      },
       "skills": [],
       "source": "questreq",
       "wikiTitle": "Sheep Shearer"
@@ -4423,6 +5840,40 @@
       "prereqs": [],
       "prereqsStarted": [],
       "questPoints": 1,
+      "rewards": {
+        "lamps": [
+          {
+            "minLevel": 20,
+            "skills": [
+              "Attack",
+              "Strength",
+              "Defence",
+              "Ranged",
+              "Prayer",
+              "Magic",
+              "Runecraft",
+              "Construction",
+              "Hitpoints",
+              "Agility",
+              "Herblore",
+              "Thieving",
+              "Crafting",
+              "Fletching",
+              "Slayer",
+              "Hunter",
+              "Mining",
+              "Smithing",
+              "Fishing",
+              "Cooking",
+              "Firemaking",
+              "Woodcutting",
+              "Farming"
+            ],
+            "xp": 1000
+          }
+        ],
+        "xp": {}
+      },
       "skills": [],
       "source": "questreq",
       "wikiTitle": "Shield of Arrav"
@@ -4437,6 +5888,12 @@
       ],
       "prereqsStarted": [],
       "questPoints": 2,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Crafting": 3875
+        }
+      },
       "skills": [
         {
           "boostable": true,
@@ -4492,6 +5949,185 @@
       ],
       "prereqsStarted": [],
       "questPoints": 2,
+      "rewards": {
+        "lamps": [
+          {
+            "minLevel": 60,
+            "skills": [
+              "Attack",
+              "Strength",
+              "Defence",
+              "Ranged",
+              "Prayer",
+              "Magic",
+              "Runecraft",
+              "Construction",
+              "Hitpoints",
+              "Agility",
+              "Herblore",
+              "Thieving",
+              "Crafting",
+              "Fletching",
+              "Slayer",
+              "Hunter",
+              "Mining",
+              "Smithing",
+              "Fishing",
+              "Cooking",
+              "Firemaking",
+              "Woodcutting",
+              "Farming"
+            ],
+            "xp": 15000
+          },
+          {
+            "minLevel": 60,
+            "skills": [
+              "Attack",
+              "Strength",
+              "Defence",
+              "Ranged",
+              "Prayer",
+              "Magic",
+              "Runecraft",
+              "Construction",
+              "Hitpoints",
+              "Agility",
+              "Herblore",
+              "Thieving",
+              "Crafting",
+              "Fletching",
+              "Slayer",
+              "Hunter",
+              "Mining",
+              "Smithing",
+              "Fishing",
+              "Cooking",
+              "Firemaking",
+              "Woodcutting",
+              "Farming"
+            ],
+            "xp": 15000
+          },
+          {
+            "minLevel": 60,
+            "skills": [
+              "Attack",
+              "Strength",
+              "Defence",
+              "Ranged",
+              "Prayer",
+              "Magic",
+              "Runecraft",
+              "Construction",
+              "Hitpoints",
+              "Agility",
+              "Herblore",
+              "Thieving",
+              "Crafting",
+              "Fletching",
+              "Slayer",
+              "Hunter",
+              "Mining",
+              "Smithing",
+              "Fishing",
+              "Cooking",
+              "Firemaking",
+              "Woodcutting",
+              "Farming"
+            ],
+            "xp": 15000
+          },
+          {
+            "minLevel": 60,
+            "skills": [
+              "Attack",
+              "Strength",
+              "Defence",
+              "Ranged",
+              "Prayer",
+              "Magic",
+              "Runecraft",
+              "Construction",
+              "Hitpoints",
+              "Agility",
+              "Herblore",
+              "Thieving",
+              "Crafting",
+              "Fletching",
+              "Slayer",
+              "Hunter",
+              "Mining",
+              "Smithing",
+              "Fishing",
+              "Cooking",
+              "Firemaking",
+              "Woodcutting",
+              "Farming"
+            ],
+            "xp": 15000
+          },
+          {
+            "minLevel": 60,
+            "skills": [
+              "Attack",
+              "Strength",
+              "Defence",
+              "Ranged",
+              "Prayer",
+              "Magic",
+              "Runecraft",
+              "Construction",
+              "Hitpoints",
+              "Agility",
+              "Herblore",
+              "Thieving",
+              "Crafting",
+              "Fletching",
+              "Slayer",
+              "Hunter",
+              "Mining",
+              "Smithing",
+              "Fishing",
+              "Cooking",
+              "Firemaking",
+              "Woodcutting",
+              "Farming"
+            ],
+            "xp": 15000
+          },
+          {
+            "minLevel": 60,
+            "skills": [
+              "Attack",
+              "Strength",
+              "Defence",
+              "Ranged",
+              "Prayer",
+              "Magic",
+              "Runecraft",
+              "Construction",
+              "Hitpoints",
+              "Agility",
+              "Herblore",
+              "Thieving",
+              "Crafting",
+              "Fletching",
+              "Slayer",
+              "Hunter",
+              "Mining",
+              "Smithing",
+              "Fishing",
+              "Cooking",
+              "Firemaking",
+              "Woodcutting",
+              "Farming"
+            ],
+            "xp": 15000
+          }
+        ],
+        "xp": {}
+      },
       "skills": [
         {
           "boostable": false,
@@ -4596,6 +6232,10 @@
       "prereqs": [],
       "prereqsStarted": [],
       "questPoints": null,
+      "rewards": {
+        "lamps": [],
+        "xp": {}
+      },
       "skills": [
         {
           "boostable": true,
@@ -4643,6 +6283,14 @@
       ],
       "prereqsStarted": [],
       "questPoints": 1,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Crafting": 3500,
+          "Runecraft": 3500,
+          "Thieving": 3500
+        }
+      },
       "skills": [
         {
           "boostable": false,
@@ -4789,6 +6437,19 @@
       ],
       "prereqsStarted": [],
       "questPoints": 4,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Agility": 40000,
+          "Construction": 40000,
+          "Farming": 40000,
+          "Herblore": 40000,
+          "Hunter": 40000,
+          "Mining": 40000,
+          "Smithing": 40000,
+          "Woodcutting": 40000
+        }
+      },
       "skills": [
         {
           "boostable": false,
@@ -4855,6 +6516,13 @@
       "prereqs": [],
       "prereqsStarted": [],
       "questPoints": 1,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Defence": 500,
+          "Hitpoints": 500
+        }
+      },
       "skills": [],
       "source": "questreq",
       "wikiTitle": "A Soul's Bane"
@@ -4895,7 +6563,15 @@
       "prereqNotes": [],
       "prereqs": [],
       "prereqsStarted": [],
-      "questPoints": null,
+      "questPoints": 2,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Magic": 1000,
+          "Prayer": 8000,
+          "Thieving": 1000
+        }
+      },
       "skills": [
         {
           "boostable": true,
@@ -4941,6 +6617,14 @@
       ],
       "prereqsStarted": [],
       "questPoints": 2,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Fishing": 50000,
+          "Magic": 15000,
+          "Prayer": 10000
+        }
+      },
       "skills": [
         {
           "boostable": false,
@@ -4998,6 +6682,15 @@
       ],
       "prereqsStarted": [],
       "questPoints": 2,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Attack": 2500,
+          "Cooking": 5000,
+          "Fishing": 5000,
+          "Strength": 2500
+        }
+      },
       "skills": [
         {
           "boostable": true,
@@ -5091,7 +6784,70 @@
         "Icthlarin's Little Helper"
       ],
       "prereqsStarted": [],
-      "questPoints": null,
+      "questPoints": 2,
+      "rewards": {
+        "lamps": [
+          {
+            "minLevel": 30,
+            "skills": [
+              "Attack",
+              "Strength",
+              "Defence",
+              "Ranged",
+              "Prayer",
+              "Magic",
+              "Runecraft",
+              "Construction",
+              "Hitpoints",
+              "Agility",
+              "Herblore",
+              "Thieving",
+              "Crafting",
+              "Fletching",
+              "Slayer",
+              "Hunter",
+              "Mining",
+              "Smithing",
+              "Fishing",
+              "Cooking",
+              "Firemaking",
+              "Woodcutting",
+              "Farming"
+            ],
+            "xp": 2500
+          },
+          {
+            "minLevel": 30,
+            "skills": [
+              "Attack",
+              "Strength",
+              "Defence",
+              "Ranged",
+              "Prayer",
+              "Magic",
+              "Runecraft",
+              "Construction",
+              "Hitpoints",
+              "Agility",
+              "Herblore",
+              "Thieving",
+              "Crafting",
+              "Fletching",
+              "Slayer",
+              "Hunter",
+              "Mining",
+              "Smithing",
+              "Fishing",
+              "Cooking",
+              "Firemaking",
+              "Woodcutting",
+              "Farming"
+            ],
+            "xp": 2500
+          }
+        ],
+        "xp": {}
+      },
       "skills": [],
       "source": "questreq",
       "wikiTitle": "A Tail of Two Cats"
@@ -5111,6 +6867,10 @@
       ],
       "prereqsStarted": [],
       "questPoints": 1,
+      "rewards": {
+        "lamps": [],
+        "xp": {}
+      },
       "skills": [
         {
           "boostable": false,
@@ -5168,6 +6928,98 @@
       ],
       "prereqsStarted": [],
       "questPoints": 1,
+      "rewards": {
+        "lamps": [
+          {
+            "minLevel": 35,
+            "skills": [
+              "Attack",
+              "Strength",
+              "Defence",
+              "Ranged",
+              "Prayer",
+              "Magic",
+              "Runecraft",
+              "Construction",
+              "Hitpoints",
+              "Agility",
+              "Herblore",
+              "Thieving",
+              "Crafting",
+              "Fletching",
+              "Slayer",
+              "Hunter",
+              "Mining",
+              "Smithing",
+              "Fishing",
+              "Cooking",
+              "Firemaking",
+              "Woodcutting",
+              "Farming"
+            ],
+            "xp": 2500
+          },
+          {
+            "minLevel": 35,
+            "skills": [
+              "Attack",
+              "Strength",
+              "Defence",
+              "Ranged",
+              "Prayer",
+              "Magic",
+              "Runecraft",
+              "Construction",
+              "Hitpoints",
+              "Agility",
+              "Herblore",
+              "Thieving",
+              "Crafting",
+              "Fletching",
+              "Slayer",
+              "Hunter",
+              "Mining",
+              "Smithing",
+              "Fishing",
+              "Cooking",
+              "Firemaking",
+              "Woodcutting",
+              "Farming"
+            ],
+            "xp": 2500
+          },
+          {
+            "minLevel": 35,
+            "skills": [
+              "Attack",
+              "Strength",
+              "Defence",
+              "Ranged",
+              "Prayer",
+              "Magic",
+              "Runecraft",
+              "Construction",
+              "Hitpoints",
+              "Agility",
+              "Herblore",
+              "Thieving",
+              "Crafting",
+              "Fletching",
+              "Slayer",
+              "Hunter",
+              "Mining",
+              "Smithing",
+              "Fishing",
+              "Cooking",
+              "Firemaking",
+              "Woodcutting",
+              "Farming"
+            ],
+            "xp": 2500
+          }
+        ],
+        "xp": {}
+      },
       "skills": [
         {
           "boostable": false,
@@ -5211,6 +7063,12 @@
       "prereqs": [],
       "prereqsStarted": [],
       "questPoints": 1,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Crafting": 1000
+        }
+      },
       "skills": [
         {
           "boostable": false,
@@ -5253,6 +7111,13 @@
       "prereqs": [],
       "prereqsStarted": [],
       "questPoints": 1,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Fletching": 8000,
+          "Ranged": 10500
+        }
+      },
       "skills": [
         {
           "boostable": false,
@@ -5281,6 +7146,10 @@
       ],
       "prereqsStarted": [],
       "questPoints": 1,
+      "rewards": {
+        "lamps": [],
+        "xp": {}
+      },
       "skills": [],
       "source": "questreq",
       "wikiTitle": "Throne of Miscellania"
@@ -5293,6 +7162,31 @@
       "prereqs": [],
       "prereqsStarted": [],
       "questPoints": 2,
+      "rewards": {
+        "lamps": [
+          {
+            "minLevel": 0,
+            "skills": [
+              "Agility",
+              "Fletching",
+              "Smithing",
+              "Thieving"
+            ],
+            "xp": 4650
+          },
+          {
+            "minLevel": 0,
+            "skills": [
+              "Agility",
+              "Fletching",
+              "Smithing",
+              "Thieving"
+            ],
+            "xp": 4650
+          }
+        ],
+        "xp": {}
+      },
       "skills": [
         {
           "boostable": true,
@@ -5331,6 +7225,14 @@
       "prereqs": [],
       "prereqsStarted": [],
       "questPoints": 2,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Construction": 1000,
+          "Crafting": 500,
+          "Thieving": 500
+        }
+      },
       "skills": [
         {
           "boostable": false,
@@ -5350,6 +7252,12 @@
       "prereqs": [],
       "prereqsStarted": [],
       "questPoints": 2,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Attack": 11450
+        }
+      },
       "skills": [],
       "source": "questreq",
       "wikiTitle": "Tree Gnome Village"
@@ -5362,6 +7270,12 @@
       "prereqs": [],
       "prereqsStarted": [],
       "questPoints": 1,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Thieving": 1775
+        }
+      },
       "skills": [
         {
           "boostable": true,
@@ -5382,7 +7296,14 @@
         "Troll Stronghold"
       ],
       "prereqsStarted": [],
-      "questPoints": null,
+      "questPoints": 2,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Agility": 8000,
+          "Strength": 4000
+        }
+      },
       "skills": [
         {
           "boostable": true,
@@ -5410,6 +7331,10 @@
       ],
       "prereqsStarted": [],
       "questPoints": 1,
+      "rewards": {
+        "lamps": [],
+        "xp": {}
+      },
       "skills": [
         {
           "boostable": true,
@@ -5431,6 +7356,13 @@
       ],
       "prereqsStarted": [],
       "questPoints": 5,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Agility": 3000,
+          "Attack": 3000
+        }
+      },
       "skills": [
         {
           "boostable": false,
@@ -5455,6 +7387,12 @@
       "prereqs": [],
       "prereqsStarted": [],
       "questPoints": 3,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Attack": 4825
+        }
+      },
       "skills": [],
       "source": "questreq",
       "wikiTitle": "Vampyre Slayer"
@@ -5473,6 +7411,12 @@
         "Enter the Abyss"
       ],
       "questPoints": 1,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Slayer": 5000
+        }
+      },
       "skills": [
         {
           "boostable": false,
@@ -5499,6 +7443,12 @@
       ],
       "prereqsStarted": [],
       "questPoints": 4,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Magic": 15250
+        }
+      },
       "skills": [
         {
           "boostable": true,
@@ -5542,6 +7492,13 @@
       "prereqs": [],
       "prereqsStarted": [],
       "questPoints": 1,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Attack": 13750,
+          "Strength": 13750
+        }
+      },
       "skills": [],
       "source": "questreq",
       "wikiTitle": "Waterfall Quest"
@@ -5561,6 +7518,13 @@
       ],
       "prereqsStarted": [],
       "questPoints": 1,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Defence": 2000,
+          "Runecraft": 8000
+        }
+      },
       "skills": [
         {
           "boostable": false,
@@ -5589,6 +7553,12 @@
       "prereqs": [],
       "prereqsStarted": [],
       "questPoints": 4,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Hitpoints": 6325
+        }
+      },
       "skills": [],
       "source": "questreq",
       "wikiTitle": "Witch's House"
@@ -5618,6 +7588,12 @@
       "prereqs": [],
       "prereqsStarted": [],
       "questPoints": 1,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Magic": 325
+        }
+      },
       "skills": [],
       "source": "questreq",
       "wikiTitle": "Witch's Potion"
@@ -5630,6 +7606,40 @@
       "prereqs": [],
       "prereqsStarted": [],
       "questPoints": 1,
+      "rewards": {
+        "lamps": [
+          {
+            "minLevel": 0,
+            "skills": [
+              "Attack",
+              "Strength",
+              "Defence",
+              "Ranged",
+              "Prayer",
+              "Magic",
+              "Runecraft",
+              "Construction",
+              "Hitpoints",
+              "Agility",
+              "Herblore",
+              "Thieving",
+              "Crafting",
+              "Fletching",
+              "Slayer",
+              "Hunter",
+              "Mining",
+              "Smithing",
+              "Fishing",
+              "Cooking",
+              "Firemaking",
+              "Woodcutting",
+              "Farming"
+            ],
+            "xp": 300
+          }
+        ],
+        "xp": {}
+      },
       "skills": [],
       "source": "questreq",
       "wikiTitle": "X Marks the Spot"
@@ -5650,6 +7660,14 @@
       ],
       "prereqsStarted": [],
       "questPoints": 1,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Fletching": 2000,
+          "Herblore": 2000,
+          "Ranged": 2000
+        }
+      },
       "skills": [
         {
           "boostable": false,
@@ -5683,6 +7701,10 @@
       ],
       "prereqsStarted": [],
       "questPoints": null,
+      "rewards": {
+        "lamps": [],
+        "xp": {}
+      },
       "skills": [
         {
           "boostable": false,
@@ -5723,6 +7745,15 @@
       ],
       "prereqsStarted": [],
       "questPoints": 2,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Agility": 8000,
+          "Fishing": 8000,
+          "Herblore": 8000,
+          "Thieving": 8000
+        }
+      },
       "skills": [
         {
           "boostable": false,
@@ -5766,6 +7797,10 @@
         "The Restless Ghost"
       ],
       "questPoints": null,
+      "rewards": {
+        "lamps": [],
+        "xp": {}
+      },
       "skills": [
         {
           "boostable": false,
@@ -5787,6 +7822,12 @@
       ],
       "prereqsStarted": [],
       "questPoints": 1,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Runecraft": 5000
+        }
+      },
       "skills": [
         {
           "boostable": false,
@@ -5808,6 +7849,12 @@
       ],
       "prereqsStarted": [],
       "questPoints": 2,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Agility": 50000
+        }
+      },
       "skills": [
         {
           "boostable": false,
@@ -5839,6 +7886,12 @@
       "prereqs": [],
       "prereqsStarted": [],
       "questPoints": 1,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Smithing": 6000
+        }
+      },
       "skills": [
         {
           "boostable": false,
@@ -5858,6 +7911,12 @@
       "prereqs": [],
       "prereqsStarted": [],
       "questPoints": 1,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Farming": 10000
+        }
+      },
       "skills": [
         {
           "boostable": false,
@@ -5879,6 +7938,23 @@
       ],
       "prereqsStarted": [],
       "questPoints": null,
+      "rewards": {
+        "lamps": [
+          {
+            "minLevel": 60,
+            "skills": [
+              "Attack",
+              "Strength",
+              "Defence",
+              "Hitpoints",
+              "Ranged",
+              "Magic"
+            ],
+            "xp": 50000
+          }
+        ],
+        "xp": {}
+      },
       "skills": [],
       "source": "questreq",
       "wikiTitle": "Into the Tombs"
@@ -5910,6 +7986,10 @@
       ],
       "prereqsStarted": [],
       "questPoints": 1,
+      "rewards": {
+        "lamps": [],
+        "xp": {}
+      },
       "skills": [
         {
           "boostable": false,
@@ -5953,6 +8033,13 @@
       ],
       "prereqsStarted": [],
       "questPoints": 1,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Cooking": 1000,
+          "Slayer": 1000
+        }
+      },
       "skills": [],
       "source": "questreq",
       "wikiTitle": "Recipe for Disaster/Freeing the Mountain Dwarf"
@@ -5993,6 +8080,14 @@
       ],
       "prereqsStarted": [],
       "questPoints": 1,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Cooking": 1000,
+          "Crafting": 1000,
+          "Farming": 1000
+        }
+      },
       "skills": [],
       "source": "questreq",
       "wikiTitle": "Recipe for Disaster/Freeing the Goblin generals"
@@ -6012,6 +8107,15 @@
       ],
       "prereqsStarted": [],
       "questPoints": 1,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Cooking": 1000,
+          "Crafting": 1000,
+          "Fishing": 1000,
+          "Smithing": 1000
+        }
+      },
       "skills": [
         {
           "boostable": false,
@@ -6060,6 +8164,13 @@
       ],
       "prereqsStarted": [],
       "questPoints": 1,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Cooking": 2500,
+          "Magic": 2500
+        }
+      },
       "skills": [
         {
           "boostable": true,
@@ -6083,6 +8194,12 @@
       ],
       "prereqsStarted": [],
       "questPoints": 1,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Cooking": 7000
+        }
+      },
       "skills": [
         {
           "boostable": false,
@@ -6146,6 +8263,15 @@
       ],
       "prereqsStarted": [],
       "questPoints": 1,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Cooking": 1500,
+          "Crafting": 1500,
+          "Ranged": 1500,
+          "Woodcutting": 1500
+        }
+      },
       "skills": [
         {
           "boostable": false,
@@ -6211,7 +8337,14 @@
       "prereqsStarted": [
         "Legends' Quest"
       ],
-      "questPoints": null,
+      "questPoints": 1,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Cooking": 4000,
+          "Hitpoints": 4000
+        }
+      },
       "skills": [
         {
           "boostable": true,
@@ -6267,6 +8400,13 @@
       ],
       "prereqsStarted": [],
       "questPoints": 1,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Agility": 10000,
+          "Cooking": 10000
+        }
+      },
       "skills": [
         {
           "boostable": false,
@@ -6312,6 +8452,40 @@
       ],
       "prereqsStarted": [],
       "questPoints": 1,
+      "rewards": {
+        "lamps": [
+          {
+            "minLevel": 50,
+            "skills": [
+              "Attack",
+              "Strength",
+              "Defence",
+              "Ranged",
+              "Prayer",
+              "Magic",
+              "Runecraft",
+              "Construction",
+              "Hitpoints",
+              "Agility",
+              "Herblore",
+              "Thieving",
+              "Crafting",
+              "Fletching",
+              "Slayer",
+              "Hunter",
+              "Mining",
+              "Smithing",
+              "Fishing",
+              "Cooking",
+              "Firemaking",
+              "Woodcutting",
+              "Farming"
+            ],
+            "xp": 20000
+          }
+        ],
+        "xp": {}
+      },
       "skills": [
         {
           "boostable": false,
@@ -6345,6 +8519,14 @@
       ],
       "prereqsStarted": [],
       "questPoints": 2,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Agility": 60000,
+          "Hunter": 40000,
+          "Thieving": 50000
+        }
+      },
       "skills": [
         {
           "boostable": false,
@@ -6384,6 +8566,50 @@
       ],
       "prereqsStarted": [],
       "questPoints": 5,
+      "rewards": {
+        "lamps": [
+          {
+            "minLevel": 60,
+            "skills": [
+              "Attack",
+              "Strength",
+              "Defence",
+              "Hitpoints",
+              "Ranged",
+              "Magic",
+              "Prayer"
+            ],
+            "xp": 100000
+          },
+          {
+            "minLevel": 60,
+            "skills": [
+              "Attack",
+              "Strength",
+              "Defence",
+              "Hitpoints",
+              "Ranged",
+              "Magic",
+              "Prayer"
+            ],
+            "xp": 100000
+          },
+          {
+            "minLevel": 60,
+            "skills": [
+              "Attack",
+              "Strength",
+              "Defence",
+              "Hitpoints",
+              "Ranged",
+              "Magic",
+              "Prayer"
+            ],
+            "xp": 100000
+          }
+        ],
+        "xp": {}
+      },
       "skills": [
         {
           "boostable": false,
@@ -6435,6 +8661,10 @@
       ],
       "prereqsStarted": [],
       "questPoints": null,
+      "rewards": {
+        "lamps": [],
+        "xp": {}
+      },
       "skills": [],
       "source": "questreq",
       "wikiTitle": "His Faithful Servants"
@@ -6451,6 +8681,15 @@
       ],
       "prereqsStarted": [],
       "questPoints": 2,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Magic": 5000,
+          "Slayer": 20000,
+          "Strength": 30000,
+          "Thieving": 5000
+        }
+      },
       "skills": [
         {
           "boostable": false,
@@ -6494,6 +8733,10 @@
       "prereqs": [],
       "prereqsStarted": [],
       "questPoints": 1,
+      "rewards": {
+        "lamps": [],
+        "xp": {}
+      },
       "skills": [],
       "source": "questreq",
       "wikiTitle": "Children of the Sun"
@@ -6525,6 +8768,10 @@
       "prereqs": [],
       "prereqsStarted": [],
       "questPoints": null,
+      "rewards": {
+        "lamps": [],
+        "xp": {}
+      },
       "skills": [],
       "source": "questreq",
       "wikiTitle": "Barbarian Training"
@@ -6551,6 +8798,43 @@
       ],
       "prereqsStarted": [],
       "questPoints": 2,
+      "rewards": {
+        "lamps": [
+          {
+            "minLevel": 30,
+            "skills": [
+              "Attack",
+              "Strength",
+              "Defence",
+              "Ranged",
+              "Prayer",
+              "Magic",
+              "Runecraft",
+              "Construction",
+              "Hitpoints",
+              "Agility",
+              "Herblore",
+              "Thieving",
+              "Crafting",
+              "Fletching",
+              "Slayer",
+              "Hunter",
+              "Mining",
+              "Smithing",
+              "Fishing",
+              "Cooking",
+              "Firemaking",
+              "Woodcutting",
+              "Farming"
+            ],
+            "xp": 5000
+          }
+        ],
+        "xp": {
+          "Hunter": 15000,
+          "Smithing": 15000
+        }
+      },
       "skills": [
         {
           "boostable": false,
@@ -6587,6 +8871,15 @@
       ],
       "prereqsStarted": [],
       "questPoints": 5,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Farming": 75000,
+          "Herblore": 75000,
+          "Hunter": 50000,
+          "Thieving": 80000
+        }
+      },
       "skills": [
         {
           "boostable": false,
@@ -6644,6 +8937,12 @@
       ],
       "prereqsStarted": [],
       "questPoints": 1,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Thieving": 3000
+        }
+      },
       "skills": [],
       "source": "questreq",
       "wikiTitle": "Twilight's Promise"
@@ -6659,6 +8958,14 @@
       ],
       "prereqsStarted": [],
       "questPoints": 1,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Construction": 800,
+          "Herblore": 500,
+          "Hunter": 4500
+        }
+      },
       "skills": [
         {
           "boostable": false,
@@ -6692,6 +8999,15 @@
       ],
       "prereqsStarted": [],
       "questPoints": 2,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Fishing": 5000,
+          "Hunter": 5000,
+          "Runecraft": 5000,
+          "Slayer": 40000
+        }
+      },
       "skills": [
         {
           "boostable": false,
@@ -6737,6 +9053,12 @@
       ],
       "prereqsStarted": [],
       "questPoints": 1,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Woodcutting": 2000
+        }
+      },
       "skills": [
         {
           "boostable": false,
@@ -6757,7 +9079,16 @@
         "Twilight's Promise"
       ],
       "prereqsStarted": [],
-      "questPoints": null,
+      "questPoints": 2,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Agility": 8000,
+          "Mining": 8000,
+          "Slayer": 8000,
+          "Thieving": 8000
+        }
+      },
       "skills": [
         {
           "boostable": false,
@@ -6797,6 +9128,14 @@
       ],
       "prereqsStarted": [],
       "questPoints": 2,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Agility": 7500,
+          "Crafting": 5000,
+          "Thieving": 10000
+        }
+      },
       "skills": [
         {
           "boostable": false,
@@ -6824,6 +9163,12 @@
       ],
       "prereqsStarted": [],
       "questPoints": 1,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Cooking": 8000
+        }
+      },
       "skills": [],
       "source": "questreq",
       "wikiTitle": "Meat and Greet"
@@ -6839,6 +9184,12 @@
       ],
       "prereqsStarted": [],
       "questPoints": 1,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Thieving": 6000
+        }
+      },
       "skills": [
         {
           "boostable": false,
@@ -6874,6 +9225,14 @@
       ],
       "prereqsStarted": [],
       "questPoints": 2,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Agility": 40000,
+          "Mining": 40000,
+          "Thieving": 40000
+        }
+      },
       "skills": [
         {
           "boostable": false,
@@ -6923,6 +9282,22 @@
       "prereqs": [],
       "prereqsStarted": [],
       "questPoints": 3,
+      "rewards": {
+        "lamps": [
+          {
+            "minLevel": 40,
+            "skills": [
+              "Prayer"
+            ],
+            "xp": 55000
+          }
+        ],
+        "xp": {
+          "Fletching": 25000,
+          "Runecraft": 25000,
+          "Thieving": 55000
+        }
+      },
       "skills": [],
       "source": "page",
       "wikiTitle": "The Final Dawn"
@@ -6944,6 +9319,15 @@
       "prereqs": [],
       "prereqsStarted": [],
       "questPoints": 2,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Construction": 3000,
+          "Fishing": 3000,
+          "Hunter": 4000,
+          "Slayer": 10000
+        }
+      },
       "skills": [],
       "source": "page",
       "wikiTitle": "Shadows of Custodia"
@@ -6956,6 +9340,14 @@
       "prereqs": [],
       "prereqsStarted": [],
       "questPoints": 1,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Construction": 5000,
+          "Cooking": 5000,
+          "Smithing": 5000
+        }
+      },
       "skills": [],
       "source": "page",
       "wikiTitle": "Scrambled!"
@@ -6968,6 +9360,10 @@
       "prereqs": [],
       "prereqsStarted": [],
       "questPoints": null,
+      "rewards": {
+        "lamps": [],
+        "xp": {}
+      },
       "skills": [],
       "source": "none",
       "wikiTitle": "Vale Totems"
@@ -6979,7 +9375,11 @@
       "prereqNotes": [],
       "prereqs": [],
       "prereqsStarted": [],
-      "questPoints": null,
+      "questPoints": 1,
+      "rewards": {
+        "lamps": [],
+        "xp": {}
+      },
       "skills": [],
       "source": "none",
       "wikiTitle": "Pandemonium"
@@ -6992,6 +9392,12 @@
       "prereqs": [],
       "prereqsStarted": [],
       "questPoints": 1,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Smithing": 1000
+        }
+      },
       "skills": [],
       "source": "page",
       "wikiTitle": "Prying Times"
@@ -7004,6 +9410,12 @@
       "prereqs": [],
       "prereqsStarted": [],
       "questPoints": 1,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Fishing": 1000
+        }
+      },
       "skills": [],
       "source": "page",
       "wikiTitle": "Current Affairs"
@@ -7016,6 +9428,12 @@
       "prereqs": [],
       "prereqsStarted": [],
       "questPoints": 1,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Slayer": 8000
+        }
+      },
       "skills": [],
       "source": "page",
       "wikiTitle": "Troubled Tortugans"
@@ -7030,6 +9448,12 @@
       ],
       "prereqsStarted": [],
       "questPoints": 2,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Smithing": 5000
+        }
+      },
       "skills": [],
       "source": "page",
       "wikiTitle": "The Red Reef"
@@ -7044,6 +9468,14 @@
       ],
       "prereqsStarted": [],
       "questPoints": 2,
+      "rewards": {
+        "lamps": [],
+        "xp": {
+          "Crafting": 10000,
+          "Mining": 5000,
+          "Runecraft": 5000
+        }
+      },
       "skills": [],
       "source": "page",
       "wikiTitle": "Fallen From Grace"
@@ -7056,6 +9488,10 @@
       "prereqs": [],
       "prereqsStarted": [],
       "questPoints": 1,
+      "rewards": {
+        "lamps": [],
+        "xp": {}
+      },
       "skills": [],
       "source": "none",
       "wikiTitle": "Learning the Ropes"
@@ -7068,6 +9504,18 @@
       "prereqs": [],
       "prereqsStarted": [],
       "questPoints": 1,
+      "rewards": {
+        "lamps": [
+          {
+            "minLevel": 0,
+            "skills": [
+              "Prayer"
+            ],
+            "xp": 1000
+          }
+        ],
+        "xp": {}
+      },
       "skills": [],
       "source": "page",
       "wikiTitle": "The Ides of Milk"
@@ -7083,9 +9531,1250 @@
       ],
       "prereqsStarted": [],
       "questPoints": 4,
+      "rewards": {
+        "lamps": [
+          {
+            "minLevel": 70,
+            "skills": [
+              "Attack",
+              "Strength",
+              "Defence",
+              "Ranged",
+              "Prayer",
+              "Magic",
+              "Runecraft",
+              "Construction",
+              "Hitpoints",
+              "Agility",
+              "Herblore",
+              "Thieving",
+              "Crafting",
+              "Fletching",
+              "Slayer",
+              "Hunter",
+              "Mining",
+              "Smithing",
+              "Fishing",
+              "Cooking",
+              "Firemaking",
+              "Woodcutting",
+              "Farming"
+            ],
+            "xp": 30000
+          },
+          {
+            "minLevel": 70,
+            "skills": [
+              "Attack",
+              "Strength",
+              "Defence",
+              "Ranged",
+              "Prayer",
+              "Magic",
+              "Runecraft",
+              "Construction",
+              "Hitpoints",
+              "Agility",
+              "Herblore",
+              "Thieving",
+              "Crafting",
+              "Fletching",
+              "Slayer",
+              "Hunter",
+              "Mining",
+              "Smithing",
+              "Fishing",
+              "Cooking",
+              "Firemaking",
+              "Woodcutting",
+              "Farming"
+            ],
+            "xp": 30000
+          },
+          {
+            "minLevel": 70,
+            "skills": [
+              "Attack",
+              "Strength",
+              "Defence",
+              "Ranged",
+              "Prayer",
+              "Magic",
+              "Runecraft",
+              "Construction",
+              "Hitpoints",
+              "Agility",
+              "Herblore",
+              "Thieving",
+              "Crafting",
+              "Fletching",
+              "Slayer",
+              "Hunter",
+              "Mining",
+              "Smithing",
+              "Fishing",
+              "Cooking",
+              "Firemaking",
+              "Woodcutting",
+              "Farming"
+            ],
+            "xp": 30000
+          },
+          {
+            "minLevel": 70,
+            "skills": [
+              "Attack",
+              "Strength",
+              "Defence",
+              "Ranged",
+              "Prayer",
+              "Magic",
+              "Runecraft",
+              "Construction",
+              "Hitpoints",
+              "Agility",
+              "Herblore",
+              "Thieving",
+              "Crafting",
+              "Fletching",
+              "Slayer",
+              "Hunter",
+              "Mining",
+              "Smithing",
+              "Fishing",
+              "Cooking",
+              "Firemaking",
+              "Woodcutting",
+              "Farming"
+            ],
+            "xp": 30000
+          },
+          {
+            "minLevel": 70,
+            "skills": [
+              "Attack",
+              "Strength",
+              "Defence",
+              "Ranged",
+              "Prayer",
+              "Magic",
+              "Runecraft",
+              "Construction",
+              "Hitpoints",
+              "Agility",
+              "Herblore",
+              "Thieving",
+              "Crafting",
+              "Fletching",
+              "Slayer",
+              "Hunter",
+              "Mining",
+              "Smithing",
+              "Fishing",
+              "Cooking",
+              "Firemaking",
+              "Woodcutting",
+              "Farming"
+            ],
+            "xp": 30000
+          },
+          {
+            "minLevel": 70,
+            "skills": [
+              "Attack",
+              "Strength",
+              "Defence",
+              "Ranged",
+              "Prayer",
+              "Magic",
+              "Runecraft",
+              "Construction",
+              "Hitpoints",
+              "Agility",
+              "Herblore",
+              "Thieving",
+              "Crafting",
+              "Fletching",
+              "Slayer",
+              "Hunter",
+              "Mining",
+              "Smithing",
+              "Fishing",
+              "Cooking",
+              "Firemaking",
+              "Woodcutting",
+              "Farming"
+            ],
+            "xp": 30000
+          }
+        ],
+        "xp": {}
+      },
       "skills": [],
       "source": "page",
       "wikiTitle": "The Blood Moon Rises"
+    }
+  ],
+  "sources": [
+    {
+      "revid": 15331068,
+      "timestamp": "2026-09-04T22:15:01Z",
+      "title": "A Kingdom Divided"
+    },
+    {
+      "revid": 15325956,
+      "timestamp": "2026-08-31T01:11:21Z",
+      "title": "A Night at the Theatre"
+    },
+    {
+      "revid": 15329297,
+      "timestamp": "2026-09-03T04:16:30Z",
+      "title": "A Porcine of Interest"
+    },
+    {
+      "revid": 15292369,
+      "timestamp": "2026-08-10T23:52:49Z",
+      "title": "A Soul's Bane"
+    },
+    {
+      "revid": 15315440,
+      "timestamp": "2026-08-21T06:40:55Z",
+      "title": "A Tail of Two Cats"
+    },
+    {
+      "revid": 15305874,
+      "timestamp": "2026-08-19T11:24:07Z",
+      "title": "A Taste of Hope"
+    },
+    {
+      "revid": 15292247,
+      "timestamp": "2026-08-10T22:59:04Z",
+      "title": "Alfred Grimhand's Barcrawl"
+    },
+    {
+      "revid": 15327014,
+      "timestamp": "2026-09-01T06:32:15Z",
+      "title": "Animal Magnetism"
+    },
+    {
+      "revid": 15292360,
+      "timestamp": "2026-08-10T23:51:25Z",
+      "title": "Another Slice of H.A.M."
+    },
+    {
+      "revid": 15271675,
+      "timestamp": "2026-07-22T01:08:01Z",
+      "title": "At First Light"
+    },
+    {
+      "revid": 15292392,
+      "timestamp": "2026-08-11T00:15:11Z",
+      "title": "Barbarian Training"
+    },
+    {
+      "revid": 15311949,
+      "timestamp": "2026-08-20T00:38:28Z",
+      "title": "Bear Your Soul"
+    },
+    {
+      "revid": 15240942,
+      "timestamp": "2026-06-27T13:09:50Z",
+      "title": "Below Ice Mountain"
+    },
+    {
+      "revid": 15333475,
+      "timestamp": "2026-09-07T20:21:43Z",
+      "title": "Beneath Cursed Sands"
+    },
+    {
+      "revid": 15315213,
+      "timestamp": "2026-08-21T05:15:36Z",
+      "title": "Between a Rock..."
+    },
+    {
+      "revid": 15292269,
+      "timestamp": "2026-08-10T23:17:11Z",
+      "title": "Big Chompy Bird Hunting"
+    },
+    {
+      "revid": 15327977,
+      "timestamp": "2026-09-02T01:54:07Z",
+      "title": "Biohazard"
+    },
+    {
+      "revid": 15320497,
+      "timestamp": "2026-08-26T07:20:04Z",
+      "title": "Black Knights' Fortress"
+    },
+    {
+      "revid": 15262285,
+      "timestamp": "2026-07-13T04:00:01Z",
+      "title": "Bone Voyage"
+    },
+    {
+      "revid": 15318962,
+      "timestamp": "2026-08-25T02:49:48Z",
+      "title": "Cabin Fever"
+    },
+    {
+      "revid": 15241067,
+      "timestamp": "2026-06-27T15:21:52Z",
+      "title": "Children of the Sun"
+    },
+    {
+      "revid": 15315592,
+      "timestamp": "2026-08-21T09:01:38Z",
+      "title": "Client of Kourend"
+    },
+    {
+      "revid": 15166584,
+      "timestamp": "2026-04-06T15:38:47Z",
+      "title": "Clock Tower"
+    },
+    {
+      "revid": 15315223,
+      "timestamp": "2026-08-21T05:18:11Z",
+      "title": "Cold War"
+    },
+    {
+      "revid": 15327950,
+      "timestamp": "2026-09-02T01:19:31Z",
+      "title": "Contact!"
+    },
+    {
+      "revid": 15320469,
+      "timestamp": "2026-08-26T06:44:42Z",
+      "title": "Cook's Assistant"
+    },
+    {
+      "revid": 15315212,
+      "timestamp": "2026-08-21T05:15:02Z",
+      "title": "Creature of Fenkenstrain"
+    },
+    {
+      "revid": 15314499,
+      "timestamp": "2026-08-20T22:22:10Z",
+      "title": "Current Affairs"
+    },
+    {
+      "revid": 15292256,
+      "timestamp": "2026-08-10T23:03:50Z",
+      "title": "Curse of the Empty Lord"
+    },
+    {
+      "revid": 15337234,
+      "timestamp": "2026-09-09T12:30:37Z",
+      "title": "Daddy's Home"
+    },
+    {
+      "revid": 15326711,
+      "timestamp": "2026-08-31T23:23:48Z",
+      "title": "Darkness of Hallowvale"
+    },
+    {
+      "revid": 15292389,
+      "timestamp": "2026-08-11T00:08:57Z",
+      "title": "Death Plateau"
+    },
+    {
+      "revid": 15319366,
+      "timestamp": "2026-08-25T05:40:50Z",
+      "title": "Death on the Isle"
+    },
+    {
+      "revid": 15331188,
+      "timestamp": "2026-09-05T01:23:44Z",
+      "title": "Death to the Dorgeshuun"
+    },
+    {
+      "revid": 15314409,
+      "timestamp": "2026-08-20T20:55:34Z",
+      "title": "Defender of Varrock"
+    },
+    {
+      "revid": 15309237,
+      "timestamp": "2026-08-19T19:54:26Z",
+      "title": "Demon Slayer"
+    },
+    {
+      "revid": 15325502,
+      "timestamp": "2026-08-30T17:01:15Z",
+      "title": "Desert Treasure I"
+    },
+    {
+      "revid": 15326679,
+      "timestamp": "2026-08-31T22:01:13Z",
+      "title": "Desert Treasure II - The Fallen Empire"
+    },
+    {
+      "revid": 15292315,
+      "timestamp": "2026-08-10T23:32:12Z",
+      "title": "Devious Minds"
+    },
+    {
+      "revid": 15240932,
+      "timestamp": "2026-06-27T13:07:17Z",
+      "title": "Doric's Quest"
+    },
+    {
+      "revid": 15332155,
+      "timestamp": "2026-09-06T00:45:59Z",
+      "title": "Dragon Slayer I"
+    },
+    {
+      "revid": 15317048,
+      "timestamp": "2026-08-23T03:59:32Z",
+      "title": "Dragon Slayer II"
+    },
+    {
+      "revid": 15328014,
+      "timestamp": "2026-09-02T03:22:41Z",
+      "title": "Dream Mentor"
+    },
+    {
+      "revid": 15322674,
+      "timestamp": "2026-08-28T07:09:49Z",
+      "title": "Druidic Ritual"
+    },
+    {
+      "revid": 15313000,
+      "timestamp": "2026-08-20T06:38:36Z",
+      "title": "Dwarf Cannon"
+    },
+    {
+      "revid": 15326715,
+      "timestamp": "2026-08-31T23:24:13Z",
+      "title": "Eadgar's Ruse"
+    },
+    {
+      "revid": 15314504,
+      "timestamp": "2026-08-20T22:26:01Z",
+      "title": "Eagles' Peak"
+    },
+    {
+      "revid": 15333575,
+      "timestamp": "2026-09-08T00:35:15Z",
+      "title": "Elemental Workshop I"
+    },
+    {
+      "revid": 15271178,
+      "timestamp": "2026-07-21T05:53:37Z",
+      "title": "Elemental Workshop II"
+    },
+    {
+      "revid": 15330704,
+      "timestamp": "2026-09-04T08:30:01Z",
+      "title": "Enakhra's Lament"
+    },
+    {
+      "revid": 15292357,
+      "timestamp": "2026-08-10T23:48:36Z",
+      "title": "Enlightened Journey"
+    },
+    {
+      "revid": 15292255,
+      "timestamp": "2026-08-10T23:03:42Z",
+      "title": "Enter the Abyss"
+    },
+    {
+      "revid": 15316578,
+      "timestamp": "2026-08-22T15:26:28Z",
+      "title": "Ernest the Chicken"
+    },
+    {
+      "revid": 15315320,
+      "timestamp": "2026-08-21T05:44:49Z",
+      "title": "Ethically Acquired Antiquities"
+    },
+    {
+      "revid": 15326712,
+      "timestamp": "2026-08-31T23:23:54Z",
+      "title": "Fairytale I - Growing Pains"
+    },
+    {
+      "revid": 15292318,
+      "timestamp": "2026-08-10T23:33:37Z",
+      "title": "Fairytale II - Cure a Queen"
+    },
+    {
+      "revid": 15335348,
+      "timestamp": "2026-09-08T15:05:20Z",
+      "title": "Fallen From Grace"
+    },
+    {
+      "revid": 15266192,
+      "timestamp": "2026-07-17T15:38:50Z",
+      "title": "Family Crest"
+    },
+    {
+      "revid": 15237154,
+      "timestamp": "2026-06-21T16:34:53Z",
+      "title": "Family Pest"
+    },
+    {
+      "revid": 15240956,
+      "timestamp": "2026-06-27T13:19:32Z",
+      "title": "Fight Arena"
+    },
+    {
+      "revid": 15302643,
+      "timestamp": "2026-08-16T05:37:49Z",
+      "title": "Fishing Contest"
+    },
+    {
+      "revid": 15315683,
+      "timestamp": "2026-08-21T11:45:10Z",
+      "title": "Forgettable Tale..."
+    },
+    {
+      "revid": 15315437,
+      "timestamp": "2026-08-21T06:40:16Z",
+      "title": "Garden of Tranquillity"
+    },
+    {
+      "revid": 15331542,
+      "timestamp": "2026-09-05T16:08:24Z",
+      "title": "Gertrude's Cat"
+    },
+    {
+      "revid": 15241058,
+      "timestamp": "2026-06-27T15:19:08Z",
+      "title": "Getting Ahead"
+    },
+    {
+      "revid": 15315208,
+      "timestamp": "2026-08-21T05:12:34Z",
+      "title": "Ghosts Ahoy"
+    },
+    {
+      "revid": 15331217,
+      "timestamp": "2026-09-05T03:38:33Z",
+      "title": "Goblin Diplomacy"
+    },
+    {
+      "revid": 15326017,
+      "timestamp": "2026-08-31T03:57:36Z",
+      "title": "Grim Tales"
+    },
+    {
+      "revid": 15327880,
+      "timestamp": "2026-09-02T00:15:12Z",
+      "title": "Haunted Mine"
+    },
+    {
+      "revid": 15328196,
+      "timestamp": "2026-09-02T11:47:50Z",
+      "title": "Hazeel Cult"
+    },
+    {
+      "revid": 15327634,
+      "timestamp": "2026-09-01T18:17:42Z",
+      "title": "Heroes' Quest"
+    },
+    {
+      "revid": 15167680,
+      "timestamp": "2026-04-07T04:43:52Z",
+      "title": "His Faithful Servants"
+    },
+    {
+      "revid": 15273068,
+      "timestamp": "2026-07-23T03:02:11Z",
+      "title": "Holy Grail"
+    },
+    {
+      "revid": 15335611,
+      "timestamp": "2026-09-08T18:45:54Z",
+      "title": "Hopespear's Will"
+    },
+    {
+      "revid": 15326714,
+      "timestamp": "2026-08-31T23:24:06Z",
+      "title": "Horror from the Deep"
+    },
+    {
+      "revid": 15292330,
+      "timestamp": "2026-08-10T23:38:04Z",
+      "title": "Icthlarin's Little Helper"
+    },
+    {
+      "revid": 15293702,
+      "timestamp": "2026-08-12T14:06:58Z",
+      "title": "Imp Catcher"
+    },
+    {
+      "revid": 15337334,
+      "timestamp": "2026-09-09T13:35:55Z",
+      "title": "In Aid of the Myreque"
+    },
+    {
+      "revid": 15309889,
+      "timestamp": "2026-08-19T21:12:05Z",
+      "title": "In Search of Knowledge"
+    },
+    {
+      "revid": 15315257,
+      "timestamp": "2026-08-21T05:28:30Z",
+      "title": "In Search of the Myreque"
+    },
+    {
+      "revid": 15218542,
+      "timestamp": "2026-05-28T04:29:56Z",
+      "title": "Into the Tombs"
+    },
+    {
+      "revid": 15281195,
+      "timestamp": "2026-07-29T18:59:16Z",
+      "title": "Jungle Potion"
+    },
+    {
+      "revid": 15292350,
+      "timestamp": "2026-08-10T23:46:06Z",
+      "title": "King's Ransom"
+    },
+    {
+      "revid": 15302491,
+      "timestamp": "2026-08-16T03:29:18Z",
+      "title": "Lair of Tarn Razorlor"
+    },
+    {
+      "revid": 15314873,
+      "timestamp": "2026-08-21T01:19:46Z",
+      "title": "Land of the Goblins"
+    },
+    {
+      "revid": 15315138,
+      "timestamp": "2026-08-21T04:26:03Z",
+      "title": "Learning the Ropes"
+    },
+    {
+      "revid": 15322832,
+      "timestamp": "2026-08-28T10:19:45Z",
+      "title": "Legends' Quest"
+    },
+    {
+      "revid": 15326723,
+      "timestamp": "2026-08-31T23:25:06Z",
+      "title": "Lost City"
+    },
+    {
+      "revid": 15325231,
+      "timestamp": "2026-08-30T01:34:27Z",
+      "title": "Lunar Diplomacy"
+    },
+    {
+      "revid": 15237146,
+      "timestamp": "2026-06-21T16:33:08Z",
+      "title": "Mage Arena I"
+    },
+    {
+      "revid": 15299152,
+      "timestamp": "2026-08-14T02:47:20Z",
+      "title": "Mage Arena II"
+    },
+    {
+      "revid": 15315912,
+      "timestamp": "2026-08-21T22:33:49Z",
+      "title": "Making Friends with My Arm"
+    },
+    {
+      "revid": 15315243,
+      "timestamp": "2026-08-21T05:23:52Z",
+      "title": "Making History"
+    },
+    {
+      "revid": 15292376,
+      "timestamp": "2026-08-10T23:56:51Z",
+      "title": "Meat and Greet"
+    },
+    {
+      "revid": 15336338,
+      "timestamp": "2026-09-09T03:46:19Z",
+      "title": "Merlin's Crystal"
+    },
+    {
+      "revid": 15292395,
+      "timestamp": "2026-08-11T00:20:36Z",
+      "title": "Misthalin Mystery"
+    },
+    {
+      "revid": 14876362,
+      "timestamp": "2025-04-03T02:40:40Z",
+      "title": "Module:Questreq/data"
+    },
+    {
+      "revid": 15240952,
+      "timestamp": "2026-06-27T13:15:31Z",
+      "title": "Monk's Friend"
+    },
+    {
+      "revid": 15327728,
+      "timestamp": "2026-09-01T19:23:30Z",
+      "title": "Monkey Madness I"
+    },
+    {
+      "revid": 15326728,
+      "timestamp": "2026-08-31T23:50:02Z",
+      "title": "Monkey Madness II"
+    },
+    {
+      "revid": 15292291,
+      "timestamp": "2026-08-10T23:22:07Z",
+      "title": "Mountain Daughter"
+    },
+    {
+      "revid": 15292327,
+      "timestamp": "2026-08-10T23:36:57Z",
+      "title": "Mourning's End Part I"
+    },
+    {
+      "revid": 15292320,
+      "timestamp": "2026-08-10T23:34:42Z",
+      "title": "Mourning's End Part II"
+    },
+    {
+      "revid": 15315154,
+      "timestamp": "2026-08-21T04:31:33Z",
+      "title": "Murder Mystery"
+    },
+    {
+      "revid": 15326710,
+      "timestamp": "2026-08-31T23:23:41Z",
+      "title": "My Arm's Big Adventure"
+    },
+    {
+      "revid": 15326718,
+      "timestamp": "2026-08-31T23:24:31Z",
+      "title": "Nature Spirit"
+    },
+    {
+      "revid": 15326719,
+      "timestamp": "2026-08-31T23:24:41Z",
+      "title": "Observatory Quest"
+    },
+    {
+      "revid": 15327549,
+      "timestamp": "2026-09-01T18:03:08Z",
+      "title": "Olaf's Quest"
+    },
+    {
+      "revid": 15332553,
+      "timestamp": "2026-09-06T15:30:49Z",
+      "title": "One Small Favour"
+    },
+    {
+      "revid": 15282707,
+      "timestamp": "2026-07-30T07:59:41Z",
+      "title": "Pandemonium"
+    },
+    {
+      "revid": 15276408,
+      "timestamp": "2026-07-27T03:24:36Z",
+      "title": "Perilous Moons"
+    },
+    {
+      "revid": 15315445,
+      "timestamp": "2026-08-21T06:41:42Z",
+      "title": "Pirate's Treasure"
+    },
+    {
+      "revid": 15240959,
+      "timestamp": "2026-06-27T13:22:40Z",
+      "title": "Plague City"
+    },
+    {
+      "revid": 15317644,
+      "timestamp": "2026-08-24T00:38:49Z",
+      "title": "Priest in Peril"
+    },
+    {
+      "revid": 15260348,
+      "timestamp": "2026-07-11T01:55:46Z",
+      "title": "Prince Ali Rescue"
+    },
+    {
+      "revid": 15315235,
+      "timestamp": "2026-08-21T05:21:01Z",
+      "title": "Prying Times"
+    },
+    {
+      "revid": 15292348,
+      "timestamp": "2026-08-10T23:45:33Z",
+      "title": "Rag and Bone Man I"
+    },
+    {
+      "revid": 15326708,
+      "timestamp": "2026-08-31T23:23:20Z",
+      "title": "Rag and Bone Man II"
+    },
+    {
+      "revid": 15315231,
+      "timestamp": "2026-08-21T05:20:16Z",
+      "title": "Ratcatchers"
+    },
+    {
+      "revid": 15313692,
+      "timestamp": "2026-08-20T08:32:00Z",
+      "title": "Recipe for Disaster"
+    },
+    {
+      "revid": 15302151,
+      "timestamp": "2026-08-15T17:32:16Z",
+      "title": "Recipe for Disaster/Another Cook's Quest"
+    },
+    {
+      "revid": 15292344,
+      "timestamp": "2026-08-10T23:41:32Z",
+      "title": "Recipe for Disaster/Defeating the Culinaromancer"
+    },
+    {
+      "revid": 15294908,
+      "timestamp": "2026-08-12T22:22:21Z",
+      "title": "Recipe for Disaster/Freeing Evil Dave"
+    },
+    {
+      "revid": 15331685,
+      "timestamp": "2026-09-05T18:57:43Z",
+      "title": "Recipe for Disaster/Freeing King Awowogei"
+    },
+    {
+      "revid": 15292338,
+      "timestamp": "2026-08-10T23:41:05Z",
+      "title": "Recipe for Disaster/Freeing Pirate Pete"
+    },
+    {
+      "revid": 15320990,
+      "timestamp": "2026-08-26T15:13:39Z",
+      "title": "Recipe for Disaster/Freeing Sir Amik Varze"
+    },
+    {
+      "revid": 15292343,
+      "timestamp": "2026-08-10T23:41:28Z",
+      "title": "Recipe for Disaster/Freeing Skrach Uglogwee"
+    },
+    {
+      "revid": 15292337,
+      "timestamp": "2026-08-10T23:40:59Z",
+      "title": "Recipe for Disaster/Freeing the Goblin generals"
+    },
+    {
+      "revid": 15297799,
+      "timestamp": "2026-08-13T21:28:02Z",
+      "title": "Recipe for Disaster/Freeing the Lumbridge Guide"
+    },
+    {
+      "revid": 15323345,
+      "timestamp": "2026-08-28T17:40:49Z",
+      "title": "Recipe for Disaster/Freeing the Mountain Dwarf"
+    },
+    {
+      "revid": 15292308,
+      "timestamp": "2026-08-10T23:28:54Z",
+      "title": "Recruitment Drive"
+    },
+    {
+      "revid": 15292278,
+      "timestamp": "2026-08-10T23:19:17Z",
+      "title": "Regicide"
+    },
+    {
+      "revid": 15278771,
+      "timestamp": "2026-07-28T21:13:07Z",
+      "title": "Romeo & Juliet"
+    },
+    {
+      "revid": 15315441,
+      "timestamp": "2026-08-21T06:41:01Z",
+      "title": "Roving Elves"
+    },
+    {
+      "revid": 15292352,
+      "timestamp": "2026-08-10T23:46:53Z",
+      "title": "Royal Trouble"
+    },
+    {
+      "revid": 15315444,
+      "timestamp": "2026-08-21T06:41:25Z",
+      "title": "Rum Deal"
+    },
+    {
+      "revid": 15275863,
+      "timestamp": "2026-07-26T14:30:16Z",
+      "title": "Rune Mysteries"
+    },
+    {
+      "revid": 15273835,
+      "timestamp": "2026-07-24T05:40:51Z",
+      "title": "Scorpion Catcher"
+    },
+    {
+      "revid": 15323000,
+      "timestamp": "2026-08-28T13:02:55Z",
+      "title": "Scrambled!"
+    },
+    {
+      "revid": 15240961,
+      "timestamp": "2026-06-27T13:23:01Z",
+      "title": "Sea Slug"
+    },
+    {
+      "revid": 15325015,
+      "timestamp": "2026-08-29T22:22:54Z",
+      "title": "Secrets of the North"
+    },
+    {
+      "revid": 15292280,
+      "timestamp": "2026-08-10T23:19:46Z",
+      "title": "Shades of Mort'ton"
+    },
+    {
+      "revid": 15322950,
+      "timestamp": "2026-08-28T12:10:00Z",
+      "title": "Shadow of the Storm"
+    },
+    {
+      "revid": 15319376,
+      "timestamp": "2026-08-25T05:44:18Z",
+      "title": "Shadows of Custodia"
+    },
+    {
+      "revid": 15282409,
+      "timestamp": "2026-07-30T02:36:59Z",
+      "title": "Sheep Herder"
+    },
+    {
+      "revid": 15271780,
+      "timestamp": "2026-07-22T07:39:10Z",
+      "title": "Sheep Shearer"
+    },
+    {
+      "revid": 15333111,
+      "timestamp": "2026-09-07T07:29:49Z",
+      "title": "Shield of Arrav"
+    },
+    {
+      "revid": 15327875,
+      "timestamp": "2026-09-01T23:45:29Z",
+      "title": "Shilo Village"
+    },
+    {
+      "revid": 15315662,
+      "timestamp": "2026-08-21T10:23:44Z",
+      "title": "Sins of the Father"
+    },
+    {
+      "revid": 15292393,
+      "timestamp": "2026-08-11T00:16:02Z",
+      "title": "Skippy and the Mogres"
+    },
+    {
+      "revid": 15241064,
+      "timestamp": "2026-06-27T15:20:22Z",
+      "title": "Sleeping Giants"
+    },
+    {
+      "revid": 15327974,
+      "timestamp": "2026-09-02T01:46:04Z",
+      "title": "Song of the Elves"
+    },
+    {
+      "revid": 15306897,
+      "timestamp": "2026-08-19T15:10:35Z",
+      "title": "Spirits of the Elid"
+    },
+    {
+      "revid": 15313334,
+      "timestamp": "2026-08-20T08:10:10Z",
+      "title": "Swan Song"
+    },
+    {
+      "revid": 15265886,
+      "timestamp": "2026-07-17T05:56:30Z",
+      "title": "Tai Bwo Wannai Trio"
+    },
+    {
+      "revid": 15316635,
+      "timestamp": "2026-08-22T17:42:53Z",
+      "title": "Tale of the Righteous"
+    },
+    {
+      "revid": 15292296,
+      "timestamp": "2026-08-10T23:23:23Z",
+      "title": "Tears of Guthix"
+    },
+    {
+      "revid": 15326722,
+      "timestamp": "2026-08-31T23:25:00Z",
+      "title": "Temple of Ikov"
+    },
+    {
+      "revid": 15304735,
+      "timestamp": "2026-08-18T04:09:09Z",
+      "title": "Temple of the Eye"
+    },
+    {
+      "revid": 15314575,
+      "timestamp": "2026-08-20T23:13:25Z",
+      "title": "The Ascent of Arceuus"
+    },
+    {
+      "revid": 15336871,
+      "timestamp": "2026-09-09T08:39:07Z",
+      "title": "The Blood Moon Rises"
+    },
+    {
+      "revid": 15284133,
+      "timestamp": "2026-07-31T10:49:15Z",
+      "title": "The Corsair Curse"
+    },
+    {
+      "revid": 15336873,
+      "timestamp": "2026-09-09T08:39:13Z",
+      "title": "The Curse of Arrav"
+    },
+    {
+      "revid": 15316668,
+      "timestamp": "2026-08-22T17:56:26Z",
+      "title": "The Depths of Despair"
+    },
+    {
+      "revid": 15327992,
+      "timestamp": "2026-09-02T02:52:09Z",
+      "title": "The Dig Site"
+    },
+    {
+      "revid": 15336907,
+      "timestamp": "2026-09-09T08:48:56Z",
+      "title": "The Enchanted Key"
+    },
+    {
+      "revid": 15292355,
+      "timestamp": "2026-08-10T23:47:39Z",
+      "title": "The Eyes of Glouphrie"
+    },
+    {
+      "revid": 15315438,
+      "timestamp": "2026-08-21T06:40:25Z",
+      "title": "The Feud"
+    },
+    {
+      "revid": 15336872,
+      "timestamp": "2026-09-09T08:39:11Z",
+      "title": "The Final Dawn"
+    },
+    {
+      "revid": 15316647,
+      "timestamp": "2026-08-22T17:47:00Z",
+      "title": "The Forsaken Tower"
+    },
+    {
+      "revid": 15315220,
+      "timestamp": "2026-08-21T05:17:12Z",
+      "title": "The Fremennik Exiles"
+    },
+    {
+      "revid": 15314025,
+      "timestamp": "2026-08-20T16:58:51Z",
+      "title": "The Fremennik Isles"
+    },
+    {
+      "revid": 15328080,
+      "timestamp": "2026-09-02T07:57:35Z",
+      "title": "The Fremennik Trials"
+    },
+    {
+      "revid": 15166745,
+      "timestamp": "2026-04-06T16:36:55Z",
+      "title": "The Frozen Door"
+    },
+    {
+      "revid": 15316642,
+      "timestamp": "2026-08-22T17:44:47Z",
+      "title": "The Garden of Death"
+    },
+    {
+      "revid": 15336893,
+      "timestamp": "2026-09-09T08:47:18Z",
+      "title": "The General's Shadow"
+    },
+    {
+      "revid": 15336423,
+      "timestamp": "2026-09-09T05:13:36Z",
+      "title": "The Giant Dwarf"
+    },
+    {
+      "revid": 15321144,
+      "timestamp": "2026-08-26T16:46:31Z",
+      "title": "The Golem"
+    },
+    {
+      "revid": 15326721,
+      "timestamp": "2026-08-31T23:24:53Z",
+      "title": "The Grand Tree"
+    },
+    {
+      "revid": 15315225,
+      "timestamp": "2026-08-21T05:18:47Z",
+      "title": "The Great Brain Robbery"
+    },
+    {
+      "revid": 15265973,
+      "timestamp": "2026-07-17T11:14:33Z",
+      "title": "The Hand in the Sand"
+    },
+    {
+      "revid": 15318070,
+      "timestamp": "2026-08-24T13:29:57Z",
+      "title": "The Heart of Darkness"
+    },
+    {
+      "revid": 15336874,
+      "timestamp": "2026-09-09T08:39:14Z",
+      "title": "The Ides of Milk"
+    },
+    {
+      "revid": 15249358,
+      "timestamp": "2026-07-03T07:41:35Z",
+      "title": "The Knight's Sword"
+    },
+    {
+      "revid": 15319381,
+      "timestamp": "2026-08-25T05:46:08Z",
+      "title": "The Lost Tribe"
+    },
+    {
+      "revid": 15336865,
+      "timestamp": "2026-09-09T08:37:51Z",
+      "title": "The Path of Glouphrie"
+    },
+    {
+      "revid": 15316622,
+      "timestamp": "2026-08-22T17:34:33Z",
+      "title": "The Queen of Thieves"
+    },
+    {
+      "revid": 15336857,
+      "timestamp": "2026-09-09T08:35:53Z",
+      "title": "The Red Reef"
+    },
+    {
+      "revid": 15331162,
+      "timestamp": "2026-09-05T00:42:30Z",
+      "title": "The Restless Ghost"
+    },
+    {
+      "revid": 15270097,
+      "timestamp": "2026-07-20T09:39:24Z",
+      "title": "The Ribbiting Tale of a Lily Pad Labour Dispute"
+    },
+    {
+      "revid": 15327877,
+      "timestamp": "2026-09-01T23:45:53Z",
+      "title": "The Slug Menace"
+    },
+    {
+      "revid": 15267714,
+      "timestamp": "2026-07-19T15:44:04Z",
+      "title": "The Tourist Trap"
+    },
+    {
+      "revid": 15315236,
+      "timestamp": "2026-08-21T05:21:10Z",
+      "title": "Throne of Miscellania"
+    },
+    {
+      "revid": 15292366,
+      "timestamp": "2026-08-10T23:52:28Z",
+      "title": "Tower of Life"
+    },
+    {
+      "revid": 15306092,
+      "timestamp": "2026-08-19T12:54:32Z",
+      "title": "Tree Gnome Village"
+    },
+    {
+      "revid": 15240951,
+      "timestamp": "2026-06-27T13:15:18Z",
+      "title": "Tribal Totem"
+    },
+    {
+      "revid": 15326713,
+      "timestamp": "2026-08-31T23:24:00Z",
+      "title": "Troll Romance"
+    },
+    {
+      "revid": 15326717,
+      "timestamp": "2026-08-31T23:24:23Z",
+      "title": "Troll Stronghold"
+    },
+    {
+      "revid": 15273864,
+      "timestamp": "2026-07-24T08:56:50Z",
+      "title": "Troubled Tortugans"
+    },
+    {
+      "revid": 15241069,
+      "timestamp": "2026-06-27T15:22:09Z",
+      "title": "Twilight's Promise"
+    },
+    {
+      "revid": 15306381,
+      "timestamp": "2026-08-19T13:26:10Z",
+      "title": "Underground Pass"
+    },
+    {
+      "revid": 15337369,
+      "timestamp": "2026-09-09T13:54:31Z",
+      "title": "Vale Totems"
+    },
+    {
+      "revid": 15316695,
+      "timestamp": "2026-08-22T18:51:26Z",
+      "title": "Vampyre Slayer"
+    },
+    {
+      "revid": 15327976,
+      "timestamp": "2026-09-02T01:53:52Z",
+      "title": "Wanted!"
+    },
+    {
+      "revid": 15283800,
+      "timestamp": "2026-07-31T02:46:25Z",
+      "title": "Watchtower"
+    },
+    {
+      "revid": 15326961,
+      "timestamp": "2026-09-01T03:31:29Z",
+      "title": "Waterfall Quest"
+    },
+    {
+      "revid": 15292388,
+      "timestamp": "2026-08-11T00:08:48Z",
+      "title": "What Lies Below"
+    },
+    {
+      "revid": 15328552,
+      "timestamp": "2026-09-02T16:03:09Z",
+      "title": "While Guthix Sleeps"
+    },
+    {
+      "revid": 15168391,
+      "timestamp": "2026-04-07T05:02:46Z",
+      "title": "Witch's House"
+    },
+    {
+      "revid": 15333580,
+      "timestamp": "2026-09-08T00:48:55Z",
+      "title": "Witch's Potion"
+    },
+    {
+      "revid": 15328404,
+      "timestamp": "2026-09-02T14:10:59Z",
+      "title": "X Marks the Spot"
+    },
+    {
+      "revid": 15328252,
+      "timestamp": "2026-09-02T12:37:25Z",
+      "title": "Zogre Flesh Eaters"
     }
   ],
   "version": 1

@@ -14,8 +14,16 @@
         ],
         "quests": [],
         "items": [
-          "Anti-poison potions (if skipping the Agility shortcut)",
-          "Protect from Magic prayer or ranged/melee gear to tank breath while looting"
+          {
+            "name": "Antipoison(4)",
+            "quantity": 1,
+            "id": 2446
+          },
+          {
+            "name": "Anti-dragon shield",
+            "quantity": 1,
+            "id": 1540
+          }
         ],
         "notes": "(estimated) 70 Agility unlocks the Taverley Dungeon pipe shortcut past the poison spiders; without it, walk through and drink anti-poison instead. Scales also drop from scaly blue dragonhide (cut with a knife for 50 scales) if you're already killing blue dragons for hides. This item has no confirmed materials.json entry (id is null); flag for addition. ratePerHour is not stated on the wiki; estimated from the 12 spawns and their respawn timer."
       },
@@ -43,14 +51,24 @@
             ],
             "quests": [],
             "items": [
-              "Anti-dragon shield or Elysian/dragonfire ward",
-              "Knife"
+              {
+                "name": "Anti-dragon shield",
+                "quantity": 1,
+                "id": 1540
+              },
+              {
+                "name": "Knife",
+                "quantity": 1,
+                "id": 946
+              }
             ],
             "notes": "Much slower per scale than picking spawns but yields other drops too; combat requirement varies by dragon variant."
-          }
+          },
+          "risk": "none"
         }
       ],
-      "wikiUrl": "https://oldschool.runescape.wiki/w/Blue_dragon_scale"
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Blue_dragon_scale",
+      "risk": "none"
     },
     {
       "item": "Snape grass",
@@ -65,11 +83,23 @@
         ],
         "quests": [],
         "items": [
-          "Law runes and Astral runes (for Waterbirth/Moonclan teleports)",
-          "Weight-reducing clothing",
-          "Reagent pouch (optional, needs 81 Herblore via Mastering Mixology)"
+          {
+            "name": "Law rune",
+            "quantity": 1,
+            "id": 563
+          },
+          {
+            "name": "Astral rune",
+            "quantity": 2,
+            "id": 9075
+          },
+          {
+            "name": "Water rune",
+            "quantity": 1,
+            "id": 555
+          }
         ],
-        "notes": "Completing The Fremennik Trials and Lunar Diplomacy unlocks the Lunar spellbook teleports used below; without them, use Jarvald's boat from Rellekka instead (slower, no requirements beyond Fremennik province access). 65 Magic is only needed for the Lunar teleport route."
+        "notes": "Completing The Fremennik Trials and Lunar Diplomacy unlocks the Lunar spellbook teleports used below; without them, use Jarvald's boat from Rellekka instead (slower, no requirements beyond Fremennik province access). 65 Magic is only needed for the Lunar teleport route. Weight-reducing clothing is optional. The reagent pouch is optional and is unlocked through Mastering Mixology."
       },
       "ratePerHour": 950,
       "steps": [
@@ -96,15 +126,29 @@
             ],
             "quests": [],
             "items": [
-              "Snape grass seeds",
-              "Seed dibber",
-              "Spade"
+              {
+                "name": "Snape grass seed",
+                "quantity": 3,
+                "id": 22879
+              },
+              {
+                "name": "Seed dibber",
+                "quantity": 1,
+                "id": 5343
+              },
+              {
+                "name": "Spade",
+                "quantity": 1,
+                "id": 952
+              }
             ],
             "notes": "Passive and requires no combat or navigation, but yields far less per hour than the Waterbirth Island loop."
-          }
+          },
+          "risk": "none"
         }
       ],
-      "wikiUrl": "https://oldschool.runescape.wiki/w/Snape_grass"
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Snape_grass",
+      "risk": "none"
     },
     {
       "item": "Crushed nest",
@@ -123,12 +167,36 @@
         ],
         "quests": [],
         "items": [
-          "Logs (matching birdhouse tier)",
-          "Clockwork x4",
-          "Hammer",
-          "Chisel",
-          "Seeds (cheap allotment/hop seeds work fine)",
-          "Pestle and mortar"
+          {
+            "name": "Logs",
+            "quantity": 4,
+            "id": 1511
+          },
+          {
+            "name": "Clockwork",
+            "quantity": 4,
+            "id": 8792
+          },
+          {
+            "name": "Hammer",
+            "quantity": 1,
+            "id": 2347
+          },
+          {
+            "name": "Chisel",
+            "quantity": 1,
+            "id": 1755
+          },
+          {
+            "name": "Barley seed",
+            "quantity": 40,
+            "id": 5305
+          },
+          {
+            "name": "Pestle and mortar",
+            "quantity": 1,
+            "id": 233
+          }
         ],
         "notes": "(estimated) Bird house trapping happens on Fossil Island (Bone Voyage quest unlocks boat access; the Digsite pendant teleports you there directly). Ironmen need 25 Construction to build a crafting table 2 for assembling clockwork. Start with regular/oak birdhouses and upgrade the tier as Hunter and Crafting rise; higher tiers give more rolls on the nest table. Empty bird nests can also be crushed by Wesley in Nardah for 50gp each instead of grinding them yourself. ratePerHour is estimated from ~5 nest-table rolls per birdhouse across 4 houses per ~50-minute cycle; the wiki does not state a direct empty-nest rate."
       },
@@ -158,13 +226,19 @@
             ],
             "quests": [],
             "items": [
-              "Pestle and mortar"
+              {
+                "name": "Pestle and mortar",
+                "quantity": 1,
+                "id": 233
+              }
             ],
             "notes": "Nest fall chance is low and unaffected by tree type per log cut; treat this as a side benefit of Woodcutting training rather than a dedicated method."
-          }
+          },
+          "risk": "none"
         }
       ],
-      "wikiUrl": "https://oldschool.runescape.wiki/w/Crushed_nest"
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Crushed_nest",
+      "risk": "none"
     },
     {
       "item": "Red spiders' eggs",
@@ -181,10 +255,18 @@
           "Tower of Life"
         ],
         "items": [
-          "Raw sardines",
-          "At least 1 Red spiders' egg to start the loop"
+          {
+            "name": "Raw sardine",
+            "quantity": 1,
+            "id": 327
+          },
+          {
+            "name": "Red spiders' eggs",
+            "quantity": 1,
+            "id": 223
+          }
         ],
-        "notes": "(estimated) Tower of Life requires 10 Construction to start (not boostable). Once you have a single starting egg, the loop is self-sustaining: each spidine kill drops 3-6 eggs and you only spend 1 per creation, for a net gain every kill. If you have no starting egg, pick one up from a cave bug/cave crawler in a low-level dungeon, or from the Arandar spawns in Tirannwn. ratePerHour is derived from the wiki's money-making guide assumption of 200 kills/hour (900 eggs looted minus 200 spent to create spidines)."
+        "notes": "(estimated) Tower of Life requires 10 Construction to start (not boostable). Once you have a single starting egg, the loop is self-sustaining: each spidine kill drops 3-6 eggs and you only spend 1 per creation, for a net gain every kill. To obtain the starting egg, kill cave bugs or cave crawlers in a low-level dungeon, or collect an Arandar spawn in Tirannwn. ratePerHour is derived from the wiki's money-making guide assumption of 200 kills/hour (900 eggs looted minus 200 spent to create spidines)."
       },
       "ratePerHour": 700,
       "steps": [
@@ -207,10 +289,12 @@
             "quests": [],
             "items": [],
             "notes": "(estimated) Much slower than the spidine farm, but useful before you've unlocked Tower of Life or as a way to get your first egg."
-          }
+          },
+          "risk": "none"
         }
       ],
-      "wikiUrl": "https://oldschool.runescape.wiki/w/Red_spiders'_eggs"
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Red_spiders'_eggs",
+      "risk": "none"
     },
     {
       "item": "Unicorn horn dust",
@@ -220,8 +304,16 @@
         "skills": [],
         "quests": [],
         "items": [
-          "Pestle and mortar",
-          "Any weapon (unicorns are combat level 15 and easy to kill)"
+          {
+            "name": "Pestle and mortar",
+            "quantity": 1,
+            "id": 233
+          },
+          {
+            "name": "Bronze sword",
+            "quantity": 1,
+            "id": 1277
+          }
         ],
         "notes": "(estimated) Unicorns and black unicorns always drop 1 unicorn horn. Slow respawn (~53 seconds) means world-hopping between kills is worthwhile at the higher-density spots. The wiki does not state a kills-per-hour figure for this method, so ratePerHour is a rough estimate based on the 5-spawn cluster and world-hop cadence."
       },
@@ -246,10 +338,12 @@
             "quests": [],
             "items": [],
             "notes": "(estimated) Only worthwhile if you're already training Barbarian Assault for other rewards; not an efficient dedicated method on its own."
-          }
+          },
+          "risk": "none"
         }
       ],
-      "wikiUrl": "https://oldschool.runescape.wiki/w/Unicorn_horn_dust"
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Unicorn_horn_dust",
+      "risk": "none"
     },
     {
       "item": "White berries",
@@ -267,12 +361,23 @@
           "Mourning's End Part I (started)"
         ],
         "items": [
-          "Teleport crystal (quest reward)",
-          "Antipoison",
-          "Food",
-          "Weight-reducing clothing"
+          {
+            "name": "Teleport crystal (5)",
+            "quantity": 1,
+            "id": 13102
+          },
+          {
+            "name": "Antipoison(4)",
+            "quantity": 1,
+            "id": 2446
+          },
+          {
+            "name": "Trout",
+            "quantity": 1,
+            "id": 333
+          }
         ],
-        "notes": "56 Agility is recommended (higher is better) to safely cross the tripwires and traps guarding the berry area; you can still reach it lower level by eating through occasional trap damage."
+        "notes": "56 Agility is recommended (higher is better) to safely cross the tripwires and traps guarding the berry area; you can still reach it lower level by eating through occasional trap damage. Weight-reducing clothing is optional."
       },
       "ratePerHour": 400,
       "steps": [
@@ -300,14 +405,24 @@
             ],
             "quests": [],
             "items": [
-              "Whiteberry seeds",
-              "Spade"
+              {
+                "name": "Whiteberry seed",
+                "quantity": 1,
+                "id": 5105
+              },
+              {
+                "name": "Spade",
+                "quantity": 1,
+                "id": 952
+              }
             ],
             "notes": "(estimated) Passive and quest-free, but far lower volume than the Isafdar spawn area."
-          }
+          },
+          "risk": "none"
         }
       ],
-      "wikiUrl": "https://oldschool.runescape.wiki/w/White_berries"
+      "wikiUrl": "https://oldschool.runescape.wiki/w/White_berries",
+      "risk": "none"
     },
     {
       "item": "Dragon scale dust",
@@ -322,8 +437,16 @@
         ],
         "quests": [],
         "items": [
-          "Pestle and mortar",
-          "Anti-poison potions (if skipping the Agility shortcut)"
+          {
+            "name": "Pestle and mortar",
+            "quantity": 1,
+            "id": 233
+          },
+          {
+            "name": "Antipoison(4)",
+            "quantity": 1,
+            "id": 2446
+          }
         ],
         "notes": "(estimated) Dragon scale dust is simply ground blue dragon scale, so the gathering step is identical to blue dragon scales; grinding is instant (auto-processes the whole inventory in a few ticks). Wesley in Nardah will also grind unnoted or noted scales for 50gp each if you'd rather not carry a pestle and mortar. ratePerHour mirrors the blue dragon scale collection rate since grinding adds negligible time."
       },
@@ -352,15 +475,29 @@
             ],
             "quests": [],
             "items": [
-              "Anti-dragon shield",
-              "Knife",
-              "Pestle and mortar"
+              {
+                "name": "Anti-dragon shield",
+                "quantity": 1,
+                "id": 1540
+              },
+              {
+                "name": "Knife",
+                "quantity": 1,
+                "id": 946
+              },
+              {
+                "name": "Pestle and mortar",
+                "quantity": 1,
+                "id": 233
+              }
             ],
             "notes": "Slower per-dust than scale-picking but comes with combat drops on the side."
-          }
+          },
+          "risk": "none"
         }
       ],
-      "wikiUrl": "https://oldschool.runescape.wiki/w/Dragon_scale_dust"
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Dragon_scale_dust",
+      "risk": "none"
     },
     {
       "item": "Wine of Zamorak",
@@ -375,13 +512,38 @@
         ],
         "quests": [],
         "items": [
-          "Staff of air (or any staff granting unlimited air runes)",
-          "Law runes",
-          "Zamorak robes",
-          "Looting bag (recommended)",
-          "Cakes and a restore potion (or Ring of dueling + Ferox Enclave Pool of Refreshment)"
+          {
+            "name": "Staff of air",
+            "quantity": 1,
+            "id": 1381
+          },
+          {
+            "name": "Law rune",
+            "quantity": 1,
+            "id": 563
+          },
+          {
+            "name": "Zamorak monk top",
+            "quantity": 1,
+            "id": 1035
+          },
+          {
+            "name": "Zamorak monk bottom",
+            "quantity": 1,
+            "id": 1033
+          },
+          {
+            "name": "Cake",
+            "quantity": 1,
+            "id": 1891
+          },
+          {
+            "name": "Restore potion(4)",
+            "quantity": 1,
+            "id": 2430
+          }
         ],
-        "notes": "Climbing the ladder to the safe upstairs wine table requires wearing Zamorak robes with a total level of 500. Wearing Zamorak robes stops the Monks of Zamorak from attacking while you Telekinetic Grab wine from the upstairs table; grabbing from the downstairs table instead makes them hostile."
+        "notes": "Climbing the ladder to the safe upstairs wine table requires wearing Zamorak robes with a total level of 500. Wearing Zamorak robes stops the Monks of Zamorak from attacking while you Telekinetic Grab wine from the upstairs table; grabbing from the downstairs table instead makes them hostile. This non-Wilderness loop does not use a looting bag; filling one would require entering the Wilderness."
       },
       "ratePerHour": 204,
       "steps": [
@@ -389,15 +551,15 @@
         "Climb the ladder and cast Telekinetic Grab on the wine on the upstairs table.",
         "Climb back down and Telekinetic Grab the second wine spawn across the downstairs room, then immediately climb back up to safety.",
         "Wait about 25 seconds for both wines to respawn, then repeat the grab cycle.",
-        "Fill a looting bag once your inventory is full to extend the trip, then bank via your closest teleport and return."
+        "When your inventory is full, bank via your closest teleport and return; stay outside the Wilderness."
       ],
       "alternatives": [
         {
           "title": "Wilderness Chaos Temple (level 38 Wilderness)",
           "steps": [
             "Teleport into level 38 Wilderness near the Chaos Fanatic.",
-            "Enter the Chaos Temple south-west of the Chaos Fanatic and Telekinetic Grab or pick up the wine spawns on both floors.",
-            "Watch for PKers and bank via your closest Wilderness teleport when your inventory is full."
+            "Enter the Chaos Temple south-west of the Chaos Fanatic and Telekinetic Grab or pick up the wine spawns on the table.",
+            "Watch for PKers and escape below the teleport level limit and bank when your inventory is full."
           ],
           "requires": {
             "skills": [
@@ -408,14 +570,24 @@
             ],
             "quests": [],
             "items": [
-              "Staff of air",
-              "Law runes"
+              {
+                "name": "Staff of air",
+                "quantity": 1,
+                "id": 1381
+              },
+              {
+                "name": "Law rune",
+                "quantity": 1,
+                "id": 563
+              }
             ],
             "notes": "No total-level or robe requirement here, but you're exposed to PKing in the Wilderness; the Deep Wilderness Dungeon version of this spawn respawns even faster and gives noted wine with the hard Wilderness Diary."
-          }
+          },
+          "risk": "wilderness"
         }
       ],
-      "wikiUrl": "https://oldschool.runescape.wiki/w/Wine_of_Zamorak"
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Wine_of_Zamorak",
+      "risk": "none"
     },
     {
       "item": "Eye of newt",
@@ -425,7 +597,11 @@
         "skills": [],
         "quests": [],
         "items": [
-          "Coins (a few thousand gp for a full buyout)"
+          {
+            "name": "Coins",
+            "quantity": 1,
+            "id": 995
+          }
         ],
         "notes": "No level requirement to buy. Jatix's Herblore Shop in Taverley holds the largest stock (800, restocks ~1 every 12s) at 3gp each. Betty's Magic Emporium in Port Sarim (300 stock, 6s restock, 3gp) is a solid second loop. World-hop between buyouts rather than waiting for natural restock."
       },
@@ -435,7 +611,7 @@
         "Enter Jatix's Herblore Shop and buy out its full stock of eye of newt (800 in stock at 3gp each).",
         "Bank the eye of newt at the nearby bank chest inside Taverley Dungeon or the Falador east bank.",
         "World-hop to a fresh world and repeat the buyout, since waiting on the ~12s per-item restock is far slower than hopping.",
-        "Repeat for as many worlds as needed until you have the quantity required."
+        "Repeat the buyout on fresh worlds until you have the quantity required."
       ],
       "alternatives": [
         {
@@ -449,13 +625,19 @@
             "skills": [],
             "quests": [],
             "items": [
-              "Coins"
+              {
+                "name": "Coins",
+                "quantity": 1,
+                "id": 995
+              }
             ],
             "notes": "Smaller stock than Jatix's but faster restock (6s) and closer to a bank."
-          }
+          },
+          "risk": "none"
         }
       ],
-      "wikiUrl": "https://oldschool.runescape.wiki/w/Eye_of_newt"
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Eye_of_newt",
+      "risk": "none"
     },
     {
       "item": "Jangerberries",
@@ -470,11 +652,18 @@
         ],
         "quests": [],
         "items": [
-          "Jangerberry seed",
-          "Spade",
-          "Watermelon x6 per patch (optional protection payment)"
+          {
+            "name": "Jangerberry seed",
+            "quantity": 1,
+            "id": 5104
+          },
+          {
+            "name": "Spade",
+            "quantity": 1,
+            "id": 952
+          }
         ],
-        "notes": "Jangerberry seeds are not sold in any shop; get them from Master Farmer pickpocketing (38 Thieving), monster drops, or seed packs. A grown jangerberry bush regrows and can be re-picked every few hours without replanting until it eventually dies, so this is a low-maintenance long-term source once established."
+        "notes": "Jangerberry seeds are not sold in any shop; get them from Master Farmer pickpocketing (38 Thieving), monster drops, or seed packs. A grown jangerberry bush regrows and can be re-picked every few hours without replanting until it eventually dies, so this is a low-maintenance long-term source once established. Optional gardener protection costs 6 watermelons per patch."
       },
       "ratePerHour": null,
       "steps": [
@@ -496,13 +685,19 @@
             "skills": [],
             "quests": [],
             "items": [
-              "Coins"
+              {
+                "name": "Coins",
+                "quantity": 1,
+                "id": 995
+              }
             ],
             "notes": "Unreliable for bulk since stock is low and shared with other produce; treat as a top-up, not a primary source."
-          }
+          },
+          "risk": "none"
         }
       ],
-      "wikiUrl": "https://oldschool.runescape.wiki/w/Jangerberries"
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Jangerberries",
+      "risk": "none"
     },
     {
       "item": "Chocolate dust",
@@ -512,8 +707,16 @@
         "skills": [],
         "quests": [],
         "items": [
-          "Knife (or pestle and mortar)",
-          "Coins"
+          {
+            "name": "Knife",
+            "quantity": 1,
+            "id": 946
+          },
+          {
+            "name": "Coins",
+            "quantity": 1,
+            "id": 995
+          }
         ],
         "notes": "Free-to-play item, no level requirement. Grinding with a knife is instant and automatic across your whole inventory once started. Funch's Fine Groceries and Grand Tree Groceries also sell ready-made chocolate dust directly at the Grand Tree if you'd rather skip the grinding step."
       },
@@ -538,14 +741,24 @@
               "Contact! (for Desert amulet 4, optional)"
             ],
             "items": [
-              "Knife",
-              "Coins"
+              {
+                "name": "Knife",
+                "quantity": 1,
+                "id": 946
+              },
+              {
+                "name": "Coins",
+                "quantity": 1,
+                "id": 995
+              }
             ],
             "notes": "Faster restock than Grand Tree shops, making this the better loop for large quantities."
-          }
+          },
+          "risk": "none"
         }
       ],
-      "wikiUrl": "https://oldschool.runescape.wiki/w/Chocolate_dust"
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Chocolate_dust",
+      "risk": "none"
     },
     {
       "item": "Mort myre fungus",
@@ -559,7 +772,11 @@
           "Nature Spirit"
         ],
         "items": [
-          "Silver sickle (b) or Ivandis flail (or cast the Druidic spell), Ectophial"
+          {
+            "name": "Silver sickle (b)",
+            "quantity": 1,
+            "id": 2963
+          }
         ],
         "notes": "Nature Spirit is the real gate: it grants the Ectophial (unlimited free teleports right into the swamp) and unlocks Bloom via the Druidic spell or a blessed silver sickle/Ivandis flail. Completing the Morytania Hard Diary doubles the fungus yield per cast. Fungi auto-deposit into an open reagent pouch since a 2024 update. Higher Agility helps navigate the swamp's shortcuts faster but isn't required."
       },
@@ -572,7 +789,8 @@
         "Loop between nearby rotting logs, re-casting Bloom on each as it respawns, and bank via a swamp bank or the Ectophial's return trip."
       ],
       "wikiUrl": "https://oldschool.runescape.wiki/w/Mort_myre_fungus",
-      "alternatives": []
+      "alternatives": [],
+      "risk": "none"
     },
     {
       "item": "Potato cactus",
@@ -587,11 +805,18 @@
         ],
         "quests": [],
         "items": [
-          "Potato cactus seed",
-          "Spade",
-          "Snape grass x8 (optional protection payment)"
+          {
+            "name": "Potato cactus seed",
+            "quantity": 1,
+            "id": 22873
+          },
+          {
+            "name": "Spade",
+            "quantity": 1,
+            "id": 952
+          }
         ],
-        "notes": "Potato cactus seeds aren't sold in any shop; get them from Master Farmer pickpocketing, monster drops, or seed packs. The patch takes ~70 minutes to first mature, then each fully grown cactus has 6 'lives' - each pick has a chance to use one up, after which you wait ~25 minutes for more to regrow on the same plant without replanting."
+        "notes": "Potato cactus seeds aren't sold in any shop; get them from Master Farmer pickpocketing, monster drops, or seed packs. The patch takes ~70 minutes to first mature, then each fully grown cactus has 6 'lives' - each pick has a chance to use one up, after which you wait ~25 minutes for more to regrow on the same plant without replanting. Optional gardener protection costs 8 snape grass."
       },
       "ratePerHour": null,
       "steps": [
@@ -617,14 +842,24 @@
             ],
             "quests": [],
             "items": [
-              "Potato cactus seed",
-              "Spade"
+              {
+                "name": "Potato cactus seed",
+                "quantity": 1,
+                "id": 22873
+              },
+              {
+                "name": "Spade",
+                "quantity": 1,
+                "id": 952
+              }
             ],
             "notes": "Convenient if you're already running a Farming Guild herb loop on the same trip."
-          }
+          },
+          "risk": "none"
         }
       ],
-      "wikiUrl": "https://oldschool.runescape.wiki/w/Potato_cactus"
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Potato_cactus",
+      "risk": "none"
     },
     {
       "item": "Limpwurt root",
@@ -639,11 +874,18 @@
         ],
         "quests": [],
         "items": [
-          "Limpwurt seed",
-          "Spade",
-          "Compost (optional, disease reduction only)"
+          {
+            "name": "Limpwurt seed",
+            "quantity": 1,
+            "id": 5100
+          },
+          {
+            "name": "Spade",
+            "quantity": 1,
+            "id": 952
+          }
         ],
-        "notes": "No gardener protection option exists for limpwurt (compost only lowers disease risk, it doesn't raise yield). Growth takes only ~20 minutes, but the patch does not regrow - replant a fresh seed every visit. The finished item itself is tradeable/F2P, but farming it requires a members world since patches are members content."
+        "notes": "No gardener protection option exists for limpwurt (compost only lowers disease risk, it doesn't raise yield). Growth takes only ~20 minutes, but the patch does not regrow - replant a fresh seed every visit. The finished item itself is tradeable/F2P, but farming it requires a members world since patches are members content. Compost is optional and reduces disease risk."
       },
       "ratePerHour": null,
       "steps": [
@@ -655,7 +897,8 @@
         "Return to each patch, harvest the limpwurt roots (3+ per patch, yield varies), and immediately replant a new seed since the patch does not regrow on its own."
       ],
       "wikiUrl": "https://oldschool.runescape.wiki/w/Limpwurt_root",
-      "alternatives": []
+      "alternatives": [],
+      "risk": "none"
     },
     {
       "item": "Ranarr weed",
@@ -672,13 +915,28 @@
           "Plague City"
         ],
         "items": [
-          "Ranarr seed",
-          "Spade",
-          "Rake",
-          "Ultracompost or supercompost",
-          "Magic secateurs (optional, +10% yield)"
+          {
+            "name": "Ranarr seed",
+            "quantity": 1,
+            "id": 5295
+          },
+          {
+            "name": "Spade",
+            "quantity": 1,
+            "id": 952
+          },
+          {
+            "name": "Rake",
+            "quantity": 1,
+            "id": 5341
+          },
+          {
+            "name": "Supercompost",
+            "quantity": 1,
+            "id": 6034
+          }
         ],
-        "notes": "Plague City unlocks the Ardougne Teleport spell. Herb seeds aren't sold in shops: pickpocket Master Farmers (38 Thieving), monster drops, or seed packs. Each patch can grow a different herb on the same run. Yield is per ~80-minute cycle, not per hour."
+        "notes": "Plague City unlocks the Ardougne Teleport spell. Herb seeds aren't sold in shops: pickpocket Master Farmers (38 Thieving), monster drops, or seed packs. Each patch can grow a different herb on the same run. Yield is per ~80-minute cycle, not per hour. Magic secateurs are optional and increase herb yield."
       },
       "ratePerHour": null,
       "steps": [
@@ -777,7 +1035,8 @@
         }
       ],
       "alternatives": [],
-      "wikiUrl": "https://oldschool.runescape.wiki/w/Ranarr_weed"
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Ranarr_weed",
+      "risk": "none"
     },
     {
       "item": "Toadflax",
@@ -794,13 +1053,28 @@
           "Plague City"
         ],
         "items": [
-          "Toadflax seed",
-          "Spade",
-          "Rake",
-          "Ultracompost or supercompost",
-          "Magic secateurs (optional, +10% yield)"
+          {
+            "name": "Toadflax seed",
+            "quantity": 1,
+            "id": 5296
+          },
+          {
+            "name": "Spade",
+            "quantity": 1,
+            "id": 952
+          },
+          {
+            "name": "Rake",
+            "quantity": 1,
+            "id": 5341
+          },
+          {
+            "name": "Supercompost",
+            "quantity": 1,
+            "id": 6034
+          }
         ],
-        "notes": "Plague City unlocks the Ardougne Teleport spell. Herb seeds aren't sold in shops: pickpocket Master Farmers (38 Thieving), monster drops, or seed packs. Each patch can grow a different herb on the same run. Yield is per ~80-minute cycle, not per hour."
+        "notes": "Plague City unlocks the Ardougne Teleport spell. Herb seeds aren't sold in shops: pickpocket Master Farmers (38 Thieving), monster drops, or seed packs. Each patch can grow a different herb on the same run. Yield is per ~80-minute cycle, not per hour. Magic secateurs are optional and increase herb yield."
       },
       "ratePerHour": null,
       "steps": [
@@ -899,7 +1173,8 @@
         }
       ],
       "alternatives": [],
-      "wikiUrl": "https://oldschool.runescape.wiki/w/Toadflax"
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Toadflax",
+      "risk": "none"
     },
     {
       "item": "Snapdragon",
@@ -916,13 +1191,28 @@
           "Plague City"
         ],
         "items": [
-          "Snapdragon seed",
-          "Spade",
-          "Rake",
-          "Ultracompost or supercompost",
-          "Magic secateurs (optional, +10% yield)"
+          {
+            "name": "Snapdragon seed",
+            "quantity": 1,
+            "id": 5300
+          },
+          {
+            "name": "Spade",
+            "quantity": 1,
+            "id": 952
+          },
+          {
+            "name": "Rake",
+            "quantity": 1,
+            "id": 5341
+          },
+          {
+            "name": "Supercompost",
+            "quantity": 1,
+            "id": 6034
+          }
         ],
-        "notes": "Plague City unlocks the Ardougne Teleport spell. Herb seeds aren't sold in shops: pickpocket Master Farmers (38 Thieving), monster drops, or seed packs. Each patch can grow a different herb on the same run. Yield is per ~80-minute cycle, not per hour."
+        "notes": "Plague City unlocks the Ardougne Teleport spell. Herb seeds aren't sold in shops: pickpocket Master Farmers (38 Thieving), monster drops, or seed packs. Each patch can grow a different herb on the same run. Yield is per ~80-minute cycle, not per hour. Magic secateurs are optional and increase herb yield."
       },
       "ratePerHour": null,
       "steps": [
@@ -1021,7 +1311,8 @@
         }
       ],
       "alternatives": [],
-      "wikiUrl": "https://oldschool.runescape.wiki/w/Snapdragon"
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Snapdragon",
+      "risk": "none"
     },
     {
       "item": "Torstol",
@@ -1038,13 +1329,28 @@
           "Plague City"
         ],
         "items": [
-          "Torstol seed",
-          "Spade",
-          "Rake",
-          "Ultracompost or supercompost",
-          "Magic secateurs (optional, +10% yield)"
+          {
+            "name": "Torstol seed",
+            "quantity": 1,
+            "id": 5304
+          },
+          {
+            "name": "Spade",
+            "quantity": 1,
+            "id": 952
+          },
+          {
+            "name": "Rake",
+            "quantity": 1,
+            "id": 5341
+          },
+          {
+            "name": "Supercompost",
+            "quantity": 1,
+            "id": 6034
+          }
         ],
-        "notes": "Plague City unlocks the Ardougne Teleport spell. Herb seeds aren't sold in shops: pickpocket Master Farmers (38 Thieving), monster drops, or seed packs. Each patch can grow a different herb on the same run. Yield is per ~80-minute cycle, not per hour."
+        "notes": "Plague City unlocks the Ardougne Teleport spell. Herb seeds aren't sold in shops: pickpocket Master Farmers (38 Thieving), monster drops, or seed packs. Each patch can grow a different herb on the same run. Yield is per ~80-minute cycle, not per hour. Magic secateurs are optional and increase herb yield."
       },
       "ratePerHour": null,
       "steps": [
@@ -1143,7 +1449,8 @@
         }
       ],
       "alternatives": [],
-      "wikiUrl": "https://oldschool.runescape.wiki/w/Torstol"
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Torstol",
+      "risk": "none"
     },
     {
       "item": "Cadantine",
@@ -1160,13 +1467,28 @@
           "Plague City"
         ],
         "items": [
-          "Cadantine seed",
-          "Spade",
-          "Rake",
-          "Ultracompost or supercompost",
-          "Magic secateurs (optional, +10% yield)"
+          {
+            "name": "Cadantine seed",
+            "quantity": 1,
+            "id": 5301
+          },
+          {
+            "name": "Spade",
+            "quantity": 1,
+            "id": 952
+          },
+          {
+            "name": "Rake",
+            "quantity": 1,
+            "id": 5341
+          },
+          {
+            "name": "Supercompost",
+            "quantity": 1,
+            "id": 6034
+          }
         ],
-        "notes": "Plague City unlocks the Ardougne Teleport spell. Herb seeds aren't sold in shops: pickpocket Master Farmers (38 Thieving), monster drops, or seed packs. Each patch can grow a different herb on the same run. Yield is per ~80-minute cycle, not per hour."
+        "notes": "Plague City unlocks the Ardougne Teleport spell. Herb seeds aren't sold in shops: pickpocket Master Farmers (38 Thieving), monster drops, or seed packs. Each patch can grow a different herb on the same run. Yield is per ~80-minute cycle, not per hour. Magic secateurs are optional and increase herb yield."
       },
       "ratePerHour": null,
       "steps": [
@@ -1265,7 +1587,8 @@
         }
       ],
       "alternatives": [],
-      "wikiUrl": "https://oldschool.runescape.wiki/w/Cadantine"
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Cadantine",
+      "risk": "none"
     },
     {
       "item": "Lantadyme",
@@ -1282,13 +1605,28 @@
           "Plague City"
         ],
         "items": [
-          "Lantadyme seed",
-          "Spade",
-          "Rake",
-          "Ultracompost or supercompost",
-          "Magic secateurs (optional, +10% yield)"
+          {
+            "name": "Lantadyme seed",
+            "quantity": 1,
+            "id": 5302
+          },
+          {
+            "name": "Spade",
+            "quantity": 1,
+            "id": 952
+          },
+          {
+            "name": "Rake",
+            "quantity": 1,
+            "id": 5341
+          },
+          {
+            "name": "Supercompost",
+            "quantity": 1,
+            "id": 6034
+          }
         ],
-        "notes": "Plague City unlocks the Ardougne Teleport spell. Herb seeds aren't sold in shops: pickpocket Master Farmers (38 Thieving), monster drops, or seed packs. Each patch can grow a different herb on the same run. Yield is per ~80-minute cycle, not per hour."
+        "notes": "Plague City unlocks the Ardougne Teleport spell. Herb seeds aren't sold in shops: pickpocket Master Farmers (38 Thieving), monster drops, or seed packs. Each patch can grow a different herb on the same run. Yield is per ~80-minute cycle, not per hour. Magic secateurs are optional and increase herb yield."
       },
       "ratePerHour": null,
       "steps": [
@@ -1387,7 +1725,8 @@
         }
       ],
       "alternatives": [],
-      "wikiUrl": "https://oldschool.runescape.wiki/w/Lantadyme"
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Lantadyme",
+      "risk": "none"
     },
     {
       "item": "Dwarf weed",
@@ -1404,13 +1743,28 @@
           "Plague City"
         ],
         "items": [
-          "Dwarf weed seed",
-          "Spade",
-          "Rake",
-          "Ultracompost or supercompost",
-          "Magic secateurs (optional, +10% yield)"
+          {
+            "name": "Dwarf weed seed",
+            "quantity": 1,
+            "id": 5303
+          },
+          {
+            "name": "Spade",
+            "quantity": 1,
+            "id": 952
+          },
+          {
+            "name": "Rake",
+            "quantity": 1,
+            "id": 5341
+          },
+          {
+            "name": "Supercompost",
+            "quantity": 1,
+            "id": 6034
+          }
         ],
-        "notes": "Plague City unlocks the Ardougne Teleport spell. Herb seeds aren't sold in shops: pickpocket Master Farmers (38 Thieving), monster drops, or seed packs. Each patch can grow a different herb on the same run. Yield is per ~80-minute cycle, not per hour."
+        "notes": "Plague City unlocks the Ardougne Teleport spell. Herb seeds aren't sold in shops: pickpocket Master Farmers (38 Thieving), monster drops, or seed packs. Each patch can grow a different herb on the same run. Yield is per ~80-minute cycle, not per hour. Magic secateurs are optional and increase herb yield."
       },
       "ratePerHour": null,
       "steps": [
@@ -1509,7 +1863,8 @@
         }
       ],
       "alternatives": [],
-      "wikiUrl": "https://oldschool.runescape.wiki/w/Dwarf_weed"
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Dwarf_weed",
+      "risk": "none"
     },
     {
       "item": "Vial of water",
@@ -1519,7 +1874,11 @@
         "skills": [],
         "quests": [],
         "items": [
-          "Coins"
+          {
+            "name": "Coins",
+            "quantity": 1,
+            "id": 995
+          }
         ],
         "notes": "No Farming or gathering skill needed; this is a shop purchase, which is fine for ironmen (not the Grand Exchange)."
       },
@@ -1543,13 +1902,19 @@
             "skills": [],
             "quests": [],
             "items": [
-              "Empty vials"
+              {
+                "name": "Vial",
+                "quantity": 1,
+                "id": 229
+              }
             ],
             "notes": "Free but slower and more click-intensive than buying pre-filled vials."
-          }
+          },
+          "risk": "none"
         }
       ],
-      "wikiUrl": "https://oldschool.runescape.wiki/w/Vial_of_water"
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Vial_of_water",
+      "risk": "none"
     },
     {
       "item": "Coconut milk",
@@ -1564,12 +1929,36 @@
         ],
         "quests": [],
         "items": [
-          "Palm sapling",
-          "Spade",
-          "Papaya fruit (x15, to pay gardener)",
-          "Hammer",
-          "Knife",
-          "Empty vials"
+          {
+            "name": "Palm sapling",
+            "quantity": 1,
+            "id": 5502
+          },
+          {
+            "name": "Spade",
+            "quantity": 1,
+            "id": 952
+          },
+          {
+            "name": "Papaya fruit",
+            "quantity": 15,
+            "id": 5972
+          },
+          {
+            "name": "Hammer",
+            "quantity": 1,
+            "id": 2347
+          },
+          {
+            "name": "Knife",
+            "quantity": 1,
+            "id": 946
+          },
+          {
+            "name": "Vial",
+            "quantity": 1,
+            "id": 229
+          }
         ],
         "notes": "A fully grown palm tree yields one coconut every 40 minutes, up to 6 per tree, so plant at multiple fruit tree patches to keep a steady supply."
       },
@@ -1583,7 +1972,8 @@
         "Bank the finished coconut milk and repeat with the next batch of coconuts."
       ],
       "alternatives": [],
-      "wikiUrl": "https://oldschool.runescape.wiki/w/Coconut_milk"
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Coconut_milk",
+      "risk": "none"
     },
     {
       "item": "Papaya fruit",
@@ -1598,9 +1988,21 @@
         ],
         "quests": [],
         "items": [
-          "Papaya tree seed",
-          "Spade",
-          "Basket (x10 pineapples, to pay gardener)"
+          {
+            "name": "Papaya tree seed",
+            "quantity": 1,
+            "id": 5288
+          },
+          {
+            "name": "Spade",
+            "quantity": 1,
+            "id": 952
+          },
+          {
+            "name": "Pineapple",
+            "quantity": 10,
+            "id": 2114
+          }
         ],
         "notes": "Papaya fruit does not currently exist as an item entry in materials.json, so no numeric id is available; verify against the live game/wiki if this changes."
       },
@@ -1617,21 +2019,36 @@
         {
           "title": "Kill Kurask for noted papayas",
           "steps": [
-            "Travel to a Kurask spawn (e.g. Slayer Tower, requires Kurask Slayer task or no Slayer requirement to simply kill them).",
-            "Kill Kurask; they drop noted papaya fruit at roughly 1 per 3 kills.",
-            "Bank the noted papayas."
+            "Travel to the Fremennik Slayer Dungeon and enter the regular kurask area.",
+            "Kill kurask with a leaf-bladed weapon, broad ammunition or Magic Dart; ordinary slash weapons cannot damage them.",
+            "Collect the noted papaya drops and bank before supplies run out."
           ],
           "requires": {
-            "skills": [],
+            "skills": [
+              {
+                "skill": "Slayer",
+                "level": 70
+              },
+              {
+                "skill": "Attack",
+                "level": 65
+              }
+            ],
             "quests": [],
             "items": [
-              "Weapon capable of harming Kurask (leaf-bladed weapon or slash attack)"
+              {
+                "name": "Leaf-bladed spear",
+                "quantity": 1,
+                "id": 4158
+              }
             ],
             "notes": "Slow and combat-dependent; mainly useful as a side source while training combat/Slayer."
-          }
+          },
+          "risk": "none"
         }
       ],
-      "wikiUrl": "https://oldschool.runescape.wiki/w/Papaya_fruit"
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Papaya_fruit",
+      "risk": "none"
     },
     {
       "item": "Poison ivy berries",
@@ -1646,8 +2063,16 @@
         ],
         "quests": [],
         "items": [
-          "Poison ivy seed",
-          "Spade"
+          {
+            "name": "Poison ivy seed",
+            "quantity": 1,
+            "id": 5106
+          },
+          {
+            "name": "Spade",
+            "quantity": 1,
+            "id": 952
+          }
         ],
         "notes": "Poison ivy is hardy and needs no gardener payment or protection; berries take about 80 minutes to regrow after picking."
       },
@@ -1662,7 +2087,8 @@
         "Bank the berries and revisit patches periodically to keep harvesting regrowth."
       ],
       "alternatives": [],
-      "wikiUrl": "https://oldschool.runescape.wiki/w/Poison_ivy_berries"
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Poison_ivy_berries",
+      "risk": "none"
     },
     {
       "item": "Grapes",
@@ -1677,9 +2103,21 @@
         ],
         "quests": [],
         "items": [
-          "Grape seed",
-          "Saltpetre",
-          "Spade"
+          {
+            "name": "Grape seed",
+            "quantity": 1,
+            "id": 13657
+          },
+          {
+            "name": "Saltpetre",
+            "quantity": 1,
+            "id": 13421
+          },
+          {
+            "name": "Spade",
+            "quantity": 1,
+            "id": 952
+          }
         ],
         "notes": "The Hosidius Vinery is the only vine patch in the game; Gallow watches the vines so they never catch disease. Vines die once all grapes are picked and cannot be revived."
       },
@@ -1710,10 +2148,12 @@
             "quests": [],
             "items": [],
             "notes": "Much slower and shared with other stall loot; only useful as a low-level fallback before 36 Farming."
-          }
+          },
+          "risk": "none"
         }
       ],
-      "wikiUrl": "https://oldschool.runescape.wiki/w/Grapes"
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Grapes",
+      "risk": "none"
     },
     {
       "item": "Soft clay",
@@ -1728,11 +2168,18 @@
         ],
         "quests": [],
         "items": [
-          "Pickaxe",
-          "Bucket (or jug/bowl/vial) of water",
-          "Bank nearby recommended"
+          {
+            "name": "Bronze pickaxe",
+            "quantity": 1,
+            "id": 1265
+          },
+          {
+            "name": "Bucket of water",
+            "quantity": 1,
+            "id": 1929
+          }
         ],
-        "notes": "Mining clay rocks yields regular clay, which must then have a water source used on it to become soft clay; Trahaearn mine in Prifddinas has dedicated soft clay rocks giving 2 per action with a bracelet of clay equipped, but requires Prifddinas access (Song of the Elves)."
+        "notes": "Mining clay rocks yields regular clay, which must then have a water source used on it to become soft clay; Trahaearn mine in Prifddinas has dedicated soft clay rocks giving 2 per action with a bracelet of clay equipped, but requires Prifddinas access (Song of the Elves). Use the bank named in the route."
       },
       "ratePerHour": 1000,
       "steps": [
@@ -1759,13 +2206,19 @@
             ],
             "quests": [],
             "items": [
-              "Golden nuggets or stardust"
+              {
+                "name": "Golden nugget",
+                "quantity": 10,
+                "id": 12012
+              }
             ],
             "notes": "Faster per-trip than manual mining once the minigame currency is stockpiled, but requires playing the minigame first."
-          }
+          },
+          "risk": "none"
         }
       ],
-      "wikiUrl": "https://oldschool.runescape.wiki/w/Soft_clay"
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Soft_clay",
+      "risk": "none"
     },
     {
       "item": "Feather",
@@ -1775,7 +2228,11 @@
         "skills": [],
         "quests": [],
         "items": [
-          "Coins"
+          {
+            "name": "Coins",
+            "quantity": 1,
+            "id": 995
+          }
         ],
         "notes": "Fishing Guild access requires 68 Fishing, but the shop itself can be entered without fishing there; buy limit is per shop stock, not a global GE limit."
       },
@@ -1798,13 +2255,19 @@
             "skills": [],
             "quests": [],
             "items": [
-              "Any weapon"
+              {
+                "name": "Bronze sword",
+                "quantity": 1,
+                "id": 1277
+              }
             ],
             "notes": "Slower than shop buying but free and useful while also training early combat."
-          }
+          },
+          "risk": "none"
         }
       ],
-      "wikiUrl": "https://oldschool.runescape.wiki/w/Feather"
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Feather",
+      "risk": "none"
     },
     {
       "item": "Raw shark",
@@ -1819,7 +2282,11 @@
         ],
         "quests": [],
         "items": [
-          "Harpoon (dragon or crystal harpoon is faster)"
+          {
+            "name": "Harpoon",
+            "quantity": 1,
+            "id": 311
+          }
         ],
         "notes": "Shark lure increases catch rate but reduces Fishing XP per catch; skip it if XP matters more than volume. A 96 Fishing/76 Strength bare-handed method exists as an alternative below."
       },
@@ -1854,7 +2321,8 @@
               "Barbarian Training (started)"
             ],
             "items": []
-          }
+          },
+          "risk": "none"
         },
         {
           "title": "Minnow exchange at the Fishing Guild",
@@ -1872,12 +2340,18 @@
             ],
             "quests": [],
             "items": [
-              "Small fishing net"
+              {
+                "name": "Small fishing net",
+                "quantity": 1,
+                "id": 303
+              }
             ]
-          }
+          },
+          "risk": "none"
         }
       ],
-      "wikiUrl": "https://oldschool.runescape.wiki/w/Raw_shark"
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Raw_shark",
+      "risk": "none"
     },
     {
       "item": "Raw karambwan",
@@ -1894,8 +2368,16 @@
           "Tai Bwo Wannai Trio (fishing portion)"
         ],
         "items": [
-          "Karambwan vessel",
-          "Raw karambwanji (bait)"
+          {
+            "name": "Karambwan vessel",
+            "quantity": 1,
+            "id": 3157
+          },
+          {
+            "name": "Raw karambwanji",
+            "quantity": 1,
+            "id": 3150
+          }
         ],
         "notes": "Raw karambwanji is untradeable and must be caught yourself (level 5 Fishing, small fishing net) at Holy Lake south of Tai Bwo Wannai before you can bait the vessel."
       },
@@ -1924,14 +2406,24 @@
               "Tai Bwo Wannai Trio (fishing portion)"
             ],
             "items": [
-              "Karambwan vessel",
-              "Raw karambwanji",
-              "Raft access"
-            ]
-          }
+              {
+                "name": "Karambwan vessel",
+                "quantity": 1,
+                "id": 3157
+              },
+              {
+                "name": "Raw karambwanji",
+                "quantity": 1,
+                "id": 3150
+              }
+            ],
+            "notes": "Reach the raft by following the route below."
+          },
+          "risk": "none"
         }
       ],
-      "wikiUrl": "https://oldschool.runescape.wiki/w/Raw_karambwan"
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Raw_karambwan",
+      "risk": "none"
     },
     {
       "item": "Bones",
@@ -1941,7 +2433,11 @@
         "skills": [],
         "quests": [],
         "items": [
-          "Any weapon"
+          {
+            "name": "Bronze sword",
+            "quantity": 1,
+            "id": 1277
+          }
         ],
         "notes": "No Combat or Fishing level is needed; this is about the fastest low-effort bone drop rate next to a bank, not a specific wiki-cited spot."
       },
@@ -1964,12 +2460,18 @@
             "skills": [],
             "quests": [],
             "items": [
-              "Any weapon"
+              {
+                "name": "Bronze sword",
+                "quantity": 1,
+                "id": 1277
+              }
             ]
-          }
+          },
+          "risk": "none"
         }
       ],
-      "wikiUrl": "https://oldschool.runescape.wiki/w/Bones"
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Bones",
+      "risk": "none"
     },
     {
       "item": "Dragon bones",
@@ -1984,8 +2486,16 @@
         ],
         "quests": [],
         "items": [
-          "Anti-dragon shield or Protect from Magic prayer",
-          "Antipoison (if not using the Agility shortcut)"
+          {
+            "name": "Anti-dragon shield",
+            "quantity": 1,
+            "id": 1540
+          },
+          {
+            "name": "Antipoison(4)",
+            "quantity": 1,
+            "id": 2446
+          }
         ],
         "notes": "Blue dragons breathe both magic-based dragonfire and poison; safespot or pray Protect from Magic and bring antipoison."
       },
@@ -2015,15 +2525,29 @@
               "Arceuus spellbook unlocked"
             ],
             "items": [
-              "4x Soul rune",
-              "2x Blood rune",
-              "4x Nature rune per cast"
+              {
+                "name": "Soul rune",
+                "quantity": 4,
+                "id": 566
+              },
+              {
+                "name": "Blood rune",
+                "quantity": 2,
+                "id": 565
+              },
+              {
+                "name": "Nature rune",
+                "quantity": 4,
+                "id": 561
+              }
             ],
             "notes": "This grants Prayer XP directly and does not produce the Dragon bones item itself; use it only if the goal is Prayer training rather than restocking bones for other uses (e.g. gilded altar offerings elsewhere)."
-          }
+          },
+          "risk": "none"
         }
       ],
-      "wikiUrl": "https://oldschool.runescape.wiki/w/Dragon_bones"
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Dragon_bones",
+      "risk": "none"
     },
     {
       "item": "Plank",
@@ -2038,8 +2562,16 @@
         ],
         "quests": [],
         "items": [
-          "Axe",
-          "Coins (100gp per log)"
+          {
+            "name": "Bronze axe",
+            "quantity": 1,
+            "id": 1351
+          },
+          {
+            "name": "Coins",
+            "quantity": 100,
+            "id": 995
+          }
         ],
         "notes": "The Sawmill charges a flat gp fee per log, not a Grand Exchange trade, so it is fully iron-friendly."
       },
@@ -2069,16 +2601,38 @@
               "Dream Mentor"
             ],
             "items": [
-              "Logs",
-              "Coins (70gp/log)",
-              "Nature rune",
-              "Astral rune x2",
-              "Earth rune x15"
+              {
+                "name": "Logs",
+                "quantity": 1,
+                "id": 1511
+              },
+              {
+                "name": "Coins",
+                "quantity": 70,
+                "id": 995
+              },
+              {
+                "name": "Nature rune",
+                "quantity": 1,
+                "id": 561
+              },
+              {
+                "name": "Astral rune",
+                "quantity": 2,
+                "id": 9075
+              },
+              {
+                "name": "Earth rune",
+                "quantity": 15,
+                "id": 557
+              }
             ]
-          }
+          },
+          "risk": "none"
         }
       ],
-      "wikiUrl": "https://oldschool.runescape.wiki/w/Plank"
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Plank",
+      "risk": "none"
     },
     {
       "item": "Teak logs",
@@ -2093,7 +2647,11 @@
         ],
         "quests": [],
         "items": [
-          "Axe"
+          {
+            "name": "Bronze axe",
+            "quantity": 1,
+            "id": 1351
+          }
         ],
         "notes": "This single tree is unrestricted (no diary/quest gate) and reachable purely with a Ring of dueling."
       },
@@ -2125,12 +2683,18 @@
             ],
             "quests": [],
             "items": [
-              "Teak sapling"
+              {
+                "name": "Teak sapling",
+                "quantity": 1,
+                "id": 21477
+              }
             ]
-          }
+          },
+          "risk": "none"
         }
       ],
-      "wikiUrl": "https://oldschool.runescape.wiki/w/Teak_logs"
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Teak_logs",
+      "risk": "none"
     },
     {
       "item": "Mahogany logs",
@@ -2145,16 +2709,32 @@
         ],
         "quests": [],
         "items": [
-          "Axe"
+          {
+            "name": "Bronze axe",
+            "quantity": 1,
+            "id": 1351
+          }
         ],
-        "notes": "These trees are not inside the Woodcutting Guild (which has no teak/mahogany trees) \u2014 they are an outdoor cluster in Hosidius, north of the Farming Guild building."
+        "notes": "These trees are not inside the Woodcutting Guild (which has no teak/mahogany trees) — they are an outdoor cluster in Hosidius, north of the Farming Guild building."
       },
       "ratePerHour": 180,
       "steps": [
         "Teleport to Kourend Castle (Kourend teleport spell or a Kourend teleport tab), or take a spirit tree to the Farming Guild if that destination is unlocked.",
         "Walk north to the mahogany tree cluster just north of the Farming Guild.",
         "Chop the trees until your inventory is full.",
-        "Return to the nearest bank (Farming Guild bank if you have 45 Farming, otherwise Hosidius Kitchen bank chest) to deposit, then repeat."
+        "Bank at the Hosidius Kitchen bank chest, then repeat.",
+        {
+          "text": "Use the Farming Guild bank instead for a shorter banking trip.",
+          "requires": {
+            "skills": [
+              {
+                "skill": "Farming",
+                "level": 45
+              }
+            ],
+            "quests": []
+          }
+        }
       ],
       "alternatives": [
         {
@@ -2177,12 +2757,18 @@
             ],
             "quests": [],
             "items": [
-              "Mahogany sapling"
+              {
+                "name": "Mahogany sapling",
+                "quantity": 1,
+                "id": 21480
+              }
             ]
-          }
+          },
+          "risk": "none"
         }
       ],
-      "wikiUrl": "https://oldschool.runescape.wiki/w/Mahogany_logs"
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Mahogany_logs",
+      "risk": "none"
     },
     {
       "item": "Bow string",
@@ -2210,17 +2796,24 @@
         {
           "title": "Temple Trekking (best for early/mid-game ironmen)",
           "steps": [
-            "Start Temple Trekking at the Burgh de Rott swamp entrance with minimal supplies.",
-            "Pick the easiest route and follower to avoid combat encounters entirely.",
-            "Complete treks for bow string rewards, averaging about 3,000/hour (up to 5,000/hour using run-energy potions and a plank sack for bridges)."
+            "Start Temple Trekking from the Burgh de Rott end with food and combat equipment.",
+            "Choose the easy route; combat encounters can still occur, so escape or teleport out when needed.",
+            "Complete the trek and select bow strings from the reward token."
           ],
           "requires": {
             "skills": [],
             "quests": [
-              "Priest in Peril"
+              "In Aid of the Myreque"
             ],
-            "items": []
-          }
+            "items": [
+              {
+                "name": "Trout",
+                "quantity": 1,
+                "id": 333
+              }
+            ]
+          },
+          "risk": "hardcore-unsafe"
         },
         {
           "title": "Spin Flax spell with bales of flax",
@@ -2244,15 +2837,43 @@
               "Lunar Diplomacy"
             ],
             "items": [
-              "Bale of flax",
-              "Bow string spool",
-              "Rune pouch",
-              "Nature rune x2, Astral rune, Air rune x5 per cast"
+              {
+                "name": "Bale of flax",
+                "quantity": 1,
+                "id": 31045
+              },
+              {
+                "name": "Bow string spool",
+                "quantity": 1,
+                "id": 31052
+              },
+              {
+                "name": "Rune pouch",
+                "quantity": 1,
+                "id": 12791
+              },
+              {
+                "name": "Nature rune",
+                "quantity": 2,
+                "id": 561
+              },
+              {
+                "name": "Astral rune",
+                "quantity": 1,
+                "id": 9075
+              },
+              {
+                "name": "Air rune",
+                "quantity": 5,
+                "id": 556
+              }
             ]
-          }
+          },
+          "risk": "none"
         }
       ],
-      "wikiUrl": "https://oldschool.runescape.wiki/w/Bow_string"
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Bow_string",
+      "risk": "none"
     },
     {
       "item": "Yew logs",
@@ -2267,7 +2888,11 @@
         ],
         "quests": [],
         "items": [
-          "Axe"
+          {
+            "name": "Bronze axe",
+            "quantity": 1,
+            "id": 1351
+          }
         ],
         "notes": "No quest points needed, unlike the Woodcutting Guild alternative below."
       },
@@ -2297,17 +2922,23 @@
               "60 Quest Points"
             ],
             "items": [
-              "Axe"
+              {
+                "name": "Bronze axe",
+                "quantity": 1,
+                "id": 1351
+              }
             ]
-          }
+          },
+          "risk": "none"
         }
       ],
-      "wikiUrl": "https://oldschool.runescape.wiki/w/Yew_logs"
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Yew_logs",
+      "risk": "none"
     },
     {
       "item": "Gold ore",
       "id": 444,
-      "title": "Mine gold ore at the Shilo Village mine",
+      "title": "Mine gold ore at the Al Kharid mine",
       "requires": {
         "skills": [
           {
@@ -2315,46 +2946,61 @@
             "level": 40
           }
         ],
-        "quests": [
-          "Shilo Village (started, for mine access)"
-        ],
+        "quests": [],
         "items": [
-          "Pickaxe"
+          {
+            "name": "Bronze pickaxe",
+            "quantity": 1,
+            "id": 1265
+          }
         ],
-        "notes": "Mining gloves (from Karamja Diary rewards) let a single rock yield extra ore before depleting."
+        "notes": "The mine contains two gold rocks. Mining gloves can extend a rock before depletion; the prospector outfit does not double ore."
       },
-      "ratePerHour": 150,
+      "ratePerHour": null,
       "steps": [
-        "Teleport to Shilo Village using Karamja gloves (Karamja Diary reward) if unlocked, or travel by boat from Brimhaven/Cairn Isle after starting the Shilo Village quest.",
-        "Head to the cluster of gold rocks in the south-east section of the Shilo Village mine.",
-        "Mine gold ore, hopping between the adjacent rocks so you are never waiting on the ~60 second respawn of a single rock.",
-        "Bank at the Shilo Village bank chest (if the quest is complete) or teleport out with a games necklace/glory and return.",
-        "Optionally, smelt the ore into gold bars at the Blast Furnace in Keldagrim for fast Smithing XP, or buy extra gold ore there from Ordan's shop for a flat 225gp each if more supply is needed \u2014 both are gp-based, not Grand Exchange."
+        "Walk north from Al Kharid to the Al Kharid mine.",
+        "Mine the two gold rocks until your inventory is full.",
+        "Walk south to the Al Kharid bank, deposit the ore and return."
       ],
       "alternatives": [
         {
-          "title": "Mining Guild",
-          "steps": [
-            "Reach 60 Mining and teleport directly into the Mining Guild with a skills necklace.",
-            "Mine the guild's gold rocks; wearing the Prospector kit doubles ore yield per rock while inside the guild.",
-            "Bank at the deposit box/bank chest inside the guild."
-          ],
+          "title": "Crafting Guild gold rocks",
           "requires": {
             "skills": [
               {
                 "skill": "Mining",
-                "level": 60
+                "level": 40
+              },
+              {
+                "skill": "Crafting",
+                "level": 40
               }
             ],
             "quests": [],
             "items": [
-              "Pickaxe",
-              "Prospector kit (optional, for double yield)"
-            ]
-          }
+              {
+                "name": "Bronze pickaxe",
+                "quantity": 1,
+                "id": 1265
+              },
+              {
+                "name": "Brown apron",
+                "quantity": 1,
+                "id": 1757
+              }
+            ],
+            "notes": "The guild bank requires the hard Falador Diary or 99 Crafting; otherwise bank in Falador."
+          },
+          "steps": [
+            "Walk south-west of Falador to the Crafting Guild wearing a brown apron.",
+            "Mine the seven gold rocks inside the guild.",
+            "Bank in Falador and return. The guild bank is available after the hard Falador Diary or at 99 Crafting."
+          ],
+          "risk": "none"
         }
       ],
-      "wikiUrl": "https://oldschool.runescape.wiki/w/Gold_ore"
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Gold_ore",
+      "risk": "none"
     },
     {
       "item": "Steel cannonball",
@@ -2371,8 +3017,16 @@
           "Dwarf Cannon (at least partial completion, for the Ammo mould)"
         ],
         "items": [
-          "Steel bar",
-          "Ammo mould"
+          {
+            "name": "Steel bar",
+            "quantity": 1,
+            "id": 2353
+          },
+          {
+            "name": "Ammo mould",
+            "quantity": 1,
+            "id": 4
+          }
         ],
         "notes": "Steel bars are best obtained via the Blast Furnace (pay the coffer's per-bar fee, gp not GE) rather than smelting each one individually at a normal furnace."
       },
@@ -2406,13 +3060,23 @@
               "Dwarf Cannon"
             ],
             "items": [
-              "Double ammo mould",
-              "Steel bar"
+              {
+                "name": "Double ammo mould",
+                "quantity": 1,
+                "id": 27012
+              },
+              {
+                "name": "Steel bar",
+                "quantity": 1,
+                "id": 2353
+              }
             ]
-          }
+          },
+          "risk": "none"
         }
       ],
-      "wikiUrl": "https://oldschool.runescape.wiki/w/Cannonball"
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Cannonball",
+      "risk": "none"
     },
     {
       "item": "Harralander",
@@ -2429,13 +3093,28 @@
           "Plague City"
         ],
         "items": [
-          "Harralander seed",
-          "Spade",
-          "Rake",
-          "Ultracompost or supercompost",
-          "Magic secateurs (optional, +10% yield)"
+          {
+            "name": "Harralander seed",
+            "quantity": 1,
+            "id": 5294
+          },
+          {
+            "name": "Spade",
+            "quantity": 1,
+            "id": 952
+          },
+          {
+            "name": "Rake",
+            "quantity": 1,
+            "id": 5341
+          },
+          {
+            "name": "Supercompost",
+            "quantity": 1,
+            "id": 6034
+          }
         ],
-        "notes": "Plague City unlocks the Ardougne Teleport spell. Herb seeds aren't sold in shops: pickpocket Master Farmers (38 Thieving), monster drops, or seed packs. Each patch can grow a different herb on the same run. Yield is per ~80-minute cycle, not per hour."
+        "notes": "Plague City unlocks the Ardougne Teleport spell. Herb seeds aren't sold in shops: pickpocket Master Farmers (38 Thieving), monster drops, or seed packs. Each patch can grow a different herb on the same run. Yield is per ~80-minute cycle, not per hour. Magic secateurs are optional and increase herb yield."
       },
       "ratePerHour": null,
       "steps": [
@@ -2534,7 +3213,8 @@
         }
       ],
       "alternatives": [],
-      "wikiUrl": "https://oldschool.runescape.wiki/w/Harralander"
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Harralander",
+      "risk": "none"
     },
     {
       "item": "Irit leaf",
@@ -2551,13 +3231,28 @@
           "Plague City"
         ],
         "items": [
-          "Irit seed",
-          "Spade",
-          "Rake",
-          "Ultracompost or supercompost",
-          "Magic secateurs (optional, +10% yield)"
+          {
+            "name": "Irit seed",
+            "quantity": 1,
+            "id": 5297
+          },
+          {
+            "name": "Spade",
+            "quantity": 1,
+            "id": 952
+          },
+          {
+            "name": "Rake",
+            "quantity": 1,
+            "id": 5341
+          },
+          {
+            "name": "Supercompost",
+            "quantity": 1,
+            "id": 6034
+          }
         ],
-        "notes": "Plague City unlocks the Ardougne Teleport spell. Herb seeds aren't sold in shops: pickpocket Master Farmers (38 Thieving), monster drops, or seed packs. Each patch can grow a different herb on the same run. Yield is per ~80-minute cycle, not per hour."
+        "notes": "Plague City unlocks the Ardougne Teleport spell. Herb seeds aren't sold in shops: pickpocket Master Farmers (38 Thieving), monster drops, or seed packs. Each patch can grow a different herb on the same run. Yield is per ~80-minute cycle, not per hour. Magic secateurs are optional and increase herb yield."
       },
       "ratePerHour": null,
       "steps": [
@@ -2656,7 +3351,8 @@
         }
       ],
       "alternatives": [],
-      "wikiUrl": "https://oldschool.runescape.wiki/w/Irit_leaf"
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Irit_leaf",
+      "risk": "none"
     },
     {
       "item": "Avantoe",
@@ -2673,13 +3369,28 @@
           "Plague City"
         ],
         "items": [
-          "Avantoe seed",
-          "Spade",
-          "Rake",
-          "Ultracompost or supercompost",
-          "Magic secateurs (optional, +10% yield)"
+          {
+            "name": "Avantoe seed",
+            "quantity": 1,
+            "id": 5298
+          },
+          {
+            "name": "Spade",
+            "quantity": 1,
+            "id": 952
+          },
+          {
+            "name": "Rake",
+            "quantity": 1,
+            "id": 5341
+          },
+          {
+            "name": "Supercompost",
+            "quantity": 1,
+            "id": 6034
+          }
         ],
-        "notes": "Plague City unlocks the Ardougne Teleport spell. Herb seeds aren't sold in shops: pickpocket Master Farmers (38 Thieving), monster drops, or seed packs. Each patch can grow a different herb on the same run. Yield is per ~80-minute cycle, not per hour."
+        "notes": "Plague City unlocks the Ardougne Teleport spell. Herb seeds aren't sold in shops: pickpocket Master Farmers (38 Thieving), monster drops, or seed packs. Each patch can grow a different herb on the same run. Yield is per ~80-minute cycle, not per hour. Magic secateurs are optional and increase herb yield."
       },
       "ratePerHour": null,
       "steps": [
@@ -2778,7 +3489,8 @@
         }
       ],
       "alternatives": [],
-      "wikiUrl": "https://oldschool.runescape.wiki/w/Avantoe"
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Avantoe",
+      "risk": "none"
     },
     {
       "item": "Kwuarm",
@@ -2795,13 +3507,28 @@
           "Plague City"
         ],
         "items": [
-          "Kwuarm seed",
-          "Spade",
-          "Rake",
-          "Ultracompost or supercompost",
-          "Magic secateurs (optional, +10% yield)"
+          {
+            "name": "Kwuarm seed",
+            "quantity": 1,
+            "id": 5299
+          },
+          {
+            "name": "Spade",
+            "quantity": 1,
+            "id": 952
+          },
+          {
+            "name": "Rake",
+            "quantity": 1,
+            "id": 5341
+          },
+          {
+            "name": "Supercompost",
+            "quantity": 1,
+            "id": 6034
+          }
         ],
-        "notes": "Plague City unlocks the Ardougne Teleport spell. Herb seeds aren't sold in shops: pickpocket Master Farmers (38 Thieving), monster drops, or seed packs. Each patch can grow a different herb on the same run. Yield is per ~80-minute cycle, not per hour."
+        "notes": "Plague City unlocks the Ardougne Teleport spell. Herb seeds aren't sold in shops: pickpocket Master Farmers (38 Thieving), monster drops, or seed packs. Each patch can grow a different herb on the same run. Yield is per ~80-minute cycle, not per hour. Magic secateurs are optional and increase herb yield."
       },
       "ratePerHour": null,
       "steps": [
@@ -2900,7 +3627,8 @@
         }
       ],
       "alternatives": [],
-      "wikiUrl": "https://oldschool.runescape.wiki/w/Kwuarm"
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Kwuarm",
+      "risk": "none"
     }
   ]
 }

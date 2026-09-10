@@ -1,0 +1,112 @@
+package com.signpost.store;
+
+import java.time.Instant;
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * Pure functions that produce a new {@link AccountData} with one field changed, via
+ * {@link AccountData#copy()} - the input is never mutated. Used by the plugin's panel actions
+ * so the actual mutation is a plain, independently-testable data transform; the
+ * executor/thread wiring around it (serialising every call, saving, re-running the engine) lives
+ * in {@code NextTargetPlugin#mutateAccountData}.
+ */
+public final class AccountDataMutations
+{
+	private AccountDataMutations()
+	{
+	}
+
+	public static AccountData snooze(AccountData data, String goalId, Instant until, String gapFingerprint)
+	{
+		AccountData copy = data.copy();
+		copy.getSnoozes().put(goalId, new Snooze(until, gapFingerprint));
+		return copy;
+	}
+
+	public static AccountData unsnooze(AccountData data, String goalId)
+	{
+		AccountData copy = data.copy();
+		copy.getSnoozes().remove(goalId);
+		return copy;
+	}
+
+	public static AccountData ignore(AccountData data, String goalId)
+	{
+		AccountData copy = data.copy();
+		copy.getIgnores().add(goalId);
+		return copy;
+	}
+
+	public static AccountData unignore(AccountData data, String goalId)
+	{
+		AccountData copy = data.copy();
+		copy.getIgnores().remove(goalId);
+		return copy;
+	}
+
+	/** Idempotent: pinning an already-pinned goal doesn't move it within the pin order. */
+	public static AccountData pin(AccountData data, String goalId)
+	{
+		AccountData copy = data.copy();
+		if (!copy.getPins().contains(goalId))
+		{
+			copy.getPins().add(goalId);
+		}
+		return copy;
+	}
+
+	public static AccountData unpin(AccountData data, String goalId)
+	{
+		AccountData copy = data.copy();
+		copy.getPins().remove(goalId);
+		return copy;
+	}
+
+	public static AccountData focus(AccountData data, String goalId)
+	{
+		AccountData copy = data.copy();
+		copy.setFocusGoalId(goalId);
+		return copy;
+	}
+
+	public static AccountData clearFocus(AccountData data)
+	{
+		AccountData copy = data.copy();
+		copy.setFocusGoalId(null);
+		return copy;
+	}
+
+	/** "Own it" - marks a milestone/slayer-target/boss goal done by hand. */
+	public static AccountData markOwned(AccountData data, String goalId)
+	{
+		AccountData copy = data.copy();
+		copy.getOwnedManually().add(goalId);
+		return copy;
+	}
+
+	/** "Unmark" in the Owned (manual) section - undoes {@link #markOwned}. */
+	public static AccountData unmarkOwned(AccountData data, String goalId)
+	{
+		AccountData copy = data.copy();
+		copy.getOwnedManually().remove(goalId);
+		return copy;
+	}
+
+	public static AccountData bank(AccountData data, Map<Integer, Integer> items, Instant asOf)
+	{
+		AccountData copy = data.copy();
+		copy.setBank(new HashMap<>(items));
+		copy.setBankAsOf(asOf);
+		return copy;
+	}
+
+	/** The group ironman shared storage, written on interface close exactly like {@link #bank}. */
+	public static AccountData groupStorage(AccountData data, Map<Integer, Integer> items, Instant asOf)
+	{
+		AccountData copy = data.copy();
+		copy.setGroupStorage(new HashMap<>(items));
+		copy.setGroupStorageAsOf(asOf);
+		return copy;
+	}
+}

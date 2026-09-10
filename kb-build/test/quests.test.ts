@@ -92,7 +92,24 @@ describe('buildQuests', () => {
       items: [],
       questPoints: null,
       source: 'none',
+      rewards: { xp: {}, lamps: [] },
     });
+  });
+
+  it('carries the page xp rewards, except for the Recipe for Disaster umbrella whose subquests already do', () => {
+    const rewardsPage = loadFixture('rewards.txt');
+    const pages = pagesFromWikitext({ 'Recipe for Disaster': rewardsPage, 'Some Quest': rewardsPage });
+
+    const result = buildQuests({
+      runeliteQuests: [{ id: 117, name: 'Recipe for Disaster' }, { id: 998, name: 'Some Quest' }],
+      aliases: {},
+      questreq: new Map(),
+      pages,
+    });
+
+    expect(result.find((q) => q.id === 998)?.rewards.xp.Attack).toBe(13750 + 2500);
+    expect(result.find((q) => q.id === 998)?.rewards.lamps.length).toBeGreaterThan(0);
+    expect(result.find((q) => q.id === 117)?.rewards).toEqual({ xp: {}, lamps: [] });
   });
 
   it('splits a "Started:" prefixed prereq into prereqsStarted, not prereqs', () => {

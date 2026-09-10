@@ -10588,6 +10588,68 @@
       "tierVarbit": 4469
     }
   ],
-  "generatedAt": "2026-09-04T21:42:21Z",
+  "generatedAt": "2026-09-09T13:48:11Z",
+  "sources": [
+    {
+      "revid": 15295881,
+      "timestamp": "2026-08-13T03:04:38Z",
+      "title": "Ardougne Diary"
+    },
+    {
+      "revid": 15280543,
+      "timestamp": "2026-07-29T16:11:07Z",
+      "title": "Desert Diary"
+    },
+    {
+      "revid": 15310507,
+      "timestamp": "2026-08-19T23:03:25Z",
+      "title": "Falador Diary"
+    },
+    {
+      "revid": 15267932,
+      "timestamp": "2026-07-20T02:35:57Z",
+      "title": "Fremennik Diary"
+    },
+    {
+      "revid": 15331051,
+      "timestamp": "2026-09-04T21:42:21Z",
+      "title": "Kandarin Diary"
+    },
+    {
+      "revid": 15315089,
+      "timestamp": "2026-08-21T03:59:22Z",
+      "title": "Karamja Diary"
+    },
+    {
+      "revid": 15300044,
+      "timestamp": "2026-08-14T04:28:49Z",
+      "title": "Kourend & Kebos Diary"
+    },
+    {
+      "revid": 15324306,
+      "timestamp": "2026-08-29T04:36:55Z",
+      "title": "Lumbridge & Draynor Diary"
+    },
+    {
+      "revid": 15336317,
+      "timestamp": "2026-09-09T03:25:13Z",
+      "title": "Morytania Diary"
+    },
+    {
+      "revid": 15315090,
+      "timestamp": "2026-08-21T03:59:38Z",
+      "title": "Varrock Diary"
+    },
+    {
+      "revid": 15300994,
+      "timestamp": "2026-08-14T11:55:32Z",
+      "title": "Western Provinces Diary"
+    },
+    {
+      "revid": 15337355,
+      "timestamp": "2026-09-09T13:48:11Z",
+      "title": "Wilderness Diary"
+    }
+  ],
   "version": 1
 }

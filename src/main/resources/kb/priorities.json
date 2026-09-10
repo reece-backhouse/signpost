@@ -1,57 +1,180 @@
 {
   "version": 1,
   "overrides": {
-    "quest:137": 9,
-    "quest:32": 9,
-    "quest:96": 8,
-    "quest:27": 8,
-    "quest:117": 8,
-    "quest:2316": 8,
-    "quest:134": 7,
-    "quest:85": 6,
-    "quest:88": 7,
-    "quest:47": 7,
-    "quest:119": 7,
-    "quest:122": 6,
-    "quest:99": 7,
-    "quest:100": 7,
-    "quest:0": 7,
-    "quest:11": 6,
+    "quest:137": {
+      "score": 9,
+      "reason": "Unlocks Prifddinas: the Gauntlet, Zalcano and crystal gear"
+    },
+    "quest:32": {
+      "score": 9,
+      "reason": "Unlocks Vorkath, the Myths' Guild, Ava's assembler and rune dragons"
+    },
+    "quest:96": {
+      "score": 8,
+      "reason": "Unlocks demonic gorillas, the heavy ballista and the royal seed pod"
+    },
+    "quest:27": {
+      "score": 8,
+      "reason": "Unlocks the Ancient Magicks spellbook and the Smoke Dungeon"
+    },
+    "quest:117": {
+      "score": 8,
+      "reason": "Unlocks Barrows gloves, the Culinaromancer's Chest and a 20,000 xp lamp"
+    },
+    "quest:2316": {
+      "score": 8,
+      "reason": "Final Recipe for Disaster subquest: unlocks Barrows gloves and a 20,000 xp lamp"
+    },
+    "quest:134": {
+      "score": 7,
+      "reason": "Unlocks Darkmeyer, the Hallowed Sepulchre and six 15,000 xp tome uses"
+    },
+    "quest:85": {
+      "score": 6,
+      "reason": "Unlocks the Legends' Guild, dragon sq shield and four 30,000 xp rewards"
+    },
+    "quest:88": {
+      "score": 7,
+      "reason": "Unlocks the Lunar spellbook and Lunar Isle"
+    },
+    "quest:47": {
+      "score": 7,
+      "reason": "Unlocks the fairy ring network"
+    },
+    "quest:119": {
+      "score": 7,
+      "reason": "Unlocks Tirannwn and the dragon halberd; a step towards Song of the Elves"
+    },
+    "quest:122": {
+      "score": 6,
+      "reason": "Unlocks the crystal bow and shield; a step towards Song of the Elves"
+    },
+    "quest:99": {
+      "score": 7,
+      "reason": "Unlocks Lletya and the elf teleport crystal; next step to Song of the Elves"
+    },
+    "quest:100": {
+      "score": 7,
+      "reason": "Unlocks the Death Altar and dark beasts; next step to Song of the Elves"
+    },
+    "quest:0": {
+      "score": 7,
+      "reason": "Unlocks Ava's accumulator (attractor under 50 Ranged) for ammo pickup"
+    },
+    "quest:11": {
+      "score": 6,
+      "reason": "Unlocks Fossil Island; required for Dragon Slayer II"
+    },
     "quest:141": 5,
-    "quest:72": 6,
-    "quest:33": 6,
-    "quest:55": 6,
-    "quest:91": 6,
+    "quest:72": {
+      "score": 6,
+      "reason": "Unlocks the Heroes' Guild, dragon battleaxe and mace, and glory recharging"
+    },
+    "quest:33": {
+      "score": 6,
+      "reason": "Unlocks Humidify, Plank Make and Spellbook Swap on the Lunar book"
+    },
+    "quest:55": {
+      "score": 6,
+      "reason": "Unlocks the Neitiznot faceguard and basilisk knights; 130,000 xp in rewards"
+    },
+    "quest:91": {
+      "score": 6,
+      "reason": "Unlocks the Weiss disease-free herb patch and fire pits; 150,000 xp in rewards"
+    },
     "quest:3": 5,
     "quest:26": 5,
     "quest:113": 5,
     "quest:143": 5,
     "quest:54": 5,
-    "quest:3514": 7,
-    "quest:2338": 6,
-    "quest:2343": 8,
-    "quest:3467": 8,
+    "quest:3514": {
+      "score": 7,
+      "reason": "Unlocks Neypotzli and the Moons of Peril; 55,000 xp, mostly Slayer"
+    },
+    "quest:2338": {
+      "score": 6,
+      "reason": "Unlocks the Phantom Muspah; 150,000 xp in Agility, Thieving and Hunter"
+    },
+    "quest:2343": {
+      "score": 8,
+      "reason": "Unlocks the Forgotten Four bosses, ancient rings and three 100,000 xp lamps"
+    },
+    "quest:3467": {
+      "score": 8,
+      "reason": "Unlocks tormented demons and the emberlight, scorching bow and purging staff"
+    },
     "quest:6": 3,
-    "quest:111": 6,
+    "quest:111": {
+      "score": 6,
+      "reason": "Unlocks Morytania, the gateway to Canifis, the Slayer Tower and Barrows"
+    },
     "quest:3250": 5,
-    "quest:168": 6,
-    "quest:164": 6,
-    "quest:153": 6,
-    "quest:23": 6,
+    "quest:168": {
+      "score": 6,
+      "reason": "Unlocks the Tombs of Amascut and the Keris partisan; 50,000 Agility xp"
+    },
+    "quest:164": {
+      "score": 6,
+      "reason": "Unlocks Nex in the God Wars Dungeon"
+    },
+    "quest:153": {
+      "score": 6,
+      "reason": "Unlocks Trollheim and law rune crafting; opens the route to God Wars Dungeon"
+    },
+    "quest:23": {
+      "score": 6,
+      "reason": "Unlocks climbing boots; first step to Troll Stronghold and the God Wars Dungeon"
+    },
     "quest:12": 5,
-    "quest:82": 6,
-    "quest:2306": 6,
-    "quest:2307": 6,
-    "quest:2308": 6,
-    "quest:2309": 6,
-    "quest:2310": 6,
-    "quest:2311": 6,
-    "quest:2312": 6,
-    "quest:2313": 6,
-    "quest:2314": 6,
-    "quest:2315": 6,
+    "quest:82": {
+      "score": 6,
+      "reason": "Unlocks the route to Chivalry and Piety via the Knight Waves; 33,000 Defence xp"
+    },
+    "quest:2306": {
+      "score": 6,
+      "reason": "Unlocks further Tombs of Amascut runs and a 50,000 xp combat lamp"
+    },
+    "quest:2307": {
+      "score": 6,
+      "reason": "Starts Recipe for Disaster and opens the Culinaromancer's Chest"
+    },
+    "quest:2308": {
+      "score": 6,
+      "reason": "Recipe for Disaster subquest: one step closer to Barrows gloves"
+    },
+    "quest:2309": {
+      "score": 6,
+      "reason": "Recipe for Disaster subquest: one step closer to Barrows gloves"
+    },
+    "quest:2310": {
+      "score": 6,
+      "reason": "Recipe for Disaster subquest towards Barrows gloves; unlocks diving for crabs"
+    },
+    "quest:2311": {
+      "score": 6,
+      "reason": "Recipe for Disaster subquest: one step closer to Barrows gloves"
+    },
+    "quest:2312": {
+      "score": 6,
+      "reason": "Recipe for Disaster subquest towards Barrows gloves; unlocks spicy stews"
+    },
+    "quest:2313": {
+      "score": 6,
+      "reason": "Recipe for Disaster subquest towards Barrows gloves; Karamja to Feldip Hills boat"
+    },
+    "quest:2314": {
+      "score": 6,
+      "reason": "Recipe for Disaster subquest towards Barrows gloves; unlocks the Evil Chicken's Lair"
+    },
+    "quest:2315": {
+      "score": 6,
+      "reason": "Recipe for Disaster subquest towards Barrows gloves; unlocks Ape Atoll Teleport"
+    },
     "quest:31": 6,
-    "quest:95": 7,
+    "quest:95": {
+      "score": 7,
+      "reason": "Unlocks the dragon scimitar and Ape Atoll; 110,000 combat xp from Daero"
+    },
     "quest:66": 6,
     "quest:154": 6,
     "quest:57": 6,
@@ -212,14 +335,41 @@
     "quest:7106": 4,
     "quest:7107": 4,
     "quest:7133": 4,
-    "diary:ARDOUGNE_MEDIUM": 6,
-    "diary:ARDOUGNE_HARD": 7,
-    "diary:ARDOUGNE_ELITE": 6,
-    "diary:MORYTANIA_HARD": 7,
-    "diary:KANDARIN_HARD": 6,
-    "diary:FREMENNIK_HARD": 6,
-    "diary:LUMBRIDGE_MEDIUM": 6,
-    "diary:LUMBRIDGE_HARD": 6,
-    "diary:WESTERN_ELITE": 6
+    "diary:ARDOUGNE_MEDIUM": {
+      "score": 6,
+      "reason": "Ardougne cloak 2: three daily farm teleports, 100 free pure essence a day"
+    },
+    "diary:ARDOUGNE_HARD": {
+      "score": 7,
+      "reason": "Ardougne cloak 3: five daily farm teleports, 10% pickpocket boost everywhere"
+    },
+    "diary:ARDOUGNE_ELITE": {
+      "score": 6,
+      "reason": "Ardougne cloak 4: unlimited farm teleports, 250 free pure essence and 84 sand a day"
+    },
+    "diary:MORYTANIA_HARD": {
+      "score": 7,
+      "reason": "Morytania legs 3: Bonecrusher, 50% more Barrows runes, 7.5% more Slayer Tower xp"
+    },
+    "diary:KANDARIN_HARD": {
+      "score": 6,
+      "reason": "Kandarin headgear 3: daily Sherlock teleport, 15% more marks of grace at Seers'"
+    },
+    "diary:FREMENNIK_HARD": {
+      "score": 6,
+      "reason": "Fremennik sea boots 3: noted aviansie adamantite bars, lyre teleport to Waterbirth"
+    },
+    "diary:LUMBRIDGE_MEDIUM": {
+      "score": 6,
+      "reason": "Explorer's ring 2: three daily cabbage-patch teleports, three run restores a day"
+    },
+    "diary:LUMBRIDGE_HARD": {
+      "score": 6,
+      "reason": "Explorer's ring 3: unlimited cabbage-patch teleports, 10% more Tears of Guthix xp"
+    },
+    "diary:WESTERN_ELITE": {
+      "score": 6,
+      "reason": "Western banner 4: Nieve gives Duradel-level Slayer points, daily Zulrah resurrection"
+    }
   }
 }

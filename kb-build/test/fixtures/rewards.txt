@@ -1,0 +1,41 @@
+{{Quest details
+|start = Somewhere
+|requirements = *{{SCP|Agility|10}}
+|items = *[[Rope]]
+}}
+
+==Rewards==
+{{Quest rewards
+|name = Reward Fixture
+|image = [[File:Reward Fixture reward scroll.png|centre]]
+|qp = 2
+|rewards = * {{SCP|Strength|13,750}} [[Strength]] experience
+*{{SCP|Attack|13,750}} [[Attack]] experience
+*{{SCP|Magic|20,006.9}} [[Magic]] [[experience]]{{CiteTwitter|author=Mod Ash|url=https://twitter.com/jagexash/status/1|date=18 May 2023|quote=20,006.9, in fact!}}
+* {{SCP|Cooking|300|link=yes}} [[experience]]
+* {{SCP|Defence|33,000}} experience
+* {{SCP|Sailing|1,000|link=yes}} experience
+*2 [[Diamond]]s
+*An [[Antique lamp (Recipe for Disaster)|antique lamp]], which grants 20,000 experience to any skill above 50 (can be banked for later use)
+*Access to the [[Myths' Guild]]
+**4x 25,000 experience in [[Magic]], [[Ranged]], [[Strength]], [[Attack]], [[Defence]], or [[Hitpoints]] by speaking to [[Ellen]]
+* Three [[ancient lamp]]s, each offering 100,000 experience in {{SCP|Attack}} [[Attack]], {{SCP|Strength}} [[Strength]], {{SCP|Defence}} [[Defence]], {{SCP|Hitpoints}} [[Hitpoints]], {{SCP|Ranged}} [[Ranged]], {{SCP|Magic}} [[Magic]], or {{SCP|Prayer}} [[Prayer]] at level 60 or above.
+*A [[dreamy lamp]], which awards 15,000 [[experience]] in a combat skill of a player's choosing, apart from [[Attack]] and [[Prayer]].
+*Speaking to [[Daero]] after the quest gives the choice of either, 35,000 [[experience]] in {{SCP|Attack}} [[Attack]] and {{SCP|Defence}} [[Defence]] and 20,000 [[experience]] in {{SCP|Strength}} [[Strength]] and {{SCP|Hitpoints}} [[Hitpoints]] '''OR''' 35,000 [[experience]] in {{SCP|Strength}} [[Strength]] and {{SCP|Hitpoints}} [[Hitpoints]] and 20,000 [[experience]] in {{SCP|Attack}} [[Attack]] and {{SCP|Defence}} [[Defence]].
+*Two lots of {{SCP|Combat|10,000}} [[Combat]] experience (choose between {{SCP|Strength}} [[Strength]], {{SCP|Attack}} [[Attack]], {{SCP|Defence}} [[Defence]] or {{SCP|Hitpoints}} [[Hitpoints]]).
+* Four [[Magic lamp (The Path of Glouphrie)|magic lamps]] offering a total of {{SCP|Slayer|20,000}} [[Slayer]] XP,  {{SCP|Thieving|5,000}} [[Thieving]] XP,  {{SCP|Strength|30,000}} [[Strength]] XP, and  {{SCP|Magic|5,000}} [[Magic]] XP
+*A [[Tome of experience (Sins of the Father)|tome of experience]], granting 15,000 experience to any skill (level 60 or higher). This reward can be utilised six times and may be used for the same skill.
+* Ability to claim 5 [[Kudos]] and an [[Antique lamp (Varrock Museum)#Defender of Varrock|Antique lamp]] rewarding 5,000 XP in any skill of at least level 30 from [[Historian Minas]] after completion of the quest
+*30,000 [[experience]] each in four skills of your choice (limited to {{SCP|Attack}}[[Attack]], {{SCP|Defence}}[[Defence]], {{SCP|Herblore}}[[Herblore]]. It is possible to choose the same skill all four times)
+** If players claimed the antique lamp from the [[Architectural Alliance]] miniquest before [[10 January]] [[2024]], they will only receive one lamp.
+*{{SCP|Crafting|150}} [[Crafting]] [[experience]] (An additional 50 experience if you make the balls of wool on a spinning wheel instead of buying it yourself)
+*{{SCP|thieving|1,500}} [[Thieving]] [[experience]]
+*{{SCP|Crafting|3,875}} Crafting [[experience]]
+*{{SCP|Fishing|5,000}} [[Fishing]] experience (claimed upon speaking to [[Tiadeche]] after quest completion)
+*{{SCP|Attack|2,500}} [[Attack]] experience, {{SCP|Strength|2,500}} [[Strength]] experience, and a [[Rune_spear#Karambwan_poison|karambwan-poisoned rune spear]] (claimed upon speaking to [[Tamayu]] after quest completion)
+**Two [[Antique lamp (A Tail of Two Cats)|antique lamps]] worth 2,500 [[experience]] each in [[skills]] of your choice over 30
+*[[Tome of experience (A Taste of Hope)|Tome of experience]], granting 2,500 experience to any three skills of the player's choosing (level 35 or over). Can be the same skill.
+*4,650 [[Experience]] in your choice of two skills (you may pick same skill twice): {{SCP|Agility}} [[Agility]], {{SCP|Fletching}} [[Fletching]], {{SCP|Smithing}} [[Smithing]], or {{SCP|Thieving}} [[Thieving]].
+*10,000 [[experience]] in any [[combat]] skill other than [[Prayer]].
+* [[Duradel's notes]], obtained from [[Kuradal]], which grants {{SCP|Slayer|link=yes}} [[experience]] equal to 15x the player's Slayer level when read
+}}

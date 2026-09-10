@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-07T15:57:10Z",
+  "generatedAt": "2026-09-09T13:54:31Z",
   "materials": [
     {
       "generic": false,
@@ -5162,6 +5162,70 @@
     },
     {
       "generic": false,
+      "id": 4,
+      "name": "Ammo mould",
+      "sources": [
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "N/A gp, stock 5",
+          "type": "shop",
+          "where": "Multicannon parts for sale"
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Ammo_mould"
+    },
+    {
+      "generic": false,
+      "id": 6585,
+      "name": "Amulet of fury",
+      "sources": [
+        {
+          "accountTypes": [
+            "main"
+          ],
+          "detail": "buy limit 8",
+          "type": "GE",
+          "where": "Grand Exchange"
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Amulet_of_fury"
+    },
+    {
+      "generic": false,
+      "id": 1704,
+      "name": "Amulet of glory",
+      "sources": [
+        {
+          "accountTypes": [
+            "main"
+          ],
+          "detail": "buy limit 10000",
+          "type": "GE",
+          "where": "Grand Exchange"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/19",
+          "type": "drop",
+          "where": "Dragon impling jar"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/19",
+          "type": "drop",
+          "where": "Dragon impling"
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Amulet_of_glory"
+    },
+    {
+      "generic": false,
       "id": 1712,
       "name": "Amulet of glory(4)",
       "sources": [
@@ -5175,6 +5239,102 @@
         }
       ],
       "wikiUrl": "https://oldschool.runescape.wiki/w/Amulet_of_glory(4)"
+    },
+    {
+      "generic": false,
+      "id": 1727,
+      "name": "Amulet of magic",
+      "sources": [
+        {
+          "accountTypes": [
+            "main"
+          ],
+          "detail": "buy limit 125",
+          "type": "GE",
+          "where": "Grand Exchange"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "810 gp, stock 0",
+          "type": "shop",
+          "where": "Davon's Amulet Store."
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "900 gp, stock 0",
+          "type": "shop",
+          "where": "Davon's Amulet Store."
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "Always",
+          "type": "drop",
+          "where": "Adventurer Jon#Bringer of chaos"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "5/100",
+          "type": "drop",
+          "where": "Undead Druid"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "2/140.98",
+          "type": "drop",
+          "where": "Black Chest (red)"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "2/141.02",
+          "type": "drop",
+          "where": "Black Chest (brown)"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "2/141.07",
+          "type": "drop",
+          "where": "Black Chest (crimson)"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "2/141.11",
+          "type": "drop",
+          "where": "Black Chest (black)"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "2/141.15",
+          "type": "drop",
+          "where": "Black Chest (purple)"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "3/256",
+          "type": "drop",
+          "where": "Vampyre Juvinate"
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Amulet_of_magic"
     },
     {
       "generic": false,
@@ -5463,6 +5623,294 @@
         }
       ],
       "wikiUrl": "https://oldschool.runescape.wiki/w/Ancient_brew(3)"
+    },
+    {
+      "generic": false,
+      "id": 12621,
+      "name": "Ancient page 1",
+      "sources": [
+        {
+          "accountTypes": [
+            "main"
+          ],
+          "detail": "buy limit 5",
+          "type": "GE",
+          "where": "Grand Exchange"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/408",
+          "type": "drop",
+          "where": "Reward casket (medium)#Entrana"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/408",
+          "type": "drop",
+          "where": "Reward casket (easy)#Entrana"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/650",
+          "type": "drop",
+          "where": "Reward casket (hard)"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/702.6",
+          "type": "drop",
+          "where": "Reward casket (master)"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/775",
+          "type": "drop",
+          "where": "Reward casket (elite)"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "10/8,184",
+          "type": "drop",
+          "where": "Reward casket (medium)#Standard"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "11/9,504",
+          "type": "drop",
+          "where": "Reward casket (easy)#Standard"
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Ancient_page_1"
+    },
+    {
+      "generic": false,
+      "id": 12622,
+      "name": "Ancient page 2",
+      "sources": [
+        {
+          "accountTypes": [
+            "main"
+          ],
+          "detail": "buy limit 5",
+          "type": "GE",
+          "where": "Grand Exchange"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/408",
+          "type": "drop",
+          "where": "Reward casket (medium)#Entrana"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/408",
+          "type": "drop",
+          "where": "Reward casket (easy)#Entrana"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/650",
+          "type": "drop",
+          "where": "Reward casket (hard)"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/702.6",
+          "type": "drop",
+          "where": "Reward casket (master)"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/775",
+          "type": "drop",
+          "where": "Reward casket (elite)"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "10/8,184",
+          "type": "drop",
+          "where": "Reward casket (medium)#Standard"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "11/9,504",
+          "type": "drop",
+          "where": "Reward casket (easy)#Standard"
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Ancient_page_2"
+    },
+    {
+      "generic": false,
+      "id": 12623,
+      "name": "Ancient page 3",
+      "sources": [
+        {
+          "accountTypes": [
+            "main"
+          ],
+          "detail": "buy limit 5",
+          "type": "GE",
+          "where": "Grand Exchange"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/408",
+          "type": "drop",
+          "where": "Reward casket (medium)#Entrana"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/408",
+          "type": "drop",
+          "where": "Reward casket (easy)#Entrana"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/650",
+          "type": "drop",
+          "where": "Reward casket (hard)"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/702.6",
+          "type": "drop",
+          "where": "Reward casket (master)"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/775",
+          "type": "drop",
+          "where": "Reward casket (elite)"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "10/8,184",
+          "type": "drop",
+          "where": "Reward casket (medium)#Standard"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "11/9,504",
+          "type": "drop",
+          "where": "Reward casket (easy)#Standard"
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Ancient_page_3"
+    },
+    {
+      "generic": false,
+      "id": 12624,
+      "name": "Ancient page 4",
+      "sources": [
+        {
+          "accountTypes": [
+            "main"
+          ],
+          "detail": "buy limit 5",
+          "type": "GE",
+          "where": "Grand Exchange"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/408",
+          "type": "drop",
+          "where": "Reward casket (medium)#Entrana"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/408",
+          "type": "drop",
+          "where": "Reward casket (easy)#Entrana"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/650",
+          "type": "drop",
+          "where": "Reward casket (hard)"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/702.6",
+          "type": "drop",
+          "where": "Reward casket (master)"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/775",
+          "type": "drop",
+          "where": "Reward casket (elite)"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "10/8,184",
+          "type": "drop",
+          "where": "Reward casket (medium)#Standard"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "11/9,504",
+          "type": "drop",
+          "where": "Reward casket (easy)#Standard"
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Ancient_page_4"
     },
     {
       "generic": false,
@@ -6008,6 +6456,30 @@
       "wikiUrl": "https://oldschool.runescape.wiki/w/Antipoison(3)"
     },
     {
+      "generic": false,
+      "id": 2446,
+      "name": "Antipoison(4)",
+      "sources": [
+        {
+          "accountTypes": [
+            "main"
+          ],
+          "detail": "buy limit 2000",
+          "type": "GE",
+          "where": "Grand Exchange"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "Always",
+          "type": "drop",
+          "where": "Jekyll and Hyde#Marrentill"
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Antipoison(4)"
+    },
+    {
       "generic": true,
       "id": null,
       "name": "Ape Atoll Teleport (Arceuus)",
@@ -6334,6 +6806,70 @@
         }
       ],
       "wikiUrl": "https://oldschool.runescape.wiki/w/Arcane_spirit_shield"
+    },
+    {
+      "generic": false,
+      "id": 3749,
+      "name": "Archer helm",
+      "sources": [
+        {
+          "accountTypes": [
+            "main"
+          ],
+          "detail": "buy limit 70",
+          "type": "GE",
+          "where": "Grand Exchange"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "42000 gp, stock 5",
+          "type": "shop",
+          "where": "Skulgrimen's Battle Gear"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/32",
+          "type": "drop",
+          "where": "Barbarian Assault/Gambles#High"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/128",
+          "type": "drop",
+          "where": "Dagannoth Supreme"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/2,048",
+          "type": "drop",
+          "where": "Dagannoth (Waterbirth Island)#Level 88"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/2,048",
+          "type": "drop",
+          "where": "Dagannoth (Waterbirth Island)#Level 90"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "8/2,670",
+          "type": "drop",
+          "where": "Fremennik salvage"
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Archer_helm"
     },
     {
       "generic": false,
@@ -6685,6 +7221,294 @@
         }
       ],
       "wikiUrl": "https://oldschool.runescape.wiki/w/Armadyl_helmet"
+    },
+    {
+      "generic": false,
+      "id": 12617,
+      "name": "Armadyl page 1",
+      "sources": [
+        {
+          "accountTypes": [
+            "main"
+          ],
+          "detail": "buy limit 5",
+          "type": "GE",
+          "where": "Grand Exchange"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/408",
+          "type": "drop",
+          "where": "Reward casket (medium)#Entrana"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/408",
+          "type": "drop",
+          "where": "Reward casket (easy)#Entrana"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/650",
+          "type": "drop",
+          "where": "Reward casket (hard)"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/702.6",
+          "type": "drop",
+          "where": "Reward casket (master)"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/775",
+          "type": "drop",
+          "where": "Reward casket (elite)"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "10/8,184",
+          "type": "drop",
+          "where": "Reward casket (medium)#Standard"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "11/9,504",
+          "type": "drop",
+          "where": "Reward casket (easy)#Standard"
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Armadyl_page_1"
+    },
+    {
+      "generic": false,
+      "id": 12618,
+      "name": "Armadyl page 2",
+      "sources": [
+        {
+          "accountTypes": [
+            "main"
+          ],
+          "detail": "buy limit 5",
+          "type": "GE",
+          "where": "Grand Exchange"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/408",
+          "type": "drop",
+          "where": "Reward casket (medium)#Entrana"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/408",
+          "type": "drop",
+          "where": "Reward casket (easy)#Entrana"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/650",
+          "type": "drop",
+          "where": "Reward casket (hard)"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/702.6",
+          "type": "drop",
+          "where": "Reward casket (master)"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/775",
+          "type": "drop",
+          "where": "Reward casket (elite)"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "10/8,184",
+          "type": "drop",
+          "where": "Reward casket (medium)#Standard"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "11/9,504",
+          "type": "drop",
+          "where": "Reward casket (easy)#Standard"
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Armadyl_page_2"
+    },
+    {
+      "generic": false,
+      "id": 12619,
+      "name": "Armadyl page 3",
+      "sources": [
+        {
+          "accountTypes": [
+            "main"
+          ],
+          "detail": "buy limit 5",
+          "type": "GE",
+          "where": "Grand Exchange"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/408",
+          "type": "drop",
+          "where": "Reward casket (medium)#Entrana"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/408",
+          "type": "drop",
+          "where": "Reward casket (easy)#Entrana"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/650",
+          "type": "drop",
+          "where": "Reward casket (hard)"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/702.6",
+          "type": "drop",
+          "where": "Reward casket (master)"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/775",
+          "type": "drop",
+          "where": "Reward casket (elite)"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "10/8,184",
+          "type": "drop",
+          "where": "Reward casket (medium)#Standard"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "11/9,504",
+          "type": "drop",
+          "where": "Reward casket (easy)#Standard"
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Armadyl_page_3"
+    },
+    {
+      "generic": false,
+      "id": 12620,
+      "name": "Armadyl page 4",
+      "sources": [
+        {
+          "accountTypes": [
+            "main"
+          ],
+          "detail": "buy limit 5",
+          "type": "GE",
+          "where": "Grand Exchange"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/408",
+          "type": "drop",
+          "where": "Reward casket (medium)#Entrana"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/408",
+          "type": "drop",
+          "where": "Reward casket (easy)#Entrana"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/650",
+          "type": "drop",
+          "where": "Reward casket (hard)"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/702.6",
+          "type": "drop",
+          "where": "Reward casket (master)"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/775",
+          "type": "drop",
+          "where": "Reward casket (elite)"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "10/8,184",
+          "type": "drop",
+          "where": "Reward casket (medium)#Standard"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "11/9,504",
+          "type": "drop",
+          "where": "Reward casket (easy)#Standard"
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Armadyl_page_4"
     },
     {
       "generic": false,
@@ -7143,6 +7967,22 @@
     },
     {
       "generic": false,
+      "id": 10499,
+      "name": "Ava's accumulator",
+      "sources": [
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "N/A gp, stock ∞",
+          "type": "shop",
+          "where": "Lost Property shop"
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Ava's_accumulator"
+    },
+    {
+      "generic": false,
       "id": 21914,
       "name": "Ava's assembler",
       "sources": [
@@ -7236,6 +8076,86 @@
         }
       ],
       "wikiUrl": "https://oldschool.runescape.wiki/w/Avantoe_potion_(unf)"
+    },
+    {
+      "generic": false,
+      "id": 5298,
+      "name": "Avantoe seed",
+      "sources": [
+        {
+          "accountTypes": [
+            "main"
+          ],
+          "detail": "buy limit 200",
+          "type": "GE",
+          "where": "Grand Exchange"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "3/25",
+          "type": "drop",
+          "where": "Chest (alchemist's signet)"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "8/128",
+          "type": "drop",
+          "where": "Aquanite"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/16",
+          "type": "drop",
+          "where": "Elder aquanite"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "3/68",
+          "type": "drop",
+          "where": "The Hueycoatl"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "3/80",
+          "type": "drop",
+          "where": "Hespori"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "2/56",
+          "type": "drop",
+          "where": "Eldric the Ice King"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/30",
+          "type": "drop",
+          "where": "Seed pack#Medium seed"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/32",
+          "type": "drop",
+          "where": "Barbarian Assault/Gambles#Medium"
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Avantoe_seed"
     },
     {
       "generic": false,
@@ -7473,6 +8393,30 @@
         }
       ],
       "wikiUrl": "https://oldschool.runescape.wiki/w/Baked_potato"
+    },
+    {
+      "generic": false,
+      "id": 31045,
+      "name": "Bale of flax",
+      "sources": [
+        {
+          "accountTypes": [
+            "main"
+          ],
+          "detail": "buy limit 13000",
+          "type": "GE",
+          "where": "Grand Exchange"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "50/399",
+          "type": "drop",
+          "where": "Vale offerings"
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Bale_of_flax"
     },
     {
       "generic": false,
@@ -8396,6 +9340,102 @@
     },
     {
       "generic": false,
+      "id": 5305,
+      "name": "Barley seed",
+      "sources": [
+        {
+          "accountTypes": [
+            "main"
+          ],
+          "detail": "buy limit 2000",
+          "type": "GE",
+          "where": "Grand Exchange"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1 gp, stock 20",
+          "type": "shop",
+          "where": "Draynor Seed Market"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1 gp, stock 20",
+          "type": "shop",
+          "where": "Amelia's Seed Shop"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/18",
+          "type": "drop",
+          "where": "Master Farmer"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/18",
+          "type": "drop",
+          "where": "Martin the Master Gardener"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "2/60",
+          "type": "drop",
+          "where": "Seed pack#Low seed"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/107",
+          "type": "drop",
+          "where": "Head Guard"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/107",
+          "type": "drop",
+          "where": "Sergeant (Shayzien)"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/113",
+          "type": "drop",
+          "where": "Cockathrice"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/142",
+          "type": "drop",
+          "where": "Obor#Members"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/153",
+          "type": "drop",
+          "where": "Black Knight Titan"
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Barley_seed"
+    },
+    {
+      "generic": false,
       "id": 3221,
       "name": "Barrel of naphtha",
       "sources": [],
@@ -8520,6 +9560,38 @@
         }
       ],
       "wikiUrl": "https://oldschool.runescape.wiki/w/Basic_Reanimation"
+    },
+    {
+      "generic": false,
+      "id": 24268,
+      "name": "Basilisk jaw",
+      "sources": [
+        {
+          "accountTypes": [
+            "main"
+          ],
+          "detail": "",
+          "type": "GE",
+          "where": "Grand Exchange"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/5,000",
+          "type": "drop",
+          "where": "Basilisk Knight"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/1,000",
+          "type": "drop",
+          "where": "Basilisk Sentinel"
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Basilisk_jaw"
     },
     {
       "generic": false,
@@ -11677,6 +12749,13 @@
     },
     {
       "generic": false,
+      "id": 25147,
+      "name": "Bloody head",
+      "sources": [],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Bloody_head"
+    },
+    {
+      "generic": false,
       "id": 31695,
       "name": "Blue crab meat",
       "sources": [
@@ -11871,16 +12950,7 @@
       "generic": false,
       "id": 243,
       "name": "Blue dragon scales",
-      "sources": [
-        {
-          "accountTypes": [
-            "main"
-          ],
-          "detail": "",
-          "type": "GE",
-          "where": "Grand Exchange"
-        }
-      ],
+      "sources": [],
       "wikiUrl": "https://oldschool.runescape.wiki/w/Blue_dragon_scales"
     },
     {
@@ -13168,6 +14238,38 @@
       "wikiUrl": "https://oldschool.runescape.wiki/w/Bones_to_Peaches"
     },
     {
+      "generic": false,
+      "id": 12612,
+      "name": "Book of darkness",
+      "sources": [
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "N/A gp, stock ∞",
+          "type": "shop",
+          "where": "Lost Property shop"
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Book_of_darkness"
+    },
+    {
+      "generic": false,
+      "id": 12610,
+      "name": "Book of law",
+      "sources": [
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "N/A gp, stock ∞",
+          "type": "shop",
+          "where": "Lost Property shop"
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Book_of_law"
+    },
+    {
       "generic": true,
       "id": null,
       "name": "Boost Potion Share",
@@ -13413,6 +14515,30 @@
         }
       ],
       "wikiUrl": "https://oldschool.runescape.wiki/w/Bow_string"
+    },
+    {
+      "generic": false,
+      "id": 31052,
+      "name": "Bow string spool",
+      "sources": [
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "125 gp, stock ∞",
+          "type": "shop",
+          "where": "Vale Research Exchange"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "5/1,000",
+          "type": "drop",
+          "where": "Vale offerings"
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Bow_string_spool"
     },
     {
       "generic": false,
@@ -15376,6 +16502,14 @@
           ],
           "detail": "Always",
           "type": "drop",
+          "where": "Crate (Wintertodt)"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "Always",
+          "type": "drop",
           "where": "Axes (Fishing Trawler)"
         },
         {
@@ -15417,14 +16551,6 @@
           "detail": "50/128",
           "type": "drop",
           "where": "Zombie (Entrana Dungeon)"
-        },
-        {
-          "accountTypes": [
-            "all"
-          ],
-          "detail": "6/128",
-          "type": "drop",
-          "where": "Barbarian#Low level"
         },
         {
           "accountTypes": [
@@ -17359,6 +18485,438 @@
     },
     {
       "generic": false,
+      "id": 1265,
+      "name": "Bronze pickaxe",
+      "sources": [
+        {
+          "accountTypes": [
+            "main"
+          ],
+          "detail": "buy limit 40",
+          "type": "GE",
+          "where": "Grand Exchange"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "0 gp, stock 5",
+          "type": "shop",
+          "where": "Bob's Brilliant Axes."
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "0 gp, stock 6",
+          "type": "shop",
+          "where": "Nurmof's Pickaxe Shop."
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "0 gp, stock 6",
+          "type": "shop",
+          "where": "Pickaxe-Is-Mine"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "0 gp, stock 2",
+          "type": "shop",
+          "where": "Aemad's Adventuring Supplies."
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "0 gp, stock 4",
+          "type": "shop",
+          "where": "Drogo's Mining Emporium."
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "0 gp, stock 5",
+          "type": "shop",
+          "where": "Bolkoy's Village Shop"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "0 gp, stock 2",
+          "type": "shop",
+          "where": "Arhein's General Goods"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "0 gp, stock 2",
+          "type": "shop",
+          "where": "West Ardougne General Store"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "0 gp, stock 2",
+          "type": "shop",
+          "where": "Obli's General Store."
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "0 gp, stock 2",
+          "type": "shop",
+          "where": "Obli's General Store."
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "0 gp, stock 23",
+          "type": "shop",
+          "where": "Ali's Discount Wares."
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "0 gp, stock 2",
+          "type": "shop",
+          "where": "Jiminua's Jungle Store."
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "0 gp, stock 2",
+          "type": "shop",
+          "where": "Jiminua's Jungle Store."
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "0 gp, stock 5",
+          "type": "shop",
+          "where": "Khazard General Store"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "0 gp, stock 5",
+          "type": "shop",
+          "where": "Bandit Duty Free"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "0 gp, stock 5",
+          "type": "shop",
+          "where": "Toothy's Pickaxes"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "0 gp, stock 20",
+          "type": "shop",
+          "where": "Little Munty's Little Shop"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "0 gp, stock 6",
+          "type": "shop",
+          "where": "Yarsul's Prodigious Pickaxes"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "0 gp, stock 5",
+          "type": "shop",
+          "where": "Sunset Coast General Store"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "0 gp, stock 6",
+          "type": "shop",
+          "where": "Tizoro's Pickaxes"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "0 gp, stock 5",
+          "type": "shop",
+          "where": "Cam Torum General Store"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "0 gp, stock 5",
+          "type": "shop",
+          "where": "Stonecutter Supplies"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "0 gp, stock 5",
+          "type": "shop",
+          "where": "Salvager Overlook General Store"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "0 gp, stock 5",
+          "type": "shop",
+          "where": "Quetzacalli Gorge General Store"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "0 gp, stock 6",
+          "type": "shop",
+          "where": "Mistrock Mining Supplies"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "0 gp, stock 5",
+          "type": "shop",
+          "where": "Kastori General Store"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "0 gp, stock 5",
+          "type": "shop",
+          "where": "Tal Teklan General Store"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "Always",
+          "type": "drop",
+          "where": "Barrel (Ruins of Camdozaal)"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "Always",
+          "type": "drop",
+          "where": "Wrecked boat"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "Always",
+          "type": "drop",
+          "where": "Buried skeleton (Shaman Caves)"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "Always",
+          "type": "drop",
+          "where": "Rock (pickaxe)"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "Always",
+          "type": "drop",
+          "where": "Rocks (bronze pickaxe)"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "Always",
+          "type": "drop",
+          "where": "Barrel (Ruins of Tapoyauik)"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "Always",
+          "type": "drop",
+          "where": "Tent (Wyrmscraig)"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "Always",
+          "type": "drop",
+          "where": "Barrel (Cam Torum)"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "2 spawns",
+          "type": "spawn",
+          "where": "Bronze pickaxe"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "2 spawns",
+          "type": "spawn",
+          "where": "Bronze pickaxe"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1 spawns",
+          "type": "spawn",
+          "where": "Bronze pickaxe"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1 spawns",
+          "type": "spawn",
+          "where": "Bronze pickaxe"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "2 spawns",
+          "type": "spawn",
+          "where": "Bronze pickaxe"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1 spawns",
+          "type": "spawn",
+          "where": "Bronze pickaxe"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1 spawns",
+          "type": "spawn",
+          "where": "Bronze pickaxe"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1 spawns",
+          "type": "spawn",
+          "where": "Bronze pickaxe"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1 spawns",
+          "type": "spawn",
+          "where": "Bronze pickaxe"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "6 spawns",
+          "type": "spawn",
+          "where": "Bronze pickaxe"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "2 spawns",
+          "type": "spawn",
+          "where": "Bronze pickaxe"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1 spawns",
+          "type": "spawn",
+          "where": "Bronze pickaxe"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1 spawns",
+          "type": "spawn",
+          "where": "Bronze pickaxe"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1 spawns",
+          "type": "spawn",
+          "where": "Bronze pickaxe"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1 spawns",
+          "type": "spawn",
+          "where": "Bronze pickaxe"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1 spawns",
+          "type": "spawn",
+          "where": "Bronze pickaxe"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1 spawns",
+          "type": "spawn",
+          "where": "Bronze pickaxe"
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Bronze_pickaxe"
+    },
+    {
+      "generic": false,
       "id": 1117,
       "name": "Bronze platebody",
       "sources": [
@@ -18231,6 +19789,70 @@
     },
     {
       "generic": false,
+      "id": 1757,
+      "name": "Brown apron",
+      "sources": [
+        {
+          "accountTypes": [
+            "main"
+          ],
+          "detail": "buy limit 40",
+          "type": "GE",
+          "where": "Grand Exchange"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1 gp, stock 1",
+          "type": "shop",
+          "where": "Thessalia's Fine Clothes."
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "0 gp, stock 1",
+          "type": "shop",
+          "where": "Fancy Clothes Store"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "N/A gp, stock ∞",
+          "type": "shop",
+          "where": "Malignius Mortifer"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1 gp, stock 1",
+          "type": "shop",
+          "where": "Shayzien Styles"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1 gp, stock 3",
+          "type": "shop",
+          "where": "Floria's Fashion"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "Always",
+          "type": "drop",
+          "where": "Tool store 3"
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Brown_apron"
+    },
+    {
+      "generic": false,
       "id": 3333,
       "name": "Bruise blue snelm",
       "sources": [
@@ -18257,7 +19879,16 @@
       "generic": false,
       "id": 20698,
       "name": "Bruma herb",
-      "sources": [],
+      "sources": [
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "Always",
+          "type": "drop",
+          "where": "Sprouting Roots"
+        }
+      ],
       "wikiUrl": "https://oldschool.runescape.wiki/w/Bruma_herb"
     },
     {
@@ -26514,6 +28145,22 @@
     },
     {
       "generic": false,
+      "id": 11126,
+      "name": "Combat bracelet",
+      "sources": [
+        {
+          "accountTypes": [
+            "main"
+          ],
+          "detail": "buy limit 10000",
+          "type": "GE",
+          "where": "Grand Exchange"
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Combat_bracelet"
+    },
+    {
+      "generic": false,
       "id": 11118,
       "name": "Combat bracelet(4)",
       "sources": [
@@ -31266,6 +32913,22 @@
     },
     {
       "generic": false,
+      "id": 27012,
+      "name": "Double ammo mould",
+      "sources": [
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1600 gp, stock ∞",
+          "type": "shop",
+          "where": "Giants' Foundry Reward Shop"
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Double_ammo_mould"
+    },
+    {
+      "generic": false,
       "id": 11286,
       "name": "Draconic visage",
       "sources": [
@@ -31762,6 +33425,38 @@
     },
     {
       "generic": false,
+      "id": 11840,
+      "name": "Dragon boots",
+      "sources": [
+        {
+          "accountTypes": [
+            "main"
+          ],
+          "detail": "buy limit 70",
+          "type": "GE",
+          "where": "Grand Exchange"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/128",
+          "type": "drop",
+          "where": "Spiritual mage#Zaros"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/128",
+          "type": "drop",
+          "where": "Spiritual mage"
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Dragon_boots"
+    },
+    {
+      "generic": false,
       "id": 21902,
       "name": "Dragon crossbow",
       "sources": [
@@ -32251,6 +33946,94 @@
         }
       ],
       "wikiUrl": "https://oldschool.runescape.wiki/w/Dragon_scale_dust"
+    },
+    {
+      "generic": false,
+      "id": 4587,
+      "name": "Dragon scimitar",
+      "sources": [
+        {
+          "accountTypes": [
+            "main"
+          ],
+          "detail": "buy limit 70",
+          "type": "GE",
+          "where": "Grand Exchange"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "50000 gp, stock 0",
+          "type": "shop",
+          "where": "Daga's Scimitar Smithy"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "50000 gp, stock 4",
+          "type": "shop",
+          "where": "Daga's Scimitar Smithy"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/30.3",
+          "type": "drop",
+          "where": "Reward casket (master)"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "10/500",
+          "type": "drop",
+          "where": "Demonic gorilla"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/107",
+          "type": "drop",
+          "where": "Thermonuclear smoke devil"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/128",
+          "type": "drop",
+          "where": "Scorpia"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/173",
+          "type": "drop",
+          "where": "Zombie Pirate's Locker"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/378",
+          "type": "drop",
+          "where": "Zombie pirate#Diary"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/1,260",
+          "type": "drop",
+          "where": "Zombie pirate#Regular"
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Dragon_scimitar"
     },
     {
       "generic": false,
@@ -33058,6 +34841,86 @@
         }
       ],
       "wikiUrl": "https://oldschool.runescape.wiki/w/Dwarf_weed_potion_(unf)"
+    },
+    {
+      "generic": false,
+      "id": 5303,
+      "name": "Dwarf weed seed",
+      "sources": [
+        {
+          "accountTypes": [
+            "main"
+          ],
+          "detail": "buy limit 200",
+          "type": "GE",
+          "where": "Grand Exchange"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "8/127",
+          "type": "drop",
+          "where": "Kree'arra"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "30/684",
+          "type": "drop",
+          "where": "Bird nest (Wyson)"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "3/80",
+          "type": "drop",
+          "where": "Hespori"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "2/56",
+          "type": "drop",
+          "where": "Eldric the Ice King"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/30",
+          "type": "drop",
+          "where": "Seed pack#Medium seed"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/32",
+          "type": "drop",
+          "where": "Barbarian Assault/Gambles#Medium"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/100",
+          "type": "drop",
+          "where": "Nature impling"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/100",
+          "type": "drop",
+          "where": "Nature impling jar"
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Dwarf_weed_seed"
     },
     {
       "generic": false,
@@ -42607,6 +44470,30 @@
     },
     {
       "generic": false,
+      "id": 13657,
+      "name": "Grape seed",
+      "sources": [
+        {
+          "accountTypes": [
+            "main"
+          ],
+          "detail": "buy limit 200",
+          "type": "GE",
+          "where": "Grand Exchange"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "N/A gp, stock ∞",
+          "type": "shop",
+          "where": "Farmer Gricoller's Rewards"
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Grape_seed"
+    },
+    {
+      "generic": false,
       "id": 1987,
       "name": "Grapes",
       "sources": [
@@ -44610,6 +46497,46 @@
     },
     {
       "generic": false,
+      "id": 2413,
+      "name": "Guthix cape",
+      "sources": [
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "N/A gp, stock ∞",
+          "type": "shop",
+          "where": "Lost Property shop"
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Guthix_cape"
+    },
+    {
+      "generic": false,
+      "id": 19927,
+      "name": "Guthix d'hide boots",
+      "sources": [
+        {
+          "accountTypes": [
+            "main"
+          ],
+          "detail": "buy limit 8",
+          "type": "GE",
+          "where": "Grand Exchange"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/1,625",
+          "type": "drop",
+          "where": "Reward casket (hard)"
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Guthix_d'hide_boots"
+    },
+    {
+      "generic": false,
       "id": 4419,
       "name": "Guthix rest(3)",
       "sources": [
@@ -45392,6 +47319,14 @@
           ],
           "detail": "Always",
           "type": "drop",
+          "where": "Crate (Wintertodt)"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "Always",
+          "type": "drop",
           "where": "Hammers (Tempoross Cove)"
         },
         {
@@ -45433,14 +47368,6 @@
           "detail": "Always",
           "type": "drop",
           "where": "Tent (Wyrmscraig)"
-        },
-        {
-          "accountTypes": [
-            "all"
-          ],
-          "detail": "Always",
-          "type": "drop",
-          "where": "Crate (hammer)"
         },
         {
           "accountTypes": [
@@ -45902,6 +47829,198 @@
     },
     {
       "generic": false,
+      "id": 311,
+      "name": "Harpoon",
+      "sources": [
+        {
+          "accountTypes": [
+            "main"
+          ],
+          "detail": "buy limit 40",
+          "type": "GE",
+          "where": "Grand Exchange"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "3 gp, stock 2",
+          "type": "shop",
+          "where": "Gerrant's Fishy Business."
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "3 gp, stock 2",
+          "type": "shop",
+          "where": "Harry's Fishing Shop."
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "3 gp, stock 2",
+          "type": "shop",
+          "where": "Fremennik Fish Monger"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "3 gp, stock 2",
+          "type": "shop",
+          "where": "Island Fishmonger"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "3 gp, stock 2",
+          "type": "shop",
+          "where": "Etceteria Fish"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "2 gp, stock 2",
+          "type": "shop",
+          "where": "Lovecraft's Tackle"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "2 gp, stock 2",
+          "type": "shop",
+          "where": "Arnold's Eclectic Supplies."
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "3 gp, stock 2",
+          "type": "shop",
+          "where": "Fishing Guild Shop."
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "4 gp, stock 2",
+          "type": "shop",
+          "where": "Tynan's Fishing Supplies"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "3 gp, stock 2",
+          "type": "shop",
+          "where": "Warrens Fish Monger"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "3 gp, stock 2",
+          "type": "shop",
+          "where": "Ishmael's Fish He Sells"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "3 gp, stock 5",
+          "type": "shop",
+          "where": "Picaria's Fishing Shop"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "3 gp, stock 5",
+          "type": "shop",
+          "where": "Henderson's Catch of the Day"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "3 gp, stock 5",
+          "type": "shop",
+          "where": "Sulisal's Superb Fishing Store"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "3 gp, stock 5",
+          "type": "shop",
+          "where": "Elder Krill's Fishing Stall"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "Always",
+          "type": "drop",
+          "where": "Harpoons (Tempoross Cove)"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "3/128",
+          "type": "drop",
+          "where": "Dagannoth"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/128",
+          "type": "drop",
+          "where": "Kraken"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "2/467",
+          "type": "drop",
+          "where": "Fishy salvage"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1 spawns",
+          "type": "spawn",
+          "where": "Harpoon"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1 spawns",
+          "type": "spawn",
+          "where": "Harpoon"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1 spawns",
+          "type": "spawn",
+          "where": "Harpoon"
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Harpoon"
+    },
+    {
+      "generic": false,
       "id": 255,
       "name": "Harralander",
       "sources": [
@@ -45987,6 +48106,86 @@
         }
       ],
       "wikiUrl": "https://oldschool.runescape.wiki/w/Harralander_potion_(unf)"
+    },
+    {
+      "generic": false,
+      "id": 5294,
+      "name": "Harralander seed",
+      "sources": [
+        {
+          "accountTypes": [
+            "main"
+          ],
+          "detail": "buy limit 600",
+          "type": "GE",
+          "where": "Grand Exchange"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "3/25",
+          "type": "drop",
+          "where": "Chest (alchemist's signet)"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/10",
+          "type": "drop",
+          "where": "Nature impling"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/10",
+          "type": "drop",
+          "where": "Nature impling jar"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "2/60",
+          "type": "drop",
+          "where": "Seed pack#Low seed"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/32",
+          "type": "drop",
+          "where": "Barbarian Assault/Gambles#Low"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/34.9",
+          "type": "drop",
+          "where": "Butterfly ray"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/35.1",
+          "type": "drop",
+          "where": "Eagle ray"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/46.7",
+          "type": "drop",
+          "where": "Stingray"
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Harralander_seed"
     },
     {
       "generic": false,
@@ -46187,6 +48386,38 @@
         }
       ],
       "wikiUrl": "https://oldschool.runescape.wiki/w/Heavy_frame"
+    },
+    {
+      "generic": false,
+      "id": 10828,
+      "name": "Helm of neitiznot",
+      "sources": [
+        {
+          "accountTypes": [
+            "main"
+          ],
+          "detail": "buy limit 70",
+          "type": "GE",
+          "where": "Grand Exchange"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "N/A gp, stock ∞",
+          "type": "shop",
+          "where": "Mawnis Burowgar"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "N/A gp, stock ∞",
+          "type": "shop",
+          "where": "Lost Property shop"
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Helm_of_neitiznot"
     },
     {
       "generic": false,
@@ -46788,6 +49019,22 @@
     },
     {
       "generic": false,
+      "id": 21793,
+      "name": "Imbued guthix cape",
+      "sources": [
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "N/A gp, stock ∞",
+          "type": "shop",
+          "where": "Lost Property shop"
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Imbued_guthix_cape"
+    },
+    {
+      "generic": false,
       "id": 19598,
       "name": "Incomplete heavy ballista",
       "sources": [
@@ -46962,6 +49209,22 @@
       "wikiUrl": "https://oldschool.runescape.wiki/w/Infernal_cape"
     },
     {
+      "generic": false,
+      "id": 6920,
+      "name": "Infinity boots",
+      "sources": [
+        {
+          "accountTypes": [
+            "main"
+          ],
+          "detail": "buy limit 125",
+          "type": "GE",
+          "where": "Grand Exchange"
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Infinity_boots"
+    },
+    {
       "generic": true,
       "id": null,
       "name": "Initiate armour",
@@ -47071,6 +49334,86 @@
         }
       ],
       "wikiUrl": "https://oldschool.runescape.wiki/w/Irit_potion_(unf)"
+    },
+    {
+      "generic": false,
+      "id": 5297,
+      "name": "Irit seed",
+      "sources": [
+        {
+          "accountTypes": [
+            "main"
+          ],
+          "detail": "buy limit 600",
+          "type": "GE",
+          "where": "Grand Exchange"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "3/25",
+          "type": "drop",
+          "where": "Chest (alchemist's signet)"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/10",
+          "type": "drop",
+          "where": "Nature impling"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/10",
+          "type": "drop",
+          "where": "Nature impling jar"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "3/30",
+          "type": "drop",
+          "where": "Seed pack#Medium seed"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "8/128",
+          "type": "drop",
+          "where": "Aquanite"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/16",
+          "type": "drop",
+          "where": "Elder aquanite"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "3/80",
+          "type": "drop",
+          "where": "Hespori"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "2/56",
+          "type": "drop",
+          "where": "Eldric the Ice King"
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Irit_seed"
     },
     {
       "generic": false,
@@ -51490,6 +53833,86 @@
     },
     {
       "generic": false,
+      "id": 5104,
+      "name": "Jangerberry seed",
+      "sources": [
+        {
+          "accountTypes": [
+            "main"
+          ],
+          "detail": "buy limit 200",
+          "type": "GE",
+          "where": "Grand Exchange"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/10",
+          "type": "drop",
+          "where": "Nature impling"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/10",
+          "type": "drop",
+          "where": "Nature impling jar"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/21.2",
+          "type": "drop",
+          "where": "Butterfly ray"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/21.4",
+          "type": "drop",
+          "where": "Eagle ray"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/28.4",
+          "type": "drop",
+          "where": "Stingray"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "2/60",
+          "type": "drop",
+          "where": "Seed pack#Low seed"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/37.6",
+          "type": "drop",
+          "where": "Manta ray (monster)"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/41.7",
+          "type": "drop",
+          "where": "Bryophyta#Members"
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Jangerberry_seed"
+    },
+    {
+      "generic": false,
       "id": 19584,
       "name": "Javelin shaft",
       "sources": [
@@ -52133,6 +54556,30 @@
         }
       ],
       "wikiUrl": "https://oldschool.runescape.wiki/w/Jute_fibre"
+    },
+    {
+      "generic": false,
+      "id": 3157,
+      "name": "Karambwan vessel",
+      "sources": [
+        {
+          "accountTypes": [
+            "main"
+          ],
+          "detail": "buy limit 15",
+          "type": "GE",
+          "where": "Grand Exchange"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "2 gp, stock 2",
+          "type": "shop",
+          "where": "Tiadeche's Karambwan Stall"
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Karambwan_vessel"
     },
     {
       "generic": false,
@@ -52896,6 +55343,14 @@
           ],
           "detail": "Always",
           "type": "drop",
+          "where": "Crate (Wintertodt)"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "Always",
+          "type": "drop",
           "where": "Backpack"
         },
         {
@@ -52929,14 +55384,6 @@
           "detail": "1/5",
           "type": "drop",
           "where": "Ali's Discount Wares."
-        },
-        {
-          "accountTypes": [
-            "all"
-          ],
-          "detail": "1/6",
-          "type": "drop",
-          "where": "Crate (Glough's Laboratory)"
         },
         {
           "accountTypes": [
@@ -53398,6 +55845,86 @@
     },
     {
       "generic": false,
+      "id": 5299,
+      "name": "Kwuarm seed",
+      "sources": [
+        {
+          "accountTypes": [
+            "main"
+          ],
+          "detail": "buy limit 200",
+          "type": "GE",
+          "where": "Grand Exchange"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "8/128",
+          "type": "drop",
+          "where": "Aquanite"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/16",
+          "type": "drop",
+          "where": "Elder aquanite"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "3/68",
+          "type": "drop",
+          "where": "The Hueycoatl"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "3/80",
+          "type": "drop",
+          "where": "Hespori"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "2/56",
+          "type": "drop",
+          "where": "Eldric the Ice King"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/30",
+          "type": "drop",
+          "where": "Seed pack#Medium seed"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/32",
+          "type": "drop",
+          "where": "Barbarian Assault/Gambles#Medium"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/100",
+          "type": "drop",
+          "where": "Nature impling"
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Kwuarm_seed"
+    },
+    {
+      "generic": false,
       "id": 10103,
       "name": "Kyatt fur",
       "sources": [
@@ -53523,6 +56050,86 @@
         }
       ],
       "wikiUrl": "https://oldschool.runescape.wiki/w/Lantadyme_potion_(unf)"
+    },
+    {
+      "generic": false,
+      "id": 5302,
+      "name": "Lantadyme seed",
+      "sources": [
+        {
+          "accountTypes": [
+            "main"
+          ],
+          "detail": "buy limit 200",
+          "type": "GE",
+          "where": "Grand Exchange"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "8/127",
+          "type": "drop",
+          "where": "K'ril Tsutsaroth"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "30/684",
+          "type": "drop",
+          "where": "Bird nest (Wyson)"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "3/80",
+          "type": "drop",
+          "where": "Hespori"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "2/56",
+          "type": "drop",
+          "where": "Eldric the Ice King"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/30",
+          "type": "drop",
+          "where": "Seed pack#Medium seed"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "2/68",
+          "type": "drop",
+          "where": "The Hueycoatl"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/305.4",
+          "type": "drop",
+          "where": "Nechryael"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/319.3",
+          "type": "drop",
+          "where": "Aberrant spectre"
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Lantadyme_seed"
     },
     {
       "generic": false,
@@ -53947,6 +56554,22 @@
         }
       ],
       "wikiUrl": "https://oldschool.runescape.wiki/w/Lead_ore"
+    },
+    {
+      "generic": false,
+      "id": 4158,
+      "name": "Leaf-bladed spear",
+      "sources": [
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "N/A gp, stock 50",
+          "type": "shop",
+          "where": "Slayer Equipment (shop)"
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Leaf-bladed_spear"
     },
     {
       "generic": false,
@@ -55282,6 +57905,86 @@
         }
       ],
       "wikiUrl": "https://oldschool.runescape.wiki/w/Limpwurt_root"
+    },
+    {
+      "generic": false,
+      "id": 5100,
+      "name": "Limpwurt seed",
+      "sources": [
+        {
+          "accountTypes": [
+            "main"
+          ],
+          "detail": "buy limit 600",
+          "type": "GE",
+          "where": "Grand Exchange"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "80/684",
+          "type": "drop",
+          "where": "Bird nest (Wyson)"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/10",
+          "type": "drop",
+          "where": "Nature impling"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/10",
+          "type": "drop",
+          "where": "Nature impling jar"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "3/30",
+          "type": "drop",
+          "where": "Seed pack#Medium seed"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "10/128",
+          "type": "drop",
+          "where": "Deviant spectre"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "10/128",
+          "type": "drop",
+          "where": "Repugnant spectre"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/14.2",
+          "type": "drop",
+          "where": "Butterfly ray"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/14.3",
+          "type": "drop",
+          "where": "Eagle ray"
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Limpwurt_seed"
     },
     {
       "generic": false,
@@ -56730,6 +59433,22 @@
     },
     {
       "generic": false,
+      "id": 6889,
+      "name": "Mage's book",
+      "sources": [
+        {
+          "accountTypes": [
+            "main"
+          ],
+          "detail": "buy limit 15",
+          "type": "GE",
+          "where": "Grand Exchange"
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Mage's_book"
+    },
+    {
+      "generic": false,
       "id": 22201,
       "name": "Magic bird house",
       "sources": [
@@ -57783,6 +60502,22 @@
         }
       ],
       "wikiUrl": "https://oldschool.runescape.wiki/w/Mahogany_repair_kit"
+    },
+    {
+      "generic": false,
+      "id": 21480,
+      "name": "Mahogany sapling",
+      "sources": [
+        {
+          "accountTypes": [
+            "main"
+          ],
+          "detail": "buy limit 200",
+          "type": "GE",
+          "where": "Grand Exchange"
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Mahogany_sapling"
     },
     {
       "generic": false,
@@ -64061,6 +66796,22 @@
     {
       "generic": true,
       "id": null,
+      "name": "Mounted Head (Getting Ahead)",
+      "sources": [
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "2x Plank, 6x Steel nails, 1x Bloody head",
+          "type": "craft",
+          "where": "Mounted Head (Getting Ahead)"
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Mounted_Head_(Getting_Ahead)"
+    },
+    {
+      "generic": true,
+      "id": null,
       "name": "Mourner gear",
       "sources": [],
       "wikiUrl": "https://oldschool.runescape.wiki/w/Mourner_gear"
@@ -64440,6 +67191,278 @@
         }
       ],
       "wikiUrl": "https://oldschool.runescape.wiki/w/Myre_snelm"
+    },
+    {
+      "generic": false,
+      "id": 4097,
+      "name": "Mystic boots",
+      "sources": [
+        {
+          "accountTypes": [
+            "main"
+          ],
+          "detail": "buy limit 125",
+          "type": "GE",
+          "where": "Grand Exchange"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "6000 gp, stock 1000",
+          "type": "shop",
+          "where": "Magic Guild Store (Mystic Robes)"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/19",
+          "type": "drop",
+          "where": "Ninja impling"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/19",
+          "type": "drop",
+          "where": "Ninja impling jar"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "5/100",
+          "type": "drop",
+          "where": "Hammerhead shark"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/21",
+          "type": "drop",
+          "where": "Magpie impling"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/21",
+          "type": "drop",
+          "where": "Magpie impling jar"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "3/272",
+          "type": "drop",
+          "where": "Veiled kraken"
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Mystic_boots"
+    },
+    {
+      "generic": false,
+      "id": 4089,
+      "name": "Mystic hat",
+      "sources": [
+        {
+          "accountTypes": [
+            "main"
+          ],
+          "detail": "buy limit 125",
+          "type": "GE",
+          "where": "Grand Exchange"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "9000 gp, stock 1000",
+          "type": "shop",
+          "where": "Magic Guild Store (Mystic Robes)"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "5/100",
+          "type": "drop",
+          "where": "Great white shark"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "3/272",
+          "type": "drop",
+          "where": "Veiled kraken"
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Mystic_hat"
+    },
+    {
+      "generic": false,
+      "id": 4093,
+      "name": "Mystic robe bottom",
+      "sources": [
+        {
+          "accountTypes": [
+            "main"
+          ],
+          "detail": "buy limit 125",
+          "type": "GE",
+          "where": "Grand Exchange"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "48000 gp, stock 1000",
+          "type": "shop",
+          "where": "Magic Guild Store (Mystic Robes)"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/19",
+          "type": "drop",
+          "where": "Dragon impling jar"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/19",
+          "type": "drop",
+          "where": "Dragon impling"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/119",
+          "type": "drop",
+          "where": "Armoured kraken"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/128",
+          "type": "drop",
+          "where": "Kraken"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/128",
+          "type": "drop",
+          "where": "Hydra"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/128",
+          "type": "drop",
+          "where": "Colossal Hydra"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "18/512",
+          "type": "drop",
+          "where": "Corporeal Beast"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "2/126",
+          "type": "drop",
+          "where": "Callisto"
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Mystic_robe_bottom"
+    },
+    {
+      "generic": false,
+      "id": 4091,
+      "name": "Mystic robe top",
+      "sources": [
+        {
+          "accountTypes": [
+            "main"
+          ],
+          "detail": "buy limit 125",
+          "type": "GE",
+          "where": "Grand Exchange"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "72000 gp, stock 1000",
+          "type": "shop",
+          "where": "Magic Guild Store (Mystic Robes)"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/120",
+          "type": "drop",
+          "where": "Vampyre kraken"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/128",
+          "type": "drop",
+          "where": "Kraken"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "18/512",
+          "type": "drop",
+          "where": "Corporeal Beast"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "2/126",
+          "type": "drop",
+          "where": "Callisto"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "2/126",
+          "type": "drop",
+          "where": "Vet'ion"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/128",
+          "type": "drop",
+          "where": "Scorpia"
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Mystic_robe_top"
     },
     {
       "generic": false,
@@ -65071,6 +68094,13 @@
         }
       ],
       "wikiUrl": "https://oldschool.runescape.wiki/w/Needle"
+    },
+    {
+      "generic": false,
+      "id": 24271,
+      "name": "Neitiznot faceguard",
+      "sources": [],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Neitiznot_faceguard"
     },
     {
       "generic": false,
@@ -67685,6 +70715,22 @@
     },
     {
       "generic": false,
+      "id": 5502,
+      "name": "Palm sapling",
+      "sources": [
+        {
+          "accountTypes": [
+            "main"
+          ],
+          "detail": "buy limit 200",
+          "type": "GE",
+          "where": "Grand Exchange"
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Palm_sapling"
+    },
+    {
+      "generic": false,
       "id": 5972,
       "name": "Papaya fruit",
       "sources": [
@@ -67692,12 +70738,140 @@
           "accountTypes": [
             "main"
           ],
-          "detail": "",
+          "detail": "buy limit 11000",
           "type": "GE",
           "where": "Grand Exchange"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "44 gp, stock 0",
+          "type": "shop",
+          "where": "Cobado's Groceries"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "44 gp, stock 0",
+          "type": "shop",
+          "where": "Faustus' Fruit and Veg"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "Always",
+          "type": "drop",
+          "where": "Papaya tree"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "4/124",
+          "type": "drop",
+          "where": "Kurask"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "4/124",
+          "type": "drop",
+          "where": "King kurask"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/100",
+          "type": "drop",
+          "where": "Fruit Stall"
         }
       ],
       "wikiUrl": "https://oldschool.runescape.wiki/w/Papaya_fruit"
+    },
+    {
+      "generic": false,
+      "id": 5288,
+      "name": "Papaya tree seed",
+      "sources": [
+        {
+          "accountTypes": [
+            "main"
+          ],
+          "detail": "buy limit 200",
+          "type": "GE",
+          "where": "Grand Exchange"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "5/44",
+          "type": "drop",
+          "where": "Seed pack#High seed"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "3/80",
+          "type": "drop",
+          "where": "Hespori"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/32",
+          "type": "drop",
+          "where": "Barbarian Assault/Gambles#Medium"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "6/249",
+          "type": "drop",
+          "where": "Zulrah"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "3/126",
+          "type": "drop",
+          "where": "Kalphite Queen"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/43.93",
+          "type": "drop",
+          "where": "Vale offerings#Level 90+"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/45.83",
+          "type": "drop",
+          "where": "Vale offerings#Level 80-89"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/62.25",
+          "type": "drop",
+          "where": "Vale offerings#Level 65-79"
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Papaya_tree_seed"
     },
     {
       "generic": false,
@@ -70370,6 +73544,86 @@
     },
     {
       "generic": false,
+      "id": 5106,
+      "name": "Poison ivy seed",
+      "sources": [
+        {
+          "accountTypes": [
+            "main"
+          ],
+          "detail": "buy limit 200",
+          "type": "GE",
+          "where": "Grand Exchange"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "2/30",
+          "type": "drop",
+          "where": "Seed pack#Medium seed"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "2/80",
+          "type": "drop",
+          "where": "Hespori"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/68.2",
+          "type": "drop",
+          "where": "Nechryael"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/71.3",
+          "type": "drop",
+          "where": "Aberrant spectre"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/71.3",
+          "type": "drop",
+          "where": "Abhorrent spectre"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/75.3",
+          "type": "drop",
+          "where": "Dagannoth"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/75.3",
+          "type": "drop",
+          "where": "Cave horror"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/75.3",
+          "type": "drop",
+          "where": "Cave abomination"
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Poison_ivy_seed"
+    },
+    {
+      "generic": false,
       "id": 3146,
       "name": "Poison karambwan",
       "sources": [
@@ -72265,6 +75519,86 @@
     },
     {
       "generic": false,
+      "id": 22873,
+      "name": "Potato cactus seed",
+      "sources": [
+        {
+          "accountTypes": [
+            "main"
+          ],
+          "detail": "buy limit 200",
+          "type": "GE",
+          "where": "Grand Exchange"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "2/30",
+          "type": "drop",
+          "where": "Seed pack#Medium seed"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "2/80",
+          "type": "drop",
+          "where": "Hespori"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/100.3",
+          "type": "drop",
+          "where": "Nechryael"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/104.9",
+          "type": "drop",
+          "where": "Aberrant spectre"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/104.9",
+          "type": "drop",
+          "where": "Abhorrent spectre"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/110.7",
+          "type": "drop",
+          "where": "Dagannoth"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/110.7",
+          "type": "drop",
+          "where": "Cave horror"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/110.7",
+          "type": "drop",
+          "where": "Cave abomination"
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Potato_cactus_seed"
+    },
+    {
+      "generic": false,
       "id": 6703,
       "name": "Potato with butter",
       "sources": [
@@ -73348,6 +76682,86 @@
     },
     {
       "generic": false,
+      "id": 5295,
+      "name": "Ranarr seed",
+      "sources": [
+        {
+          "accountTypes": [
+            "main"
+          ],
+          "detail": "buy limit 200",
+          "type": "GE",
+          "where": "Grand Exchange"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/8",
+          "type": "drop",
+          "where": "Lost teak crate"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/10",
+          "type": "drop",
+          "where": "Coffin (Hallowed Sepulchre)#High"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/10",
+          "type": "drop",
+          "where": "Grand Hallowed Coffin"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/10",
+          "type": "drop",
+          "where": "Hallowed sack"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "4/44",
+          "type": "drop",
+          "where": "Seed pack#High seed"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "8/127",
+          "type": "drop",
+          "where": "Commander Zilyana"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "8/128",
+          "type": "drop",
+          "where": "Aquanite"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/16",
+          "type": "drop",
+          "where": "Elder aquanite"
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Ranarr_seed"
+    },
+    {
+      "generic": false,
       "id": 257,
       "name": "Ranarr weed",
       "sources": [
@@ -73717,7 +77131,7 @@
           ],
           "detail": "1/5",
           "type": "drop",
-          "where": "Drift net fishing#Levels 47–49"
+          "where": "Drift net fishing#Levels 47-49"
         },
         {
           "accountTypes": [
@@ -73725,7 +77139,7 @@
           ],
           "detail": "1/6",
           "type": "drop",
-          "where": "Drift net fishing#Levels 50–59"
+          "where": "Drift net fishing#Levels 50-59"
         },
         {
           "accountTypes": [
@@ -73733,7 +77147,7 @@
           ],
           "detail": "1/7",
           "type": "drop",
-          "where": "Drift net fishing#Levels 60–69"
+          "where": "Drift net fishing#Levels 60-69"
         },
         {
           "accountTypes": [
@@ -73741,7 +77155,7 @@
           ],
           "detail": "1/8",
           "type": "drop",
-          "where": "Drift net fishing#Levels 70–79"
+          "where": "Drift net fishing#Levels 70-79"
         },
         {
           "accountTypes": [
@@ -73749,7 +77163,7 @@
           ],
           "detail": "1/9",
           "type": "drop",
-          "where": "Drift net fishing#Levels 80–89"
+          "where": "Drift net fishing#Levels 80-89"
         },
         {
           "accountTypes": [
@@ -73757,7 +77171,7 @@
           ],
           "detail": "1/10",
           "type": "drop",
-          "where": "Drift net fishing#Levels 90–99"
+          "where": "Drift net fishing#Levels 90-99"
         },
         {
           "accountTypes": [
@@ -75426,7 +78840,7 @@
           ],
           "detail": "900/6,400",
           "type": "drop",
-          "where": "Reward pool#Levels 35–39"
+          "where": "Reward pool#Levels 35-39"
         },
         {
           "accountTypes": [
@@ -75858,7 +79272,7 @@
           ],
           "detail": "1/6",
           "type": "drop",
-          "where": "Drift net fishing#Levels 50–59"
+          "where": "Drift net fishing#Levels 50-59"
         },
         {
           "accountTypes": [
@@ -75866,7 +79280,7 @@
           ],
           "detail": "1/7",
           "type": "drop",
-          "where": "Drift net fishing#Levels 60–69"
+          "where": "Drift net fishing#Levels 60-69"
         }
       ],
       "wikiUrl": "https://oldschool.runescape.wiki/w/Raw_lobster"
@@ -76106,7 +79520,7 @@
           ],
           "detail": "1/10",
           "type": "drop",
-          "where": "Drift net fishing#Levels 90–99"
+          "where": "Drift net fishing#Levels 90-99"
         },
         {
           "accountTypes": [
@@ -76618,7 +80032,7 @@
           ],
           "detail": "720/6,400",
           "type": "drop",
-          "where": "Reward pool#Levels 35–39"
+          "where": "Reward pool#Levels 35-39"
         },
         {
           "accountTypes": [
@@ -76626,7 +80040,7 @@
           ],
           "detail": "810/6,400",
           "type": "drop",
-          "where": "Reward pool#Levels 40–45"
+          "where": "Reward pool#Levels 40-45"
         }
       ],
       "wikiUrl": "https://oldschool.runescape.wiki/w/Raw_pike"
@@ -77250,7 +80664,7 @@
           ],
           "detail": "1/5",
           "type": "drop",
-          "where": "Drift net fishing#Levels 47–49"
+          "where": "Drift net fishing#Levels 47-49"
         },
         {
           "accountTypes": [
@@ -77258,7 +80672,7 @@
           ],
           "detail": "1/6",
           "type": "drop",
-          "where": "Drift net fishing#Levels 50–59"
+          "where": "Drift net fishing#Levels 50-59"
         },
         {
           "accountTypes": [
@@ -77266,7 +80680,7 @@
           ],
           "detail": "1/7",
           "type": "drop",
-          "where": "Drift net fishing#Levels 60–69"
+          "where": "Drift net fishing#Levels 60-69"
         },
         {
           "accountTypes": [
@@ -77274,7 +80688,7 @@
           ],
           "detail": "1/8",
           "type": "drop",
-          "where": "Drift net fishing#Levels 70–79"
+          "where": "Drift net fishing#Levels 70-79"
         },
         {
           "accountTypes": [
@@ -77282,7 +80696,7 @@
           ],
           "detail": "1/9",
           "type": "drop",
-          "where": "Drift net fishing#Levels 80–89"
+          "where": "Drift net fishing#Levels 80-89"
         },
         {
           "accountTypes": [
@@ -77290,7 +80704,7 @@
           ],
           "detail": "1/10",
           "type": "drop",
-          "where": "Drift net fishing#Levels 90–99"
+          "where": "Drift net fishing#Levels 90-99"
         }
       ],
       "wikiUrl": "https://oldschool.runescape.wiki/w/Raw_sardine"
@@ -77330,7 +80744,7 @@
           ],
           "detail": "1/9",
           "type": "drop",
-          "where": "Drift net fishing#Levels 80–89"
+          "where": "Drift net fishing#Levels 80-89"
         },
         {
           "accountTypes": [
@@ -77354,7 +80768,7 @@
           ],
           "detail": "1/10",
           "type": "drop",
-          "where": "Drift net fishing#Levels 90–99"
+          "where": "Drift net fishing#Levels 90-99"
         },
         {
           "accountTypes": [
@@ -77506,7 +80920,7 @@
           ],
           "detail": "1/8",
           "type": "drop",
-          "where": "Drift net fishing#Levels 70–79"
+          "where": "Drift net fishing#Levels 70-79"
         },
         {
           "accountTypes": [
@@ -77514,7 +80928,7 @@
           ],
           "detail": "1/9",
           "type": "drop",
-          "where": "Drift net fishing#Levels 80–89"
+          "where": "Drift net fishing#Levels 80-89"
         },
         {
           "accountTypes": [
@@ -77522,7 +80936,7 @@
           ],
           "detail": "1/10",
           "type": "drop",
-          "where": "Drift net fishing#Levels 90–99"
+          "where": "Drift net fishing#Levels 90-99"
         },
         {
           "accountTypes": [
@@ -78017,7 +81431,7 @@
           ],
           "detail": "1/7",
           "type": "drop",
-          "where": "Drift net fishing#Levels 60–69"
+          "where": "Drift net fishing#Levels 60-69"
         },
         {
           "accountTypes": [
@@ -78033,7 +81447,7 @@
           ],
           "detail": "1/8",
           "type": "drop",
-          "where": "Drift net fishing#Levels 70–79"
+          "where": "Drift net fishing#Levels 70-79"
         },
         {
           "accountTypes": [
@@ -78041,7 +81455,7 @@
           ],
           "detail": "1/9",
           "type": "drop",
-          "where": "Drift net fishing#Levels 80–89"
+          "where": "Drift net fishing#Levels 80-89"
         }
       ],
       "wikiUrl": "https://oldschool.runescape.wiki/w/Raw_swordfish"
@@ -78449,7 +81863,7 @@
           ],
           "detail": "1/5",
           "type": "drop",
-          "where": "Drift net fishing#Levels 47–49"
+          "where": "Drift net fishing#Levels 47-49"
         },
         {
           "accountTypes": [
@@ -78457,7 +81871,7 @@
           ],
           "detail": "1/6",
           "type": "drop",
-          "where": "Drift net fishing#Levels 50–59"
+          "where": "Drift net fishing#Levels 50-59"
         },
         {
           "accountTypes": [
@@ -78465,7 +81879,7 @@
           ],
           "detail": "1/7",
           "type": "drop",
-          "where": "Drift net fishing#Levels 60–69"
+          "where": "Drift net fishing#Levels 60-69"
         },
         {
           "accountTypes": [
@@ -78473,7 +81887,7 @@
           ],
           "detail": "1/8",
           "type": "drop",
-          "where": "Drift net fishing#Levels 70–79"
+          "where": "Drift net fishing#Levels 70-79"
         },
         {
           "accountTypes": [
@@ -78481,7 +81895,7 @@
           ],
           "detail": "1/9",
           "type": "drop",
-          "where": "Drift net fishing#Levels 80–89"
+          "where": "Drift net fishing#Levels 80-89"
         },
         {
           "accountTypes": [
@@ -79554,7 +82968,16 @@
       "generic": false,
       "id": 20697,
       "name": "Rejuvenation potion (unf)",
-      "sources": [],
+      "sources": [
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "Always",
+          "type": "drop",
+          "where": "Crate (Wintertodt)"
+        }
+      ],
       "wikiUrl": "https://oldschool.runescape.wiki/w/Rejuvenation_potion_(unf)"
     },
     {
@@ -79708,6 +83131,38 @@
         }
       ],
       "wikiUrl": "https://oldschool.runescape.wiki/w/Restore_potion(3)"
+    },
+    {
+      "generic": false,
+      "id": 2430,
+      "name": "Restore potion(4)",
+      "sources": [
+        {
+          "accountTypes": [
+            "main"
+          ],
+          "detail": "buy limit 2000",
+          "type": "GE",
+          "where": "Grand Exchange"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "Always",
+          "type": "drop",
+          "where": "Jekyll and Hyde#Harralander"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "Once",
+          "type": "drop",
+          "where": "Table (Black Knight Catacombs, supplies)"
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Restore_potion(4)"
     },
     {
       "generic": true,
@@ -82941,6 +86396,22 @@
     },
     {
       "generic": false,
+      "id": 8850,
+      "name": "Rune defender",
+      "sources": [
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "2/100",
+          "type": "drop",
+          "where": "Cyclops#Warriors' Guild Rooftop"
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Rune_defender"
+    },
+    {
+      "generic": false,
       "id": 1163,
       "name": "Rune full helm",
       "sources": [
@@ -85970,6 +89441,54 @@
         }
       ],
       "wikiUrl": "https://oldschool.runescape.wiki/w/Salmon"
+    },
+    {
+      "generic": false,
+      "id": 13421,
+      "name": "Saltpetre",
+      "sources": [
+        {
+          "accountTypes": [
+            "main"
+          ],
+          "detail": "buy limit 13000",
+          "type": "GE",
+          "where": "Grand Exchange"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "Always",
+          "type": "drop",
+          "where": "Saltpetre (deposit)"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/25",
+          "type": "drop",
+          "where": "Reward Cart"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "6/180",
+          "type": "drop",
+          "where": "Extra supply crate"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/33",
+          "type": "drop",
+          "where": "Ancient chest"
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Saltpetre"
     },
     {
       "generic": true,
@@ -90341,6 +93860,54 @@
       "wikiUrl": "https://oldschool.runescape.wiki/w/Silver_ore"
     },
     {
+      "generic": false,
+      "id": 2963,
+      "name": "Silver sickle (b)",
+      "sources": [
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "N/A gp, stock 20",
+          "type": "shop",
+          "where": "Ivan's Supplies"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "N/A gp, stock ∞",
+          "type": "shop",
+          "where": "Efaritay's Supplies"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "N/A gp, stock ∞",
+          "type": "shop",
+          "where": "Old Man Ral's Supplies"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "Always",
+          "type": "drop",
+          "where": "Crate (A Taste of Hope, sickles)"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "Always",
+          "type": "drop",
+          "where": "Skeleton (Ancient Guthixian Temple)"
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Silver_sickle_(b)"
+    },
+    {
       "generic": true,
       "id": null,
       "name": "Silver weaponry",
@@ -91579,6 +95146,86 @@
     },
     {
       "generic": false,
+      "id": 5300,
+      "name": "Snapdragon seed",
+      "sources": [
+        {
+          "accountTypes": [
+            "main"
+          ],
+          "detail": "buy limit 200",
+          "type": "GE",
+          "where": "Grand Exchange"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "4/44",
+          "type": "drop",
+          "where": "Seed pack#High seed"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "8/127",
+          "type": "drop",
+          "where": "General Graardor"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/19",
+          "type": "drop",
+          "where": "Dragon impling jar"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/19",
+          "type": "drop",
+          "where": "Dragon impling"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "4/80",
+          "type": "drop",
+          "where": "Frozen cache"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/21",
+          "type": "drop",
+          "where": "Magpie impling"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/21",
+          "type": "drop",
+          "where": "Magpie impling jar"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/27",
+          "type": "drop",
+          "where": "Chest (Tombs of Amascut)"
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Snapdragon_seed"
+    },
+    {
+      "generic": false,
       "id": 231,
       "name": "Snape grass",
       "sources": [
@@ -91688,6 +95335,86 @@
         }
       ],
       "wikiUrl": "https://oldschool.runescape.wiki/w/Snape_grass"
+    },
+    {
+      "generic": false,
+      "id": 22879,
+      "name": "Snape grass seed",
+      "sources": [
+        {
+          "accountTypes": [
+            "main"
+          ],
+          "detail": "buy limit 200",
+          "type": "GE",
+          "where": "Grand Exchange"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "2/30",
+          "type": "drop",
+          "where": "Seed pack#Medium seed"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "40/684",
+          "type": "drop",
+          "where": "Bird nest (Wyson)"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "6/128",
+          "type": "drop",
+          "where": "Aquanite"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/22",
+          "type": "drop",
+          "where": "Elder aquanite"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "2/80",
+          "type": "drop",
+          "where": "Hespori"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/48.8",
+          "type": "drop",
+          "where": "Butterfly ray"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/49.1",
+          "type": "drop",
+          "where": "Eagle ray"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/65.4",
+          "type": "drop",
+          "where": "Stingray"
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Snape_grass_seed"
     },
     {
       "generic": true,
@@ -93108,6 +96835,142 @@
       "name": "Stab weapon",
       "sources": [],
       "wikiUrl": "https://oldschool.runescape.wiki/w/Stab_weapon"
+    },
+    {
+      "generic": false,
+      "id": 1381,
+      "name": "Staff of air",
+      "sources": [
+        {
+          "accountTypes": [
+            "main"
+          ],
+          "detail": "buy limit 125",
+          "type": "GE",
+          "where": "Grand Exchange"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "825 gp, stock 2",
+          "type": "shop",
+          "where": "Zaff's Superior Staffs!"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "900 gp, stock 2",
+          "type": "shop",
+          "where": "Magic Guild Store (Runes and Staves)"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "825 gp, stock 2",
+          "type": "shop",
+          "where": "Baba Yaga's Magic Shop."
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "825 gp, stock 2",
+          "type": "shop",
+          "where": "Baba Yaga's Magic Shop."
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "900 gp, stock 2",
+          "type": "shop",
+          "where": "Filamina's Wares"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "825 gp, stock 2",
+          "type": "shop",
+          "where": "Elgan's Exceptional Staffs!"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "825 gp, stock 2",
+          "type": "shop",
+          "where": "Sebamo's Sublime Staffs"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "Always",
+          "type": "drop",
+          "where": "Adventurer Jon#Getting started Magic"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "4/100",
+          "type": "drop",
+          "where": "Broken staff"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "11/396",
+          "type": "drop",
+          "where": "Reward casket (easy)#Standard"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "3/128",
+          "type": "drop",
+          "where": "Zombie (Tarn's Lair)#Low level"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "11/492",
+          "type": "drop",
+          "where": "Reward casket (beginner)"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "2/128",
+          "type": "drop",
+          "where": "Air elemental"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "2/140",
+          "type": "drop",
+          "where": "Killerwatt"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/140.98",
+          "type": "drop",
+          "where": "Black Chest (red)"
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Staff_of_air"
     },
     {
       "generic": false,
@@ -99116,6 +102979,94 @@
       "wikiUrl": "https://oldschool.runescape.wiki/w/Superantipoison(3)"
     },
     {
+      "generic": false,
+      "id": 6034,
+      "name": "Supercompost",
+      "sources": [
+        {
+          "accountTypes": [
+            "main"
+          ],
+          "detail": "buy limit 2000",
+          "type": "GE",
+          "where": "Grand Exchange"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "N/A gp, stock ∞",
+          "type": "shop",
+          "where": "Farmer Gricoller's Rewards"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "64/590",
+          "type": "drop",
+          "where": "Ancient Zygomite"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "3/30",
+          "type": "drop",
+          "where": "Lunar Chest"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "6/143",
+          "type": "drop",
+          "where": "Zygomite#Level 74"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "6/146",
+          "type": "drop",
+          "where": "Zygomite#Level 86"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "3/132",
+          "type": "drop",
+          "where": "Ancient Wyvern"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/100",
+          "type": "drop",
+          "where": "Earth impling"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/100",
+          "type": "drop",
+          "where": "Earth impling jar"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "Unknown",
+          "type": "drop",
+          "where": "Large port reward bag#Hosidius"
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Supercompost"
+    },
+    {
       "generic": true,
       "id": null,
       "name": "Superglass Make",
@@ -100501,6 +104452,22 @@
     },
     {
       "generic": false,
+      "id": 21477,
+      "name": "Teak sapling",
+      "sources": [
+        {
+          "accountTypes": [
+            "main"
+          ],
+          "detail": "buy limit 200",
+          "type": "GE",
+          "where": "Grand Exchange"
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Teak_sapling"
+    },
+    {
+      "generic": false,
       "id": 9446,
       "name": "Teak stock",
       "sources": [
@@ -100814,6 +104781,13 @@
         }
       ],
       "wikiUrl": "https://oldschool.runescape.wiki/w/Teleother_Lumbridge"
+    },
+    {
+      "generic": false,
+      "id": 13102,
+      "name": "Teleport crystal (5)",
+      "sources": [],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Teleport_crystal_(5)"
     },
     {
       "generic": true,
@@ -102242,6 +106216,14 @@
           ],
           "detail": "Always",
           "type": "drop",
+          "where": "Crate (Wintertodt)"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "Always",
+          "type": "drop",
           "where": "Camping Equipment"
         },
         {
@@ -102267,14 +106249,6 @@
           "detail": "Always",
           "type": "drop",
           "where": "Shelves (Misthalin Mystery)"
-        },
-        {
-          "accountTypes": [
-            "all"
-          ],
-          "detail": "Always",
-          "type": "drop",
-          "where": "Old Bookshelf (Wise Old Man)"
         },
         {
           "accountTypes": [
@@ -102670,6 +106644,86 @@
         }
       ],
       "wikiUrl": "https://oldschool.runescape.wiki/w/Toadflax_potion_(unf)"
+    },
+    {
+      "generic": false,
+      "id": 5296,
+      "name": "Toadflax seed",
+      "sources": [
+        {
+          "accountTypes": [
+            "main"
+          ],
+          "detail": "buy limit 600",
+          "type": "GE",
+          "where": "Grand Exchange"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "2/25",
+          "type": "drop",
+          "where": "Chest (alchemist's signet)"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "3/80",
+          "type": "drop",
+          "where": "Hespori"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/27",
+          "type": "drop",
+          "where": "Chest (Tombs of Amascut)"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/30",
+          "type": "drop",
+          "where": "Seed pack#Medium seed"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/32",
+          "type": "drop",
+          "where": "Barbarian Assault/Gambles#Low"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/32.5",
+          "type": "drop",
+          "where": "Nechryael"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/34",
+          "type": "drop",
+          "where": "Aberrant spectre"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/34",
+          "type": "drop",
+          "where": "Abhorrent spectre"
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Toadflax_seed"
     },
     {
       "generic": false,
@@ -103241,6 +107295,30 @@
     },
     {
       "generic": false,
+      "id": 21047,
+      "name": "Torn prayer scroll",
+      "sources": [
+        {
+          "accountTypes": [
+            "main"
+          ],
+          "detail": "buy limit 5",
+          "type": "GE",
+          "where": "Grand Exchange"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/33",
+          "type": "drop",
+          "where": "Ancient chest"
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Torn_prayer_scroll"
+    },
+    {
+      "generic": false,
       "id": 269,
       "name": "Torstol",
       "sources": [
@@ -103329,18 +107407,89 @@
     },
     {
       "generic": false,
-      "id": 26382,
-      "name": "Torva full helm",
+      "id": 5304,
+      "name": "Torstol seed",
       "sources": [
         {
           "accountTypes": [
             "main"
           ],
-          "detail": "buy limit 8",
+          "detail": "buy limit 200",
           "type": "GE",
           "where": "Grand Exchange"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "5/80",
+          "type": "drop",
+          "where": "Frozen cache"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "2/44",
+          "type": "drop",
+          "where": "Seed pack#High seed"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/27",
+          "type": "drop",
+          "where": "Chest (Tombs of Amascut)"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "4/126",
+          "type": "drop",
+          "where": "Kalphite Queen"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/32",
+          "type": "drop",
+          "where": "Barbarian Assault/Gambles#High"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "2/68",
+          "type": "drop",
+          "where": "The Hueycoatl"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "2/80",
+          "type": "drop",
+          "where": "Hespori"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "5/235",
+          "type": "drop",
+          "where": "Phantom Muspah"
         }
       ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Torstol_seed"
+    },
+    {
+      "generic": false,
+      "id": 26382,
+      "name": "Torva full helm",
+      "sources": [],
       "wikiUrl": "https://oldschool.runescape.wiki/w/Torva_full_helm"
     },
     {
@@ -103371,16 +107520,7 @@
       "generic": false,
       "id": 26384,
       "name": "Torva platebody",
-      "sources": [
-        {
-          "accountTypes": [
-            "main"
-          ],
-          "detail": "buy limit 8",
-          "type": "GE",
-          "where": "Grand Exchange"
-        }
-      ],
+      "sources": [],
       "wikiUrl": "https://oldschool.runescape.wiki/w/Torva_platebody"
     },
     {
@@ -103411,16 +107551,7 @@
       "generic": false,
       "id": 26386,
       "name": "Torva platelegs",
-      "sources": [
-        {
-          "accountTypes": [
-            "main"
-          ],
-          "detail": "buy limit 8",
-          "type": "GE",
-          "where": "Grand Exchange"
-        }
-      ],
+      "sources": [],
       "wikiUrl": "https://oldschool.runescape.wiki/w/Torva_platelegs"
     },
     {
@@ -103446,13 +107577,6 @@
         }
       ],
       "wikiUrl": "https://oldschool.runescape.wiki/w/Torva_platelegs_(damaged)"
-    },
-    {
-      "generic": false,
-      "id": 12924,
-      "name": "Toxic blowpipe",
-      "sources": [],
-      "wikiUrl": "https://oldschool.runescape.wiki/w/Toxic_blowpipe"
     },
     {
       "generic": false,
@@ -107653,6 +111777,70 @@
     },
     {
       "generic": false,
+      "id": 8851,
+      "name": "Warrior guild token",
+      "sources": [
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "Always",
+          "type": "drop",
+          "where": "Animated Adamant Armour"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "Always",
+          "type": "drop",
+          "where": "Animated Mithril Armour"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "Always",
+          "type": "drop",
+          "where": "Animated Rune Armour"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "Always",
+          "type": "drop",
+          "where": "Animated Black Armour"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "Always",
+          "type": "drop",
+          "where": "Animated Bronze Armour"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "Always",
+          "type": "drop",
+          "where": "Animated Steel Armour"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "Always",
+          "type": "drop",
+          "where": "Animated Iron Armour"
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Warrior_guild_token"
+    },
+    {
+      "generic": false,
       "id": 28301,
       "name": "Warrior icon",
       "sources": [
@@ -109416,6 +113604,86 @@
         }
       ],
       "wikiUrl": "https://oldschool.runescape.wiki/w/White_berries"
+    },
+    {
+      "generic": false,
+      "id": 5105,
+      "name": "Whiteberry seed",
+      "sources": [
+        {
+          "accountTypes": [
+            "main"
+          ],
+          "detail": "buy limit 200",
+          "type": "GE",
+          "where": "Grand Exchange"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "2/30",
+          "type": "drop",
+          "where": "Seed pack#Medium seed"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "2/80",
+          "type": "drop",
+          "where": "Hespori"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/57.4",
+          "type": "drop",
+          "where": "Butterfly ray"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/57.8",
+          "type": "drop",
+          "where": "Eagle ray"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/76.9",
+          "type": "drop",
+          "where": "Stingray"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/101.7",
+          "type": "drop",
+          "where": "Manta ray (monster)"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/112.7",
+          "type": "drop",
+          "where": "Bryophyta#Members"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/112.7",
+          "type": "drop",
+          "where": "Moss Giant (Iorwerth Dungeon)"
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Whiteberry_seed"
     },
     {
       "generic": false,
@@ -111863,6 +116131,150 @@
     },
     {
       "generic": false,
+      "id": 1033,
+      "name": "Zamorak monk bottom",
+      "sources": [
+        {
+          "accountTypes": [
+            "main"
+          ],
+          "detail": "buy limit 15",
+          "type": "GE",
+          "where": "Grand Exchange"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "Always",
+          "type": "drop",
+          "where": "Disciple of Iban"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/20",
+          "type": "drop",
+          "where": "Monk of Zamorak (Paterdomus)"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "4/128",
+          "type": "drop",
+          "where": "Necromancer"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/20",
+          "type": "drop",
+          "where": "Monk of Zamorak"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "4/128",
+          "type": "drop",
+          "where": "Zamorak wizard"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "4/128",
+          "type": "drop",
+          "where": "Chaos Fanatic"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "4/1,419",
+          "type": "drop",
+          "where": "Elder Chaos druid"
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Zamorak_monk_bottom"
+    },
+    {
+      "generic": false,
+      "id": 1035,
+      "name": "Zamorak monk top",
+      "sources": [
+        {
+          "accountTypes": [
+            "main"
+          ],
+          "detail": "buy limit 15",
+          "type": "GE",
+          "where": "Grand Exchange"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "Always",
+          "type": "drop",
+          "where": "Disciple of Iban"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/20",
+          "type": "drop",
+          "where": "Monk of Zamorak (Paterdomus)"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "3/128",
+          "type": "drop",
+          "where": "Necromancer"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "1/20",
+          "type": "drop",
+          "where": "Monk of Zamorak"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "4/128",
+          "type": "drop",
+          "where": "Chaos Fanatic"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "3/128",
+          "type": "drop",
+          "where": "Zamorak wizard"
+        },
+        {
+          "accountTypes": [
+            "all"
+          ],
+          "detail": "4/1,419",
+          "type": "drop",
+          "where": "Elder Chaos druid"
+        }
+      ],
+      "wikiUrl": "https://oldschool.runescape.wiki/w/Zamorak_monk_top"
+    },
+    {
+      "generic": false,
       "id": 20749,
       "name": "Zamorak's grapes",
       "sources": [
@@ -112148,6 +116560,1173 @@
         }
       ],
       "wikiUrl": "https://oldschool.runescape.wiki/w/Zulrah's_scales"
+    }
+  ],
+  "sources": [
+    {
+      "revid": 15331068,
+      "timestamp": "2026-09-04T22:15:01Z",
+      "title": "A Kingdom Divided"
+    },
+    {
+      "revid": 15325956,
+      "timestamp": "2026-08-31T01:11:21Z",
+      "title": "A Night at the Theatre"
+    },
+    {
+      "revid": 15329297,
+      "timestamp": "2026-09-03T04:16:30Z",
+      "title": "A Porcine of Interest"
+    },
+    {
+      "revid": 15292369,
+      "timestamp": "2026-08-10T23:52:49Z",
+      "title": "A Soul's Bane"
+    },
+    {
+      "revid": 15315440,
+      "timestamp": "2026-08-21T06:40:55Z",
+      "title": "A Tail of Two Cats"
+    },
+    {
+      "revid": 15305874,
+      "timestamp": "2026-08-19T11:24:07Z",
+      "title": "A Taste of Hope"
+    },
+    {
+      "revid": 15292247,
+      "timestamp": "2026-08-10T22:59:04Z",
+      "title": "Alfred Grimhand's Barcrawl"
+    },
+    {
+      "revid": 15327014,
+      "timestamp": "2026-09-01T06:32:15Z",
+      "title": "Animal Magnetism"
+    },
+    {
+      "revid": 15292360,
+      "timestamp": "2026-08-10T23:51:25Z",
+      "title": "Another Slice of H.A.M."
+    },
+    {
+      "revid": 15295881,
+      "timestamp": "2026-08-13T03:04:38Z",
+      "title": "Ardougne Diary"
+    },
+    {
+      "revid": 15271675,
+      "timestamp": "2026-07-22T01:08:01Z",
+      "title": "At First Light"
+    },
+    {
+      "revid": 15292392,
+      "timestamp": "2026-08-11T00:15:11Z",
+      "title": "Barbarian Training"
+    },
+    {
+      "revid": 15311949,
+      "timestamp": "2026-08-20T00:38:28Z",
+      "title": "Bear Your Soul"
+    },
+    {
+      "revid": 15240942,
+      "timestamp": "2026-06-27T13:09:50Z",
+      "title": "Below Ice Mountain"
+    },
+    {
+      "revid": 15333475,
+      "timestamp": "2026-09-07T20:21:43Z",
+      "title": "Beneath Cursed Sands"
+    },
+    {
+      "revid": 15315213,
+      "timestamp": "2026-08-21T05:15:36Z",
+      "title": "Between a Rock..."
+    },
+    {
+      "revid": 15292269,
+      "timestamp": "2026-08-10T23:17:11Z",
+      "title": "Big Chompy Bird Hunting"
+    },
+    {
+      "revid": 15327977,
+      "timestamp": "2026-09-02T01:54:07Z",
+      "title": "Biohazard"
+    },
+    {
+      "revid": 15320497,
+      "timestamp": "2026-08-26T07:20:04Z",
+      "title": "Black Knights' Fortress"
+    },
+    {
+      "revid": 15262285,
+      "timestamp": "2026-07-13T04:00:01Z",
+      "title": "Bone Voyage"
+    },
+    {
+      "revid": 15318962,
+      "timestamp": "2026-08-25T02:49:48Z",
+      "title": "Cabin Fever"
+    },
+    {
+      "revid": 15241067,
+      "timestamp": "2026-06-27T15:21:52Z",
+      "title": "Children of the Sun"
+    },
+    {
+      "revid": 15315592,
+      "timestamp": "2026-08-21T09:01:38Z",
+      "title": "Client of Kourend"
+    },
+    {
+      "revid": 15166584,
+      "timestamp": "2026-04-06T15:38:47Z",
+      "title": "Clock Tower"
+    },
+    {
+      "revid": 15315223,
+      "timestamp": "2026-08-21T05:18:11Z",
+      "title": "Cold War"
+    },
+    {
+      "revid": 15327950,
+      "timestamp": "2026-09-02T01:19:31Z",
+      "title": "Contact!"
+    },
+    {
+      "revid": 15320469,
+      "timestamp": "2026-08-26T06:44:42Z",
+      "title": "Cook's Assistant"
+    },
+    {
+      "revid": 15315212,
+      "timestamp": "2026-08-21T05:15:02Z",
+      "title": "Creature of Fenkenstrain"
+    },
+    {
+      "revid": 15314499,
+      "timestamp": "2026-08-20T22:22:10Z",
+      "title": "Current Affairs"
+    },
+    {
+      "revid": 15292256,
+      "timestamp": "2026-08-10T23:03:50Z",
+      "title": "Curse of the Empty Lord"
+    },
+    {
+      "revid": 15337234,
+      "timestamp": "2026-09-09T12:30:37Z",
+      "title": "Daddy's Home"
+    },
+    {
+      "revid": 15326711,
+      "timestamp": "2026-08-31T23:23:48Z",
+      "title": "Darkness of Hallowvale"
+    },
+    {
+      "revid": 15292389,
+      "timestamp": "2026-08-11T00:08:57Z",
+      "title": "Death Plateau"
+    },
+    {
+      "revid": 15319366,
+      "timestamp": "2026-08-25T05:40:50Z",
+      "title": "Death on the Isle"
+    },
+    {
+      "revid": 15331188,
+      "timestamp": "2026-09-05T01:23:44Z",
+      "title": "Death to the Dorgeshuun"
+    },
+    {
+      "revid": 15314409,
+      "timestamp": "2026-08-20T20:55:34Z",
+      "title": "Defender of Varrock"
+    },
+    {
+      "revid": 15309237,
+      "timestamp": "2026-08-19T19:54:26Z",
+      "title": "Demon Slayer"
+    },
+    {
+      "revid": 15280543,
+      "timestamp": "2026-07-29T16:11:07Z",
+      "title": "Desert Diary"
+    },
+    {
+      "revid": 15325502,
+      "timestamp": "2026-08-30T17:01:15Z",
+      "title": "Desert Treasure I"
+    },
+    {
+      "revid": 15326679,
+      "timestamp": "2026-08-31T22:01:13Z",
+      "title": "Desert Treasure II - The Fallen Empire"
+    },
+    {
+      "revid": 15292315,
+      "timestamp": "2026-08-10T23:32:12Z",
+      "title": "Devious Minds"
+    },
+    {
+      "revid": 15240932,
+      "timestamp": "2026-06-27T13:07:17Z",
+      "title": "Doric's Quest"
+    },
+    {
+      "revid": 15332155,
+      "timestamp": "2026-09-06T00:45:59Z",
+      "title": "Dragon Slayer I"
+    },
+    {
+      "revid": 15317048,
+      "timestamp": "2026-08-23T03:59:32Z",
+      "title": "Dragon Slayer II"
+    },
+    {
+      "revid": 15328014,
+      "timestamp": "2026-09-02T03:22:41Z",
+      "title": "Dream Mentor"
+    },
+    {
+      "revid": 15322674,
+      "timestamp": "2026-08-28T07:09:49Z",
+      "title": "Druidic Ritual"
+    },
+    {
+      "revid": 15313000,
+      "timestamp": "2026-08-20T06:38:36Z",
+      "title": "Dwarf Cannon"
+    },
+    {
+      "revid": 15326715,
+      "timestamp": "2026-08-31T23:24:13Z",
+      "title": "Eadgar's Ruse"
+    },
+    {
+      "revid": 15314504,
+      "timestamp": "2026-08-20T22:26:01Z",
+      "title": "Eagles' Peak"
+    },
+    {
+      "revid": 15333575,
+      "timestamp": "2026-09-08T00:35:15Z",
+      "title": "Elemental Workshop I"
+    },
+    {
+      "revid": 15271178,
+      "timestamp": "2026-07-21T05:53:37Z",
+      "title": "Elemental Workshop II"
+    },
+    {
+      "revid": 15330704,
+      "timestamp": "2026-09-04T08:30:01Z",
+      "title": "Enakhra's Lament"
+    },
+    {
+      "revid": 15292357,
+      "timestamp": "2026-08-10T23:48:36Z",
+      "title": "Enlightened Journey"
+    },
+    {
+      "revid": 15292255,
+      "timestamp": "2026-08-10T23:03:42Z",
+      "title": "Enter the Abyss"
+    },
+    {
+      "revid": 15316578,
+      "timestamp": "2026-08-22T15:26:28Z",
+      "title": "Ernest the Chicken"
+    },
+    {
+      "revid": 15315320,
+      "timestamp": "2026-08-21T05:44:49Z",
+      "title": "Ethically Acquired Antiquities"
+    },
+    {
+      "revid": 15326712,
+      "timestamp": "2026-08-31T23:23:54Z",
+      "title": "Fairytale I - Growing Pains"
+    },
+    {
+      "revid": 15292318,
+      "timestamp": "2026-08-10T23:33:37Z",
+      "title": "Fairytale II - Cure a Queen"
+    },
+    {
+      "revid": 15310507,
+      "timestamp": "2026-08-19T23:03:25Z",
+      "title": "Falador Diary"
+    },
+    {
+      "revid": 15335348,
+      "timestamp": "2026-09-08T15:05:20Z",
+      "title": "Fallen From Grace"
+    },
+    {
+      "revid": 15266192,
+      "timestamp": "2026-07-17T15:38:50Z",
+      "title": "Family Crest"
+    },
+    {
+      "revid": 15237154,
+      "timestamp": "2026-06-21T16:34:53Z",
+      "title": "Family Pest"
+    },
+    {
+      "revid": 15240956,
+      "timestamp": "2026-06-27T13:19:32Z",
+      "title": "Fight Arena"
+    },
+    {
+      "revid": 15302643,
+      "timestamp": "2026-08-16T05:37:49Z",
+      "title": "Fishing Contest"
+    },
+    {
+      "revid": 15315683,
+      "timestamp": "2026-08-21T11:45:10Z",
+      "title": "Forgettable Tale..."
+    },
+    {
+      "revid": 15267932,
+      "timestamp": "2026-07-20T02:35:57Z",
+      "title": "Fremennik Diary"
+    },
+    {
+      "revid": 15315437,
+      "timestamp": "2026-08-21T06:40:16Z",
+      "title": "Garden of Tranquillity"
+    },
+    {
+      "revid": 15331542,
+      "timestamp": "2026-09-05T16:08:24Z",
+      "title": "Gertrude's Cat"
+    },
+    {
+      "revid": 15241058,
+      "timestamp": "2026-06-27T15:19:08Z",
+      "title": "Getting Ahead"
+    },
+    {
+      "revid": 15315208,
+      "timestamp": "2026-08-21T05:12:34Z",
+      "title": "Ghosts Ahoy"
+    },
+    {
+      "revid": 15331217,
+      "timestamp": "2026-09-05T03:38:33Z",
+      "title": "Goblin Diplomacy"
+    },
+    {
+      "revid": 15326017,
+      "timestamp": "2026-08-31T03:57:36Z",
+      "title": "Grim Tales"
+    },
+    {
+      "revid": 15327880,
+      "timestamp": "2026-09-02T00:15:12Z",
+      "title": "Haunted Mine"
+    },
+    {
+      "revid": 15328196,
+      "timestamp": "2026-09-02T11:47:50Z",
+      "title": "Hazeel Cult"
+    },
+    {
+      "revid": 15327634,
+      "timestamp": "2026-09-01T18:17:42Z",
+      "title": "Heroes' Quest"
+    },
+    {
+      "revid": 15167680,
+      "timestamp": "2026-04-07T04:43:52Z",
+      "title": "His Faithful Servants"
+    },
+    {
+      "revid": 15273068,
+      "timestamp": "2026-07-23T03:02:11Z",
+      "title": "Holy Grail"
+    },
+    {
+      "revid": 15335611,
+      "timestamp": "2026-09-08T18:45:54Z",
+      "title": "Hopespear's Will"
+    },
+    {
+      "revid": 15326714,
+      "timestamp": "2026-08-31T23:24:06Z",
+      "title": "Horror from the Deep"
+    },
+    {
+      "revid": 15292330,
+      "timestamp": "2026-08-10T23:38:04Z",
+      "title": "Icthlarin's Little Helper"
+    },
+    {
+      "revid": 15293702,
+      "timestamp": "2026-08-12T14:06:58Z",
+      "title": "Imp Catcher"
+    },
+    {
+      "revid": 15337334,
+      "timestamp": "2026-09-09T13:35:55Z",
+      "title": "In Aid of the Myreque"
+    },
+    {
+      "revid": 15309889,
+      "timestamp": "2026-08-19T21:12:05Z",
+      "title": "In Search of Knowledge"
+    },
+    {
+      "revid": 15315257,
+      "timestamp": "2026-08-21T05:28:30Z",
+      "title": "In Search of the Myreque"
+    },
+    {
+      "revid": 15218542,
+      "timestamp": "2026-05-28T04:29:56Z",
+      "title": "Into the Tombs"
+    },
+    {
+      "revid": 15281195,
+      "timestamp": "2026-07-29T18:59:16Z",
+      "title": "Jungle Potion"
+    },
+    {
+      "revid": 15331051,
+      "timestamp": "2026-09-04T21:42:21Z",
+      "title": "Kandarin Diary"
+    },
+    {
+      "revid": 15315089,
+      "timestamp": "2026-08-21T03:59:22Z",
+      "title": "Karamja Diary"
+    },
+    {
+      "revid": 15292350,
+      "timestamp": "2026-08-10T23:46:06Z",
+      "title": "King's Ransom"
+    },
+    {
+      "revid": 15300044,
+      "timestamp": "2026-08-14T04:28:49Z",
+      "title": "Kourend & Kebos Diary"
+    },
+    {
+      "revid": 15302491,
+      "timestamp": "2026-08-16T03:29:18Z",
+      "title": "Lair of Tarn Razorlor"
+    },
+    {
+      "revid": 15314873,
+      "timestamp": "2026-08-21T01:19:46Z",
+      "title": "Land of the Goblins"
+    },
+    {
+      "revid": 15315138,
+      "timestamp": "2026-08-21T04:26:03Z",
+      "title": "Learning the Ropes"
+    },
+    {
+      "revid": 15322832,
+      "timestamp": "2026-08-28T10:19:45Z",
+      "title": "Legends' Quest"
+    },
+    {
+      "revid": 15326723,
+      "timestamp": "2026-08-31T23:25:06Z",
+      "title": "Lost City"
+    },
+    {
+      "revid": 15324306,
+      "timestamp": "2026-08-29T04:36:55Z",
+      "title": "Lumbridge & Draynor Diary"
+    },
+    {
+      "revid": 15325231,
+      "timestamp": "2026-08-30T01:34:27Z",
+      "title": "Lunar Diplomacy"
+    },
+    {
+      "revid": 15237146,
+      "timestamp": "2026-06-21T16:33:08Z",
+      "title": "Mage Arena I"
+    },
+    {
+      "revid": 15299152,
+      "timestamp": "2026-08-14T02:47:20Z",
+      "title": "Mage Arena II"
+    },
+    {
+      "revid": 15315912,
+      "timestamp": "2026-08-21T22:33:49Z",
+      "title": "Making Friends with My Arm"
+    },
+    {
+      "revid": 15315243,
+      "timestamp": "2026-08-21T05:23:52Z",
+      "title": "Making History"
+    },
+    {
+      "revid": 15292376,
+      "timestamp": "2026-08-10T23:56:51Z",
+      "title": "Meat and Greet"
+    },
+    {
+      "revid": 15336338,
+      "timestamp": "2026-09-09T03:46:19Z",
+      "title": "Merlin's Crystal"
+    },
+    {
+      "revid": 15292395,
+      "timestamp": "2026-08-11T00:20:36Z",
+      "title": "Misthalin Mystery"
+    },
+    {
+      "revid": 14876362,
+      "timestamp": "2025-04-03T02:40:40Z",
+      "title": "Module:Questreq/data"
+    },
+    {
+      "revid": 15155015,
+      "timestamp": "2026-03-24T04:54:04Z",
+      "title": "Module:Skill calc/Construction"
+    },
+    {
+      "revid": 15294122,
+      "timestamp": "2026-08-12T19:12:17Z",
+      "title": "Module:Skill calc/Cooking"
+    },
+    {
+      "revid": 15294765,
+      "timestamp": "2026-08-12T21:48:59Z",
+      "title": "Module:Skill calc/Crafting"
+    },
+    {
+      "revid": 15084802,
+      "timestamp": "2025-12-12T14:03:53Z",
+      "title": "Module:Skill calc/Firemaking"
+    },
+    {
+      "revid": 15302053,
+      "timestamp": "2026-08-15T15:27:23Z",
+      "title": "Module:Skill calc/Fletching"
+    },
+    {
+      "revid": 15315541,
+      "timestamp": "2026-08-21T07:51:04Z",
+      "title": "Module:Skill calc/Herblore"
+    },
+    {
+      "revid": 15281969,
+      "timestamp": "2026-07-29T23:44:13Z",
+      "title": "Module:Skill calc/Magic"
+    },
+    {
+      "revid": 15281429,
+      "timestamp": "2026-07-29T21:15:02Z",
+      "title": "Module:Skill calc/Prayer"
+    },
+    {
+      "revid": 15301362,
+      "timestamp": "2026-08-14T16:22:38Z",
+      "title": "Module:Skill calc/Smithing"
+    },
+    {
+      "revid": 15240952,
+      "timestamp": "2026-06-27T13:15:31Z",
+      "title": "Monk's Friend"
+    },
+    {
+      "revid": 15327728,
+      "timestamp": "2026-09-01T19:23:30Z",
+      "title": "Monkey Madness I"
+    },
+    {
+      "revid": 15326728,
+      "timestamp": "2026-08-31T23:50:02Z",
+      "title": "Monkey Madness II"
+    },
+    {
+      "revid": 15336317,
+      "timestamp": "2026-09-09T03:25:13Z",
+      "title": "Morytania Diary"
+    },
+    {
+      "revid": 15292291,
+      "timestamp": "2026-08-10T23:22:07Z",
+      "title": "Mountain Daughter"
+    },
+    {
+      "revid": 15292327,
+      "timestamp": "2026-08-10T23:36:57Z",
+      "title": "Mourning's End Part I"
+    },
+    {
+      "revid": 15292320,
+      "timestamp": "2026-08-10T23:34:42Z",
+      "title": "Mourning's End Part II"
+    },
+    {
+      "revid": 15315154,
+      "timestamp": "2026-08-21T04:31:33Z",
+      "title": "Murder Mystery"
+    },
+    {
+      "revid": 15326710,
+      "timestamp": "2026-08-31T23:23:41Z",
+      "title": "My Arm's Big Adventure"
+    },
+    {
+      "revid": 15326718,
+      "timestamp": "2026-08-31T23:24:31Z",
+      "title": "Nature Spirit"
+    },
+    {
+      "revid": 15326719,
+      "timestamp": "2026-08-31T23:24:41Z",
+      "title": "Observatory Quest"
+    },
+    {
+      "revid": 15327549,
+      "timestamp": "2026-09-01T18:03:08Z",
+      "title": "Olaf's Quest"
+    },
+    {
+      "revid": 15332553,
+      "timestamp": "2026-09-06T15:30:49Z",
+      "title": "One Small Favour"
+    },
+    {
+      "revid": 15282707,
+      "timestamp": "2026-07-30T07:59:41Z",
+      "title": "Pandemonium"
+    },
+    {
+      "revid": 15276408,
+      "timestamp": "2026-07-27T03:24:36Z",
+      "title": "Perilous Moons"
+    },
+    {
+      "revid": 15315445,
+      "timestamp": "2026-08-21T06:41:42Z",
+      "title": "Pirate's Treasure"
+    },
+    {
+      "revid": 15240959,
+      "timestamp": "2026-06-27T13:22:40Z",
+      "title": "Plague City"
+    },
+    {
+      "revid": 15317644,
+      "timestamp": "2026-08-24T00:38:49Z",
+      "title": "Priest in Peril"
+    },
+    {
+      "revid": 15260348,
+      "timestamp": "2026-07-11T01:55:46Z",
+      "title": "Prince Ali Rescue"
+    },
+    {
+      "revid": 15315235,
+      "timestamp": "2026-08-21T05:21:01Z",
+      "title": "Prying Times"
+    },
+    {
+      "revid": 15292348,
+      "timestamp": "2026-08-10T23:45:33Z",
+      "title": "Rag and Bone Man I"
+    },
+    {
+      "revid": 15326708,
+      "timestamp": "2026-08-31T23:23:20Z",
+      "title": "Rag and Bone Man II"
+    },
+    {
+      "revid": 15315231,
+      "timestamp": "2026-08-21T05:20:16Z",
+      "title": "Ratcatchers"
+    },
+    {
+      "revid": 15313692,
+      "timestamp": "2026-08-20T08:32:00Z",
+      "title": "Recipe for Disaster"
+    },
+    {
+      "revid": 15302151,
+      "timestamp": "2026-08-15T17:32:16Z",
+      "title": "Recipe for Disaster/Another Cook's Quest"
+    },
+    {
+      "revid": 15292344,
+      "timestamp": "2026-08-10T23:41:32Z",
+      "title": "Recipe for Disaster/Defeating the Culinaromancer"
+    },
+    {
+      "revid": 15294908,
+      "timestamp": "2026-08-12T22:22:21Z",
+      "title": "Recipe for Disaster/Freeing Evil Dave"
+    },
+    {
+      "revid": 15331685,
+      "timestamp": "2026-09-05T18:57:43Z",
+      "title": "Recipe for Disaster/Freeing King Awowogei"
+    },
+    {
+      "revid": 15292338,
+      "timestamp": "2026-08-10T23:41:05Z",
+      "title": "Recipe for Disaster/Freeing Pirate Pete"
+    },
+    {
+      "revid": 15320990,
+      "timestamp": "2026-08-26T15:13:39Z",
+      "title": "Recipe for Disaster/Freeing Sir Amik Varze"
+    },
+    {
+      "revid": 15292343,
+      "timestamp": "2026-08-10T23:41:28Z",
+      "title": "Recipe for Disaster/Freeing Skrach Uglogwee"
+    },
+    {
+      "revid": 15292337,
+      "timestamp": "2026-08-10T23:40:59Z",
+      "title": "Recipe for Disaster/Freeing the Goblin generals"
+    },
+    {
+      "revid": 15297799,
+      "timestamp": "2026-08-13T21:28:02Z",
+      "title": "Recipe for Disaster/Freeing the Lumbridge Guide"
+    },
+    {
+      "revid": 15323345,
+      "timestamp": "2026-08-28T17:40:49Z",
+      "title": "Recipe for Disaster/Freeing the Mountain Dwarf"
+    },
+    {
+      "revid": 15292308,
+      "timestamp": "2026-08-10T23:28:54Z",
+      "title": "Recruitment Drive"
+    },
+    {
+      "revid": 15292278,
+      "timestamp": "2026-08-10T23:19:17Z",
+      "title": "Regicide"
+    },
+    {
+      "revid": 15278771,
+      "timestamp": "2026-07-28T21:13:07Z",
+      "title": "Romeo & Juliet"
+    },
+    {
+      "revid": 15315441,
+      "timestamp": "2026-08-21T06:41:01Z",
+      "title": "Roving Elves"
+    },
+    {
+      "revid": 15292352,
+      "timestamp": "2026-08-10T23:46:53Z",
+      "title": "Royal Trouble"
+    },
+    {
+      "revid": 15315444,
+      "timestamp": "2026-08-21T06:41:25Z",
+      "title": "Rum Deal"
+    },
+    {
+      "revid": 15275863,
+      "timestamp": "2026-07-26T14:30:16Z",
+      "title": "Rune Mysteries"
+    },
+    {
+      "revid": 15273835,
+      "timestamp": "2026-07-24T05:40:51Z",
+      "title": "Scorpion Catcher"
+    },
+    {
+      "revid": 15323000,
+      "timestamp": "2026-08-28T13:02:55Z",
+      "title": "Scrambled!"
+    },
+    {
+      "revid": 15240961,
+      "timestamp": "2026-06-27T13:23:01Z",
+      "title": "Sea Slug"
+    },
+    {
+      "revid": 15325015,
+      "timestamp": "2026-08-29T22:22:54Z",
+      "title": "Secrets of the North"
+    },
+    {
+      "revid": 15292280,
+      "timestamp": "2026-08-10T23:19:46Z",
+      "title": "Shades of Mort'ton"
+    },
+    {
+      "revid": 15322950,
+      "timestamp": "2026-08-28T12:10:00Z",
+      "title": "Shadow of the Storm"
+    },
+    {
+      "revid": 15319376,
+      "timestamp": "2026-08-25T05:44:18Z",
+      "title": "Shadows of Custodia"
+    },
+    {
+      "revid": 15282409,
+      "timestamp": "2026-07-30T02:36:59Z",
+      "title": "Sheep Herder"
+    },
+    {
+      "revid": 15271780,
+      "timestamp": "2026-07-22T07:39:10Z",
+      "title": "Sheep Shearer"
+    },
+    {
+      "revid": 15333111,
+      "timestamp": "2026-09-07T07:29:49Z",
+      "title": "Shield of Arrav"
+    },
+    {
+      "revid": 15327875,
+      "timestamp": "2026-09-01T23:45:29Z",
+      "title": "Shilo Village"
+    },
+    {
+      "revid": 15315662,
+      "timestamp": "2026-08-21T10:23:44Z",
+      "title": "Sins of the Father"
+    },
+    {
+      "revid": 15292393,
+      "timestamp": "2026-08-11T00:16:02Z",
+      "title": "Skippy and the Mogres"
+    },
+    {
+      "revid": 15241064,
+      "timestamp": "2026-06-27T15:20:22Z",
+      "title": "Sleeping Giants"
+    },
+    {
+      "revid": 15327974,
+      "timestamp": "2026-09-02T01:46:04Z",
+      "title": "Song of the Elves"
+    },
+    {
+      "revid": 15306897,
+      "timestamp": "2026-08-19T15:10:35Z",
+      "title": "Spirits of the Elid"
+    },
+    {
+      "revid": 15313334,
+      "timestamp": "2026-08-20T08:10:10Z",
+      "title": "Swan Song"
+    },
+    {
+      "revid": 15265886,
+      "timestamp": "2026-07-17T05:56:30Z",
+      "title": "Tai Bwo Wannai Trio"
+    },
+    {
+      "revid": 15316635,
+      "timestamp": "2026-08-22T17:42:53Z",
+      "title": "Tale of the Righteous"
+    },
+    {
+      "revid": 15292296,
+      "timestamp": "2026-08-10T23:23:23Z",
+      "title": "Tears of Guthix"
+    },
+    {
+      "revid": 15326722,
+      "timestamp": "2026-08-31T23:25:00Z",
+      "title": "Temple of Ikov"
+    },
+    {
+      "revid": 15304735,
+      "timestamp": "2026-08-18T04:09:09Z",
+      "title": "Temple of the Eye"
+    },
+    {
+      "revid": 15314575,
+      "timestamp": "2026-08-20T23:13:25Z",
+      "title": "The Ascent of Arceuus"
+    },
+    {
+      "revid": 15336871,
+      "timestamp": "2026-09-09T08:39:07Z",
+      "title": "The Blood Moon Rises"
+    },
+    {
+      "revid": 15284133,
+      "timestamp": "2026-07-31T10:49:15Z",
+      "title": "The Corsair Curse"
+    },
+    {
+      "revid": 15336873,
+      "timestamp": "2026-09-09T08:39:13Z",
+      "title": "The Curse of Arrav"
+    },
+    {
+      "revid": 15316668,
+      "timestamp": "2026-08-22T17:56:26Z",
+      "title": "The Depths of Despair"
+    },
+    {
+      "revid": 15327992,
+      "timestamp": "2026-09-02T02:52:09Z",
+      "title": "The Dig Site"
+    },
+    {
+      "revid": 15336907,
+      "timestamp": "2026-09-09T08:48:56Z",
+      "title": "The Enchanted Key"
+    },
+    {
+      "revid": 15292355,
+      "timestamp": "2026-08-10T23:47:39Z",
+      "title": "The Eyes of Glouphrie"
+    },
+    {
+      "revid": 15315438,
+      "timestamp": "2026-08-21T06:40:25Z",
+      "title": "The Feud"
+    },
+    {
+      "revid": 15336872,
+      "timestamp": "2026-09-09T08:39:11Z",
+      "title": "The Final Dawn"
+    },
+    {
+      "revid": 15316647,
+      "timestamp": "2026-08-22T17:47:00Z",
+      "title": "The Forsaken Tower"
+    },
+    {
+      "revid": 15315220,
+      "timestamp": "2026-08-21T05:17:12Z",
+      "title": "The Fremennik Exiles"
+    },
+    {
+      "revid": 15314025,
+      "timestamp": "2026-08-20T16:58:51Z",
+      "title": "The Fremennik Isles"
+    },
+    {
+      "revid": 15328080,
+      "timestamp": "2026-09-02T07:57:35Z",
+      "title": "The Fremennik Trials"
+    },
+    {
+      "revid": 15166745,
+      "timestamp": "2026-04-06T16:36:55Z",
+      "title": "The Frozen Door"
+    },
+    {
+      "revid": 15316642,
+      "timestamp": "2026-08-22T17:44:47Z",
+      "title": "The Garden of Death"
+    },
+    {
+      "revid": 15336893,
+      "timestamp": "2026-09-09T08:47:18Z",
+      "title": "The General's Shadow"
+    },
+    {
+      "revid": 15336423,
+      "timestamp": "2026-09-09T05:13:36Z",
+      "title": "The Giant Dwarf"
+    },
+    {
+      "revid": 15321144,
+      "timestamp": "2026-08-26T16:46:31Z",
+      "title": "The Golem"
+    },
+    {
+      "revid": 15326721,
+      "timestamp": "2026-08-31T23:24:53Z",
+      "title": "The Grand Tree"
+    },
+    {
+      "revid": 15315225,
+      "timestamp": "2026-08-21T05:18:47Z",
+      "title": "The Great Brain Robbery"
+    },
+    {
+      "revid": 15265973,
+      "timestamp": "2026-07-17T11:14:33Z",
+      "title": "The Hand in the Sand"
+    },
+    {
+      "revid": 15318070,
+      "timestamp": "2026-08-24T13:29:57Z",
+      "title": "The Heart of Darkness"
+    },
+    {
+      "revid": 15336874,
+      "timestamp": "2026-09-09T08:39:14Z",
+      "title": "The Ides of Milk"
+    },
+    {
+      "revid": 15249358,
+      "timestamp": "2026-07-03T07:41:35Z",
+      "title": "The Knight's Sword"
+    },
+    {
+      "revid": 15319381,
+      "timestamp": "2026-08-25T05:46:08Z",
+      "title": "The Lost Tribe"
+    },
+    {
+      "revid": 15336865,
+      "timestamp": "2026-09-09T08:37:51Z",
+      "title": "The Path of Glouphrie"
+    },
+    {
+      "revid": 15316622,
+      "timestamp": "2026-08-22T17:34:33Z",
+      "title": "The Queen of Thieves"
+    },
+    {
+      "revid": 15336857,
+      "timestamp": "2026-09-09T08:35:53Z",
+      "title": "The Red Reef"
+    },
+    {
+      "revid": 15331162,
+      "timestamp": "2026-09-05T00:42:30Z",
+      "title": "The Restless Ghost"
+    },
+    {
+      "revid": 15270097,
+      "timestamp": "2026-07-20T09:39:24Z",
+      "title": "The Ribbiting Tale of a Lily Pad Labour Dispute"
+    },
+    {
+      "revid": 15327877,
+      "timestamp": "2026-09-01T23:45:53Z",
+      "title": "The Slug Menace"
+    },
+    {
+      "revid": 15267714,
+      "timestamp": "2026-07-19T15:44:04Z",
+      "title": "The Tourist Trap"
+    },
+    {
+      "revid": 15315236,
+      "timestamp": "2026-08-21T05:21:10Z",
+      "title": "Throne of Miscellania"
+    },
+    {
+      "revid": 15292366,
+      "timestamp": "2026-08-10T23:52:28Z",
+      "title": "Tower of Life"
+    },
+    {
+      "revid": 15306092,
+      "timestamp": "2026-08-19T12:54:32Z",
+      "title": "Tree Gnome Village"
+    },
+    {
+      "revid": 15240951,
+      "timestamp": "2026-06-27T13:15:18Z",
+      "title": "Tribal Totem"
+    },
+    {
+      "revid": 15326713,
+      "timestamp": "2026-08-31T23:24:00Z",
+      "title": "Troll Romance"
+    },
+    {
+      "revid": 15326717,
+      "timestamp": "2026-08-31T23:24:23Z",
+      "title": "Troll Stronghold"
+    },
+    {
+      "revid": 15273864,
+      "timestamp": "2026-07-24T08:56:50Z",
+      "title": "Troubled Tortugans"
+    },
+    {
+      "revid": 15241069,
+      "timestamp": "2026-06-27T15:22:09Z",
+      "title": "Twilight's Promise"
+    },
+    {
+      "revid": 15306381,
+      "timestamp": "2026-08-19T13:26:10Z",
+      "title": "Underground Pass"
+    },
+    {
+      "revid": 15337369,
+      "timestamp": "2026-09-09T13:54:31Z",
+      "title": "Vale Totems"
+    },
+    {
+      "revid": 15316695,
+      "timestamp": "2026-08-22T18:51:26Z",
+      "title": "Vampyre Slayer"
+    },
+    {
+      "revid": 15315090,
+      "timestamp": "2026-08-21T03:59:38Z",
+      "title": "Varrock Diary"
+    },
+    {
+      "revid": 15327976,
+      "timestamp": "2026-09-02T01:53:52Z",
+      "title": "Wanted!"
+    },
+    {
+      "revid": 15283800,
+      "timestamp": "2026-07-31T02:46:25Z",
+      "title": "Watchtower"
+    },
+    {
+      "revid": 15326961,
+      "timestamp": "2026-09-01T03:31:29Z",
+      "title": "Waterfall Quest"
+    },
+    {
+      "revid": 15300994,
+      "timestamp": "2026-08-14T11:55:32Z",
+      "title": "Western Provinces Diary"
+    },
+    {
+      "revid": 15292388,
+      "timestamp": "2026-08-11T00:08:48Z",
+      "title": "What Lies Below"
+    },
+    {
+      "revid": 15328552,
+      "timestamp": "2026-09-02T16:03:09Z",
+      "title": "While Guthix Sleeps"
+    },
+    {
+      "revid": 15337355,
+      "timestamp": "2026-09-09T13:48:11Z",
+      "title": "Wilderness Diary"
+    },
+    {
+      "revid": 15168391,
+      "timestamp": "2026-04-07T05:02:46Z",
+      "title": "Witch's House"
+    },
+    {
+      "revid": 15333580,
+      "timestamp": "2026-09-08T00:48:55Z",
+      "title": "Witch's Potion"
+    },
+    {
+      "revid": 15328404,
+      "timestamp": "2026-09-02T14:10:59Z",
+      "title": "X Marks the Spot"
+    },
+    {
+      "revid": 15328252,
+      "timestamp": "2026-09-02T12:37:25Z",
+      "title": "Zogre Flesh Eaters"
     }
   ],
   "version": 1

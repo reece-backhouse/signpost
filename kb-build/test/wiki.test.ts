@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from 'vitest';
-import { bucket, fetchRevisions, USER_AGENT, type FetchLike } from '../src/wiki.js';
+import { bucket, fetchCurrentRevisions, fetchRevisions, sourceManifest, USER_AGENT, type FetchLike } from '../src/wiki.js';
 
 function jsonResponse(body: unknown): Response {
   return new Response(JSON.stringify(body), {
@@ -23,7 +23,8 @@ function revisionsBody(titles: string[]): unknown {
         title,
         revisions: [
           {
-            timestamp: `2026-01-01T00:00:00Z-${title}`,
+            revid: 123,
+            timestamp: '2026-01-01T00:00:00Z',
             slots: { main: { content: `content of ${title}` } },
           },
         ],
@@ -52,12 +53,16 @@ describe('fetchRevisions', () => {
     expect(calls[2]!.split('|')).toHaveLength(20);
     expect(result.size).toBe(120);
     expect(result.get('Page 1')).toEqual({
+      title: 'Page 1',
+      revid: 123,
       content: 'content of Page 1',
-      timestamp: '2026-01-01T00:00:00Z-Page 1',
+      timestamp: '2026-01-01T00:00:00Z',
     });
     expect(result.get('Page 120')).toEqual({
+      title: 'Page 120',
+      revid: 123,
       content: 'content of Page 120',
-      timestamp: '2026-01-01T00:00:00Z-Page 120',
+      timestamp: '2026-01-01T00:00:00Z',
     });
   });
 
@@ -96,7 +101,7 @@ describe('fetchRevisions', () => {
             {
               title: 'Song of the Elves',
               revisions: [
-                { timestamp: '2026-01-01T00:00:00Z', slots: { main: { content: 'content' } } },
+                { revid: 456, timestamp: '2026-01-01T00:00:00Z', slots: { main: { content: 'content' } } },
               ],
             },
           ],
@@ -107,6 +112,8 @@ describe('fetchRevisions', () => {
     const result = await fetchRevisions(['song_of_the_elves'], fake);
 
     expect(result.get('song_of_the_elves')).toEqual({
+      title: 'Song of the Elves',
+      revid: 456,
       content: 'content',
       timestamp: '2026-01-01T00:00:00Z',
     });
@@ -122,7 +129,7 @@ describe('fetchRevisions', () => {
             {
               title: 'Song of the Elves',
               revisions: [
-                { timestamp: '2026-01-01T00:00:00Z', slots: { main: { content: 'content' } } },
+                { revid: 456, timestamp: '2026-01-01T00:00:00Z', slots: { main: { content: 'content' } } },
               ],
             },
           ],
@@ -133,10 +140,68 @@ describe('fetchRevisions', () => {
     const result = await fetchRevisions(['SOTE'], fake);
 
     expect(result.get('SOTE')).toEqual({
+      title: 'Song of the Elves',
+      revid: 456,
       content: 'content',
       timestamp: '2026-01-01T00:00:00Z',
     });
     expect(result.has('Song of the Elves')).toBe(false);
+  });
+
+  it('rejects content without a revision id rather than inventing provenance', async () => {
+    const fake: FetchLike = vi.fn(async () => jsonResponse({
+      query: { pages: [{ title: 'X', revisions: [{ timestamp: '2026-01-01T00:00:00Z', slots: { main: { content: 'x' } } }] }] },
+    }));
+    await expect(fetchRevisions(['X'], fake)).rejects.toThrow(/X/);
+  });
+
+  it('rejects a malformed revision timestamp before it can enter a generated manifest', async () => {
+    const fake: FetchLike = vi.fn(async () => jsonResponse({
+      query: { pages: [{ title: 'Module:Broken', revisions: [{ revid: 7, timestamp: 'not-a-date',
+        slots: { main: { content: 'x' } } }] }] },
+    }));
+    await expect(fetchRevisions(['Module:Broken'], fake)).rejects.toThrow(/Module:Broken/);
+  });
+
+  it('keeps every requested alias when normalization maps several names to one page', async () => {
+    const fake: FetchLike = vi.fn(async () => jsonResponse({
+      query: {
+        normalized: [{ from: 'some_page', to: 'Some page' }],
+        pages: [{ title: 'Some page', revisions: [{ revid: 7, timestamp: '2026-01-01T00:00:00Z', slots: { main: { content: 'x' } } }] }],
+      },
+    }));
+    const pages = await fetchRevisions(['some_page', 'Some page'], fake);
+    expect(pages.get('some_page')).toEqual(pages.get('Some page'));
+    expect(sourceManifest(pages.values())).toEqual([{ title: 'Some page', revid: 7, timestamp: '2026-01-01T00:00:00Z' }]);
+  });
+
+  it('fails when the API omits a requested page', async () => {
+    const fake: FetchLike = vi.fn(async () => jsonResponse({ query: { pages: [] } }));
+    await expect(fetchRevisions(['Omitted'], fake)).rejects.toThrow(/Omitted/);
+  });
+});
+
+describe('revision metadata', () => {
+  it('checks current ids without downloading content and reports a deleted page', async () => {
+    const fake: FetchLike = vi.fn(async (input) => {
+      const url = new URL(String(input));
+      expect(url.searchParams.get('rvprop')).toBe('ids|timestamp');
+      expect(url.searchParams.has('rvslots')).toBe(false);
+      return jsonResponse({ query: { pages: [
+        { title: 'Live', revisions: [{ revid: 9, timestamp: '2026-01-02T00:00:00Z' }] },
+        { title: 'Deleted', missing: true },
+      ] } });
+    });
+    const current = await fetchCurrentRevisions(['Live', 'Deleted'], fake);
+    expect(current.get('Live')).toEqual({ title: 'Live', revid: 9, timestamp: '2026-01-02T00:00:00Z' });
+    expect(current.get('Deleted')).toBeNull();
+  });
+
+  it('sorts and deduplicates fetched revisions without collapsing revisions of the same title', () => {
+    const a = { title: 'A', revid: 1, timestamp: '2026-01-01T00:00:00Z' };
+    const newer = { ...a, revid: 2, timestamp: '2026-01-02T00:00:00Z' };
+    const b = { ...a, title: 'B' };
+    expect(sourceManifest([b, newer], [a, b])).toEqual([a, newer, b]);
   });
 });
 

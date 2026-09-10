@@ -55,7 +55,7 @@ function productOutputs(name: string, quantity: number, materials: MethodItem[])
   return materials.some((m) => m.name === name) ? [] : [{ name, quantity }];
 }
 
-/** Parses a `Module:Skill calc/<Skill>` wiki module into training methods, dropping Barbarian-mix entries (ruling 15). */
+/** Parses a `Module:Skill calc/<Skill>` wiki module into training methods, dropping Barbarian-mix entries. */
 export function parseSkillCalc(lua: string, skill: string): Method[] {
   const root = asTable(parseLua(lua), 'Module:Skill calc root');
   const entries = toArray(root);
@@ -108,7 +108,7 @@ function isYes(value: string): boolean {
  * Attaches `boostable`/`ticks` from Bucket `recipe` rows to every method with a matching output name (a skill
  * calc can legitimately have several same-named methods, e.g. Cooking's "Redberry pie" has 4 — all of them get
  * the recipe data, not an arbitrary one), and imports 0-xp recipes (e.g. unfinished potions) not already present
- * as `intermediate: true` methods so the route planner can chain crafts (ruling 15, grill 3). Assumes every
+ * as `intermediate: true` methods so the route planner can chain crafts. Assumes every
  * entry in `methods` shares one skill.
  */
 export function mergeRecipes(methods: Method[], recipes: RecipeRow[]): Method[] {

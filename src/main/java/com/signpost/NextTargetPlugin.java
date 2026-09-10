@@ -1,0 +1,673 @@
+package com.signpost;
+
+import com.google.gson.Gson;
+import com.google.inject.Provides;
+import com.signpost.engine.AdviceDiagnostics;
+import com.signpost.engine.BoostTable;
+import com.signpost.engine.DiaryTierProgress;
+import com.signpost.engine.Engine;
+import com.signpost.engine.EngineRunner;
+import com.signpost.engine.GapFingerprint;
+import com.signpost.engine.model.Advice;
+import com.signpost.engine.model.GoalStatus;
+import com.signpost.kb.KnowledgeBase;
+import com.signpost.snapshot.AccountType;
+import com.signpost.snapshot.AccountUnlockReader;
+import com.signpost.snapshot.SlayerState;
+import com.signpost.snapshot.CachedBank;
+import com.signpost.snapshot.DiaryTier;
+import com.signpost.snapshot.Snapshot;
+import com.signpost.snapshot.SnapshotCollector;
+import com.signpost.snapshot.BossProgressReader;
+import com.signpost.store.AccountData;
+import com.signpost.store.AccountDataMutations;
+import com.signpost.store.AccountStore;
+import com.signpost.ui.GoalDetailPanel;
+import com.signpost.ui.NextTargetPanel;
+import com.signpost.ui.SuggestPanel;
+import com.signpost.ui.SignpostOverlay;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.util.EnumMap;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.UnaryOperator;
+import javax.inject.Inject;
+import javax.swing.SwingUtilities;
+import lombok.extern.slf4j.Slf4j;
+import net.runelite.api.Client;
+import net.runelite.api.GameState;
+import net.runelite.api.Item;
+import net.runelite.api.Skill;
+import net.runelite.api.events.GameStateChanged;
+import net.runelite.api.events.GameTick;
+import net.runelite.api.events.ItemContainerChanged;
+import net.runelite.api.events.StatChanged;
+import net.runelite.api.events.VarbitChanged;
+import net.runelite.api.events.WidgetClosed;
+import net.runelite.api.events.WidgetLoaded;
+import net.runelite.api.gameval.InterfaceID;
+import net.runelite.api.gameval.InventoryID;
+import net.runelite.api.gameval.VarPlayerID;
+import net.runelite.api.gameval.VarbitID;
+import net.runelite.client.RuneLite;
+import net.runelite.client.callback.ClientThread;
+import net.runelite.client.config.ConfigManager;
+import net.runelite.client.eventbus.Subscribe;
+import net.runelite.client.events.ConfigChanged;
+import net.runelite.client.game.ItemManager;
+import net.runelite.client.game.SkillIconManager;
+import net.runelite.client.plugins.Plugin;
+import net.runelite.client.plugins.PluginDescriptor;
+import net.runelite.client.ui.ClientToolbar;
+import net.runelite.client.ui.NavigationButton;
+import net.runelite.client.ui.overlay.OverlayManager;
+import net.runelite.client.util.ImageUtil;
+
+@Slf4j
+@PluginDescriptor(
+	name = "Signpost",
+	description = "Points your account at its next best goal, with a Why and a bank-aware route",
+	tags = {"goal", "quest", "diary", "boss", "skilling", "ironman", "planner", "advisor"}
+)
+public class NextTargetPlugin extends Plugin
+{
+	@Inject
+	private Client client;
+
+	@Inject
+	private ClientThread clientThread;
+
+	@Inject
+	private ItemManager itemManager;
+
+	@Inject
+	private SkillIconManager skillIconManager;
+
+	@Inject
+	private ClientToolbar clientToolbar;
+
+	@Inject
+	private Gson gson;
+
+	@Inject
+	private NextTargetConfig config;
+
+	@Inject
+	private OverlayManager overlayManager;
+
+	private final Map<Skill, Integer> lastLevel = new EnumMap<>(Skill.class);
+	/** Per-skill xp samples from {@link #onStatChanged}; session-only, cleared with {@link #lastLevel}. */
+	private final XpRateTracker xpRates = new XpRateTracker();
+
+	private EngineRunner runner;
+	private Engine engine;
+	private AccountStore store;
+	private NextTargetPanel panel;
+	private NavigationButton navButton;
+	private SignpostOverlay overlay;
+
+	private volatile CachedBank cachedBank = CachedBank.unknown();
+	private volatile CachedBank cachedGroupStorage = CachedBank.unknown();
+	private volatile AccountData accountData;
+	private volatile long accountHash;
+	private volatile boolean accountLoaded;
+	private volatile boolean firstTickPending;
+	private volatile boolean snapshotRequested;
+	private volatile boolean containersPending;
+	private boolean slayerTaskPending;
+	private BossProgressReader bossProgressReader;
+	private volatile KnowledgeBase kb;
+	private volatile Snapshot cachedSnapshot;
+	private volatile Advice cachedAdvice;
+
+	@Provides
+	NextTargetConfig provideConfig(ConfigManager configManager)
+	{
+		return configManager.getConfig(NextTargetConfig.class);
+	}
+
+	@Override
+	protected void startUp() throws Exception
+	{
+		runner = new EngineRunner();
+		engine = new Engine(new BoostTable());
+		bossProgressReader = new BossProgressReader();
+		store = new AccountStore(new File(RuneLite.RUNELITE_DIR, "next-target").toPath(), gson);
+		cachedBank = CachedBank.unknown();
+		cachedGroupStorage = CachedBank.unknown();
+		kb = null;
+		cachedSnapshot = null;
+		cachedAdvice = null;
+		lastLevel.clear();
+		xpRates.clear();
+
+		SuggestPanel.Actions actions = new SuggestPanel.Actions(
+			this::focus,
+			this::snooze,
+			this::ignore,
+			this::pin,
+			this::unpin,
+			this::unsnooze,
+			this::unignore,
+			this::clearFocus,
+			this::markOwned,
+			this::unmarkOwned,
+			config::snoozeDays);
+		GoalDetailPanel.Actions detailActions = new GoalDetailPanel.Actions(this::focus, this::clearFocus);
+		panel = new NextTargetPanel(this::requestSnapshot, actions, detailActions, itemManager, skillIconManager);
+		overlay = new SignpostOverlay(config);
+		overlayManager.add(overlay);
+		BufferedImage icon = ImageUtil.loadImageResource(NextTargetPlugin.class, "icon.png");
+		navButton = NavigationButton.builder()
+			.tooltip("Next Target Advisor")
+			.icon(icon)
+			.priority(5)
+			.panel(panel)
+			.build();
+		clientToolbar.addNavigation(navButton);
+
+		// Lifecycle loads go through execute (FIFO, never discarded by a newer submit).
+		runner.execute(() ->
+		{
+			KnowledgeBase loaded = KnowledgeBase.load(gson);
+			kb = loaded;
+			SwingUtilities.invokeLater(() -> panel.showKbLoaded(loaded.getQuestsGeneratedAt(), loaded.getDiariesGeneratedAt()));
+		});
+
+		// RuneLite does not replay GameStateChanged(LOGGED_IN) when a plugin is
+		// enabled mid-session, so run the same account-load path ourselves. getAccountHash must be
+		// read on the client thread; invoke runs it now if we are already there, else queues it.
+		if (client.getGameState() == GameState.LOGGED_IN)
+		{
+			clientThread.invoke(this::onLoggedIn);
+		}
+	}
+
+	@Override
+	protected void shutDown() throws Exception
+	{
+		clientToolbar.removeNavigation(navButton);
+		overlayManager.remove(overlay);
+		overlay.update(null);
+		runner.shutdown();
+		accountData = null;
+		cachedBank = CachedBank.unknown();
+		cachedGroupStorage = CachedBank.unknown();
+		accountLoaded = false;
+		firstTickPending = false;
+		snapshotRequested = false;
+		containersPending = false;
+		slayerTaskPending = false;
+		kb = null;
+		engine = null;
+		cachedSnapshot = null;
+		cachedAdvice = null;
+		lastLevel.clear();
+		xpRates.clear();
+	}
+
+	/**
+	 * Debounces a snapshot request to the next {@link GameTick}. Safe to call from any thread (the
+	 * EDT via the Refresh button, or the client thread via event handlers).
+	 */
+	public void requestSnapshot()
+	{
+		snapshotRequested = true;
+	}
+
+	@Subscribe
+	public void onGameStateChanged(GameStateChanged event)
+	{
+		GameState state = event.getGameState();
+		if (state == GameState.LOGGED_IN)
+		{
+			onLoggedIn();
+		}
+		else if (state == GameState.LOGIN_SCREEN || state == GameState.HOPPING)
+		{
+			accountLoaded = false;
+			firstTickPending = false;
+			containersPending = false;
+			slayerTaskPending = false;
+			cachedSnapshot = null;
+			cachedAdvice = null;
+			overlay.update(null);
+			xpRates.clear();
+			// accountData/cachedBank are only ever written on the executor; clearing them there
+			// keeps FIFO order with the load queued by the next LOGGED_IN. The
+			// panel is emptied so no stale card button can fire against the next account.
+			runner.execute(() ->
+			{
+				accountData = null;
+				cachedBank = CachedBank.unknown();
+				cachedGroupStorage = CachedBank.unknown();
+			});
+			SwingUtilities.invokeLater(panel::showLoggedOut);
+		}
+	}
+
+	/** Client thread. Loads this account's data on the executor; nothing queued after it can overtake it. */
+	private void onLoggedIn()
+	{
+		long hash = client.getAccountHash();
+		accountHash = hash;
+		accountLoaded = false;
+		containersPending = true;
+		runner.execute(() ->
+		{
+			AccountData data = store.load(hash);
+			accountData = data;
+			cachedBank = data.toCachedBank();
+			cachedGroupStorage = data.toCachedGroupStorage();
+			accountLoaded = true;
+			firstTickPending = true;
+		});
+	}
+
+	@Subscribe
+	public void onGameTick(GameTick event)
+	{
+		KnowledgeBase loadedKb = kb;
+		if (slayerTaskPending && accountLoaded && loadedKb != null && !firstTickPending && !snapshotRequested)
+		{
+			slayerTaskPending = false;
+			SlayerState slayer = AccountUnlockReader.slayer(client);
+			long hash = accountHash;
+			Snapshot prior = cachedSnapshot;
+			if (prior != null)
+			{
+				cachedSnapshot = prior.toBuilder().slayer(slayer).build();
+			}
+			runner.execute(() ->
+			{
+				Advice current = cachedAdvice;
+				if (accountLoaded && accountHash == hash && current != null)
+				{
+					Advice updated = current.withSlayer(slayer);
+					cachedAdvice = updated;
+					SwingUtilities.invokeLater(() ->
+					{
+						if (cachedAdvice == updated) panel.renderSlayer(updated);
+					});
+				}
+			});
+		}
+		if (!accountLoaded || loadedKb == null || !(firstTickPending || snapshotRequested))
+		{
+			return;
+		}
+
+		firstTickPending = false;
+		snapshotRequested = false;
+		slayerTaskPending = false;
+
+		Snapshot snapshot = SnapshotCollector.collect(client, itemManager, cachedBank, cachedGroupStorage, config.countGroupStorage(), loadedKb, bossProgressReader);
+		cachedSnapshot = snapshot;
+		if (!snapshot.getInventory().isEmpty() || !snapshot.getEquipment().isEmpty())
+		{
+			// Containers have populated: the one-shot post-login re-snapshot is no longer needed.
+			containersPending = false;
+		}
+		Engine currentEngine = engine;
+		runner.submit(() ->
+		{
+			// Read accountData here, on the executor, not on the client thread: every mutation
+			// queued before this run has already been applied, so this (newest-generation) Advice
+			// reflects a "Do this" clicked on the same tick. Mutations never
+			// modify an AccountData in place (AccountDataMutations copies), so no defensive copy.
+			AccountData data = accountData;
+			long start = System.nanoTime();
+			// The previous advice is what "completed since last" is measured against;
+			// the observed xp rates are read here so the eta reflects the run's own moment
+			Instant now = Instant.now();
+			Advice advice = currentEngine.run(snapshot, loadedKb, data != null ? data : AccountData.empty(), now, cachedAdvice,
+				xpRates.rates(now), config.includeWilderness());
+			long ms = (System.nanoTime() - start) / 1_000_000;
+			log.info("engine: {} goals evaluated in {} ms", advice.getStatuses().size(), ms);
+			for (String line : AdviceDiagnostics.lines(advice))
+			{
+				log.info(line);
+			}
+			return advice;
+		}, advice ->
+		{
+			cachedAdvice = advice;
+			overlay.update(advice);
+			logDiarySelfCheck(advice.getDiaryProgress());
+			maybeClearGoneFocus(advice, advice.getPrefs().getFocusGoalId());
+			SwingUtilities.invokeLater(() -> panel.render(advice));
+		});
+	}
+
+	/**
+	 * If a goal is focused but {@link Advice#getFocus()} came back null (the focused goal is gone -
+	 * e.g. completed), clears the focus once so the panel falls back to Suggest mode.
+	 * Guarded against looping: only fires when the focused id is also absent from
+	 * {@code advice.getRanked()} and {@code advice.getLater()} - a focused goal that's merely hidden
+	 * (snoozed/ignored) still has a status and so already gets a non-null {@code focus}, never
+	 * reaching this check.
+	 */
+	private void maybeClearGoneFocus(Advice advice, String focusGoalId)
+	{
+		if (focusGoalId == null || advice.getFocus() != null)
+		{
+			return;
+		}
+		boolean stillPresent = advice.getRanked().stream().anyMatch(r -> r.getStatus().getGoal().getId().equals(focusGoalId))
+			|| advice.getLater().stream().anyMatch(r -> r.getStatus().getGoal().getId().equals(focusGoalId));
+		if (!stillPresent)
+		{
+			clearFocus();
+		}
+	}
+
+	/**
+	 * Cross-checks {@link com.signpost.engine.DiaryProgress}'s bit-derived per-tier task counts
+	 * against the game's own per-tier completed-task counter varbit, logging any tier where the
+	 * bundled task->bit mapping disagrees with the game.
+	 */
+	private void logDiarySelfCheck(Map<DiaryTier, DiaryTierProgress> progress)
+	{
+		int mismatches = 0;
+		for (Map.Entry<DiaryTier, DiaryTierProgress> entry : progress.entrySet())
+		{
+			DiaryTierProgress tierProgress = entry.getValue();
+			if (tierProgress.isMismatch())
+			{
+				mismatches++;
+				log.warn("diary bit map mismatch: {} kb={} game={}", entry.getKey(), tierProgress.getCompleted(), tierProgress.getGameCount());
+			}
+		}
+		log.info("diary self-check: {} tiers, {} mismatches", progress.size(), mismatches);
+	}
+
+	@Subscribe
+	public void onItemContainerChanged(ItemContainerChanged event)
+	{
+		int containerId = event.getContainerId();
+		if (containerId == InventoryID.INV || containerId == InventoryID.WORN)
+		{
+			Snapshot previous = cachedSnapshot;
+			if (containerId == InventoryID.INV && previous != null)
+			{
+				boolean hadPouch = previous.getInventory().keySet().stream().anyMatch(AccountUnlockReader::isRunePouch);
+				boolean hasPouch = false;
+				for (Item item : event.getItemContainer().getItems())
+				{
+					hasPouch |= item.getQuantity() > 0 && AccountUnlockReader.isRunePouch(item.getId());
+				}
+				if (hadPouch != hasPouch) requestSnapshot();
+			}
+			// The first post-login GameTick can fire before these containers are populated, so a
+			// login-time snapshot may wrongly see them empty; request a fresh one once they report -
+			// but only until a snapshot has seen them populated. Inventory churn while skilling is
+			// not a snapshot trigger.
+			if (containersPending)
+			{
+				requestSnapshot();
+			}
+			return;
+		}
+
+		if (containerId == InventoryID.BANK)
+		{
+			cachedBank = readContainer(event);
+		}
+		else if (containerId == InventoryID.INV_GROUP_TEMP && countsGroupStorage())
+		{
+			// The group ironman shared storage, cached exactly like the bank and persisted
+			// when its interface closes (onWidgetClosed). Only group ironman types subscribe.
+			cachedGroupStorage = readContainer(event);
+		}
+	}
+
+	private static CachedBank readContainer(ItemContainerChanged event)
+	{
+		Map<Integer, Integer> items = new HashMap<>();
+		for (Item item : event.getItemContainer().getItems())
+		{
+			if (SnapshotCollector.isRealItem(item))
+			{
+				items.merge(item.getId(), item.getQuantity(), Integer::sum);
+			}
+		}
+		return new CachedBank(items, Instant.now(), true);
+	}
+
+	/** Client thread. True only for a group ironman account with the "Count group storage" toggle on. */
+	private boolean countsGroupStorage()
+	{
+		return config.countGroupStorage() && AccountType.fromVarbit(client.getVarbitValue(VarbitID.IRONMAN)).isGroup();
+	}
+
+	@Subscribe
+	public void onWidgetClosed(WidgetClosed event)
+	{
+		if (event.getGroupId() == InterfaceID.BANKMAIN)
+		{
+			CachedBank bank = cachedBank;
+			Map<Integer, Integer> items = new HashMap<>(bank.getItems());
+			Instant asOf = bank.getAsOf();
+			mutateAccountData(data -> AccountDataMutations.bank(data, items, asOf));
+			requestSnapshot();
+		}
+		else if (event.getGroupId() == InterfaceID.SHARED_BANK && countsGroupStorage())
+		{
+			CachedBank storage = cachedGroupStorage;
+			if (!storage.isKnown())
+			{
+				return;
+			}
+			Map<Integer, Integer> items = new HashMap<>(storage.getItems());
+			Instant asOf = storage.getAsOf();
+			mutateAccountData(data -> AccountDataMutations.groupStorage(data, items, asOf));
+			requestSnapshot();
+		}
+	}
+
+	/**
+	 * The diary journal ({@code JOURNALSCROLL}) loading means the player just opened a
+	 * diary's task list, which is when the game refreshes the per-task varbits - re-snapshot so
+	 * the panel's diary progress follows.
+	 */
+	@Subscribe
+	public void onWidgetLoaded(WidgetLoaded event)
+	{
+		if (event.getGroupId() == InterfaceID.JOURNALSCROLL)
+		{
+			requestSnapshot();
+		}
+	}
+
+	/** The "Count group storage" toggle takes effect on the next tick rather than the next bank close or level-up. */
+	@Subscribe
+	public void onConfigChanged(ConfigChanged event)
+	{
+		if (!"nexttarget".equals(event.getGroup())) return;
+		if ("showNextStepOnScreen".equals(event.getKey()) && overlay != null)
+		{
+			overlay.update(cachedAdvice);
+		}
+		if ("countGroupStorage".equals(event.getKey()) || "includeWilderness".equals(event.getKey()))
+		{
+			requestSnapshot();
+		}
+	}
+
+	@Subscribe
+	public void onStatChanged(StatChanged event)
+	{
+		Skill skill = event.getSkill();
+		int level = event.getLevel();
+		// A rate becoming ready is a one-shot re-run so the eta appears without a level-up
+		boolean rateReady = xpRates.record(skill, event.getXp(), Instant.now());
+		Integer previous = lastLevel.put(skill, level);
+		if (previous == null || previous != level || rateReady)
+		{
+			requestSnapshot();
+		}
+	}
+
+	@Subscribe
+	public void onVarbitChanged(VarbitChanged event)
+	{
+		KnowledgeBase loadedKb = kb;
+		if (loadedKb == null)
+		{
+			return;
+		}
+
+		int varpId = event.getVarpId();
+		int varbitId = event.getVarbitId();
+		if (AccountUnlockReader.isTaskChange(varpId, varbitId))
+		{
+			slayerTaskPending = true;
+		}
+		if (AccountUnlockReader.isUnlockChange(varbitId) || varpId == VarPlayerID.QP
+			|| bossProgressReader.isProgressChange(client, varpId, varbitId)
+			|| loadedKb.diaryVarps().contains(varpId) || loadedKb.diaryVarbits().contains(varbitId))
+		{
+			requestSnapshot();
+		}
+	}
+
+	// --- Panel actions: invoked from the EDT by SuggestPanel's buttons. Each
+	// queues its data transform onto the engine executor via mutateAccountData, which serialises
+	// every accountData read-mutate-write (including the bank-close write in onWidgetClosed) on
+	// that single thread, saves, and re-runs the engine against the CACHED snapshot (never
+	// re-collects from Client); if no snapshot has been taken yet, only the save happens. ---
+
+	/** "Do this" - sets the goal as the active focus. */
+	public void focus(String goalId)
+	{
+		mutateAccountData(data -> AccountDataMutations.focus(data, goalId));
+	}
+
+	/** "Clear focus" - returns to Suggest mode. */
+	public void clearFocus()
+	{
+		mutateAccountData(AccountDataMutations::clearFocus);
+	}
+
+	/**
+	 * "Not now" - snoozes the goal for {@link NextTargetConfig#snoozeDays()}, recording the goal's
+	 * current gap fingerprint so a later change ends the snooze early. The fingerprint is taken on
+	 * the executor from the latest completed Advice (not on the EDT at click time), and is
+	 * {@code null} - "not yet known", time-only snooze - when the goal has no status there; an
+	 * empty string would only ever match a gap-free goal and silently lost the snooze.
+	 */
+	public void snooze(String goalId)
+	{
+		Instant until = Instant.now().plus(config.snoozeDays(), ChronoUnit.DAYS);
+		mutateAccountData(data ->
+		{
+			GoalStatus status = statusFor(goalId);
+			String fingerprint = status != null ? GapFingerprint.of(status) : null;
+			return AccountDataMutations.snooze(data, goalId, until, fingerprint);
+		});
+	}
+
+	/** "Bring back" - ends a snooze early. */
+	public void unsnooze(String goalId)
+	{
+		mutateAccountData(data -> AccountDataMutations.unsnooze(data, goalId));
+	}
+
+	/** "Ignore" - hides the goal permanently until restored. */
+	public void ignore(String goalId)
+	{
+		mutateAccountData(data -> AccountDataMutations.ignore(data, goalId));
+	}
+
+	/** "Restore" - un-hides a previously ignored goal. */
+	public void unignore(String goalId)
+	{
+		mutateAccountData(data -> AccountDataMutations.unignore(data, goalId));
+	}
+
+	/** "Pin" - the goal stays at the top regardless of score. */
+	public void pin(String goalId)
+	{
+		mutateAccountData(data -> AccountDataMutations.pin(data, goalId));
+	}
+
+	/** "Unpin". */
+	public void unpin(String goalId)
+	{
+		mutateAccountData(data -> AccountDataMutations.unpin(data, goalId));
+	}
+
+	/** "Own it"/"Done it" - marks a milestone/slayer-target/boss goal done by hand. */
+	public void markOwned(String goalId)
+	{
+		mutateAccountData(data -> AccountDataMutations.markOwned(data, goalId));
+	}
+
+	/** "Unmark" in the Owned (manual) section - undoes {@link #markOwned}. */
+	public void unmarkOwned(String goalId)
+	{
+		mutateAccountData(data -> AccountDataMutations.unmarkOwned(data, goalId));
+	}
+
+	private GoalStatus statusFor(String goalId)
+	{
+		Advice advice = cachedAdvice;
+		if (advice == null)
+		{
+			return null;
+		}
+		for (GoalStatus status : advice.getStatuses())
+		{
+			if (status.getGoal().getId().equals(goalId))
+			{
+				return status;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Queues {@code mutator} onto the engine executor: every call - from a panel action or from
+	 * {@link #onWidgetClosed} - runs its read-mutate-write of {@link #accountData} there, so they
+	 * serialise against each other and against the executor's other work instead of racing a
+	 * client-thread or EDT write. Never touches {@link Client}.
+	 */
+	private void mutateAccountData(UnaryOperator<AccountData> mutator)
+	{
+		long hash = accountHash;
+		Engine currentEngine = engine;
+
+		runner.submit(() ->
+		{
+			AccountData current = accountData;
+			if (current == null)
+			{
+				// Logged out (or not yet loaded): a click on a stale card must not create an empty
+				// AccountData and save it over a real file.
+				log.warn("ignoring account mutation: no account loaded");
+				return null;
+			}
+			AccountData updated = mutator.apply(current);
+			accountData = updated;
+			store.save(hash, updated);
+
+			Snapshot snapshot = cachedSnapshot;
+			KnowledgeBase loadedKb = kb;
+			Instant now = Instant.now();
+			return snapshot != null && loadedKb != null ? currentEngine.run(snapshot, loadedKb, updated, now, cachedAdvice,
+				xpRates.rates(now), config.includeWilderness()) : null;
+		}, advice ->
+		{
+			if (advice != null)
+			{
+				cachedAdvice = advice;
+				overlay.update(advice);
+				maybeClearGoneFocus(advice, advice.getPrefs().getFocusGoalId());
+				SwingUtilities.invokeLater(() -> panel.render(advice));
+			}
+		});
+	}
+}

@@ -11,17 +11,17 @@ interface NamedItemRef {
 }
 
 interface RecommendedLike {
-  gearOwnedAny: NamedItemRef[];
+  gear: { role: string; alternatives: NamedItemRef[] }[];
 }
 
 export interface MilestoneLike {
   ownedIf: NamedItemRef[];
-  recommended: RecommendedLike | null;
+  recommended?: RecommendedLike | null;
   requirements: { items: NamedItemRef[] };
 }
 
 export interface ExpandSummary {
-  /** Every ownedIf/gearOwnedAny/requirements.items entry the pass looked at. */
+  /** Every ownedIf/gear alternative/requirements.items entry the pass looked at. */
   itemsProcessed: number;
   /** Distinct names whose resolved `ids` has more than one entry. */
   multiId: string[];
@@ -30,12 +30,12 @@ export interface ExpandSummary {
 }
 
 /**
- * Adds an `ids: number[]` list next to every milestone `ownedIf[]`, `recommended.gearOwnedAny[]`,
+ * Adds an `ids: number[]` list next to every milestone `ownedIf[]`, `recommended.gear[].alternatives[]`,
  * and `requirements.items[]` entry's existing `id`: every distinct numeric id the wiki's `item_id`
  * Bucket table carries for that item's page name, always including the entry's own `id`, sorted
  * ascending. `ownedIf` entries additionally fold in the ids of the "(t)" trimmed variant page (e.g.
  * "Dragon defender (t)") when one exists, since a trimmed item still counts as owning the gear
- * milestone; `gearOwnedAny` and `requirements.items` don't get the trimmed-page rule. A name with no
+ * milestone; gear alternatives and `requirements.items` don't get the trimmed-page rule. A name with no
  * matching page keeps `ids: [id]` and is reported as unresolved.
  */
 export function expandMilestoneItemIds<M extends MilestoneLike>(
@@ -78,11 +78,14 @@ export function expandMilestoneItemIds<M extends MilestoneLike>(
     ...milestone,
     ownedIf: milestone.ownedIf.map((owned) => ({ ...owned, ids: idsFor(owned.name, owned.id, true, owned.ids) })),
     recommended:
-      milestone.recommended === null
-        ? null
+      milestone.recommended == null
+        ? milestone.recommended
         : {
             ...milestone.recommended,
-            gearOwnedAny: milestone.recommended.gearOwnedAny.map((owned) => ({ ...owned, ids: idsFor(owned.name, owned.id, false, owned.ids) })),
+            gear: milestone.recommended.gear.map((group) => ({
+              ...group,
+              alternatives: group.alternatives.map((owned) => ({ ...owned, ids: idsFor(owned.name, owned.id, false, owned.ids) })),
+            })),
           },
     requirements: {
       ...milestone.requirements,

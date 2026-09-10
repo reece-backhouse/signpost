@@ -5,6 +5,8 @@
   "type": "module",
   "scripts": {
     "build-kb": "tsx src/main.ts",
+    "kb-check": "tsx src/kbCheck.ts",
+    "kb-diff": "tsx src/kbDiff.ts",
     "test": "vitest run",
     "typecheck": "tsc --noEmit"
   },

@@ -1,6 +1,6 @@
 import { parseQuestPage } from './questPages.js';
 import type { QuestReq, SkillReq } from './questreq.js';
-import type { ItemReq } from './questPages.js';
+import type { ItemReq, QuestRewards } from './questPages.js';
 
 export interface QuestEntry {
   id: number;
@@ -16,7 +16,13 @@ export interface QuestEntry {
   items: ItemReq[];
   questPoints: number | null;
   source: 'questreq' | 'page' | 'none';
+  /** Fixed skill xp and choice lamps from the wiki page's rewards; empty for an umbrella quest whose subquests carry them. */
+  rewards: QuestRewards;
 }
+
+/** RuneLite quest names whose wiki page sums the rewards of subquests that are themselves quests here - their xp must not count twice. */
+const UMBRELLA_QUESTS = new Set(['Recipe for Disaster']);
+const NO_REWARDS: QuestRewards = { xp: {}, lamps: [] };
 
 export interface BuildQuestsInput {
   runeliteQuests: { id: number; name: string }[];
@@ -89,6 +95,7 @@ export function buildQuests(input: BuildQuestsInput): QuestEntry[] {
       items: parsedPage?.items ?? [],
       questPoints: parsedPage?.questPoints ?? null,
       source,
+      rewards: parsedPage && !UMBRELLA_QUESTS.has(name) ? parsedPage.rewards : NO_REWARDS,
     };
   });
 

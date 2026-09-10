@@ -1,0 +1,60 @@
+package com.signpost.engine;
+
+import com.signpost.engine.model.GoalStatus;
+import com.signpost.engine.model.PrefsView;
+import com.signpost.store.AccountData;
+import com.signpost.store.Snooze;
+import java.time.Instant;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+/**
+ * Resolves a player's persisted {@link AccountData} preferences (snoozes/ignores/pins/focus)
+ * against the current {@link GoalStatus}es into a {@link PrefsView}. A snooze is active iff
+ * {@code now} is before its {@code until} <em>and</em> its stored {@code gapFingerprint} still
+ * matches {@link GapFingerprint#of} for that goal (a changed gap ends the snooze
+ * early); a goal that no longer appears among {@code statuses} can never match, so its snooze is
+ * treated as expired. Pure: no {@link net.runelite.api.Client}, no I/O.
+ */
+public final class PrefsResolver
+{
+	public PrefsView resolve(AccountData data, List<GoalStatus> statuses, Instant now)
+	{
+		Map<String, GoalStatus> byId = new LinkedHashMap<>();
+		for (GoalStatus status : statuses)
+		{
+			byId.put(status.getGoal().getId(), status);
+		}
+
+		Set<String> snoozedActive = new LinkedHashSet<>();
+		Set<String> snoozedExpired = new LinkedHashSet<>();
+		for (Map.Entry<String, Snooze> entry : data.getSnoozes().entrySet())
+		{
+			String goalId = entry.getKey();
+			Snooze snooze = entry.getValue();
+			GoalStatus status = byId.get(goalId);
+			// A null fingerprint means "not known when snoozed" (no Advice yet): the snooze is
+			// time-only rather than silently lost. A null until (hand-edited file) is expired.
+			boolean fingerprintMatches = snooze.getGapFingerprint() == null
+				|| (status != null && snooze.getGapFingerprint().equals(GapFingerprint.of(status)));
+			boolean timeActive = snooze.getUntil() != null && now.isBefore(snooze.getUntil());
+			if (timeActive && fingerprintMatches)
+			{
+				snoozedActive.add(goalId);
+			}
+			else
+			{
+				snoozedExpired.add(goalId);
+			}
+		}
+
+		Set<String> hidden = new LinkedHashSet<>(data.getIgnores());
+		hidden.addAll(snoozedActive);
+
+		return new PrefsView(hidden, List.copyOf(data.getPins()), snoozedActive, snoozedExpired, data.getFocusGoalId(),
+			Set.copyOf(data.getOwnedManually()));
+	}
+}

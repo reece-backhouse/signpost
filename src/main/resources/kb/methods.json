@@ -3440,6 +3440,38 @@
       "xpPerAction": 313
     },
     {
+      "boostable": true,
+      "intermediate": true,
+      "levelReq": 26,
+      "materials": [
+        {
+          "name": "Plank",
+          "quantity": 2
+        },
+        {
+          "name": "Steel nails",
+          "quantity": 6
+        },
+        {
+          "name": "Bloody head",
+          "quantity": 1
+        }
+      ],
+      "members": true,
+      "name": "Mounted Head (Getting Ahead)",
+      "outputs": [
+        {
+          "name": "Mounted Head (Getting Ahead)",
+          "quantity": 1
+        }
+      ],
+      "skill": "Construction",
+      "ticks": 0,
+      "title": "Mounted Head (Getting Ahead)",
+      "types": [],
+      "xpPerAction": 0
+    },
+    {
       "levelReq": 30,
       "materials": [
         {
@@ -47377,6 +47409,53 @@
         "Runite"
       ],
       "xpPerAction": 225
+    }
+  ],
+  "sources": [
+    {
+      "revid": 15155015,
+      "timestamp": "2026-03-24T04:54:04Z",
+      "title": "Module:Skill calc/Construction"
+    },
+    {
+      "revid": 15294122,
+      "timestamp": "2026-08-12T19:12:17Z",
+      "title": "Module:Skill calc/Cooking"
+    },
+    {
+      "revid": 15294765,
+      "timestamp": "2026-08-12T21:48:59Z",
+      "title": "Module:Skill calc/Crafting"
+    },
+    {
+      "revid": 15084802,
+      "timestamp": "2025-12-12T14:03:53Z",
+      "title": "Module:Skill calc/Firemaking"
+    },
+    {
+      "revid": 15302053,
+      "timestamp": "2026-08-15T15:27:23Z",
+      "title": "Module:Skill calc/Fletching"
+    },
+    {
+      "revid": 15315541,
+      "timestamp": "2026-08-21T07:51:04Z",
+      "title": "Module:Skill calc/Herblore"
+    },
+    {
+      "revid": 15281969,
+      "timestamp": "2026-07-29T23:44:13Z",
+      "title": "Module:Skill calc/Magic"
+    },
+    {
+      "revid": 15281429,
+      "timestamp": "2026-07-29T21:15:02Z",
+      "title": "Module:Skill calc/Prayer"
+    },
+    {
+      "revid": 15301362,
+      "timestamp": "2026-08-14T16:22:38Z",
+      "title": "Module:Skill calc/Smithing"
     }
   ],
   "version": 1

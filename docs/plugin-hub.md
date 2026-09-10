@@ -1,23 +1,27 @@
 # Plugin Hub submission — Signpost
 
-Checklist (all done in-repo unless marked TODO):
+## Submission requirements
 
-- [x] `runelite-plugin.properties` at repo root: displayName, author, support, description, tags, plugins, build=standard
-- [x] `icon.png` at repo root, 48×48 (limit 48×72)
-- [x] `LICENSE` BSD 2-Clause
-- [x] `README.md`
-- [x] `build.gradle` `runeLiteVersion = 'latest.release'`, Java 11 release, only Lombok + RuneLite client deps
-- [x] No network calls (NoNetworkTest), no reflection, tabs for indentation
-- [x] Public repo https://github.com/reece-backhouse/signpost, `main` pushed (`origin`)
-- [x] Fork https://github.com/runelite/plugin-hub, branch `signpost`, `plugins/signpost`
-      (PR https://github.com/runelite/plugin-hub/pull/16246):
+- `runelite-plugin.properties` at repo root: displayName, author, description, tags, plugins, build=standard
+- `icon.png` at repo root, 48×48 (limit 48×72)
+- `LICENSE` BSD 2-Clause
+- `README.md`
+- `build.gradle` `runeLiteVersion = 'latest.release'`, Java 11 release, only Lombok + RuneLite client deps
+- No network calls (NoNetworkTest), no reflection, tabs for indentation
+- A public Signpost repository with the release commit pushed to `main`
+- A fork of https://github.com/runelite/plugin-hub containing `plugins/signpost`
 
+Generate the submission manifest from the checkout:
+
+```sh
+printf 'repository=%s\ncommit=%s\n' "$(git remote get-url origin)" "$(git rev-parse HEAD)"
 ```
-repository=https://github.com/reece-backhouse/signpost.git
-commit=<full 40-character hash of the pushed main commit>
-```
 
-- [x] PR "Add Signpost" opened; hub build passed. "Requires maintainer review" is the hub app's normal
-      state for a new plugin until a maintainer reviews it.
+Submit the manifest in a Plugin Hub pull request. The Signpost submission is
+https://github.com/runelite/plugin-hub/pull/16246.
 
-Releasing an update later: push to `main`, then a hub PR that bumps `commit=`.
+For an update, push to `main`, then open a Hub pull request that bumps `commit=`.
+
+The plugin uses `com.signpost` and credits `Signpost contributors`. Keep personal names,
+email addresses and personal-account URLs out of release metadata. The optional `support`
+field is omitted until a project-owned support destination is available.

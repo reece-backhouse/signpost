@@ -1,5 +1,5 @@
 export const USER_AGENT =
-  'next-target-advisor-kb-build (https://github.com/reece; reece@develp.io)';
+  'Signpost-KB/1.0';
 
 export type FetchLike = typeof fetch;
 
@@ -29,6 +29,16 @@ interface TitleMapping {
   to: string;
 }
 
+export interface WikiSource {
+  title: string;
+  revid: number;
+  timestamp: string;
+}
+
+export interface WikiRevision extends WikiSource {
+  content: string;
+}
+
 interface RevisionsApiResponse {
   query?: {
     normalized?: TitleMapping[];
@@ -37,60 +47,98 @@ interface RevisionsApiResponse {
       title: string;
       missing?: boolean;
       revisions?: Array<{
+        revid: number;
         timestamp: string;
-        slots: { main: { content: string } };
+        slots?: { main: { content: string } };
       }>;
     }>;
   };
 }
 
+/** Current metadata only; missing/deleted pages are represented by null. */
+export async function fetchCurrentRevisions(
+  titles: string[],
+  f: FetchLike = fetch,
+): Promise<Map<string, WikiSource | null>> {
+  return queryRevisions(titles, false, f);
+}
+
 export async function fetchRevisions(
   titles: string[],
   f: FetchLike = fetch,
-): Promise<Map<string, { content: string; timestamp: string }>> {
-  const result = new Map<string, { content: string; timestamp: string }>();
+): Promise<Map<string, WikiRevision>> {
+  const pages = await queryRevisions(titles, true, f);
+  const result = new Map<string, WikiRevision>();
+  for (const [title, page] of pages) {
+    if (!page) throw new Error(`Wiki pages missing: ${title}`);
+    if (page.content === undefined) throw new Error(`Wiki page has no content: ${title}`);
+    result.set(title, { ...page, content: page.content });
+  }
+  return result;
+}
 
-  for (let i = 0; i < titles.length; i += REVISIONS_BATCH_SIZE) {
-    const batch = titles.slice(i, i + REVISIONS_BATCH_SIZE);
+async function queryRevisions(
+  titles: string[],
+  content: boolean,
+  f: FetchLike,
+): Promise<Map<string, (WikiSource & { content?: string }) | null>> {
+  const result = new Map<string, (WikiSource & { content?: string }) | null>();
+  const uniqueTitles = [...new Set(titles)];
+  for (let i = 0; i < uniqueTitles.length; i += REVISIONS_BATCH_SIZE) {
+    const batch = uniqueTitles.slice(i, i + REVISIONS_BATCH_SIZE);
     const url = new URL(API_URL);
     url.searchParams.set('action', 'query');
     url.searchParams.set('prop', 'revisions');
-    url.searchParams.set('rvprop', 'content|timestamp');
-    url.searchParams.set('rvslots', 'main');
+    url.searchParams.set('rvprop', content ? 'ids|content|timestamp' : 'ids|timestamp');
+    if (content) url.searchParams.set('rvslots', 'main');
     url.searchParams.set('formatversion', '2');
     url.searchParams.set('format', 'json');
     url.searchParams.set('maxlag', '5');
     url.searchParams.set('titles', batch.join('|'));
 
     const body = await requestJson<RevisionsApiResponse>(url, f);
-    const pages = body.query?.pages ?? [];
-
-    const missing = pages.filter((page) => page.missing).map((page) => page.title);
-    if (missing.length > 0) {
-      throw new Error(`Wiki pages missing: ${missing.join(', ')}`);
-    }
-
-    // The API resolves each requested title through normalization and then
-    // redirects before it appears as page.title, so walk both mappings
-    // backwards to key the result by the title the caller actually asked for.
-    const redirectSource = new Map(body.query?.redirects?.map((r) => [r.to, r.from]));
-    const normalizedSource = new Map(body.query?.normalized?.map((n) => [n.to, n.from]));
-
-    for (const page of pages) {
-      const revision = page.revisions?.[0];
-      if (!revision) {
-        throw new Error(`Wiki page has no revisions: ${page.title}`);
+    const pages = new Map((body.query?.pages ?? []).map((page) => [page.title, page]));
+    const mappings = new Map([...body.query?.normalized ?? [], ...body.query?.redirects ?? []]
+      .map((mapping) => [mapping.from, mapping.to]));
+    for (const requested of batch) {
+      let title = requested;
+      const seen = new Set<string>();
+      while (mappings.has(title) && !seen.has(title)) {
+        seen.add(title);
+        title = mappings.get(title)!;
       }
-      const preRedirectTitle = redirectSource.get(page.title) ?? page.title;
-      const requestedTitle = normalizedSource.get(preRedirectTitle) ?? preRedirectTitle;
-      result.set(requestedTitle, {
-        content: revision.slots.main.content,
+      const page = pages.get(title);
+      if (!page) throw new Error(`Wiki page missing from response: ${requested}`);
+      if (page.missing) {
+        result.set(requested, null);
+        continue;
+      }
+      const revision = page.revisions?.[0];
+      if (!revision || !Number.isSafeInteger(revision.revid) || revision.revid <= 0
+        || typeof revision.timestamp !== 'string' || !/^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\dZ$/.test(revision.timestamp)
+        || !Number.isFinite(Date.parse(revision.timestamp))) {
+        throw new Error(`Wiki page has invalid revision metadata: ${title}`);
+      }
+      result.set(requested, {
+        title: page.title,
+        revid: revision.revid,
         timestamp: revision.timestamp,
+        ...(content ? { content: revision.slots?.main.content } : {}),
       });
     }
   }
-
   return result;
+}
+
+/** Retain every fetched revision, even when the same page was fetched twice during a build. */
+export function sourceManifest(...groups: Iterable<WikiSource>[]): WikiSource[] {
+  const sources = new Map<string, WikiSource>();
+  for (const group of groups) {
+    for (const { title, revid, timestamp } of group) {
+      sources.set(`${title}\0${revid}`, { title, revid, timestamp });
+    }
+  }
+  return [...sources.values()].sort((a, b) => a.title < b.title ? -1 : a.title > b.title ? 1 : a.revid - b.revid);
 }
 
 interface BucketApiResponse<T> {
